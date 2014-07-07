@@ -101,13 +101,3 @@ Please refer to the [session encryption][session-encryption] document for detail
 [scala]: http://www.scala-lang.org/ "Scala Language"
 [syslog-osx]: syslog-osx.md "Configuring syslog on OSX"
 [session-encryption]: encrypted-session-state.md "Session Encryption"
-
-<<<<<<< HEAD
-
-Force Build # 1
-=======
-Force Build # 15
-Force Build # 16
-Force Build # 17
->>>>>>> develop
- 
