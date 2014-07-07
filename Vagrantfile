@@ -4,7 +4,7 @@
 # USAGE:
 # 1) Set the following variables in your .bashrc:
 #   GIT_REMOTE_STRING using the http format:
-#   http://some/secure-repo.git
+#   http://username:password@githostname/organisation/secrets-repo.git
 # and GIT_SECRET_PASSPHRASE containing the secret-password
 #
 # source ~/.bashrc

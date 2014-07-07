@@ -34,7 +34,7 @@ Development environment
     -   `vehicles-online`
     -   `vehicles-dispose-fulfil`
     -   `vehicles-lookup`
-    -   `secret-repository`
+    -   `<<the appropriate secrets repo>>'
     -   `os-address-lookup`
 
 2.  JDK 1.7 must be installed
@@ -55,7 +55,7 @@ Development environment
 
 6.  Decrypt secret keys:
 
-        cd secret-repository
+        cd <<the appropriate secrets repo>>
         ./setup XYZ
 
     *where `XYZ` is an offline secret key obtained through a trusted team member*
