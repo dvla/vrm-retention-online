@@ -34,17 +34,17 @@
   gem: name=fpm state=present
 
 - name: get sbt
-  get_url: dest=/tmp/sbt.rpm url=http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt//0.13.1/sbt.rpm
+  get_url: dest=/tmp/sbt.rpm url=http://scalasbt.artifactoryonline.com/scalasbt/sbt-native-packages/org/scala-sbt/sbt/0.13.1/sbt.rpm
 
 - name: install sbt
   command: yum localinstall /tmp/sbt.rpm -y
     creates=/usr/bin/sbt
 
-- name: sbt clean
-  command: sbt clean
-    chdir=/vagrant
-  tags:
-    - sbt-clean
+#- name: sbt clean
+#  command: sbt clean
+#    chdir=/vagrant
+#  tags:
+#    - sbt-clean
 
 - name: sbt dist
   command: sbt dist
