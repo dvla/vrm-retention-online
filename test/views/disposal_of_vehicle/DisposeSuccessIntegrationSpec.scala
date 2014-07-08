@@ -4,12 +4,12 @@ import helpers.UiSpec
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
-import helpers.webbrowser.{WebDriverFactory, TestHarness}
+import helpers.webbrowser.TestHarness
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.disposal_of_vehicle.DisposeSuccessPage.{exitDisposal, newDisposal}
-import pages.disposal_of_vehicle.{DisposePage, BeforeYouStartPage, DisposeSuccessPage, SetupTradeDetailsPage, VehicleLookupPage}
+import pages.disposal_of_vehicle.{BeforeYouStartPage, DisposeSuccessPage, SetupTradeDetailsPage, VehicleLookupPage}
 
 final class DisposeSuccessIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
