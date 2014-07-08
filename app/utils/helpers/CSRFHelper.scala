@@ -10,6 +10,6 @@ object CsrfHelper {
   def hiddenFormField(implicit token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken): Html =
     if (csrfPrevention) {
       val csrfTokenName = filters.csrf_prevention.CsrfPreventionAction.TokenName
-      Html(s"""<input type="hidden" name="${csrfTokenName}" value="${HtmlFormat.escape(token.value)}"/>""")
+      Html(s"""<input type="hidden" name="$csrfTokenName" value="${HtmlFormat.escape(token.value)}"/>""")
     } else Html("")
 }
