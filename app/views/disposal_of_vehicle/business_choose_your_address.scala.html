@@ -42,7 +42,7 @@
 
         @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
         <div class="form-steps">
-            @if(!dropDownOptions.isEmpty) {
+            @if(dropDownOptions.nonEmpty) {
             <button id="@SelectId" type="submit" name="action" class="button">@Messages("disposal_businessChooseYourAddress.submitbutton")</button>
             }
             <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.SetUpTradeDetails.present()" class="button-secondary">@Messages("disposal_businessChooseYourAddress.backbutton")</a>
