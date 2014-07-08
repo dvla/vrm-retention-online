@@ -48,34 +48,40 @@
                             <img src="@routes.Assets.at("images/document-reference-number.png")" alt="@Messages("disposal_vehiclelookup.img.alt")" />
                         </div>
 
-                        <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
-                        <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
+                        <div class="form-step">
+                            <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
+                        </div>
+                        <div class="form-step">
+                            <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
+                        </div>
                     }
                 </div>
-                <div class="step">
-                    @if(displayExitButton) {
-                        @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.exit()) {
-                            @CsrfHelper.hiddenFormField
-                            @surveyUrl match {
-                              case Some(url) => {
+                @if(displayExitButton) {
+                    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.exit()) {
+                        @CsrfHelper.hiddenFormField
+                        @surveyUrl match {
+                          case Some(url) => {
+                              <div class="form-step">
+                                  <button id="@ExitId"
+                                          type="submit"
+                                          name="action"
+                                          onclick="window.open('@url', '_blank');"
+                                          class="button-secondary button-finish">@Messages("disposal_vehiclelookup.exitbutton")
+                                  </button>
+                              </div>
+                          }
+                          case None => {
+                            <div class="form-step">
                                 <button id="@ExitId"
                                         type="submit"
                                         name="action"
-                                        onclick="window.open('@url', '_blank');"
-                                        class="button-secondary exit-button">@Messages("disposal_vehiclelookup.exitbutton")
+                                        class="button-secondary button-finish">@Messages("disposal_vehiclelookup.exitbutton")
                                 </button>
-                              }
-                              case None => {
-                                <button id="@ExitId"
-                                        type="submit"
-                                        name="action"
-                                        class="button-secondary exit-button">@Messages("disposal_vehiclelookup.exitbutton")
-                                </button>
-                              }
-                            }
+                            </div>
+                          }
                         }
                     }
-                </div>
+                }
             </div>
         </div>
         <div id="trader-details" class="second-col trader-details">

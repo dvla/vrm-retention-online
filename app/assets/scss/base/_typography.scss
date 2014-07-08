@@ -1,7 +1,6 @@
-@import '_font_stack';
-@import '_conditionals';
-@import '_device-pixels';
+//Typography 
 
+@import '_font_stack';
 
 //common elements
 
@@ -65,6 +64,13 @@ b, strong {
 }
 
 
+//alter padding for large screens
+@mixin media-large ($padding-top, $padding-bottom){
+  @media (min-width: 641px){
+    padding-top:$padding-top;
+    padding-bottom:$padding-bottom;
+  }
+}
 
 //GOV.UK typography palettes
 //
@@ -278,96 +284,55 @@ $is-print: false !default;
 
 @mixin heading-80($tabular-numbers: false) {
     @include core-80($tabular-numbers: $tabular-numbers);
-
     padding-top: 8px;
     padding-bottom: 7px;
-
-    @include media(tablet){
-        padding-top: 6px;
-        padding-bottom: 14px;
-    }
 }
 
 @mixin heading-48($tabular-numbers: false) {
     @include core-48($tabular-numbers: $tabular-numbers);
-
     padding-top: 10px;
     padding-bottom: 10px;
-
-    @include media(tablet){
-        padding-top: 7px;
-        padding-bottom: 13px;
-    }
+    @include media-large (7px, 13px);
 }
 
 @mixin heading-36($tabular-numbers: false) {
     @include core-36($tabular-numbers: $tabular-numbers);
-
     padding-top: 8px;
     padding-bottom: 7px;
-
-    @include media(tablet){
-        padding-top: 6px;
-        padding-bottom: 9px;
-    }
+    @include media-large (8px,7px);
 }
 
 @mixin heading-27($tabular-numbers: false) {
     @include core-27($tabular-numbers: $tabular-numbers);
-
     padding-top: 8px;
     padding-bottom: 7px;
-
-    @include media(tablet){
-        padding-top: 4px;
-        padding-bottom: 6px;
-    }
+    @include media-large (4px, 6px);
 }
 
 @mixin heading-24($tabular-numbers: false) {
     @include core-24($tabular-numbers: $tabular-numbers);
-
     padding-top: 9px;
     padding-bottom: 6px;
-
-    @include media(tablet){
-        padding-top: 6px;
-        padding-bottom: 4px;
-    }
+    @include media-large (6px,4px);
 }
 
 @mixin copy-19($tabular-numbers: false) {
     @include core-19($tabular-numbers: $tabular-numbers);
-
     padding-top: 2px;
     padding-bottom: 8px;
-
-    @include media(tablet){
-        padding-top: 0;
-        padding-bottom: 5px;
-    }
+    @include media-large (0, 5px);
 }
 
 @mixin copy-16($tabular-numbers: false) {
     @include core-16($tabular-numbers: $tabular-numbers);
-
     padding-top: 8px;
     padding-bottom: 7px;
-
-    @include media(tablet){
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
+    @include media-large (5px, 5px);
 }
 
 @mixin copy-14($tabular-numbers: false) {
     @include core-14($tabular-numbers: $tabular-numbers);
-
     padding-top: 8px;
     padding-bottom: 7px;
-
-    @include media(tablet){
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
+    @include media-large (5px, 5px);
 }
