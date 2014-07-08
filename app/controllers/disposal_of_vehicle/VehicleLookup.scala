@@ -8,7 +8,6 @@ import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, Preve
 import mappings.common.VehicleRegistrationNumber.registrationNumber
 import mappings.disposal_of_vehicle.RelatedCacheKeys
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
-import mappings.disposal_of_vehicle.VehicleLookup.ActionNotAllowedMessage
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
@@ -59,26 +58,6 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   }
 
   def submit = Action.async { implicit request =>
-    val formData = request.body.asFormUrlEncoded.getOrElse(Map.empty[String, Seq[String]])
-    val actionValue = formData.get("action").flatMap(_.headOption)
-    actionValue match {
-      case Some("lookup") =>
-        vehicleLookup
-      case Some("exit") =>
-        exit
-      case _ => Future{BadRequest(ActionNotAllowedMessage)} // TODO redirect to error page ?
-    }
-  }
-
-  private def shouldDisplayExitButton(implicit request: Request[AnyContent],
-                                      clientSideSessionFactory: ClientSideSessionFactory): Boolean = {
-    val session = clientSideSessionFactory.getSession(request.cookies)
-    val encryptedCookieName = session.nameCookie(DisposeOccurredCacheKey).value
-    val displayExitButton = request.cookies.exists(c => c.name == encryptedCookieName)
-    displayExitButton
-  }
-
-  private def vehicleLookup(implicit request: Request[AnyContent]): Future[SimpleResult] = {
     form.bindFromRequest.fold(
       invalidForm =>
         Future {
@@ -92,12 +71,12 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                   args = Seq.empty
                 )
               ).replaceError(
-                DocumentReferenceNumberId,
-                FormError(
-                  key = DocumentReferenceNumberId,
-                  message = "error.validDocumentReferenceNumber",
-                  args = Seq.empty)
-              ).distinctErrors
+                  DocumentReferenceNumberId,
+                  FormError(
+                    key = DocumentReferenceNumberId,
+                    message = "error.validDocumentReferenceNumber",
+                    args = Seq.empty)
+                ).distinctErrors
 
               BadRequest(views.html.disposal_of_vehicle.vehicle_lookup(
                 traderDetails,
@@ -114,12 +93,19 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     )
   }
 
-  private def exit(implicit request: Request[AnyContent]): Future[SimpleResult] =
-    Future {
-      Redirect(routes.BeforeYouStart.present())
-        .discardingCookies(RelatedCacheKeys.FullSet)
-        .withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
-    }
+  private def shouldDisplayExitButton(implicit request: Request[AnyContent],
+                                      clientSideSessionFactory: ClientSideSessionFactory): Boolean = {
+    val session = clientSideSessionFactory.getSession(request.cookies)
+    val encryptedCookieName = session.nameCookie(DisposeOccurredCacheKey).value
+    val displayExitButton = request.cookies.exists(c => c.name == encryptedCookieName)
+    displayExitButton
+  }
+
+  def exit = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present())
+      .discardingCookies(RelatedCacheKeys.FullSet)
+      .withCookie(SurveyRequestTriggerDateCacheKey, dateService.now.getMillis.toString)
+  }
 
   private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =
     model.copy(registrationNumber = model.registrationNumber.replace(" ", "")

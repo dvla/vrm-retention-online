@@ -8,7 +8,7 @@
 )
 
 @import mappings.common.{DocumentReferenceNumber, VehicleRegistrationNumber}
-@import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId, VehicleLookupAction, ExitAction}
+@import mappings.disposal_of_vehicle.VehicleLookup.{BackId, DocumentReferenceNumberId, ExitId, SubmitId, VehicleRegistrationNumberId}
 @import utils.helpers.BaseTemplate.fieldConstructor
 @import utils.helpers.CsrfHelper
 @import views.html.disposal_of_vehicle.main
@@ -20,74 +20,77 @@
     title = Messages("disposal_vehiclelookup.title"),
     currentForm = Some(vehicleLookupForm)
 ) {
-    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
-        @CsrfHelper.hiddenFormField
+    <div class="two-col clearfix vehicle-lookup">
+        <div class="first-col uppercase-input">
+            <div class="form-steps">
+                <div class="step uppercase-input">
+                    @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.submit()) {
+                        @CsrfHelper.hiddenFormField
 
-        <div class="two-col clearfix vehicle-lookup">
-            <div class="first-col uppercase-input">
-                <h2>@Messages("disposal_vehiclelookup.p1")</h2>
+                        <h2>@Messages("disposal_vehiclelookup.p1")</h2>
 
-                @valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
-                Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
-                'maxLength -> VehicleRegistrationNumber.MaxLength,
-                '_showConstraints -> false))
+                        @valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
+                        Map('_label -> Messages("disposal_vehiclelookup.vrninputlabel"),
+                        'maxLength -> VehicleRegistrationNumber.MaxLength,
+                        '_showConstraints -> false))
 
-                @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
-                Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
-                '_showConstraints -> false,
-                //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
-                'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                //'title -> Messages("error.validDocumentReferenceNumber")
-                'title -> Messages("")
-                ))
+                        @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
+                        Map('_label -> Messages("disposal_vehiclelookup.refnumlabel"),
+                        '_showConstraints -> false,
+                        //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
+                        'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                        //'title -> Messages("error.validDocumentReferenceNumber")
+                        'title -> Messages("")
+                        ))
 
-                <div class="img-wrap img-wrap-mobile">
-                    <h2>@Messages("disposal_vehiclelookup.img.h2")</h2>
-                    <img src="@routes.Assets.at("images/document-reference-number.png")" alt="@Messages("disposal_vehiclelookup.img.alt")" />
+                        <div class="img-wrap img-wrap-mobile">
+                            <h2>@Messages("disposal_vehiclelookup.img.h2")</h2>
+                            <img src="@routes.Assets.at("images/document-reference-number.png")" alt="@Messages("disposal_vehiclelookup.img.alt")" />
+                        </div>
+
+                        <button id="@SubmitId" type="submit" name="action" class="button">@Messages("disposal_vehiclelookup.button")</button>
+                        <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
+                    }
                 </div>
-
-                <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" value="@VehicleLookupAction" class="button">@Messages("disposal_vehiclelookup.button")</button>
-                    <a id="@BackId" href="@controllers.disposal_of_vehicle.routes.VehicleLookup.back()" class="button-secondary">@Messages("disposal_vehiclelookup.backbutton")</a>
+                <div class="step">
                     @if(displayExitButton) {
-                        @surveyUrl match {
-                          case Some(url) => {
-                            <button id="@ExitId"
-                                    type="submit"
-                                    name="action"
-                                    value="@ExitAction"
-                                    onclick="window.open('@url', '_blank');"
-                                    class="button-secondary exit-button">@Messages("disposal_vehiclelookup.exitbutton")
-                            </button>
-                          }
-                          case None => {
-                            <button id="@ExitId"
-                                    type="submit"
-                                    name="action"
-                                    value="@ExitAction"
-                                    class="button-secondary exit-button">@Messages("disposal_vehiclelookup.exitbutton")
-                            </button>
-                          }
+                        @form(action = controllers.disposal_of_vehicle.routes.VehicleLookup.exit()) {
+                            @CsrfHelper.hiddenFormField
+                            @surveyUrl match {
+                              case Some(url) => {
+                                <button id="@ExitId"
+                                        type="submit"
+                                        name="action"
+                                        onclick="window.open('@url', '_blank');"
+                                        class="button-secondary exit-button">@Messages("disposal_vehiclelookup.exitbutton")
+                                </button>
+                              }
+                              case None => {
+                                <button id="@ExitId"
+                                        type="submit"
+                                        name="action"
+                                        class="button-secondary exit-button">@Messages("disposal_vehiclelookup.exitbutton")
+                                </button>
+                              }
+                            }
                         }
                     }
                 </div>
-
-            </div>
-            <div id="trader-details" class="second-col trader-details">
-                <h2>@Messages("disposal_vehiclelookup.p2")</h2>
-
-                <dl class="summary-detail-list">
-                    <dt>@Messages("disposal_vehiclelookup.tradernamelabel")</dt>
-                    <dd>@data.traderName</dd>
-                    <dt>@Messages("disposal_vehiclelookup.traderaddresslabel")</dt>
-                    <dd>@for(addr <- data.traderAddress.address) {@addr<br/>}</dd>
-                </dl>
-                <div class="img-wrap img-wrap-desktop">
-                    <h2>@Messages("disposal_vehiclelookup.img.h2")</h2>
-                        <img src="@routes.Assets.at("images/document-reference-number.png")" alt="@Messages("disposal_vehiclelookup.img.alt")" />
-                    </div>
-
             </div>
         </div>
-    }
+        <div id="trader-details" class="second-col trader-details">
+            <h2>@Messages("disposal_vehiclelookup.p2")</h2>
+
+            <dl class="summary-detail-list">
+                <dt>@Messages("disposal_vehiclelookup.tradernamelabel")</dt>
+                <dd>@data.traderName</dd>
+                <dt>@Messages("disposal_vehiclelookup.traderaddresslabel")</dt>
+                <dd>@for(addr <- data.traderAddress.address) {@addr<br/>}</dd>
+            </dl>
+            <div class="img-wrap img-wrap-desktop">
+                <h2>@Messages("disposal_vehiclelookup.img.h2")</h2>
+                <img src="@routes.Assets.at("images/document-reference-number.png")" alt="@Messages("disposal_vehiclelookup.img.alt")" />
+            </div>
+        </div>
+    </div>
 }

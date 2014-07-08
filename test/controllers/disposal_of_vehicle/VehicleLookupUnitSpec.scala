@@ -28,7 +28,6 @@ import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.{VehicleLookupAction, ExitAction, ActionNotAllowedMessage}
 import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
 import org.joda.time.Instant
@@ -46,7 +45,7 @@ import pages.disposal_of_vehicle.VrmLockedPage
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.Response
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
+import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
@@ -510,7 +509,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "exit" should {
       "redirect to BeforeYouStartPage" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest(postAction = ExitAction).
+        val request = buildCorrectlyPopulatedRequest().
           withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
         val mockVehiclesLookupService = mock[VehicleLookupWebService]
         val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
@@ -523,65 +522,23 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           surveyUrl = surveyUrl,
           dateService = dateService
         )
-        val result = vehiclesLookup.submit(request)
+        val result = vehiclesLookup.exit(request)
         whenReady(result) { r =>
           r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
         }
       }
 
       "set the surveyRequestTriggerDate to the current date" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest(postAction = ExitAction)
+        val request = buildCorrectlyPopulatedRequest()
           .withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
           .withCookies(CookieFactoryForUnitSpecs.preventGoingToDisposePage(""))
-        val result = lookupWithMockConfig(mockSurveyConfig("http://www.google.com")).submit(request)
+        val result = lookupWithMockConfig(mockSurveyConfig("http://www.google.com")).exit(request)
         whenReady(result) {r =>
           val cookies = fetchCookiesFromHeaders(r)
           val surveyTime = cookies.find(_.name == SurveyRequestTriggerDateCacheKey).get.value.toLong
           surveyTime should be <= System.currentTimeMillis()
           surveyTime should be > System.currentTimeMillis() - 1000
         }
-      }
-    }
-
-    "display action not allowed when trying to submit with incorrect action" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(postAction = "RUBBISH_ACTION")
-      val mockVehiclesLookupService = mock[VehicleLookupWebService]
-      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
-      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      implicit val config: Config = mock[Config]
-      implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
-      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
-        bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl,
-        surveyUrl = surveyUrl,
-        dateService = dateService
-      )
-      val result = vehiclesLookup.submit(request)
-      val content = contentAsString(result)
-      ActionNotAllowedMessage should equal(content)
-      whenReady(result) { r =>
-        r.header.status should equal(BAD_REQUEST)
-      }
-    }
-
-    "handle a form post in which no action is specified" in new WithApplication {
-      val request = FakeRequest().withFormUrlEncodedBody()
-      val mockVehiclesLookupService = mock[VehicleLookupWebService]
-      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
-      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      implicit val config: Config = mock[Config]
-      implicit val surveyUrl = new SurveyUrl()(clientSideSessionFactory, config, new FakeDateServiceImpl)
-      val vehiclesLookup = new disposal_of_vehicle.VehicleLookup(
-        bruteForceServiceImpl(permitted = true),
-        vehicleLookupServiceImpl,
-        surveyUrl = surveyUrl,
-        dateService = dateService
-      )
-      val result = vehiclesLookup.submit(request)
-      val content = contentAsString(result)
-      ActionNotAllowedMessage should equal(content)
-      whenReady(result) { r =>
-        r.header.status should equal(BAD_REQUEST)
       }
     }
   }
@@ -663,10 +620,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
-                                             registrationNumber: String = RegistrationNumberValid,
-                                             postAction: String = VehicleLookupAction) = {
+                                             registrationNumber: String = RegistrationNumberValid) = {
     FakeRequest().withFormUrlEncodedBody(
-      "action" -> postAction,
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber)
   }
