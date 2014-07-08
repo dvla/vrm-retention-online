@@ -4,7 +4,7 @@ import app.ConfigProperties.getProperty
 import common.ClientSideSessionFactory
 import play.api.libs.Crypto
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.libs.iteratee._
+import play.api.libs.iteratee.{Iteratee, Enumerator, Traversable}
 import play.api.mvc.BodyParsers.parse.tolerantFormUrlEncoded
 import play.api.mvc.{EssentialAction, Headers, RequestHeader}
 import utils.helpers.AesEncryption
