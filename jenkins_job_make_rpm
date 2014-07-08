@@ -52,7 +52,7 @@ fpm -n $RPM_NAME \
   --after-install="pkg-scripts/restart" \
   -v $RPM_VERSION  \
   -a all \
-  -p $RPM_TARGETDIR \
+  -p $RPM_TARGETDIR/$RPM_NAME.rpm \
   -m $RPM_OWNER \
   --description=$RPM_DESCRIPTION \
   --url=$RPM_URL \
