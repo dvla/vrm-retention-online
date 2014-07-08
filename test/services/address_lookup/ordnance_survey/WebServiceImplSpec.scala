@@ -23,7 +23,6 @@ final class WebServiceImplSpec extends UnitSpec  with WireMockFixture {
   })
 
   "postcodeWithNoSpaces" should {
-
     "return the same string if no spaces present" in {
       val result = addressLookupService.postcodeWithNoSpaces(PostcodeValid)
 

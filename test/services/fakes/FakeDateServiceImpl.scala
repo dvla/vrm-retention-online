@@ -5,7 +5,7 @@ import org.joda.time.{DateTime, Instant}
 import services.DateService
 
 final class FakeDateServiceImpl extends DateService {
-  import FakeDateServiceImpl._
+  import FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 
   override def today = DayMonthYear(
     DateOfDisposalDayValid.toInt,
