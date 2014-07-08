@@ -3,17 +3,15 @@ package filters
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.Date
-
 import com.google.inject.Inject
 import com.google.inject.name.Named
 import common.ClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
 import play.api.LoggerLike
-import play.api.http.HeaderNames._
+import play.api.http.HeaderNames.CONTENT_LENGTH
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{Filter, RequestHeader, SimpleResult}
-import services.HttpHeaders._
-
+import services.HttpHeaders.{XForwardedFor, XRealIp}
 import scala.concurrent.Future
 
 class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
@@ -29,7 +27,6 @@ class AccessLoggingFilter @Inject()(clfEntryBuilder: ClfEntryBuilder,
       result
     }
   }
-
 }
 
 class ClfEntryBuilder {
@@ -56,7 +53,6 @@ class ClfEntryBuilder {
 
     s"""$ipAddress - - $date "$method $uri $protocol" $responseCode $responseLength "$trackingId" """
   }
-
 }
 
 object AccessLoggingFilter {
