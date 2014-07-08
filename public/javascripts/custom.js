@@ -1,8 +1,8 @@
 require.config({
     paths: {
-        'jquery': 'jquery/jquery-1.9.1',
-        'jquery-migrate': 'jquery/jquery-migrate-1.2.1.min',
-        'header-footer-only': 'gov/header-footer-only'
+        'jquery': 'lib/jquery/jquery-1.9.1',
+        'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min',
+        'header-footer-only': 'header-footer-only'
     }
 });
 

@@ -19,7 +19,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config,
   override def isVrmLookupPermitted(vrm: String): Future[BruteForcePreventionViewModel] =
   // TODO US270 this if-statement is a temporary feature toggle until all developers have Redis setup locally.
     if (config.isBruteForcePreventionEnabled) {
-      val returnedFuture = scala.concurrent.Promise[BruteForcePreventionViewModel]
+      val returnedFuture = scala.concurrent.Promise[BruteForcePreventionViewModel]()
       ws.callBruteForce(vrm).map { resp =>
         def permitted(): Unit = {
           Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt match {

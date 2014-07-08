@@ -19,14 +19,50 @@
 .vehicle-lookup {
     .first-col .form-steps {
         margin-top:0;
-    }
-    //hide exit button in IE6/IE7 (double form posts do not work)
-    .exit-button {
-        .ie6 &,
-        .ie7 & {
-            display:none;
+
+        .form-step {
+          display:inline-block; //failsafe
+          vertical-align:middle;
+          width:100%;
         }
+        .ie7 &,
+        .ie6 & {
+          form {
+            margin-top:0;
+          }
+        }
+        .button,
+        .button-secondary {
+          min-width:69px;
+        }
+        a.button-secondary {
+          min-width:50px;
+          .ie7 & {
+            min-width:0;
+          }
+        }
+        .button-finish {
+          min-width:72px;
+          .ie7 &,
+          .ie6 & {
+            margin-top:0;
+          }
+        }
+
     }
+
+    .button-finish {
+      border:0 none;
+      background:none;
+      text-decoration:underline;
+      @include box-shadow(none);
+      -webkit-appearance:none;
+      &:hover,
+      &:active {
+        background:none;
+      }
+    }
+
     .trader-details {
         .summary-detail-list {
             margin-bottom:38px;

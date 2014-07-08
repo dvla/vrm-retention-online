@@ -1,6 +1,6 @@
 package helpers.steps
 
-import pages.disposal_of_vehicle._
+import pages.disposal_of_vehicle.VehicleLookupPage
 import helpers.webbrowser.WebBrowserDriver
 import pages.common.ErrorPanel
 import cucumber.api.java.en.{Given, Then, When}

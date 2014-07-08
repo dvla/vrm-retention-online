@@ -1,6 +1,6 @@
 package helpers.disposal_of_vehicle
 
-import mappings.common.AlternateLanguages._
+import mappings.common.AlternateLanguages.{EnId, CyId}
 import mappings.disposal_of_vehicle.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey

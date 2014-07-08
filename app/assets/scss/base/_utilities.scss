@@ -41,6 +41,7 @@
 //img wrapper to show-hide mobile/desktop images
 @mixin img-multi-wrap($max-width){
     img {
+        width:100%;
         max-width:$max-width;
     }
     &.img-wrap-mobile {

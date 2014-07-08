@@ -25,7 +25,8 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
-  def happyPath(referenceNumber: String = ReferenceNumberValid, registrationNumber: String = RegistrationNumberValid)(implicit driver: WebDriver) = {
+  def happyPath(referenceNumber: String = ReferenceNumberValid, registrationNumber: String = RegistrationNumberValid)
+               (implicit driver: WebDriver) = {
     go to VehicleLookupPage
     documentReferenceNumber.value = referenceNumber
     VehicleLookupPage.vehicleRegistrationNumber.value = registrationNumber
