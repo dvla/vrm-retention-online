@@ -167,7 +167,7 @@ disposal_enteraddressmanually.title = Rhowch gyfeiriad llaw
 disposal_enteraddressmanually.submitbutton = Nesaf
 disposal_enteraddressmanually.backbutton = Yn ôl
 addressAndPostcode_addressLines = Cyfeiriad
-address.lines.label = Cyfeiriad
+address.lines.label = Adeiladu a strydoedd
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
@@ -177,7 +177,7 @@ address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Rhowch god post dilys
 addressAndPostcode.addressLines.line2 = Enwau strydoedd
 addressAndPostcode.addressLines.line3 = Ardal
-addressAndPostcode.addressLines.postTown = Postiwch y dref
+addressAndPostcode.addressLines.postTown = Tref neu ddinas
 error.address.characterInvalid = Cyfeiriad yn cynnwys nodau annilys
 error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
