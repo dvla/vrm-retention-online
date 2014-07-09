@@ -180,7 +180,8 @@ disposal_beforeyoustart.listitem1linktext = Vehicle Enquiry Service (VES)
 disposal_beforeyoustart.listitem2 = If the vehicle being sold has a personal registration number, the keeper must understand that the registration number will be sold with the vehicle. If the keeper wants to keep the personal registration number, they must firstly retain or transfer it to another vehicle.
 
 disposal_beforeyoustart.listitem3 = Only a sale to the motor trade can be notified using this service. Any other notification such as a sale to a private individual or change of address cannot currently be made on-line.  These requests must be made by sending the application and any relevant documentation to DVLA, Swansea.
-
+disposal_beforeyoustart.listitem4 = If the vehicle is currently taxed and there is more than one full month left to run, the keeper must
+disposal_beforeyoustart.listitem4.link = apply for a refund on a V14
 disposal_beforeyoustart.button = Start now
 
 #page 2 - set-up trade details

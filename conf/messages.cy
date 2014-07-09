@@ -143,7 +143,8 @@ disposal_beforeyoustart.listitem1linktext = Gwasanaeth Ymholiadau Cerbydau (GYC)
 disposal_beforeyoustart.listitem2 = Ni ddylai fod unrhyw angen i''r V5C newidiadau a rhaid i''r enw a chyfeiriad y ceidwad cofrestredig fod yn gyfoes ac yn gywir.
 
 disposal_beforeyoustart.listitem3 = Os oes gan y cerbyd yn cael ei werthu rhif cofrestru personol, Mae''n rhaid i''r ceidwad yn deall y bydd y rhif cofrestru yn cael ei werthu gyda''r cerbyd. Os yw''r ceidwad yn awyddus i gadw rhif cofrestru personol, rhaid iddynt gadw yn gyntaf neu ei drosglwyddo i gerbyd arall.
-
+disposal_beforeyoustart.listitem4 = Os yw''r cerbyd wedi''i drethu ar hyn o bryd ac mae mwy nag un mis llawn ar ôl, rhaid i'r ceidwad
+disposal_beforeyoustart.listitem4.link = wneud cais am ad-daliad ar V14
 disposal_beforeyoustart.button = Ddechrau nawr
 
 #page 3
