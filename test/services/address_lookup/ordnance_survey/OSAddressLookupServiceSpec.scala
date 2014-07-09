@@ -90,7 +90,7 @@ final class OSAddressLookupServiceSpec extends UnitSpec {
       }
     }
 
-    "return None when response statuss not 200 OK" in {
+    "return None when response status not 200 OK" in {
       val service = addressServiceMock(responseUprn(NOT_FOUND, UprnToAddressResponse(addressViewModel = None)))
 
       val result = service.fetchAddressForUprn(traderUprnValid.toString, ClearTextClientSideSessionFactory.DefaultTrackingId)
