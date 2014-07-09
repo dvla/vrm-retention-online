@@ -76,7 +76,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.source should include("For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.")
+      page.source should include("For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.")
       page.source should not include "After a third unsuccessful attempt the system prevents further attempts to access the vehicle's records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period."
     }
 
@@ -91,7 +91,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.source should include("For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.")
+      page.source should include("For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.")
       page.source should include("After a third unsuccessful attempt the system prevents further attempts to access the vehicle's records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.")
     }
   }
