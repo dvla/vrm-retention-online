@@ -1,8 +1,7 @@
 package controllers.disposal_of_vehicle
 
 import com.tzavellas.sse.guice.ScalaModule
-import Common.ExitButtonHtml
-import Common.PrototypeHtml
+import Common.{ExitAnchorHtml, PrototypeHtml}
 import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import controllers.disposal_of_vehicle
 import services.fakes.FakeAddressLookupService
@@ -86,21 +85,21 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       content should include(RegistrationNumberValid)
     }
 
-    "not display exit button when DisposeOccurredCacheKey cookie is missing" in new WithApplication {
+    "not display exit anchor when DisposeOccurredCacheKey cookie is missing" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel())
       val result = vehicleLookupResponseGenerator().present(request)
       val content = contentAsString(result)
-      content should not include ExitButtonHtml
+      content should not include ExitAnchorHtml
     }
 
-    "display exit button when DisposeOccurredCacheKey cookie is present" in new WithApplication {
+    "display exit anchor when DisposeOccurredCacheKey cookie is present" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.traderDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.disposeOccurred)
       val result = vehicleLookupResponseGenerator().present(request)
       val content = contentAsString(result)
-      content should include(ExitButtonHtml)
+      content should include(ExitAnchorHtml)
     }
 
     "display data captured in previous pages" in new WithApplication {
