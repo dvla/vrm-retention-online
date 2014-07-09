@@ -94,7 +94,7 @@ object ApplicationBuild extends Build {
     appName,
     appVersion,
     appDependencies,
-    settings = jacoco.settings ++ ScalastylePlugin.Settings
+    settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings
   ).settings(appSettings: _*)
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 }
