@@ -22,7 +22,7 @@ title = Messages("disposal_disposeconfirmation.title")
         <span class="emphasized">@Messages("disposal_disposeconfirmation.transactionid", data.transactionId.getOrElse(""))</span></p>
 </div>
 
-<div class="two-col">
+<div class="two-col disposal-sucesss">
 
     <div class="first-col">
         <p>@Messages("disposal_disposeconfirmation.exkeeper")</p>
@@ -33,7 +33,7 @@ title = Messages("disposal_disposeconfirmation.title")
             <div class="step">
                 @form(action = controllers.disposal_of_vehicle.routes.DisposeSuccess.newDisposal()) {
                 @CsrfHelper.hiddenFormField
-                <button id="@NewDisposalId" type="submit" name="action" class="button">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
+                <button id="@NewDisposalId" type="submit" name="action" class="button button-new-disposal">@Messages("disposal_disposeconfirmation.newdisposalbutton")</button>
                 }
             </div>
 
