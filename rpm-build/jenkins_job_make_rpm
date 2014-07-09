@@ -3,6 +3,8 @@
 # jenkins_job_make_rpm
 #
 #
+
+echo "workspace $WORKSPACE"
 RPM_VERSION="$(date +'%Y%m%d%H%M%S')"
 RPM_NAME="vehicles-online"
 RPM_OWNER="jenkins@dvla"

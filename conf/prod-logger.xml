@@ -32,17 +32,6 @@
         </encoder>
     </appender>
 
-    <appender name="GELF" class="me.moocar.logbackgelf.GelfAppender">
-        <graylog2ServerHost>grayloghost</graylog2ServerHost>
-        <graylog2ServerPort>12201</graylog2ServerPort>
-
-        <!-- Logging for our play app-->
-        <additionalField>httpPort:_http_port</additionalField>
-        <additionalField>hostName:_host_name</additionalField>
-        <additionalField>envName:_Environment</additionalField>
-        <additionalField>uuid:_uuid</additionalField>
-    </appender>
-
     <appender name="ASYNC_APPLICATION_LOG" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="APPLICATION_LOG"/>
     </appender>
