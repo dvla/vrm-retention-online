@@ -59,17 +59,13 @@
                     years = dateService.today.yearRangeToDropdown(yearsIntoThePast = DateOfDisposalYearsIntoThePast),
                     args = Map(
                         '_label -> Messages("disposal_dispose.dateofdisposal.label")
-                    )
+                    ),
+                    dateService = dateService,
+                    showTodaysDateButton = true
                 )
                 </div>
 
-                <script src="@routes.Assets.at("javascripts/autofill-todays-date.js")" type="text/javascript"></script>
 
-                <div class="step js-only">
-                    <button id="@TodaysDateOfDisposal" type="button" name="action" class="button" onclick="AutoFillTodaysDate(@{dateService.today.day},
-                    @{dateService.today.month}, @{dateService.today.year}, '@TodaysDateOfDisposal', '@{DateOfDisposalId}_day', '@{DateOfDisposalId}_month',
-                    '@{DateOfDisposalId}_year')">@Messages("disposal_dispose.todays_date_of_disposal")</button>
-                </div>
 
                 @{
                     /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */
