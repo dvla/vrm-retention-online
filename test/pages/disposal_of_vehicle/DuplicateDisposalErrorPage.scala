@@ -5,7 +5,7 @@ import mappings.disposal_of_vehicle.MicroserviceError.{ExitId, TryAgainId}
 import org.openqa.selenium.WebDriver
 
 object DuplicateDisposalErrorPage extends Page with WebBrowserDSL {
-  final val address = "/disposal-of-vehicle/duplicate-disposal-error"
+  final val address = "/sell-to-the-trade/duplicate-sell-to-the-trade-error"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title = "We are sorry"

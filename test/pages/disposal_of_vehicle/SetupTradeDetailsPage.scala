@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupService.{PostcodeInvalid, PostcodeValid, TraderBusinessNameValid}
 
 object SetupTradeDetailsPage extends Page with WebBrowserDSL {
-  final val address = "/disposal-of-vehicle/setup-trade-details"
+  final val address = "/sell-to-the-trade/setup-trade-details"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your Trader details"
 

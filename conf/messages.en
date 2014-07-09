@@ -120,7 +120,7 @@ v5csearch.p1 = {0} is signed in to the ''Change of keeper address'' service.
 v5csearch.button = Look-up
 v5csearch.button2 = Cancel
 v5csearch.v5cinputlabel = V5C Document reference number
-v5csearch.vrninputlabel = Vehicle registration mark
+v5csearch.vrninputlabel = Vehicle registration number
 v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length of 11 digits
 v5csearch.postcode.label = Post code
 v5csearch.postcode.validation = You must enter a valid postcode
@@ -247,14 +247,14 @@ disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations be
 disposal_vehiclelookup.img.h2 = Help finding your V5C document reference number?
 disposal_vehiclelookup.img.alt = V5C document reference number
 disposal_vehiclelookup.refnumlabel = Latest V5C Document Reference Number
-disposal_vehiclelookup.vrninputlabel = Vehicle registration mark
+disposal_vehiclelookup.vrninputlabel = Vehicle registration number
 disposal_vehiclelookup.backbutton = Back
 disposal_vehiclelookup.button = Next
 disposal_vehiclelookup.button2 = Edit
 disposal_vehiclelookup.exitbutton = Finish
 disposal_vehiclelookup.tradernamelabel = Trader name
 disposal_vehiclelookup.traderaddresslabel = Trader address
-vehicleRegistrationNumber = Vehicle registration mark
+vehicleRegistrationNumber = Vehicle registration number
 documentReferenceNumber = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
 
@@ -334,10 +334,10 @@ disposal_vehiclelookupfailure.button = Try again
 disposal_vehiclelookupfailure.button2 = Exit
 vehicle_lookup_vrm_not_found.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_lookup_vrm_not_found.p3 = For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.
+vehicle_lookup_vrm_not_found.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
 vehicle_lookup_document_reference_mismatch.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_lookup_document_reference_mismatch.p3 = For each vehicle registration mark, only three attempts can be made to retrieve the vehicle details.
+vehicle_lookup_document_reference_mismatch.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
 disposal_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the vehicle''s records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
@@ -394,7 +394,7 @@ soap_endpoint_error.exit.button=Exit
 
 #vrm locked
 vrm_locked.title=Registration mark is locked
-vrm_locked.text1=There have been three attempts to access the vehicle details without success. The vehicle registration mark is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
+vrm_locked.text1=There have been three attempts to access the vehicle details without success. The vehicle registration number is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
 vrm_locked.text3.1=If you need assistance to process this vehicle, please call our Contact Centre on
 vrm_locked.text3.2=0300 790 6801

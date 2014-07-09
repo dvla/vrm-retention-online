@@ -25,7 +25,7 @@ class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoS
 
       val infoLogs = mockLogger.captureLogInfos(2)
       infoLogs.get(0) should include("""] "GET / HTTP/1.1" 303""")
-      infoLogs.get(1) should include("""] "GET /disposal-of-vehicle/before-you-start HTTP/1.1" 200""")
+      infoLogs.get(1) should include("""] "GET /sell-to-the-trade/before-you-start HTTP/1.1" 200""")
     }
 
     "Log access that are completed because of Exception" in new WebBrowser(testApp) {
@@ -35,8 +35,8 @@ class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoS
       httpResponse.close()
 
       val infoLogs = mockLogger.captureLogInfos(4)
-      infoLogs.get(2) should include("""] "POST /disposal-of-vehicle/business-choose-your-address HTTP/1.1" 303""")
-      infoLogs.get(3) should include("""] "GET /disposal-of-vehicle/error/""")
+      infoLogs.get(2) should include("""] "POST /sell-to-the-trade/business-choose-your-address HTTP/1.1" 303""")
+      infoLogs.get(3) should include("""] "GET /sell-to-the-trade/error/""")
     }
 
     "Log access to unknown urls" in new WebBrowser(testApp) {
@@ -48,7 +48,7 @@ class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoS
       val infoLogs = mockLogger.captureLogInfos(6)
 
       infoLogs.get(4) should include("""] "POST /some/unknown/url HTTP/1.1" 303""")
-      infoLogs.get(5) should include("""] "GET /disposal-of-vehicle/error/""")
+      infoLogs.get(5) should include("""] "GET /sell-to-the-trade/error/""")
     }
 
     "not log any access for the healthcheck url" in new WebBrowser(testApp) {

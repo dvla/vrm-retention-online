@@ -14,7 +14,7 @@ import services.fakes.FakeDateServiceImpl.{DateOfDisposalDayValid, DateOfDisposa
 import services.fakes.FakeDisposeWebServiceImpl.MileageValid
 
 object DisposePage extends Page with WebBrowserDSL {
-  final val address = "/disposal-of-vehicle/dispose"
+  final val address = "/sell-to-the-trade/complete-and-confirm"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Complete & confirm"
 
