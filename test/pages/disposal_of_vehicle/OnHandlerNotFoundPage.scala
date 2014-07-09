@@ -5,7 +5,7 @@ import mappings.disposal_of_vehicle.OnHandlerNotFound.ExitId
 import org.openqa.selenium.WebDriver
 
 object OnHandlerNotFoundPage extends Page with WebBrowserDSL {
-  final val address = "/disposal-of-vehicle/nosuchpage/"
+  final val address = "/sell-to-the-trade/nosuchpage/"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "This page cannot be found"
 

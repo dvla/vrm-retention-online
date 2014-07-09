@@ -11,7 +11,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
-  final val address = "/disposal-of-vehicle/vehicle-lookup"
+  final val address = "/sell-to-the-trade/vehicle-lookup"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Enter vehicle details"
 

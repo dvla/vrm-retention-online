@@ -5,7 +5,7 @@ import mappings.disposal_of_vehicle.VehicleLookupFailure.{BeforeYouStartId, Vehi
 import org.openqa.selenium.WebDriver
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
-  final val address = "/disposal-of-vehicle/vehicle-lookup-failure"
+  final val address = "/sell-to-the-trade/vehicle-lookup-failure"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Look-up was unsuccessful"
 

@@ -5,7 +5,7 @@ import mappings.disposal_of_vehicle.DisposeFailure.{SetupTradeDetailsId, Vehicle
 import org.openqa.selenium.WebDriver
 
 object DisposeFailurePage extends Page with WebBrowserDSL {
-  final val address = "/disposal-of-vehicle/dispose-failure"
+  final val address = "/sell-to-the-trade/sell-to-the-trade-failure"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Sell a vehicle into the motor trade: failure"
 
