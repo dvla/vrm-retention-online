@@ -40,17 +40,19 @@
   command: yum localinstall /tmp/sbt.rpm -y
     creates=/usr/bin/sbt
 
-#- name: sbt clean
-#  command: sbt clean
-#    chdir=/vagrant
-#  tags:
-#    - sbt-clean
+- name: move vehiclesOnline.conf
+  command: mv /vagrant/conf/vehiclesOnline.conf /tmp/vehiclesOnline.conf
 
 - name: sbt dist
   command: sbt dist
     chdir=/vagrant
   tags:
     - sbt-dist
+  register: sbt-dist-result
+  ignore_errors: True
+
+- name: put vehiclesOnline.conf back
+  command: mv /tmp/vehiclesOnline.conf /vagrant/conf/vehiclesOnline.conf
 
 - name: run jenkins_job_make_rpm
   shell: cd /vagrant/rpm-build && export WORKSPACE=/vagrant && bash jenkins_job_make_rpm
