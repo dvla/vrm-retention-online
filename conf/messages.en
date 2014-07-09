@@ -215,7 +215,7 @@ disposal_enteraddressmanually.title = Enter address
 disposal_enteraddressmanually.submitbutton = Next
 disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
-address.lines.label = Address
+address.lines.label = Building and street
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
@@ -225,7 +225,7 @@ address.postcode.label.prompt = e.g. SA99 1BD
 address.postcode.validation = Enter a valid postcode
 addressAndPostcode.addressLines.line2 = Street name
 addressAndPostcode.addressLines.line3 = Area
-addressAndPostcode.addressLines.postTown = Post town
+addressAndPostcode.addressLines.postTown = Town or city
 error.address.characterInvalid = Address contains invalid characters
 error.postTown.characterInvalid = Post town contains invalid characters
 
