@@ -14,8 +14,8 @@ RPM_LICENSE="WHAT"
 RPM_VENDOR="DVLA"
 RPM_PREFIX="/opt/"
 RPM_TARGETDIR="$WORKSPACE/target/" #grab the jenkins WORKSPACE working dir
-MONIT_FILES_DIR="monit/"
-UPSTART_FILES_DIR="upstart/"
+MONIT_FILES_DIR="rpm-build/monit/"
+UPSTART_FILES_DIR="rpm-build/upstart/"
 DEPENDS="monit"
 test -z WORKSPACE || export WORKSPACE=$PWD
 
