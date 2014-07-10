@@ -1,0 +1,18 @@
+language: scala
+
+before_install:
+ - echo "Installing sass dependency..."
+ - gem install sass --version 3.2.13
+ - echo "Done."
+
+scala:
+  - 2.10.4
+
+jdk:
+  - oraclejdk7
+
+matrix:
+  fast_finish: true
+
+notifications:
+  email: false

@@ -11,9 +11,14 @@ object ApplicationBuild extends Build {
 
   val appVersion      = "1.0-SNAPSHOT"
 
+  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
+
   val appDependencies = Seq(
     cache,
     filters,
+//    "dvla" %% "os-address-lookup" % "0.1" % "test" withSources() withJavadoc(),
+//    "dvla" %% "vehicles-lookup" % "0.1" % "test" withSources() withJavadoc(),
+//    "dvla" %% "vehicles-dispose-fulfil" % "0.1" % "test" withSources() withJavadoc(),
     "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.7" % "test" withSources() withJavadoc(),
@@ -90,6 +95,7 @@ object ApplicationBuild extends Build {
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
     myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
+
   val main = play.Project(
     appName,
     appVersion,
@@ -97,4 +103,18 @@ object ApplicationBuild extends Build {
     settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings
   ).settings(appSettings: _*)
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+   .settings(
+      resolvers ++= Seq(
+        "spray repo" at "http://repo.spray.io/",
+        "local nexus snapshots" at s"$nexus/snapshots",
+        "local nexus releases" at s"$nexus/releases"
+      )
+    ).settings(
+      publishTo <<= version { v: String =>
+        if (v.trim.endsWith("SNAPSHOT"))
+          Some("snapshots" at s"$nexus/snapshots")
+        else
+          Some("releases" at s"$nexus/releases")
+      }
+    )
 }
