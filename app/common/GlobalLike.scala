@@ -36,7 +36,7 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
   override def getControllerInstance[A](controllerClass: Class[A]): A = injector.getInstance(controllerClass)
 
   override def onStart(app: Application) {
-    Logger.info("vehicles-online Started") // used for operations, do not remove
+    Logger.info("vrm-retention-online Started") // used for operations, do not remove
   }
 
   override def onLoadConfig(configuration: Configuration,
@@ -53,7 +53,7 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
 
   override def onStop(app: Application) {
     super.onStop(app)
-    Logger.info("vehicles-online Stopped") // used for operations, do not remove
+    Logger.info("vrm-retention-online Stopped") // used for operations, do not remove
   }
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
