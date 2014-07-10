@@ -50,8 +50,8 @@ cp -r $UPSTART_FILES_DIR/* workdir/etc/init
 # package the thine
 test -e $RPM_TARGETDIR || mkdir $RPM_TARGETDIR
 fpm -n $RPM_NAME \
-  --before-remove="pkg-scripts/stop" \
-  --after-install="pkg-scripts/restart" \
+  --before-remove="rpm-build/pkg-scripts/stop" \
+  --after-install="rpm-build/pkg-scripts/restart" \
   -v $RPM_VERSION  \
   -a all \
   -p $RPM_TARGETDIR/$RPM_NAME.rpm \
