@@ -7,7 +7,6 @@ import helpers.disposal_of_vehicle.InvalidVRMFormat.allInvalidVrmFormats
 import helpers.disposal_of_vehicle.ValidVRMFormat.allValidVrmFormats
 import helpers.UnitSpec
 import mappings.disposal_of_vehicle.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}
 import org.mockito.Matchers.{any, anyString}
 import org.mockito.Mockito.when
 import play.api.http.Status.OK
@@ -25,6 +24,7 @@ import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
+import models.domain.common.{VehicleDetailsResponse, VehicleDetailsRequest}
 
 final class VehicleLookupFormSpec extends UnitSpec {
   implicit val dateService = new DateServiceImpl

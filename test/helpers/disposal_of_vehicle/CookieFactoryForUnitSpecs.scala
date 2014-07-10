@@ -17,15 +17,15 @@ import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCache
 import models.DayMonthYear
 import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
 import models.domain.disposal_of_vehicle.AddressViewModel
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import models.domain.common.BruteForcePreventionViewModel
+import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.common.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import pages.disposal_of_vehicle.HelpPage
 import play.api.libs.json.{Writes, Json}
@@ -45,6 +45,7 @@ import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
+import models.domain.common.BruteForcePreventionViewModel
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 

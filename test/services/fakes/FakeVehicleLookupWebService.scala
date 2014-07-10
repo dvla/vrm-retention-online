@@ -1,11 +1,11 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.{VehicleDetailsDto, VehicleDetailsRequest, VehicleDetailsResponse}
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import play.api.libs.json.Json
 import services.vehicle_lookup.VehicleLookupWebService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import models.domain.common.{VehicleDetailsResponse, VehicleDetailsRequest, VehicleDetailsDto}
 
 final class FakeVehicleLookupWebService extends VehicleLookupWebService {
   import services.fakes.FakeVehicleLookupWebService._

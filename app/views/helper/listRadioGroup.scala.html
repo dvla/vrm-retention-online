@@ -1,0 +1,14 @@
+@(field: play.api.data.Field, args: Map[Symbol, Any])(implicit handler: views.html.helper.FieldConstructor, lang: Lang)
+
+@import views.html.helper.input
+@import views.html.helper.radioListPlaceholder
+@import views.html.helper.base.valtechLabel
+
+@input(field, args.toSeq: _*) { (id, name, value, htmlArgs) =>
+    @valtechLabel(field, args)
+
+    @radioListPlaceholder(field,
+        options = args.find(_._1 == 'items).get._2.asInstanceOf[Seq[(String,String)]],
+        args = args.filter(e => e._1 != 'label && e._1 != 'items)
+    )
+}

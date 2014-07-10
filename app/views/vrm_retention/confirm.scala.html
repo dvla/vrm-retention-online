@@ -1,0 +1,17 @@
+@(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel)(implicit  lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+config: utils.helpers.Config)
+
+@import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}
+@import mappings.vrm_retention.BeforeYouStart._
+@import utils.helpers._
+@import views.html.vrm_retention.main
+
+@main(
+    title = Messages("vrm_retention_beforeyoustart.title")
+) {
+
+	Confirm page placeholder.
+    <!--<div class="form-steps">
+        <a class="button" id="@NextId" href="success">Next</a>
+    </div>-->
+}

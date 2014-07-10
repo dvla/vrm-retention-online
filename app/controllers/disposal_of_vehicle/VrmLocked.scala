@@ -4,10 +4,11 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel}
+import models.domain.disposal_of_vehicle.TraderDetailsModel
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
+import models.domain.common.BruteForcePreventionViewModel
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {

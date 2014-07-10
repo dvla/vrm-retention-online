@@ -1,11 +1,11 @@
 package services.vehicle_lookup
 
 import javax.inject.Inject
-import models.domain.disposal_of_vehicle.{VehicleDetailsRequest, VehicleDetailsResponse}
 import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import models.domain.common.{VehicleDetailsResponse, VehicleDetailsRequest}
 
 final class VehicleLookupServiceImpl @Inject()(ws: VehicleLookupWebService) extends VehicleLookupService {
   override def invoke(cmd: VehicleDetailsRequest,

@@ -6,7 +6,7 @@
 
 echo "workspace $WORKSPACE"
 RPM_VERSION="$(date +'%Y%m%d%H%M%S')"
-RPM_NAME="vehicles-online"
+RPM_NAME="vrm-retention-online"
 RPM_OWNER="jenkins@dvla"
 RPM_DESCRIPTION="SPIKE"
 RPM_URL="http:/jenkins.dvla"
@@ -35,8 +35,8 @@ mkdir -p workdir/etc/monit.d
 # copy objects to workdir directory
 (
   cd workdir/$RPM_PREFIX/
-  unzip $WORKSPACE/target/universal/vehicles-online-1.0-SNAPSHOT.zip
-  mv vehicles-online-1.0-SNAPSHOT vehicles-online
+  unzip $WORKSPACE/target/universal/vrm-retention-online-1.0-SNAPSHOT.zip
+  mv vrm-retention-online-1.0-SNAPSHOT vrm-retention-online
   cd -
 )
 

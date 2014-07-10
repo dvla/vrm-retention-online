@@ -1,0 +1,71 @@
+@(vehicleLookupForm: Form[models.domain.vrm_retention.VehicleLookupFormModel])(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import helper._
+@import utils.helpers.BaseTemplate._
+@import views.html.helper.base._
+@import utils.helpers._
+@import mappings.vrm_retention.VehicleLookup._
+@import mappings.common.DocumentReferenceNumber
+@import mappings.common.VehicleRegistrationNumber
+@import mappings.common.Postcode
+@import mappings.vrm_retention.KeeperConsent
+@import views.html.vrm_retention.main
+@import controllers.vrm_retention.routes.VehicleLookup
+@import views.html.helper.listRadioGroup
+
+@main(
+    title = Messages("vrm_retention_vehiclelookup.title")
+) {
+
+    @form(action = controllers.vrm_retention.routes.VehicleLookup.submit()) {
+
+    @CsrfHelper.hiddenFormField
+
+		<div class="two-col clearfix">
+                <div class="uppercase-input">
+                <p>@Messages("vrm_retention_vehiclelookup.intro")</p>
+
+				@valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
+                    Map('_label -> Messages("vrm_retention_vehiclelookup.vrninputlabel"),
+                    'maxLength -> VehicleRegistrationNumber.MaxLength,
+                    'hint -> Messages("vrm_retention_vehiclelookup.vrnHint"),
+                    '_showConstraints -> false))
+				
+			    @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
+                    Map('_label -> Messages("vrm_retention_vehiclelookup.refnumlabel"),
+                    'hint -> Messages("vrm_retention_vehiclelookup.refnumHint"),
+                    '_showConstraints -> false,
+                    //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
+                    'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                    //'title -> Messages("error.validDocumentReferenceNumber")
+                    'title -> Messages("")
+                ))
+
+                @valtechInputText(vehicleLookupForm(PostcodeId), args =
+                Map('_label -> Messages("vrm_retention_vehiclelookup.postcodelabel"),
+                '_showConstraints -> false,
+                'maxLength -> Postcode.MaxLength,
+                'hint -> Messages("vrm_retention_vehiclelookup.postcodeHint")
+                ))
+
+                @listRadioGroup(field = vehicleLookupForm("keeperConsent"),
+                    args = Map(
+                        'items -> Seq(
+                            "Business" -> Messages("vrm_retention_vehiclelookup.business"),
+                            "Keeper" -> Messages("vrm_retention_vehiclelookup.keeper")
+                        ),
+                        'value -> "Business",
+                        '_label -> Messages("vrm_retention_vehiclelookup.label")
+                    )
+                )
+
+				@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
+				<div class="form-steps">
+					<button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_vehiclelookup.button")</button>
+                    <a id="@BackId" href="@controllers.vrm_retention.routes.VehicleLookup.back()" class="button-secondary">@Messages("vrm_retention_vehiclelookup.backbutton")</a>
+				</div>
+			</div>
+        </div>
+    }
+}

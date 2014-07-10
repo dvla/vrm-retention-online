@@ -25,8 +25,9 @@ import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import models.domain.disposal_of_vehicle.{VehicleLookupFormModel, VehicleDetailsResponse, VehicleDetailsRequest}
+import models.domain.common.BruteForcePreventionViewModel
+import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import org.joda.time.Instant
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
@@ -55,7 +56,8 @@ import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
+import FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
+import models.domain.common.{VehicleDetailsResponse, VehicleDetailsRequest}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 

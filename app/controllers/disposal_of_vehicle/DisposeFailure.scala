@@ -4,7 +4,8 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.RichCookies
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
-import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
+import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel}
+import models.domain.common.VehicleDetailsModel
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config

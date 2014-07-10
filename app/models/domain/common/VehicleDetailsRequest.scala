@@ -1,4 +1,4 @@
-package models.domain.disposal_of_vehicle
+package models.domain.common
 
 import play.api.libs.json.Json
 

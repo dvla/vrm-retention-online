@@ -18,7 +18,7 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKe
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTimestampIdCacheKey
 import models.domain.disposal_of_vehicle.DisposeFormModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
+import models.domain.common.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.DisposeViewModel
 import models.domain.disposal_of_vehicle.DisposeRequest
 import models.domain.disposal_of_vehicle.DisposeResponse

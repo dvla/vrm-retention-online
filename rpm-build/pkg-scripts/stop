@@ -1,4 +1,4 @@
 #!/bin/bash
 
-initctl stop vehicles-online
+initctl stop vrm-retention-online
 exit

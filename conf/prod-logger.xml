@@ -6,13 +6,13 @@
     <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
         <syslogHost>localhost</syslogHost>
         <facility>LOCAL0</facility>
-        <suffixPattern>vehicles-online: %logger{20} %msg</suffixPattern>
+        <suffixPattern>vrm-retention-online: %logger{20} %msg</suffixPattern>
     </appender>
 
     <appender name="REQUEST-SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
         <syslogHost>localhost</syslogHost>
         <facility>LOCAL0</facility>
-        <suffixPattern>vehicles-online: %msg</suffixPattern>
+        <suffixPattern>vrm-retention-online: %msg</suffixPattern>
     </appender>
 
     <appender name="APPLICATION_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
