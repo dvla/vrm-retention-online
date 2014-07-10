@@ -2,11 +2,11 @@
 #
 require_relative './spec_helper.rb'
 
-describe file('/opt/vehicles-online-1.0-SNAPSHOT/conf/vehiclesOnline.conf') do
+describe file('/opt/vrm-retention-online-1.0-SNAPSHOT/conf/vrm-retention-online.conf') do
   its(:content) { should include 'ordnancesurvey'  }
  end
 
-upstart_services = [ 'vehicles-online' ]
+upstart_services = [ 'vrm-retention-online' ]
 
 upstart_services.each do |item|
   describe command("initctl status #{item}") do

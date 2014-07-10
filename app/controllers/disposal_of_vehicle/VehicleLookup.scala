@@ -11,12 +11,8 @@ import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsDto
-import models.domain.disposal_of_vehicle.VehicleDetailsModel
-import models.domain.disposal_of_vehicle.VehicleDetailsRequest
-import models.domain.disposal_of_vehicle.VehicleDetailsResponse
+import models.domain.common.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
@@ -29,6 +25,8 @@ import services.DateService
 import services.vehicle_lookup.VehicleLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
+import models.domain.common.BruteForcePreventionViewModel
+import models.domain.common.{VehicleDetailsResponse, VehicleDetailsRequest, VehicleDetailsDto}
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleLookupService: VehicleLookupService,

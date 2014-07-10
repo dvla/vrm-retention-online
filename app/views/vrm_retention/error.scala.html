@@ -1,0 +1,20 @@
+@(exceptionDigest: String)(implicit lang: Lang,
+        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import mappings.vrm_retention.Error.SubmitId
+@import utils.helpers.CsrfHelper
+@import views.html.vrm_retention.main
+@import views.html.helper.form
+
+@main(
+    title = Messages("error.title")
+){
+    @form(action = controllers.vrm_retention.routes.Error.submit(exceptionDigest)) {
+        @CsrfHelper.hiddenFormField
+
+        <div class="form-steps">
+            <button id="@SubmitId" type="submit" name="action" class="button">@Messages("error.button")</button>
+        </div>
+    }
+}

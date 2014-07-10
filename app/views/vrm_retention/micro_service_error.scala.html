@@ -1,0 +1,17 @@
+@()(implicit lang: Lang,
+        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import views.html.vrm_retention.main
+
+@main(
+    title = Messages("micro_service_error.title")
+){
+    <p>@Messages("micro_service_error.text")</p>
+
+    <div class="form-steps">
+        @* Note the reverse routing syntax for the hyperlink *@
+        <a class="button" id="tryagain" href="@controllers.vrm_retention.routes.VehicleLookup.present()">@Messages("micro_service_error.back.button")</a>
+        <a class="button-secondary" id="exit" href="@controllers.vrm_retention.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
+    </div>
+}

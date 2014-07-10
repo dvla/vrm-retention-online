@@ -8,8 +8,8 @@ import utils.helpers.Config
 import models.domain.common.BruteForcePreventionResponse
 import models.domain.common.BruteForcePreventionResponse.JsonFormat
 import play.api.libs.json.Json
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel
 import services.DateService
+import models.domain.common.BruteForcePreventionViewModel
 
 final class BruteForcePreventionServiceImpl @Inject()(config: Config,
                                                       ws: BruteForcePreventionWebService,

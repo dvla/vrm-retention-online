@@ -1,0 +1,38 @@
+@(businessLookupForm: Form[models.domain.vrm_retention.SetupBusinessDetailsModel], viewModel: models.domain.vrm_retention.SetupBusinessDetailsViewModel)(implicit lang: Lang,
+        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import controllers.vrm_retention.routes.SetUpBusinessDetails
+@import mappings.common.Postcode
+@import mappings.vrm_retention.SetupBusinessDetails.{SubmitId, BusinessNameId, BusinessNameMaxLength, BusinessPostcodeId}
+@import utils.helpers.BaseTemplate.fieldConstructor
+@import utils.helpers.CsrfHelper
+@import views.html.vrm_retention.main
+@import views.html.helper.base.valtechInputText
+@import views.html.helper.form
+
+@main(
+//    progress = Some(Messages("disposal_progress_2")),
+    title = Messages("vrm_retention_setupbusinessdetails.title"),
+    currentForm = Some(businessLookupForm)
+) {
+    @form(action = SetUpBusinessDetails.submit) {
+        @CsrfHelper.hiddenFormField
+
+        <div class="uppercase-input">
+	        @valtechInputText(businessLookupForm(BusinessNameId), args =
+	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
+	                    '_showConstraints -> false,
+	                    'maxLength -> BusinessNameMaxLength))
+
+	        @valtechInputText(businessLookupForm(BusinessPostcodeId), args =
+	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
+	                    '_showConstraints -> false,
+	                    'maxLength -> Postcode.MaxLength))
+
+	        <div class="form-steps">
+	            <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
+	        </div>
+      	</div>
+    }
+}

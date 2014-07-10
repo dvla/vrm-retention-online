@@ -17,76 +17,76 @@ import play.api.LoggerLike
 import play.api.test.FakeApplication
 
 class AccessLoggingIntegrationSpec extends UiSpec with TestHarness with MockitoSugar  with WebBrowserDSL {
-  val mockLogger = new MockLogger
-
-  "Access Logging" should {
-    "Log access that complete with success" in new WebBrowser(testApp) {
-      go to BeforeYouStartPage
-
-      val infoLogs = mockLogger.captureLogInfos(2)
-      infoLogs.get(0) should include("""] "GET / HTTP/1.1" 303""")
-      infoLogs.get(1) should include("""] "GET /disposal-of-vehicle/before-you-start HTTP/1.1" 200""")
-    }
-
-    "Log access that are completed because of Exception" in new WebBrowser(testApp) {
-      val httpClient = HttpClients.createDefault()
-      val post = new HttpPost(BusinessChooseYourAddressPage.url)
-      val httpResponse = httpClient.execute(post)
-      httpResponse.close()
-
-      val infoLogs = mockLogger.captureLogInfos(4)
-      infoLogs.get(2) should include("""] "POST /disposal-of-vehicle/business-choose-your-address HTTP/1.1" 303""")
-      infoLogs.get(3) should include("""] "GET /disposal-of-vehicle/error/""")
-    }
-
-    "Log access to unknown urls" in new WebBrowser(testApp) {
-      val httpClient = HttpClients.createDefault()
-      val post = new HttpPost(WebDriverFactory.testUrl + "/some/unknown/url")
-      val httpResponse = httpClient.execute(post)
-      httpResponse.close()
-
-      val infoLogs = mockLogger.captureLogInfos(6)
-
-      infoLogs.get(4) should include("""] "POST /some/unknown/url HTTP/1.1" 303""")
-      infoLogs.get(5) should include("""] "GET /disposal-of-vehicle/error/""")
-    }
-
-    "not log any access for the healthcheck url" in new WebBrowser(testApp) {
-      val httpClient = HttpClients.createDefault()
-      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck")
-      val httpResponse = httpClient.execute(post)
-      httpResponse.close()
-
-      val infoLogs = mockLogger.captureLogInfos(6)
-    }
-
-    "not log any access for the healthcheck url with parameters" in new WebBrowser(testApp) {
-      val httpClient = HttpClients.createDefault()
-      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck?param1=a&b=c")
-      val httpResponse = httpClient.execute(post)
-      httpResponse.close()
-
-      val infoLogs = mockLogger.captureLogInfos(6)
-    }
-
-    "log any access for the healthcheck url that has extra in the path or parameters" in new WebBrowser(testApp) {
-      val httpClient = HttpClients.createDefault()
-      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck/some/extra")
-      val httpResponse = httpClient.execute(post)
-      httpResponse.close()
-
-      val infoLogs = mockLogger.captureLogInfos(7)
-    }
-  }
-
-  class TGlobal extends GlobalLike with TestComposition {
-
-    override lazy val injector: Injector = Guice.createInjector(testModule(new ScalaModule {
-      override def configure(): Unit = {
-        bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(mockLogger)
-      }
-    }))
-  }
-
-  def testApp = FakeApplication(withGlobal = Some(new TGlobal))
+//  val mockLogger = new MockLogger
+//
+//  "Access Logging" should {
+//    "Log access that complete with success" in new WebBrowser(testApp) {
+//      go to BeforeYouStartPage
+//
+//      val infoLogs = mockLogger.captureLogInfos(2)
+//      infoLogs.get(0) should include("""] "GET / HTTP/1.1" 303""")
+//      infoLogs.get(1) should include("""] "GET /disposal-of-vehicle/before-you-start HTTP/1.1" 200""")
+//    }
+//
+//    "Log access that are completed because of Exception" in new WebBrowser(testApp) {
+//      val httpClient = HttpClients.createDefault()
+//      val post = new HttpPost(BusinessChooseYourAddressPage.url)
+//      val httpResponse = httpClient.execute(post)
+//      httpResponse.close()
+//
+//      val infoLogs = mockLogger.captureLogInfos(4)
+//      infoLogs.get(2) should include("""] "POST /disposal-of-vehicle/business-choose-your-address HTTP/1.1" 303""")
+//      infoLogs.get(3) should include("""] "GET /disposal-of-vehicle/error/""")
+//    }
+//
+//    "Log access to unknown urls" in new WebBrowser(testApp) {
+//      val httpClient = HttpClients.createDefault()
+//      val post = new HttpPost(WebDriverFactory.testUrl + "/some/unknown/url")
+//      val httpResponse = httpClient.execute(post)
+//      httpResponse.close()
+//
+//      val infoLogs = mockLogger.captureLogInfos(6)
+//
+//      infoLogs.get(4) should include("""] "POST /some/unknown/url HTTP/1.1" 303""")
+//      infoLogs.get(5) should include("""] "GET /disposal-of-vehicle/error/""")
+//    }
+//
+//    "not log any access for the healthcheck url" in new WebBrowser(testApp) {
+//      val httpClient = HttpClients.createDefault()
+//      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck")
+//      val httpResponse = httpClient.execute(post)
+//      httpResponse.close()
+//
+//      val infoLogs = mockLogger.captureLogInfos(6)
+//    }
+//
+//    "not log any access for the healthcheck url with parameters" in new WebBrowser(testApp) {
+//      val httpClient = HttpClients.createDefault()
+//      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck?param1=a&b=c")
+//      val httpResponse = httpClient.execute(post)
+//      httpResponse.close()
+//
+//      val infoLogs = mockLogger.captureLogInfos(6)
+//    }
+//
+//    "log any access for the healthcheck url that has extra in the path or parameters" in new WebBrowser(testApp) {
+//      val httpClient = HttpClients.createDefault()
+//      val post = new HttpGet(WebDriverFactory.testUrl + "/healthcheck/some/extra")
+//      val httpResponse = httpClient.execute(post)
+//      httpResponse.close()
+//
+//      val infoLogs = mockLogger.captureLogInfos(7)
+//    }
+//  }
+//
+//  class TGlobal extends GlobalLike with TestComposition {
+//
+//    override lazy val injector: Injector = Guice.createInjector(testModule(new ScalaModule {
+//      override def configure(): Unit = {
+//        bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(mockLogger)
+//      }
+//    }))
+//  }
+//
+//  def testApp = FakeApplication(withGlobal = Some(new TGlobal))
 }

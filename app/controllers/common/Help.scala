@@ -3,7 +3,8 @@ package controllers.common
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
-import controllers.disposal_of_vehicle.routes.BeforeYouStart
+//import controllers.disposal_of_vehicle.routes.BeforeYouStart
+import controllers.vrm_retention.routes.BeforeYouStart
 import mappings.common.Help.HelpCacheKey
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config

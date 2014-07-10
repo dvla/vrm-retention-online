@@ -7,7 +7,7 @@ import org.scalastyle.sbt.ScalastylePlugin
 import templemore.sbt.cucumber.CucumberPlugin
 
 object ApplicationBuild extends Build {
-  val appName         = "vehicles-online"
+  val appName         = "vrm-retention-online"
 
   val appVersion      = "1.0-SNAPSHOT"
 

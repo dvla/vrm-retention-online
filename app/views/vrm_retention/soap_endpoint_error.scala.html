@@ -1,0 +1,16 @@
+@()(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import views.html.vrm_retention.main
+@import controllers.vrm_retention.routes.SoapEndpointError
+
+    @main(
+        title = Messages("soap_endpoint_error.title")
+    ){
+    <p>@Messages("soap_endpoint_error.text")</p>
+
+    <div class="form-steps">
+        @{ /* Note the reverse routing syntax for the hyperlink */ }
+        <a class="button" id="exit" href="@controllers.vrm_retention.routes.BeforeYouStart.present()">@Messages("soap_endpoint_error.exit.button")</a>
+    </div>
+}

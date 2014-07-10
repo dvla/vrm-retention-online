@@ -1,0 +1,8 @@
+# monit/vrm-retention-online
+#
+check process vrm-retention-online
+  matching vrm-retention-online
+  start program = "/sbin/start vrm-retention-online"
+  stop program = "/sbin/stop vrm-retention-online"
+  if failed host 127.0.0.1 port 9000 then restart
+

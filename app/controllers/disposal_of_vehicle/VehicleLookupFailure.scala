@@ -4,10 +4,11 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.RichCookies
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
-import models.domain.disposal_of_vehicle.{BruteForcePreventionViewModel, TraderDetailsModel, VehicleLookupFormModel}
+import models.domain.disposal_of_vehicle.{TraderDetailsModel, VehicleLookupFormModel}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import utils.helpers.Config
+import models.domain.common.BruteForcePreventionViewModel
 
 final class VehicleLookupFailure @Inject()()
                                  (implicit clientSideSessionFactory: ClientSideSessionFactory,

@@ -1,6 +1,5 @@
-package models.domain.disposal_of_vehicle
+package models.domain.common
 
-import models.domain.common.{BruteForcePreventionResponse, CacheKey}
 import play.api.libs.json.Json
 import services.DateService
 

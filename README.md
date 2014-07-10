@@ -1,8 +1,7 @@
 DVLA Vehicles Online
 ====================
 
-`vehicles-online` is the Web frontend for disposing vehicles online, where 'disposing' implies changing a vehicle's
-ownership through trade.
+`vrm-retention-online` is the Web frontend for retaining a personalised registration number online.
 
 Architectural overview
 ----------------------
@@ -19,9 +18,10 @@ framework for the JVM.
 Most complex business decisions are deferred to a network of [RESTful][rest] microservices. These are maintained through
 separate projects:
 
--   `ordnance-survey`
+-   `os-address-lookup`
 -   `vehicles-lookup`
--   `vehicles-dispose-fulfil`
+-   `vrm-retention-eligibility`
+-   `vrm-retention-retain`
 
 These services are mocked for automated testing, but must be running locally for manual testing/development of dependant
 components within the presentation layer.
@@ -31,8 +31,9 @@ Development environment
 
 1.  Each project must be checked-out to the same directory using the following names:
 
-    -   `vehicles-online`
-    -   `vehicles-dispose-fulfil`
+    -   `vrm-retention-online`
+    -   `vrm-retention-eligibility`
+    -   `vrm-retention-retain`
     -   `vehicles-lookup`
     -   `<<the appropriate secrets repo>>'
     -   `os-address-lookup`
@@ -63,9 +64,9 @@ Development environment
 Running the application
 -----------------------
 
-1.  Run the `vehicles-online` application:
+1.  Run the `vrm-retention-online` application:
 
-        cd vehicles-online
+        cd vrm-retention-online
         sbt run
 
 2.  Open in Web browser:
@@ -80,9 +81,9 @@ To emulate production-level logging:
 
 1.  Ensure `syslog` is configured. Details have been provided for [configuring `syslog` on OSX][syslog-osx].
 
-2.  Run the `vehicles-online` application:
+2.  Run the `vrm-retention-online` application:
 
-        cd vehicles-online
+        cd vrm-retention-online
         ./startWithLog.sh
         
 3.  Open in Web browser:

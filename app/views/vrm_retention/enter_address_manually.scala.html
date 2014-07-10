@@ -1,0 +1,81 @@
+@()(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}
+@import mappings.vrm_retention.BeforeYouStart._
+@import utils.helpers._
+@import views.html.vrm_retention.main
+
+@main(
+    title = Messages("vrm_retention_beforeyoustart.title")
+) {
+
+        <div class="form-item">
+            <div class="form-item">
+                <legend>Address</legend>
+
+                <div class="form-address-stack" id=
+                "addressAndPostcode_addressLines">
+                    <div class="form-item">
+                        <div class="form-item">
+                            <label for=
+                            "addressAndPostcode_addressLines_line1">Line
+                            1</label> <input autocomplete="off" id=
+                            "addressAndPostcode_addressLines_line1" maxlength=
+                            "30" name="addressAndPostcode.addressLines.line1"
+                            placeholder="Line 1" type="text" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="form-item">
+                            <label for=
+                            "addressAndPostcode_addressLines_line2">Line 2
+                            <em>(optional)</em></label> <input autocomplete=
+                            "off" id="addressAndPostcode_addressLines_line2"
+                            maxlength="30" name=
+                            "addressAndPostcode.addressLines.line2"
+                            placeholder="Line 2" title="" type="text" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="form-item">
+                            <label for=
+                            "addressAndPostcode_addressLines_line3">Line 3
+                            <em>(optional)</em></label> <input autocomplete=
+                            "off" id="addressAndPostcode_addressLines_line3"
+                            maxlength="30" name=
+                            "addressAndPostcode.addressLines.line3"
+                            placeholder="Line 3" title="" type="text" value="">
+                        </div>
+                    </div>
+
+                    <div class="form-item">
+                        <div class="form-item">
+                            <label for=
+                            "addressAndPostcode_addressLines_line4">Post
+                            town</label> <input autocomplete="off" id=
+                            "addressAndPostcode_addressLines_line4" maxlength=
+                            "30" name="addressAndPostcode.addressLines.line4"
+                            placeholder="Post town" type="text" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-item">
+                <label for="addressAndPostcode_postcode">Postcode</label>
+                <input autocomplete="off" id="addressAndPostcode_postcode"
+                maxlength="8" name="addressAndPostcode.postcode" placeholder=
+                "e.g. SA99 1BD" type="text" value="">
+            </div>
+        </div>
+
+
+    <div class="form-steps">
+      <a class="button" id="@NextId" href="retain">Next</a>
+      <a id="backButton" href="select-address" class=
+      "button-secondary" name="backButton">Back</a>
+    </div>
+}

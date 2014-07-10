@@ -21,6 +21,7 @@ import services.vehicle_lookup.VehicleLookupWebService
 import services.vehicle_lookup.VehicleLookupWebServiceImpl
 import services.{DateService, DateServiceImpl, brute_force_prevention}
 import utils.helpers.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
+import services.vrm_retention_eligibility.{VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityService}
 
 /**
  * Provides real implementations of traits
@@ -44,6 +45,8 @@ object DevModule extends ScalaModule {
     }
     bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
+    bind[VRMRetentionEligibilityWebService].to[VRMRetentionEligibilityWebServiceImpl].asEagerSingleton()
+    bind[VRMRetentionEligibilityService].to[VRMRetentionEligibilityServiceImpl].asEagerSingleton()
     bind[DisposeWebService].to[DisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()

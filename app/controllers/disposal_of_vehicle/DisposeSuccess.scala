@@ -8,7 +8,8 @@ import mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKe
 import mappings.disposal_of_vehicle.Dispose.DisposeFormTransactionIdCacheKey
 import mappings.disposal_of_vehicle.Dispose.SurveyRequestTriggerDateCacheKey
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel, VehicleDetailsModel}
+import models.domain.disposal_of_vehicle.{DisposeFormModel, DisposeViewModel, TraderDetailsModel}
+import models.domain.common.VehicleDetailsModel
 import play.api.mvc.{Action, Controller, Request}
 import services.DateService
 import utils.helpers.Config

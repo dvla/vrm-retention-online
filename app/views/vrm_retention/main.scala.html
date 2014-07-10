@@ -1,0 +1,24 @@
+@(progress: Option[String] = None,
+    title: String,
+    currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang,
+    config: utils.helpers.Config)
+
+@import views.html.common.{progressBar, protoType}
+@import views.html.helper.errorsSummary
+@import views.html.common.govMainDefault
+
+@govMainDefault(title) {
+    <div class="vehicles-online">
+        @protoType()
+
+        <div class="section-content">
+            @progressBar(progress)
+            
+            <h1>@title</h1>
+
+            @errorsSummary(currentForm)
+
+            @content
+        </div>
+    </div>
+}

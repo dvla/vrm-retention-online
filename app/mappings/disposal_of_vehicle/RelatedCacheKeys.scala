@@ -13,7 +13,8 @@ import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
-import models.domain.disposal_of_vehicle.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import models.domain.common.BruteForcePreventionViewModel
+import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 
 object RelatedCacheKeys {
   final val SeenCookieMessageKey = "seen_cookie_message"
