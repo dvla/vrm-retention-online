@@ -29,7 +29,7 @@ class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
 
     "send the serialised json request" in {
       val resultFuture = lookupService.callVehicleLookupService(request, trackingId)
-      whenReady(resultFuture) { result =>
+      whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicles/lookup/v1/dispose")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)).
