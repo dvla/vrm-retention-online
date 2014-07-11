@@ -38,7 +38,6 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       keeperPostCode = keeperDetails.postCode,
       None, None, None, None, None, None // TODO
     )
-
 }
 
 

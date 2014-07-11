@@ -1,7 +1,7 @@
 package models.domain.disposal_of_vehicle
 
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import models.domain.common.CacheKey
+import models.domain.common.{AddressViewModel, CacheKey}
 import play.api.libs.json.Json
 
 final case class TraderDetailsModel(traderName: String, traderAddress: AddressViewModel)

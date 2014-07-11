@@ -7,7 +7,7 @@ import CookieImplicits.RichCookies
 import CookieImplicits.RichForm
 import mappings.common.Postcode._
 import mappings.vrm_retention.SetupBusinessDetails._
-import models.domain.vrm_retention.{SetupBusinessDetailsViewModel, SetupBusinessDetailsModel}
+import models.domain.vrm_retention.{SetupBusinessDetailsViewModel, SetupBusinessDetailsFormModel}
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
@@ -21,7 +21,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     mapping(
       BusinessNameId -> businessName(),
       BusinessPostcodeId -> postcode
-    )(SetupBusinessDetailsModel.apply)(SetupBusinessDetailsModel.unapply)
+    )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   )
 
   def present = Action {
@@ -50,8 +50,8 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
         }
       },
     // TODO
-      //validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
-        validForm => Redirect(routes.MicroServiceError.present())
+      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
+//        validForm => Redirect(routes.MicroServiceError.present())
     )
   }
 

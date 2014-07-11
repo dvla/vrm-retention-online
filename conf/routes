@@ -109,6 +109,8 @@ GET         /vrm-retention/check-eligibility                         @controller
 GET         /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.present
 POST        /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.submit
 
+GET         /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.present
+POST        /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.submit
 
 GET         /vrm-retention/confirm                                   @controllers.vrm_retention.Confirm.present
 
@@ -117,8 +119,6 @@ GET         /vrm-retention/healthcheck                               @controller
 ############ Demo screens
 
 GET         /vrm-retention/user-details                              @controllers.vrm_retention.UserDetails.present
-
-GET         /vrm-retention/select-address                            @controllers.vrm_retention.SelectAddress.present
 
 GET         /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.present
 

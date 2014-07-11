@@ -1,4 +1,5 @@
-@(businessLookupForm: Form[models.domain.vrm_retention.SetupBusinessDetailsModel], viewModel: models.domain.vrm_retention.SetupBusinessDetailsViewModel)(implicit lang: Lang,
+@(setupBusinessDetailsFormModel: Form[models.domain.vrm_retention.SetupBusinessDetailsFormModel],
+        viewModel: models.domain.vrm_retention.SetupBusinessDetailsViewModel)(implicit lang: Lang,
         token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
@@ -13,18 +14,18 @@
 
 @main(
     title = Messages("vrm_retention_setupbusinessdetails.title"),
-    currentForm = Some(businessLookupForm)
+    currentForm = Some(setupBusinessDetailsFormModel)
 ) {
     @form(action = SetUpBusinessDetails.submit) {
         @CsrfHelper.hiddenFormField
 
         <div class="uppercase-input">
-	        @valtechInputText(businessLookupForm(BusinessNameId), args =
+	        @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
 	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
 	                    '_showConstraints -> false,
 	                    'maxLength -> BusinessNameMaxLength))
 
-	        @valtechInputText(businessLookupForm(BusinessPostcodeId), args =
+	        @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
 	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
 	                    '_showConstraints -> false,
 	                    'maxLength -> Postcode.MaxLength))

@@ -7,6 +7,7 @@ import mappings.common.AddressLines.Line2Index
 import mappings.common.AddressLines.Line3Index
 import mappings.common.AddressLines.LineMaxLength
 import scala.annotation.tailrec
+import models.domain.common.AddressViewModel
 
 case class DisposalAddressDto(line: Seq[String], postTown: Option[String], postCode: String, uprn: Option[Long])
 

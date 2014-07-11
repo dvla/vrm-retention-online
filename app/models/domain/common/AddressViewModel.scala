@@ -1,6 +1,5 @@
-package models.domain.disposal_of_vehicle
+package models.domain.common
 
-import models.domain.common.AddressAndPostcodeModel
 import play.api.libs.json.Json
 
 final case class AddressViewModel(uprn: Option[Long] = None, address: Seq[String])
