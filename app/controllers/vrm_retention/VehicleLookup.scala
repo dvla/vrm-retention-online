@@ -55,7 +55,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       invalidForm =>
                 Future {
                   val formWithReplacedErrors = invalidForm.
-                    replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVRNOnly", args = Seq.empty)).
+                    replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
                     replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
                     replaceError(PostcodeId, FormError(key = PostcodeId, message = "address.postcode.validation", args = Seq.empty)).
                     distinctErrors
