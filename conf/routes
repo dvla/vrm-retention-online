@@ -18,7 +18,6 @@
 GET         /vrm-retention/assets/*file                              controllers.Assets.at(path="/public", file)
 
 GET         /                                                        controllers.Application.index
-GET         /vrm-retention                                           controllers.Application.index
 GET         /vrm-retention/before-you-start                          @controllers.vrm_retention.BeforeYouStart.present
 
 GET         /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.present
@@ -45,6 +44,8 @@ POST        /vrm-retention/setup-business-details                    @controller
 
 GET         /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.present
 POST        /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.submit
+
+GET         /vrm-retention/uprn-not-found                            @controllers.vrm_retention.UprnNotFound.present
 
 GET         /vrm-retention/confirm                                   @controllers.vrm_retention.Confirm.present
 

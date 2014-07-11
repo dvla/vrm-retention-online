@@ -53,8 +53,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       invalidForm =>
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleDetailsModel]) match {
           case (Some(setupBusinessDetailsFormModel), Some(vehicleDetailsModel)) =>
-        val businessChooseYourAddressViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
-        implicit val session = clientSideSessionFactory.getSession(request.cookies)
+            val businessChooseYourAddressViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
+            implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel).map { addresses =>
               BadRequest(business_choose_your_address(businessChooseYourAddressViewModel, formWithReplacedErrors(invalidForm),
                 addresses))
@@ -92,12 +92,11 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */
-        Redirect(routes.VehicleLookup.present()).
+        Redirect(routes.Confirm.present()).
           discardingCookie(EnterAddressManuallyCacheKey).
           withCookie(model).
           withCookie(businessDetailsModel)
-      case None => Redirect(routes.MicroServiceError.present()) // TODO
-//      case None => Redirect(routes.UprnNotFound.present())
+      case None => Redirect(routes.UprnNotFound.present())
     }
   }
 

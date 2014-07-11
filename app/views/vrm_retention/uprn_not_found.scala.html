@@ -1,0 +1,18 @@
+@()(implicit lang: Lang,
+        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import mappings.vrm_retention.UprnNotFound.{ManualAddressButtonId, SetupBusinessDetailsButtonId}
+@import views.html.vrm_retention.main
+
+@main(
+    title = Messages("vrm_retention_uprnnotfound.title")
+) {
+    <p>@Messages("vrm_retention_uprnnotfound.p1")</p>
+
+    <div class="form-steps">
+        @* Note the reverse routing syntax for the hyperlink *@
+        <a class="button" id="@ManualAddressButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_uprnnotfound.setuptradedetailsbutton")</a>
+        <a class="button-secondary" id="@SetupBusinessDetailsButtonId" href="@controllers.vrm_retention.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_uprnnotfound.manualaddressbutton")</a>
+    </div>
+}

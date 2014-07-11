@@ -49,9 +49,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
             Redirect(routes.VehicleLookup.present())
         }
       },
-    // TODO
       validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
-//        validForm => Redirect(routes.MicroServiceError.present())
     )
   }
 
