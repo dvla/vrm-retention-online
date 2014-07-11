@@ -15,7 +15,8 @@
 @import views.html.helper.listRadioGroup
 
 @main(
-    title = Messages("vrm_retention_vehiclelookup.title")
+    title = Messages("vrm_retention_vehiclelookup.title"),
+    currentForm = Some(vehicleLookupForm)
 ) {
 
     @form(action = controllers.vrm_retention.routes.VehicleLookup.submit()) {
