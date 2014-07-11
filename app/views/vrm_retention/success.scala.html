@@ -1,4 +1,4 @@
-@()(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+@(successViewModel: models.domain.vrm_retention.SuccessViewModel)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}

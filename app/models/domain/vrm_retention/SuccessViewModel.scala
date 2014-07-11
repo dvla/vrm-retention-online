@@ -1,6 +1,6 @@
 package models.domain.vrm_retention
 
-final case class ConfirmViewModel(registrationNumber: String,
+final case class SuccessViewModel(registrationNumber: String,
                                   vehicleMake: String,
                                   vehicleModel: String,
                                   keeperTitle: String,
@@ -17,4 +17,8 @@ final case class ConfirmViewModel(registrationNumber: String,
                                   businessAddressLine2: Option[String],
                                   businessAddressLine3: Option[String],
                                   businessPostTown: Option[String],
-                                  businessPostCode: Option[String])
+                                  businessPostCode: Option[String],
+                                  replacementRegistrationNumber: String,
+                                  retentionCertificationNumber: String,
+                                  transactionId: String,
+                                  transactionTimestamp: String)
