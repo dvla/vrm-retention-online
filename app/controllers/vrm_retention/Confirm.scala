@@ -1,14 +1,13 @@
 package controllers.vrm_retention
 
-import play.api.mvc._
 import com.google.inject.Inject
-import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichCookies
-import CookieImplicits.RichForm
+import common.{ClientSideSessionFactory, CookieImplicits}
 import models.domain.vrm_retention.{KeeperDetailsModel, ConfirmViewModel}
 import models.domain.common.VehicleDetailsModel
+import play.api.mvc._
 import utils.helpers.Config
+import CookieImplicits.RichCookies
+
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 

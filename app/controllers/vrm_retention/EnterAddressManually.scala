@@ -1,13 +1,11 @@
 package controllers.vrm_retention
 
-import play.api.mvc._
 import com.google.inject.Inject
 import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichCookies
 import mappings.vrm_retention.RelatedCacheKeys
-import play.api.Play.current
+import play.api.mvc._
 import utils.helpers.Config
+import CookieImplicits.RichSimpleResult
 
 final class EnterAddressManually @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 

@@ -82,9 +82,6 @@ GET         /vrm-retention/assets/*file                              controllers
 GET         /                                                        controllers.Application.index
 GET         /vrm-retention                                           controllers.Application.index
 GET         /vrm-retention/before-you-start                          @controllers.vrm_retention.BeforeYouStart.present
-#POST        /vrm-retention/before-you-start                       @controllers.vrm_retention.BeforeYouStart.submit
-#POST        /vrm-retention/before-you-start/cy                    @controllers.vrm_retention.BeforeYouStart.withLanguageCy
-#POST        /vrm-retention/before-you-start/en                    @controllers.vrm_retention.BeforeYouStart.withLanguageEn
 
 GET         /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.present
 POST        /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.submit

@@ -1,25 +1,24 @@
 package controllers.vrm_retention
 
+import com.google.inject.Inject
+import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
+import mappings.vrm_retention.VehicleLookup._
+import models.domain.common.VehicleDetailsModel
+import models.domain.vrm_retention._
 import play.api.mvc._
 import play.api.Logger
-import mappings.common.Postcode
-import models.domain.vrm_retention._
 import scala.concurrent.{ExecutionContext, Future}
-import ExecutionContext.Implicits.global
-import com.google.inject.Inject
-import models.domain.vrm_retention.{VehicleLookupFormModel, EligibilityModel}
-import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
+import scala.Some
+import services.vrm_retention_eligibility.VRMRetentionEligibilityService
+import utils.helpers.Config
 import CookieImplicits.RichSimpleResult
 import CookieImplicits.RichCookies
-import mappings.vrm_retention.VehicleLookup._
-import scala.Some
-import play.api.mvc.SimpleResult
-import services.vrm_retention_eligibility.VRMRetentionEligibilityService
-import models.domain.common.VehicleDetailsModel
-import utils.helpers.Config
+import ExecutionContext.Implicits.global
 
 final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetentionEligibilityService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+
+  private val KeeperConsent = "Keeper"
 
   def present = Action.async {
     implicit request =>
@@ -39,7 +38,7 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
 
-      if (vehicleLookupFormModel.keeperConsent == "Keeper") {
+      if (vehicleLookupFormModel.keeperConsent == KeeperConsent) {
         Redirect(routes.Confirm.present()).
           withCookie(EligibilityModel.fromResponse(replacementVRM))
       } else {

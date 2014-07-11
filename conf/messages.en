@@ -376,10 +376,10 @@ ms.vehiclesService.response.unableToProcessApplication = We are unable to proces
 ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
-micro_service_error.title=We are sorry
-micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
-micro_service_error.back.button=Try again
-micro_service_error.exit.button=Exit
+#micro_service_error.title=We are sorry
+#micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+#micro_service_error.back.button=Try again
+#micro_service_error.exit.button=Exit
 
 #duplicate-disposal error page
 duplicate_disposal_error.title=We are sorry
@@ -509,3 +509,8 @@ vrm_retention_businessChooseYourAddress.submitbutton = Next
 vrm_retention_businessChooseYourAddress.manualAddressEntry = My address is not in the list
 error.dropDownInvalid = Please select a value from the drop down list.
 vrm_retention_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually
+
+micro_service_error.title=We are sorry
+micro_service_error.text=The service is temporarily unavailable. Please try again later.
+micro_service_error.back.button=Try again
+micro_service_error.exit.button=Exit
