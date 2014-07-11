@@ -24,9 +24,15 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     )(SetupBusinessDetailsModel.apply)(SetupBusinessDetailsModel.unapply)
   )
 
-//  def present = Action { implicit request =>
-//    Ok(views.html.vrm_retention.setup_business_details(form.fill()))
-//  }
+  def present = Action {
+    implicit request =>
+      request.cookies.getModel[VehicleDetailsModel] match {
+        case Some(vehicleDetails) =>
+          val setupBusinessDetailsViewModel = createViewModel(vehicleDetails)
+          Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
+        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
+      }
+  }
 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
@@ -47,16 +53,6 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
       //validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
         validForm => Redirect(routes.MicroServiceError.present())
     )
-  }
-
-  def present = Action {
-    implicit request =>
-      request.cookies.getModel[VehicleDetailsModel] match {
-        case Some(vehicleDetails) =>
-          val setupBusinessDetailsViewModel = createViewModel(vehicleDetails)
-          Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
-        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
-      }
   }
 
   private def createViewModel(vehicleDetails: VehicleDetailsModel): SetupBusinessDetailsViewModel =
