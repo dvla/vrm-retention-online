@@ -73,15 +73,14 @@ GET         /with-language/:chosenLanguage                           controllers
 
 
 
-
-
-GET         /vrm-retention/assets/*file                              controllers.Assets.at(path="/public", file)
-
 ######################
 ## VRM RETENTION
 ######################
 
+GET         /vrm-retention/assets/*file                              controllers.Assets.at(path="/public", file)
+
 GET         /                                                        controllers.Application.index
+GET         /vrm-retention                                           controllers.Application.index
 GET         /vrm-retention/before-you-start                          @controllers.vrm_retention.BeforeYouStart.present
 #POST        /vrm-retention/before-you-start                       @controllers.vrm_retention.BeforeYouStart.submit
 #POST        /vrm-retention/before-you-start/cy                    @controllers.vrm_retention.BeforeYouStart.withLanguageCy
