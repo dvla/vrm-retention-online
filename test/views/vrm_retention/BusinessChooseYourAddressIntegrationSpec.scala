@@ -53,12 +53,14 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       SetupBusinessDetailsPage.happyPath()
       page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
     }
-/*
+
     "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
-      SetupTradeDetailsPage.happyPath()
+      go to BeforeYouStartPage
+      cacheSetup()
+      SetupBusinessDetailsPage.happyPath()
       page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
     }
-
+/*
     "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
 
