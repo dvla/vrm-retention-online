@@ -22,6 +22,7 @@ import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2
 import utils.helpers.Config
 import scala.concurrent.Future
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -228,12 +229,12 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
-/*
+
     "redirect to setupBusinessDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(setupBusinessDetailsPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
@@ -242,10 +243,10 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(TraderDetailsCacheKey)
+        cookies.map(_.name) should contain(EnterAddressManuallyCacheKey)
       }
     }
-
+/*
     "collapse error messages for buildingNameOrNumber" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
