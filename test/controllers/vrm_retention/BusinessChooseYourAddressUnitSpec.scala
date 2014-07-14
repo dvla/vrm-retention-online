@@ -80,24 +80,28 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
     }
-    /*
-      "return a bad request if not address selected" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest(traderUprn = "").
-          withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-        val result = businessChooseYourAddressWithUprnFound.submit(request)
-        whenReady(result) { r =>
-          r.header.status should equal(BAD_REQUEST)
-        }
-      }
 
-      "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest()
-        val result = businessChooseYourAddressWithUprnFound.submit(request)
-        whenReady(result) { r =>
-          r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
-        }
+    "return a bad request if not address selected" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(traderUprn = "").
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
+    }
 
+    "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
+      }
+    }
+/*
       "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
         val request = buildCorrectlyPopulatedRequest(traderUprn = "")
         val result = businessChooseYourAddressWithUprnFound.submit(request)
