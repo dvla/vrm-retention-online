@@ -29,7 +29,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       page.source.contains(progressStep(3)) should equal(true)
     }
-/*
+
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
       cacheSetup()
@@ -37,7 +37,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       page.source.contains(progressStep(3)) should equal(false)
     }
-
+/*
     "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
       go to BusinessChooseYourAddressPage
 
