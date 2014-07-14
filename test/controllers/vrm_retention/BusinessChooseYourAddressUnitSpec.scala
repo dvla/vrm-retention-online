@@ -1,13 +1,15 @@
 package controllers.vrm_retention
 
 import common.ClientSideSessionFactory
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import org.mockito.Mockito.when
-import pages.vrm_retention.{SetupBusinessDetailsPage, ConfirmPage, UprnNotFoundPage}
+import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
@@ -15,7 +17,6 @@ import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
 import utils.helpers.Config
-import controllers.disposal_of_vehicle.Common.PrototypeHtml
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -129,21 +130,22 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey)
+        cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey, EnterAddressManuallyCacheKey)
       }
     }
-/*
-      "does not write cookie when uprn not found" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest().
-          withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-        val result = businessChooseYourAddressWithUprnNotFound.submit(request)
-        whenReady(result) { r =>
-          val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
-          cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
-        }
+
+    "does not write cookie when uprn not found" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = businessChooseYourAddressWithUprnNotFound.submit(request)
+      whenReady(result) { r =>
+        val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+        cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey)
       }
-      */
     }
+  }
 
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true,
                                                           isPrototypeBannerVisible: Boolean = true) = {
