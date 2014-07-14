@@ -147,7 +147,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
     }
-/*
+
     "submit removes commas and full stops from the end of each address line" in new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "my house,",
@@ -179,7 +179,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         postTown = "MY TOWN"
       )
     }
-
+/*
     "submit does not remove multiple commas and full stops from the middle of address lines" in new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "my house 1.1,",
@@ -283,13 +283,13 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       cookies.find(_.name == traderDetailsCookieName) match {
         case Some(cookie) =>
           val json = cookie.value
-          val model = deserializeJsonToModel[TraderDetailsModel](json)
+          val model = deserializeJsonToModel[BusinessDetailsModel](json)
           val expectedData = Seq(buildingName,
             line2,
             line3,
             postTown,
             postCode)
-          expectedData should equal(model.traderAddress.address)
+          expectedData should equal(model.businessAddress.address)
         case None => fail(s"$traderDetailsCookieName cookie not found")
       }
     }
