@@ -54,6 +54,11 @@ GET         /vrm-retention/healthcheck                               @controller
 GET         /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.present
 POST        /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.submit
 
+GET         /vrm-retention/help                                      @controllers.common.Help.present
+POST        /vrm-retention/help                                      @controllers.common.Help.back
+
+GET         /with-language/:chosenLanguage                           controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
+
 ############ Demo screens
 
 GET         /vrm-retention/user-details                              @controllers.vrm_retention.UserDetails.present

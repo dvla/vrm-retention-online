@@ -2,27 +2,24 @@ package views.vrm_retention
 
 import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import org.openqa.selenium.{By, WebDriver, WebElement}
-import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
 import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
-//  "go to page" should {
-//    "display the page" taggedAs UiTag in new WebBrowser {
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to BusinessChooseYourAddressPage
-//      page.title should equal(BusinessChooseYourAddressPage.title)
-//    }
-//
-//    "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
+  "go to page" should {
+    "display the page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+      page.title should equal(BusinessChooseYourAddressPage.title)
+    }
+
+//    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
 //      go to BusinessChooseYourAddressPage
 //
 //      page.title should equal(SetupBusinessDetailsPage.title)
@@ -66,7 +63,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 //      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
 //      csrf.getAttribute("value").size > 0 should equal(true)
 //    }
-//  }
+  }
 /*
   "manualAddress button" should {
     "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
@@ -123,5 +120,5 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 */
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupBusinessDetails()
+    CookieFactoryForUISpecs.vehicleDetailsModel().setupBusinessDetails()
 }

@@ -1,7 +1,7 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.SetupTradeDetails.{SubmitId, TraderNameId, TraderPostcodeId}
+import mappings.vrm_retention.SetupBusinessDetails.{SubmitId, BusinessNameId, BusinessPostcodeId}
 import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupService.{PostcodeInvalid, PostcodeValid, TraderBusinessNameValid}
 
@@ -10,9 +10,9 @@ object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your business details"
 
-  def traderName(implicit driver: WebDriver): TextField = textField(id(TraderNameId))
+  def traderName(implicit driver: WebDriver): TextField = textField(id(BusinessNameId))
 
-  def traderPostcode(implicit driver: WebDriver): TextField = textField(id(TraderPostcodeId))
+  def traderPostcode(implicit driver: WebDriver): TextField = textField(id(BusinessPostcodeId))
 
   def lookup(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 

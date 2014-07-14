@@ -112,7 +112,7 @@ object CookieFactoryForUISpecs {
                              postcode: String = PostcodeValid,
                              keeperConsent: String = KeeperConsentValid)
                             (implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
+    val key = mappings.vrm_retention.VehicleLookup.VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber, postcode = postcode, keeperConsent = keeperConsent)
     addCookie(key, value)
@@ -124,7 +124,7 @@ object CookieFactoryForUISpecs {
                           vehicleModel: String = VehicleModelValid,
                           keeperName: String = KeeperNameValid)
                          (implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
+    val key = mappings.vrm_retention.VehicleLookup.VehicleLookupDetailsCacheKey
     val value = VehicleDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
@@ -134,7 +134,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure")
                                (implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupResponseCodeCacheKey
+    val key = mappings.vrm_retention.VehicleLookup.VehicleLookupResponseCodeCacheKey
     val value = responseCode
     addCookie(key, value)
     this
@@ -172,12 +172,12 @@ object CookieFactoryForUISpecs {
 //    this
 //  }
 
-  def vehicleRegistrationNumber()(implicit webDriver: WebDriver) = {
-    val key = mappings.disposal_of_vehicle.Dispose.DisposeFormRegistrationNumberCacheKey
-    val value = RegistrationNumberValid
-    addCookie(key, value)
-    this
-  }
+//  def vehicleRegistrationNumber()(implicit webDriver: WebDriver) = {
+//    val key = mappings.vrm_retention.Dispose.DisposeFormRegistrationNumberCacheKey
+//    val value = RegistrationNumberValid
+//    addCookie(key, value)
+//    this
+//  }
 
 //  def preventGoingToDisposePage(url: String)(implicit webDriver: WebDriver) = {
 //    val key = mappings.common.PreventGoingToDisposePage.PreventGoingToDisposePageCacheKey
