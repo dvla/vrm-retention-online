@@ -60,9 +60,11 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       SetupBusinessDetailsPage.happyPath()
       page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
     }
-/*
+
     "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
-      SetupTradeDetailsPage.happyPath()
+      go to BeforeYouStartPage
+      cacheSetup()
+      SetupBusinessDetailsPage.happyPath()
 
       BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
       page.source should include(
@@ -75,7 +77,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
         s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
     }
-
+/*
     "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.submitInvalidPostcode
 
