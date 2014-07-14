@@ -9,6 +9,7 @@
 @import views.html.helper.{addressAndPostcode, form}
 
 @main(
+    progress = Some(Messages("vrm_retention_progress_3")),
     title = Messages("vrm_retention_enteraddressmanually.title"),
     currentForm = Some(enterAddressManuallyForm)
 ) {

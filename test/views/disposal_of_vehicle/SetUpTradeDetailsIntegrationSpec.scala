@@ -1,7 +1,8 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
+import helpers.common.ProgressBar
+import ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.SetupTradeDetails

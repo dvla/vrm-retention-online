@@ -1,13 +1,13 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.common.HelpPanel.help
 import pages.disposal_of_vehicle.HelpPage.{back, exit}
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import pages.disposal_of_vehicle.{BeforeYouStartPage, HelpPage, VehicleLookupPage}
 
 final class HelpIntegrationSpec extends UiSpec with TestHarness {
@@ -21,7 +21,7 @@ final class HelpIntegrationSpec extends UiSpec with TestHarness {
     "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to HelpPage
 
-      page.title should not contain progressStep
+      page.source should not contain ProgressBar.div
     }
   }
 

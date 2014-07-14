@@ -1,11 +1,11 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import pages.disposal_of_vehicle.DisposeFailurePage.{setuptradedetails, vehiclelookup}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, DisposeFailurePage, SetupTradeDetailsPage, VehicleLookupPage}
 
@@ -28,7 +28,7 @@ final class DisposeFailureIntegrationSpec extends UiSpec with TestHarness {
     "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to DisposeFailurePage
 
-      page.title should not contain progressStep
+      page.source should not contain ProgressBar.div
     }
   }
 

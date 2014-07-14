@@ -1,4 +1,4 @@
-package helpers.disposal_of_vehicle
+package helpers.common
 
 import helpers.webbrowser.TestGlobal
 import play.api.test.FakeApplication
@@ -12,13 +12,10 @@ object ProgressBar {
     withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("progressBar.enabled" -> "true"))
 
-  val progressStep =
-    List("EmptyStep",
-      "Step 1 of 6",
-      "Step 2 of 6",
-      "Step 3 of 6",
-      "Step 4 of 6",
-      "Step 5 of 6",
-      "Step 6 of 6"
-    )
+  def progressStep(currentStep: Int): String = {
+    val end = 6
+    s"Step $currentStep of $end"
+  }
+
+  final val div: String = """<div class="progress-indicator">"""
 }
