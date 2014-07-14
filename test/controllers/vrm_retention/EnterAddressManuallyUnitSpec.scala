@@ -73,22 +73,23 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       contentAsString(result) should not include PrototypeHtml
     }
   }
-/*
+
   "submit" should {
     "return bad request when no data is entered" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
 
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
       }
     }
-
+/*
     "return bad request a valid postcode is entered without an address" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
@@ -136,7 +137,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -220,15 +221,15 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid)
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(setupBusinessDetailsPage.address))
       }
     }
 
-    "redirect to SetupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
+    "redirect to setupBusinessDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(setupBusinessDetailsPage.address))
       }
     }
 
@@ -246,7 +247,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Building name or number - Must contain a minimum of four characters")
@@ -257,13 +258,13 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> "",
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Post town - Requires a minimum length of three characters")
-    }
+    }*/
   }
-*/
+
   private val enterAddressManually = {
     injector.getInstance(classOf[EnterAddressManually])
   }
