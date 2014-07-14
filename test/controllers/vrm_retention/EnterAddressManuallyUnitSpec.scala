@@ -61,7 +61,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
-/*
+
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -71,7 +71,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
       val result = enterAddressManuallyPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
-    }*/
+    }
   }
 /*
   "submit" should {
