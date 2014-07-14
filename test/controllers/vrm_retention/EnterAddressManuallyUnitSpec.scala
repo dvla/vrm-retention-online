@@ -22,9 +22,12 @@ import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2
 import utils.helpers.Config
 import scala.concurrent.Future
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
+
   "present" should {
+
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -147,7 +150,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
     }
-/*
+
     "submit removes commas and full stops from the end of each address line" in new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "my house,",
@@ -225,7 +228,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid)
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(setupBusinessDetailsPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
@@ -233,7 +236,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(setupBusinessDetailsPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
@@ -242,7 +245,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(TraderDetailsCacheKey)
+        cookies.map(_.name) should contain(EnterAddressManuallyCacheKey)
       }
     }
 
@@ -251,7 +254,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Building name or number - Must contain a minimum of four characters")
@@ -262,11 +267,13 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> "",
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Post town - Requires a minimum length of three characters")
-    }*/
+    }
   }
 
   private val enterAddressManually = {
@@ -283,13 +290,13 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       cookies.find(_.name == traderDetailsCookieName) match {
         case Some(cookie) =>
           val json = cookie.value
-          val model = deserializeJsonToModel[TraderDetailsModel](json)
+          val model = deserializeJsonToModel[BusinessDetailsModel](json)
           val expectedData = Seq(buildingName,
             line2,
             line3,
             postTown,
             postCode)
-          expectedData should equal(model.traderAddress.address)
+          expectedData should equal(model.businessAddress.address)
         case None => fail(s"$traderDetailsCookieName cookie not found")
       }
     }

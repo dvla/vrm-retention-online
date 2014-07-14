@@ -1,4 +1,4 @@
-package helpers.disposal_of_vehicle
+package helpers.common
 
 import helpers.webbrowser.TestGlobal
 import play.api.test.FakeApplication

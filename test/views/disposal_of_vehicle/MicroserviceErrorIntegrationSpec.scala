@@ -1,11 +1,12 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
+import ProgressBar.progressStep
 import pages.disposal_of_vehicle.MicroServiceErrorPage.{exit, tryAgain}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, MicroServiceErrorPage, SetupTradeDetailsPage, VehicleLookupPage}
 

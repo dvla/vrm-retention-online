@@ -1,15 +1,14 @@
-package views.disposal_of_vehicle
+package views.vrm_retention
 
 import helpers.UiSpec
-import helpers.common.ProgressBar
-import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
-import ProgressBar.progressStep
+import helpers.common.ProgressBar.progressStep
 import helpers.tags.UiTag
+import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
-import pages.disposal_of_vehicle.EnterAddressManuallyPage.{happyPath, happyPathMandatoryFieldsOnly, sadPath}
-import pages.disposal_of_vehicle.{BeforeYouStartPage, EnterAddressManuallyPage, VehicleLookupPage}
+import pages.vrm_retention.EnterAddressManuallyPage.{happyPath, happyPathMandatoryFieldsOnly, sadPath}
+import pages.vrm_retention.{BeforeYouStartPage, EnterAddressManuallyPage, VehicleLookupPage}
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -91,5 +90,8 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupTradeDetails()
+    CookieFactoryForUISpecs.
+      setupBusinessDetails().
+      businessChooseYourAddress().
+      vehicleDetailsModel()
 }

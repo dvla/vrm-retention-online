@@ -1,6 +1,7 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage.{beforeYouStart, vehicleLookup}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage, VehicleLookupFailurePage}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
+import ProgressBar.progressStep
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 

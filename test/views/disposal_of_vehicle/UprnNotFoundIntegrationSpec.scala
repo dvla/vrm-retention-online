@@ -1,10 +1,11 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
+import ProgressBar.progressStep
 import pages.disposal_of_vehicle.UprnNotFoundPage.{manualAddress, setupTradeDetails}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, EnterAddressManuallyPage, SetupTradeDetailsPage, UprnNotFoundPage}
 

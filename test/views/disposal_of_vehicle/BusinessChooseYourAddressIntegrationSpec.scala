@@ -1,11 +1,12 @@
 package views.disposal_of_vehicle
 
+import helpers.common.ProgressBar
 import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.UiSpec
 import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import helpers.webbrowser.TestHarness
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
+import ProgressBar.progressStep
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.common.ErrorPanel
 import pages.disposal_of_vehicle.BeforeYouStartPage
