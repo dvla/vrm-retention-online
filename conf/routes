@@ -51,11 +51,12 @@ GET         /vrm-retention/confirm                                   @controller
 
 GET         /vrm-retention/healthcheck                               @controllers.common.HealthCheck.respond
 
+GET         /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.present
+POST        /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.submit
+
 ############ Demo screens
 
 GET         /vrm-retention/user-details                              @controllers.vrm_retention.UserDetails.present
-
-GET         /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.present
 
 GET         /vrm-retention/retain                                    @controllers.vrm_retention.Retain.present
 
