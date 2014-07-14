@@ -510,6 +510,7 @@ vrm_retention_businessChooseYourAddress.manualAddressEntry = My address is not i
 error.dropDownInvalid = Please select a value from the drop down list.
 vrm_retention_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually
 
+
 # enter address manually
 vrm_retention_enteraddressmanually.title = Enter address
 vrm_retention_enteraddressmanually.submitbutton = Next
@@ -519,3 +520,11 @@ micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later.
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
+
+# progress messages
+vrm_retention_progress_1 = Step 1 of 6
+vrm_retention_progress_2 = Step 2 of 6
+vrm_retention_progress_3 = Step 3 of 6
+vrm_retention_progress_4 = Step 4 of 6
+vrm_retention_progress_5 = Step 5 of 6
+vrm_retention_progress_6 = Step 6 of 6

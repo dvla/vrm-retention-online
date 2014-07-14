@@ -21,7 +21,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BusinessChooseYourAddressPage
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
-/*
+
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
       cacheSetup()
@@ -29,7 +29,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       page.source.contains(progressStep(3)) should equal(true)
     }
-
+/*
     "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
       go to BeforeYouStartPage
       cacheSetup()
