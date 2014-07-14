@@ -195,7 +195,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         postTown = "MY T.OWN"
       )
     }
-/*
+
     "submit removes commas, but still applies the min length rule" in new WithApplication {
       utils.helpers.FormExtensions.trimNonWhiteListedChars("""[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
       val result = enterAddressManually.submit(requestWithValidDefaults(
@@ -205,7 +205,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r.header.status should equal(BAD_REQUEST)
       }
     }
-
+/*
     "submit does not accept an address containing only full stops" in new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "...")
