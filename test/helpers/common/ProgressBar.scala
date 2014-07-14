@@ -12,13 +12,9 @@ object ProgressBar {
     withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("progressBar.enabled" -> "true"))
 
-  val progressStep =
-    List("EmptyStep",
-      "Step 1 of 6",
-      "Step 2 of 6",
-      "Step 3 of 6",
-      "Step 4 of 6",
-      "Step 5 of 6",
-      "Step 6 of 6"
-    )
+  val progressStep: List[String] = {
+    val start = 1
+    val end = 6
+    List.range(start, end).map(n => s"Step $n of $end")
+  }
 }
