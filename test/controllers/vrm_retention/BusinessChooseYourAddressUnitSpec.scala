@@ -5,7 +5,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
-import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
+import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import org.mockito.Mockito.when
 import pages.vrm_retention.{SetupBusinessDetailsPage, ConfirmPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
@@ -120,17 +120,19 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
       }
     }
-/*
-      "write cookie when uprn found" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest().
-          withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-        val result = businessChooseYourAddressWithUprnFound.submit(request)
-        whenReady(result) { r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, TraderDetailsCacheKey)
-        }
-      }
 
+    "write cookie when uprn found" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey)
+      }
+    }
+/*
       "does not write cookie when uprn not found" in new WithApplication {
         val request = buildCorrectlyPopulatedRequest().
           withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
