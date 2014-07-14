@@ -15,6 +15,7 @@ import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
 import utils.helpers.Config
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "present" should {
@@ -50,11 +51,11 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
-    /*
-                "display prototype message when config set to true" in new WithApplication {
-                  contentAsString(present) should include(PrototypeHtml)
-                }
 
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present) should include(PrototypeHtml)
+    }
+/*
                 "not display prototype message when config set to false" in new WithApplication {
                   val request = FakeRequest().
                     withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
