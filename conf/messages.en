@@ -29,9 +29,9 @@ footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
-prototype.banner = This is service under development - 
+prototype.banner = This service is under development - 
 prototype.link =  find out more
-prototype.link.source = https://www.gov.uk/help/beta
+prototype.link.source = https://www.gov.uk/help/alpha
 
 #page 2
 keeperstatus.title = Change of keeper address2
@@ -494,3 +494,33 @@ vrm_retention_eligibility_direct_to_paper.p3 =
 vrm_retention_eligibility_failure.p1 = Not Eligible to Transact Error Message
 vrm_retention_eligibility_failure.p2 =
 vrm_retention_eligibility_failure.p3 =
+
+# Vehicle details partial view
+vrm_retention_vehicle_callback.title = Vehicle Details
+vrm_retention_vehicle_callback.regNumLabel = Registration number
+vrm_retention_vehicle_callback.makeLabel = Make
+vrm_retention_vehicle_callback.modelLabel = Model
+
+# Payment page 
+vrm_retention_payment.title = Please enter your card details
+
+#Confirm page
+vrm_retention_confirm.title = Confirm details
+vrm_retention_confirm.intro = Please check the following details and check they are correct
+vrm_retention_confirm.warn = If any of these details are incorrect, please 'Exit' the service and update the details before returning to retain a Registration Number
+vrm_retention_confirm.keeperTitle = Keeper details
+vrm_retention_confirm.keeperLabel = Keeper
+vrm_retention_confirm.keeperAddressLabel = Label
+vrm_retention_confirm.keeperPostcodeLabel = Postcode
+vrm_retention_confirm.isBusiness = The following business is acting on behalf of the keeper and with their consent
+vrm_retention_confirm.businessDetailsTitle = Business Details
+vrm_retention_confirm.businessNameLabel = Business Name
+vrm_retention_confirm.businessAddressLabel = Business Address
+vrm_retention_confirm.businessPostcodeLabel = Postcode
+vrm_retention_confirm.positiveAction = Confirm
+vrm_retention_confirm.back = Back
+vrm_retention_confirm.exit = Exit
+
+
+
+

@@ -19,7 +19,8 @@
     @form(action = SetUpBusinessDetails.submit) {
         @CsrfHelper.hiddenFormField
 
-        <div class="uppercase-input">
+        <div class="uppercase-input two-col">
+        	<div class="first-col">
 	        @valtechInputText(businessLookupForm(BusinessNameId), args =
 	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
 	                    '_showConstraints -> false,
@@ -30,9 +31,21 @@
 	                    '_showConstraints -> false,
 	                    'maxLength -> Postcode.MaxLength))
 
-	        <div class="form-steps">
-	            <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
-	        </div>
+	        	<div class="form-steps">
+	            	<button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
+	        	</div>
+	    	</div>
+	        <div id="vehicle-details" class="second-col trader-details">
+            	<h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+	            <dl class="summary-detail-list">
+	                <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+	                <dd class="regNum">@viewModel.registrationNumber</dd>
+	                <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+	                <dd>@viewModel.vehicleMake</dd>
+	                <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+	                <dd>@viewModel.vehicleModel</dd>
+	            </dl>
+        	</div>
       	</div>
     }
 }

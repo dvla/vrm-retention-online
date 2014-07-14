@@ -19,12 +19,14 @@
 .vehicle-lookup {
     .first-col .form-steps {
         margin-top:0;
-
-        .button-secondary {
-          color:$black-2; //failsafe for ie6
+    }
+    //hide exit button in IE6/IE7 (double form posts do not work)
+    .exit-button {
+        .ie6 &,
+        .ie7 & {
+            display:none;
         }
     }
-
     .trader-details {
         .summary-detail-list {
             margin-bottom:38px;
@@ -54,10 +56,25 @@
     }
 }
 
+// Retention online  vehicle details
+ul.radio {
+    margin-left: 0;
+    padding: 0;
+    input, label {
+        display:inline;
+    }
+}
 
-//disposal success
-.disposal-sucesss {
-  .ie8 & .button-new-disposal {
-    min-width:180px;
-  }
+dd.regNum {
+    display: inline-block;
+    text-align: center;
+    line-height: 1.25;
+    padding-right: 0.25em;
+    padding-left: 0.25em;
+    background-color: #ffd307;
+    border: 1px solid #999;
+    padding: 0.2em 0.5em 0.1em 0.5em;
+    font-weight: 700;
+    font-size: 120%;
+    border-radius: 5px;
 }

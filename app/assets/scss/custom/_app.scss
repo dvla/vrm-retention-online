@@ -109,6 +109,19 @@
             @media screen and (max-width: $device-small) {
                 clear:both;
             }
+            &.regNum {
+                display: inline-block;
+                text-align: center;
+                line-height: 1.25;
+                padding-right: 0.25em;
+                padding-left: 0.25em;
+                background-color: #ffd307;
+                border: 1px solid #999;
+                padding: 0.2em 0.5em 0.1em 0.5em;
+                font-weight: 700;
+                font-size: 120%;
+                border-radius: 5px;
+            }
         }
 
         .ie6 & {

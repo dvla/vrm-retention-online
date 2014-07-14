@@ -1,5 +1,4 @@
-@(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel)(implicit  lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
-config: utils.helpers.Config)
+@(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,config: utils.helpers.Config)
 
 @import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}
 @import mappings.vrm_retention.BeforeYouStart._
@@ -7,10 +6,45 @@ config: utils.helpers.Config)
 @import views.html.vrm_retention.main
 
 @main(
-    title = Messages("vrm_retention_beforeyoustart.title")
+    title = Messages("vrm_retention_confirm.title")
 ) {
 
-	Confirm page placeholder.
+	@Messages("vrm_retention_confirm.intro")
+	<div class="alert-warning">
+        <p>@Messages("vrm_retention_confirm.warn")</p>
+    </div>
+    <div class="two-col">
+        <div class="first-col">
+        	<h3>@Messages("vrm_retention_confirm.keeperTitle")</h3>
+        	<dl class="summary-detail-list first-line">
+        		<dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
+        		<dd>TEST</dd>
+        		<dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
+        		<dd>TEST</dd>
+        		<dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
+        		<dd>TEST</dd>
+        	</dl>
+        </div>
+        <div class="second-col">
+        	.
+        </div>
+    </div>
+    <p>@Messages("vrm_retention_confirm.isBusiness")</p>
+    <div class="two-col">
+        <div class="first-col">
+        	<h3>@Messages("vrm_retention_confirm.businessDetailsTitle")</h3>
+        	<dl class="summary-detail-list first-line">
+        		<dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
+        		<dd>TEST</dd>
+        		<dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
+        		<dd>TEST</dd>
+        		<dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
+        		<dd>TEST</dd>
+        	</dl>
+        </div>
+        <div class="second-col">
+        </div>
+    </div>
     <!--<div class="form-steps">
         <a class="button" id="@NextId" href="success">Next</a>
     </div>-->
