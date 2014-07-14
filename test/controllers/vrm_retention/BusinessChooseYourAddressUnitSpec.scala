@@ -55,14 +55,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
-/*
-                "not display prototype message when config set to false" in new WithApplication {
-                  val request = FakeRequest().
-                    withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-                  val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
-                  contentAsString(result) should not include PrototypeHtml
-                }
-                */
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
+      contentAsString(result) should not include PrototypeHtml
+    }
   }
 /*
   "submit" should {
