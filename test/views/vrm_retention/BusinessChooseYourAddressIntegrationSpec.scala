@@ -8,7 +8,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, EnterAddressManuallyPage}
+import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, EnterAddressManuallyPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
@@ -119,7 +119,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.title should equal(SetupBusinessDetailsPage.title)
     }
   }
-/*
+
   "select button" should {
     "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
@@ -136,7 +136,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       ErrorPanel.numberOfErrors should equal(1)
     }
-
+/*
     "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
       def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupTradeDetails().enterAddressManually()
@@ -147,9 +147,9 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       // Verify the cookies identified by the full set of cache keys have been removed
       webDriver.manage().getCookieNamed(EnterAddressManuallyCacheKey) should equal(null)
-    }
+    }*/
   }
-*/
+
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       setupBusinessDetails().

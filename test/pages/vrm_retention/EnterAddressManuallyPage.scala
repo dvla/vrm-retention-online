@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
-  final val address = "/sell-to-the-trade/enter-address-manually"
+  final val address = "/vrm-retention/enter-address-manually"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Enter address"
 
