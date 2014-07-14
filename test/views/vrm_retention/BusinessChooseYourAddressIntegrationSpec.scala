@@ -9,7 +9,7 @@ import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCac
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
-import pages.disposal_of_vehicle.{BeforeYouStartPage, BusinessChooseYourAddressPage, EnterAddressManuallyPage, SetupTradeDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
@@ -21,7 +21,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BusinessChooseYourAddressPage
       page.title should equal(BusinessChooseYourAddressPage.title)
     }
-
+/*
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
       go to BeforeYouStartPage
       cacheSetup()
@@ -81,7 +81,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
-    }
+    }*/
   }
 /*
   "manualAddress button" should {
@@ -139,5 +139,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 */
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupTradeDetails()
+    CookieFactoryForUISpecs.
+      setupBusinessDetails().
+      vehicleDetailsModel()
 }

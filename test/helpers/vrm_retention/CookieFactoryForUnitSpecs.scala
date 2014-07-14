@@ -10,7 +10,7 @@ import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import services.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
-import models.domain.vrm_retention.SetupBusinessDetailsFormModel
+import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, SetupBusinessDetailsFormModel}
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVehicleLookupWebService.{VehicleModelValid, RegistrationNumberValid, VehicleMakeValid}
 
@@ -50,7 +50,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
 
   def businessChooseYourAddress(): Cookie = {
     val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressModel(uprnSelected = traderUprnValid.toString)
+    val value = BusinessChooseYourAddressFormModel(uprnSelected = traderUprnValid.toString)
     createCookie(key, value)
   }
 }
