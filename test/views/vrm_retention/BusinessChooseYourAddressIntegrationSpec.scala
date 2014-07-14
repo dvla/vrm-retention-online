@@ -77,20 +77,24 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
         s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
     }
-/*
+
     "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
-      SetupTradeDetailsPage.submitInvalidPostcode
+      go to BeforeYouStartPage
+      cacheSetup()
+      SetupBusinessDetailsPage.submitInvalidPostcode
 
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
-      SetupTradeDetailsPage.happyPath()
+      go to BeforeYouStartPage
+      cacheSetup()
+      SetupBusinessDetailsPage.happyPath()
       val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
-    }*/
+    }
   }
 /*
   "manualAddress button" should {
