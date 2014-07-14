@@ -48,7 +48,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should include(Line3Valid)
       content should include(PostTownValid)
     }
-/*
+
     "display empty fields when cookie does not exist" in new WithApplication {
       val content = contentAsString(present)
       content should not include BuildingNameOrNumberValid
@@ -56,7 +56,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should not include Line3Valid
       content should not include PostTownValid
     }
-
+/*
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
