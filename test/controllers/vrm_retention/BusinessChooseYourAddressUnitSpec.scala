@@ -18,7 +18,7 @@ import utils.helpers.Config
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
-/*
+
   "present" should {
 
     "display the page if dealer details cached" in new WithApplication {
@@ -67,7 +67,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       contentAsString(result) should not include PrototypeHtml
     }
   }
-*/
+
   "submit" should {
 
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
