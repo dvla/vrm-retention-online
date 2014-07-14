@@ -17,7 +17,7 @@
         <div class="step">
             @form(action = controllers.vrm_retention.routes.VrmLocked.exit()) {
             @CsrfHelper.hiddenFormField
-                <button id="@ExitDisposalId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
+                <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
             }
         </div>
     </div>
