@@ -9,7 +9,7 @@ import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCac
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage}
+import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
@@ -37,13 +37,16 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       page.source.contains(progressStep(3)) should equal(false)
     }
-/*
+
     "redirect when no traderBusinessName is cached" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.
+        vehicleDetailsModel()
       go to BusinessChooseYourAddressPage
 
-      page.title should equal(SetupTradeDetailsPage.title)
+      page.title should equal(SetupBusinessDetailsPage.title)
     }
-
+/*
     "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
       SetupTradeDetailsPage.happyPath()
       page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
