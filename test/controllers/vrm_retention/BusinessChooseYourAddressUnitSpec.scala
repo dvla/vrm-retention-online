@@ -23,42 +23,43 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         r.header.status should equal(OK)
       }
     }
-/*
+
     "display selected field when cookie exists" in new WithApplication {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
       content should include(TraderBusinessNameValid)
       content should include( s"""<option value="$traderUprnValid" selected>""")
     }
+    /*
+        "display unselected field when cookie does not exist" in new WithApplication {
+          val content = contentAsString(present)
+          content should include(TraderBusinessNameValid)
+          content should not include "selected"
+        }
 
-    "display unselected field when cookie does not exist" in new WithApplication {
-      val content = contentAsString(present)
-      content should include(TraderBusinessNameValid)
-      content should not include "selected"
-    }
+        "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
+          val request = buildCorrectlyPopulatedRequest()
+          val result = businessChooseYourAddressWithUprnFound.present(request)
+          whenReady(result) { r =>
+            r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
+          }
+        }
 
-    "redirect to setupTradeDetails page when present with no dealer name cached" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-      val result = businessChooseYourAddressWithUprnFound.present(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(SetupTradeDetailsPage.address))
-      }
-    }
+        "display prototype message when config set to true" in new WithApplication {
+          contentAsString(present) should include(PrototypeHtml)
+        }
 
-    "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include(PrototypeHtml)
-    }
-
-    "not display prototype message when config set to false" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-      val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
-      contentAsString(result) should not include PrototypeHtml
-    }
-    */
+        "not display prototype message when config set to false" in new WithApplication {
+          val request = FakeRequest().
+            withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
+          val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
+          contentAsString(result) should not include PrototypeHtml
+        }
+        */
   }
 /*
   "submit" should {
