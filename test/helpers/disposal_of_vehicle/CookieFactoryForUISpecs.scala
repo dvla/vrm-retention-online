@@ -6,9 +6,7 @@ import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCac
 import mappings.disposal_of_vehicle.SetupTradeDetails.SetupTradeDetailsCacheKey
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.DayMonthYear
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel}
-import models.domain.disposal_of_vehicle.AddressViewModel
-import models.domain.common.BruteForcePreventionViewModel
+import models.domain.common._
 import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import models.domain.disposal_of_vehicle.BusinessChooseYourAddressModel
 import models.domain.disposal_of_vehicle.DisposeFormModel
@@ -16,7 +14,6 @@ import models.domain.disposal_of_vehicle.DisposeModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
-import models.domain.common.VehicleDetailsModel
 import models.domain.disposal_of_vehicle.VehicleLookupFormModel
 import org.openqa.selenium.{WebDriver, Cookie}
 import play.api.libs.json.{Writes, Json}
@@ -37,7 +34,7 @@ import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
 import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
 import services.fakes.{FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
-import models.domain.common.BruteForcePreventionViewModel
+import scala.Some
 
 object CookieFactoryForUISpecs {
   private def addCookie[A](key: String, value: A)(implicit tjs: Writes[A], webDriver: WebDriver): Unit = {

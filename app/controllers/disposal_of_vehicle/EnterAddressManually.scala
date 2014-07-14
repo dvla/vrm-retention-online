@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import mappings.common.AddressAndPostcode.{AddressAndPostcodeId, addressAndPostcode}
-import models.domain.disposal_of_vehicle.AddressViewModel
 import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.disposal_of_vehicle.SetupTradeDetailsModel
 import models.domain.disposal_of_vehicle.TraderDetailsModel
@@ -15,6 +14,7 @@ import play.api.mvc.{Action, Controller, Request}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.disposal_of_vehicle.enter_address_manually
+import models.domain.common.AddressViewModel
 
 final class EnterAddressManually @Inject()()
                                  (implicit clientSideSessionFactory: ClientSideSessionFactory,

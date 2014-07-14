@@ -1,6 +1,5 @@
 package services.fakes
 
-import models.domain.disposal_of_vehicle.AddressViewModel
 import models.domain.disposal_of_vehicle.PostcodeToAddressResponse
 import models.domain.disposal_of_vehicle.UprnAddressPair
 import models.domain.disposal_of_vehicle.UprnToAddressResponse
@@ -17,6 +16,7 @@ import services.address_lookup.gds.domain.Location
 import services.address_lookup.gds.domain.Presentation
 import services.fakes.FakeAddressLookupService.PostcodeInvalid
 import services.fakes.FakeAddressLookupService.PostcodeValid
+import models.domain.common.AddressViewModel
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {

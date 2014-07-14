@@ -18,15 +18,23 @@
         	<h3>@Messages("vrm_retention_confirm.keeperTitle")</h3>
         	<dl class="summary-detail-list first-line">
         		<dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
-        		<dd>TEST</dd>
+        		<dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
         		<dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
-        		<dd>TEST</dd>
+        		<dd>@confirmViewModel.keeperAddressLine1, @confirmViewModel.keeperAddressLine2, @confirmViewModel.keeperAddressLine3, @confirmViewModel.keeperAddressLine4, @confirmViewModel.keeperPostTown</dd>
         		<dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
-        		<dd>TEST</dd>
+        		<dd>@confirmViewModel.keeperPostCode</dd>
         	</dl>
         </div>
         <div class="second-col">
-        	.
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                <dl class="summary-detail-list">
+                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                    <dd class="regNum">@confirmViewModel.registrationNumber</dd>
+                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                    <dd>@confirmViewModel.vehicleMake</dd>
+                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                    <dd>@confirmViewModel.vehicleModel</dd>
+                </dl>
         </div>
     </div>
     <p>@Messages("vrm_retention_confirm.isBusiness")</p>
@@ -35,11 +43,11 @@
         	<h3>@Messages("vrm_retention_confirm.businessDetailsTitle")</h3>
         	<dl class="summary-detail-list first-line">
         		<dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
-        		<dd>TEST</dd>
+        		<dd>@confirmViewModel.businessName</dd>
         		<dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-        		<dd>TEST</dd>
+        		<dd>@confirmViewModel.businessAddressLine1, @confirmViewModel.businessAddressLine2, @confirmViewModel.businessAddressLine3, @confirmViewModel.businessPostTown</dd>
         		<dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-        		<dd>TEST</dd>
+        		<dd>@confirmViewModel.businessPostCode</dd>
         	</dl>
         </div>
         <div class="second-col">

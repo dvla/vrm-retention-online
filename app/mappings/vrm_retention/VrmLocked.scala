@@ -1,8 +1,8 @@
 package mappings.vrm_retention
 
 object VrmLocked {
-  final val NewDisposalId = "newDisposal"
-  final val ExitDisposalId = "exitDisposal"
-  final val NewDisposalAction = "newDisposal"
+  final val NewRetentionId = "newRetention"
+  final val ExitRetentionId = "exitRetention"
+  final val NewRetentionAction = "newRetention"
   final val ExitAction = "exit"
 }

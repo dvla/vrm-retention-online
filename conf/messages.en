@@ -207,7 +207,7 @@ disposal_businessChooseYourAddress_addressSelect_label = Choose your address
 disposal_businessChooseYourAddress.backbutton = Back
 disposal_businessChooseYourAddress.submitbutton = Next
 disposal_businessChooseYourAddress.manualAddressEntry = My address is not in the list
-error.dropDownInvalid = Please select a value from the drop down list.
+#error.dropDownInvalid = Please select a value from the drop down list.
 disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually
 
 #page 3 - manual address entry
@@ -376,10 +376,10 @@ ms.vehiclesService.response.unableToProcessApplication = We are unable to proces
 ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview Road, Morriston, Swansea, SA6 7JL
 
 #micro-service error page
-micro_service_error.title=We are sorry
-micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
-micro_service_error.back.button=Try again
-micro_service_error.exit.button=Exit
+#micro_service_error.title=We are sorry
+#micro_service_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
+#micro_service_error.back.button=Try again
+#micro_service_error.exit.button=Exit
 
 #duplicate-disposal error page
 duplicate_disposal_error.title=We are sorry
@@ -442,6 +442,7 @@ vrm_retention_setupbusinessdetails.businessnamelabel = Business name
 vrm_retention_setupbusinessdetails.businesspostcodelabel = Postcode
 vrm_retention_setupbusinessdetails.businesspostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 vrm_retention_setupbusinessdetails.button = Find address
+error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Find the Vehicle
@@ -524,3 +525,37 @@ vrm_retention_confirm.exit = Exit
 
 
 
+
+# choose business address
+vrm_retention_businessChooseYourAddress_title = Select your business address
+vrm_retention_businessChooseYourAddress_legend = Set up business details
+vrm_retention_businessChooseYourAddress_businessName_label = Business name
+vrm_retention_businessChooseYourAddress_businessName = {0}
+vrm_retention_businessChooseYourAddress_postcode_label = Postcode
+vrm_retention_businessChooseYourAddress_businessAddress_label = Business address
+vrm_retentionbusinessChooseYourAddress_addressSelect = Choose your address
+vrm_retention_businessChooseYourAddress_addressSelect_label = Choose your address
+vrm_retention_businessChooseYourAddress.backbutton = Back
+vrm_retention_businessChooseYourAddress.submitbutton = Next
+vrm_retention_businessChooseYourAddress.manualAddressEntry = My address is not in the list
+error.dropDownInvalid = Please select a value from the drop down list.
+vrm_retention_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually
+
+
+# enter address manually
+vrm_retention_enteraddressmanually.title = Enter address
+vrm_retention_enteraddressmanually.submitbutton = Next
+vrm_retention_enteraddressmanually.backbutton = Back
+
+micro_service_error.title=We are sorry
+micro_service_error.text=The service is temporarily unavailable. Please try again later.
+micro_service_error.back.button=Try again
+micro_service_error.exit.button=Exit
+
+# progress messages
+vrm_retention_progress_1 = Step 1 of 6
+vrm_retention_progress_2 = Step 2 of 6
+vrm_retention_progress_3 = Step 3 of 6
+vrm_retention_progress_4 = Step 4 of 6
+vrm_retention_progress_5 = Step 5 of 6
+vrm_retention_progress_6 = Step 6 of 6

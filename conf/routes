@@ -8,6 +8,70 @@
 # GlobalSettings.getControllerInstance method to resolve the actual controller instance. This method hooks into
 # Guice to provide the actual instance complete with its injected dependencies
 
+
+
+
+######################
+## VRM RETENTION
+######################
+
+GET         /vrm-retention/assets/*file                              controllers.Assets.at(path="/public", file)
+
+GET         /                                                        controllers.Application.index
+GET         /vrm-retention/before-you-start                          @controllers.vrm_retention.BeforeYouStart.present
+
+GET         /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.present
+POST        /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.submit
+GET         /vrm-retention/vehicle-lookup-back                       @controllers.vrm_retention.VehicleLookup.back
+
+GET         /vrm-retention/vehicle-lookup-failure                    @controllers.vrm_retention.VehicleLookupFailure.present
+POST        /vrm-retention/vehicle-lookup-failure                    @controllers.vrm_retention.VehicleLookupFailure.submit
+
+GET         /vrm-retention/micro-service-error                       @controllers.vrm_retention.MicroServiceError.present
+
+GET         /vrm-retention/soap-endpoint-error                       @controllers.vrm_retention.SoapEndpointError.present
+
+GET         /vrm-retention/vrm-locked                                @controllers.vrm_retention.VrmLocked.present
+POST        /vrm-retention/vrm-locked/exit                           @controllers.vrm_retention.VrmLocked.exit
+
+GET         /vrm-retention/error/:exceptionDigest                    @controllers.vrm_retention.Error.present(exceptionDigest)
+POST        /vrm-retention/error/:exceptionDigest                    @controllers.vrm_retention.Error.submit(exceptionDigest)
+
+GET         /vrm-retention/check-eligibility                         @controllers.vrm_retention.CheckEligibility.present
+
+GET         /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.present
+POST        /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.submit
+
+GET         /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.present
+POST        /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.submit
+
+GET         /vrm-retention/uprn-not-found                            @controllers.vrm_retention.UprnNotFound.present
+
+GET         /vrm-retention/confirm                                   @controllers.vrm_retention.Confirm.present
+
+GET         /vrm-retention/healthcheck                               @controllers.common.HealthCheck.respond
+
+GET         /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.present
+POST        /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.submit
+
+GET         /vrm-retention/help                                      @controllers.common.Help.present
+POST        /vrm-retention/help                                      @controllers.common.Help.back
+
+GET         /with-language/:chosenLanguage                           controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
+
+############ Demo screens
+
+GET         /vrm-retention/user-details                              @controllers.vrm_retention.UserDetails.present
+
+GET         /vrm-retention/retain                                    @controllers.vrm_retention.Retain.present
+
+GET         /vrm-retention/payment                                   @controllers.vrm_retention.Payment.present
+
+GET         /vrm-retention/success                                   @controllers.vrm_retention.Success.present
+
+
+
+
 # Map static resources from the /public folder to the /assets URL path
 #GET         /assets/*file                                            controllers.Assets.at(path="/public", file)
 
@@ -70,60 +134,3 @@ POST        /sell-to-the-trade/help                                   @controlle
 GET         /with-language/:chosenLanguage                           controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
 
 #GET         /healthcheck                                             @controllers.common.HealthCheck.respond
-
-
-
-
-
-GET         /vrm-retention/assets/*file                              controllers.Assets.at(path="/public", file)
-
-######################
-## VRM RETENTION
-######################
-
-GET         /                                                        controllers.Application.index
-GET         /vrm-retention/before-you-start                          @controllers.vrm_retention.BeforeYouStart.present
-#POST        /vrm-retention/before-you-start                       @controllers.vrm_retention.BeforeYouStart.submit
-#POST        /vrm-retention/before-you-start/cy                    @controllers.vrm_retention.BeforeYouStart.withLanguageCy
-#POST        /vrm-retention/before-you-start/en                    @controllers.vrm_retention.BeforeYouStart.withLanguageEn
-
-GET         /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.present
-POST        /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.submit
-GET         /vrm-retention/vehicle-lookup-back                       @controllers.vrm_retention.VehicleLookup.back
-
-GET         /vrm-retention/vehicle-lookup-failure              @controllers.vrm_retention.VehicleLookupFailure.present
-POST        /vrm-retention/vehicle-lookup-failure              @controllers.vrm_retention.VehicleLookupFailure.submit
-
-GET         /vrm-retention/micro-service-error                       @controllers.vrm_retention.MicroServiceError.present
-
-GET         /vrm-retention/soap-endpoint-error                       @controllers.vrm_retention.SoapEndpointError.present
-
-GET         /vrm-retention/vrm-locked                                @controllers.vrm_retention.VrmLocked.present
-POST        /vrm-retention/vrm-locked/exit                           @controllers.vrm_retention.VrmLocked.exit
-
-GET         /vrm-retention/error/:exceptionDigest                    @controllers.vrm_retention.Error.present(exceptionDigest)
-POST        /vrm-retention/error/:exceptionDigest                    @controllers.vrm_retention.Error.submit(exceptionDigest)
-
-GET         /vrm-retention/check-eligibility                         @controllers.vrm_retention.CheckEligibility.present
-
-GET         /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.present
-POST        /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.submit
-
-
-GET         /vrm-retention/confirm                                   @controllers.vrm_retention.Confirm.present
-
-GET         /vrm-retention/healthcheck                               @controllers.common.HealthCheck.respond
-
-############ Demo screens
-
-GET         /vrm-retention/user-details                              @controllers.vrm_retention.UserDetails.present
-
-GET         /vrm-retention/select-address                            @controllers.vrm_retention.SelectAddress.present
-
-GET         /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.present
-
-GET         /vrm-retention/retain                                    @controllers.vrm_retention.Retain.present
-
-GET         /vrm-retention/payment                                   @controllers.vrm_retention.Payment.present
-
-GET         /vrm-retention/success                                   @controllers.vrm_retention.Success.present

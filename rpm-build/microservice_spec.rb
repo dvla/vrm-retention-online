@@ -24,7 +24,7 @@ sysV_services.each do |item|
 end
 
 
-ports = [ 9000 ]
+ports = [ 9004 ]
 
 ports.each do |item|
   describe command('netstat -anl | grep LISTEN | grep -v ING') do

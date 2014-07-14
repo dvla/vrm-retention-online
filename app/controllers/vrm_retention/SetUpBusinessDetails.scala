@@ -2,18 +2,18 @@ package controllers.vrm_retention
 
 import com.google.inject.Inject
 import common.{CookieImplicits, ClientSideSessionFactory}
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichCookies
-import CookieImplicits.RichForm
 import mappings.common.Postcode._
 import mappings.vrm_retention.SetupBusinessDetails._
-import models.domain.vrm_retention.{SetupBusinessDetailsViewModel, SetupBusinessDetailsModel}
+import models.domain.common.VehicleDetailsModel
+import models.domain.vrm_retention.{SetupBusinessDetailsViewModel, SetupBusinessDetailsFormModel}
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import utils.helpers.Config
 import utils.helpers.FormExtensions._
-import models.domain.common.VehicleDetailsModel
+import CookieImplicits.RichSimpleResult
+import CookieImplicits.RichCookies
+import CookieImplicits.RichForm
 
 final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
@@ -21,12 +21,18 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     mapping(
       BusinessNameId -> businessName(),
       BusinessPostcodeId -> postcode
-    )(SetupBusinessDetailsModel.apply)(SetupBusinessDetailsModel.unapply)
+    )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   )
 
-//  def present = Action { implicit request =>
-//    Ok(views.html.vrm_retention.setup_business_details(form.fill()))
-//  }
+  def present = Action {
+    implicit request =>
+      request.cookies.getModel[VehicleDetailsModel] match {
+        case Some(vehicleDetails) =>
+          val setupBusinessDetailsViewModel = createViewModel(vehicleDetails)
+          Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
+        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
+      }
+  }
 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
@@ -43,20 +49,8 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
             Redirect(routes.VehicleLookup.present())
         }
       },
-    // TODO
-      //validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
-        validForm => Redirect(routes.MicroServiceError.present())
+      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
     )
-  }
-
-  def present = Action {
-    implicit request =>
-      request.cookies.getModel[VehicleDetailsModel] match {
-        case Some(vehicleDetails) =>
-          val setupBusinessDetailsViewModel = createViewModel(vehicleDetails)
-          Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
-        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
-      }
   }
 
   private def createViewModel(vehicleDetails: VehicleDetailsModel): SetupBusinessDetailsViewModel =
