@@ -12,14 +12,16 @@ import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Lin
 import mappings.common.Postcode.PostcodeId
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
+import models.domain.vrm_retention.BusinessDetailsModel
 import org.mockito.Mockito.when
-import pages.vrm_retention.{SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import utils.helpers.Config
 import scala.concurrent.Future
+import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
   "present" should {
@@ -96,12 +98,12 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r.header.status should equal(BAD_REQUEST)
       }
     }
-/*
+
     "redirect to Dispose after a valid submission of all fields" in new WithApplication {
       val request = requestWithValidDefaults()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
         val cookies = fetchCookiesFromHeaders(r)
         val enterAddressManuallyCookieName = "enterAddressManually"
         cookies.find(_.name == enterAddressManuallyCookieName) match {
@@ -120,19 +122,19 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         cookies.find(_.name == traderDetailsCookieName) match {
           case Some(cookie) =>
             val json = cookie.value
-            val model = deserializeJsonToModel[TraderDetailsModel](json)
+            val model = deserializeJsonToModel[BusinessDetailsModel](json)
             val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
               Line2Valid.toUpperCase,
               Line3Valid.toUpperCase,
               PostTownValid.toUpperCase,
               PostcodeValid.toUpperCase)
-            expectedData should equal(model.traderAddress.address)
+            expectedData should equal(model.businessAddress.address)
 
           case None => fail(s"$traderDetailsCookieName cookie not found")
         }
       }
     }
-
+/*
     "redirect to Dispose after a valid submission of mandatory fields" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
@@ -270,7 +272,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     injector.getInstance(classOf[EnterAddressManually])
   }
 
-  private val traderDetailsCookieName = "traderDetails"
+  private val traderDetailsCookieName = BusinessDetailsCacheKey
 
   private def validateAddressCookieValues(result: Future[SimpleResult], buildingName: String, line2: String,
                                           line3: String, postTown: String, postCode: String = PostcodeValid) = {
@@ -304,7 +306,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
       s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> postTown,
       s"$AddressAndPostcodeId.$PostcodeId" -> postCode).
-      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
 
   private lazy val present = {
     val request = FakeRequest().
