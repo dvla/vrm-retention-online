@@ -1,11 +1,10 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.disposal_of_vehicle.VehicleLookup.BackId
-import mappings.disposal_of_vehicle.VehicleLookup.DocumentReferenceNumberId
-import mappings.disposal_of_vehicle.VehicleLookup.ExitId
-import mappings.disposal_of_vehicle.VehicleLookup.SubmitId
-import mappings.disposal_of_vehicle.VehicleLookup.VehicleRegistrationNumberId
+import mappings.vrm_retention.VehicleLookup.BackId
+import mappings.vrm_retention.VehicleLookup.DocumentReferenceNumberId
+import mappings.vrm_retention.VehicleLookup.SubmitId
+import mappings.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import org.openqa.selenium.WebDriver
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid}
@@ -20,8 +19,6 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   def documentReferenceNumber(implicit driver: WebDriver): TextField = textField(id(DocumentReferenceNumberId))
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
-
-  def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 
