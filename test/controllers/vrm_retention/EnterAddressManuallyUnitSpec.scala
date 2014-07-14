@@ -1,6 +1,7 @@
 package controllers.vrm_retention
 
 import common.ClientSideSessionFactory
+import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
@@ -56,11 +57,11 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       content should not include Line3Valid
       content should not include PostTownValid
     }
-/*
+
     "display prototype message when config set to true" in new WithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
-
+/*
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
