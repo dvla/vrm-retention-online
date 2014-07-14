@@ -1,6 +1,7 @@
 package helpers.webbrowser
 
-import helpers.disposal_of_vehicle.ProgressBar.{fakeApplicationWithProgressBarFalse, fakeApplicationWithProgressBarTrue}
+import helpers.common.ProgressBar
+import ProgressBar.{fakeApplicationWithProgressBarFalse, fakeApplicationWithProgressBarTrue}
 import play.api.test._
 import org.openqa.selenium.WebDriver
 import org.specs2.mutable.Around

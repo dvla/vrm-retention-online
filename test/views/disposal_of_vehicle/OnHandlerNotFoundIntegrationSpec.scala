@@ -1,11 +1,12 @@
 package views.disposal_of_vehicle
 
 import helpers.UiSpec
+import helpers.common.ProgressBar
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle.OnHandlerNotFoundPage.exit
 import pages.disposal_of_vehicle.{BeforeYouStartPage, OnHandlerNotFoundPage}
-import helpers.disposal_of_vehicle.ProgressBar.progressStep
+import ProgressBar.progressStep
 
 final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
 //  "go to not found page" should {
