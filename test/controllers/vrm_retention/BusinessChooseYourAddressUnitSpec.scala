@@ -7,7 +7,7 @@ import helpers.{UnitSpec, WithApplication}
 import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
 import org.mockito.Mockito.when
-import pages.vrm_retention.{SetupBusinessDetailsPage, ConfirmPage}
+import pages.vrm_retention.{SetupBusinessDetailsPage, ConfirmPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
@@ -102,23 +102,25 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
-      "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest(traderUprn = "")
-        val result = businessChooseYourAddressWithUprnFound.submit(request)
-        whenReady(result) { r =>
-          r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
-        }
+    "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(traderUprn = "")
+      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
-/*
-      "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
-        val request = buildCorrectlyPopulatedRequest().
-          withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
-        val result = businessChooseYourAddressWithUprnNotFound.submit(request)
-        whenReady(result) { r =>
-          r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
-        }
-      }
+    }
 
+    "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      val result = businessChooseYourAddressWithUprnNotFound.submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
+      }
+    }
+/*
       "write cookie when uprn found" in new WithApplication {
         val request = buildCorrectlyPopulatedRequest().
           withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
