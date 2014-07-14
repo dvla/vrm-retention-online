@@ -205,7 +205,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         r.header.status should equal(BAD_REQUEST)
       }
     }
-/*
+
     "submit does not accept an address containing only full stops" in new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "...")
@@ -225,10 +225,10 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid)
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(setupBusinessDetailsPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
-
+/*
     "redirect to setupBusinessDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = enterAddressManually.submit(request)
