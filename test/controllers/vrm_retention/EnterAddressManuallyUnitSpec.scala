@@ -25,7 +25,9 @@ import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
+
   "present" should {
+
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -246,13 +248,15 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         cookies.map(_.name) should contain(EnterAddressManuallyCacheKey)
       }
     }
-/*
+
     "collapse error messages for buildingNameOrNumber" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Building name or number - Must contain a minimum of four characters")
@@ -263,11 +267,13 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> "",
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Post town - Requires a minimum length of three characters")
-    }*/
+    }
   }
 
   private val enterAddressManually = {
