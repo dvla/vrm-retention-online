@@ -134,19 +134,20 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         }
       }
     }
-/*
+
     "redirect to Dispose after a valid submission of mandatory fields" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
     }
-
+/*
     "submit removes commas and full stops from the end of each address line" in new WithApplication {
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "my house,",
