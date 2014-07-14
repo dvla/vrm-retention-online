@@ -10,7 +10,6 @@ import org.openqa.selenium.WebDriver
 import pages.disposal_of_vehicle.VehicleLookupFailurePage.{beforeYouStart, vehicleLookup}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage, VehicleLookupFailurePage}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import ProgressBar.progressStep
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -31,7 +30,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 //
 //      go to VehicleLookupFailurePage
 //
-//      page.title should not contain progressStep
+//      page.source should not contain ProgressBar.div
 //    }
 //
 //    "redirect to setuptrade details if cache is empty on page load" taggedAs UiTag in new WebBrowser {

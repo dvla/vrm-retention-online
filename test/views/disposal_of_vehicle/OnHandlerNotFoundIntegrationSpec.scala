@@ -6,7 +6,6 @@ import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import pages.disposal_of_vehicle.OnHandlerNotFoundPage.exit
 import pages.disposal_of_vehicle.{BeforeYouStartPage, OnHandlerNotFoundPage}
-import ProgressBar.progressStep
 
 final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
 //  "go to not found page" should {
@@ -19,7 +18,7 @@ final class OnHandlerNotFoundIntegrationSpec extends UiSpec with TestHarness {
 //    "not display any progress indicator when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
 //      go to OnHandlerNotFoundPage
 //
-//      page.title should not contain progressStep
+//      page.source should not contain ProgressBar.div
 //    }
 //  }
 //

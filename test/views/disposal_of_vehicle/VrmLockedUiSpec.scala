@@ -6,7 +6,6 @@ import helpers.disposal_of_vehicle.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import mappings.disposal_of_vehicle.RelatedCacheKeys
-import ProgressBar.progressStep
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.disposal_of_vehicle.VrmLockedPage.{exit, newDisposal}
 import pages.disposal_of_vehicle.{BeforeYouStartPage, SetupTradeDetailsPage, VehicleLookupPage, VrmLockedPage}
@@ -26,7 +25,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       CookieFactoryForUISpecs.bruteForcePreventionViewModel()
       go to VrmLockedPage
 
-      page.title should not contain progressStep
+      page.source should not contain ProgressBar.div
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

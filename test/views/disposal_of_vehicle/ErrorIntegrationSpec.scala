@@ -28,7 +28,7 @@ final class ErrorIntegrationSpec extends UiSpec with TestHarness {
 
       go to ErrorPage
 
-      page.title should not contain progressStep
+      page.source should not contain ProgressBar.div
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

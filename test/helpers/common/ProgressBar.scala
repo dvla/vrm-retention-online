@@ -12,9 +12,10 @@ object ProgressBar {
     withGlobal = Some(TestGlobal),
     additionalConfiguration = Map("progressBar.enabled" -> "true"))
 
-  val progressStep: List[String] = {
-    val start = 1
+  def progressStep(currentStep: Int): String = {
     val end = 6
-    List.range(start, end).map(n => s"Step $n of $end")
+    s"Step $currentStep of $end"
   }
+
+  final val div: String = """<div class="progress-indicator">"""
 }
