@@ -5,11 +5,10 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.disposal_of_vehicle.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import mappings.disposal_of_vehicle.EnterAddressManually.EnterAddressManuallyCacheKey
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage}
+import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, EnterAddressManuallyPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
@@ -96,7 +95,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }
-/*
+
   "manualAddress button" should {
     "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
@@ -108,7 +107,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.title should equal(EnterAddressManuallyPage.title)
     }
   }
-
+/*
   "back button" should {
     "display previous page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
