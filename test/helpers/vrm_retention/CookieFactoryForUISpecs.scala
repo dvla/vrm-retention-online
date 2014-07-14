@@ -77,9 +77,9 @@ object CookieFactoryForUISpecs {
     val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyModel(addressAndPostcodeModel = AddressAndPostcodeModel(
       addressLinesModel = AddressLinesModel(buildingNameOrNumber = BuildingNameOrNumberValid,
-      line2 = Some(Line2Valid),
-      line3 = Some(Line3Valid),
-      postTown = PostTownValid)))
+        line2 = Some(Line2Valid),
+        line3 = Some(Line3Valid),
+        postTown = PostTownValid)))
     addCookie(key, value)
     this
   }
@@ -109,8 +109,8 @@ object CookieFactoryForUISpecs {
 
   def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
                              registrationNumber: String = RegistrationNumberValid,
-                              postcode: String = PostcodeValid,
-                              keeperConsent: String = KeeperConsentValid)
+                             postcode: String = PostcodeValid,
+                             keeperConsent: String = KeeperConsentValid)
                             (implicit webDriver: WebDriver) = {
     val key = mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupFormModelCacheKey
     val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
@@ -191,4 +191,5 @@ object CookieFactoryForUISpecs {
 //    addCookie(key, "")
 //    this
 //  }
+
 }
