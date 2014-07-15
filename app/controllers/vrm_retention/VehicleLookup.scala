@@ -111,7 +111,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       } else {
         Redirect(routes.CheckEligibility.present()).
           withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
-          withCookie(KeeperDetailsModel.fromResponse("Mr","David", "Jones","1 High Street","Skewen","","","Swansea",vehicleLookupFormModel.postcode))
+          withCookie(KeeperDetailsModel.fromResponse("Mr","David", "Jones","1 High Street","Skewen","Swansea",vehicleLookupFormModel.postcode))
       }
 
     }

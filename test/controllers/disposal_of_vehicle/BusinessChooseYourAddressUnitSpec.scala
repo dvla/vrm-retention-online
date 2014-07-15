@@ -80,7 +80,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "").
         withCookies(CookieFactoryForUnitSpecs.setupTradeDetails())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
-      whenReady(result) { r =>
+      whenReady(result, timeout) { r =>
         r.header.status should equal(BAD_REQUEST)
       }
     }

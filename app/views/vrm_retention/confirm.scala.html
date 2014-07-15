@@ -9,50 +9,57 @@
     title = Messages("vrm_retention_confirm.title")
 ) {
 
-	@Messages("vrm_retention_confirm.intro")
-	<div class="alert-warning">
+    @Messages("vrm_retention_confirm.intro")
+    <div class="alert-warning">
         <p>@Messages("vrm_retention_confirm.warn")</p>
     </div>
     <div class="two-col">
         <div class="first-col">
-        	<h3>@Messages("vrm_retention_confirm.keeperTitle")</h3>
-        	<dl class="summary-detail-list first-line">
-        		<dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
-        		<dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
-        		<dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
-        		<dd>@confirmViewModel.keeperAddressLine1, @confirmViewModel.keeperAddressLine2, @confirmViewModel.keeperAddressLine3, @confirmViewModel.keeperAddressLine4, @confirmViewModel.keeperPostTown</dd>
-        		<dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
-        		<dd>@confirmViewModel.keeperPostCode</dd>
-        	</dl>
+            <h3>@Messages("vrm_retention_confirm.keeperTitle")</h3>
+            <dl class="summary-detail-list first-line">
+                <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
+                <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
+                <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
+                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.address.init) {
+                    @keeperAddressLine,<br>
+                }</dd>
+                <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
+                <dd>@confirmViewModel.keeperAddress.address(confirmViewModel.keeperAddress.address.size - 1)</dd>
+            </dl>
         </div>
         <div class="second-col">
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                <dl class="summary-detail-list">
-                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="regNum">@confirmViewModel.registrationNumber</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                    <dd>@confirmViewModel.vehicleMake</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                    <dd>@confirmViewModel.vehicleModel</dd>
-                </dl>
+            <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+            <dl class="summary-detail-list">
+                <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                <dd class="regNum">@confirmViewModel.registrationNumber</dd>
+                <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                <dd>@confirmViewModel.vehicleMake</dd>
+                <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                <dd>@confirmViewModel.vehicleModel</dd>
+            </dl>
         </div>
     </div>
+
+    @if(confirmViewModel.businessName.isDefined) {
     <p>@Messages("vrm_retention_confirm.isBusiness")</p>
     <div class="two-col">
         <div class="first-col">
-        	<h3>@Messages("vrm_retention_confirm.businessDetailsTitle")</h3>
-        	<dl class="summary-detail-list first-line">
-        		<dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
-        		<dd>@confirmViewModel.businessName</dd>
-        		<dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-        		<dd>@confirmViewModel.businessAddressLine1, @confirmViewModel.businessAddressLine2, @confirmViewModel.businessAddressLine3, @confirmViewModel.businessPostTown</dd>
-        		<dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-        		<dd>@confirmViewModel.businessPostCode</dd>
-        	</dl>
+            <h3>@Messages("vrm_retention_confirm.businessDetailsTitle")</h3>
+            <dl class="summary-detail-list first-line">
+                <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
+                <dd>@confirmViewModel.businessName</dd>
+                <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
+                <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
+                    @businessAddressLine,<br>
+                }</dd>
+                <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
+                <dd>@confirmViewModel.businessAddress.get.address(confirmViewModel.businessAddress.get.address.size - 1)</dd>
+            </dl>
         </div>
         <div class="second-col">
         </div>
     </div>
+}
     <div class="form-steps">
         <a class="button" id="@NextId" href="success">Next</a>
     </div>
