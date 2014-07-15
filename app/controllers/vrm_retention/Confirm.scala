@@ -16,15 +16,12 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel], request.cookies.getModel[BusinessDetailsModel]) match {
         case (Some(vehicleDetails), Some(keeperDetails), Some(businessDetailsModel)) =>
           val confirmViewModel = createViewModel(vehicleDetails, keeperDetails, businessDetailsModel)
-          //Ok(views.html.vrm_retention.confirm(confirmViewModel))
-          Ok("Confirm: NOT keeper details path")
+          Ok(views.html.vrm_retention.confirm(confirmViewModel))
         case (Some(vehicleDetails), Some(keeperDetails), None) =>
           val confirmViewModel = createViewModel(vehicleDetails, keeperDetails)
-          //Ok(views.html.vrm_retention.confirm(confirmViewModel))
-          Ok("Confirm: keeper details path")
+          Ok(views.html.vrm_retention.confirm(confirmViewModel))
         case _ =>
-          //Redirect(routes.VehicleLookup.present())
-          Ok("Confirm: failsafe path")
+          Redirect(routes.VehicleLookup.present())
       }
   }
 
@@ -37,18 +34,9 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       keeperTitle = keeperDetails.title,
       keeperFirstName = keeperDetails.firstName,
       keeperLastName = keeperDetails.lastName,
-      keeperAddressLine1 = keeperDetails.addressLine1,
-      keeperAddressLine2 = keeperDetails.addressLine2,
-      keeperAddressLine3 = keeperDetails.addressLine3,
-      keeperAddressLine4 = keeperDetails.addressLine4,
-      keeperPostTown = keeperDetails.postTown,
-      keeperPostCode = keeperDetails.postCode,
+      keeperAddress = keeperDetails.address,
       businessName = Some(businessDetailsModel.businessName),
-      businessAddressLine1 = Some(businessDetailsModel.businessAddress.address(0)),
-      businessAddressLine2 = Some(businessDetailsModel.businessAddress.address(1)),
-      businessAddressLine3 = Some(businessDetailsModel.businessAddress.address(2)),
-      businessPostTown = Some(businessDetailsModel.businessAddress.address(4)),
-      businessPostCode = Some(businessDetailsModel.businessAddress.address(5))
+      businessAddress = Some(businessDetailsModel.businessAddress)
     )
 
   private def createViewModel(vehicleDetails: VehicleDetailsModel, keeperDetails: KeeperDetailsModel): ConfirmViewModel =
@@ -59,13 +47,8 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       keeperTitle = keeperDetails.title,
       keeperFirstName = keeperDetails.firstName,
       keeperLastName = keeperDetails.lastName,
-      keeperAddressLine1 = keeperDetails.addressLine1,
-      keeperAddressLine2 = keeperDetails.addressLine2,
-      keeperAddressLine3 = keeperDetails.addressLine3,
-      keeperAddressLine4 = keeperDetails.addressLine4,
-      keeperPostTown = keeperDetails.postTown,
-      keeperPostCode = keeperDetails.postCode,
-      None, None, None, None, None, None
+      keeperAddress = keeperDetails.address,
+      None, None
     )
 }
 

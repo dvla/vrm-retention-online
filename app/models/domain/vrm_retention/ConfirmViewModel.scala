@@ -1,20 +1,13 @@
 package models.domain.vrm_retention
 
+import models.domain.common.AddressViewModel
+
 final case class ConfirmViewModel(registrationNumber: String,
                                   vehicleMake: String,
                                   vehicleModel: String,
                                   keeperTitle: String,
                                   keeperFirstName: String,
                                   keeperLastName: String,
-                                  keeperAddressLine1: String,
-                                  keeperAddressLine2: String,
-                                  keeperAddressLine3: String,
-                                  keeperAddressLine4: String,
-                                  keeperPostTown: String,
-                                  keeperPostCode: String,
+                                  keeperAddress: AddressViewModel,
                                   businessName: Option[String],
-                                  businessAddressLine1: Option[String],
-                                  businessAddressLine2: Option[String],
-                                  businessAddressLine3: Option[String],
-                                  businessPostTown: Option[String],
-                                  businessPostCode: Option[String])
+                                  businessAddress: Option[AddressViewModel])

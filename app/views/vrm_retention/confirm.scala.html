@@ -20,10 +20,11 @@
                 <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
                 <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
                 <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
-                <dd>@confirmViewModel.keeperAddressLine1
-                    , @confirmViewModel.keeperAddressLine2, @confirmViewModel.keeperAddressLine3, @confirmViewModel.keeperAddressLine4, @confirmViewModel.keeperPostTown</dd>
+                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.address.init) {
+                    @keeperAddressLine,<br>
+                }</dd>
                 <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
-                <dd>@confirmViewModel.keeperPostCode</dd>
+                <dd>@confirmViewModel.keeperAddress.address(confirmViewModel.keeperAddress.address.size - 1)</dd>
             </dl>
         </div>
         <div class="second-col">
@@ -48,10 +49,11 @@
                 <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
                 <dd>@confirmViewModel.businessName</dd>
                 <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-                <dd>@confirmViewModel.businessAddressLine1
-                    , @confirmViewModel.businessAddressLine2, @confirmViewModel.businessAddressLine3, @confirmViewModel.businessPostTown</dd>
+                <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
+                    @businessAddressLine,<br>
+                }</dd>
                 <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-                <dd>@confirmViewModel.businessPostCode</dd>
+                <dd>@confirmViewModel.businessAddress.get.address(confirmViewModel.businessAddress.get.address.size - 1)</dd>
             </dl>
         </div>
         <div class="second-col">
