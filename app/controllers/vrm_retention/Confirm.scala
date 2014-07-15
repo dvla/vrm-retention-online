@@ -16,15 +16,11 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel], request.cookies.getModel[BusinessDetailsModel]) match {
         case (Some(vehicleDetails), Some(keeperDetails), Some(businessDetailsModel)) =>
           val confirmViewModel = createViewModel(vehicleDetails, keeperDetails, businessDetailsModel)
-          //Ok(views.html.vrm_retention.confirm(confirmViewModel))
-          Ok("Confirm: NOT keeper details path")
+          Ok(views.html.vrm_retention.confirm(confirmViewModel))
         case (Some(vehicleDetails), Some(keeperDetails), None) =>
           val confirmViewModel = createViewModel(vehicleDetails, keeperDetails)
-          //Ok(views.html.vrm_retention.confirm(confirmViewModel))
-          Ok("Confirm: keeper details path")
-        case _ =>
-          //Redirect(routes.VehicleLookup.present())
-          Ok("Confirm: failsafe path")
+          Ok(views.html.vrm_retention.confirm(confirmViewModel))
+        case _ => Redirect(routes.VehicleLookup.present())
       }
   }
 

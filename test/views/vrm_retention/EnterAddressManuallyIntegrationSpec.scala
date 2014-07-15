@@ -59,7 +59,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       page.source should not contain "addressAndPostcode"
     }
   }
-/*
+
   "next button" should {
     "accept and redirect when all fields are input with valid entry" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
@@ -87,7 +87,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       ErrorPanel.numberOfErrors should equal(2)
     }
-  }*/
+  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
