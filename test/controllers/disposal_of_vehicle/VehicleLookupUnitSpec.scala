@@ -366,7 +366,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupError.submit(request)
 
-      whenReady(result) { r =>
+      whenReady(result, timeout) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
