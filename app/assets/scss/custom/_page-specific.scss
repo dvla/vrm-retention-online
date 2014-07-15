@@ -88,3 +88,10 @@ dd.regNum {
         }
     }
 }
+
+#{$htmlNamespace} {
+    .summary-detail-list.transaction-details dt {
+        width:auto;
+        padding-right: 0.5em;
+    }
+}

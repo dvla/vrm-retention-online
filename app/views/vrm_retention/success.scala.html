@@ -3,6 +3,9 @@
 
 @import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}
 @import mappings.vrm_retention.BeforeYouStart._
+@import helper._
+@import views.html.helper.base._
+@import utils.helpers.BaseTemplate._
 @import utils.helpers._
 @import views.html.vrm_retention.main
 
@@ -40,29 +43,61 @@
 		</div>
 	</div>
 	<h2>@Messages("vrm_retention_success.newDocumentsTitle")</h2>
-	<p>@Messages("vrm_retention_success.newDocumentsDesc")</p>
-	<div class="two-col">
-		<div class="first-col">
-			<div class="alert-indent">
-				<p>@Messages("vrm_retention_success.newDocumentsList-1")</p>
-				<p>@Messages("vrm_retention_success.newDocumentsList-2")</p>
-				<p>@Messages("vrm_retention_success.newDocumentsList-3")</p>
+		<p>@Messages("vrm_retention_success.newDocumentsDesc")</p>
+		<div class="two-col">
+			<div class="first-col">
+				<div class="alert-indent">
+					<p>@Messages("vrm_retention_success.newDocumentsList-1")</p>
+					<p>@Messages("vrm_retention_success.newDocumentsList-2")</p>
+					<p>@Messages("vrm_retention_success.newDocumentsList-3")</p>
+				</div>
+			</div>
+			<div class="second-col">
+				<p><strong>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName </strong></p>
+				<p>
+					@for(keeperAddressLine <- successViewModel.keeperAddress.address.init) {
+                    	@keeperAddressLine,<br>
+                	}
+                	@successViewModel.keeperAddress.address(successViewModel.keeperAddress.address.size - 1)
+            	</p>
 			</div>
 		</div>
-		<div class="second-col">
-			<p>ADDRESS WILL GO HERE</p>
+		<h2>@Messages("vrm_retention_success.aboutTransactionTitle")</h2>
+	@if(successViewModel.businessName.isDefined) {
+		<p>@Messages("vrm_retention_success.aboutTransactionDesc")</p>
+		<div class="two-col">
+			<div class="first-col">
+				<h3>@successViewModel.businessName</h3>
+				<p>
+					@for(businessAddressLine <- successViewModel.businessAddress.get.address.init) {
+                    	@businessAddressLine,<br>
+                	}
+                	@successViewModel.businessAddress.get.address(successViewModel.businessAddress.get.address.size - 1)
+            	</p>
+			</div>
+			<div class="second-col">
+				<label>@Messages("vrm_retention_success.aboutTransactionEmployeeLabel")</label> 
+				<input type="text">
+
+				<p>@Messages("vrm_retention_success.aboutTransactionContact")</p>
+				<dl class="summary-detail-list transaction-details">
+					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
+					<dd> @successViewModel.transactionId</dd>
+					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>
+					<dd> @successViewModel.transactionTimestamp</dd>
+				</dl>
+			</div>
 		</div>
-	</div>
-	<h2>@Messages("vrm_retention_success.aboutTransactionTitle")</h2>
-	<p>@Messages("vrm_retention_success.aboutTransactionDesc")</p>
-	<div class="two-col">
-		<div class="first-col">
-			
-		</div>
-		<div class="second-col">
-			
-		</div>
-	</div>
+	} else {
+				<p>@Messages("vrm_retention_success.aboutTransactionContact")</p>
+				<dl class="summary-detail-list transaction-details">
+					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
+					<dd> @successViewModel.transactionId</dd>
+					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>
+					<dd> @successViewModel.transactionTimestamp</dd>
+				</dl>
+
+	}
     <!--<div class="form-steps">
         <a class="button" id="@NextId" href="success">Next</a>
     </div>-->
