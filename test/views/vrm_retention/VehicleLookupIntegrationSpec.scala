@@ -29,7 +29,8 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "findVehicleDetails button" should {
-    // TODO need to add the radio button to the happy path
+
+    // TODO need a fake elig service for this test to navigate through.
 //    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
 //      go to BeforeYouStartPage
 //

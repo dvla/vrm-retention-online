@@ -17,7 +17,9 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def keeperPostcode(implicit driver: WebDriver): TextField = textField(id(PostcodeId))
 
-  //def keeperConsent(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId))
+  def currentKeeperYes(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_Keeper"))
+
+  def currentKeeperNo(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_Business"))
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
@@ -26,13 +28,14 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   def happyPath(referenceNumber: String = ReferenceNumberValid,
                 registrationNumber: String = RegistrationNumberValid,
                 postcode: String = KeeperPostcodeValid,
-                consent: String =  KeeperConsentValid)
+                isCurrentKeeper: Boolean = true)
                (implicit driver: WebDriver) = {
     go to VehicleLookupPage
     documentReferenceNumber.value = referenceNumber
     vehicleRegistrationNumber.value = registrationNumber
     keeperPostcode.value = postcode
-    //keeperConsent = consent
+    if (isCurrentKeeper) click on currentKeeperYes
+    else click on currentKeeperNo
     click on findVehicleDetails
   }
 
