@@ -547,6 +547,32 @@ vrm_retention_enteraddressmanually.title = Enter address
 vrm_retention_enteraddressmanually.submitbutton = Next
 vrm_retention_enteraddressmanually.backbutton = Back
 
+#Success page
+vrm_retention_success.title = Summary
+vrm_retention_success.subtitle = Retention complete for
+vrm_retention_success.replacementRegNumberLabel = Replacement number
+vrm_retention_success.yourCert = Your Retention Certificate Number is
+vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their adress on the latest V5C.
+vrm_retention_success.replacementTitle = Your replacement registration number
+vrm_retention_success.retainConf-p1 = Your registration mark
+vrm_retention_success.retainConf-p2 = has now been retained. Put the following replacement registration number on the vehicle 
+vrm_retention_success.makingUp-p1 = Making up the number plate for the Replacement Registration Number
+vrm_retention_success.makingUp-p2 = The document below is available to download or print. This will allow you to have the number plate made up.
+vrm_retention_success.newPlateLink = Letter of Authorisation to get number plates made up for replacement Registration Number
+
+vrm_retention_success.newDocumentsTitle = About your new documents
+vrm_retention_success.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_retention_success.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement Registration Number
+vrm_retention_success.newDocumentsList-2 = A new MOT certificate showing the replacement Registration Number
+vrm_retention_success.newDocumentsList-3 = A Retention Certificate for the retained Registration Number
+
+vrm_retention_success.aboutTransactionTitle = About this transaction
+vrm_retention_success.aboutTransactionDesc = This transaction was completed, with consent of the current keeper, by
+vrm_retention_success.aboutTransactionContact = If you need to contact the DVLA, phone 0300 790 6802 and quote the following transaction ID
+vrm_retention_success.aboutTransactionIdLabel = Transaction ID - 
+vrm_retention_success.aboutTransactionCompletedLabel = Transaction Completed - 
+vrm_retention_success.aboutTransactionEmployeeLabel = Employee name (optional)
+
 micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later.
 micro_service_error.back.button=Try again

@@ -164,4 +164,15 @@
             }
         }
     }
+
+    // PDF download link with icon
+    a.pdfLink {
+        img {
+            float:left;
+            max-height: 40px;
+            max-width: 40px;
+            padding-right: 10px;
+        }
+        min-height: 30px;
+    }
 }

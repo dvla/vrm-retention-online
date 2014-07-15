@@ -10,7 +10,59 @@
     title = Messages("vrm_retention_beforeyoustart.title")
 ) {
 
-	Success page placeholder.
+	<div class="alert-complete">
+	    <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
+	    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
+	    <p>@Messages("vrm_retention_success.infoMsg")</p>
+	</div>
+	<h2>@Messages("vrm_retention_success.replacementTitle")</h2>
+	<p>@Messages("vrm_retention_success.retainConf-p1") @successViewModel.registrationNumber @Messages("vrm_retention_success.retainConf-p2")</p>
+	<div class="alert-passive success-playback">
+		<div class="two-col">
+			<div class="first-col">
+                <dl class="summary-detail-list">
+                    <dt>@Messages("vrm_retention_success.replacementRegNumberLabel")</dt>
+                    <dd>@successViewModel.registrationNumber</dd>
+                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                    <dd>@successViewModel.vehicleMake</dd>
+                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                    <dd>@successViewModel.vehicleModel</dd>
+                </dl>
+			</div>
+			<div class="second-col">
+				<p><strong>@Messages("vrm_retention_success.makingUp-p1")</strong></p>
+				<p>@Messages("vrm_retention_success.makingUp-p2")</p>
+				<a class="pdfLink" href="#">
+					<img src="/vrm-retention/assets/images/PDF_download.png" alt="Download PDF">
+					@Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
+				</a>
+			</div>
+		</div>
+	</div>
+	<h2>@Messages("vrm_retention_success.newDocumentsTitle")</h2>
+	<p>@Messages("vrm_retention_success.newDocumentsDesc")</p>
+	<div class="two-col">
+		<div class="first-col">
+			<div class="alert-indent">
+				<p>@Messages("vrm_retention_success.newDocumentsList-1")</p>
+				<p>@Messages("vrm_retention_success.newDocumentsList-2")</p>
+				<p>@Messages("vrm_retention_success.newDocumentsList-3")</p>
+			</div>
+		</div>
+		<div class="second-col">
+			<p>ADDRESS WILL GO HERE</p>
+		</div>
+	</div>
+	<h2>@Messages("vrm_retention_success.aboutTransactionTitle")</h2>
+	<p>@Messages("vrm_retention_success.aboutTransactionDesc")</p>
+	<div class="two-col">
+		<div class="first-col">
+			
+		</div>
+		<div class="second-col">
+			
+		</div>
+	</div>
     <!--<div class="form-steps">
         <a class="button" id="@NextId" href="success">Next</a>
     </div>-->

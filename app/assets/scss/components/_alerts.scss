@@ -122,6 +122,28 @@
         }
     }
 
+    .alert-passive {
+        @extend .alert;
+        border: 3px solid $black-1;
+        background: transparent;
+        color:$black-1;
+        ol, 
+        ul, 
+        p {
+            strong {
+                @include bold-19;
+            }
+            color:$black-1;
+            a {
+                color:$black-1;
+            }
+        }
+    }
+    .alert-indent {
+        border-left: 10px solid #ccc;
+        padding-left: 1em;
+    }
+
     .alert-complete {
         @extend .alert;
         background: $turquoise;

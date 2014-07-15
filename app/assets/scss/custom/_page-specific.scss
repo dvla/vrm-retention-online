@@ -78,3 +78,13 @@ dd.regNum {
     font-size: 120%;
     border-radius: 5px;
 }
+.vrm-retention-online .success-playback {
+    .summary-detail-list {
+        margin:0;
+        dt,dd {
+            width: 50%;
+            border-bottom: 1px solid $black-1;
+            padding: .5em 0;
+        }
+    }
+}
