@@ -42,7 +42,9 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   def tryLockedVrm()(implicit driver: WebDriver) = {
     go to VehicleLookupPage
     documentReferenceNumber.value = ReferenceNumberValid
-    VehicleLookupPage.vehicleRegistrationNumber.value = FakeBruteForcePreventionWebServiceImpl.VrmLocked
+    vehicleRegistrationNumber.value = FakeBruteForcePreventionWebServiceImpl.VrmLocked
+    keeperPostcode.value = KeeperPostcodeValid
+    click on currentKeeperYes
     click on findVehicleDetails
   }
 }

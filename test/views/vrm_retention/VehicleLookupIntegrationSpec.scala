@@ -96,12 +96,12 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     // TODO
-//    "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
-//      go to BeforeYouStartPage
-//
-//      tryLockedVrm()
-//      page.title should equal(VrmLockedPage.title)
-//    }
+    "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      tryLockedVrm()
+      page.title should equal(VrmLockedPage.title)
+    }
   }
 
   "back" should {
