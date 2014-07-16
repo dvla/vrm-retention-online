@@ -39,21 +39,23 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
     }
 
-    //    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.happyPath()
-    //
-    //      BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
-    //      page.source should include(
-    //        s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
-    //      )
-    //      page.source should include(
-    //        s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid"
-    //      )
-    //      page.source should include(
-    //        s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
-    //      )
-    //    }
-    //
+    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+
+      BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
+      page.source should include(
+        s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+      page.source should include(
+        s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+      page.source should include(
+        s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+    }
+
     //    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
     //      SetupBusinessDetailsPage.submitInvalidPostcode
     //
