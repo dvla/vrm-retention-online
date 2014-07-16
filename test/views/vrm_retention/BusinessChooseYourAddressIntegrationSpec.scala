@@ -10,6 +10,7 @@ import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manua
 import pages.vrm_retention.{EnterAddressManuallyPage, BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
+import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -117,18 +118,15 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
         ErrorPanel.numberOfErrors should equal(1)
       }
-/*
-      "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
-        def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
-          CookieFactoryForUISpecs.setupTradeDetails().enterAddressManually()
 
+      "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
         go to BeforeYouStartPage
-        cacheSetupVisitedEnterAddressManuallyPage()
+        cacheSetup().enterAddressManually()
         happyPath
 
         // Verify the cookies identified by the full set of cache keys have been removed
         webDriver.manage().getCookieNamed(EnterAddressManuallyCacheKey) should equal(null)
-      }*/
+      }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
