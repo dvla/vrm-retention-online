@@ -29,15 +29,16 @@
 
                 @if(dropDownOptions.isEmpty) {
                 <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound")</h2>
+
+                <br/>
+                <a id="@EnterAddressManuallyButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
+
                 } else {
                     @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
                         options = dropDownOptions.toSeq,
                         args = Map('_label -> Messages("vrm_retention_businessChooseYourAddress_addressSelect_label"))
                     )
                 }
-
-                <br/>
-                <a id="@EnterAddressManuallyButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
 
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
