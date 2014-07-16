@@ -106,7 +106,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
 
       tryLockedVrm()
-      
+
       page.title should equal(VrmLockedPage.title)
     }
   }
