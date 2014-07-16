@@ -527,7 +527,6 @@ vrm_retention_exit.button = Exit
 
 
 
-
 # choose business address
 vrm_retention_businessChooseYourAddress_title = Select your business address
 vrm_retention_businessChooseYourAddress_legend = Set up business details
@@ -587,3 +586,7 @@ vrm_retention_progress_3 = Step 3 of 6
 vrm_retention_progress_4 = Step 4 of 6
 vrm_retention_progress_5 = Step 5 of 6
 vrm_retention_progress_6 = Step 6 of 6
+
+
+vrm_retention_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the vehicle''s records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
+
