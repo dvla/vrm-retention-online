@@ -6,7 +6,7 @@ import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.{EnterAddressManuallyPage, BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
 
@@ -68,13 +68,14 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
+
       val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
   }
-  /*
+
     "manualAddress button" should {
       "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
         go to BeforeYouStartPage
@@ -83,10 +84,10 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
         click on manualAddress
 
-        page.title should equal(EnterAddressManuallyPage.title)
+        page.url should equal(EnterAddressManuallyPage.url)
       }
     }
-
+/*
     "back button" should {
       "display previous page" taggedAs UiTag in new WebBrowser {
         go to BeforeYouStartPage
