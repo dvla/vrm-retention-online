@@ -1,7 +1,7 @@
 @(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}
-@import mappings.vrm_retention.BeforeYouStart._
+@import controllers.vrm_retention.routes.{Confirm, Payment}
+@import mappings.vrm_retention.Confirm._
 @import utils.helpers._
 @import views.html.vrm_retention.main
 
@@ -59,8 +59,13 @@
         <div class="second-col">
         </div>
     </div>
-}
+
+ }
+
     <div class="form-steps">
-        <a class="button" id="@NextId" href="success">Next</a>
+        @CsrfHelper.hiddenFormField
+        @* Note the reverse routing syntax for the hyperlink *@
+        <a class="button" id="@NextId" href="@Payment.present()">@Messages("vrm_retention_confirm.button")</a>
+        <a class="button" id="@ExitId" href="@Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }

@@ -1,13 +1,14 @@
 package controllers.vrm_retention
 
-import com.google.inject.Inject
 import common.{ClientSideSessionFactory, CookieImplicits}
 import models.domain.vrm_retention.{BusinessDetailsModel, KeeperDetailsModel, ConfirmViewModel}
 import models.domain.common.VehicleDetailsModel
+import CookieImplicits.RichCookies
+import com.google.inject.Inject
+import mappings.vrm_retention.RelatedCacheKeys
 import play.api.mvc._
 import utils.helpers.Config
-import CookieImplicits.RichCookies
-
+import CookieImplicits.RichSimpleResult
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
@@ -23,6 +24,15 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         case _ =>
           Redirect(routes.VehicleLookup.present())
       }
+  }
+
+  def submit = Action { implicit request =>
+    Redirect(routes.Payment.present())
+  }
+
+  def exit = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present())
+      .discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   // TODO merge these two create methods together

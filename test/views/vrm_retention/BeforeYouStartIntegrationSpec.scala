@@ -14,7 +14,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
-      page.title should equal(BeforeYouStartPage.title)
+      page.url should equal(BeforeYouStartPage.url)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
@@ -40,7 +40,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       click on startNow
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
   }
 }

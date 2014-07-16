@@ -15,59 +15,64 @@
 ## VRM RETENTION
 ######################
 
-GET         /vrm-retention/assets/*file                              controllers.Assets.at(path="/public", file)
+GET         /vrm-retention/assets/*file                                      controllers.Assets.at(path="/public", file)
 
-GET         /                                                        controllers.Application.index
-GET         /vrm-retention/before-you-start                          @controllers.vrm_retention.BeforeYouStart.present
+GET         /                                                                controllers.Application.index
+GET         /vrm-retention/before-you-start                                  @controllers.vrm_retention.BeforeYouStart.present
+GET         /vrm-retention                                                   @controllers.vrm_retention.BeforeYouStart.present
 
-GET         /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.present
-POST        /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.submit
-GET         /vrm-retention/vehicle-lookup-back                       @controllers.vrm_retention.VehicleLookup.back
+GET         /vrm-retention/vehicle-lookup                                    @controllers.vrm_retention.VehicleLookup.present
+POST        /vrm-retention/vehicle-lookup                                    @controllers.vrm_retention.VehicleLookup.submit
+GET         /vrm-retention/vehicle-lookup-back                               @controllers.vrm_retention.VehicleLookup.back
 
-GET         /vrm-retention/vehicle-lookup-failure                    @controllers.vrm_retention.VehicleLookupFailure.present
-POST        /vrm-retention/vehicle-lookup-failure                    @controllers.vrm_retention.VehicleLookupFailure.submit
+GET         /vrm-retention/vehicle-lookup-failure                            @controllers.vrm_retention.VehicleLookupFailure.present
+POST        /vrm-retention/vehicle-lookup-failure                            @controllers.vrm_retention.VehicleLookupFailure.submit
 
-GET         /vrm-retention/micro-service-error                       @controllers.vrm_retention.MicroServiceError.present
+GET         /vrm-retention/micro-service-error                               @controllers.vrm_retention.MicroServiceError.present
 
-GET         /vrm-retention/soap-endpoint-error                       @controllers.vrm_retention.SoapEndpointError.present
+GET         /vrm-retention/soap-endpoint-error                               @controllers.vrm_retention.SoapEndpointError.present
 
-GET         /vrm-retention/vrm-locked                                @controllers.vrm_retention.VrmLocked.present
-POST        /vrm-retention/vrm-locked/exit                           @controllers.vrm_retention.VrmLocked.exit
+GET         /vrm-retention/vrm-locked                                        @controllers.vrm_retention.VrmLocked.present
+POST        /vrm-retention/vrm-locked/exit                                   @controllers.vrm_retention.VrmLocked.exit
 
-GET         /vrm-retention/error/:exceptionDigest                    @controllers.vrm_retention.Error.present(exceptionDigest)
-POST        /vrm-retention/error/:exceptionDigest                    @controllers.vrm_retention.Error.submit(exceptionDigest)
+GET         /vrm-retention/error/:exceptionDigest                            @controllers.vrm_retention.Error.present(exceptionDigest)
+POST        /vrm-retention/error/:exceptionDigest                            @controllers.vrm_retention.Error.submit(exceptionDigest)
 
-GET         /vrm-retention/check-eligibility                         @controllers.vrm_retention.CheckEligibility.present
+GET         /vrm-retention/check-eligibility                                 @controllers.vrm_retention.CheckEligibility.present
 
-GET         /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.present
-POST        /vrm-retention/setup-business-details                    @controllers.vrm_retention.SetUpBusinessDetails.submit
+GET         /vrm-retention/setup-business-details                            @controllers.vrm_retention.SetUpBusinessDetails.present
+POST        /vrm-retention/setup-business-details                            @controllers.vrm_retention.SetUpBusinessDetails.submit
 
-GET         /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.present
-POST        /vrm-retention/business-choose-your-address              @controllers.vrm_retention.BusinessChooseYourAddress.submit
+GET         /vrm-retention/business-choose-your-address                      @controllers.vrm_retention.BusinessChooseYourAddress.present
+POST        /vrm-retention/business-choose-your-address                      @controllers.vrm_retention.BusinessChooseYourAddress.submit
 
-GET         /vrm-retention/uprn-not-found                            @controllers.vrm_retention.UprnNotFound.present
+GET         /vrm-retention/uprn-not-found                                    @controllers.vrm_retention.UprnNotFound.present
 
-GET         /vrm-retention/confirm                                   @controllers.vrm_retention.Confirm.present
+GET         /vrm-retention/confirm                                           @controllers.vrm_retention.Confirm.present
+POST        /vrm-retention/confirm                                           @controllers.vrm_retention.Confirm.submit
+GET         /vrm-retention/confirm/exit                                      @controllers.vrm_retention.Confirm.exit
 
-GET         /vrm-retention/healthcheck                               @controllers.common.HealthCheck.respond
+GET         /vrm-retention/payment                                           @controllers.vrm_retention.Payment.present
+POST        /vrm-retention/payment                                           @controllers.vrm_retention.Payment.submit
+GET         /vrm-retention/payment/exit                                      @controllers.vrm_retention.Payment.exit
 
-GET         /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.present
-POST        /vrm-retention/enter-address-manually                    @controllers.vrm_retention.EnterAddressManually.submit
+GET         /vrm-retention/healthcheck                                       @controllers.common.HealthCheck.respond
 
-GET         /vrm-retention/help                                      @controllers.common.Help.present
-POST        /vrm-retention/help                                      @controllers.common.Help.back
+GET         /vrm-retention/enter-address-manually                            @controllers.vrm_retention.EnterAddressManually.present
+POST        /vrm-retention/enter-address-manually                            @controllers.vrm_retention.EnterAddressManually.submit
 
-GET         /with-language/:chosenLanguage                           controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
+GET         /vrm-retention/help                                              @controllers.common.Help.present
+POST        /vrm-retention/help                                              @controllers.common.Help.back
+
+GET         /with-language/:chosenLanguage                                   controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
 
 ############ Demo screens
 
-GET         /vrm-retention/user-details                              @controllers.vrm_retention.UserDetails.present
+GET         /vrm-retention/user-details                                      @controllers.vrm_retention.UserDetails.present
 
-GET         /vrm-retention/retain                                    @controllers.vrm_retention.Retain.present
+GET         /vrm-retention/retain                                            @controllers.vrm_retention.Retain.present
 
-GET         /vrm-retention/payment                                   @controllers.vrm_retention.Payment.present
-
-GET         /vrm-retention/success                                   @controllers.vrm_retention.Success.present
+GET         /vrm-retention/success                                           @controllers.vrm_retention.Success.present
 
 
 
@@ -81,56 +86,56 @@ GET         /vrm-retention/success                                   @controller
 
 #page 1 - Before You Start (GET request not POST on submission because we are not posting any data)
 #GET         /                                                           controllers.Application.index
-GET         /sell-to-the-trade/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.present
-POST        /sell-to-the-trade/before-you-start                       @controllers.disposal_of_vehicle.BeforeYouStart.submit
+GET         /sell-to-the-trade/before-you-start                              @controllers.disposal_of_vehicle.BeforeYouStart.present
+POST        /sell-to-the-trade/before-you-start                              @controllers.disposal_of_vehicle.BeforeYouStart.submit
 
 #page 2 - setup-trade-details
-GET         /sell-to-the-trade/setup-trade-details                    @controllers.disposal_of_vehicle.SetUpTradeDetails.present
-POST        /sell-to-the-trade/setup-trade-details                    @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
+GET         /sell-to-the-trade/setup-trade-details                           @controllers.disposal_of_vehicle.SetUpTradeDetails.present
+POST        /sell-to-the-trade/setup-trade-details                           @controllers.disposal_of_vehicle.SetUpTradeDetails.submit
 
 #page 3 - business choose your address
-GET         /sell-to-the-trade/business-choose-your-address           @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
-POST        /sell-to-the-trade/business-choose-your-address           @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
+GET         /sell-to-the-trade/business-choose-your-address                  @controllers.disposal_of_vehicle.BusinessChooseYourAddress.present
+POST        /sell-to-the-trade/business-choose-your-address                  @controllers.disposal_of_vehicle.BusinessChooseYourAddress.submit
 
 #page 4 [optional] - enter address manually
-GET         /sell-to-the-trade/enter-address-manually                 @controllers.disposal_of_vehicle.EnterAddressManually.present
-POST        /sell-to-the-trade/enter-address-manually                 @controllers.disposal_of_vehicle.EnterAddressManually.submit
+GET         /sell-to-the-trade/enter-address-manually                        @controllers.disposal_of_vehicle.EnterAddressManually.present
+POST        /sell-to-the-trade/enter-address-manually                        @controllers.disposal_of_vehicle.EnterAddressManually.submit
 
-GET         /sell-to-the-trade/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.present
-POST        /sell-to-the-trade/vehicle-lookup                         @controllers.disposal_of_vehicle.VehicleLookup.submit
-GET         /sell-to-the-trade/vehicle-lookup/exit                    @controllers.disposal_of_vehicle.VehicleLookup.exit
-GET         /sell-to-the-trade/vehicle-lookup-back                    @controllers.disposal_of_vehicle.VehicleLookup.back
+GET         /sell-to-the-trade/vehicle-lookup                                @controllers.disposal_of_vehicle.VehicleLookup.present
+POST        /sell-to-the-trade/vehicle-lookup                                @controllers.disposal_of_vehicle.VehicleLookup.submit
+GET         /sell-to-the-trade/vehicle-lookup/exit                           @controllers.disposal_of_vehicle.VehicleLookup.exit
+GET         /sell-to-the-trade/vehicle-lookup-back                           @controllers.disposal_of_vehicle.VehicleLookup.back
 
-GET         /sell-to-the-trade/complete-and-confirm                     @controllers.disposal_of_vehicle.Dispose.present
-POST        /sell-to-the-trade/complete-and-confirm                     @controllers.disposal_of_vehicle.Dispose.submit
+GET         /sell-to-the-trade/complete-and-confirm                          @controllers.disposal_of_vehicle.Dispose.present
+POST        /sell-to-the-trade/complete-and-confirm                          @controllers.disposal_of_vehicle.Dispose.submit
 
-GET         /sell-to-the-trade/sell-to-the-trade-success                @controllers.disposal_of_vehicle.DisposeSuccess.present
-POST        /sell-to-the-trade/sell-to-the-trade-success/new-disposal   @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
-POST        /sell-to-the-trade/sell-to-the-trade-success/exit           @controllers.disposal_of_vehicle.DisposeSuccess.exit
+GET         /sell-to-the-trade/sell-to-the-trade-success                     @controllers.disposal_of_vehicle.DisposeSuccess.present
+POST        /sell-to-the-trade/sell-to-the-trade-success/new-disposal        @controllers.disposal_of_vehicle.DisposeSuccess.newDisposal
+POST        /sell-to-the-trade/sell-to-the-trade-success/exit                @controllers.disposal_of_vehicle.DisposeSuccess.exit
 
-GET         /sell-to-the-trade/sell-to-the-trade-failure                @controllers.disposal_of_vehicle.DisposeFailure.present
+GET         /sell-to-the-trade/sell-to-the-trade-failure                     @controllers.disposal_of_vehicle.DisposeFailure.present
 
-GET         /sell-to-the-trade/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.present
-POST        /sell-to-the-trade/vehicle-lookup-failure                 @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
+GET         /sell-to-the-trade/vehicle-lookup-failure                        @controllers.disposal_of_vehicle.VehicleLookupFailure.present
+POST        /sell-to-the-trade/vehicle-lookup-failure                        @controllers.disposal_of_vehicle.VehicleLookupFailure.submit
 
-GET         /sell-to-the-trade/uprn-not-found                         @controllers.disposal_of_vehicle.UprnNotFound.present
+GET         /sell-to-the-trade/uprn-not-found                                @controllers.disposal_of_vehicle.UprnNotFound.present
 
-GET         /sell-to-the-trade/duplicate-sell-to-the-trade-error        @controllers.disposal_of_vehicle.DuplicateDisposalError.present
+GET         /sell-to-the-trade/duplicate-sell-to-the-trade-error             @controllers.disposal_of_vehicle.DuplicateDisposalError.present
 
-GET         /sell-to-the-trade/micro-service-error                    @controllers.disposal_of_vehicle.MicroServiceError.present
+GET         /sell-to-the-trade/micro-service-error                           @controllers.disposal_of_vehicle.MicroServiceError.present
 
-GET         /sell-to-the-trade/soap-endpoint-error                    @controllers.disposal_of_vehicle.SoapEndpointError.present
+GET         /sell-to-the-trade/soap-endpoint-error                           @controllers.disposal_of_vehicle.SoapEndpointError.present
 
-GET         /sell-to-the-trade/vrm-locked                             @controllers.disposal_of_vehicle.VrmLocked.present
-POST        /sell-to-the-trade/vrm-locked/new-disposal                @controllers.disposal_of_vehicle.VrmLocked.newDisposal
-POST        /sell-to-the-trade/vrm-locked/exit                        @controllers.disposal_of_vehicle.VrmLocked.exit
+GET         /sell-to-the-trade/vrm-locked                                    @controllers.disposal_of_vehicle.VrmLocked.present
+POST        /sell-to-the-trade/vrm-locked/new-disposal                       @controllers.disposal_of_vehicle.VrmLocked.newDisposal
+POST        /sell-to-the-trade/vrm-locked/exit                               @controllers.disposal_of_vehicle.VrmLocked.exit
 
-GET         /sell-to-the-trade/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.present(exceptionDigest)
-POST        /sell-to-the-trade/error/:exceptionDigest                 @controllers.disposal_of_vehicle.Error.submit(exceptionDigest)
+GET         /sell-to-the-trade/error/:exceptionDigest                        @controllers.disposal_of_vehicle.Error.present(exceptionDigest)
+POST        /sell-to-the-trade/error/:exceptionDigest                        @controllers.disposal_of_vehicle.Error.submit(exceptionDigest)
 
-GET         /sell-to-the-trade/help                                   @controllers.common.Help.present
-POST        /sell-to-the-trade/help                                   @controllers.common.Help.back
+GET         /sell-to-the-trade/help                                          @controllers.common.Help.present
+POST        /sell-to-the-trade/help                                          @controllers.common.Help.back
 
-GET         /with-language/:chosenLanguage                           controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
+GET         /with-language/:chosenLanguage                                   controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
 
-#GET         /healthcheck                                             @controllers.common.HealthCheck.respond
+GET         /sell-to-the-trade/healthcheck                                   @controllers.common.HealthCheck.respond

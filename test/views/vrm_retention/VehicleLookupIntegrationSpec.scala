@@ -16,7 +16,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -30,7 +30,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "findVehicleDetails button" should {
 
-    "redirect to SetupBusinessDetailsPage when valoid submission and current keeper" taggedAs UiTag in new WebBrowser {
+    "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       happyPath(isCurrentKeeper = true)
@@ -38,7 +38,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.url should equal(ConfirmPage.url)
     }
 
-    "redirect to SetupBusinessDetailsPage when valoid submission and not current keeper" taggedAs UiTag in new WebBrowser {
+    "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       happyPath(isCurrentKeeper = false)
@@ -107,7 +107,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       tryLockedVrm()
 
-      page.title should equal(VrmLockedPage.title)
+      page.url should equal(VrmLockedPage.url)
     }
   }
 
@@ -119,7 +119,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.title should equal(BeforeYouStartPage.title)
+      page.url should equal(BeforeYouStartPage.url)
     }
   }
 
