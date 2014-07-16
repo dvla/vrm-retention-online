@@ -37,8 +37,10 @@
                 }
 
                 <br/>
-                @*<a id="@EnterAddressManuallyButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>*@
-
+                @if(dropDownOptions.isEmpty) {
+                    <a id="@EnterAddressManuallyButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
+                }
+                
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
                     @if(dropDownOptions.nonEmpty) {
