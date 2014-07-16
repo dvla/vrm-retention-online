@@ -36,7 +36,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
       click on exit
 
-      page.title should equal(BeforeYouStartPage.title)
+      page.url should equal(BeforeYouStartPage.url)
     }
 
     "remove redundant cookies" taggedAs UiTag in new WebBrowser {

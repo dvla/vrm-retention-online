@@ -119,7 +119,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.title should equal(BeforeYouStartPage.title)
+      page.url should equal(BeforeYouStartPage.url)
     }
   }
 
