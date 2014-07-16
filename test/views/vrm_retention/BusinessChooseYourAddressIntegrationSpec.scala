@@ -99,16 +99,16 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
         page.url should equal(SetupBusinessDetailsPage.url)
       }
     }
-/*
+
     "select button" should {
       "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
         go to BeforeYouStartPage
         cacheSetup()
         happyPath
 
-        page.title should equal(VehicleLookupPage.title)
+        page.url should equal(VehicleLookupPage.url)
       }
-
+/*
       "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
         go to BeforeYouStartPage
         cacheSetup()
@@ -127,9 +127,9 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
         // Verify the cookies identified by the full set of cache keys have been removed
         webDriver.manage().getCookieNamed(EnterAddressManuallyCacheKey) should equal(null)
-      }
-    }
-  */
+      }*/
+  }
+
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       vehicleDetailsModel().
