@@ -64,13 +64,15 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
     }
 
-//    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
-//      SetupBusinessDetailsPage.happyPath()
-//      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
-//      csrf.getAttribute("type") should equal("hidden")
-//      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
-//      csrf.getAttribute("value").size > 0 should equal(true)
-//    }
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
+      csrf.getAttribute("type") should equal("hidden")
+      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("value").size > 0 should equal(true)
+    }
   }
   /*
     "manualAddress button" should {
