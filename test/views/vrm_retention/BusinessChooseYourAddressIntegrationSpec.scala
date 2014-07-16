@@ -78,18 +78,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
     }
   }
 
-    "manualAddress button" should {
-      "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
-        go to BeforeYouStartPage
-        cacheSetup()
-        go to BusinessChooseYourAddressPage
-
-        click on manualAddress
-
-        page.url should equal(EnterAddressManuallyPage.url)
-      }
-    }
-
     "back button" should {
       "display previous page" taggedAs UiTag in new WebBrowser {
         go to BeforeYouStartPage
