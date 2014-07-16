@@ -16,7 +16,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -107,7 +107,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       tryLockedVrm()
 
-      page.title should equal(VrmLockedPage.title)
+      page.url should equal(VrmLockedPage.url)
     }
   }
 

@@ -16,7 +16,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       CookieFactoryForUISpecs.bruteForcePreventionViewModel()
       go to VrmLockedPage
 
-      page.title should equal(VrmLockedPage.title)
+      page.url should equal(VrmLockedPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {

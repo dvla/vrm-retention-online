@@ -18,7 +18,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.title should equal(EnterAddressManuallyPage.title)
+      page.url should equal(EnterAddressManuallyPage.url)
     }
 
     "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
@@ -67,7 +67,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPath()
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
 
     "accept when only mandatory fields only are input" taggedAs UiTag in new WebBrowser {
@@ -76,7 +76,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPathMandatoryFieldsOnly()
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
 
     "display validation error messages when no details are entered" taggedAs UiTag in new WebBrowser {
