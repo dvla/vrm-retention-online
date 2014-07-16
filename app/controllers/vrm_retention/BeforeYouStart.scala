@@ -15,8 +15,4 @@ final class BeforeYouStart @Inject()()(implicit clientSideSessionFactory: Client
       discardingCookies(RelatedCacheKeys.FullSet)
   }
 
-  def submit = Action { implicit request =>
-    Redirect(routes.VehicleLookup.present())
-  }
-
 }

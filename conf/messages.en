@@ -504,6 +504,7 @@ vrm_retention_vehicle_callback.modelLabel = Model
 
 # Payment page 
 vrm_retention_payment.title = Please enter your card details
+vrm_retention_payment.button = Pay now
 
 #Confirm page
 vrm_retention_confirm.title = Confirm details
@@ -520,8 +521,9 @@ vrm_retention_confirm.businessAddressLabel = Business Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
-vrm_retention_confirm.exit = Exit
+vrm_retention_confirm.button = Confirm
 
+vrm_retention_exit.button = Exit
 
 
 

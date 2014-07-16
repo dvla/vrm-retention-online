@@ -18,6 +18,7 @@
 GET         /vrm-retention/assets/*file                              controllers.Assets.at(path="/public", file)
 
 GET         /                                                        controllers.Application.index
+GET         /vrm-retention                                           @controllers.vrm_retention.BeforeYouStart.present
 GET         /vrm-retention/before-you-start                          @controllers.vrm_retention.BeforeYouStart.present
 
 GET         /vrm-retention/vehicle-lookup                            @controllers.vrm_retention.VehicleLookup.present
@@ -48,6 +49,12 @@ POST        /vrm-retention/business-choose-your-address              @controller
 GET         /vrm-retention/uprn-not-found                            @controllers.vrm_retention.UprnNotFound.present
 
 GET         /vrm-retention/confirm                                   @controllers.vrm_retention.Confirm.present
+POST        /vrm-retention/confirm                                   @controllers.vrm_retention.Confirm.submit
+GET         /vrm-retention/confirm/exit                              @controllers.vrm_retention.Confirm.exit
+
+GET         /vrm-retention/payment                                   @controllers.vrm_retention.Payment.present
+POST        /vrm-retention/payment                                   @controllers.vrm_retention.Payment.submit
+GET         /vrm-retention/payment/exit                              @controllers.vrm_retention.Payment.exit
 
 GET         /vrm-retention/healthcheck                               @controllers.common.HealthCheck.respond
 
@@ -64,8 +71,6 @@ GET         /with-language/:chosenLanguage                           controllers
 GET         /vrm-retention/user-details                              @controllers.vrm_retention.UserDetails.present
 
 GET         /vrm-retention/retain                                    @controllers.vrm_retention.Retain.present
-
-GET         /vrm-retention/payment                                   @controllers.vrm_retention.Payment.present
 
 GET         /vrm-retention/success                                   @controllers.vrm_retention.Success.present
 

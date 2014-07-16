@@ -1,7 +1,7 @@
 @()(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}
+@import controllers.vrm_retention.routes.VehicleLookup
 @import mappings.vrm_retention.BeforeYouStart._
 @import utils.helpers.CsrfHelper
 @import views.html.vrm_retention.main
@@ -17,12 +17,10 @@
         <li>@Messages("vrm_retention_beforeyoustart.listitem4")</li>
     </ol>
 
-
     <div class="form-steps">
         @CsrfHelper.hiddenFormField
-        @{
-            /* Note the reverse routing syntax for the hyperlink */
-        }
-        <a class="button" id="@NextId" href="vehicle-lookup">Next</a>
+        @* Note the reverse routing syntax for the hyperlink *@
+        <a class="button" id="@NextId" href="@VehicleLookup.present()">@Messages("vrm_retention_beforeyoustart.button")</a>
     </div>
+
 }

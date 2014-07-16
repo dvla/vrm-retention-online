@@ -10,9 +10,15 @@ import CookieImplicits.RichSimpleResult
 final class Payment @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_retention.payment()).
-      withNewSession.
-      discardingCookies(RelatedCacheKeys.FullSet)
+    Ok(views.html.vrm_retention.payment())
   }
 
+  def submit = Action { implicit request =>
+    Redirect(routes.Success.present())
+  }
+
+  def exit = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present())
+      .discardingCookies(RelatedCacheKeys.FullSet)
+  }
 }

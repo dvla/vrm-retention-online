@@ -11,6 +11,7 @@ import play.api.Play.current
 import utils.helpers.Config
 import models.domain.vrm_retention.{EligibilityModel, BusinessDetailsModel, SuccessViewModel, KeeperDetailsModel}
 import models.domain.common.VehicleDetailsModel
+import java.util.Calendar
 
 final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
 
@@ -24,7 +25,8 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), None) =>
           val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel)
           Ok(views.html.vrm_retention.success(successViewModel))
-        case _ => Redirect(routes.MicroServiceError.present())
+        case _ =>
+          Redirect(routes.MicroServiceError.present())
       }
   }
 
@@ -32,7 +34,12 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   private def createViewModel(vehicleDetails: VehicleDetailsModel,
                               keeperDetails: KeeperDetailsModel,
                               eligibilityModel: EligibilityModel,
-                              businessDetailsModel: BusinessDetailsModel): SuccessViewModel =
+                              businessDetailsModel: BusinessDetailsModel): SuccessViewModel = {
+
+    // TODO will be removed when retain SOAP service is called
+    val format = new java.text.SimpleDateFormat("dd-MM-yyyy")
+    val today = Calendar.getInstance().getTime()
+
     SuccessViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
@@ -44,12 +51,18 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       businessName = Some(businessDetailsModel.businessName),
       businessAddress = Some(businessDetailsModel.businessAddress),
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      "1234567890", "12-34-56-78-90", "10th August 2014" // TODO replacement mark, cert number and txn details
+      "1234567890", "12-34-56-78-90", format.format(today) // TODO replacement mark, cert number and txn details
     )
+  }
 
   private def createViewModel(vehicleDetails: VehicleDetailsModel,
                               keeperDetails: KeeperDetailsModel,
-                              eligibilityModel: EligibilityModel): SuccessViewModel =
+                              eligibilityModel: EligibilityModel): SuccessViewModel = {
+
+    // TODO will be removed when retain SOAP service is called
+    val format = new java.text.SimpleDateFormat("dd-MM-yyyy")
+    val today = Calendar.getInstance().getTime()
+
     SuccessViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = vehicleDetails.vehicleMake,
@@ -61,6 +74,7 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       businessName = None,
       businessAddress = None,
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      "1234567890", "12-34-56-78-90", "10th August 2014" // TODO replacement mark, cert number and txn details
+      "1234567890", "12-34-56-78-90", format.format(today) // TODO replacement mark, cert number and txn details
     )
+  }
 }
