@@ -4,7 +4,6 @@ import play.api.Logger
 import scala.concurrent.{ExecutionContext, Future}
 import ExecutionContext.Implicits.global
 import models.domain.vrm_retention._
-import models.domain.common.VehicleDetailsResponse
 import javax.inject.Inject
 import play.api.http.Status
 
