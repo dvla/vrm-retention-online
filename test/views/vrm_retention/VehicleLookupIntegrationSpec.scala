@@ -16,7 +16,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -30,14 +30,21 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "findVehicleDetails button" should {
 
-    // TODO need a fake elig service for this test to navigate through.
-//    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
-//      go to BeforeYouStartPage
-//
-//      happyPath()
-//
-//      page.title should equal(SetupBusinessDetailsPage.title)
-//    }
+    "redirect to SetupBusinessDetailsPage when valoid submission and current keeper" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      happyPath(isCurrentKeeper = true)
+
+      page.url should equal(ConfirmPage.url)
+    }
+
+    "redirect to SetupBusinessDetailsPage when valoid submission and not current keeper" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      happyPath(isCurrentKeeper = false)
+
+      page.url should equal(SetupBusinessDetailsPage.url)
+    }
 
     "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
@@ -95,12 +102,12 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    // TODO
     "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       tryLockedVrm()
-      page.title should equal(VrmLockedPage.title)
+
+      page.url should equal(VrmLockedPage.url)
     }
   }
 
@@ -112,7 +119,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.title should equal(BeforeYouStartPage.title)
+      page.url should equal(BeforeYouStartPage.url)
     }
   }
 

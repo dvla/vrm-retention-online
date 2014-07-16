@@ -5,10 +5,12 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, manualAddress, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.{EnterAddressManuallyPage, BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
+import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
@@ -16,55 +18,66 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.title should equal(BusinessChooseYourAddressPage.title)
+      page.url should equal(BusinessChooseYourAddressPage.url)
     }
 
-    //    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
-    //      go to BusinessChooseYourAddressPage
-    //
-    //      page.title should equal(SetupBusinessDetailsPage.title)
-    //    }
-    //
-    //    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.happyPath()
-    //      page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
-    //    }
-    //
-    //    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.happyPath()
-    //      page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
-    //    }
-    //
-    //    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.happyPath()
-    //
-    //      BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
-    //      page.source should include(
-    //        s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
-    //      )
-    //      page.source should include(
-    //        s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid"
-    //      )
-    //      page.source should include(
-    //        s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
-    //      )
-    //    }
-    //
-    //    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.submitInvalidPostcode
-    //
-    //      page.source should include("No addresses found for that postcode") // Does not contain the positive message
-    //    }
-    //
-    //    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.happyPath()
-    //      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
-    //      csrf.getAttribute("type") should equal("hidden")
-    //      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
-    //      csrf.getAttribute("value").size > 0 should equal(true)
-    //    }
+    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
+      go to BusinessChooseYourAddressPage
+
+      page.url should equal(VehicleLookupPage.url)
+    }
+
+    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+      page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
+    }
+
+    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+      page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
+    }
+
+    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+
+      BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
+      page.source should include(
+        s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+      page.source should include(
+        s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+      page.source should include(
+        s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
+      )
+    }
+
+    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.vehicleDetailsModel()
+      SetupBusinessDetailsPage.submitInvalidPostcode
+
+      page.source should include("No addresses found for that postcode") // Does not contain the positive message
+    }
+
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+
+      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
+      csrf.getAttribute("type") should equal("hidden")
+      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("value").size > 0 should equal(true)
+    }
   }
-  /*
+
     "manualAddress button" should {
       "go to the manual address entry page" taggedAs UiTag in new WebBrowser {
         go to BeforeYouStartPage
@@ -73,7 +86,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
         click on manualAddress
 
-        page.title should equal(EnterAddressManuallyPage.title)
+        page.url should equal(EnterAddressManuallyPage.url)
       }
     }
 
@@ -85,7 +98,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
         click on back
 
-        page.title should equal(SetupTradeDetailsPage.title)
+        page.url should equal(SetupBusinessDetailsPage.url)
       }
     }
 
@@ -95,7 +108,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
         cacheSetup()
         happyPath
 
-        page.title should equal(VehicleLookupPage.title)
+        page.url should equal(VehicleLookupPage.url)
       }
 
       "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
@@ -107,19 +120,18 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       }
 
       "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
-        def cacheSetupVisitedEnterAddressManuallyPage()(implicit webDriver: WebDriver) =
-          CookieFactoryForUISpecs.setupTradeDetails().enterAddressManually()
-
         go to BeforeYouStartPage
-        cacheSetupVisitedEnterAddressManuallyPage()
+        cacheSetup().enterAddressManually()
         happyPath
 
         // Verify the cookies identified by the full set of cache keys have been removed
         webDriver.manage().getCookieNamed(EnterAddressManuallyCacheKey) should equal(null)
       }
-    }
-  */
+  }
+
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.vehicleDetailsModel().setupBusinessDetails()
+    CookieFactoryForUISpecs.
+      vehicleDetailsModel().
+      setupBusinessDetails()
 
 }
