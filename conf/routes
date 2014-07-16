@@ -138,4 +138,4 @@ POST        /sell-to-the-trade/help                                          @co
 
 GET         /with-language/:chosenLanguage                                   controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
 
-#GET         /healthcheck                                             @controllers.common.HealthCheck.respond
+GET         /sell-to-the-trade/healthcheck                                   @controllers.common.HealthCheck.respond
