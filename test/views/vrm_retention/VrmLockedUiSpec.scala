@@ -28,21 +28,6 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
     }
   }
 
-//  "newRetention button" should {
-//    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to VrmLockedPage
-//
-//      click on newRetention
-//
-//      // Verify the cookies identified by the dispose set of cache keys have been removed
-//      RelatedCacheKeys.FullSet.foreach(cacheKey => {
-//        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
-//      })
-//    }
-//  }
-
   "exit button" should {
     "redirect to beforeyoustart" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
