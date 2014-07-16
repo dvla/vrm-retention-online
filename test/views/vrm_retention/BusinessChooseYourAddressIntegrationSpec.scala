@@ -16,20 +16,22 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.title should equal(BusinessChooseYourAddressPage.title)
+      page.url should equal(BusinessChooseYourAddressPage.url)
     }
 
-    //    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
-    //      go to BusinessChooseYourAddressPage
-    //
-    //      page.title should equal(SetupBusinessDetailsPage.title)
-    //    }
-    //
-    //    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.happyPath()
-    //      page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
-    //    }
-    //
+    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
+      go to BusinessChooseYourAddressPage
+
+      page.url should equal(VehicleLookupPage.url)
+    }
+
+    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to BusinessChooseYourAddressPage
+      page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
+    }
+
     //    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
     //      SetupBusinessDetailsPage.happyPath()
     //      page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
@@ -120,6 +122,8 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
     }
   */
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.vehicleDetailsModel().setupBusinessDetails()
+    CookieFactoryForUISpecs.
+      vehicleDetailsModel().
+      setupBusinessDetails()
 
 }
