@@ -56,19 +56,21 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       )
     }
 
-    //    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.submitInvalidPostcode
-    //
-    //      page.source should include("No addresses found for that postcode") // Does not contain the positive message
-    //    }
-    //
-    //    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
-    //      SetupBusinessDetailsPage.happyPath()
-    //      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
-    //      csrf.getAttribute("type") should equal("hidden")
-    //      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
-    //      csrf.getAttribute("value").size > 0 should equal(true)
-    //    }
+    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs.vehicleDetailsModel()
+      SetupBusinessDetailsPage.submitInvalidPostcode
+
+      page.source should include("No addresses found for that postcode") // Does not contain the positive message
+    }
+
+//    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+//      SetupBusinessDetailsPage.happyPath()
+//      val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
+//      csrf.getAttribute("type") should equal("hidden")
+//      csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
+//      csrf.getAttribute("value").size > 0 should equal(true)
+//    }
   }
   /*
     "manualAddress button" should {
