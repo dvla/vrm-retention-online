@@ -11,7 +11,7 @@ import models.domain.common.BruteForcePreventionViewModel
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
-  
+ 
   def present = Action {
     implicit request =>
       request.cookies.getModel[BruteForcePreventionViewModel] match {

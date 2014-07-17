@@ -10,6 +10,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
