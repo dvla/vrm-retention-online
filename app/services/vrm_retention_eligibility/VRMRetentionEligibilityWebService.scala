@@ -7,4 +7,3 @@ import models.domain.vrm_retention.VRMRetentionEligibilityRequest
 trait VRMRetentionEligibilityWebService {
   def callVRMRetentionEligibilityService(request: VRMRetentionEligibilityRequest, trackingId: String): Future[Response]
 }
-

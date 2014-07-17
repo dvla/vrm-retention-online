@@ -11,7 +11,9 @@ import pages.vrm_retention.EnterAddressManuallyPage.{happyPath, happyPathMandato
 import pages.vrm_retention.{BeforeYouStartPage, EnterAddressManuallyPage, VehicleLookupPage}
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
+
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

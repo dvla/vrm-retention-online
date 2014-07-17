@@ -48,7 +48,8 @@ final class EnterAddressManually @Inject()()
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleDetailsModel]) match {
           case (Some(setupBusinessDetailsFormModel), Some(vehicleDetailsModel)) =>
             val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
-            val businessAddress = AddressViewModel.from(validForm.addressAndPostcodeModel, enterAddressManuallyViewModel.businessPostCode)
+            val businessAddress = AddressViewModel.from(validForm.addressAndPostcodeModel,
+                                                        enterAddressManuallyViewModel.businessPostCode)
             val businessDetailsModel = BusinessDetailsModel(
               businessName = setupBusinessDetailsFormModel.businessName,
               businessAddress = businessAddress)

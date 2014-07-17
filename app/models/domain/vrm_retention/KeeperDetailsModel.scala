@@ -20,7 +20,6 @@ object KeeperDetailsModel {
                    postTown: String,
                    postCode: String) = {
 
-
     // TODO need to enhance this model to cater for a third and fourth address line
     val addressLineModel = AddressLinesModel(addressLine1, Some(addressLine2), None, postTown)
 
@@ -28,12 +27,11 @@ object KeeperDetailsModel {
 
     val addressViewModel = AddressViewModel.from(addressAndPostcodeModel, postCode)
     KeeperDetailsModel(title = title,
-      firstName = firstName,
-      lastName = lastName,
-      address = addressViewModel)
+                       firstName = firstName,
+                       lastName = lastName,
+                       address = addressViewModel)
   }
 
   implicit val JsonFormat = Json.format[KeeperDetailsModel]
   implicit val Key = CacheKey[KeeperDetailsModel](KeeperLookupDetailsCacheKey)
 }
-

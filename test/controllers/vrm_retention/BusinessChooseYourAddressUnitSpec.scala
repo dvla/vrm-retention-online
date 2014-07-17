@@ -130,7 +130,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey, EnterAddressManuallyCacheKey)
+        cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey,
+                                                 BusinessDetailsCacheKey,
+                                                 EnterAddressManuallyCacheKey)
       }
     }
 
@@ -149,8 +151,10 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true,
                                                           isPrototypeBannerVisible: Boolean = true) = {
-    val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress else responseValidForPostcodeToAddressNotFound
-    val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
+    val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
+                           else responseValidForPostcodeToAddressNotFound
+    val responseUprn = if (uprnFound) responseValidForUprnToAddress
+                       else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
@@ -164,11 +168,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       AddressSelectId -> traderUprn)
   }
 
-  private val businessChooseYourAddressWithUprnFound =
-    businessChooseYourAddressWithFakeWebService()
-
+  private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
   private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
-
   private lazy val present = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).

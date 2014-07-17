@@ -6,7 +6,9 @@ import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Lin
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
+
   "form" should {
+
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults().get.addressAndPostcodeModel
 
@@ -24,6 +26,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
   }
 
   "address lines" should {
+
     "accept if form address lines contain hyphens" in {
       val model = formWithValidDefaults(buildingNameOrNumber = buildingNameOrNumberHypthens,
         line2 = line2Hypthens,line3 = line3Hypthens, postTown = postTownHypthens)
@@ -123,8 +126,8 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     )
   }
 
-  val buildingNameOrNumberHypthens = "1-12"
-  val line2Hypthens = "address line - 2"
-  val line3Hypthens = "address line - 3"
-  val postTownHypthens = "address-line"
+  private val buildingNameOrNumberHypthens = "1-12"
+  private val line2Hypthens = "address line - 2"
+  private val line3Hypthens = "address line - 3"
+  private val postTownHypthens = "address-line"
 }

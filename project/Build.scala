@@ -95,12 +95,25 @@ object ApplicationBuild extends Build {
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
     myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
+  lazy val scoverageSettings = {
+    import ScoverageSbtPlugin._
+    instrumentSettings ++
+    Seq(
+      // Semicolon-separated list of regexs matching classes to exclude
+      // TODO add to this list the files we don't want the coverage tool to include in the coverage report e.g. Reverse routing files.
+      ScoverageKeys.excludedPackages in scoverage := "<empty>;Reverse.*"
+    )
+  }
 
   val main = play.Project(
     appName,
     appVersion,
     appDependencies,
-    settings = play.Project.playScalaSettings ++ jacoco.settings ++ ScalastylePlugin.Settings
+    settings = play.Project.playScalaSettings ++
+      jacoco.settings ++
+      scoverageSettings ++
+      CoverallsPlugin.coverallsSettings ++
+      ScalastylePlugin.Settings
   ).settings(appSettings: _*)
    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
    .settings(

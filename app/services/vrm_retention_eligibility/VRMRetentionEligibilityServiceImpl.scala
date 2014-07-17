@@ -7,8 +7,11 @@ import models.domain.vrm_retention._
 import javax.inject.Inject
 import play.api.http.Status
 
-final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibilityWebService) extends VRMRetentionEligibilityService {
-  override def invoke(cmd: VRMRetentionEligibilityRequest, trackingId: String): (Future[(Int, Option[VRMRetentionEligibilityResponse])]) = {
+final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibilityWebService)
+  extends VRMRetentionEligibilityService {
+
+  override def invoke(cmd: VRMRetentionEligibilityRequest,
+                      trackingId: String): (Future[(Int, Option[VRMRetentionEligibilityResponse])]) = {
     ws.callVRMRetentionEligibilityService(cmd, trackingId).map {
       resp =>
         Logger.debug(s"Http response code from vrm retention eligibility lookup micro-service was: ${resp.status}")
@@ -17,4 +20,3 @@ final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibi
     }
   }
 }
-

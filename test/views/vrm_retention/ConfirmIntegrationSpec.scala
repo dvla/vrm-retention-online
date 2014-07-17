@@ -11,6 +11,7 @@ import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
