@@ -56,8 +56,10 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
             val businessChooseYourAddressViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel).map { addresses =>
-              BadRequest(business_choose_your_address(businessChooseYourAddressViewModel, formWithReplacedErrors(invalidForm),
-                addresses))
+              BadRequest(business_choose_your_address(businessChooseYourAddressViewModel,
+                                                      formWithReplacedErrors(invalidForm),
+                                                      addresses)
+              )
             }
           case _ => Future {
             Redirect(routes.SetUpBusinessDetails.present())
@@ -77,7 +79,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
 
   private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressFormModel])(implicit request: Request[_]) =
     form.replaceError(AddressSelectId, "error.required",
-      FormError(key = AddressSelectId, message = "vrm_retention_businessChooseYourAddress.address.required", args = Seq.empty)).
+      FormError(key = AddressSelectId,
+                message = "vrm_retention_businessChooseYourAddress.address.required", args = Seq.empty)).
       distinctErrors
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =

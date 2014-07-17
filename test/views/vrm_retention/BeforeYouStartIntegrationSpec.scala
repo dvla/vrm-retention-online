@@ -10,7 +10,9 @@ import pages.vrm_retention.{VehicleLookupPage, SetupBusinessDetailsPage, BeforeY
 import mappings.vrm_retention.RelatedCacheKeys
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
+
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
@@ -35,6 +37,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "startNow button" should {
+
     "go to next page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 

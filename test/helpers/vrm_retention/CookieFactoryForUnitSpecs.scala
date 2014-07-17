@@ -16,8 +16,9 @@ import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVehicleLookupWebService.{VehicleModelValid, RegistrationNumberValid, VehicleMakeValid}
 
 object CookieFactoryForUnitSpecs extends TestComposition {
+
   implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
-  final val TrackingIdValue = "trackingId"
+  private final val TrackingIdValue = "trackingId"
   private val session = new ClearTextClientSideSession(TrackingIdValue)
 
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {

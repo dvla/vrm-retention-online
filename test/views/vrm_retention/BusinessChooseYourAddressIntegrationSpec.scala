@@ -13,7 +13,9 @@ import services.fakes.FakeAddressLookupService.PostcodeValid
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
+
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -121,5 +123,4 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
     CookieFactoryForUISpecs.
       vehicleDetailsModel().
       setupBusinessDetails()
-
 }

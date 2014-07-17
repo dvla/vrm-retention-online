@@ -6,8 +6,10 @@ import org.apache.http.client.methods.{CloseableHttpResponse, HttpGet, HttpPost,
 import org.apache.http.impl.client.HttpClients
 import play.mvc.Http.Status
 
-class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
+final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
+
   "Accessing the /healthcheck url" should {
+
     "return 200 for GET and POST" in new WebBrowser {
       var httpResponse = execute(new HttpGet(WebDriverFactory.testUrl + "/vrm-retention/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be(Status.OK)
