@@ -9,8 +9,10 @@ import models.domain.vrm_retention.{BusinessDetailsModel, EligibilityModel, Keep
 import play.api.mvc._
 import utils.helpers.Config
 import mappings.vrm_retention.RelatedCacheKeys
+import org.joda.time.format.ISODateTimeFormat
+import services.DateService
 
-final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Success @Inject()(dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
   def present = Action {
@@ -40,8 +42,9 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
                               businessDetailsModel: BusinessDetailsModel): SuccessViewModel = {
 
     // TODO will be removed when retain SOAP service is called
-    val format = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm")
-    val today = Calendar.getInstance().getTime()
+    val transactionTimestamp = dateService.today.toDateTime.get
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+      ISODateTimeFormat.hourMinute().print(transactionTimestamp)
 
     SuccessViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
@@ -54,7 +57,7 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       businessName = Some(businessDetailsModel.businessName),
       businessAddress = Some(businessDetailsModel.businessAddress),
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      randomNumericString(14), randomAlphaNumericString(10), format.format(today) // TODO replacement mark, cert number and txn details
+      randomNumericString(14), randomAlphaNumericString(10), isoDateTimeString // TODO replacement mark, cert number and txn details
     )
   }
 
@@ -63,8 +66,9 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
                               eligibilityModel: EligibilityModel): SuccessViewModel = {
 
     // TODO will be removed when retain SOAP service is called
-    val format = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm")
-    val today = Calendar.getInstance().getTime()
+    val transactionTimestamp = dateService.today.toDateTime.get
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+      ISODateTimeFormat.hourMinute().print(transactionTimestamp)
 
     SuccessViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
@@ -77,7 +81,7 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       businessName = None,
       businessAddress = None,
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      randomNumericString(14), randomAlphaNumericString(10), format.format(today) // TODO replacement mark, cert number and txn details
+      randomNumericString(14), randomAlphaNumericString(10), isoDateTimeString // TODO replacement mark, cert number and txn details
     )
   }
 
