@@ -6,7 +6,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.vrm_retention._
-import pages.vrm_retention.ConfirmPage.happyPath
+import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
@@ -43,17 +43,17 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-//  "back" should {
-//    "display previous page when back link is clicked" taggedAs UiTag in new WebBrowser {
-//      go to BeforeYouStartPage
-//
-//      go to VehicleLookupPage
-//
-//      click on back
-//
-//      page.url should equal(BeforeYouStartPage.url)
-//    }
-//  }
+  "exit" should {
+    "display before you start page when exit link is clicked" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      cacheSetup()
+
+      exitPath
+
+      page.url should equal(BeforeYouStartPage.url)
+    }
+  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.

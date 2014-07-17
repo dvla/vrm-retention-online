@@ -1,7 +1,7 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.Confirm.NextId
+import mappings.vrm_retention.Confirm.{ExitId, NextId}
 import org.openqa.selenium.WebDriver
 
 object ConfirmPage extends Page with WebBrowserDSL {
@@ -11,8 +11,15 @@ object ConfirmPage extends Page with WebBrowserDSL {
 
   def confirm(implicit driver: WebDriver): Element = find(id(NextId)).get
 
+  def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
+
   def happyPath(implicit driver: WebDriver) = {
     go to ConfirmPage
     click on confirm
+  }
+
+  def exitPath(implicit driver: WebDriver) = {
+    go to ConfirmPage
+    click on exit
   }
 }
