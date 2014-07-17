@@ -36,7 +36,10 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config,
               returnedFuture.failure(new Exception("TODO"))
           }
         }
-        def notPermitted = BruteForcePreventionViewModel.fromResponse(permitted = false, BruteForcePreventionResponse(attempts = 0), dateService, maxAttempts = maxAttempts)
+        def notPermitted = BruteForcePreventionViewModel.fromResponse(permitted = false,
+                                                                      BruteForcePreventionResponse(attempts = 0),
+                                                                      dateService,
+                                                                      maxAttempts = maxAttempts)
         resp.status match {
           case play.api.http.Status.OK => permitted()
           case play.api.http.Status.FORBIDDEN => returnedFuture.success(notPermitted)
@@ -50,6 +53,9 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config,
       returnedFuture.future
     }
     else Future {
-      BruteForcePreventionViewModel.fromResponse(permitted = true, BruteForcePreventionResponse(attempts = 0), dateService, maxAttempts = maxAttempts)
+      BruteForcePreventionViewModel.fromResponse(permitted = true,
+                                                 BruteForcePreventionResponse(attempts = 0),
+                                                 dateService,
+                                                 maxAttempts = maxAttempts)
     }
 }

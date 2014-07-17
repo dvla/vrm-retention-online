@@ -1,16 +1,18 @@
 package views.vrm_retention
 
-import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
+import mappings.vrm_retention.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
 import pages.vrm_retention.BeforeYouStartPage.startNow
-import pages.vrm_retention.{VehicleLookupPage, SetupBusinessDetailsPage, BeforeYouStartPage}
-import mappings.vrm_retention.RelatedCacheKeys
+import pages.vrm_retention.{BeforeYouStartPage, VehicleLookupPage}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
+
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
@@ -35,6 +37,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "startNow button" should {
+
     "go to next page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 

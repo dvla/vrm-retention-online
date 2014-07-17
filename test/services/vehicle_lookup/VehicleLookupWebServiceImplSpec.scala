@@ -1,29 +1,14 @@
 package services.vehicle_lookup
 
-import com.github.tomakehurst.wiremock.client.WireMock.{postRequestedFor, urlEqualTo, equalTo}
+import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WireMockFixture}
+import models.domain.common.VehicleDetailsRequest
 import play.api.libs.json.Json
 import services.HttpHeaders
 import utils.helpers.Config
-import models.domain.common.VehicleDetailsRequest
 
-class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
-
-  implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-  val lookupService = new VehicleLookupWebServiceImpl(new Config() {
-    override val vehicleLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
-  })
-
-  val trackingId = "track-id-test"
-
-  val request = VehicleDetailsRequest(
-    referenceNumber = "ref number",
-    registrationNumber = "reg number",
-    userName = "user name"
-  )
-
-  implicit val vehiclesDetailsFormat = Json.format[VehicleDetailsRequest]
+final class VehicleLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callDisposeService" should {
 
@@ -37,4 +22,19 @@ class VehicleLookupWebServiceImplSpec  extends UnitSpec  with WireMockFixture {
       }
     }
   }
+
+  private implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+  private val lookupService = new VehicleLookupWebServiceImpl(new Config() {
+    override val vehicleLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+  })
+
+  private final val trackingId = "track-id-test"
+
+  private val request = VehicleDetailsRequest(
+    referenceNumber = "ref number",
+    registrationNumber = "reg number",
+    userName = "user name"
+  )
+
+  private implicit val vehiclesDetailsFormat = Json.format[VehicleDetailsRequest]
 }

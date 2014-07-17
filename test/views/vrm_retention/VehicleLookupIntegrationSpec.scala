@@ -1,16 +1,17 @@
 package views.vrm_retention
 
-import helpers.tags.UiTag
 import helpers.UiSpec
+import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement}
 import pages.common.ErrorPanel
-import pages.vrm_retention._
-import pages.vrm_retention.VehicleLookupPage.{happyPath, tryLockedVrm, back}
+import pages.vrm_retention.VehicleLookupPage.{back, happyPath, tryLockedVrm}
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage, VrmLockedPage}
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
@@ -122,5 +123,4 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.url should equal(BeforeYouStartPage.url)
     }
   }
-
 }

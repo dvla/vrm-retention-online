@@ -1,6 +1,6 @@
 package mappings.vrm_retention
 
 object Confirm {
-  final val NextId = "next"
+  final val ConfirmId = "confirm"
   final val ExitId = "exit"
 }

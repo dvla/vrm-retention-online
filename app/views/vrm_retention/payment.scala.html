@@ -7,7 +7,7 @@
 @import views.html.vrm_retention.main
 
 @main(
-    title = Messages("vrm_retention_beforeyoustart.title")
+    title = Messages("vrm_retention_payment.title")
 ) {
 
 
@@ -18,7 +18,7 @@
     <div class="form-steps">
         @CsrfHelper.hiddenFormField
         @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@NextId" href="@Success.present()">@Messages("vrm_retention_payment.button")</a>
+        <a class="button" id="@PayNowId" href="@Success.present()">@Messages("vrm_retention_payment.button")</a>
         <a class="button" id="@ExitId" href="@Payment.exit()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }

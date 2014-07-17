@@ -4,7 +4,8 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import mappings.common.AddressAndPostcode.{AddressAndPostcodeId, addressAndPostcode}
-import models.domain.vrm_retention.{BusinessDetailsModel, SetupBusinessDetailsFormModel, EnterAddressManuallyViewModel, EnterAddressManuallyModel}
+import models.domain.common.{AddressViewModel, VehicleDetailsModel}
+import models.domain.vrm_retention.{BusinessDetailsModel, EnterAddressManuallyModel, EnterAddressManuallyViewModel, SetupBusinessDetailsFormModel}
 import play.api.Logger
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
@@ -12,11 +13,10 @@ import play.api.mvc.{Action, Controller, Request}
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.vrm_retention.enter_address_manually
-import models.domain.common.{VehicleDetailsModel, AddressViewModel}
 
 final class EnterAddressManually @Inject()()
-                                 (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                  config: Config) extends Controller {
+                                          (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                           config: Config) extends Controller {
 
   private[vrm_retention] val form = Form(
     mapping(
@@ -48,7 +48,8 @@ final class EnterAddressManually @Inject()()
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleDetailsModel]) match {
           case (Some(setupBusinessDetailsFormModel), Some(vehicleDetailsModel)) =>
             val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
-            val businessAddress = AddressViewModel.from(validForm.addressAndPostcodeModel, enterAddressManuallyViewModel.businessPostCode)
+            val businessAddress = AddressViewModel.from(validForm.addressAndPostcodeModel,
+              enterAddressManuallyViewModel.businessPostCode)
             val businessDetailsModel = BusinessDetailsModel(
               businessName = setupBusinessDetailsFormModel.businessName,
               businessAddress = businessAddress)
@@ -67,13 +68,13 @@ final class EnterAddressManually @Inject()()
       "addressAndPostcode.addressLines.buildingNameOrNumber",
       FormError("addressAndPostcode.addressLines", "error.address.buildingNameOrNumber.invalid")
     ).replaceError(
-      "addressAndPostcode.addressLines.postTown",
-      FormError("addressAndPostcode.addressLines",
-      "error.address.postTown")
-    ).replaceError(
-      "addressAndPostcode.postcode",
-      FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
-    ).distinctErrors
+        "addressAndPostcode.addressLines.postTown",
+        FormError("addressAndPostcode.addressLines",
+          "error.address.postTown")
+      ).replaceError(
+        "addressAndPostcode.postcode",
+        FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
+      ).distinctErrors
 
   private def createViewModel(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
                               vehicleDetails: VehicleDetailsModel): EnterAddressManuallyViewModel =

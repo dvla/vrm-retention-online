@@ -1,7 +1,7 @@
 package models.domain.vrm_retention
 
-import models.domain.common.CacheKey
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
+import models.domain.common.CacheKey
 import play.api.libs.json.Json
 
 final case class BusinessChooseYourAddressFormModel(uprnSelected: String)

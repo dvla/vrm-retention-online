@@ -1,6 +1,5 @@
 package mappings.vrm_retention
 
-object Payment {
-  final val PayNowId = "pay now"
+object Success {
   final val ExitId = "exit"
 }

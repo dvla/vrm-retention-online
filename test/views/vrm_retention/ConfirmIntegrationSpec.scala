@@ -4,25 +4,29 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import mappings.vrm_retention.RelatedCacheKeys
+import org.openqa.selenium.{By, WebElement, WebDriver}
+import pages.vrm_retention._
+import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
 import org.openqa.selenium.{By, WebDriver, WebElement}
-import pages.vrm_retention.VrmLockedPage.exit
-import pages.vrm_retention.{BeforeYouStartPage, VrmLockedPage}
+import pages.vrm_retention.ConfirmPage.happyPath
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, PaymentPage, VehicleLookupPage}
 
-final class VrmLockedUiSpec extends UiSpec with TestHarness {
+final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.bruteForcePreventionViewModel()
-      go to VrmLockedPage
 
-      page.url should equal(VrmLockedPage.url)
+      cacheSetup()
+
+      go to ConfirmPage
+
+      page.url should equal(ConfirmPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
-      go to VrmLockedPage
+      go to VehicleLookupPage
       val csrf: WebElement = webDriver.findElement(By.name(filters.csrf_prevention.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(filters.csrf_prevention.CsrfPreventionAction.TokenName)
@@ -30,33 +34,34 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
     }
   }
 
-  "exit button" should {
+  "confirm button" should {
 
-    "redirect to beforeyoustart" taggedAs UiTag in new WebBrowser {
+    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup()
-      go to VrmLockedPage
 
-      click on exit
+      cacheSetup()
+
+      happyPath
+
+      page.url should equal(PaymentPage.url)
+    }
+  }
+
+  "exit" should {
+    "display before you start page when exit link is clicked" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      cacheSetup()
+
+      exitPath
 
       page.url should equal(BeforeYouStartPage.url)
-    }
-
-    "remove redundant cookies" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to VrmLockedPage
-
-      click on exit
-
-      // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => {
-        webDriver.manage().getCookieNamed(cacheKey) should equal(null)
-      })
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      bruteForcePreventionViewModel()
+      vehicleDetailsModel().
+      keeperDetailsModel().
+      businessDetails()
 }

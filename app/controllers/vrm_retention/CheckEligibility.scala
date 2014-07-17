@@ -1,24 +1,23 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import common.{ClientSideSessionFactory, LogFormats}
 import mappings.vrm_retention.VehicleLookup._
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
-import play.api.mvc._
 import play.api.Logger
-import scala.concurrent.{ExecutionContext, Future}
-import scala.Some
+import play.api.mvc._
 import services.vrm_retention_eligibility.VRMRetentionEligibilityService
 import utils.helpers.Config
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichCookies
-import ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetentionEligibilityService)
-                                      (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                       config: Config) extends Controller {
 
-  private val KeeperConsent = "Keeper"
+  private final val KeeperConsent = "Keeper" // TODO please move to a common place such as the mapping file.
 
   def present = Action.async {
     implicit request =>
@@ -34,7 +33,9 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
    * Call the eligibility service to determine if the VRM is valid for retention and a replacement mark can
    * be found.
    */
-  private def checkVRMEligibility(vehicleLookupFormModel: VehicleLookupFormModel, vehicleDetailsModel: VehicleDetailsModel)(implicit request: Request[_]): Future[SimpleResult] = {
+  private def checkVRMEligibility(vehicleLookupFormModel: VehicleLookupFormModel,
+                                  vehicleDetailsModel: VehicleDetailsModel)
+                                 (implicit request: Request[_]): Future[SimpleResult] = {
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
 
@@ -58,7 +59,8 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
       Redirect(routes.MicroServiceError.present())
     }
 
-    def createResultFromVRMRetentionEligibilityResponse(vrmRetentionEligibilityResponse: VRMRetentionEligibilityResponse)(implicit request: Request[_]) =
+    def createResultFromVRMRetentionEligibilityResponse(vrmRetentionEligibilityResponse: VRMRetentionEligibilityResponse)
+                                                       (implicit request: Request[_]) =
       vrmRetentionEligibilityResponse.responseCode match {
         case Some(responseCode) => eligibilityFailure(responseCode) // There is only a response code when there is a problem.
         case None =>
@@ -72,7 +74,8 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
       }
 
     def vrmRetentionEligibilitySuccessResponse(responseStatusVRMRetentionEligibilityMS: Int,
-                                               vrmRetentionEligibilityResponse: Option[VRMRetentionEligibilityResponse])(implicit request: Request[_]) =
+                                               vrmRetentionEligibilityResponse: Option[VRMRetentionEligibilityResponse])
+                                              (implicit request: Request[_]) =
       responseStatusVRMRetentionEligibilityMS match {
         case OK =>
           vrmRetentionEligibilityResponse match {
@@ -99,7 +102,5 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
         Logger.debug(s"VRM Retention Eligibility Web service call failed. Exception " + e.toString.take(45))
         Redirect(routes.MicroServiceError.present())
     }
-
   }
-
 }

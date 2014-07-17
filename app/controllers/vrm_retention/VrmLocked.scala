@@ -4,12 +4,14 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
+import models.domain.common.BruteForcePreventionViewModel
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
-import models.domain.common.BruteForcePreventionViewModel
 
-final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                  config: Config) extends Controller {
+
   def present = Action {
     implicit request =>
       request.cookies.getModel[BruteForcePreventionViewModel] match {

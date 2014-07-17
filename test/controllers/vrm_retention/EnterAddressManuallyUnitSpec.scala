@@ -3,26 +3,24 @@ package controllers.vrm_retention
 import common.ClientSideSessionFactory
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import helpers.common.CookieHelper
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import mappings.common.AddressAndPostcode.AddressAndPostcodeId
 import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import mappings.common.Postcode.PostcodeId
-import mappings.disposal_of_vehicle.TraderDetails.TraderDetailsCacheKey
-import models.domain.disposal_of_vehicle.{EnterAddressManuallyModel, TraderDetailsModel}
+import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
 import models.domain.vrm_retention.BusinessDetailsModel
 import org.mockito.Mockito.when
-import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import utils.helpers.Config
 import scala.concurrent.Future
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
@@ -71,7 +69,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      // Stub this config value.
       val enterAddressManuallyPrototypeNotVisible = new EnterAddressManually()
 
       val result = enterAddressManuallyPrototypeNotVisible.present(request)
@@ -80,6 +79,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   "submit" should {
+
     "return bad request when no data is entered" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
@@ -200,9 +200,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit removes commas, but still applies the min length rule" in new WithApplication {
-      utils.helpers.FormExtensions.trimNonWhiteListedChars("""[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
+      utils.helpers.FormExtensions.trimNonWhiteListedChars( """[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
       val result = enterAddressManually.submit(requestWithValidDefaults(
-        buildingName = "m...,,,,   "  // This should be a min length of 4 chars
+        buildingName = "m...,,,,   " // This should be a min length of 4 chars
       ))
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
@@ -303,10 +303,10 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   private def requestWithValidDefaults(buildingName: String = BuildingNameOrNumberValid,
-                                      line2: String = Line2Valid,
-                                      line3: String = Line3Valid,
-                                      postTown: String = PostTownValid,
-                                      postCode: String = PostcodeValid) =
+                                       line2: String = Line2Valid,
+                                       line3: String = Line3Valid,
+                                       postTown: String = PostTownValid,
+                                       postCode: String = PostcodeValid) =
 
     FakeRequest().withFormUrlEncodedBody(
       s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> buildingName,

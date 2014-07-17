@@ -1,11 +1,12 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.SetupBusinessDetails.{SubmitId, BusinessNameId, BusinessPostcodeId}
+import mappings.vrm_retention.SetupBusinessDetails.{BusinessNameId, BusinessPostcodeId, SubmitId}
 import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupService.{PostcodeInvalid, PostcodeValid, TraderBusinessNameValid}
 
 object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
+
   final val address = "/vrm-retention/setup-business-details"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your business details"

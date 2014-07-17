@@ -1,20 +1,21 @@
 package services.vrm_retention_eligibility
 
-import scala.concurrent.Future
-import play.api.libs.ws.{WS, Response}
-import models.domain.vrm_retention.VRMRetentionEligibilityRequest
-import play.api.libs.json.Json
-import utils.helpers.Config
-import play.api.Logger
 import com.google.inject.Inject
 import common.LogFormats
+import models.domain.vrm_retention.VRMRetentionEligibilityRequest
+import play.api.Logger
+import play.api.libs.json.Json
+import play.api.libs.ws.{Response, WS}
 import services.HttpHeaders
+import utils.helpers.Config
+import scala.concurrent.Future
 
 final class VRMRetentionEligibilityWebServiceImpl @Inject()(config: Config) extends VRMRetentionEligibilityWebService {
+
   private val endPoint: String = s"${config.vrmRetentionEligibilityMicroServiceUrlBase}/vrm/retention/eligibility"
 
-  override def callVRMRetentionEligibilityService(request: VRMRetentionEligibilityRequest, trackingId: String): Future[Response] = {
-
+  override def callVRMRetentionEligibilityService(request: VRMRetentionEligibilityRequest,
+                                                  trackingId: String): Future[Response] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
     val refNo = LogFormats.anonymize(request.docRefNumber)
 
@@ -24,5 +25,4 @@ final class VRMRetentionEligibilityWebServiceImpl @Inject()(config: Config) exte
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       post(Json.toJson(request))
   }
-
 }

@@ -1,13 +1,14 @@
 package services.fakes
 
+import models.domain.common.{VehicleDetailsDto, VehicleDetailsRequest, VehicleDetailsResponse}
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import play.api.libs.json.Json
 import services.vehicle_lookup.VehicleLookupWebService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import models.domain.common.{VehicleDetailsResponse, VehicleDetailsRequest, VehicleDetailsDto}
 
 final class FakeVehicleLookupWebService extends VehicleLookupWebService {
+
   import services.fakes.FakeVehicleLookupWebService._
 
   override def callVehicleLookupService(request: VehicleDetailsRequest, trackingId: String) = Future {
@@ -34,8 +35,16 @@ object FakeVehicleLookupWebService {
   final val KeeperNameValid = "Keeper Name"
   final val KeeperUprnValid = 10123456789L
   final val ConsentValid = "true"
-  final val KeeperConsentValid = "Keeper" // TODO move out into FakeVehicleAndKeeperLookupService when written
-  final val KeeperPostcodeValid = "SA11AA" // TODO move out into FakeVehicleAndKeeperLookupService when written
+  // TODO move out the below into FakeVehicleAndKeeperLookupService when written
+  final val KeeperConsentValid = "Keeper"
+  final val KeeperPostcodeValid = "SA11AA"
+  final val KeeperTitleValid = "Mr"
+  final val KeeperLastNameValid = "Jones"
+  final val KeeperFirstNameValid = "David"
+  final val KeeperAddressLine1Valid = "1 High Street"
+  final val KeeperAddressLine2Valid = "Skewen"
+  final val KeeperPostTownValid = "Swansea"
+  final val KeeperPostCodeValid = "SA11AA"
 
   private val vehicleDetails = VehicleDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,

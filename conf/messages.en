@@ -503,7 +503,7 @@ vrm_retention_vehicle_callback.makeLabel = Make
 vrm_retention_vehicle_callback.modelLabel = Model
 
 # Payment page 
-vrm_retention_payment.title = Please enter your card details
+vrm_retention_payment.title = Payment details
 vrm_retention_payment.button = Pay now
 
 #Confirm page

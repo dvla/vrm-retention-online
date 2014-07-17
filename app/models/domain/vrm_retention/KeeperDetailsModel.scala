@@ -1,7 +1,7 @@
 package models.domain.vrm_retention
 
 import mappings.vrm_retention.VehicleLookup.KeeperLookupDetailsCacheKey
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel, AddressViewModel, CacheKey}
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, CacheKey}
 import play.api.libs.json.Json
 
 final case class KeeperDetailsModel(title: String,
@@ -20,7 +20,6 @@ object KeeperDetailsModel {
                    postTown: String,
                    postCode: String) = {
 
-
     // TODO need to enhance this model to cater for a third and fourth address line
     val addressLineModel = AddressLinesModel(addressLine1, Some(addressLine2), None, postTown)
 
@@ -36,4 +35,3 @@ object KeeperDetailsModel {
   implicit val JsonFormat = Json.format[KeeperDetailsModel]
   implicit val Key = CacheKey[KeeperDetailsModel](KeeperLookupDetailsCacheKey)
 }
-
