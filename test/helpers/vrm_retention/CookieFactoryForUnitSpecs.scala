@@ -6,14 +6,13 @@ import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddres
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.VehicleLookup.VehicleLookupDetailsCacheKey
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel, VehicleDetailsModel}
-import models.domain.vrm_retention.{EnterAddressManuallyModel}
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, VehicleDetailsModel}
+import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, EnterAddressManuallyModel, SetupBusinessDetailsFormModel}
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import services.fakes.FakeAddressLookupService.{PostTownValid, Line3Valid, Line2Valid, BuildingNameOrNumberValid, PostcodeValid, TraderBusinessNameValid}
-import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, SetupBusinessDetailsFormModel}
+import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid}
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.FakeVehicleLookupWebService.{VehicleModelValid, RegistrationNumberValid, VehicleMakeValid}
+import services.fakes.FakeVehicleLookupWebService.{RegistrationNumberValid, VehicleMakeValid, VehicleModelValid}
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 

@@ -6,7 +6,7 @@ import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import models.domain.common.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import models.domain.common._
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, BruteForcePreventionViewModel, VehicleDetailsModel}
 import models.domain.vrm_retention._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
@@ -16,7 +16,6 @@ import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegis
 import services.fakes.FakeVehicleLookupWebService
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import scala.Some
 
 object CookieFactoryForUISpecs {
 
@@ -115,9 +114,9 @@ object CookieFactoryForUISpecs {
                          addressLine2: String = KeeperAddressLine2Valid,
                          postTown: String = KeeperPostTownValid,
                          postCode: String = KeeperPostCodeValid)
-                         (implicit webDriver: WebDriver) = {
+                        (implicit webDriver: WebDriver) = {
     val key = mappings.vrm_retention.VehicleLookup.KeeperLookupDetailsCacheKey
-    val value = KeeperDetailsModel.fromResponse(title,firstName,lastName,addressLine1,addressLine2,postTown,postCode)
+    val value = KeeperDetailsModel.fromResponse(title, firstName, lastName, addressLine1, addressLine2, postTown, postCode)
     addCookie(key, value)
     this
   }

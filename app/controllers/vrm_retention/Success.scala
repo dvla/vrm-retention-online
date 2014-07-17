@@ -1,17 +1,13 @@
 package controllers.vrm_retention
 
-import play.api.mvc._
-import com.google.inject.Inject
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichCookies
-import CookieImplicits.RichForm
-import mappings.vrm_retention.RelatedCacheKeys
-import play.api.Play.current
-import utils.helpers.Config
-import models.domain.vrm_retention.{EligibilityModel, BusinessDetailsModel, SuccessViewModel, KeeperDetailsModel}
-import models.domain.common.VehicleDetailsModel
 import java.util.Calendar
+import com.google.inject.Inject
+import common.ClientSideSessionFactory
+import common.CookieImplicits.RichCookies
+import models.domain.common.VehicleDetailsModel
+import models.domain.vrm_retention.{BusinessDetailsModel, EligibilityModel, KeeperDetailsModel, SuccessViewModel}
+import play.api.mvc._
+import utils.helpers.Config
 
 final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {

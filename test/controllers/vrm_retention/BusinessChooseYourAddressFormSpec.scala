@@ -26,7 +26,7 @@ final class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
-                           else responseValidForPostcodeToAddressNotFound
+    else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)

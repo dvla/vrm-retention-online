@@ -1,19 +1,17 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.{LogFormats, ClientSideSessionFactory, CookieImplicits}
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import common.{ClientSideSessionFactory, LogFormats}
 import mappings.vrm_retention.VehicleLookup._
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
-import play.api.mvc._
 import play.api.Logger
-import scala.concurrent.{ExecutionContext, Future}
-import scala.Some
+import play.api.mvc._
 import services.vrm_retention_eligibility.VRMRetentionEligibilityService
 import utils.helpers.Config
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichCookies
-import ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetentionEligibilityService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
