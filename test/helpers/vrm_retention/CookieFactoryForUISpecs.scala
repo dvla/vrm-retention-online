@@ -2,6 +2,7 @@ package helpers.vrm_retention
 
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import models.domain.common.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
@@ -11,6 +12,7 @@ import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid, addressWithoutUprn}
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
@@ -55,6 +57,13 @@ object CookieFactoryForUISpecs {
   def businessDetails(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = BusinessDetailsCacheKey
     val value = BusinessDetailsModel(businessName = TraderBusinessNameValid, businessAddress = address)
+    addCookie(key, value)
+    this
+  }
+
+  def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid)(implicit webDriver: WebDriver) = {
+    val key = CheckEligibilityCacheKey
+    val value = EligibilityModel(replacementVRM = replacementVRM)
     addCookie(key, value)
     this
   }

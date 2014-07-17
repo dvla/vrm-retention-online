@@ -1,7 +1,7 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.Confirm.{ExitId, NextId}
+import mappings.vrm_retention.Confirm.{ExitId, ConfirmId}
 import org.openqa.selenium.WebDriver
 
 object ConfirmPage extends Page with WebBrowserDSL {
@@ -10,7 +10,7 @@ object ConfirmPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Confirm details"
 
-  def confirm(implicit driver: WebDriver): Element = find(id(NextId)).get
+  def confirm(implicit driver: WebDriver): Element = find(id(ConfirmId)).get
 
   def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
 

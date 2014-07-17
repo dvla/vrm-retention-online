@@ -2,13 +2,13 @@ package views.vrm_retention
 
 import helpers.UiSpec
 import helpers.tags.UiTag
-import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import org.openqa.selenium.{By, WebElement, WebDriver}
+import org.openqa.selenium.{WebDriver, WebElement, By}
 import pages.vrm_retention._
-import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
+import pages.vrm_retention.PaymentPage.{exitPath, happyPath}
+import helpers.vrm_retention.CookieFactoryForUISpecs
 
-final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
+final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
@@ -17,9 +17,9 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       cacheSetup()
 
-      go to ConfirmPage
+      go to PaymentPage
 
-      page.url should equal(ConfirmPage.url)
+      page.url should equal(PaymentPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -31,16 +31,19 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  "confirm button" should {
+  "pay now button" should {
 
-    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to summary page when pay now link is clicked" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
+      println("before cache setup")
       cacheSetup()
+      println("before happy path")
 
       happyPath
+      println("before check")
 
-      page.url should equal(PaymentPage.url)
+      page.url should equal(SummaryPage.url)
     }
   }
 
@@ -60,5 +63,6 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     CookieFactoryForUISpecs.
       vehicleDetailsModel().
       keeperDetailsModel().
-      businessDetails()
+      businessDetails().
+      eligibilityModel()
 }

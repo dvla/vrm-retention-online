@@ -5,7 +5,6 @@ import models.domain.vrm_retention.{VRMRetentionEligibilityResponse, VRMRetentio
 import play.api.http.Status.OK
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.Response
-import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.vrm_retention_eligibility.VRMRetentionEligibilityWebService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,10 +21,12 @@ class FakeVRMRetentionEligibilityWebServiceImpl @Inject()(config: Config) extend
 
 object FakeVRMRetentionEligibilityWebServiceImpl {
 
+  final val ReplacementRegistrationNumberValid = "SA11AA"
+
   def vrmRetentionEligibilityResponse(request: VRMRetentionEligibilityRequest): Option[JsValue] = {
     val vrmRetentionEligibilityResponse = VRMRetentionEligibilityResponse(
       currentVRM = Some(request.currentVRM),
-      replacementVRM = Some(RegistrationNumberValid),
+      replacementVRM = Some(ReplacementRegistrationNumberValid),
       responseCode = None)
     val asJson = Json.toJson(vrmRetentionEligibilityResponse)
     Some(asJson)
