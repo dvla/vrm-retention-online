@@ -56,6 +56,9 @@ GET         /vrm-retention/payment                                           @co
 POST        /vrm-retention/payment                                           @controllers.vrm_retention.Payment.submit
 GET         /vrm-retention/payment/exit                                      @controllers.vrm_retention.Payment.exit
 
+GET         /vrm-retention/success                                           @controllers.vrm_retention.Success.present
+GET         /vrm-retention/success/exit                                      @controllers.vrm_retention.Success.exit
+
 GET         /vrm-retention/healthcheck                                       @controllers.common.HealthCheck.respond
 
 GET         /vrm-retention/enter-address-manually                            @controllers.vrm_retention.EnterAddressManually.present
@@ -65,16 +68,6 @@ GET         /vrm-retention/help                                              @co
 POST        /vrm-retention/help                                              @controllers.common.Help.back
 
 GET         /with-language/:chosenLanguage                                   controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
-
-############ Demo screens
-
-GET         /vrm-retention/user-details                                      @controllers.vrm_retention.UserDetails.present
-
-GET         /vrm-retention/retain                                            @controllers.vrm_retention.Retain.present
-
-GET         /vrm-retention/success                                           @controllers.vrm_retention.Success.present
-
-
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -3,11 +3,12 @@ package controllers.vrm_retention
 import java.util.Calendar
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
-import common.CookieImplicits.RichCookies
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention.{BusinessDetailsModel, EligibilityModel, KeeperDetailsModel, SuccessViewModel}
 import play.api.mvc._
 import utils.helpers.Config
+import mappings.vrm_retention.RelatedCacheKeys
 
 final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
@@ -25,6 +26,11 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         case _ =>
           Redirect(routes.MicroServiceError.present())
       }
+  }
+
+  def exit = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present())
+      .discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   // TODO merge these two create methods together

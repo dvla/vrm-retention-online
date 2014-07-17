@@ -1,8 +1,8 @@
 @(successViewModel: models.domain.vrm_retention.SuccessViewModel)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.{BeforeYouStart, VehicleLookup}
-@import mappings.vrm_retention.BeforeYouStart._
+@import controllers.vrm_retention.routes.Success
+@import mappings.vrm_retention.Success.ExitId
 @import helper._
 @import views.html.helper.base._
 @import utils.helpers.BaseTemplate._
@@ -99,7 +99,6 @@
 
 	}
 	<button id="printRetainSuccess" type="button" name="action" value="printRetainSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
-    <!--<div class="form-steps">
-        <a class="button" id="@NextId" href="success">Next</a>
-    </div>-->
+    <a class="button" id="@ExitId" href="@Success.exit()">@Messages("vrm_retention_exit.button")</a>
+
 }
