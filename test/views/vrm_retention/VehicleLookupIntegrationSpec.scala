@@ -3,10 +3,11 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.webbrowser.TestHarness
-import org.openqa.selenium.{By, WebElement}
+import org.openqa.selenium.{WebDriver, By, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.VehicleLookupPage.{back, happyPath, tryLockedVrm}
 import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage, VrmLockedPage}
+import helpers.vrm_retention.CookieFactoryForUISpecs
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
@@ -106,6 +107,8 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
+      cacheSetup
+
       tryLockedVrm()
 
       page.url should equal(VrmLockedPage.url)
@@ -123,4 +126,8 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.url should equal(BeforeYouStartPage.url)
     }
   }
+
+  private def cacheSetup()(implicit webDriver: WebDriver) =
+    CookieFactoryForUISpecs.
+      bruteForcePreventionViewModel().vehicleDetailsModel().vehicleLookupFormModel()
 }

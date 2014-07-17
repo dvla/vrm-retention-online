@@ -15,7 +15,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.bruteForcePreventionViewModel()
+      cacheSetup
       go to VrmLockedPage
 
       page.url should equal(VrmLockedPage.url)
@@ -58,5 +58,5 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      bruteForcePreventionViewModel()
+      bruteForcePreventionViewModel().vehicleDetailsModel().vehicleLookupFormModel()
 }
