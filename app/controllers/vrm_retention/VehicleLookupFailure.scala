@@ -40,7 +40,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleDetails: Option[VehicleDetailsModel],
                                           vehicleLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
     val viewModel = if (vehicleDetails.isDefined) createViewModel(vehicleDetails.get)
-    else createViewModel(vehicleLookUpFormModelDetails)
+                    else createViewModel(vehicleLookUpFormModelDetails)
     Ok(views.html.vrm_retention.vehicle_lookup_failure(
       viewModel,
       data = vehicleLookUpFormModelDetails,

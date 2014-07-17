@@ -121,7 +121,7 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def vehicleLookupResponseCode(responseCode: String = "disposal_vehiclelookupfailure")
+  def vehicleLookupResponseCode(responseCode: String)
                                (implicit webDriver: WebDriver) = {
     val key = mappings.vrm_retention.VehicleLookup.VehicleLookupResponseCodeCacheKey
     val value = responseCode
