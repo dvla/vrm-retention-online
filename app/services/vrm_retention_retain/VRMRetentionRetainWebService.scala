@@ -7,4 +7,3 @@ import models.domain.common.VehicleDetailsRequest
 trait VRMRetentionRetainWebService {
   def callVRMRetentionEligibilityService(request: VehicleDetailsRequest): Future[Response]
 }
-

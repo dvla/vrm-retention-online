@@ -7,7 +7,8 @@ import play.api.mvc._
 import utils.helpers.Config
 import CookieImplicits.RichSimpleResult
 
-final class Payment @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class Payment @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              config: Config) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.vrm_retention.payment())

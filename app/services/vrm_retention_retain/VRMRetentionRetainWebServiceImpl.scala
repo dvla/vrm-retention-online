@@ -20,5 +20,4 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends V
     Logger.debug(s"Calling vrm retention eligibility micro-service with request $refNo $vrm") //object: $request on ${endPoint}")
     WS.url(endPoint).post(Json.toJson(request))
   }
-
 }

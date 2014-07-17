@@ -14,7 +14,8 @@ import play.api.Play.current
 import models.domain.common.{VehicleDetailsModel, BruteForcePreventionViewModel}
 import utils.helpers.Config
 
-final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                             config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getModel[BruteForcePreventionViewModel],
@@ -30,7 +31,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   }
 
   def submit = Action { implicit request =>
-    (request.cookies.getModel[VehicleLookupFormModel]) match {
+    request.cookies.getModel[VehicleLookupFormModel] match {
       case (Some(vehicleLookUpFormModelDetails)) =>
         Logger.debug("Found vehicle details")
         Redirect(routes.VehicleLookup.present())
@@ -42,9 +43,10 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
                                           bruteForcePreventionViewModel: BruteForcePreventionViewModel,
                                           vehicleDetails: Option[VehicleDetailsModel],
                                           vehicleLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
-
+    val viewModel = if (vehicleDetails.isDefined) createViewModel(vehicleDetails.get)
+                    else createViewModel(vehicleLookUpFormModelDetails)
     Ok(views.html.vrm_retention.vehicle_lookup_failure(
-      if (vehicleDetails.isDefined) createViewModel(vehicleDetails.get) else createViewModel(vehicleLookUpFormModelDetails),
+      viewModel,
       data = vehicleLookUpFormModelDetails,
       responseCodeVehicleLookupMSErrorMessage = vehicleLookupResponseCode,
       attempts = bruteForcePreventionViewModel.attempts,

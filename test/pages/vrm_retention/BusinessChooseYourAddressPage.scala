@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
+
   final val address: String = "/vrm-retention/business-choose-your-address"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title = "Select your business address"

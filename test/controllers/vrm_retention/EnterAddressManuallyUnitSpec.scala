@@ -80,6 +80,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   "submit" should {
+
     "return bad request when no data is entered" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).

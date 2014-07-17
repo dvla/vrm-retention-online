@@ -13,7 +13,8 @@ import services.HttpHeaders
 final class VRMRetentionEligibilityWebServiceImpl @Inject()(config: Config) extends VRMRetentionEligibilityWebService {
   private val endPoint: String = s"${config.vrmRetentionEligibilityMicroServiceUrlBase}/vrm/retention/eligibility"
 
-  override def callVRMRetentionEligibilityService(request: VRMRetentionEligibilityRequest, trackingId: String): Future[Response] = {
+  override def callVRMRetentionEligibilityService(request: VRMRetentionEligibilityRequest,
+                                                  trackingId: String): Future[Response] = {
 
     val vrm = LogFormats.anonymize(request.currentVRM)
     val refNo = LogFormats.anonymize(request.docRefNumber)
@@ -24,5 +25,4 @@ final class VRMRetentionEligibilityWebServiceImpl @Inject()(config: Config) exte
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       post(Json.toJson(request))
   }
-
 }

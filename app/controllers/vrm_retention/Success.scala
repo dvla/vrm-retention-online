@@ -13,7 +13,8 @@ import models.domain.vrm_retention.{EligibilityModel, BusinessDetailsModel, Succ
 import models.domain.common.VehicleDetailsModel
 import java.util.Calendar
 
-final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              config: Config) extends Controller {
 
   def present = Action {
     implicit request =>

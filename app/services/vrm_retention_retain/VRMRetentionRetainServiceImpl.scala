@@ -8,7 +8,9 @@ import models.domain.common.{VehicleDetailsRequest, VehicleDetailsResponse}
 import javax.inject.Inject
 import play.api.http.Status
 
-final class VRMRetentionRetainServiceImpl @Inject()(ws: VRMRetentionRetainWebService) extends VRMRetentionRetainService {
+final class VRMRetentionRetainServiceImpl @Inject()(ws: VRMRetentionRetainWebService)
+  extends VRMRetentionRetainService {
+
   override def invoke(cmd: VehicleDetailsRequest): (Future[(Int, Option[VehicleDetailsResponse])]) = {
     ws.callVRMRetentionEligibilityService(cmd).map {
       resp =>
@@ -18,4 +20,3 @@ final class VRMRetentionRetainServiceImpl @Inject()(ws: VRMRetentionRetainWebSer
     }
   }
 }
-

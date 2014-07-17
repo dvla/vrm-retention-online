@@ -7,7 +7,8 @@ import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
 import utils.helpers.Config
 
-class BusinessChooseYourAddressFormSpec extends UnitSpec {
+final class BusinessChooseYourAddressFormSpec extends UnitSpec {
+
   "form" should {
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.uprnSelected should equal(traderUprnValid.toString)

@@ -11,6 +11,7 @@ import pages.vrm_retention.VehicleLookupPage.{happyPath, tryLockedVrm, back}
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
@@ -122,5 +123,4 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       page.url should equal(BeforeYouStartPage.url)
     }
   }
-
 }

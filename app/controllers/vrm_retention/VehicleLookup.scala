@@ -34,7 +34,8 @@ import utils.helpers.Config
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleLookupService: VehicleLookupService)
-                                   (implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                    config: Config) extends Controller {
 
   private[vrm_retention] val form = Form(
     mapping(
@@ -55,9 +56,15 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       invalidForm =>
                 Future {
                   val formWithReplacedErrors = invalidForm.
-                    replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId, message = "error.restricted.validVrnOnly", args = Seq.empty)).
-                    replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId, message = "error.validDocumentReferenceNumber", args = Seq.empty)).
-                    replaceError(PostcodeId, FormError(key = PostcodeId, message = "address.postcode.validation", args = Seq.empty)).
+                    replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId,
+                                                                        message = "error.restricted.validVrnOnly",
+                                                                        args = Seq.empty)).
+                    replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId,
+                                                                      message = "error.validDocumentReferenceNumber",
+                                                                      args = Seq.empty)).
+                    replaceError(PostcodeId, FormError(key = PostcodeId,
+                                                       message = "address.postcode.validation",
+                                                       args = Seq.empty)).
                     distinctErrors
                   BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors))
                 },
@@ -97,7 +104,9 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Redirect(routes.MicroServiceError.present())
     }
 
-  private def lookupVehicle(vehicleLookupFormModel: VehicleLookupFormModel, bruteForcePreventionViewModel: BruteForcePreventionViewModel)(implicit request: Request[_]): Future[SimpleResult] = {
+  private def lookupVehicle(vehicleLookupFormModel: VehicleLookupFormModel,
+                            bruteForcePreventionViewModel: BruteForcePreventionViewModel)
+                           (implicit request: Request[_]): Future[SimpleResult] = {
 
     def vehicleFoundResult(vehicleDetailsDto: VehicleDetailsDto) = {
 
@@ -111,9 +120,15 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       } else {
         Redirect(routes.CheckEligibility.present()).
           withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
-          withCookie(KeeperDetailsModel.fromResponse("Mr","David", "Jones","1 High Street","Skewen","Swansea",vehicleLookupFormModel.postcode))
+          withCookie(KeeperDetailsModel.fromResponse(title = "Mr",
+                                                     firstName = "David",
+                                                     lastName = "Jones",
+                                                     addressLine1 = "1 High Street",
+                                                     addressLine2  = "Skewen",
+                                                     postTown = "Swansea",
+                                                     postCode = vehicleLookupFormModel.postcode)
+                    )
       }
-
     }
 
     def vehicleNotFoundResult(responseCode: String) = {
@@ -127,7 +142,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       Redirect(routes.MicroServiceError.present())
     }
 
-    def createResultFromVehicleLookupResponse(vehicleDetailsResponse: VehicleDetailsResponse)(implicit request: Request[_]) =
+    def createResultFromVehicleLookupResponse(vehicleDetailsResponse: VehicleDetailsResponse)
+                                             (implicit request: Request[_]) =
       vehicleDetailsResponse.responseCode match {
         case Some(responseCode) => vehicleNotFoundResult(responseCode) // There is only a response code when there is a problem.
         case None =>
@@ -139,7 +155,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       }
 
     def vehicleLookupSuccessResponse(responseStatusVehicleLookupMS: Int,
-                                     vehicleDetailsResponse: Option[VehicleDetailsResponse])(implicit request: Request[_]) =
+                                     vehicleDetailsResponse: Option[VehicleDetailsResponse])
+                                    (implicit request: Request[_]) =
       responseStatusVehicleLookupMS match {
         case OK =>
           vehicleDetailsResponse match {
@@ -168,5 +185,4 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       case e: Throwable => microServiceErrorResult(message = s"VehicleLookup Web service call failed. Exception " + e.toString.take(45))
     }
   }
-
 }

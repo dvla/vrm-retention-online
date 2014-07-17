@@ -10,7 +10,9 @@ import pages.vrm_retention.VrmLockedPage.exit
 import pages.vrm_retention.{BeforeYouStartPage, VrmLockedPage}
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
+
   "go to page" should {
+
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       CookieFactoryForUISpecs.bruteForcePreventionViewModel()
@@ -29,6 +31,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
   }
 
   "exit button" should {
+
     "redirect to beforeyoustart" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

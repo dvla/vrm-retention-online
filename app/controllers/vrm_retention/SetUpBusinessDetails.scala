@@ -15,7 +15,8 @@ import CookieImplicits.RichSimpleResult
 import CookieImplicits.RichCookies
 import CookieImplicits.RichForm
 
-final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory, config: Config) extends Controller {
+final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                             config: Config) extends Controller {
 
   private[vrm_retention] val form = Form(
     mapping(
@@ -41,10 +42,16 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
           case Some(vehicleDetails) =>
             val setupBusinessDetailsViewModel = createViewModel(vehicleDetails)
             val formWithReplacedErrors = invalidForm.
-              replaceError(BusinessNameId, FormError(key = BusinessNameId, message = "error.validBusinessName", args = Seq.empty)).
-              replaceError(BusinessPostcodeId, FormError(key = BusinessPostcodeId, message = "error.restricted.validPostcode", args = Seq.empty)).
+              replaceError(BusinessNameId, FormError(key = BusinessNameId,
+                                                     message = "error.validBusinessName",
+                                                     args = Seq.empty)).
+              replaceError(BusinessPostcodeId, FormError(key = BusinessPostcodeId,
+                                                         message = "error.restricted.validPostcode",
+                                                         args = Seq.empty)
+              ).
               distinctErrors
-            BadRequest(views.html.vrm_retention.setup_business_details(formWithReplacedErrors, setupBusinessDetailsViewModel))
+            BadRequest(views.html.vrm_retention.setup_business_details(formWithReplacedErrors,
+                                                                       setupBusinessDetailsViewModel))
           case _ =>
             Redirect(routes.VehicleLookup.present())
         }
@@ -59,5 +66,4 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel
     )
-
 }
