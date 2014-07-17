@@ -54,7 +54,7 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       businessName = Some(businessDetailsModel.businessName),
       businessAddress = Some(businessDetailsModel.businessAddress),
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      "1234567890", "12-34-56-78-90", format.format(today) // TODO replacement mark, cert number and txn details
+      "1234567890", randomAlphaNumericString(10), format.format(today) // TODO replacement mark, cert number and txn details
     )
   }
 
@@ -77,7 +77,22 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       businessName = None,
       businessAddress = None,
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      "1234567890", "12-34-56-78-90", format.format(today) // TODO replacement mark, cert number and txn details
+      "1234567890", randomAlphaNumericString(10), format.format(today) // TODO replacement mark, cert number and txn details
     )
   }
+
+  def randomAlphaNumericString(length: Int): String = {
+    val chars = ('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9')
+    randomStringFromCharList(length, chars)
+  }
+
+  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
+    val sb = new StringBuilder
+    for (i <- 1 to length) {
+      val randomNum = util.Random.nextInt(chars.length)
+      sb.append(chars(randomNum))
+    }
+    sb.toString
+  }
+
 }
