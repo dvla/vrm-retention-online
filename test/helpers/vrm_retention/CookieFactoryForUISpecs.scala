@@ -56,7 +56,6 @@ object CookieFactoryForUISpecs {
     val key = BusinessDetailsCacheKey
     val value = BusinessDetailsModel(businessName = TraderBusinessNameValid, businessAddress = address)
     addCookie(key, value)
-    println("added businessDetails")
     this
   }
 
@@ -97,7 +96,6 @@ object CookieFactoryForUISpecs {
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel)
     addCookie(key, value)
-    println("added vehicleDetailsModel")
     this
   }
 
@@ -112,7 +110,6 @@ object CookieFactoryForUISpecs {
     val key = mappings.vrm_retention.VehicleLookup.KeeperLookupDetailsCacheKey
     val value = KeeperDetailsModel.fromResponse(title,firstName,lastName,addressLine1,addressLine2,postTown,postCode)
     addCookie(key, value)
-    println("added keeperDetailsModel")
     this
   }
 
