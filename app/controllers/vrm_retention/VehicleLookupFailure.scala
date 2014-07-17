@@ -1,17 +1,13 @@
 package controllers.vrm_retention
 
+import com.google.inject.Inject
+import common.ClientSideSessionFactory
+import common.CookieImplicits.RichCookies
+import mappings.vrm_retention.VehicleLookup._
+import models.domain.common.{BruteForcePreventionViewModel, VehicleDetailsModel}
+import models.domain.vrm_retention.{VehicleLookupFailureViewModel, VehicleLookupFormModel}
 import play.api.Logger
 import play.api.mvc._
-import com.google.inject.Inject
-import models.domain.vrm_retention.{VehicleLookupFailureViewModel, VehicleLookupFormModel}
-import mappings.vrm_retention.VehicleLookup._
-import common.{ClientSideSessionFactory, CookieImplicits}
-import CookieImplicits.RichSimpleResult
-import CookieImplicits.RichCookies
-import CookieImplicits.RichForm
-import play.api.mvc.DiscardingCookie
-import play.api.Play.current
-import models.domain.common.{VehicleDetailsModel, BruteForcePreventionViewModel}
 import utils.helpers.Config
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -44,7 +40,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleDetails: Option[VehicleDetailsModel],
                                           vehicleLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
     val viewModel = if (vehicleDetails.isDefined) createViewModel(vehicleDetails.get)
-                    else createViewModel(vehicleLookUpFormModelDetails)
+    else createViewModel(vehicleLookUpFormModelDetails)
     Ok(views.html.vrm_retention.vehicle_lookup_failure(
       viewModel,
       data = vehicleLookUpFormModelDetails,

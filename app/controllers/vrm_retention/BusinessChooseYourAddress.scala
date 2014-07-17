@@ -1,23 +1,23 @@
 package controllers.vrm_retention
 
-import common.{ClientSideSession, ClientSideSessionFactory}
-import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import javax.inject.Inject
+import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import common.{ClientSideSession, ClientSideSessionFactory}
 import mappings.common.DropDown.addressDropDown
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import models.domain.common.VehicleDetailsModel
-import models.domain.vrm_retention.{BusinessDetailsModel, BusinessChooseYourAddressViewModel, BusinessChooseYourAddressFormModel, SetupBusinessDetailsFormModel}
+import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel}
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import services.address_lookup.AddressLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.vrm_retention.business_choose_your_address
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -57,8 +57,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel).map { addresses =>
               BadRequest(business_choose_your_address(businessChooseYourAddressViewModel,
-                                                      formWithReplacedErrors(invalidForm),
-                                                      addresses)
+                formWithReplacedErrors(invalidForm),
+                addresses)
               )
             }
           case _ => Future {
@@ -80,7 +80,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressFormModel])(implicit request: Request[_]) =
     form.replaceError(AddressSelectId, "error.required",
       FormError(key = AddressSelectId,
-                message = "vrm_retention_businessChooseYourAddress.address.required", args = Seq.empty)).
+        message = "vrm_retention_businessChooseYourAddress.address.required", args = Seq.empty)).
       distinctErrors
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =

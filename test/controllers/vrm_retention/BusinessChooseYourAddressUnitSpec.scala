@@ -131,8 +131,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey,
-                                                 BusinessDetailsCacheKey,
-                                                 EnterAddressManuallyCacheKey)
+          BusinessDetailsCacheKey,
+          EnterAddressManuallyCacheKey)
       }
     }
 
@@ -152,9 +152,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true,
                                                           isPrototypeBannerVisible: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
-                           else responseValidForPostcodeToAddressNotFound
+    else responseValidForPostcodeToAddressNotFound
     val responseUprn = if (uprnFound) responseValidForUprnToAddress
-                       else responseValidForUprnToAddressNotFound
+    else responseValidForUprnToAddressNotFound
     val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
     val addressLookupService = new services.address_lookup.ordnance_survey.AddressLookupServiceImpl(fakeWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])

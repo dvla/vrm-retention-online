@@ -1,8 +1,6 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.Confirm.NextId
-import org.openqa.selenium.WebDriver
+import helpers.webbrowser.{Page, WebBrowserDSL, WebDriverFactory}
 
 object PaymentPage extends Page with WebBrowserDSL {
   final val address = "/vrm-retention/payment"

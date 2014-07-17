@@ -1,7 +1,7 @@
 package models.domain.vrm_retention
 
 import mappings.vrm_retention.VehicleLookup.KeeperLookupDetailsCacheKey
-import models.domain.common.{AddressLinesModel, AddressAndPostcodeModel, AddressViewModel, CacheKey}
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, CacheKey}
 import play.api.libs.json.Json
 
 final case class KeeperDetailsModel(title: String,
@@ -27,9 +27,9 @@ object KeeperDetailsModel {
 
     val addressViewModel = AddressViewModel.from(addressAndPostcodeModel, postCode)
     KeeperDetailsModel(title = title,
-                       firstName = firstName,
-                       lastName = lastName,
-                       address = addressViewModel)
+      firstName = firstName,
+      lastName = lastName,
+      address = addressViewModel)
   }
 
   implicit val JsonFormat = Json.format[KeeperDetailsModel]

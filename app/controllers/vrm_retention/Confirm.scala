@@ -1,14 +1,13 @@
 package controllers.vrm_retention
 
-import common.{ClientSideSessionFactory, CookieImplicits}
-import models.domain.vrm_retention.{BusinessDetailsModel, KeeperDetailsModel, ConfirmViewModel}
-import models.domain.common.VehicleDetailsModel
-import CookieImplicits.RichCookies
 import com.google.inject.Inject
+import common.ClientSideSessionFactory
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
+import models.domain.common.VehicleDetailsModel
+import models.domain.vrm_retention.{BusinessDetailsModel, ConfirmViewModel, KeeperDetailsModel}
 import play.api.mvc._
 import utils.helpers.Config
-import CookieImplicits.RichSimpleResult
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
@@ -16,8 +15,8 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   def present = Action {
     implicit request =>
       (request.cookies.getModel[VehicleDetailsModel],
-       request.cookies.getModel[KeeperDetailsModel],
-       request.cookies.getModel[BusinessDetailsModel]) match {
+        request.cookies.getModel[KeeperDetailsModel],
+        request.cookies.getModel[BusinessDetailsModel]) match {
         case (Some(vehicleDetails), Some(keeperDetails), Some(businessDetailsModel)) =>
           val confirmViewModel = createViewModel(vehicleDetails, keeperDetails, businessDetailsModel)
           Ok(views.html.vrm_retention.confirm(confirmViewModel))

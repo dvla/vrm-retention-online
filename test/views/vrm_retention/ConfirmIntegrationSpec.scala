@@ -7,6 +7,9 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebElement, WebDriver}
 import pages.vrm_retention._
 import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
+import org.openqa.selenium.{By, WebDriver, WebElement}
+import pages.vrm_retention.ConfirmPage.happyPath
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, PaymentPage, VehicleLookupPage}
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 

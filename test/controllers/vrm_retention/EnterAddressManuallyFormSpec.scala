@@ -29,7 +29,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
 
     "accept if form address lines contain hyphens" in {
       val model = formWithValidDefaults(buildingNameOrNumber = buildingNameOrNumberHypthens,
-        line2 = line2Hypthens,line3 = line3Hypthens, postTown = postTownHypthens)
+        line2 = line2Hypthens, line3 = line3Hypthens, postTown = postTownHypthens)
         .get.addressAndPostcodeModel
 
       model.addressLinesModel.buildingNameOrNumber should equal(buildingNameOrNumberHypthens.toUpperCase)

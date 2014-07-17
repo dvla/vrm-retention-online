@@ -1,8 +1,8 @@
 package models.domain.vrm_retention
 
-import play.api.libs.json.Json
-import models.domain.common.CacheKey
 import mappings.vrm_retention.VehicleLookup.VehicleLookupFormModelCacheKey
+import models.domain.common.CacheKey
+import play.api.libs.json.Json
 
 final case class VehicleLookupFormModel(referenceNumber: String,
                                         registrationNumber: String,
