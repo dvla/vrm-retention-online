@@ -9,15 +9,10 @@
 @import controllers.vrm_retention.routes.VehicleLookupFailure
 
 @main(
-    title = if(attempts <= 1) {
-        Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
-    } else {
-        s"""${Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")} ${Messages("vrm_retention_vehiclelookupfailure.title.greaterThanOneAttempt", attempts, maxAttempts)}"""
-    }
+    title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
 ) {
     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
     <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
-
 
     @if(attempts <= 1) {
         <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>

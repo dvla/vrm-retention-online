@@ -28,11 +28,9 @@
                 </dl>
 
                 @if(dropDownOptions.isEmpty) {
-                <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound")</h2>
-
-                <br/>
-                <a id="@EnterAddressManuallyButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
-
+                    <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound")</h2>
+                    <br/>
+                    <a id="@EnterAddressManuallyButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
                 } else {
                     @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
                         options = dropDownOptions.toSeq,

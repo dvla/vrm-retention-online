@@ -37,7 +37,7 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
                               businessDetailsModel: BusinessDetailsModel): SuccessViewModel = {
 
     // TODO will be removed when retain SOAP service is called
-    val format = new java.text.SimpleDateFormat("dd-MM-yyyy")
+    val format = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm")
     val today = Calendar.getInstance().getTime()
 
     SuccessViewModel(
@@ -60,7 +60,7 @@ final class Success @Inject()(implicit clientSideSessionFactory: ClientSideSessi
                               eligibilityModel: EligibilityModel): SuccessViewModel = {
 
     // TODO will be removed when retain SOAP service is called
-    val format = new java.text.SimpleDateFormat("dd-MM-yyyy")
+    val format = new java.text.SimpleDateFormat("dd-MM-yyyy HH:mm")
     val today = Calendar.getInstance().getTime()
 
     SuccessViewModel(
