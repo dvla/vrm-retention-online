@@ -1,18 +1,18 @@
 package helpers.vrm_retention
 
-import common.{ClearTextClientSideSession, CookieFlags}
+import common.{ClientSideSessionFactory, ClearTextClientSideSession, CookieFlags}
 import composition.TestComposition
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import mappings.vrm_retention.VehicleLookup.VehicleLookupDetailsCacheKey
+import mappings.vrm_retention.VehicleLookup.{VehicleLookupDetailsCacheKey, VehicleLookupFormModelCacheKey}
 import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, VehicleDetailsModel}
-import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, EnterAddressManuallyModel, SetupBusinessDetailsFormModel}
+import models.domain.vrm_retention.{VehicleLookupFormModel, BusinessChooseYourAddressFormModel, EnterAddressManuallyModel, SetupBusinessDetailsFormModel}
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid}
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.FakeVehicleLookupWebService.{RegistrationNumberValid, VehicleMakeValid, VehicleModelValid}
+import services.fakes.FakeVehicleLookupWebService._
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -49,6 +49,20 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
+  def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+                             registrationNumber: String = RegistrationNumberValid,
+                             postcode: String = KeeperPostcodeValid,
+                             keeperConsent: String = KeeperConsentValid): Cookie = {
+    val key = VehicleLookupFormModelCacheKey
+    val value = VehicleLookupFormModel(
+      referenceNumber = referenceNumber,
+      registrationNumber = registrationNumber,
+      postcode = postcode,
+      keeperConsent = keeperConsent
+    )
+    createCookie(key, value)
+  }
+
   def businessChooseYourAddress(): Cookie = {
     val key = BusinessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressFormModel(uprnSelected = traderUprnValid.toString)
@@ -68,5 +82,9 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       )
     )
     createCookie(key, value)
+  }
+
+  def trackingIdModel(value: String = TrackingIdValue): Cookie = {
+    createCookie(ClientSideSessionFactory.TrackingIdCookieName, value)
   }
 }
