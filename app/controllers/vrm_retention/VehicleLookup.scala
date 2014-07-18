@@ -52,7 +52,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
             message = "error.validDocumentReferenceNumber",
             args = Seq.empty)).
             replaceError(PostcodeId, FormError(key = PostcodeId,
-            message = "address.postcode.validation",
+            message = "error.restricted.validPostcode",
             args = Seq.empty)).
             distinctErrors
           BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors))

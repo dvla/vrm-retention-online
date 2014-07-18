@@ -1,6 +1,5 @@
 package controllers.vrm_retention
 
-import java.util.Calendar
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
