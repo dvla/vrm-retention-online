@@ -36,12 +36,9 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "redirect to summary page when pay now link is clicked" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
-      println("before cache setup")
       cacheSetup()
-      println("before happy path")
 
       happyPath
-      println("before check")
 
       page.url should equal(SummaryPage.url)
     }

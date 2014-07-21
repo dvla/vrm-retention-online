@@ -2,7 +2,7 @@ package models.domain.vrm_retention
 
 import play.api.libs.json.Json
 
-case class VRMRetentionRetainResponse(transactionId: Option[String],
+case class VRMRetentionRetainResponse(certificateNumber: Option[String],
                                       currentVRM: String, // pr mark
                                       docRefNumber: String,
                                       replacementVRM: Option[String],

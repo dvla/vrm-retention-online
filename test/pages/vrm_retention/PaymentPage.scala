@@ -15,8 +15,6 @@ object PaymentPage extends Page with WebBrowserDSL {
 
   def happyPath(implicit driver: WebDriver) = {
     go to PaymentPage
-    println("gone to payment page")
-
     click on payNow
   }
 

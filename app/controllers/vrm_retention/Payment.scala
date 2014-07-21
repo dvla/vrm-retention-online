@@ -1,13 +1,23 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.RichSimpleResult
+import common.{ClientSideSessionFactory, LogFormats}
+import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
+import mappings.vrm_retention.Retain._
+import models.domain.vrm_retention.{VehicleLookupFormModel, VRMRetentionRetainResponse, VRMRetentionRetainRequest, RetainModel}
+import org.joda.time.format.ISODateTimeFormat
+import play.api.Logger
 import play.api.mvc._
 import utils.helpers.Config
+import services.vrm_retention_retain.VRMRetentionRetainService
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import services.DateService
 
-final class Payment @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
+                              dateService: DateService)
+                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
   def present = Action { implicit request =>
@@ -21,5 +31,73 @@ final class Payment @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
       .discardingCookies(RelatedCacheKeys.FullSet)
+  }
+
+  // TODO not yet plugged in - needs to be called from submit
+  private def retainVrm(vehicleLookupFormModel: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] = {
+
+    def retainSuccess(certificateNumber: String) = {
+
+      val transactionId = "123456789" // TODO what is this value?
+      val transactionTimestamp = dateService.today.toDateTime.get
+      val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+        ISODateTimeFormat.hourMinute().print(transactionTimestamp)
+
+      Redirect(routes.Success.present()).
+          withCookie(RetainModel.fromResponse(certificateNumber, transactionId, isoDateTimeString))
+    }
+
+    def retainFailure(responseCode: String) = {
+      Logger.debug(s"VRMRetentionRetain encountered a problem with request ${LogFormats.anonymize(vehicleLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+      Redirect(routes.VehicleLookupFailure.present()).
+        withCookie(key = RetainResponseCodeCacheKey, value = responseCode)
+    }
+
+    def microServiceErrorResult(message: String) = {
+      Logger.error(message)
+      Redirect(routes.MicroServiceError.present())
+    }
+
+    def createResultFromVRMRetentionRetainResponse(vrmRetentionRetaiResponse: VRMRetentionRetainResponse)
+                                                       (implicit request: Request[_]) =
+      vrmRetentionRetaiResponse.responseCode match {
+        case Some(responseCode) => retainFailure(responseCode) // There is only a response code when there is a problem.
+        case None =>
+          // Happy path when there is no response code therefore no problem.
+          (vrmRetentionRetaiResponse.certificateNumber) match {
+            case Some(certificateNumber) => retainSuccess(certificateNumber)
+            case _ => microServiceErrorResult(message = "Certificate number not found in response")
+          }
+      }
+
+    def vrmRetentionRetainSuccessResponse(responseStatusVRMRetentionRetainMS: Int,
+                                               vrmRetentionRetainResponse: Option[VRMRetentionRetainResponse])
+                                              (implicit request: Request[_]) =
+      responseStatusVRMRetentionRetainMS match {
+        case OK =>
+          vrmRetentionRetainResponse match {
+            case Some(response) => createResultFromVRMRetentionRetainResponse(response)
+            case _ => microServiceErrorResult("No vrmRetentionRetainResponse found") // TODO write test to achieve code coverage.
+          }
+        case _ => microServiceErrorResult(s"VRM Retention Retain Response web service call http status not OK, it was: $responseStatusVRMRetentionRetainMS. Problem may come from either vrm-retention-retain micro-service or the VSS")
+      }
+
+    val trackingId = request.cookies.trackingId()
+
+    val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
+      currentVRM = vehicleLookupFormModel.registrationNumber,
+      docRefNumber = vehicleLookupFormModel.referenceNumber
+    )
+
+    vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
+      case (responseStatusVRMRetentionRetainMS: Int, vrmRetentionRetainResponse: Option[VRMRetentionRetainResponse]) =>
+        vrmRetentionRetainSuccessResponse(
+          responseStatusVRMRetentionRetainMS = responseStatusVRMRetentionRetainMS,
+          vrmRetentionRetainResponse = vrmRetentionRetainResponse)
+    }.recover {
+      case e: Throwable =>
+        Logger.debug(s"VRM Retention Retain Web service call failed. Exception " + e.toString.take(45))
+        Redirect(routes.MicroServiceError.present())
+    }
   }
 }
