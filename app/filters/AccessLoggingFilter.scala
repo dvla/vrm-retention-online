@@ -57,7 +57,7 @@ class ClfEntryBuilder {
 
 object AccessLoggingFilter {
   final val AccessLoggerName = "AccessLogger"
-  final val NonLoggingUrls = Set("/healthcheck")
+  final val NonLoggingUrls = Set("/healthcheck","/vrm-retention/healthcheck")
 }
 
 object ClfEntryBuilder {
