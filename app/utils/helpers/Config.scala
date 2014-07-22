@@ -45,4 +45,8 @@ class Config {
   val vrmRetentionEligibilityMicroServiceUrlBase: String = getProperty("vrmRetentionEligibilityMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionEligibilityMsRequestTimeout: Int = getProperty("vrmRetentionEligibility.ms.requesttimeout", 5.seconds.toMillis.toInt)
 
+  // Vrm Retain
+  val vrmRetentionRetainMicroServiceUrlBase: String = getProperty("vrmRetentionRetainMicroServiceUrlBase", "NOT FOUND")
+  val vrmRetentionRetainMsRequestTimeout: Int = getProperty("vrmRetentionRetain.ms.requesttimeout", 5.seconds.toMillis.toInt)
+
 }

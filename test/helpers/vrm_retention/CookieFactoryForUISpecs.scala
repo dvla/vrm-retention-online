@@ -4,6 +4,7 @@ import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddres
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import mappings.vrm_retention.Retain.RetainCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import models.domain.common.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, BruteForcePreventionViewModel, VehicleDetailsModel}
@@ -13,6 +14,7 @@ import play.api.libs.json.{Json, Writes}
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid, addressWithoutUprn}
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
+import services.fakes.FakeVRMRetentionRetainWebServiceImpl._
 import services.fakes.FakeVehicleLookupWebService
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
@@ -63,6 +65,17 @@ object CookieFactoryForUISpecs {
   def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid)(implicit webDriver: WebDriver) = {
     val key = CheckEligibilityCacheKey
     val value = EligibilityModel(replacementVRM = replacementVRM)
+    addCookie(key, value)
+    this
+  }
+
+  def retainModel(certificateNumber: String = CertificateNumberValid,
+  transactionId: String = TransactionIdValid,
+  transactionTimestamp: String = TransactionTimestampValid)(implicit webDriver: WebDriver) = {
+    val key = RetainCacheKey
+    val value = RetainModel(certificateNumber = certificateNumber,
+      transactionId = transactionId,
+      transactionTimestamp = transactionTimestamp)
     addCookie(key, value)
     this
   }

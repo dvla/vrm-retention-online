@@ -24,8 +24,14 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     Ok(views.html.vrm_retention.payment())
   }
 
-  def submit = Action { implicit request =>
-    Redirect(routes.Success.present())
+  def submit = Action.async { implicit request =>
+    request.cookies.getModel[VehicleLookupFormModel] match {
+      case Some(vehiclesLookupForm) =>
+        retainVrm(vehiclesLookupForm)
+      case None => Future {
+        Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+      }
+    }
   }
 
   def exit = Action { implicit request =>
@@ -33,15 +39,16 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       .discardingCookies(RelatedCacheKeys.FullSet)
   }
 
-  // TODO not yet plugged in - needs to be called from submit
   private def retainVrm(vehicleLookupFormModel: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] = {
 
     def retainSuccess(certificateNumber: String) = {
 
-      val transactionId = "123456789" // TODO what is this value?
       val transactionTimestamp = dateService.today.toDateTime.get
       val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
         ISODateTimeFormat.hourMinute().print(transactionTimestamp)
+
+      val transactionId = vehicleLookupFormModel.registrationNumber +
+        isoDateTimeString.replace(" ","").replace("-","").replace(":","")
 
       Redirect(routes.Success.present()).
           withCookie(RetainModel.fromResponse(certificateNumber, transactionId, isoDateTimeString))

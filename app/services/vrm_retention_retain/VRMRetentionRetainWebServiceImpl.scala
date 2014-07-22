@@ -12,7 +12,7 @@ import services.HttpHeaders
 
 final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends VRMRetentionRetainWebService {
 
-  private val endPoint: String = s"${config.vehicleLookupMicroServiceBaseUrl}/vrm/retention/retain"
+  private val endPoint: String = s"${config.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
 
   override def callVRMRetentionRetainService(request: VRMRetentionRetainRequest, trackingId: String): Future[Response] = {
     val vrm = LogFormats.anonymize(request.currentVRM)

@@ -23,6 +23,8 @@ object FakeVRMRetentionRetainWebServiceImpl {
 
   final val CertificateNumberValid = "1234567890"
   final val ReplacementRegistrationNumberValid = "SA11AA"
+  final val TransactionIdValid = "1234567890"
+  final val TransactionTimestampValid = "2014-10-11 11:51"
 
   def vrmRetentionRetainResponse(request: VRMRetentionRetainRequest): Option[JsValue] = {
     val vrmRetentionRetainResponse = VRMRetentionRetainResponse(

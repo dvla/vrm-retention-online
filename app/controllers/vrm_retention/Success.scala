@@ -3,13 +3,14 @@ package controllers.vrm_retention
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.common.VehicleDetailsModel
-import models.domain.vrm_retention.{BusinessDetailsModel, EligibilityModel, KeeperDetailsModel, SuccessViewModel}
+import models.domain.vrm_retention._
 import play.api.mvc._
 import utils.helpers.Config
-import mappings.vrm_retention.RelatedCacheKeys
-import org.joda.time.format.ISODateTimeFormat
 import services.DateService
+import models.domain.vrm_retention.SuccessViewModel
+import scala.Some
 
 final class Success @Inject()(dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
@@ -17,12 +18,13 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
   def present = Action {
     implicit request =>
       (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel],
-        request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel]) match {
-        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), Some(businessDetailsModel)) =>
-          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel, businessDetailsModel)
+        request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
+        request.cookies.getModel[RetainModel]) match {
+        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(retainModel)) =>
+          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel, businessDetailsModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
-        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), None) =>
-          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel)
+        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), None, Some(retainModel)) =>
+          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case _ =>
           Redirect(routes.MicroServiceError.present())
@@ -30,20 +32,15 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present())
-      .discardingCookies(RelatedCacheKeys.FullSet)
+    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   // TODO merge these two create methods together
   private def createViewModel(vehicleDetails: VehicleDetailsModel,
                               keeperDetails: KeeperDetailsModel,
                               eligibilityModel: EligibilityModel,
-                              businessDetailsModel: BusinessDetailsModel): SuccessViewModel = {
-
-    // TODO will be removed when retain SOAP service is called
-    val transactionTimestamp = dateService.today.toDateTime.get
-    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-      ISODateTimeFormat.hourMinute().print(transactionTimestamp)
+                              businessDetailsModel: BusinessDetailsModel,
+                              retainModel: RetainModel): SuccessViewModel = {
 
     SuccessViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
@@ -56,18 +53,16 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
       businessName = Some(businessDetailsModel.businessName),
       businessAddress = Some(businessDetailsModel.businessAddress),
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      randomNumericString(14), randomAlphaNumericString(10), isoDateTimeString // TODO replacement mark, cert number and txn details
+      retainModel.certificateNumber,
+      retainModel.transactionId,
+      retainModel.transactionTimestamp
     )
   }
 
   private def createViewModel(vehicleDetails: VehicleDetailsModel,
                               keeperDetails: KeeperDetailsModel,
-                              eligibilityModel: EligibilityModel): SuccessViewModel = {
-
-    // TODO will be removed when retain SOAP service is called
-    val transactionTimestamp = dateService.today.toDateTime.get
-    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-      ISODateTimeFormat.hourMinute().print(transactionTimestamp)
+                              eligibilityModel: EligibilityModel,
+                              retainModel: RetainModel): SuccessViewModel = {
 
     SuccessViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
@@ -80,27 +75,10 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
       businessName = None,
       businessAddress = None,
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      randomNumericString(14), randomAlphaNumericString(10), isoDateTimeString // TODO replacement mark, cert number and txn details
+      retainModel.certificateNumber,
+      retainModel.transactionId,
+      retainModel.transactionTimestamp
     )
-  }
-
-  def randomNumericString(length: Int): String = {
-    val chars = ('0' to '9')
-    randomStringFromCharList(length, chars)
-  }
-
-  def randomAlphaNumericString(length: Int): String = {
-    val chars = ('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9')
-    randomStringFromCharList(length, chars)
-  }
-
-  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
-    val sb = new StringBuilder
-    for (i <- 1 to length) {
-      val randomNum = util.Random.nextInt(chars.length)
-      sb.append(chars(randomNum))
-    }
-    sb.toString
   }
 
 }

@@ -53,7 +53,8 @@ POST        /vrm-retention/confirm                                           @co
 GET         /vrm-retention/confirm/exit                                      @controllers.vrm_retention.Confirm.exit
 
 GET         /vrm-retention/payment                                           @controllers.vrm_retention.Payment.present
-POST        /vrm-retention/payment                                           @controllers.vrm_retention.Payment.submit
+# no form on payment page so is GET the right http verb for submit
+GET         /vrm-retention/payment/submit                                    @controllers.vrm_retention.Payment.submit
 GET         /vrm-retention/payment/exit                                      @controllers.vrm_retention.Payment.exit
 
 GET         /vrm-retention/success                                           @controllers.vrm_retention.Success.present
