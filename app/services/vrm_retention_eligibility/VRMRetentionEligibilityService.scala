@@ -4,6 +4,7 @@ import models.domain.vrm_retention.{VRMRetentionEligibilityRequest, VRMRetention
 import scala.concurrent.Future
 
 trait VRMRetentionEligibilityService {
+
   def invoke(cmd: VRMRetentionEligibilityRequest,
              trackingId: String): Future[(Int, Option[VRMRetentionEligibilityResponse])]
 }

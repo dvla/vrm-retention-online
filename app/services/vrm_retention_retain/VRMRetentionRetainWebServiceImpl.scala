@@ -6,9 +6,9 @@ import models.domain.vrm_retention.VRMRetentionRetainRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
+import services.HttpHeaders
 import utils.helpers.Config
 import scala.concurrent.Future
-import services.HttpHeaders
 
 final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends VRMRetentionRetainWebService {
 
@@ -21,5 +21,6 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends V
     Logger.debug(s"Calling vrm retention retain micro-service with request $refNo $vrm")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
-      post(Json.toJson(request))  }
+      post(Json.toJson(request))
+  }
 }

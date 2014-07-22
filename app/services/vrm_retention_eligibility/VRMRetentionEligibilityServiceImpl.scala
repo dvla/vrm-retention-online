@@ -5,7 +5,7 @@ import models.domain.vrm_retention.{VRMRetentionEligibilityRequest, VRMRetention
 import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibilityWebService)
   extends VRMRetentionEligibilityService {
