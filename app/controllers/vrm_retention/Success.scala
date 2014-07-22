@@ -3,15 +3,16 @@ package controllers.vrm_retention
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention.{BusinessDetailsModel, EligibilityModel, KeeperDetailsModel, SuccessViewModel}
-import play.api.mvc._
-import utils.helpers.Config
-import mappings.vrm_retention.RelatedCacheKeys
 import org.joda.time.format.ISODateTimeFormat
+import play.api.mvc._
 import services.DateService
+import utils.helpers.Config
 
-final class Success @Inject()(dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Success @Inject()(dateService: DateService)
+                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
   def present = Action {
@@ -94,7 +95,8 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
     randomStringFromCharList(length, chars)
   }
 
-  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = { // TODO replace with a 'generator' as in the v-m project for generating random VRMs.
+  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
+    // TODO replace with a 'generator' as in the v-m project for generating random VRMs.
     val sb = new StringBuilder
     for (i <- 1 to length) {
       val randomNum = util.Random.nextInt(chars.length)
