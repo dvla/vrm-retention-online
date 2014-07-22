@@ -13,6 +13,7 @@ import utils.helpers.Config
 final class ErrorUnitSpec extends UnitSpec {
 
   "present" should {
+
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -42,7 +43,6 @@ final class ErrorUnitSpec extends UnitSpec {
   // TODO please add test for 'submit'.
 
   private val errorController = injector.getInstance(classOf[Error])
-
   private lazy val present = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).

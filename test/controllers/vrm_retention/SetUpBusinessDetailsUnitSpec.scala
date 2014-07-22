@@ -20,6 +20,7 @@ import utils.helpers.Config
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   "present" should {
+
 //    "display the page" in new WithApplication {
 //      whenReady(present) { r =>
 //        r.header.status should equal(OK)
@@ -62,6 +63,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
+
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpBusinessDetails.submit(request)
@@ -123,10 +125,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       BusinessPostcodeId -> dealerPostcode)
   }
 
-  private val setUpBusinessDetails = {
-    injector.getInstance(classOf[SetUpBusinessDetails])
-  }
-
+  private val setUpBusinessDetails = injector.getInstance(classOf[SetUpBusinessDetails])
   private lazy val present = {
     val request = FakeRequest()
     setUpBusinessDetails.present(request)

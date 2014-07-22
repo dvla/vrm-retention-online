@@ -1,10 +1,9 @@
-@(vrmLockedViewModel: models.domain.vrm_retention.VrmLockedViewModel, timeString: String)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+@(vrmLockedViewModel: models.domain.vrm_retention.VrmLockedViewModel, timeString: String)(implicit lang: Lang,
+        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken, config: utils.helpers.Config)
 
 @import helper._
 @import mappings.vrm_retention.VrmLocked._
 @import utils.helpers._
-@import controllers.vrm_retention.routes.VrmLocked
 @import views.html.vrm_retention.main
 
 @main(
@@ -18,7 +17,7 @@
             <div class="form-steps">
                 <div class="step">
                     @form(action = controllers.vrm_retention.routes.VrmLocked.exit()) {
-                    @CsrfHelper.hiddenFormField
+                        @CsrfHelper.hiddenFormField
                         <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
                     }
                 </div>

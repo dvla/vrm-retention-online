@@ -9,7 +9,9 @@ import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
 
 final class SoapEndpointErrorUnitSpec extends UnitSpec {
+
   "present" should {
+
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)

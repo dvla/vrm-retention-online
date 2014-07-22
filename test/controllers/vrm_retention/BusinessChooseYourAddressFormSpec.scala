@@ -10,12 +10,14 @@ import utils.helpers.Config
 final class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
   "form" should {
+
     "accept when all fields contain valid responses" in {
       formWithValidDefaults().get.uprnSelected should equal(traderUprnValid.toString)
     }
   }
 
   "addressSelect" should {
+
     "reject if empty" in {
       val errors = formWithValidDefaults(addressSelected = "").errors
       errors.length should equal(1)

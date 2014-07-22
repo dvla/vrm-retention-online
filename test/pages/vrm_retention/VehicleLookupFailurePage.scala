@@ -5,6 +5,7 @@ import mappings.vrm_retention.VehicleLookupFailure.{BeforeYouStartId, VehicleLoo
 import org.openqa.selenium.WebDriver
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
+
   final val address = "/vrm-retention/vehicle-lookup-failure"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Look-up was unsuccessful"
@@ -14,5 +15,4 @@ object VehicleLookupFailurePage extends Page with WebBrowserDSL {
   def tryAgain(implicit driver: WebDriver): Element = find(id(VehicleLookupId)).get
 
   def exit(implicit driver: WebDriver): Element = find(id(BeforeYouStartId)).get
-
 }

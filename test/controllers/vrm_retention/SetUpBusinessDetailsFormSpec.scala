@@ -5,7 +5,9 @@ import mappings.vrm_retention.SetupBusinessDetails.{BusinessNameId, BusinessPost
 import services.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
+
   "form" should {
+
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).get
       model.businessName should equal(TraderBusinessNameValid.toUpperCase)
@@ -14,6 +16,7 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
   }
 
   "dealerName" should {
+
     "reject if trader business name is blank" in {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
@@ -41,6 +44,7 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
   }
 
   "postcode" should {
+
     "reject if trader postcode is empty" in {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderPostcode = "").errors
@@ -72,7 +76,6 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
                                     traderPostcode: String = PostcodeValid) = {
-
     injector.getInstance(classOf[SetUpBusinessDetails])
       .form.bind(
       Map(

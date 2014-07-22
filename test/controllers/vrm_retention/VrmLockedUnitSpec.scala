@@ -12,7 +12,9 @@ import services.fakes.FakeDateServiceImpl
 import utils.helpers.Config
 
 final class VrmLockedUnitSpec extends UnitSpec {
+
   "present" should {
+
 //    "display the page" in new WithApplication {
 //      whenReady(present) { r =>
 //        r.header.status should equal(play.api.http.Status.OK)
@@ -36,6 +38,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   "exit" should {
+
     "redirect to correct next page after the exit button is clicked" in new WithApplication {
       val request = FakeRequest()
       val result = vrmLocked.exit(request)
@@ -46,7 +49,6 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   private val vrmLocked = injector.getInstance(classOf[VrmLocked])
-
   private lazy val present = {
     val dateService = new FakeDateServiceImpl
     val request = FakeRequest().

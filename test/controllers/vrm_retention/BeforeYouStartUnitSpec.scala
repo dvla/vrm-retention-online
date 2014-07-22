@@ -10,7 +10,9 @@ import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout
 import utils.helpers.Config
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
+
   "present" should {
+
     "display the page" in new WithApplication {
       val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
@@ -34,6 +36,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
   }
 
   "submit" should {
+
     "redirect to next page after the button is clicked" in new WithApplication {
       val result = beforeYouStart.submit(FakeRequest())
       whenReady(result) { r =>

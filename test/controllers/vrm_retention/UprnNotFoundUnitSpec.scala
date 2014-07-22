@@ -9,7 +9,9 @@ import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
 import utils.helpers.Config
 
 final class UprnNotFoundUnitSpec extends UnitSpec {
+
   "present" should {
+
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -37,7 +39,6 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
   }
 
   private val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
-
   private lazy val present = {
     val request = FakeRequest()
     uprnNotFound.present(request)

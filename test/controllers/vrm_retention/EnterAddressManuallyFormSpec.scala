@@ -126,8 +126,8 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     )
   }
 
-  private val buildingNameOrNumberHypthens = "1-12"
-  private val line2Hypthens = "address line - 2"
-  private val line3Hypthens = "address line - 3"
-  private val postTownHypthens = "address-line"
+  private final val buildingNameOrNumberHypthens = "1-12"
+  private final val line2Hypthens = "address line - 2"
+  private final val line3Hypthens = "address line - 3"
+  private final val postTownHypthens = "address-line"
 }

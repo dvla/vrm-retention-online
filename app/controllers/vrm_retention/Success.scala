@@ -94,7 +94,7 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
     randomStringFromCharList(length, chars)
   }
 
-  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
+  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = { // TODO replace with a 'generator' as in the v-m project for generating random VRMs.
     val sb = new StringBuilder
     for (i <- 1 to length) {
       val randomNum = util.Random.nextInt(chars.length)
@@ -102,5 +102,4 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
     }
     sb.toString
   }
-
 }
