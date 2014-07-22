@@ -27,7 +27,8 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      // Stub this config value.
       val beforeYouStartPrototypeNotVisible = new BeforeYouStart()
 
       val result = beforeYouStartPrototypeNotVisible.present(request)

@@ -30,7 +30,8 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      // Stub this config value.
       val soapEndpointErrorPrototypeNotVisible = new SoapEndpointError()
 
       val result = soapEndpointErrorPrototypeNotVisible.present(request)
@@ -38,6 +39,6 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
     }
   }
 
-  private val soapEndpointError = injector.getInstance(classOf[SoapEndpointError])
   private lazy val present = soapEndpointError.present(FakeRequest())
+  private val soapEndpointError = injector.getInstance(classOf[SoapEndpointError])
 }

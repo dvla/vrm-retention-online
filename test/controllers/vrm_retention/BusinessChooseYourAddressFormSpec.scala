@@ -26,6 +26,12 @@ final class BusinessChooseYourAddressFormSpec extends UnitSpec {
     }
   }
 
+  private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
+    businessChooseYourAddressWithFakeWebService().form.bind(
+      Map(AddressSelectId -> addressSelected)
+    )
+  }
+
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
     else responseValidForPostcodeToAddressNotFound
@@ -35,11 +41,5 @@ final class BusinessChooseYourAddressFormSpec extends UnitSpec {
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
     new BusinessChooseYourAddress(addressLookupService)
-  }
-
-  private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
-    businessChooseYourAddressWithFakeWebService().form.bind(
-      Map(AddressSelectId -> addressSelected)
-    )
   }
 }

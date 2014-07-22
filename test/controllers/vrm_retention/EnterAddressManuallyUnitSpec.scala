@@ -276,6 +276,12 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
   }
 
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+    enterAddressManually.present(request)
+  }
   private val enterAddressManually = {
     injector.getInstance(classOf[EnterAddressManually])
   }
@@ -314,11 +320,4 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       s"$AddressAndPostcodeId.$PostcodeId" -> postCode).
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-
-  private lazy val present = {
-    val request = FakeRequest().
-      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-    enterAddressManually.present(request)
-  }
 }

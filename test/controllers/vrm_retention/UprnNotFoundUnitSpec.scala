@@ -30,7 +30,8 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      // Stub this config value.
       val uprnNotFoundPrototypeNotVisible = new UprnNotFound()
 
       val result = uprnNotFoundPrototypeNotVisible.present(request)
@@ -38,9 +39,9 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
     }
   }
 
-  private val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
   private lazy val present = {
     val request = FakeRequest()
     uprnNotFound.present(request)
   }
+  private val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
 }
