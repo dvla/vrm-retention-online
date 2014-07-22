@@ -8,7 +8,7 @@ case class VRMRetentionRetainResponse(transactionId: Option[String],
                                       replacementVRM: Option[String],
                                       responseCode: Option[String])
 
-
 object VRMRetentionRetainResponse {
+
   implicit val JsonFormat = Json.format[VRMRetentionRetainResponse]
 }

@@ -7,5 +7,6 @@ case class VRMRetentionEligibilityResponse(currentVRM: Option[String],
                                            responseCode: Option[String])
 
 object VRMRetentionEligibilityResponse {
+
   implicit val JsonFormat = Json.format[VRMRetentionEligibilityResponse]
 }
