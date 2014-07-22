@@ -9,6 +9,7 @@ import mappings.vrm_retention.VehicleLookup.{VehicleLookupDetailsCacheKey, Vehic
 import models.domain.common.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
 
 object RelatedCacheKeys {
+
   final val SeenCookieMessageKey = "seen_cookie_message"
 
   val RetainSet = Set(

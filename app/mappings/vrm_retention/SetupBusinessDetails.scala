@@ -5,10 +5,10 @@ import play.api.data.Mapping
 import utils.helpers.FormExtensions.nonEmptyTextWithTransform
 
 object SetupBusinessDetails {
+
   final val BusinessNameMaxLength = 58
   final val BusinessNameMinLength = 2
   final val BusinessNameId = "Business Name"
-
   final val BusinessPostcodeId = "Postcode"
   final val SetupBusinessDetailsCacheKey = "setupBusinessDetails"
   final val SubmitId = "submit"

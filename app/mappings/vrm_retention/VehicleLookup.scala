@@ -1,6 +1,7 @@
 package mappings.vrm_retention
 
 object VehicleLookup {
+
   final val DocumentReferenceNumberId = "documentReferenceNumber"
   final val VehicleRegistrationNumberId = "vehicleRegistrationNumber"
   final val PostcodeId = "Postcode"
