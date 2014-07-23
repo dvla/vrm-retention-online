@@ -8,7 +8,7 @@ object ConfirmPage extends Page with WebBrowserDSL {
 
   final val address = "/vrm-retention/confirm"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Confirm details"
+  final override val title: String = "Check details"
 
   def confirm(implicit driver: WebDriver): Element = find(id(ConfirmId)).get
 
