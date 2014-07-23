@@ -6,7 +6,6 @@ import models.domain.common.AddressViewModel
 object FakeAddressLookupService {
   final val TraderBusinessNameValid = "example trader name"
   final val TraderBusinessContactValid = "example trader contact"
-  final val TraderBusinessEmailValid = "example trader contact email"
   final val PostcodeInvalid = "xx99xx"
   final val PostcodeValid = "QQ99QQ"
   val addressWithoutUprn = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))

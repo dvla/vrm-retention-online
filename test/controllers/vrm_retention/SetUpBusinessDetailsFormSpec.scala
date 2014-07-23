@@ -1,16 +1,19 @@
 package controllers.vrm_retention
 
 import helpers.UnitSpec
-import mappings.vrm_retention.SetupBusinessDetails.{BusinessNameId, BusinessPostcodeId}
-import services.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
+import mappings.vrm_retention.SetupBusinessDetails._
+import services.fakes.FakeAddressLookupService._
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
   "form" should {
 
     "accept if form is valid with all fields filled in" in {
-      val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).get
+      val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid,
+        traderBusinessContact = TraderBusinessContactValid,
+        traderPostcode = PostcodeValid).get
       model.businessName should equal(TraderBusinessNameValid.toUpperCase)
+      model.businessContact should equal(TraderBusinessContactValid.toUpperCase)
       model.businessPostcode should equal(PostcodeValid)
     }
   }
@@ -75,11 +78,13 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
   }
 
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
+                                    traderBusinessContact: String = TraderBusinessContactValid,
                                     traderPostcode: String = PostcodeValid) = {
     injector.getInstance(classOf[SetUpBusinessDetails])
       .form.bind(
         Map(
           BusinessNameId -> traderBusinessName,
+          BusinessContactId -> traderBusinessContact,
           BusinessPostcodeId -> traderPostcode
         )
       )

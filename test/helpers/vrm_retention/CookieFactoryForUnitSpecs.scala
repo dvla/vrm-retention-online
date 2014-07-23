@@ -39,12 +39,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
-                           businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(businessName = businessName,
       businessContact = businessContact,
-      businessEmail = businessEmail,
       businessPostcode = businessPostcode)
     createCookie(key, value)
   }

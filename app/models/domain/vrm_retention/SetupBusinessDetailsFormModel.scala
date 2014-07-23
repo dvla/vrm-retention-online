@@ -5,7 +5,7 @@ import models.domain.common.CacheKey
 import play.api.libs.json.Json
 
 // TODO the names of the params repeat names from the model so refactor
-final case class SetupBusinessDetailsFormModel(businessName: String, businessContact: String, businessEmail: String, businessPostcode: String)
+final case class SetupBusinessDetailsFormModel(businessName: String, businessContact: String, businessPostcode: String)
 
 object SetupBusinessDetailsFormModel {
 

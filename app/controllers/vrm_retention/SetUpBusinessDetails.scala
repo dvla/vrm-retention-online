@@ -21,7 +21,6 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     mapping(
       BusinessNameId -> businessName(),
       BusinessContactId -> businessContact(),
-      BusinessEmailId -> email.verifying(Constraints.nonEmpty),
       BusinessPostcodeId -> postcode
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   )
@@ -48,9 +47,6 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
               args = Seq.empty)).
               replaceError(BusinessContactId, FormError(key = BusinessContactId,
               message = "error.validBusinessContact",
-              args = Seq.empty)).
-              replaceError(BusinessEmailId, FormError(key = BusinessEmailId,
-              message = "error.email",
               args = Seq.empty)).
               replaceError(BusinessPostcodeId, FormError(key = BusinessPostcodeId,
               message = "error.restricted.validPostcode",

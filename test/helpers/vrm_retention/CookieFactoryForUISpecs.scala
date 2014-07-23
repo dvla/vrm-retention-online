@@ -30,12 +30,10 @@ object CookieFactoryForUISpecs {
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
-                           businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(businessName = businessName,
       businessContact = businessContact,
-      businessEmail = businessEmail,
       businessPostcode = businessPostcode)
     addCookie(key, value)
     this
@@ -61,7 +59,9 @@ object CookieFactoryForUISpecs {
 
   def businessDetails(address: AddressViewModel = addressWithoutUprn)(implicit webDriver: WebDriver) = {
     val key = BusinessDetailsCacheKey
-    val value = BusinessDetailsModel(businessName = TraderBusinessNameValid, businessAddress = address)
+    val value = BusinessDetailsModel(businessName = TraderBusinessNameValid,
+      businessContact = TraderBusinessContactValid,
+      businessAddress = address)
     addCookie(key, value)
     this
   }
