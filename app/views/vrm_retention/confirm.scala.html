@@ -21,7 +21,7 @@
                 <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
                 <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
                 <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.address.init) {
-                    @keeperAddressLine,<br>
+                    @keeperAddressLine<br>
                 }</dd>
                 <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
                 <dd>@confirmViewModel.keeperAddress.address.last</dd>
@@ -50,7 +50,7 @@
                 <dd>@confirmViewModel.businessName</dd>
                 <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
                 <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
-                    @businessAddressLine,<br>
+                    @businessAddressLine<br>
                 }</dd>
                 <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
                 <dd>@confirmViewModel.businessAddress.get.address.last</dd>

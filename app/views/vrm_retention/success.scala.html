@@ -56,7 +56,7 @@
 				<p><strong>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName </strong></p>
 				<p>
 					@for(keeperAddressLine <- successViewModel.keeperAddress.address.init) {
-                    	@keeperAddressLine,<br>
+                    	@keeperAddressLine<br>
                 	}
                 	@successViewModel.keeperAddress.address.last
             	</p>
@@ -70,7 +70,7 @@
 				<h3>@successViewModel.businessName</h3>
 				<p>
 					@for(businessAddressLine <- successViewModel.businessAddress.get.address.init) {
-                    	@businessAddressLine,<br>
+                    	@businessAddressLine<br>
                 	}
                 	@successViewModel.businessAddress.get.address.last
 			</div>

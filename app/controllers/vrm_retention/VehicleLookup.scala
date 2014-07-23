@@ -20,6 +20,7 @@ import utils.helpers.Config
 import utils.helpers.FormExtensions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import mappings.vrm_retention.RelatedCacheKeys
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleLookupService: VehicleLookupService)
@@ -37,7 +38,8 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   def present = Action {
     implicit request =>
-      Ok(views.html.vrm_retention.vehicle_lookup(form.fill()))
+      Ok(views.html.vrm_retention.vehicle_lookup(form.fill())).
+        discardingCookies(RelatedCacheKeys.VehicleLookupSet)
   }
 
   def submit = Action.async { implicit request =>
