@@ -149,6 +149,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
   }
 
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+    businessChooseYourAddressWithUprnFound.present(request)
+  }
+  private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
+  private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
+
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true,
                                                           isPrototypeBannerVisible: Boolean = true) = {
     val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
@@ -166,14 +175,5 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
     FakeRequest().withFormUrlEncodedBody(
       AddressSelectId -> traderUprn)
-  }
-
-  private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
-  private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
-  private lazy val present = {
-    val request = FakeRequest().
-      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-    businessChooseYourAddressWithUprnFound.present(request)
   }
 }

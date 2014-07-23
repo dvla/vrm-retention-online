@@ -1,11 +1,11 @@
 package services.vrm_retention_retain
 
 import javax.inject.Inject
+import models.domain.vrm_retention.{VRMRetentionRetainRequest, VRMRetentionRetainResponse}
 import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
-import models.domain.vrm_retention.{VRMRetentionRetainRequest, VRMRetentionRetainResponse}
+import scala.concurrent.Future
 
 final class VRMRetentionRetainServiceImpl @Inject()(ws: VRMRetentionRetainWebService)
   extends VRMRetentionRetainService {

@@ -1,57 +1,32 @@
 package controllers.vrm_retention
 
 import com.tzavellas.sse.guice.ScalaModule
-import controllers.vrm_retention.Common.PrototypeHtml
-import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import common.ClientSideSessionFactory
 import controllers.vrm_retention
-import services.fakes.FakeAddressLookupService._
-import services.fakes.FakeVehicleLookupWebService.ReferenceNumberValid
-import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
-import services.fakes.FakeVehicleLookupWebService.RegistrationNumberWithSpaceValid
-import services.fakes.FakeVehicleLookupWebService.vehicleDetailsNoResponse
-import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseDocRefNumberNotLatest
-import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseNotFoundResponseCode
-import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseSuccess
-import services.fakes.FakeVehicleLookupWebService.vehicleDetailsResponseVRMNotFound
-import services.fakes.FakeVehicleLookupWebService.vehicleDetailsServerDown
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import controllers.vrm_retention.Common.PrototypeHtml
+import helpers.{UnitSpec, WithApplication}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
-import helpers.WithApplication
 import mappings.common.DocumentReferenceNumber
-import mappings.vrm_retention.VehicleLookup.DocumentReferenceNumberId
-import mappings.vrm_retention.VehicleLookup.VehicleLookupFormModelCacheKey
-import mappings.vrm_retention.VehicleLookup.VehicleLookupResponseCodeCacheKey
-import mappings.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
-import models.domain.common.BruteForcePreventionViewModel
-import BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import models.domain.vrm_retention.VehicleLookupFormModel
-import org.joda.time.Instant
-import org.mockito.ArgumentCaptor
+import mappings.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
+import models.domain.common.{VehicleDetailsRequest, VehicleDetailsResponse}
 import org.mockito.Matchers.any
-import org.mockito.Mockito.{when, verify}
+import org.mockito.Mockito.when
 import pages.vrm_retention._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.Response
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import scala.concurrent.duration.DurationInt
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
-import services.brute_force_prevention.BruteForcePreventionService
-import services.brute_force_prevention.BruteForcePreventionServiceImpl
-import services.brute_force_prevention.BruteForcePreventionWebService
 import services.DateServiceImpl
+import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
+import services.fakes.FakeVehicleLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, vehicleDetailsResponseSuccess}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.fakes.{FakeDateServiceImpl, FakeResponse}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupWebService}
 import utils.helpers.Config
-import FakeBruteForcePreventionWebServiceImpl.{VrmLocked, VrmAttempt2, responseFirstAttempt, responseSecondAttempt, VrmThrows}
-import models.domain.common.{VehicleDetailsResponse, VehicleDetailsRequest}
-import scala.Some
-import play.api.libs.ws.Response
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.concurrent.duration.DurationInt
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -91,62 +66,62 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-//    "redirect to Confirm after a valid submit and true message returned from the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator().submit(request)
-//
-//      whenReady(result, timeout) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
-//        val cookies = fetchCookiesFromHeaders(r)
-//        val cookieName = "vehicleLookupFormModel"
-//        cookies.find(_.name == cookieName) match {
-//          case Some(cookie) =>
-//            val json = cookie.value
-//            val model = deserializeJsonToModel[VehicleLookupFormModel](json)
-//            model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
-//          case None => fail(s"$cookieName cookie not found")
-//        }
-//      }
-//    }
-//
-//    "submit removes spaces from registrationNumber" in new WithApplication {
-//      // DE7 Spaces should be stripped
-//      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
-//      val result = vehicleLookupResponseGenerator().submit(request)
-//
-//      whenReady(result) { r =>
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies.map(_.name) should contain(VehicleLookupFormModelCacheKey)
-//      }
-//    }
-//
-//    "redirect to MicroServiceError after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseNotFoundResponseCode).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//    }
-//
-//    "redirect to VehicleLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseVRMNotFound).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-//    }
-//
-//    "redirect to VehicleLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-//    }
-//
-//    "redirect to VehicleLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsServerDown).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//    }
+    //    "redirect to Confirm after a valid submit and true message returned from the fake microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator().submit(request)
+    //
+    //      whenReady(result, timeout) { r =>
+    //        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+    //        val cookies = fetchCookiesFromHeaders(r)
+    //        val cookieName = "vehicleLookupFormModel"
+    //        cookies.find(_.name == cookieName) match {
+    //          case Some(cookie) =>
+    //            val json = cookie.value
+    //            val model = deserializeJsonToModel[VehicleLookupFormModel](json)
+    //            model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
+    //          case None => fail(s"$cookieName cookie not found")
+    //        }
+    //      }
+    //    }
+    //
+    //    "submit removes spaces from registrationNumber" in new WithApplication {
+    //      // DE7 Spaces should be stripped
+    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
+    //      val result = vehicleLookupResponseGenerator().submit(request)
+    //
+    //      whenReady(result) { r =>
+    //        val cookies = fetchCookiesFromHeaders(r)
+    //        cookies.map(_.name) should contain(VehicleLookupFormModelCacheKey)
+    //      }
+    //    }
+    //
+    //    "redirect to MicroServiceError after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseNotFoundResponseCode).submit(request)
+    //
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    //    }
+    //
+    //    "redirect to VehicleLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseVRMNotFound).submit(request)
+    //
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    //    }
+    //
+    //    "redirect to VehicleLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
+    //
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    //    }
+    //
+    //    "redirect to VehicleLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(vehicleDetailsServerDown).submit(request)
+    //
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    //    }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (DocumentReferenceNumber.MaxLength + 1))
@@ -193,147 +168,161 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
     }
 
-//    "redirect to MicroserviceError when microservice throws" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupError.submit(request)
-//
-//      whenReady(result, timeout) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//      }
-//    }
-//
-//    "redirect to MicroServiceError after a submit if response status is Ok and no response payload" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsNoResponse).submit(request)
-//
-//      // TODO This test passes for the wrong reason, it is throwing when VehicleLookupServiceImpl tries to access resp.json, whereas we want VehicleLookupServiceImpl to return None as a response payload.
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//    }
-//
-//    "write cookie when vss error returned by the microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(vehicleDetailsServerDown).submit(request)
-//
-//      whenReady(result) { r =>
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies.map(_.name) should contain(VehicleLookupFormModelCacheKey)
-//      }
-//    }
-//
-//    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
-//      whenReady(result) { r =>
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies.map(_.name) should contain allOf(
-//          BruteForcePreventionViewModelCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
-//      }
-//    }
-//
-//    "write cookie when vrm not found by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseVRMNotFound).submit(request)
-//      whenReady(result) { r =>
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies.map(_.name) should contain allOf(
-//          BruteForcePreventionViewModelCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
-//      }
-//    }
-//
-//    "does not write cookie when microservice throws" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupError.submit(request)
-//
-//      whenReady(result) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies shouldBe empty
-//      }
-//    }
-//
-//    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
-//      val result = vehicleLookupResponseGenerator(
-//        vehicleDetailsResponseDocRefNumberNotLatest,
-//        bruteForceService = bruteForceServiceImpl(permitted = false)
-//      ).submit(request)
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
-//    }
-//
-//    "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberValid)
-//      val result = vehicleLookupResponseGenerator(
-//        vehicleDetailsResponseDocRefNumberNotLatest,
-//        bruteForceService = bruteForceServiceImpl(permitted = true)
-//      ).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-//    }
-//
-//    "redirect to VehicleLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
-//      val result = vehicleLookupResponseGenerator(
-//        vehicleDetailsResponseDocRefNumberNotLatest,
-//        bruteForceService = bruteForceServiceImpl(permitted = true)
-//      ).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
-//    }
-//
-//    "Send a request and a trackingId" in new WithApplication {
-//      val trackingId = "x" * 20
-//      val request = buildCorrectlyPopulatedRequest().
-//        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
-//      val mockVehiclesLookupService = mock[VehicleLookupWebService]
-//      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).
-//        thenReturn(Future {
-//          new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-//        })
-//      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
-//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      implicit val config: Config = mock[Config]
-//
-//      val vehiclesLookup = new vrm_retention.VehicleLookup(
-//        bruteForceServiceImpl(permitted = true),
-//        vehicleLookupServiceImpl
-//      )
-//      val result = vehiclesLookup.submit(request)
-//
-//      whenReady(result) { r =>
-//        val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-//        verify(mockVehiclesLookupService).callVehicleLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-//        trackingIdCaptor.getValue should be(trackingId)
-//      }
-//    }
-//
-//    "Send the request and no trackingId if session is not present" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val mockVehiclesLookupService = mock[VehicleLookupWebService]
-//      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
-//        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-//      })
-//      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
-//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      implicit val config: Config = mock[Config]
-//      val vehiclesLookup = new vrm_retention.VehicleLookup(
-//        bruteForceServiceImpl(permitted = true),
-//        vehicleLookupServiceImpl)
-//      val result = vehiclesLookup.submit(request)
-//
-//      whenReady(result) { r =>
-//        val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-//        verify(mockVehiclesLookupService).callVehicleLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-//        trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
-//      }
-//    }
-
+    //    "redirect to MicroserviceError when microservice throws" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupError.submit(request)
+    //
+    //      whenReady(result, timeout) { r =>
+    //        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    //      }
+    //    }
+    //
+    //    "redirect to MicroServiceError after a submit if response status is Ok and no response payload" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(vehicleDetailsNoResponse).submit(request)
+    //
+    //      // TODO This test passes for the wrong reason, it is throwing when VehicleLookupServiceImpl tries to access resp.json, whereas we want VehicleLookupServiceImpl to return None as a response payload.
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    //    }
+    //
+    //    "write cookie when vss error returned by the microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(vehicleDetailsServerDown).submit(request)
+    //
+    //      whenReady(result) { r =>
+    //        val cookies = fetchCookiesFromHeaders(r)
+    //        cookies.map(_.name) should contain(VehicleLookupFormModelCacheKey)
+    //      }
+    //    }
+    //
+    //    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
+    //      whenReady(result) { r =>
+    //        val cookies = fetchCookiesFromHeaders(r)
+    //        cookies.map(_.name) should contain allOf(
+    //          BruteForcePreventionViewModelCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+    //      }
+    //    }
+    //
+    //    "write cookie when vrm not found by the fake microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupResponseGenerator(fullResponse = vehicleDetailsResponseVRMNotFound).submit(request)
+    //      whenReady(result) { r =>
+    //        val cookies = fetchCookiesFromHeaders(r)
+    //        cookies.map(_.name) should contain allOf(
+    //          BruteForcePreventionViewModelCacheKey, VehicleLookupResponseCodeCacheKey, VehicleLookupFormModelCacheKey)
+    //      }
+    //    }
+    //
+    //    "does not write cookie when microservice throws" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupError.submit(request)
+    //
+    //      whenReady(result) { r =>
+    //        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    //        val cookies = fetchCookiesFromHeaders(r)
+    //        cookies shouldBe empty
+    //      }
+    //    }
+    //
+    //    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
+    //      val result = vehicleLookupResponseGenerator(
+    //        vehicleDetailsResponseDocRefNumberNotLatest,
+    //        bruteForceService = bruteForceServiceImpl(permitted = false)
+    //      ).submit(request)
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
+    //    }
+    //
+    //    "redirect to VehicleLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberValid)
+    //      val result = vehicleLookupResponseGenerator(
+    //        vehicleDetailsResponseDocRefNumberNotLatest,
+    //        bruteForceService = bruteForceServiceImpl(permitted = true)
+    //      ).submit(request)
+    //
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    //    }
+    //
+    //    "redirect to VehicleLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
+    //      val result = vehicleLookupResponseGenerator(
+    //        vehicleDetailsResponseDocRefNumberNotLatest,
+    //        bruteForceService = bruteForceServiceImpl(permitted = true)
+    //      ).submit(request)
+    //
+    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    //    }
+    //
+    //    "Send a request and a trackingId" in new WithApplication {
+    //      val trackingId = "x" * 20
+    //      val request = buildCorrectlyPopulatedRequest().
+    //        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
+    //      val mockVehiclesLookupService = mock[VehicleLookupWebService]
+    //      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).
+    //        thenReturn(Future {
+    //          new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
+    //        })
+    //      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
+    //      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    //      implicit val config: Config = mock[Config]
+    //
+    //      val vehiclesLookup = new vrm_retention.VehicleLookup(
+    //        bruteForceServiceImpl(permitted = true),
+    //        vehicleLookupServiceImpl
+    //      )
+    //      val result = vehiclesLookup.submit(request)
+    //
+    //      whenReady(result) { r =>
+    //        val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
+    //        verify(mockVehiclesLookupService).callVehicleLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
+    //        trackingIdCaptor.getValue should be(trackingId)
+    //      }
+    //    }
+    //
+    //    "Send the request and no trackingId if session is not present" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val mockVehiclesLookupService = mock[VehicleLookupWebService]
+    //      when(mockVehiclesLookupService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
+    //        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
+    //      })
+    //      val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(mockVehiclesLookupService)
+    //      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    //      implicit val config: Config = mock[Config]
+    //      val vehiclesLookup = new vrm_retention.VehicleLookup(
+    //        bruteForceServiceImpl(permitted = true),
+    //        vehicleLookupServiceImpl)
+    //      val result = vehiclesLookup.submit(request)
+    //
+    //      whenReady(result) { r =>
+    //        val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
+    //        verify(mockVehiclesLookupService).callVehicleLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
+    //        trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
+    //      }
+    //    }
   }
 
   private final val ExitAnchorHtml = """a id="exit""""
-
-  private def responseThrows: Future[Response] = Future {
-    throw new RuntimeException("This error is generated deliberately by a test")
+  private lazy val vehicleLookupError = {
+    val permitted = true // The lookup is permitted as we want to test failure on the vehicle lookup micro-service step.
+    val vehicleLookupWebService: VehicleLookupWebService = mock[VehicleLookupWebService]
+    when(vehicleLookupWebService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
+      throw new IllegalArgumentException
+    })
+    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
+    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+    implicit val config: Config = mock[Config]
+    new vrm_retention.VehicleLookup(
+      bruteForceService = bruteForceServiceImpl(permitted = permitted),
+      vehicleLookupService = vehicleLookupServiceImpl)
   }
+  private lazy val present = {
+    val request = FakeRequest()
+    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
+  }
+  private val testDuration = 7.days.toMillis
+  private implicit val dateService = new DateServiceImpl
 
   private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
     def bruteForcePreventionWebService: BruteForcePreventionWebService = {
@@ -345,12 +334,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmAttempt2)).
         thenReturn(Future {
-          new FakeResponse(status = status, fakeJson = responseSecondAttempt)
-        })
+        new FakeResponse(status = status, fakeJson = responseSecondAttempt)
+      })
       when(bruteForcePreventionWebService.callBruteForce(FakeBruteForcePreventionWebServiceImpl.VrmLocked)).
         thenReturn(Future {
-          new FakeResponse(status = status)
-        })
+        new FakeResponse(status = status)
+      })
       when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
 
       bruteForcePreventionWebService
@@ -361,6 +350,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       ws = bruteForcePreventionWebService,
       dateService = new FakeDateServiceImpl
     )
+  }
+
+  private def responseThrows: Future[Response] = Future {
+    throw new RuntimeException("This error is generated deliberately by a test")
   }
 
   private def vehicleLookupResponseGenerator(fullResponse: (Int, Option[VehicleDetailsResponse]) = vehicleDetailsResponseSuccess,
@@ -384,20 +377,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       vehicleLookupService = vehicleLookupServiceImpl)
   }
 
-  private lazy val vehicleLookupError = {
-    val permitted = true // The lookup is permitted as we want to test failure on the vehicle lookup micro-service step.
-    val vehicleLookupWebService: VehicleLookupWebService = mock[VehicleLookupWebService]
-    when(vehicleLookupWebService.callVehicleLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
-      throw new IllegalArgumentException
-    })
-    val vehicleLookupServiceImpl = new VehicleLookupServiceImpl(vehicleLookupWebService)
-    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    implicit val config: Config = mock[Config]
-    new vrm_retention.VehicleLookup(
-      bruteForceService = bruteForceServiceImpl(permitted = permitted),
-      vehicleLookupService = vehicleLookupServiceImpl)
-  }
-
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
                                              registrationNumber: String = RegistrationNumberValid) = {
     FakeRequest().withFormUrlEncodedBody(
@@ -405,16 +384,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       VehicleRegistrationNumberId -> registrationNumber)
   }
 
-  private lazy val present = {
-    val request = FakeRequest()
-    vehicleLookupResponseGenerator(vehicleDetailsResponseSuccess).present(request)
-  }
-
   private def lookupWithMockConfig(config: Config): VehicleLookup =
     testInjector(new ScalaModule() {
       override def configure(): Unit = bind[Config].toInstance(config)
     }).getInstance(classOf[VehicleLookup])
-
-  private val testDuration = 7.days.toMillis
-  private implicit val dateService = new DateServiceImpl
 }

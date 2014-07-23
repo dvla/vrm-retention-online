@@ -1,23 +1,39 @@
-@(vrmLockedViewModel: models.domain.vrm_retention.VrmLockedViewModel, timeString: String)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+@(vrmLockedViewModel: models.domain.vrm_retention.VrmLockedViewModel, timeString: String)(implicit lang: Lang,
+        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken, config: utils.helpers.Config)
 
 @import helper._
 @import mappings.vrm_retention.VrmLocked._
 @import utils.helpers._
-@import controllers.vrm_retention.routes.VrmLocked
 @import views.html.vrm_retention.main
 
 @main(
     title = Messages("vrm_locked.title")
 ) {
-    <p>@Messages("vrm_locked.text1")</p>
-    <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@timeString</span></p>
-    <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
-    <div class="form-steps">
-        <div class="step">
-            @form(action = controllers.vrm_retention.routes.VrmLocked.exit()) {
-            @CsrfHelper.hiddenFormField
-                <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
+    <div class="two-col">
+        <div class="first-col">
+            <p>@Messages("vrm_locked.text1")</p>
+            <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@timeString</span></p>
+            <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
+            <div class="form-steps">
+                <div class="step">
+                    @form(action = controllers.vrm_retention.routes.VrmLocked.exit()) {
+                        @CsrfHelper.hiddenFormField
+                        <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
+                    }
+                </div>
+            </div>
+        </div>
+        <div id="vehicle-details" class="second-col trader-details">
+            @if(vrmLockedViewModel.vehicleMake.isDefined) {
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                <dl class="summary-detail-list">
+                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                    <dd class="regNum">@vrmLockedViewModel.registrationNumber</dd>
+                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                    <dd>@vrmLockedViewModel.vehicleMake</dd>
+                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                    <dd>@vrmLockedViewModel.vehicleModel</dd>
+                </dl>
             }
         </div>
     </div>

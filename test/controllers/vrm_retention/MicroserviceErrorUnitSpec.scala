@@ -9,7 +9,9 @@ import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
 import utils.helpers.Config
 
 final class MicroserviceErrorUnitSpec extends UnitSpec {
+
   "present" should {
+
     "display the page" in new WithApplication {
       status(present) should equal(OK)
     }
@@ -26,7 +28,8 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      // Stub this config value.
       val microServiceErrorPrototypeNotVisible = new MicroServiceError()
 
       val result = microServiceErrorPrototypeNotVisible.present(request)
@@ -34,9 +37,6 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
     }
   }
 
+  private lazy val present = microServiceError.present(FakeRequest())
   private val microServiceError = injector.getInstance(classOf[MicroServiceError])
-
-  private lazy val present = {
-    microServiceError.present(FakeRequest())
-  }
 }

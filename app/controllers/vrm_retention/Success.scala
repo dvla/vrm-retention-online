@@ -8,11 +8,8 @@ import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
 import play.api.mvc._
 import utils.helpers.Config
-import services.DateService
-import models.domain.vrm_retention.SuccessViewModel
-import scala.Some
 
-final class Success @Inject()(dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
   def present = Action {
@@ -31,8 +28,9 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
       }
   }
 
-  def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+  def exit = Action {
+    implicit request =>
+      Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   // TODO merge these two create methods together
@@ -80,5 +78,4 @@ final class Success @Inject()(dateService: DateService)(implicit clientSideSessi
       retainModel.transactionTimestamp
     )
   }
-
 }

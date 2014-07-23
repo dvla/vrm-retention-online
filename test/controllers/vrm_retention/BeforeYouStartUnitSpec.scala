@@ -10,7 +10,9 @@ import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout
 import utils.helpers.Config
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
+
   "present" should {
+
     "display the page" in new WithApplication {
       val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
@@ -25,7 +27,8 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      // Stub this config value.
       val beforeYouStartPrototypeNotVisible = new BeforeYouStart()
 
       val result = beforeYouStartPrototypeNotVisible.present(request)
@@ -34,6 +37,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
   }
 
   "submit" should {
+
     "redirect to next page after the button is clicked" in new WithApplication {
       val result = beforeYouStart.submit(FakeRequest())
       whenReady(result) { r =>

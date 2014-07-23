@@ -122,7 +122,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
           case None => fail(s"$enterAddressManuallyCookieName cookie not found")
         }
 
-        cookies.find(_.name == traderDetailsCookieName) match {
+        cookies.find(_.name == BusinessDetailsCacheKey) match {
           case Some(cookie) =>
             val json = cookie.value
             val model = deserializeJsonToModel[BusinessDetailsModel](json)
@@ -133,7 +133,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
               PostcodeValid.toUpperCase)
             expectedData should equal(model.businessAddress.address)
 
-          case None => fail(s"$traderDetailsCookieName cookie not found")
+          case None => fail(s"$BusinessDetailsCacheKey cookie not found")
         }
       }
     }
@@ -276,18 +276,22 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
   }
 
+  private lazy val present = {
+    val request = FakeRequest().
+      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+    enterAddressManually.present(request)
+  }
   private val enterAddressManually = {
     injector.getInstance(classOf[EnterAddressManually])
   }
-
-  private val traderDetailsCookieName = BusinessDetailsCacheKey
 
   private def validateAddressCookieValues(result: Future[SimpleResult], buildingName: String, line2: String,
                                           line3: String, postTown: String, postCode: String = PostcodeValid) = {
 
     whenReady(result) { r =>
       val cookies = fetchCookiesFromHeaders(r)
-      cookies.find(_.name == traderDetailsCookieName) match {
+      cookies.find(_.name == BusinessDetailsCacheKey) match {
         case Some(cookie) =>
           val json = cookie.value
           val model = deserializeJsonToModel[BusinessDetailsModel](json)
@@ -297,7 +301,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             postTown,
             postCode)
           expectedData should equal(model.businessAddress.address)
-        case None => fail(s"$traderDetailsCookieName cookie not found")
+        case None => fail(s"$BusinessDetailsCacheKey cookie not found")
       }
     }
   }
@@ -316,11 +320,4 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       s"$AddressAndPostcodeId.$PostcodeId" -> postCode).
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
       withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-
-  private lazy val present = {
-    val request = FakeRequest().
-      withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-    enterAddressManually.present(request)
-  }
 }

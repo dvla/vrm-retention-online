@@ -4,11 +4,11 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.common.{VehicleDetailsModel, BruteForcePreventionViewModel}
+import models.domain.common.{BruteForcePreventionViewModel, VehicleDetailsModel}
+import models.domain.vrm_retention.{VehicleLookupFormModel, VrmLockedViewModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import utils.helpers.Config
-import models.domain.vrm_retention.{VrmLockedViewModel, VehicleLookupFailureViewModel, VehicleLookupFormModel}
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
@@ -35,13 +35,13 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
       Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 
-  private def createViewModel(vehicleDetails: VehicleDetailsModel): VrmLockedViewModel =
+  private def createViewModel(vehicleDetails: VehicleDetailsModel): VrmLockedViewModel = // TODO can be moved to an apply function on a companion object.
     VrmLockedViewModel(
       registrationNumber = vehicleDetails.registrationNumber,
       vehicleMake = Some(vehicleDetails.vehicleMake),
       vehicleModel = Some(vehicleDetails.vehicleModel))
 
-  private def createViewModel(vehicleLookUpFormModelDetails: VehicleLookupFormModel): VrmLockedViewModel =
+  private def createViewModel(vehicleLookUpFormModelDetails: VehicleLookupFormModel): VrmLockedViewModel = // TODO can be moved to an apply function on a companion object.
     VrmLockedViewModel(
       registrationNumber = vehicleLookUpFormModelDetails.registrationNumber,
       vehicleMake = None,

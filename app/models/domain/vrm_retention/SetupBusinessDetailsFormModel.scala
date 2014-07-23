@@ -8,6 +8,7 @@ import play.api.libs.json.Json
 final case class SetupBusinessDetailsFormModel(businessName: String, businessPostcode: String)
 
 object SetupBusinessDetailsFormModel {
+
   implicit val JsonFormat = Json.format[SetupBusinessDetailsFormModel]
   implicit val Key = CacheKey[SetupBusinessDetailsFormModel](SetupBusinessDetailsCacheKey)
 }

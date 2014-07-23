@@ -11,6 +11,7 @@ final case class KeeperDetailsModel(title: String,
 
 // TODO will be replaced by a combined dto when the get vehicle and keeper lookup ms plugged in
 object KeeperDetailsModel {
+
   // Create a KeeperDetailsModel from the given replacementVRM. We do this in order get the data out of the response from micro-service call
   def fromResponse(title: String,
                    firstName: String,
@@ -21,11 +22,12 @@ object KeeperDetailsModel {
                    postCode: String) = {
 
     // TODO need to enhance this model to cater for a third and fourth address line
-    val addressLineModel = AddressLinesModel(addressLine1, Some(addressLine2), None, postTown)
+    val addressViewModel = {
+      val addressLineModel = AddressLinesModel(addressLine1, Some(addressLine2), None, postTown)
+      val addressAndPostcodeModel = AddressAndPostcodeModel.apply(None, addressLineModel)
+      AddressViewModel.from(addressAndPostcodeModel, postCode)
+    }
 
-    val addressAndPostcodeModel = AddressAndPostcodeModel.apply(None, addressLineModel)
-
-    val addressViewModel = AddressViewModel.from(addressAndPostcodeModel, postCode)
     KeeperDetailsModel(title = title,
       firstName = firstName,
       lastName = lastName,

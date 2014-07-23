@@ -10,6 +10,7 @@ final case class VehicleLookupFormModel(referenceNumber: String,
                                         keeperConsent: String)
 
 object VehicleLookupFormModel {
+
   implicit val JsonFormat = Json.format[VehicleLookupFormModel]
   implicit val Key = CacheKey[VehicleLookupFormModel](VehicleLookupFormModelCacheKey)
 }

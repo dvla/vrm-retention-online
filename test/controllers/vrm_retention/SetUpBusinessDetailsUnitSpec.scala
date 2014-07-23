@@ -1,30 +1,30 @@
 package controllers.vrm_retention
 
 import common.ClientSideSessionFactory
-import Common.PrototypeHtml
+import controllers.vrm_retention.Common.PrototypeHtml
+import helpers.JsonUtils.deserializeJsonToModel
+import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import helpers.JsonUtils.deserializeJsonToModel
-import helpers.UnitSpec
-import helpers.WithApplication
 import mappings.vrm_retention.SetupBusinessDetails
+import mappings.vrm_retention.SetupBusinessDetails._
 import models.domain.vrm_retention.SetupBusinessDetailsFormModel
 import org.mockito.Mockito.when
 import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, LOCATION, BAD_REQUEST, contentAsString, defaultAwaitTimeout}
-import services.fakes.FakeAddressLookupService.{TraderBusinessNameValid, PostcodeValid}
-import SetupBusinessDetails._
+import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
+import services.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
 import utils.helpers.Config
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   "present" should {
-//    "display the page" in new WithApplication {
-//      whenReady(present) { r =>
-//        r.header.status should equal(OK)
-//      }
-//    }
+
+    //    "display the page" in new WithApplication {
+    //      whenReady(present) { r =>
+    //        r.header.status should equal(OK)
+    //      }
+    //    }
 
     "display populated fields when cookie exists" in new WithApplication {
       val request = FakeRequest().
@@ -45,15 +45,16 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       content should not include PostcodeValid
     }
 
-//    "display prototype message when config set to true" in new WithApplication {
-//      contentAsString(present) should include(PrototypeHtml)
-//    }
+    //    "display prototype message when config set to true" in new WithApplication {
+    //      contentAsString(present) should include(PrototypeHtml)
+    //    }
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
       implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
       implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+      when(config.isPrototypeBannerVisible).thenReturn(false)
+      // Stub this config value.
       val setUpTradeDetailsPrototypeNotVisible = new SetUpBusinessDetails()
 
       val result = setUpTradeDetailsPrototypeNotVisible.present(request)
@@ -62,6 +63,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
+
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpBusinessDetails.submit(request)
@@ -81,54 +83,51 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       }
     }
 
-//    "return a bad request if no details are entered" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
-//      val result = setUpBusinessDetails.submit(request)
-//      whenReady(result) { r =>
-//        r.header.status should equal(BAD_REQUEST)
-//      }
-//    }
-//
-//    "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessNameMaxLength + 1))
-//      val result = setUpBusinessDetails.submit(request)
-//      val count = "Must be between 2 and 58 characters and only contain valid characters".
-//        r.findAllIn(contentAsString(result)).length
-//      count should equal(2)
-//    }
-//
-//    "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(dealerName = "")
-//      val result = setUpBusinessDetails.submit(request)
-//      val count = "Must be between 2 and 58 characters and only contain valid characters".
-//        r.findAllIn(contentAsString(result)).length
-//      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
-//      // the page and once above the field.
-//    }
+    //    "return a bad request if no details are entered" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
+    //      val result = setUpBusinessDetails.submit(request)
+    //      whenReady(result) { r =>
+    //        r.header.status should equal(BAD_REQUEST)
+    //      }
+    //    }
+    //
+    //    "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessNameMaxLength + 1))
+    //      val result = setUpBusinessDetails.submit(request)
+    //      val count = "Must be between 2 and 58 characters and only contain valid characters".
+    //        r.findAllIn(contentAsString(result)).length
+    //      count should equal(2)
+    //    }
+    //
+    //    "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest(dealerName = "")
+    //      val result = setUpBusinessDetails.submit(request)
+    //      val count = "Must be between 2 and 58 characters and only contain valid characters".
+    //        r.findAllIn(contentAsString(result)).length
+    //      count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
+    //      // the page and once above the field.
+    //    }
 
     "write cookie when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = setUpBusinessDetails.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain (SetupBusinessDetailsCacheKey)
+        cookies.map(_.name) should contain(SetupBusinessDetailsCacheKey)
       }
     }
   }
+
+  private lazy val present = {
+    val request = FakeRequest()
+    setUpBusinessDetails.present(request)
+  }
+  private val setUpBusinessDetails = injector.getInstance(classOf[SetUpBusinessDetails])
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
                                              dealerPostcode: String = PostcodeValid) = {
     FakeRequest().withFormUrlEncodedBody(
       BusinessNameId -> dealerName,
       BusinessPostcodeId -> dealerPostcode)
-  }
-
-  private val setUpBusinessDetails = {
-    injector.getInstance(classOf[SetUpBusinessDetails])
-  }
-
-  private lazy val present = {
-    val request = FakeRequest()
-    setUpBusinessDetails.present(request)
   }
 }
