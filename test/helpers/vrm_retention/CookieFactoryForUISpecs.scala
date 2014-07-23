@@ -11,7 +11,7 @@ import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, Address
 import models.domain.vrm_retention._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
-import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid, addressWithoutUprn}
+import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl._
@@ -29,9 +29,13 @@ object CookieFactoryForUISpecs {
   }
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
+                           businessContact: String = TraderBusinessContactValid,
+                           businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(businessName = businessName,
+      businessContact = businessContact,
+      businessEmail = businessEmail,
       businessPostcode = businessPostcode)
     addCookie(key, value)
     this

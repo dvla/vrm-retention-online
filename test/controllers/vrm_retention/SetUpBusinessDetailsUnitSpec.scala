@@ -6,14 +6,13 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import mappings.vrm_retention.SetupBusinessDetails
 import mappings.vrm_retention.SetupBusinessDetails._
 import models.domain.vrm_retention.SetupBusinessDetailsFormModel
 import org.mockito.Mockito.when
 import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import services.fakes.FakeAddressLookupService.{PostcodeValid, TraderBusinessNameValid}
+import services.fakes.FakeAddressLookupService._
 import utils.helpers.Config
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
@@ -125,9 +124,13 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   private val setUpBusinessDetails = injector.getInstance(classOf[SetUpBusinessDetails])
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
+                                             dealerContact: String = TraderBusinessContactValid,
+                                             dealerEmail: String = TraderBusinessEmailValid,
                                              dealerPostcode: String = PostcodeValid) = {
     FakeRequest().withFormUrlEncodedBody(
       BusinessNameId -> dealerName,
+      BusinessContactId -> dealerContact,
+      BusinessEmailId -> dealerEmail,
       BusinessPostcodeId -> dealerPostcode)
   }
 }

@@ -50,6 +50,8 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       keeperLastName = keeperDetails.lastName,
       keeperAddress = keeperDetails.address,
       businessName = Some(businessDetailsModel.businessName),
+      businessContact = Some(businessDetailsModel.businessContact),
+      businessEmail = Some(businessDetailsModel.businessEmail),
       businessAddress = Some(businessDetailsModel.businessAddress)
     )
 
@@ -63,6 +65,6 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       keeperFirstName = keeperDetails.firstName,
       keeperLastName = keeperDetails.lastName,
       keeperAddress = keeperDetails.address,
-      None, None
+      None, None, None, None
     )
 }

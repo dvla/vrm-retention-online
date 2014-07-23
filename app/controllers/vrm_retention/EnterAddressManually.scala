@@ -52,6 +52,8 @@ final class EnterAddressManually @Inject()()
               enterAddressManuallyViewModel.businessPostCode)
             val businessDetailsModel = BusinessDetailsModel(
               businessName = setupBusinessDetailsFormModel.businessName,
+              businessContact = setupBusinessDetailsFormModel.businessContact,
+              businessEmail = setupBusinessDetailsFormModel.businessEmail,
               businessAddress = businessAddress)
             Redirect(routes.Confirm.present()).
               withCookie(validForm).
@@ -83,6 +85,8 @@ final class EnterAddressManually @Inject()()
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       businessName = setupBusinessDetailsFormModel.businessName,
+      businessContact = setupBusinessDetailsFormModel.businessContact,
+      businessEmail = setupBusinessDetailsFormModel.businessEmail,
       businessPostCode = setupBusinessDetailsFormModel.businessPostcode
     )
 }

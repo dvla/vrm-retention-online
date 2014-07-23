@@ -10,7 +10,7 @@ import models.domain.common.{BruteForcePreventionViewModel, AddressAndPostcodeMo
 import models.domain.vrm_retention.{VehicleLookupFormModel, BusinessChooseYourAddressFormModel, EnterAddressManuallyModel, SetupBusinessDetailsFormModel}
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid, TraderBusinessNameValid}
+import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVehicleLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
@@ -38,9 +38,13 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   }
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
+                           businessContact: String = TraderBusinessContactValid,
+                           businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(businessName = businessName,
+      businessContact = businessContact,
+      businessEmail = businessEmail,
       businessPostcode = businessPostcode)
     createCookie(key, value)
   }

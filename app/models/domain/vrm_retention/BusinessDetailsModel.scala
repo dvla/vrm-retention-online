@@ -4,7 +4,7 @@ import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import models.domain.common.{AddressViewModel, CacheKey}
 import play.api.libs.json.Json
 
-final case class BusinessDetailsModel(businessName: String, businessAddress: AddressViewModel)
+final case class BusinessDetailsModel(businessName: String, businessContact: String, businessEmail: String, businessAddress: AddressViewModel)
 
 object BusinessDetailsModel {
 

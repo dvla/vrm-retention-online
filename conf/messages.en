@@ -439,10 +439,14 @@ vrm_retention_beforeyoustart.button = Start now
 vrm_retention_setupbusinessdetails.title = Provide your business details
 vrm_retention_setupbusinessdetails.p1 = Set-up business details
 vrm_retention_setupbusinessdetails.businessnamelabel = Business name
+vrm_retention_setupbusinessdetails.businesscontactlabel = Business contact name
+vrm_retention_setupbusinessdetails.businessemaillabel = Business email address
 vrm_retention_setupbusinessdetails.businesspostcodelabel = Postcode
 vrm_retention_setupbusinessdetails.businesspostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
 vrm_retention_setupbusinessdetails.button = Find address
 error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
+error.validBusinessContact = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
+error.validBusinessEmail = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, and @)
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Find the vehicle
@@ -517,6 +521,8 @@ vrm_retention_confirm.keeperPostcodeLabel = Postcode
 vrm_retention_confirm.isBusiness = The following business is acting on behalf of the keeper and with their consent
 vrm_retention_confirm.businessDetailsTitle = Business details
 vrm_retention_confirm.businessNameLabel = Name
+vrm_retention_confirm.businessContactLabel = Contact
+vrm_retention_confirm.businessEmailLabel = Email address
 vrm_retention_confirm.businessAddressLabel = Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
@@ -526,12 +532,15 @@ vrm_retention_confirm.button = Confirm
 vrm_retention_exit.button = Exit
 
 
-
 # choose business address
 vrm_retention_businessChooseYourAddress_title = Select your business address
 vrm_retention_businessChooseYourAddress_legend = Set up business details
 vrm_retention_businessChooseYourAddress_businessName_label = Business name
+vrm_retention_businessChooseYourAddress_businessContact_label =  Contact name
+vrm_retention_businessChooseYourAddress_businessEmail_label = Email address
 vrm_retention_businessChooseYourAddress_businessName = {0}
+vrm_retention_businessChooseYourAddress_businessContact = {0}
+vrm_retention_businessChooseYourAddress_businessEmail = {0}
 vrm_retention_businessChooseYourAddress_postcode_label = Postcode
 vrm_retention_businessChooseYourAddress_businessAddress_label = Business address
 vrm_retentionbusinessChooseYourAddress_addressSelect = Choose your address
@@ -541,7 +550,6 @@ vrm_retention_businessChooseYourAddress.submitbutton = Next
 vrm_retention_businessChooseYourAddress.manualAddressEntry = Enter my address
 error.dropDownInvalid = Please select a value from the drop down list.
 vrm_retention_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually.
-
 
 # enter address manually
 vrm_retention_enteraddressmanually.title = Enter address

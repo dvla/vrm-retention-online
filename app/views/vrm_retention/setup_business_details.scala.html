@@ -5,7 +5,7 @@
 
 @import controllers.vrm_retention.routes.SetUpBusinessDetails
 @import mappings.common.Postcode
-@import mappings.vrm_retention.SetupBusinessDetails.{SubmitId, BusinessNameId, BusinessNameMaxLength, BusinessPostcodeId}
+@import mappings.vrm_retention.SetupBusinessDetails._
 @import utils.helpers.BaseTemplate.fieldConstructor
 @import utils.helpers.CsrfHelper
 @import views.html.vrm_retention.main
@@ -25,7 +25,14 @@
 	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
 	                    '_showConstraints -> false,
 	                    'maxLength -> BusinessNameMaxLength))
-
+            @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), args =
+                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> BusinessContactMaxLength))
+            @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), args =
+                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> BusinessEmailMaxLength))
 	        @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
 	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
 	                    '_showConstraints -> false,

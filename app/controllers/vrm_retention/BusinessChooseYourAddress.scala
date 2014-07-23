@@ -69,7 +69,10 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         request.cookies.getModel[SetupBusinessDetailsFormModel] match {
           case Some(setupBusinessDetailsFormModel) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
-            lookupUprn(validForm, setupBusinessDetailsFormModel.businessName)
+            lookupUprn(validForm,
+              setupBusinessDetailsFormModel.businessName,
+              setupBusinessDetailsFormModel.businessContact,
+              setupBusinessDetailsFormModel.businessEmail)
           case None => Future {
             Redirect(routes.SetUpBusinessDetails.present())
           }
@@ -86,12 +89,15 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =
     addressLookupService.fetchAddressesForPostcode(model.businessPostcode, session.trackingId)
 
-  private def lookupUprn(model: BusinessChooseYourAddressFormModel, businessName: String)
+  private def lookupUprn(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String)
                         (implicit request: Request[_], session: ClientSideSession) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
-        val businessDetailsModel = BusinessDetailsModel(businessName = businessName, businessAddress = addressViewModel)
+        val businessDetailsModel = BusinessDetailsModel(businessName = businessName,
+          businessContact = businessContact,
+          businessEmail = businessEmail,
+          businessAddress = addressViewModel)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */
@@ -110,6 +116,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       vehicleMake = vehicleDetails.vehicleMake,
       vehicleModel = vehicleDetails.vehicleModel,
       businessName = setupBusinessDetailsFormModel.businessName,
+      businessContact = setupBusinessDetailsFormModel.businessContact,
+      businessEmail = setupBusinessDetailsFormModel.businessEmail,
       businessPostCode = setupBusinessDetailsFormModel.businessPostcode
     )
 }

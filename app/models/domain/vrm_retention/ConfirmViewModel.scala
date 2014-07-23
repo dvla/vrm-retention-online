@@ -10,4 +10,6 @@ final case class ConfirmViewModel(registrationNumber: String,
                                   keeperLastName: String,
                                   keeperAddress: AddressViewModel,
                                   businessName: Option[String],
+                                  businessContact: Option[String],
+                                  businessEmail: Option[String],
                                   businessAddress: Option[AddressViewModel])

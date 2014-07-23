@@ -67,7 +67,9 @@
 		<p>@Messages("vrm_retention_success.aboutTransactionDesc")</p>
 		<div class="two-col">
 			<div class="first-col">
-				<h3>@successViewModel.businessName</h3>
+                <h3>@successViewModel.businessName</h3>
+                <h3>@successViewModel.businessContact</h3>
+                <h3>@successViewModel.businessEmail</h3>
 				<p>
 					@for(businessAddressLine <- successViewModel.businessAddress.get.address.init) {
                     	@businessAddressLine<br>
@@ -75,8 +77,8 @@
                     @successViewModel.businessAddress.get.address.last
 			</div>
 			<div class="second-col">
-				<label>@Messages("vrm_retention_success.aboutTransactionEmployeeLabel")</label> 
-				<input type="text">
+				@*<label>@Messages("vrm_retention_success.aboutTransactionEmployeeLabel")</label> *@
+				@*<input type="text">*@
 				<dl class="summary-detail-list transaction-details">
 					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
 					<dd> @successViewModel.transactionId</dd>
