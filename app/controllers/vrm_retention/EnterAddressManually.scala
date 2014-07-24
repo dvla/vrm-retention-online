@@ -3,6 +3,7 @@ package controllers.vrm_retention
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import constraints.common.Postcode.formatPostcode
 import mappings.common.AddressAndPostcode.{AddressAndPostcodeId, addressAndPostcode}
 import models.domain.common.{AddressViewModel, VehicleDetailsModel}
 import models.domain.vrm_retention.{BusinessDetailsModel, EnterAddressManuallyModel, EnterAddressManuallyViewModel, SetupBusinessDetailsFormModel}
@@ -85,6 +86,6 @@ final class EnterAddressManually @Inject()()
       vehicleModel = vehicleDetails.vehicleModel,
       businessName = setupBusinessDetailsFormModel.businessName,
       businessContact = setupBusinessDetailsFormModel.businessContact,
-      businessPostCode = setupBusinessDetailsFormModel.businessPostcode
+      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)
     )
 }

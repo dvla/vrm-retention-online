@@ -1,5 +1,6 @@
 package models.domain.vrm_retention
 
+import constraints.common.Postcode.formatPostcode
 import mappings.vrm_retention.VehicleLookup.KeeperLookupDetailsCacheKey
 import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, CacheKey}
 import play.api.libs.json.Json
@@ -25,7 +26,7 @@ object KeeperDetailsModel {
     val addressViewModel = {
       val addressLineModel = AddressLinesModel(addressLine1, Some(addressLine2), None, postTown)
       val addressAndPostcodeModel = AddressAndPostcodeModel.apply(None, addressLineModel)
-      AddressViewModel.from(addressAndPostcodeModel, postCode)
+      AddressViewModel.from(addressAndPostcodeModel, formatPostcode(postCode))
     }
 
     KeeperDetailsModel(title = title,

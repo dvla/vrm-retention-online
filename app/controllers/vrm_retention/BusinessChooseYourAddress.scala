@@ -1,5 +1,6 @@
 package controllers.vrm_retention
 
+import constraints.common.Postcode.formatPostcode
 import javax.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSession, ClientSideSessionFactory}
@@ -115,6 +116,6 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       vehicleModel = vehicleDetails.vehicleModel,
       businessName = setupBusinessDetailsFormModel.businessName,
       businessContact = setupBusinessDetailsFormModel.businessContact,
-      businessPostCode = setupBusinessDetailsFormModel.businessPostcode
+      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)
     )
 }

@@ -1,6 +1,7 @@
 package mappings.common
 
-import constraints.disposal_of_vehicle.RegistrationNumber.validRegistrationNumber
+import constraints.common.RegistrationNumber
+import RegistrationNumber.validRegistrationNumber
 import play.api.data.Forms.nonEmptyText
 import play.api.data.Mapping
 

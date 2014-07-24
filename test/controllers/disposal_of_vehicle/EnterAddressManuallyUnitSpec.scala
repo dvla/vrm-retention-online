@@ -1,5 +1,6 @@
 package controllers.disposal_of_vehicle
 
+import constraints.common.Postcode.formatPostcode
 import common.ClientSideSessionFactory
 import Common.PrototypeHtml
 import helpers.common.CookieHelper
@@ -127,7 +128,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
               Line2Valid.toUpperCase,
               Line3Valid.toUpperCase,
               PostTownValid.toUpperCase,
-              PostcodeValid.toUpperCase)
+              formatPostcode(PostcodeValid.toUpperCase))
             expectedData should equal(model.traderAddress.address)
 
           case None => fail(s"$traderDetailsCookieName cookie not found")
@@ -287,7 +288,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             line2,
             line3,
             postTown,
-            postCode)
+            formatPostcode(postCode))
           expectedData should equal(model.traderAddress.address)
         case None => fail(s"$traderDetailsCookieName cookie not found")
       }

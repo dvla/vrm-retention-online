@@ -1,5 +1,6 @@
 package models.domain.disposal_of_vehicle
 
+import constraints.common.Postcode.formatPostcode
 import models.domain.common.{AddressViewModel, AddressLinesModel, AddressAndPostcodeModel}
 import AddressViewModel.JsonFormat
 import helpers.UnitSpec
@@ -30,7 +31,7 @@ final class AddressViewModelSpec extends UnitSpec {
         Line2Valid.toUpperCase,
         Line3Valid.toUpperCase,
         PostTownValid.toUpperCase,
-        PostcodeValid.toUpperCase))
+        formatPostcode(PostcodeValid.toUpperCase)))
     }
   }
 

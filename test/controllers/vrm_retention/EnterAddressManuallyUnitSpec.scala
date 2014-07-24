@@ -1,6 +1,7 @@
 package controllers.vrm_retention
 
 import common.ClientSideSessionFactory
+import constraints.common.Postcode.formatPostcode
 import controllers.disposal_of_vehicle.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -130,7 +131,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
               Line2Valid.toUpperCase,
               Line3Valid.toUpperCase,
               PostTownValid.toUpperCase,
-              PostcodeValid.toUpperCase)
+              formatPostcode(PostcodeValid.toUpperCase))
             expectedData should equal(model.businessAddress.address)
 
           case None => fail(s"$BusinessDetailsCacheKey cookie not found")
@@ -299,7 +300,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             line2,
             line3,
             postTown,
-            postCode)
+            formatPostcode(postCode))
           expectedData should equal(model.businessAddress.address)
         case None => fail(s"$BusinessDetailsCacheKey cookie not found")
       }
