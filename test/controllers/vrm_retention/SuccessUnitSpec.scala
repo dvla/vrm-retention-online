@@ -53,7 +53,7 @@ final class SuccessUnitSpec extends UnitSpec {
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return status Ok when creation succeeded" in {
+    "return status OK when creation succeeded" in {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.keeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
