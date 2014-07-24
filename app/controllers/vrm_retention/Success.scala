@@ -29,8 +29,10 @@ final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSes
   }
 
   def createPdf = Action { implicit request =>
-    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel]) match {
-      case (Some(vehicleDetails), Some(keeperDetails)) => Ok("Work in progress to create pdf")
+    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel],
+      request.cookies.getModel[VehicleLookupFormModel]) match {
+      case (Some(vehicleDetails), Some(keeperDetails), Some(vehicleLookupFormModel)) =>
+        Ok("Work in progress to create pdf")
       case _ => BadRequest("You are missing the cookies required to create a pdf")
     }
   }

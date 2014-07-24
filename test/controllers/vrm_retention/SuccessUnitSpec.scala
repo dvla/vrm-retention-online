@@ -53,10 +53,11 @@ final class SuccessUnitSpec extends UnitSpec {
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return status Ok when creation succeeded" in pendingUntilFixed {
+    "return status Ok when creation succeeded" in {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
-        // TODO requires more cookies that contain date of the Retention and the transaction ID
+        withCookies(CookieFactoryForUnitSpecs.keeperDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleLookupFormModel())
       val result = success.createPdf(request)
       status(result) should equal(OK)
     }
