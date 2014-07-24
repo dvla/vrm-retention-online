@@ -57,6 +57,7 @@ POST        /vrm-retention/payment                                           @co
 GET         /vrm-retention/payment/exit                                      @controllers.vrm_retention.Payment.exit
 
 GET         /vrm-retention/success                                           @controllers.vrm_retention.Success.present
+GET         /vrm-retention/success/create-pdf                                @controllers.vrm_retention.Success.createPdf
 GET         /vrm-retention/success/exit                                      @controllers.vrm_retention.Success.exit
 
 GET         /vrm-retention/healthcheck                                       @controllers.common.HealthCheck.respond

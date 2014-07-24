@@ -15,24 +15,50 @@ final class Success @Inject()(dateService: DateService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
-  def present = Action {
-    implicit request =>
-      (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel],
-        request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel]) match {
-        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), Some(businessDetailsModel)) =>
-          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel, businessDetailsModel)
-          Ok(views.html.vrm_retention.success(successViewModel))
-        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), None) =>
-          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel)
-          Ok(views.html.vrm_retention.success(successViewModel))
-        case _ =>
-          Redirect(routes.MicroServiceError.present())
-      }
+  def present = Action { implicit request =>
+    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel],
+      request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel]) match {
+      case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), Some(businessDetailsModel)) =>
+        val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel, businessDetailsModel)
+        Ok(views.html.vrm_retention.success(successViewModel))
+      case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), None) =>
+        val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel)
+        Ok(views.html.vrm_retention.success(successViewModel))
+      case _ =>
+        Redirect(routes.MicroServiceError.present())
+    }
+  }
+
+  def createPdf = Action { implicit request =>
+    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel]) match {
+      case (Some(vehicleDetails), Some(keeperDetails)) => Ok("Work in progress to create pdf")
+      case _ => BadRequest("You are missing the cookies required to create a pdf")
+    }
   }
 
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
       .discardingCookies(RelatedCacheKeys.FullSet)
+  }
+
+  def randomNumericString(length: Int): String = {
+    val chars = ('0' to '9')
+    randomStringFromCharList(length, chars)
+  }
+
+  def randomAlphaNumericString(length: Int): String = {
+    val chars = ('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9')
+    randomStringFromCharList(length, chars)
+  }
+
+  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
+    // TODO replace with a 'generator' as in the v-m project for generating random VRMs.
+    val sb = new StringBuilder
+    for (i <- 1 to length) {
+      val randomNum = util.Random.nextInt(chars.length)
+      sb.append(chars(randomNum))
+    }
+    sb.toString
   }
 
   // TODO merge these two create methods together
@@ -83,25 +109,5 @@ final class Success @Inject()(dateService: DateService)
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
       randomNumericString(14), randomAlphaNumericString(10), isoDateTimeString // TODO replacement mark, cert number and txn details
     )
-  }
-
-  def randomNumericString(length: Int): String = {
-    val chars = ('0' to '9')
-    randomStringFromCharList(length, chars)
-  }
-
-  def randomAlphaNumericString(length: Int): String = {
-    val chars = ('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9')
-    randomStringFromCharList(length, chars)
-  }
-
-  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
-    // TODO replace with a 'generator' as in the v-m project for generating random VRMs.
-    val sb = new StringBuilder
-    for (i <- 1 to length) {
-      val randomNum = util.Random.nextInt(chars.length)
-      sb.append(chars(randomNum))
-    }
-    sb.toString
   }
 }
