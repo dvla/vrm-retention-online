@@ -74,8 +74,8 @@ object CookieFactoryForUISpecs {
   }
 
   def retainModel(certificateNumber: String = CertificateNumberValid,
-  transactionId: String = TransactionIdValid,
-  transactionTimestamp: String = TransactionTimestampValid)(implicit webDriver: WebDriver) = {
+                  transactionId: String = TransactionIdValid,
+                  transactionTimestamp: String = TransactionTimestampValid)(implicit webDriver: WebDriver) = {
     val key = RetainCacheKey
     val value = RetainModel(certificateNumber = certificateNumber,
       transactionId = transactionId,

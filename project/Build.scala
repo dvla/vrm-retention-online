@@ -32,7 +32,8 @@ object ApplicationBuild extends Build {
     "com.google.inject" % "guice" % "4.0-beta4" withSources() withJavadoc(),
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
-    "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
+    "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc(),
+    "org.apache.pdfbox" % "pdfbox" % "1.8.6"
   )
 
   val cukes = CucumberPlugin.cucumberSettings ++
