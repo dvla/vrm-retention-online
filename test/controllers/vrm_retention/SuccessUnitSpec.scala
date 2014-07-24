@@ -2,8 +2,9 @@ package controllers.vrm_retention
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
+import pages.vrm_retention.BeforeYouStartPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, defaultAwaitTimeout, status}
+import play.api.test.Helpers.{LOCATION, OK, defaultAwaitTimeout, status}
 
 final class SuccessUnitSpec extends UnitSpec {
 
@@ -30,6 +31,15 @@ final class SuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
       val result = success.present(request)
       status(result) should equal(OK)
+    }
+  }
+
+  "exit" should {
+    "redirect to BeforeYouStartPage" in {
+      val result = success.exit(FakeRequest())
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      }
     }
   }
 
