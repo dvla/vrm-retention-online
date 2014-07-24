@@ -3,6 +3,7 @@ package helpers.vrm_retention
 import common.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import composition.TestComposition
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
+import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
@@ -123,6 +124,14 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid): Cookie = {
     val key = CheckEligibilityCacheKey
     val value = EligibilityModel(replacementVRM = replacementVRM)
+    createCookie(key, value)
+  }
+
+  def businessDetailsModel(businessName: String = TraderBusinessNameValid,
+                           businessAddress: AddressViewModel = addressWithUprn): Cookie = {
+    val key = BusinessDetailsCacheKey
+    val value = BusinessDetailsModel(businessName = businessName,
+      businessAddress = businessAddress)
     createCookie(key, value)
   }
 }

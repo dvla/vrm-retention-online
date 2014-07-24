@@ -9,7 +9,19 @@ final class SuccessUnitSpec extends UnitSpec {
 
   "present" should {
 
-    "display the page" in new WithApplication {
+    "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.keeperDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
+        withCookies(CookieFactoryForUnitSpecs.businessDetailsModel())
+      val result = success.present(request)
+      status(result) should equal(OK)
+    }
+
+    "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
