@@ -10,7 +10,7 @@ import play.api.mvc._
 import utils.helpers.Config
 
 final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                                config: Config) extends Controller {
 
   def present = Action {
     implicit request =>
@@ -28,9 +28,36 @@ final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSes
       }
   }
 
+  def createPdf = Action { implicit request =>
+    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel]) match {
+      case (Some(vehicleDetails), Some(keeperDetails)) => Ok("Work in progress to create pdf")
+      case _ => BadRequest("You are missing the cookies required to create a pdf")
+    }
+  }
+
   def exit = Action {
     implicit request =>
       Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+  }
+
+  def randomNumericString(length: Int): String = {
+    val chars = ('0' to '9')
+    randomStringFromCharList(length, chars)
+  }
+
+  def randomAlphaNumericString(length: Int): String = {
+    val chars = ('a' to 'z') ++ ('A' to 'Z') ++ ('0' to '9')
+    randomStringFromCharList(length, chars)
+  }
+
+  def randomStringFromCharList(length: Int, chars: Seq[Char]): String = {
+    // TODO replace with a 'generator' as in the v-m project for generating random VRMs.
+    val sb = new StringBuilder
+    for (i <- 1 to length) {
+      val randomNum = util.Random.nextInt(chars.length)
+      sb.append(chars(randomNum))
+    }
+    sb.toString
   }
 
   // TODO merge these two create methods together
