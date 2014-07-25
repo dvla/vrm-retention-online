@@ -7,6 +7,7 @@ import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
 import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
+import pdf.PdfServiceImpl.blankPage
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -31,7 +32,7 @@ class PdfServiceImpl() extends PdfService {
     implicit val document = new PDDocument()
 
     document.addPage(page1)
-    document.addPage(page2)
+    document.addPage(blankPage)
     val documentWatermarked = watermark
 
     // Save the results and ensure that the document is properly closed:
@@ -45,19 +46,9 @@ class PdfServiceImpl() extends PdfService {
     // Start a new content stream which will "hold" the to be created content
     implicit val contentStream = new PDPageContentStream(document, page)
 
-    writeBody1
-    writeBody2
-
-    // Make sure that the content stream is closed:
-    contentStream.close()
-    page
-  }
-
-  private def page2(implicit document: PDDocument): PDPage = {
-    val page = new PDPage()
-    // Start a new content stream which will "hold" the to be created content
-    implicit val contentStream = new PDPageContentStream(document, page)
-
+    writeDvlaAddress
+    writeVrn
+    writeDateOfRetentionAndTransactionId
 
     // Make sure that the content stream is closed:
     contentStream.close()
@@ -70,29 +61,33 @@ class PdfServiceImpl() extends PdfService {
     contentStream.setFont(font, 12)
   }
 
-  private def writeBody1(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeDvlaAddress(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
     setFont
-    contentStream.moveTextPositionByAmount(400, 10)
-    contentStream.drawString("400, 10")
+    contentStream.moveTextPositionByAmount(330, 575)
+    contentStream.drawString("TODO DVLA address")
     contentStream.endText()
-
-//    !!!!!!
-//
-//
-//
-//    ???????  READ IN THE OLD PDF AND JUST ADD TO IT!!!!!!!
-//
-//
-//
-//    !!!!!!
   }
 
-  private def writeBody2(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeVrn(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
     setFont
-    contentStream.moveTextPositionByAmount(400, 30)
-    contentStream.drawString("400, 30")
+    contentStream.moveTextPositionByAmount(45, 390)
+    contentStream.drawString("TODO VRM")
+    contentStream.endText()
+  }
+
+  private def writeDateOfRetentionAndTransactionId(implicit contentStream: PDPageContentStream): Unit = {
+    contentStream.beginText()
+    setFont
+    contentStream.moveTextPositionByAmount(45, 280)
+    contentStream.drawString("TODO DateOfRetention")
+    contentStream.endText()
+
+    contentStream.beginText()
+    setFont
+    contentStream.moveTextPositionByAmount(45, 260)
+    contentStream.drawString("TODO TransactionId")
     contentStream.endText()
   }
 
@@ -108,5 +103,17 @@ class PdfServiceImpl() extends PdfService {
         overlay.overlay(document, watermarkDoc)
       case None => document // Watermark file not found so cannot watermark.
     }
+  }
+}
+
+object PdfServiceImpl {
+
+  private def blankPage(implicit document: PDDocument): PDPage = {
+    val page = new PDPage()
+    // Start a new content stream which will "hold" the to be created content
+    val contentStream = new PDPageContentStream(document, page)
+    // Make sure that the content stream is closed:
+    contentStream.close()
+    page
   }
 }
