@@ -20,28 +20,26 @@ object RegistrationNumber {
     else Invalid(ValidationError("error.restricted.validVrnOnly"))
   }
 
-//  def formatVrm(vrm: String): String = {
-//
-//    val SpaceCharDelimiter = " "
-//    val Format1 = "([A-Z][0-9][0-9][A-Z][A-Z])".r // A99AA
-//    val Format2 = "([A-Z][0][0-9][0-9][A-Z][A-Z])".r // A099AA
-//    val Format3 = "([A-Z][0-9][0-9][0-9][A-Z][A-Z])".r // A999AA
-//    val Format4 = "([A-Z][0-9][A-Z][0-9][A-Z][A-Z])".r // A9A9AA
-//    val Format5 = "([A-Z][A-Z][0-9][0-9][A-Z][A-Z])".r // AA99AA
-//    val Format6 = "([A-Z][A-Z][0][0-9][0-9][A-Z][A-Z])".r // AA099AA
-//    val Format7 = "([A-Z][A-Z][0-9][0-9][0-9][A-Z][A-Z])".r // AA999AA
-//    val Format8 = "([A-Z][A-Z][0-9][A-Z][0-9][A-Z][A-Z])".r // AA9A9AA
-//
-//    vrm.trim.toUpperCase match {
-//      case Format1(v) ⇒ v.substring(0, 4) + " " + v.substring(4, 7)
-//      case Format2(v) ⇒ v.substring(0, 4) + " " + v.substring(4, 7)
-//      case Format3(v) ⇒ v.charAt(0) + " " + v.charAt(1) + "     "
-//      case Format4(v) ⇒ v.charAt(0) + " " + v.substring(1,3) + "    "
-//      case Format5(v) ⇒ v.charAt(0) + " " + v.substring(1,3) + "    "
-//      case Format6(v) ⇒ v.charAt(0) + " " + v.substring(1,3) + "    "
-//      case Format7(v) ⇒ v.charAt(0) + " " + v.substring(1,3) + "    "
-//      case Format8(v) ⇒ v.charAt(0) + " " + v.substring(1,3) + "    "
-//      case _ ⇒ vrm
-//    }
-//  }
+  def formatVrm(vrm: String): String = {
+
+    val SpaceCharDelimiter = " "
+    val FiveSpaceCharPadding = "     "
+    val FourSpaceCharPadding = "    "
+    val ThreeSpaceCharPadding = "   "
+    val TwoSpaceCharPadding = "  "
+    val Format1 = "([A-Z]{2}[0-9]{2}[A-Z]{3})".r // AA88AAA
+    val Format2 = "([A-Z][0-9])".r // A9
+    val Format3 = "([A-Z][0-9]{2})".r // A99
+    val Format4 = "([A-Z][0-9]{3})".r // A999
+    val Format5 = "([A-Z][0-9]{4})".r // A9999
+
+    vrm.toUpperCase.replace(SpaceCharDelimiter, "") match {
+      case Format1(v) ⇒ v.substring(0, 4) + SpaceCharDelimiter + v.substring(4, 7)
+      case Format2(v) ⇒ "" + v.charAt(0) + SpaceCharDelimiter + v.charAt(1) + FiveSpaceCharPadding
+      case Format3(v) ⇒ "" + v.charAt(0) + SpaceCharDelimiter + v.substring(1, 3) + FourSpaceCharPadding
+      case Format4(v) ⇒ "" + v.charAt(0) + SpaceCharDelimiter + v.substring(1, 4) + ThreeSpaceCharPadding
+      case Format5(v) ⇒ "" + v.charAt(0) + SpaceCharDelimiter + v.substring(1, 5) + TwoSpaceCharPadding
+      case _ ⇒ vrm
+    }
+  }
 }

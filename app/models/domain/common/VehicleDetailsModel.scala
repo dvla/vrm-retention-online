@@ -1,5 +1,6 @@
 package models.domain.common
 
+import constraints.common.RegistrationNumber.formatVrm
 import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
 import play.api.libs.json.Json
 
@@ -11,7 +12,7 @@ object VehicleDetailsModel {
   // Create a VehicleDetailsModel from the given VehicleDetailsDto. We do this in order get the data out of the response from micro-service call
   def fromDto(model: VehicleDetailsDto) =
     VehicleDetailsModel(
-      registrationNumber = model.registrationNumber,
+      registrationNumber = formatVrm(model.registrationNumber),
       vehicleMake = model.vehicleMake,
       vehicleModel = model.vehicleModel
     )

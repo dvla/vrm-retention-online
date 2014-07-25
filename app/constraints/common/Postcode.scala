@@ -21,14 +21,14 @@ object Postcode {
   def formatPostcode(postcode: String): String = {
 
     val SpaceCharDelimiter = " "
-    val Format1 = "([A-Z][0-9][0-9][A-Z][A-Z])".r // A99AA
-    val Format2 = "([A-Z][0][0-9][0-9][A-Z][A-Z])".r // A099AA
-    val Format3 = "([A-Z][0-9][0-9][0-9][A-Z][A-Z])".r // A999AA
-    val Format4 = "([A-Z][0-9][A-Z][0-9][A-Z][A-Z])".r // A9A9AA
-    val Format5 = "([A-Z][A-Z][0-9][0-9][A-Z][A-Z])".r // AA99AA
-    val Format6 = "([A-Z][A-Z][0][0-9][0-9][A-Z][A-Z])".r // AA099AA
-    val Format7 = "([A-Z][A-Z][0-9][0-9][0-9][A-Z][A-Z])".r // AA999AA
-    val Format8 = "([A-Z][A-Z][0-9][A-Z][0-9][A-Z][A-Z])".r // AA9A9AA
+    val Format1 = "([A-Z][0-9]{2}[A-Z]{2})".r // A99AA
+    val Format2 = "([A-Z][0][0-9]{2}[A-Z]{2})".r // A099AA
+    val Format3 = "([A-Z][0-9]{3}[A-Z]{2})".r // A999AA
+    val Format4 = "([A-Z][0-9][A-Z][0-9][A-Z]{2})".r // A9A9AA
+    val Format5 = "([A-Z]{2}[0-9]{2}[A-Z]{2})".r // AA99AA
+    val Format6 = "([A-Z]{2}[0][0-9]{2}[A-Z]{2})".r // AA099AA
+    val Format7 = "([A-Z]{2}[0-9]{3}[A-Z]{2})".r // AA999AA
+    val Format8 = "([A-Z]{2}[0-9][A-Z][0-9][A-Z]{2})".r // AA9A9AA
 
     postcode.toUpperCase.replace(SpaceCharDelimiter,"") match {
       case Format1(p) ⇒ p.substring(0, 2) + SpaceCharDelimiter + p.substring(2, 5)
