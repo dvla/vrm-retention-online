@@ -23,6 +23,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
   }
 
   "exit" should {
+
     "redirect to BeforeYouStartPage" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

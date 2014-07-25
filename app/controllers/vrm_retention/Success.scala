@@ -7,16 +7,15 @@ import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
-import pdf.{PdfService, PdfServiceImpl}
+import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
-import services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 final class Success @Inject()(pdfService: PdfService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                config: Config) extends Controller {
+                                                      config: Config) extends Controller {
 
   def present = Action {
     implicit request =>
@@ -54,9 +53,8 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
     }
   }
 
-  def exit = Action {
-    implicit request =>
-      Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+  def exit = Action { implicit request =>
+    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   // TODO merge these two create methods together
