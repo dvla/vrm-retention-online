@@ -3,6 +3,8 @@ package pdf
 import helpers.UnitSpec
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention.{KeeperDetailsModel, VehicleLookupFormModel}
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.{Seconds, Span}
 import services.fakes.FakeAddressLookupService.addressWithUprn
 import services.fakes.FakeVehicleLookupWebService._
 
@@ -14,7 +16,7 @@ final class PdfServiceSpec extends UnitSpec {
 
   "create" should {
 
-    "return a pdf file" in {
+    "return a non-empty output stream" in {
       val pdfService: PdfService = new PdfServiceImpl()
       val vehicleDetailsModel = VehicleDetailsModel(registrationNumber = RegistrationNumberValid,
         vehicleMake = VehicleMakeValid,
@@ -40,9 +42,12 @@ final class PdfServiceSpec extends UnitSpec {
         vehicleLookupFormModel = vehicleLookupFormModel
       )
 
-      whenReady(result, timeout) { r =>
+      whenReady(result, longTimeout) { r =>
         r should not equal null
+        r.length > 0 should equal(true)
       }
     }
   }
+
+  private val longTimeout = Timeout(Span(10, Seconds))
 }

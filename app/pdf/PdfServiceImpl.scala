@@ -1,6 +1,6 @@
 package pdf
 
-import java.io.{OutputStream, ByteArrayOutputStream}
+import java.io.{ByteArrayOutputStream, OutputStream}
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention.{KeeperDetailsModel, VehicleLookupFormModel}
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
@@ -13,9 +13,10 @@ class PdfServiceImpl() extends PdfService {
 
   def create(vehicleDetails: VehicleDetailsModel,
              keeperDetails: KeeperDetailsModel,
-             vehicleLookupFormModel: VehicleLookupFormModel): Future[PDDocument] = Future {
+             vehicleLookupFormModel: VehicleLookupFormModel): Future[Array[Byte]] = Future {
     implicit val output = new ByteArrayOutputStream()
     v948
+    output.toByteArray
   }
 
   private def v948(implicit output: OutputStream) = {

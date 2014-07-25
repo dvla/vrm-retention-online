@@ -1,13 +1,18 @@
 package controllers.vrm_retention
 
+import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
+import pdf.PdfServiceImpl
+import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import utils.helpers.Config
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                 config: Config) extends Controller {
@@ -28,12 +33,25 @@ final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSes
       }
   }
 
-  def createPdf = Action { implicit request =>
+  def createPdf = Action.async { implicit request =>
     (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel],
       request.cookies.getModel[VehicleLookupFormModel]) match {
       case (Some(vehicleDetails), Some(keeperDetails), Some(vehicleLookupFormModel)) =>
-        Ok("Work in progress to create pdf")
-      case _ => BadRequest("You are missing the cookies required to create a pdf")
+        val pdfService = new PdfServiceImpl()
+        pdfService.create(vehicleDetails, keeperDetails, vehicleLookupFormModel).map { pdf =>
+          val inputStream = new ByteArrayInputStream(pdf)
+          val dataContent = Enumerator.fromStream(inputStream)
+          // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
+          // and manually test after making any change.
+          Ok.chunked(dataContent).
+            withHeaders(
+              CONTENT_TYPE -> "application/pdf",
+              CONTENT_DISPOSITION -> "attachment;filename=v948.pdf"
+            )
+        }
+      case _ => Future {
+        BadRequest("You are missing the cookies required to create a pdf")
+      }
     }
   }
 
@@ -43,7 +61,7 @@ final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSes
   }
 
   def randomNumericString(length: Int): String = {
-    val chars = ('0' to '9')
+    val chars = '0' to '9'
     randomStringFromCharList(length, chars)
   }
 
@@ -59,7 +77,7 @@ final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSes
       val randomNum = util.Random.nextInt(chars.length)
       sb.append(chars(randomNum))
     }
-    sb.toString
+    sb.toString()
   }
 
   // TODO merge these two create methods together
