@@ -1,12 +1,10 @@
 package pdf
 
 import models.domain.common.VehicleDetailsModel
-import models.domain.vrm_retention.{KeeperDetailsModel, VehicleLookupFormModel}
+import models.domain.vrm_retention.RetainModel
 import scala.concurrent.Future
 
 trait PdfService {
 
-  def create(vehicleDetails: VehicleDetailsModel,
-             keeperDetails: KeeperDetailsModel,
-             vehicleLookupFormModel: VehicleLookupFormModel): Future[Array[Byte]]
+  def create(implicit vehicleDetails: VehicleDetailsModel, retainModel: RetainModel): Future[Array[Byte]]
 }

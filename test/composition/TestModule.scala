@@ -4,8 +4,10 @@ import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import common.{CookieFlags, NoCookieFlags, ClientSideSessionFactory, ClearTextClientSideSessionFactory}
+import composition.DevModule.bind
 import filters.AccessLoggingFilter.AccessLoggerName
 import org.scalatest.mock.MockitoSugar
+import pdf.{PdfServiceImpl, PdfService}
 import play.api.{LoggerLike, Logger}
 import services.fakes.{FakeVRMRetentionRetainWebServiceImpl, FakeVRMRetentionEligibilityWebServiceImpl, FakeVehicleLookupWebService, FakeDisposeWebServiceImpl, FakeDateServiceImpl, FakeAddressLookupWebServiceImpl}
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
@@ -47,6 +49,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
     bind[VRMRetentionRetainWebService].to[FakeVRMRetentionRetainWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
+    bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
   }
 
   private def ordnanceSurveyAddressLookup() = {

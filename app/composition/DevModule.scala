@@ -9,6 +9,7 @@ import common.CookieFlags
 import common.CookieFlagsFromConfig
 import common.EncryptedClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
+import pdf.{PdfServiceImpl, PdfService}
 import play.api.{LoggerLike, Logger}
 import services.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
 import services.brute_force_prevention.BruteForcePreventionService
@@ -65,5 +66,6 @@ object DevModule extends ScalaModule {
     bind[BruteForcePreventionWebService].to[brute_force_prevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
+    bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
   }
 }

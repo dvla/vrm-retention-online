@@ -7,14 +7,15 @@ import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
-import pdf.PdfServiceImpl
+import pdf.{PdfService, PdfServiceImpl}
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
+import services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Success @Inject()(pdfService: PdfService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                 config: Config) extends Controller {
 
   def present = Action {
@@ -34,11 +35,9 @@ final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSes
   }
 
   def createPdf = Action.async { implicit request =>
-    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel],
-      request.cookies.getModel[VehicleLookupFormModel]) match {
-      case (Some(vehicleDetails), Some(keeperDetails), Some(vehicleLookupFormModel)) =>
-        val pdfService = new PdfServiceImpl()
-        pdfService.create(vehicleDetails, keeperDetails, vehicleLookupFormModel).map { pdf =>
+    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[RetainModel]) match {
+      case (Some(vehicleDetails), Some(retainModel)) =>
+        pdfService.create(vehicleDetails, retainModel).map { pdf =>
           val inputStream = new ByteArrayInputStream(pdf)
           val dataContent = Enumerator.fromStream(inputStream)
           // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
