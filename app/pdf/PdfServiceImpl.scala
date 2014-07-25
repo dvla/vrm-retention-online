@@ -7,17 +7,11 @@ import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
 import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
-import pdf.PdfServiceImpl.blankPage
+import pdf.PdfServiceImpl.{blankPage, v948Blank}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class PdfServiceImpl() extends PdfService {
-
-  private val v948Blank: Option[File] = {
-    val file = new File("v948_blank.pdf")
-    if (file.exists()) Some(file)
-    else None
-  }
 
   def create(vehicleDetails: VehicleDetailsModel,
              keeperDetails: KeeperDetailsModel,
@@ -92,6 +86,7 @@ class PdfServiceImpl() extends PdfService {
   }
 
   private def watermark(implicit document: PDDocument): PDDocument = {
+
     // https://stackoverflow.com/questions/8929954/watermarking-with-pdfbox
     // Caution: You should make sure you match the number of pages in both document. Otherwise, you would end up with a
     // document with number of pages matching the one which has least number of pages.
@@ -107,6 +102,12 @@ class PdfServiceImpl() extends PdfService {
 }
 
 object PdfServiceImpl {
+
+  private val v948Blank: Option[File] = {
+    val file = new File("v948_blank.pdf")
+    if (file.exists()) Some(file)
+    else None
+  }
 
   private def blankPage(implicit document: PDDocument): PDPage = {
     val page = new PDPage()
