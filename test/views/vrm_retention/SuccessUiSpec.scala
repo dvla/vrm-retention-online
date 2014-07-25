@@ -6,8 +6,8 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import mappings.vrm_retention.RelatedCacheKeys
 import org.openqa.selenium.WebDriver
-import pages.vrm_retention.{BeforeYouStartPage, SuccessPage}
 import pages.vrm_retention.SuccessPage.exit
+import pages.vrm_retention.{BeforeYouStartPage, SuccessPage}
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
 
@@ -19,6 +19,17 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       go to SuccessPage
 
       page.url should equal(SuccessPage.url)
+    }
+  }
+
+  "exit" should {
+    "redirect to BeforeYouStartPage" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to SuccessPage
+      click on exit
+
+      page.url should equal(BeforeYouStartPage.url)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
@@ -32,7 +43,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
-  private  def cacheSetup()(implicit webDriver: WebDriver) =
+  private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.setupBusinessDetails().
       businessChooseYourAddress().
       vehicleDetailsModel().
