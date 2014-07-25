@@ -35,7 +35,7 @@
 			<div class="second-col">
 				<p><strong>@Messages("vrm_retention_success.makingUp-p1")</strong></p>
 				<p>@Messages("vrm_retention_success.makingUp-p2")</p>
-				<a class="pdfLink" href="#">
+				<a class="pdfLink" href="@Success.createPdf()">
 					<img src="/vrm-retention/assets/images/PDF_download.png" alt="Download PDF">
 					@Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
 				</a>
