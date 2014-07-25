@@ -43,7 +43,7 @@ final class Success @Inject()()(implicit clientSideSessionFactory: ClientSideSes
           val dataContent = Enumerator.fromStream(inputStream)
           // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
           // and manually test after making any change.
-          Ok.chunked(dataContent).
+          Ok.feed(dataContent).
             withHeaders(
               CONTENT_TYPE -> "application/pdf",
               CONTENT_DISPOSITION -> "attachment;filename=v948.pdf"
