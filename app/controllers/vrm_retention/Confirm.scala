@@ -4,8 +4,7 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.common.VehicleDetailsModel
-import models.domain.vrm_retention.{BusinessDetailsModel, ConfirmViewModel, KeeperDetailsModel}
+import models.domain.vrm_retention.{BusinessDetailsModel, ConfirmViewModel, VehicleAndKeeperDetailsModel}
 import play.api.mvc._
 import utils.helpers.Config
 
@@ -14,14 +13,12 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
 
   def present = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleDetailsModel],
-        request.cookies.getModel[KeeperDetailsModel],
-        request.cookies.getModel[BusinessDetailsModel]) match {
-        case (Some(vehicleDetails), Some(keeperDetails), Some(businessDetailsModel)) =>
-          val confirmViewModel = createViewModel(vehicleDetails, keeperDetails, businessDetailsModel)
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[BusinessDetailsModel]) match {
+        case (Some(vehicleAndKeeperDetails), Some(businessDetailsModel)) =>
+          val confirmViewModel = createViewModel(vehicleAndKeeperDetails, businessDetailsModel)
           Ok(views.html.vrm_retention.confirm(confirmViewModel))
-        case (Some(vehicleDetails), Some(keeperDetails), None) =>
-          val confirmViewModel = createViewModel(vehicleDetails, keeperDetails)
+        case (Some(vehicleAndKeeperDetails), None) =>
+          val confirmViewModel = createViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_retention.confirm(confirmViewModel))
         case _ =>
           Redirect(routes.VehicleLookup.present())
@@ -38,32 +35,30 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   }
 
   // TODO merge these two create methods together
-  private def createViewModel(vehicleDetails: VehicleDetailsModel,
-                              keeperDetails: KeeperDetailsModel,
+  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
                               businessDetailsModel: BusinessDetailsModel): ConfirmViewModel =
     ConfirmViewModel(
-      registrationNumber = vehicleDetails.registrationNumber,
-      vehicleMake = vehicleDetails.vehicleMake,
-      vehicleModel = vehicleDetails.vehicleModel,
-      keeperTitle = keeperDetails.title,
-      keeperFirstName = keeperDetails.firstName,
-      keeperLastName = keeperDetails.lastName,
-      keeperAddress = keeperDetails.address,
+      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
+      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
+      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
+      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
+      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
+      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
       businessName = Some(businessDetailsModel.businessName),
       businessContact = Some(businessDetailsModel.businessContact),
       businessAddress = Some(businessDetailsModel.businessAddress)
     )
 
-  private def createViewModel(vehicleDetails: VehicleDetailsModel,
-                              keeperDetails: KeeperDetailsModel): ConfirmViewModel =
+  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): ConfirmViewModel =
     ConfirmViewModel(
-      registrationNumber = vehicleDetails.registrationNumber,
-      vehicleMake = vehicleDetails.vehicleMake,
-      vehicleModel = vehicleDetails.vehicleModel,
-      keeperTitle = keeperDetails.title,
-      keeperFirstName = keeperDetails.firstName,
-      keeperLastName = keeperDetails.lastName,
-      keeperAddress = keeperDetails.address,
+      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
+      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
+      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
+      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
+      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
+      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
       None, None, None
     )
 }

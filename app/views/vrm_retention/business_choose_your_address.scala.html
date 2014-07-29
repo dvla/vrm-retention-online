@@ -54,10 +54,14 @@
                 <dl class="summary-detail-list">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="regNum">@businessChooseYourAddressViewModel.registrationNumber</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                    <dd>@businessChooseYourAddressViewModel.vehicleMake</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                    <dd>@businessChooseYourAddressViewModel.vehicleModel</dd>
+                    @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@businessChooseYourAddressViewModel.vehicleMake.get</dd>
+                    }
+                    @if(businessChooseYourAddressViewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@businessChooseYourAddressViewModel.vehicleModel.get</dd>
+                    }
                 </dl>
             </div>
         </div>

@@ -58,9 +58,8 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      vehicleLookupFormModel().
-      vehicleDetailsModel().
-      keeperDetailsModel().
+      vehicleAndKeeperLookupFormModel().
+      vehicleAndKeeperDetailsModel().
       businessDetails().
       eligibilityModel().
       retainModel()

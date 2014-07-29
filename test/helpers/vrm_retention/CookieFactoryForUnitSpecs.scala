@@ -8,7 +8,7 @@ import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
-import mappings.vrm_retention.VehicleLookup.{KeeperLookupDetailsCacheKey, VehicleLookupDetailsCacheKey, VehicleLookupFormModelCacheKey}
+import mappings.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
 import models.domain.common.BruteForcePreventionViewModel._
 import models.domain.common._
 import models.domain.vrm_retention._
@@ -18,7 +18,7 @@ import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{TransactionTimestampValid, TransactionIdValid, CertificateNumberValid}
-import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeVehicleAndKeeperLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 
 object CookieFactoryForUnitSpecs extends TestComposition {
@@ -37,13 +37,33 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  def vehicleDetailsModel(registrationNumber: String = RegistrationNumberValid,
-                          vehicleMake: String = VehicleMakeValid,
-                          vehicleModel: String = VehicleModelValid): Cookie = {
-    val key = VehicleLookupDetailsCacheKey
-    val value = VehicleDetailsModel(registrationNumber = registrationNumber,
+  def vehicleAndKeeperDetailsModel(registrationNumber: String = RegistrationNumberValid,
+                          vehicleMake: Option[String] = VehicleMakeValid,
+                          vehicleModel: Option[String] = VehicleModelValid,
+                          title: Option[String] = KeeperTitleValid,
+                          firstName: Option[String] = KeeperFirstNameValid,
+                          lastName: Option[String] = KeeperLastNameValid,
+                          addressLine1: Option[String] = KeeperAddressLine1Valid,
+                          addressLine2: Option[String] = KeeperAddressLine2Valid,
+                          postTown: Option[String] = KeeperPostTownValid,
+                          postCode: Option[String] = KeeperPostCodeValid): Cookie = {
+    val key = VehicleAndKeeperLookupDetailsCacheKey
+    val addressAndPostcodeModel = AddressAndPostcodeModel(
+      addressLinesModel = AddressLinesModel(
+        buildingNameOrNumber = addressLine1.get,
+        line2 = addressLine2,
+        line3 = None,
+        postTown = PostTownValid
+      )
+    )
+    val addressViewModel = AddressViewModel.from(addressAndPostcodeModel, postCode.get)
+    val value = VehicleAndKeeperDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
-      vehicleModel = vehicleModel)
+      vehicleModel = vehicleModel,
+      keeperTitle = title,
+      keeperFirstName = firstName,
+      keeperLastName = lastName,
+      keeperAddress = Some(addressViewModel))
     createCookie(key, value)
   }
 
@@ -53,12 +73,12 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     session.newCookie(cookieName, json)
   }
 
-  def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+  def vehicleAndKeeperLookupFormModel(referenceNumber: String = ReferenceNumberValid,
                              registrationNumber: String = RegistrationNumberValid,
                              postcode: String = KeeperPostcodeValid,
                              keeperConsent: String = KeeperConsentValid): Cookie = {
-    val key = VehicleLookupFormModelCacheKey
-    val value = VehicleLookupFormModel(
+    val key = VehicleAndKeeperLookupFormModelCacheKey
+    val value = VehicleAndKeeperLookupFormModel(
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       postcode = postcode,
@@ -111,19 +131,19 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     session.newCookie(cookieName, value)
   }
 
-  def keeperDetailsModel(title: String = "title",
-                         firstName: String = "firstName",
-                         lastName: String = "lastName",
-                         address: AddressViewModel = addressWithUprn): Cookie = {
-    val key = KeeperLookupDetailsCacheKey
-    val value = KeeperDetailsModel(
-      title = title,
-      firstName = firstName,
-      lastName = lastName,
-      address = address
-    )
-    createCookie(key, value)
-  }
+//  def keeperDetailsModel(title: String = "title",
+//                         firstName: String = "firstName",
+//                         lastName: String = "lastName",
+//                         address: AddressViewModel = addressWithUprn): Cookie = {
+//    val key = KeeperLookupDetailsCacheKey
+//    val value = KeeperDetailsModel(
+//      title = title,
+//      firstName = firstName,
+//      lastName = lastName,
+//      address = address
+//    )
+//    createCookie(key, value)
+//  }
 
   def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid): Cookie = {
     val key = CheckEligibilityCacheKey

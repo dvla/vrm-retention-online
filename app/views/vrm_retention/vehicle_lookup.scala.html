@@ -1,4 +1,4 @@
-@(vehicleLookupForm: Form[models.domain.vrm_retention.VehicleLookupFormModel])(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+@(vehicleAndKeeperLookupForm: Form[models.domain.vrm_retention.VehicleAndKeeperLookupFormModel])(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import helper._
@@ -16,7 +16,7 @@
 
 @main(
     title = Messages("vrm_retention_vehiclelookup.title"),
-    currentForm = Some(vehicleLookupForm)
+    currentForm = Some(vehicleAndKeeperLookupForm)
 ) {
 
     @form(action = controllers.vrm_retention.routes.VehicleLookup.submit()) {
@@ -27,13 +27,13 @@
                 <div class="uppercase-input first-col">
                 <p>@Messages("vrm_retention_vehiclelookup.intro")</p>
 
-				@valtechInputText(vehicleLookupForm(VehicleRegistrationNumberId), args =
+				@valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), args =
                     Map('_label -> Messages("vrm_retention_vehiclelookup.vrninputlabel"),
                     'maxLength -> VehicleRegistrationNumber.MaxLength,
                     'hint -> Messages("vrm_retention_vehiclelookup.vrnHint"),
                     '_showConstraints -> false))
 				
-			    @valtechInputText(vehicleLookupForm(DocumentReferenceNumberId), args =
+			    @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId), args =
                     Map('_label -> Messages("vrm_retention_vehiclelookup.refnumlabel"),
                     'hint -> Messages("vrm_retention_vehiclelookup.refnumHint"),
                     '_showConstraints -> false,
@@ -43,14 +43,14 @@
                     'title -> Messages("")
                 ))
 
-                @valtechInputText(vehicleLookupForm(PostcodeId), args =
+                @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId), args =
                 Map('_label -> Messages("vrm_retention_vehiclelookup.postcodelabel"),
                 '_showConstraints -> false,
                 'maxLength -> Postcode.MaxLength,
                 'hint -> Messages("vrm_retention_vehiclelookup.postcodeHint")
                 ))
 
-                @listRadioGroup(field = vehicleLookupForm("keeperConsent"),
+                @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
                     args = Map(
                         'items -> Seq(
                             "Business" -> Messages("vrm_retention_vehiclelookup.business"),

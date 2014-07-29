@@ -25,7 +25,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
           businessChooseYourAddress().
           enterAddressManually().
           businessDetails().
-          vehicleDetailsModel()
+          vehicleAndKeeperDetailsModel()
 
       go to BeforeYouStartPage
       cacheSetup()

@@ -44,7 +44,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     "display populated fields when cookie exists" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.present(request)
       val content = contentAsString(result)
@@ -84,7 +84,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     "return bad request when no data is entered" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
 
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
@@ -96,7 +96,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
@@ -145,7 +145,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
@@ -256,7 +256,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
@@ -269,7 +269,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> "",
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.enterAddressManually())
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
@@ -280,7 +280,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   private lazy val present = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
     enterAddressManually.present(request)
   }
   private val enterAddressManually = {
@@ -320,5 +320,5 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> postTown,
       s"$AddressAndPostcodeId.$PostcodeId" -> postCode).
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
 }

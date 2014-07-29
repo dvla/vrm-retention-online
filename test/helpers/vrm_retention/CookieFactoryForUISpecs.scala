@@ -15,9 +15,9 @@ import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl._
-import services.fakes.FakeVehicleLookupWebService
-import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeVehicleAndKeeperLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
+import services.fakes.FakeVehicleAndKeeperLookupWebService
 
 object CookieFactoryForUISpecs {
 
@@ -100,47 +100,53 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def vehicleLookupFormModel(referenceNumber: String = ReferenceNumberValid,
+  def vehicleAndKeeperLookupFormModel(referenceNumber: String = ReferenceNumberValid,
                              registrationNumber: String = RegistrationNumberValid,
                              postcode: String = PostcodeValid,
                              keeperConsent: String = KeeperConsentValid)
                             (implicit webDriver: WebDriver) = {
-    val key = mappings.vrm_retention.VehicleLookup.VehicleLookupFormModelCacheKey
-    val value = VehicleLookupFormModel(referenceNumber = referenceNumber,
+    val key = mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
+    val value = VehicleAndKeeperLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber, postcode = postcode, keeperConsent = keeperConsent)
     addCookie(key, value)
     this
   }
 
-  def vehicleDetailsModel(registrationNumber: String = RegistrationNumberValid,
-                          vehicleMake: String = FakeVehicleLookupWebService.VehicleMakeValid,
-                          vehicleModel: String = VehicleModelValid)
+  def vehicleAndKeeperDetailsModel(registrationNumber: String = RegistrationNumberValid,
+                          vehicleMake: Option[String] = VehicleMakeValid,
+                          vehicleModel: Option[String] = VehicleModelValid,
+                          title: Option[String] = KeeperTitleValid,
+                          firstName: Option[String] = KeeperFirstNameValid,
+                          lastName: Option[String] = KeeperLastNameValid,
+                          addressLine1: Option[String] = KeeperAddressLine1Valid,
+                          addressLine2: Option[String] = KeeperAddressLine2Valid,
+                          postTown: Option[String] = KeeperPostTownValid,
+                          postCode: Option[String] = KeeperPostCodeValid)
                          (implicit webDriver: WebDriver) = {
-    val key = mappings.vrm_retention.VehicleLookup.VehicleLookupDetailsCacheKey
-    val value = VehicleDetailsModel(registrationNumber = registrationNumber,
+    val key = mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
+    val addressAndPostcodeModel = AddressAndPostcodeModel(
+      addressLinesModel = AddressLinesModel(
+        buildingNameOrNumber = addressLine1.get,
+        line2 = addressLine2,
+        line3 = None,
+        postTown = PostTownValid
+      )
+    )
+    val addressViewModel = AddressViewModel.from(addressAndPostcodeModel, postCode.get)
+    val value = VehicleAndKeeperDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
-      vehicleModel = vehicleModel)
+      vehicleModel = vehicleModel,
+      keeperTitle = title,
+      keeperFirstName = firstName,
+      keeperLastName = lastName,
+      keeperAddress = Some(addressViewModel))
     addCookie(key, value)
     this
   }
 
-  def keeperDetailsModel(title: String = KeeperTitleValid,
-                         firstName: String = KeeperFirstNameValid,
-                         lastName: String = KeeperLastNameValid,
-                         addressLine1: String = KeeperAddressLine1Valid,
-                         addressLine2: String = KeeperAddressLine2Valid,
-                         postTown: String = KeeperPostTownValid,
-                         postCode: String = KeeperPostCodeValid)
-                        (implicit webDriver: WebDriver) = {
-    val key = mappings.vrm_retention.VehicleLookup.KeeperLookupDetailsCacheKey
-    val value = KeeperDetailsModel.fromResponse(title, firstName, lastName, addressLine1, addressLine2, postTown, postCode)
-    addCookie(key, value)
-    this
-  }
-
-  def vehicleLookupResponseCode(responseCode: String)
+  def vehicleAndKeeperLookupResponseCode(responseCode: String)
                                (implicit webDriver: WebDriver) = {
-    val key = mappings.vrm_retention.VehicleLookup.VehicleLookupResponseCodeCacheKey
+    val key = mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
     val value = responseCode
     addCookie(key, value)
     this

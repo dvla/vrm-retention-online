@@ -5,7 +5,7 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import mappings.common.Postcode._
 import mappings.vrm_retention.SetupBusinessDetails._
-import models.domain.common.VehicleDetailsModel
+import models.domain.vrm_retention.VehicleAndKeeperDetailsModel
 import models.domain.vrm_retention.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel}
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
@@ -27,9 +27,9 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
 
   def present = Action {
     implicit request =>
-      request.cookies.getModel[VehicleDetailsModel] match {
-        case Some(vehicleDetails) =>
-          val setupBusinessDetailsViewModel = createViewModel(vehicleDetails)
+      request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+        case Some(vehicleAndKeeperDetails) =>
+          val setupBusinessDetailsViewModel = createViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
         case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
       }
@@ -38,9 +38,9 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
       invalidForm => {
-        request.cookies.getModel[VehicleDetailsModel] match {
-          case Some(vehicleDetails) =>
-            val setupBusinessDetailsViewModel = createViewModel(vehicleDetails)
+        request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+          case Some(vehicleAndKeeperDetailsModel) =>
+            val setupBusinessDetailsViewModel = createViewModel(vehicleAndKeeperDetailsModel)
             val formWithReplacedErrors = invalidForm.
               replaceError(BusinessNameId, FormError(key = BusinessNameId,
               message = "error.validBusinessName",
@@ -62,10 +62,10 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     )
   }
 
-  private def createViewModel(vehicleDetails: VehicleDetailsModel): SetupBusinessDetailsViewModel =
+  private def createViewModel(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
     SetupBusinessDetailsViewModel(
-      registrationNumber = vehicleDetails.registrationNumber,
-      vehicleMake = vehicleDetails.vehicleMake,
-      vehicleModel = vehicleDetails.vehicleModel
+      registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,
+      vehicleModel = vehicleAndKeeperDetailsModel.vehicleModel
     )
 }

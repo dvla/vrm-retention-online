@@ -26,10 +26,14 @@
                 <dl class="summary-detail-list">
                     <dt>@Messages("vrm_retention_success.replacementRegNumberLabel")</dt>
                     <dd>@successViewModel.replacementRegistrationNumber</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                    <dd>@successViewModel.vehicleMake</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                    <dd>@successViewModel.vehicleModel</dd>
+                    @if(successViewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@successViewModel.vehicleMake.get</dd>
+                    }
+                    @if(successViewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@successViewModel.vehicleModel.get</dd>
+                    }
                 </dl>
 			</div>
 			<div class="second-col">
@@ -55,10 +59,10 @@
 			<div class="second-col">
 				<p><strong>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName </strong></p>
 				<p>
-					@for(keeperAddressLine <- successViewModel.keeperAddress.address.init) {
+					@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
                     	@keeperAddressLine<br>
                 	}
-                    @successViewModel.keeperAddress.address.last
+                    @successViewModel.keeperAddress.get.address.last
             	</p>
 			</div>
 		</div>

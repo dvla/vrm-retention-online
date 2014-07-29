@@ -5,7 +5,7 @@ import common.{ClientSideSessionFactory, LogFormats}
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
 import mappings.vrm_retention.Retain._
-import models.domain.vrm_retention.{VehicleLookupFormModel, VRMRetentionRetainResponse, VRMRetentionRetainRequest, RetainModel}
+import models.domain.vrm_retention.{VehicleAndKeeperLookupFormModel, VRMRetentionRetainResponse, VRMRetentionRetainRequest, RetainModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc._
@@ -25,7 +25,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   }
 
   def submit = Action.async { implicit request =>
-    request.cookies.getModel[VehicleLookupFormModel] match {
+    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
       case Some(vehiclesLookupForm) =>
         retainVrm(vehiclesLookupForm)
       case None => Future {
@@ -39,7 +39,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       .discardingCookies(RelatedCacheKeys.FullSet)
   }
 
-  private def retainVrm(vehicleLookupFormModel: VehicleLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] = {
+  private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] = {
 
     def retainSuccess(certificateNumber: String) = {
 
@@ -47,7 +47,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
         ISODateTimeFormat.hourMinute().print(transactionTimestamp)
 
-      val transactionId = vehicleLookupFormModel.registrationNumber +
+      val transactionId = vehicleAndKeeperLookupFormModel.registrationNumber +
         isoDateTimeString.replace(" ","").replace("-","").replace(":","")
 
       Redirect(routes.Success.present()).
@@ -55,7 +55,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
 
     def retainFailure(responseCode: String) = {
-      Logger.debug(s"VRMRetentionRetain encountered a problem with request ${LogFormats.anonymize(vehicleLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+      Logger.debug(s"VRMRetentionRetain encountered a problem with request ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = RetainResponseCodeCacheKey, value = responseCode)
     }
@@ -92,8 +92,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     val trackingId = request.cookies.trackingId()
 
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
-      currentVRM = vehicleLookupFormModel.registrationNumber,
-      docRefNumber = vehicleLookupFormModel.referenceNumber
+      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
+      docRefNumber = vehicleAndKeeperLookupFormModel.referenceNumber
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {

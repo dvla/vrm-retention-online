@@ -10,6 +10,7 @@ object AddressLines {
   final val BuildingNameOrNumberId = "buildingNameOrNumber"
   final val Line2Id = "line2"
   final val Line3Id = "line3"
+  final val Line4Id = "line4"
   final val PostTownId = "postTown"
   final val BuildingNameOrNumberMinLength = 4
   final val PostTownMinLength = 3
@@ -22,6 +23,7 @@ object AddressLines {
   final val BuildingNameOrNumberIndex = 0
   final val Line2Index = 1
   final val Line3Index = 2
+  final val Line4Index = 3
   final val emptyLine = ""
 
   private def fieldTransform(s: String) = trimNonWhiteListedChars("""[A-Za-z0-9]""")(s.toUpperCase)
@@ -31,6 +33,7 @@ object AddressLines {
       nonEmptyTextWithTransform(fieldTransform)(minLength = BuildingNameOrNumberMinLength, maxLength = LineMaxLength),
     Line2Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
     Line3Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
+    Line4Id -> optional(textWithTransform(fieldTransform)(maxLength = LineMaxLength)),
     PostTownId -> nonEmptyTextWithTransform(fieldTransform)(minLength = PostTownMinLength, maxLength = LineMaxLength)
   )(AddressLinesModel.apply)(AddressLinesModel.unapply)
 }

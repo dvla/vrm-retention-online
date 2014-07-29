@@ -19,14 +19,14 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
 
   def present = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[KeeperDetailsModel],
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getModel[RetainModel]) match {
-        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(retainModel)) =>
-          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel, businessDetailsModel, retainModel)
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(retainModel)) =>
+          val successViewModel = createViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
-        case (Some(vehicleDetails), Some(keeperDetails), Some(eligibilityModel), None, Some(retainModel)) =>
-          val successViewModel = createViewModel(vehicleDetails, keeperDetails, eligibilityModel, retainModel)
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(retainModel)) =>
+          val successViewModel = createViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case _ =>
           Redirect(routes.MicroServiceError.present())
@@ -58,20 +58,19 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
   }
 
   // TODO merge these two create methods together
-  private def createViewModel(vehicleDetails: VehicleDetailsModel,
-                              keeperDetails: KeeperDetailsModel,
+  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
                               eligibilityModel: EligibilityModel,
                               businessDetailsModel: BusinessDetailsModel,
                               retainModel: RetainModel): SuccessViewModel = {
 
     SuccessViewModel(
-      registrationNumber = vehicleDetails.registrationNumber,
-      vehicleMake = vehicleDetails.vehicleMake,
-      vehicleModel = vehicleDetails.vehicleModel,
-      keeperTitle = keeperDetails.title,
-      keeperFirstName = keeperDetails.firstName,
-      keeperLastName = keeperDetails.lastName,
-      keeperAddress = keeperDetails.address,
+      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
+      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
+      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
+      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
+      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
+      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
       businessName = Some(businessDetailsModel.businessName),
       businessContact = Some(businessDetailsModel.businessContact),
       businessAddress = Some(businessDetailsModel.businessAddress),
@@ -82,19 +81,18 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
     )
   }
 
-  private def createViewModel(vehicleDetails: VehicleDetailsModel,
-                              keeperDetails: KeeperDetailsModel,
+  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
                               eligibilityModel: EligibilityModel,
                               retainModel: RetainModel): SuccessViewModel = {
 
     SuccessViewModel(
-      registrationNumber = vehicleDetails.registrationNumber,
-      vehicleMake = vehicleDetails.vehicleMake,
-      vehicleModel = vehicleDetails.vehicleModel,
-      keeperTitle = keeperDetails.title,
-      keeperFirstName = keeperDetails.firstName,
-      keeperLastName = keeperDetails.lastName,
-      keeperAddress = keeperDetails.address,
+      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
+      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
+      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
+      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
+      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
+      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
       businessName = None,
       businessContact = None,
       businessAddress = None,

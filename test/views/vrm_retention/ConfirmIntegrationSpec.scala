@@ -61,7 +61,6 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      vehicleDetailsModel().
-      keeperDetailsModel().
+      vehicleAndKeeperDetailsModel().
       businessDetails()
 }

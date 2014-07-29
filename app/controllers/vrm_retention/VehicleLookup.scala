@@ -3,6 +3,8 @@ package controllers.vrm_retention
 import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
+import constraints.common.Postcode.formatPostcode
+import constraints.common.RegistrationNumber.formatVrm
 import mappings.common.DocumentReferenceNumber._
 import mappings.common.Postcode.postcode
 import mappings.common.VehicleRegistrationNumber._
@@ -15,7 +17,7 @@ import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import services.brute_force_prevention.BruteForcePreventionService
-import services.vehicle_lookup.VehicleLookupService
+import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -23,7 +25,7 @@ import scala.concurrent.Future
 import mappings.vrm_retention.RelatedCacheKeys
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
-                                    vehicleLookupService: VehicleLookupService)
+                                    vehicleAndKeeperLookupService: VehicleAndKeeperLookupService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends Controller {
 
@@ -33,13 +35,13 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       VehicleRegistrationNumberId -> registrationNumber,
       PostcodeId -> postcode,
       KeeperConsentId -> keeperConsent
-    )(VehicleLookupFormModel.apply)(VehicleLookupFormModel.unapply)
+    )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
   )
 
   def present = Action {
     implicit request =>
       Ok(views.html.vrm_retention.vehicle_lookup(form.fill())).
-        discardingCookies(RelatedCacheKeys.VehicleLookupSet)
+        discardingCookies(RelatedCacheKeys.VehicleAndKeeperLookupSet)
   }
 
   def submit = Action.async { implicit request =>
@@ -70,10 +72,10 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       Redirect(routes.BeforeYouStart.present())
   }
 
-  private def convertToUpperCaseAndRemoveSpaces(model: VehicleLookupFormModel): VehicleLookupFormModel =
+  private def convertToUpperCaseAndRemoveSpaces(model: VehicleAndKeeperLookupFormModel): VehicleAndKeeperLookupFormModel =
     model.copy(registrationNumber = model.registrationNumber.replace(" ", "").toUpperCase)
 
-  private def bruteForceAndLookup(formModel: VehicleLookupFormModel)
+  private def bruteForceAndLookup(formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Future[SimpleResult] =
 
     bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).flatMap { bruteForcePreventionViewModel =>
@@ -95,37 +97,26 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Redirect(routes.MicroServiceError.present())
     }
 
-  private def lookupVehicle(vehicleLookupFormModel: VehicleLookupFormModel,
+  private def lookupVehicle(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                             bruteForcePreventionViewModel: BruteForcePreventionViewModel)
                            (implicit request: Request[_]): Future[SimpleResult] = {
 
-    def vehicleFoundResult(vehicleDetailsDto: VehicleDetailsDto) = {
+    def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
 
       // check the keeper's postcode matches
-      // TODO call the vehicle and keeper lookup but for now use the VM service and check if
-      // the postcode equals the 'canned' postocde that returns a failure
-      if (vehicleLookupFormModel.postcode.equals("AA11AA")) {
-        //      if (model.postcode.equals(vehicleDetailsDto.keeperPostcode)) {
+      if (!(formatPostcode(vehicleAndKeeperLookupFormModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get)))) {
         Redirect(routes.VehicleLookupFailure.present()).
-          withCookie(key = VehicleLookupResponseCodeCacheKey, value = "vehicle_lookup_keeper_postcode_mismatch")
+          withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
       } else {
         Redirect(routes.CheckEligibility.present()).
-          withCookie(VehicleDetailsModel.fromDto(vehicleDetailsDto)).
-          withCookie(KeeperDetailsModel.fromResponse(title = "Mr",
-          firstName = "David",
-          lastName = "Jones",
-          addressLine1 = "1 High Street",
-          addressLine2 = "Skewen",
-          postTown = "Swansea",
-          postCode = vehicleLookupFormModel.postcode)
-          )
+          withCookie(VehicleAndKeeperDetailsModel.fromDto(vehicleAndKeeperDetailsDto))
       }
     }
 
     def vehicleNotFoundResult(responseCode: String) = {
-      Logger.debug(s"VehicleLookup encountered a problem with request ${LogFormats.anonymize(vehicleLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+      Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleAndKeeperLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
     }
 
     def microServiceErrorResult(message: String) = {
@@ -133,47 +124,46 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       Redirect(routes.MicroServiceError.present())
     }
 
-    def createResultFromVehicleLookupResponse(vehicleDetailsResponse: VehicleDetailsResponse)
+    def createResultFromVehicleAndKeeperLookupResponse(vehicleAndKeeperDetailsResponse: VehicleAndKeeperDetailsResponse)
                                              (implicit request: Request[_]) =
-      vehicleDetailsResponse.responseCode match {
+      vehicleAndKeeperDetailsResponse.responseCode match {
         case Some(responseCode) => vehicleNotFoundResult(responseCode) // There is only a response code when there is a problem.
         case None =>
           // Happy path when there is no response code therefore no problem.
-          vehicleDetailsResponse.vehicleDetailsDto match {
+          vehicleAndKeeperDetailsResponse.vehicleAndKeeperDetailsDto match {
             case Some(dto) => vehicleFoundResult(dto)
-            case None => microServiceErrorResult(message = "No vehicleDetailsDto found")
+            case None => microServiceErrorResult(message = "No vehicleAndKeeperDetailsDto found")
           }
       }
 
-    def vehicleLookupSuccessResponse(responseStatusVehicleLookupMS: Int,
-                                     vehicleDetailsResponse: Option[VehicleDetailsResponse])
+    def vehicleAndKeeperLookupSuccessResponse(responseStatusVehicleAndKeeperLookupMS: Int,
+                                     vehicleAndKeeperDetailsResponse: Option[VehicleAndKeeperDetailsResponse])
                                     (implicit request: Request[_]) =
-      responseStatusVehicleLookupMS match {
+      responseStatusVehicleAndKeeperLookupMS match {
         case OK =>
-          vehicleDetailsResponse match {
-            case Some(response) => createResultFromVehicleLookupResponse(response)
-            case _ => microServiceErrorResult("No vehicleDetailsResponse found") // TODO write test to achieve code coverage.
+          vehicleAndKeeperDetailsResponse match {
+            case Some(response) => createResultFromVehicleAndKeeperLookupResponse(response)
+            case _ => microServiceErrorResult("No vehicleAndKeeperDetailsResponse found") // TODO write test to achieve code coverage.
           }
-        case _ => microServiceErrorResult(s"VehicleLookup web service call http status not OK, it was: $responseStatusVehicleLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
+        case _ => microServiceErrorResult(s"VehicleAndKeeperLookup web service call http status not OK, it was: $responseStatusVehicleAndKeeperLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
       }
 
     val trackingId = request.cookies.trackingId()
 
-    val vehicleDetailsRequest = VehicleDetailsRequest(
-      referenceNumber = vehicleLookupFormModel.referenceNumber,
-      registrationNumber = vehicleLookupFormModel.registrationNumber,
-      userName = "tbd" //request.cookies.getModel[TraderDetailsModel].map(_.traderName).getOrElse("")
+    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest(
+      referenceNumber = vehicleAndKeeperLookupFormModel.referenceNumber,
+      registrationNumber = vehicleAndKeeperLookupFormModel.registrationNumber
     )
 
-    vehicleLookupService.invoke(vehicleDetailsRequest, trackingId).map {
-      case (responseStatusVehicleLookupMS: Int, vehicleDetailsResponse: Option[VehicleDetailsResponse]) =>
-        vehicleLookupSuccessResponse(
-          responseStatusVehicleLookupMS = responseStatusVehicleLookupMS,
-          vehicleDetailsResponse = vehicleDetailsResponse).
-          withCookie(vehicleLookupFormModel).
+    vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map {
+      case (responseStatusVehicleAndKeeperLookupMS: Int, vehicleAndKeeperDetailsResponse: Option[VehicleAndKeeperDetailsResponse]) =>
+        vehicleAndKeeperLookupSuccessResponse(
+          responseStatusVehicleAndKeeperLookupMS = responseStatusVehicleAndKeeperLookupMS,
+          vehicleAndKeeperDetailsResponse = vehicleAndKeeperDetailsResponse).
+          withCookie(vehicleAndKeeperLookupFormModel).
           withCookie(bruteForcePreventionViewModel)
     }.recover {
-      case e: Throwable => microServiceErrorResult(message = s"VehicleLookup Web service call failed. Exception " + e.toString.take(45))
+      case e: Throwable => microServiceErrorResult(message = s"VehicleAndKeeperLookup Web service call failed. Exception " + e.toString.take(45))
     }
   }
 }

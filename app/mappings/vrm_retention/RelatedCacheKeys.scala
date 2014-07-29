@@ -15,31 +15,29 @@ object RelatedCacheKeys {
 
   val RetainSet = Set(
     BruteForcePreventionViewModelCacheKey,
-    VehicleLookupDetailsCacheKey,
-    VehicleLookupResponseCodeCacheKey,
-    VehicleLookupFormModelCacheKey,
+    VehicleAndKeeperLookupDetailsCacheKey,
+    VehicleAndKeeperLookupResponseCodeCacheKey,
+    VehicleAndKeeperLookupFormModelCacheKey,
     BusinessChooseYourAddressCacheKey,
     BusinessDetailsCacheKey,
     CheckEligibilityCacheKey,
     EnterAddressManuallyCacheKey,
     SetupBusinessDetailsCacheKey,
     RetainCacheKey,
-    RetainResponseCodeCacheKey,
-    KeeperLookupDetailsCacheKey
+    RetainResponseCodeCacheKey
   )
 
   val FullSet = RetainSet
 
-  val VehicleLookupSet = Set(
-    VehicleLookupDetailsCacheKey,
-    VehicleLookupResponseCodeCacheKey,
+  val VehicleAndKeeperLookupSet = Set(
+    VehicleAndKeeperLookupDetailsCacheKey,
+    VehicleAndKeeperLookupResponseCodeCacheKey,
     BusinessChooseYourAddressCacheKey,
     BusinessDetailsCacheKey,
     CheckEligibilityCacheKey,
     EnterAddressManuallyCacheKey,
     SetupBusinessDetailsCacheKey,
     RetainCacheKey,
-    RetainResponseCodeCacheKey,
-    KeeperLookupDetailsCacheKey
+    RetainResponseCodeCacheKey
   )
 }

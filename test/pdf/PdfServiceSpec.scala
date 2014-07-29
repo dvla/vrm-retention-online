@@ -2,7 +2,7 @@ package pdf
 
 import helpers.UnitSpec
 import models.domain.common.VehicleDetailsModel
-import models.domain.vrm_retention.{RetainModel, KeeperDetailsModel, VehicleLookupFormModel}
+import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperLookupFormModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import services.fakes.FakeAddressLookupService.addressWithUprn

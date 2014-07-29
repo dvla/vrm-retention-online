@@ -21,8 +21,8 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
 
   def present = Action.async {
     implicit request =>
-      (request.cookies.getModel[VehicleLookupFormModel], request.cookies.getModel[VehicleDetailsModel]) match {
-        case (Some(form), Some(model)) => checkVRMEligibility(form, model)
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
+        case Some(form) => checkVRMEligibility(form)
         case _ => Future {
           Redirect(routes.MicroServiceError.present())
         }
@@ -33,13 +33,12 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
    * Call the eligibility service to determine if the VRM is valid for retention and a replacement mark can
    * be found.
    */
-  private def checkVRMEligibility(vehicleLookupFormModel: VehicleLookupFormModel,
-                                  vehicleDetailsModel: VehicleDetailsModel)
+  private def checkVRMEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Future[SimpleResult] = {
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
 
-      if (vehicleLookupFormModel.keeperConsent == KeeperConsent) {
+      if (vehicleAndKeeperLookupFormModel.keeperConsent == KeeperConsent) {
         Redirect(routes.Confirm.present()).
           withCookie(EligibilityModel.fromResponse(replacementVRM))
       } else {
@@ -49,9 +48,9 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
     }
 
     def eligibilityFailure(responseCode: String) = {
-      Logger.debug(s"VRMRetentionEligibility encountered a problem with request ${LogFormats.anonymize(vehicleLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+      Logger.debug(s"VRMRetentionEligibility encountered a problem with request ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleLookupResponseCodeCacheKey, value = responseCode)
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
     }
 
     def microServiceErrorResult(message: String) = {
@@ -88,8 +87,8 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
     val trackingId = request.cookies.trackingId()
 
     val vrmRetentionEligibilityRequest = VRMRetentionEligibilityRequest(
-      currentVRM = vehicleLookupFormModel.registrationNumber,
-      docRefNumber = vehicleLookupFormModel.referenceNumber
+      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
+      docRefNumber = vehicleAndKeeperLookupFormModel.referenceNumber
     )
 
     vrmRetentionEligibilityService.invoke(vrmRetentionEligibilityRequest, trackingId).map {

@@ -7,6 +7,7 @@ class Config {
   // Micro-service config
   val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookupMicroServiceUrlBase", "NOT FOUND")
   val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicleMicroServiceUrlBase", "NOT FOUND")
+  val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")

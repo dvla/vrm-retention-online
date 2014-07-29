@@ -32,7 +32,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       val content = contentAsString(result)
       content should include(TraderBusinessNameValid)
@@ -48,7 +48,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to setupTradeDetails page when present with no business details cached" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnFound.present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
@@ -63,7 +63,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
       contentAsString(result) should not include PrototypeHtml
     }
@@ -75,7 +75,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
@@ -86,7 +86,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "").
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
@@ -96,7 +96,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
@@ -115,7 +115,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
@@ -126,7 +126,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnFound.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
@@ -140,7 +140,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
       whenReady(result) { r =>
         val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
@@ -152,7 +152,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   private lazy val present = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-      withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+      withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
     businessChooseYourAddressWithUprnFound.present(request)
   }
   private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()

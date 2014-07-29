@@ -1,4 +1,4 @@
-@(vehicleLookupFailureViewModel: models.domain.vrm_retention.VehicleLookupFailureViewModel, data: models.domain.vrm_retention.VehicleLookupFormModel,
+@(vehicleLookupFailureViewModel: models.domain.vrm_retention.VehicleLookupFailureViewModel, data: models.domain.vrm_retention.VehicleAndKeeperLookupFormModel,
         responseCodeVehicleLookupMSErrorMessage: String,
         attempts: Int,
         maxAttempts: Int)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
@@ -35,17 +35,19 @@
             </div>
         </div>
         <div id="vehicle-details" class="second-col trader-details">
-            @if(vehicleLookupFailureViewModel.vehicleMake.isDefined) {
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="summary-detail-list">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="regNum">@vehicleLookupFailureViewModel.registrationNumber</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                    <dd>@vehicleLookupFailureViewModel.vehicleMake</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                    <dd>@vehicleLookupFailureViewModel.vehicleModel</dd>
+                    @if(vehicleLookupFailureViewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@vehicleLookupFailureViewModel.vehicleMake.get</dd>
+                    }
+                    @if(vehicleLookupFailureViewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@vehicleLookupFailureViewModel.vehicleModel.get</dd>
+                    }
                 </dl>
-            }
         </div>
     </div>
 

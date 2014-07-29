@@ -18,11 +18,11 @@
                 <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
                 <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
                 <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
-                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.address.init) {
+                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
                     @keeperAddressLine<br>
                 }</dd>
                 <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
-                <dd>@confirmViewModel.keeperAddress.address.last</dd>
+                <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
             </dl>
         </div>
         <div class="second-col">
@@ -30,10 +30,14 @@
             <dl class="summary-detail-list">
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                 <dd class="regNum">@confirmViewModel.registrationNumber</dd>
-                <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                <dd>@confirmViewModel.vehicleMake</dd>
-                <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                <dd>@confirmViewModel.vehicleModel</dd>
+                @if(confirmViewModel.vehicleMake.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                    <dd>@confirmViewModel.vehicleMake.get</dd>
+                }
+                @if(confirmViewModel.vehicleModel.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                    <dd>@confirmViewModel.vehicleModel.get</dd>
+                }
             </dl>
         </div>
     </div>

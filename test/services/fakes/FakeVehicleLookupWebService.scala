@@ -35,16 +35,6 @@ object FakeVehicleLookupWebService {
   final val KeeperNameValid = "Keeper Name"
   final val KeeperUprnValid = 10123456789L
   final val ConsentValid = "true"
-  // TODO move out the below into FakeVehicleAndKeeperLookupService when written
-  final val KeeperConsentValid = "Keeper"
-  final val KeeperPostcodeValid = "SA11AA"
-  final val KeeperTitleValid = "Mr"
-  final val KeeperLastNameValid = "Jones"
-  final val KeeperFirstNameValid = "David"
-  final val KeeperAddressLine1Valid = "1 High Street"
-  final val KeeperAddressLine2Valid = "Skewen"
-  final val KeeperPostTownValid = "Swansea"
-  final val KeeperPostCodeValid = "SA11AA"
 
   private val vehicleDetails = VehicleDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,

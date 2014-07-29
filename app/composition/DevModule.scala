@@ -20,6 +20,10 @@ import services.vehicle_lookup.VehicleLookupService
 import services.vehicle_lookup.VehicleLookupServiceImpl
 import services.vehicle_lookup.VehicleLookupWebService
 import services.vehicle_lookup.VehicleLookupWebServiceImpl
+import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
+import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupServiceImpl
+import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupWebService
+import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupWebServiceImpl
 import services.{DateService, DateServiceImpl, brute_force_prevention}
 import utils.helpers.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityService}
@@ -47,6 +51,8 @@ object DevModule extends ScalaModule {
     }
     bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
+    bind[VehicleAndKeeperLookupWebService].to[VehicleAndKeeperLookupWebServiceImpl].asEagerSingleton()
+    bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[VRMRetentionEligibilityWebService].to[VRMRetentionEligibilityWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionEligibilityService].to[VRMRetentionEligibilityServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainWebService].to[VRMRetentionRetainWebServiceImpl].asEagerSingleton()

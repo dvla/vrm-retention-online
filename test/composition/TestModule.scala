@@ -9,7 +9,7 @@ import filters.AccessLoggingFilter.AccessLoggerName
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfServiceImpl, PdfService}
 import play.api.{LoggerLike, Logger}
-import services.fakes.{FakeVRMRetentionRetainWebServiceImpl, FakeVRMRetentionEligibilityWebServiceImpl, FakeVehicleLookupWebService, FakeDisposeWebServiceImpl, FakeDateServiceImpl, FakeAddressLookupWebServiceImpl}
+import services.fakes._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
 import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
@@ -20,6 +20,7 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import services.DateService
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityService, VRMRetentionEligibilityWebServiceImpl, VRMRetentionEligibilityWebService}
 import services.vrm_retention_retain.{VRMRetentionRetainServiceImpl, VRMRetentionRetainService, VRMRetentionRetainWebService}
+import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupService, VehicleAndKeeperLookupWebService}
 
 class TestModule() extends ScalaModule with MockitoSugar {
   /**
@@ -34,6 +35,8 @@ class TestModule() extends ScalaModule with MockitoSugar {
     }
     bind[VehicleLookupWebService].to[FakeVehicleLookupWebService].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
+    bind[VehicleAndKeeperLookupWebService].to[FakeVehicleAndKeeperLookupWebService].asEagerSingleton()
+    bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[DisposeWebService].to[FakeDisposeWebServiceImpl].asEagerSingleton()
     bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[FakeDateServiceImpl].asEagerSingleton()

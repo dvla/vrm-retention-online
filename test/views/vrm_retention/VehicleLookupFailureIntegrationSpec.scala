@@ -75,21 +75,21 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
   private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       bruteForcePreventionViewModel().
-      vehicleLookupFormModel().
-      vehicleLookupResponseCode("vehicle_lookup_document_reference_mismatch").
-      vehicleDetailsModel()
+      vehicleAndKeeperLookupFormModel().
+      vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_document_reference_mismatch").
+      vehicleAndKeeperDetailsModel()
 
   private def cacheDirectToPaperSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       bruteForcePreventionViewModel().
-      vehicleLookupFormModel().
-      vehicleLookupResponseCode("vrm_retention_eligibility_direct_to_paper").
-      vehicleDetailsModel()
+      vehicleAndKeeperLookupFormModel().
+      vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_direct_to_paper").
+      vehicleAndKeeperDetailsModel()
 
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       bruteForcePreventionViewModel().
-      vehicleLookupFormModel().
-      vehicleLookupResponseCode("vrm_retention_eligibility_failure").
-      vehicleDetailsModel()
+      vehicleAndKeeperLookupFormModel().
+      vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_failure").
+      vehicleAndKeeperDetailsModel()
 }

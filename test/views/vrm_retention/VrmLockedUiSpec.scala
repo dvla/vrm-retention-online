@@ -58,5 +58,5 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      bruteForcePreventionViewModel().vehicleDetailsModel().vehicleLookupFormModel()
+      bruteForcePreventionViewModel().vehicleAndKeeperDetailsModel().vehicleAndKeeperLookupFormModel()
 }

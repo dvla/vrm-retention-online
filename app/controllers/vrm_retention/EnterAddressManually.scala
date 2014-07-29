@@ -4,9 +4,10 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import constraints.common.Postcode.formatPostcode
+import constraints.common.RegistrationNumber.formatVrm
 import mappings.common.AddressAndPostcode.{AddressAndPostcodeId, addressAndPostcode}
-import models.domain.common.{AddressViewModel, VehicleDetailsModel}
-import models.domain.vrm_retention.{BusinessDetailsModel, EnterAddressManuallyModel, EnterAddressManuallyViewModel, SetupBusinessDetailsFormModel}
+import models.domain.common.AddressViewModel
+import models.domain.vrm_retention._
 import play.api.Logger
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
@@ -26,9 +27,9 @@ final class EnterAddressManually @Inject()()
   )
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleDetailsModel]) match {
-      case (Some(setupBusinessDetailsFormModel), Some(vehicleDetailsModel)) =>
-        val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
+    (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
+      case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
+        val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
         Ok(enter_address_manually(enterAddressManuallyViewModel, form.fill()))
       case _ => Redirect(routes.SetUpBusinessDetails.present())
     }
@@ -37,18 +38,18 @@ final class EnterAddressManually @Inject()()
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
       invalidForm =>
-        (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleDetailsModel]) match {
-          case (Some(setupBusinessDetailsFormModel), Some(vehicleDetailsModel)) =>
-            val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
+        (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
+          case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
+            val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             BadRequest(enter_address_manually(enterAddressManuallyViewModel, formWithReplacedErrors(invalidForm)))
           case _ =>
             Logger.debug("Failed to find dealer name in cache, redirecting")
             Redirect(routes.SetUpBusinessDetails.present())
         },
       validForm =>
-        (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleDetailsModel]) match {
-          case (Some(setupBusinessDetailsFormModel), Some(vehicleDetailsModel)) =>
-            val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleDetailsModel)
+        (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
+          case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
+            val enterAddressManuallyViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             val businessAddress = AddressViewModel.from(validForm.addressAndPostcodeModel,
               enterAddressManuallyViewModel.businessPostCode)
             val businessDetailsModel = BusinessDetailsModel(
@@ -79,11 +80,11 @@ final class EnterAddressManually @Inject()()
       ).distinctErrors
 
   private def createViewModel(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
-                              vehicleDetails: VehicleDetailsModel): EnterAddressManuallyViewModel =
+                              vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): EnterAddressManuallyViewModel =
     EnterAddressManuallyViewModel(
-      registrationNumber = vehicleDetails.registrationNumber,
-      vehicleMake = vehicleDetails.vehicleMake,
-      vehicleModel = vehicleDetails.vehicleModel,
+      registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,
+      vehicleModel = vehicleAndKeeperDetailsModel.vehicleModel,
       businessName = setupBusinessDetailsFormModel.businessName,
       businessContact = setupBusinessDetailsFormModel.businessContact,
       businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)

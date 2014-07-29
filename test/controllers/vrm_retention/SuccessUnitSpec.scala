@@ -14,8 +14,7 @@ final class SuccessUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.keeperDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
         withCookies(CookieFactoryForUnitSpecs.businessDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.retainModel())
@@ -27,8 +26,7 @@ final class SuccessUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.keeperDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
         withCookies(CookieFactoryForUnitSpecs.retainModel())
       val result = success.present(request)

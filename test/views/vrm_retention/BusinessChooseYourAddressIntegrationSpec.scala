@@ -8,9 +8,10 @@ import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import services.fakes.FakeAddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
+import mappings.vrm_retention.Confirm
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 
@@ -62,7 +63,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
     "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
-      CookieFactoryForUISpecs.vehicleDetailsModel()
+      CookieFactoryForUISpecs.vehicleAndKeeperDetailsModel()
       SetupBusinessDetailsPage.submitInvalidPostcode
 
       page.source should include("No addresses found for that postcode") // Does not contain the positive message
@@ -98,7 +99,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       cacheSetup()
       happyPath
 
-      page.url should equal(VehicleLookupPage.url)
+      page.url should equal(ConfirmPage.url)
     }
 
     "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
@@ -121,6 +122,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
-      vehicleDetailsModel().
+      vehicleAndKeeperDetailsModel().
       setupBusinessDetails()
 }

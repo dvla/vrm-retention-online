@@ -28,7 +28,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     "display populated fields when cookie exists" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails.present(request)
       val content = contentAsString(result)
       content should include(TraderBusinessNameValid)
@@ -37,7 +37,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
     "display empty fields when setupBusinessDetails cookie does not exist" in new WithApplication {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel())
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails.present(request)
       val content = contentAsString(result)
       content should not include TraderBusinessNameValid

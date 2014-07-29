@@ -86,9 +86,9 @@ object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make t
       addressAndPostcodeModel = AddressAndPostcodeModel(
         addressLinesModel = AddressLinesModel(
           buildingNameOrNumber = BuildingNameOrNumberValid,
-            line2 = Some(Line2Valid),
-            line3 = Some(Line3Valid),
-            postTown = PostTownValid
+          line2 = Some(Line2Valid),
+          line3 = Some(Line3Valid),
+          postTown = PostTownValid
         )
       )
     )
