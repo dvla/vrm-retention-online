@@ -94,6 +94,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
+        addressViewModel.address = addressViewModel.address.updated(addressViewModel.address.length - 1, formatPostcode(addressViewModel.address.last))
         val businessDetailsModel = BusinessDetailsModel(businessName = businessName,
           businessContact = businessContact,
           businessAddress = addressViewModel)
