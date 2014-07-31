@@ -7,7 +7,7 @@ import helpers.webbrowser.TestHarness
 import mappings.vrm_retention.RelatedCacheKeys
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.vrm_retention.VrmLockedPage.exit
-import pages.vrm_retention.{BeforeYouStartPage, VrmLockedPage}
+import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage, VrmLockedPage}
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
@@ -32,14 +32,14 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
   "exit button" should {
 
-    "redirect to beforeyoustart" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
 
       click on exit
 
-      page.url should equal(BeforeYouStartPage.url)
+      page.url should equal(MockFeedbackPage.url)
     }
 
     "remove redundant cookies" taggedAs UiTag in new WebBrowser {

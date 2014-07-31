@@ -3,7 +3,7 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
 import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
-import pages.vrm_retention.{VehicleLookupPage, VehicleLookupFailurePage, BeforeYouStartPage}
+import pages.vrm_retention.{MockFeedbackPage, VehicleLookupPage, VehicleLookupFailurePage, BeforeYouStartPage}
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
@@ -59,7 +59,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
   }
 
   "exit button" should {
-    "redirect to before you start page when button clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       cacheDocRefMismatchSetup()
@@ -68,7 +68,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on exit
 
-      page.title should equal(BeforeYouStartPage.title)
+      page.url should equal(MockFeedbackPage.url)
     }
   }
 

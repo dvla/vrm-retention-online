@@ -69,6 +69,8 @@ POST        /vrm-retention/enter-address-manually                            @co
 GET         /vrm-retention/help                                              @controllers.common.Help.present
 POST        /vrm-retention/help                                              @controllers.common.Help.back
 
+GET         /vrm-retention/mock-gov-uk-feedback                              @controllers.vrm_retention.MockFeedback.present
+
 GET         /with-language/:chosenLanguage                                   controllers.common.AlternateLanguages.withLanguage(chosenLanguage: String)
 
 

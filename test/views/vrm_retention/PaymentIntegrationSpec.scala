@@ -45,14 +45,14 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "exit" should {
-    "display before you start page when exit link is clicked" taggedAs UiTag in new WebBrowser {
+    "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       cacheSetup()
 
       exitPath
 
-      page.url should equal(BeforeYouStartPage.url)
+      page.url should equal(MockFeedbackPage.url)
     }
   }
 

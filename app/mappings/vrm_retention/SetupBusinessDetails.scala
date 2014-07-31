@@ -18,6 +18,7 @@ object SetupBusinessDetails {
   final val BusinessPostcodeId = "Postcode"
   final val SetupBusinessDetailsCacheKey = "setupBusinessDetails"
   final val SubmitId = "submit"
+  final val ExitId = "exit"
 
   def businessName(minLength: Int = BusinessNameMinLength, maxLength: Int = BusinessNameMaxLength): Mapping[String] = {
     nonEmptyTextWithTransform(_.toUpperCase.trim)(minLength, maxLength) verifying BusinessName.validBusinessName

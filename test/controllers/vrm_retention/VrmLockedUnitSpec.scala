@@ -2,7 +2,7 @@ package controllers.vrm_retention
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import services.fakes.FakeDateServiceImpl
@@ -39,7 +39,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = vrmLocked.exit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
     }
   }

@@ -11,4 +11,6 @@ object VehicleLookup {
   final val VehicleAndKeeperLookupFormModelCacheKey = "vehicleAndKeeperLookupFormModel"
   final val BackId = "back"
   final val SubmitId = "submit"
+  final val ExitId = "exit"
+
 }

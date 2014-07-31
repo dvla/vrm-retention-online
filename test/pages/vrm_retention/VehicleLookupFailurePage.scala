@@ -1,7 +1,7 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.VehicleLookupFailure.{BeforeYouStartId, VehicleLookupId}
+import mappings.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId}
 import org.openqa.selenium.WebDriver
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
@@ -14,5 +14,5 @@ object VehicleLookupFailurePage extends Page with WebBrowserDSL {
 
   def tryAgain(implicit driver: WebDriver): Element = find(id(VehicleLookupId)).get
 
-  def exit(implicit driver: WebDriver): Element = find(id(BeforeYouStartId)).get
+  def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
 }

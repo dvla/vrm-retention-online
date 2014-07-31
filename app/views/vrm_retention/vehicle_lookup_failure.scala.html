@@ -31,7 +31,9 @@
                 @if(!(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility"))) {
                     <a class="button" id="@VehicleLookupId" href="@controllers.vrm_retention.routes.VehicleLookup.present()">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
                 }
-                <a class="button" id="@BeforeYouStartId" href="@controllers.vrm_retention.routes.BeforeYouStart.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
+                <a id="@BackId" href="@controllers.vrm_retention.routes.VehicleLookup.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
+                @*<a class="button" id="@BeforeYouStartId" href="@controllers.vrm_retention.routes.BeforeYouStart.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>*@
+                <a class="button" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
             </div>
         </div>
         <div id="vehicle-details" class="second-col trader-details">

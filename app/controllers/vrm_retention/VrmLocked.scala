@@ -33,7 +33,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
 
   def exit = Action {
     implicit request =>
-      Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+      Redirect(routes.MockFeedback.present()).discardingCookies(RelatedCacheKeys.FullSet)
   }
 
   private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): VrmLockedViewModel = // TODO can be moved to an apply function on a companion object.

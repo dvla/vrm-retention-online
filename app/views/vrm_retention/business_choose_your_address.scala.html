@@ -4,8 +4,7 @@
         config: utils.helpers.Config)
 
 @import controllers.vrm_retention.routes.BusinessChooseYourAddress
-@import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
-@import utils.helpers.BaseTemplate.fieldConstructor
+@import mappings.vrm_retention.BusinessChooseYourAddress._
 @import utils.helpers.CsrfHelper
 @import views.html.vrm_retention.main
 @import views.html.helper.base.valtechSelect
@@ -47,6 +46,7 @@
                     <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
                     <a id="@BackId" href="@controllers.vrm_retention.routes.SetUpBusinessDetails.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
+                    <a class="button" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
             <div id="vehicle-details" class="second-col trader-details">
