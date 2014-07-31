@@ -4,7 +4,8 @@
         config: utils.helpers.Config)
 
 @import controllers.vrm_retention.routes.BusinessChooseYourAddress
-@import mappings.vrm_retention.BusinessChooseYourAddress._
+@import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, ExitId, SelectId}
+@import utils.helpers.BaseTemplate.fieldConstructor
 @import utils.helpers.CsrfHelper
 @import views.html.vrm_retention.main
 @import views.html.helper.base.valtechSelect

@@ -543,13 +543,14 @@ vrm_retention_businessChooseYourAddress_businessContact = {0}
 vrm_retention_businessChooseYourAddress_businessEmail = {0}
 vrm_retention_businessChooseYourAddress_postcode_label = Postcode
 vrm_retention_businessChooseYourAddress_businessAddress_label = Business address
-vrm_retentionbusinessChooseYourAddress_addressSelect = Choose your address
+vrm_retention_businessChooseYourAddress_addressSelect = Choose your address
 vrm_retention_businessChooseYourAddress_addressSelect_label = Choose your address
 vrm_retention_businessChooseYourAddress.backbutton = Back
 vrm_retention_businessChooseYourAddress.submitbutton = Next
 vrm_retention_businessChooseYourAddress.manualAddressEntry = Enter my address
 error.dropDownInvalid = Please select a value from the drop down list.
 vrm_retention_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually.
+vrm_retention_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
 
 # enter address manually
 vrm_retention_enteraddressmanually.title = Enter address
