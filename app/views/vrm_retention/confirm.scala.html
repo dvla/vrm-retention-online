@@ -74,6 +74,6 @@
         @CsrfHelper.hiddenFormField
         @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="@ConfirmId" href="@Payment.present()">@Messages("vrm_retention_confirm.button")</a>
-        <a class="button" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+        <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }
