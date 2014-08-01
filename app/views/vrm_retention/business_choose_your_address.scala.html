@@ -57,11 +57,11 @@
                     <dd class="regNum">@businessChooseYourAddressViewModel.registrationNumber</dd>
                     @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@businessChooseYourAddressViewModel.vehicleMake.get</dd>
+                        <dd>@businessChooseYourAddressViewModel.vehicleMake.get.take(20)</dd>
                     }
                     @if(businessChooseYourAddressViewModel.vehicleModel.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@businessChooseYourAddressViewModel.vehicleModel.get</dd>
+                        <dd>@businessChooseYourAddressViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
             </div>

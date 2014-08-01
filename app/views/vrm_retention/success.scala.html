@@ -28,11 +28,11 @@
                     <dd>@successViewModel.replacementRegistrationNumber</dd>
                     @if(successViewModel.vehicleMake.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@successViewModel.vehicleMake.get</dd>
+                        <dd>@successViewModel.vehicleMake.get.take(20)</dd>
                     }
                     @if(successViewModel.vehicleModel.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@successViewModel.vehicleModel.get</dd>
+                        <dd>@successViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
 			</div>

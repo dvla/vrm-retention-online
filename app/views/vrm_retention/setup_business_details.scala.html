@@ -46,11 +46,11 @@
 	                <dd class="regNum">@viewModel.registrationNumber</dd>
                     @if(viewModel.vehicleMake.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@viewModel.vehicleMake.get</dd>
+                        <dd>@viewModel.vehicleMake.get.take(20)</dd>
                     }
                     @if(viewModel.vehicleModel.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@viewModel.vehicleModel.get</dd>
+                        <dd>@viewModel.vehicleModel.get.take(20)</dd>
                     }
 	            </dl>
         	</div>

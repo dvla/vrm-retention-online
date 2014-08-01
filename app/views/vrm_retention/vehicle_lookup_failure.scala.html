@@ -42,11 +42,11 @@
                     <dd class="regNum">@vehicleLookupFailureViewModel.registrationNumber</dd>
                     @if(vehicleLookupFailureViewModel.vehicleMake.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.vehicleMake.get</dd>
+                        <dd>@vehicleLookupFailureViewModel.vehicleMake.get.take(20)</dd>
                     }
                     @if(vehicleLookupFailureViewModel.vehicleModel.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.vehicleModel.get</dd>
+                        <dd>@vehicleLookupFailureViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
         </div>

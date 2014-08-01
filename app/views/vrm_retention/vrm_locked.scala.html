@@ -29,10 +29,14 @@
                 <dl class="summary-detail-list">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="regNum">@vrmLockedViewModel.registrationNumber</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                    <dd>@vrmLockedViewModel.vehicleMake</dd>
-                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                    <dd>@vrmLockedViewModel.vehicleModel</dd>
+                    @if(vrmLockedViewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@vrmLockedViewModel.vehicleMake.get.take(20)</dd>
+                    }
+                    @if(vrmLockedViewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@vrmLockedViewModel.vehicleModel.get.take(20)</dd>
+                    }
                 </dl>
             }
         </div>

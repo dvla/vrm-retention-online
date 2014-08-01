@@ -48,11 +48,11 @@
                     <dd class="regNum">@enterAddressManuallyViewModel.registrationNumber</dd>
                     @if(enterAddressManuallyViewModel.vehicleMake.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@enterAddressManuallyViewModel.vehicleMake.get</dd>
+                        <dd>@enterAddressManuallyViewModel.vehicleMake.get.take(20)</dd>
                     }
                     @if(enterAddressManuallyViewModel.vehicleModel.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@enterAddressManuallyViewModel.vehicleModel.get</dd>
+                        <dd>@enterAddressManuallyViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
             </div>
