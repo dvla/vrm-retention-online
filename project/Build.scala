@@ -33,7 +33,8 @@ object ApplicationBuild extends Build {
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
     "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc(),
-    "org.apache.pdfbox" % "pdfbox" % "1.8.6"
+    "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
+    "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc()
   )
 
   val cukes = CucumberPlugin.cucumberSettings ++

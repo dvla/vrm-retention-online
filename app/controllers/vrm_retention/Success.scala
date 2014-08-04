@@ -34,9 +34,9 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
   }
 
   def createPdf = Action.async { implicit request =>
-    (request.cookies.getModel[VehicleDetailsModel], request.cookies.getModel[RetainModel]) match {
-      case (Some(vehicleDetails), Some(retainModel)) =>
-        pdfService.create(vehicleDetails, retainModel).map { pdf =>
+    (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[RetainModel]) match {
+      case (Some(vehicleAndKeeperDetailsModel), Some(retainModel)) =>
+        pdfService.create(vehicleAndKeeperDetailsModel, retainModel).map { pdf =>
           val inputStream = new ByteArrayInputStream(pdf)
           val dataContent = Enumerator.fromStream(inputStream)
           // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after

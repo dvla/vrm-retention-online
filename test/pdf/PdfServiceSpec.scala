@@ -1,11 +1,9 @@
 package pdf
 
 import helpers.UnitSpec
-import models.domain.common.VehicleDetailsModel
-import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperLookupFormModel}
+import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import services.fakes.FakeAddressLookupService.addressWithUprn
 import services.fakes.FakeDateServiceImpl
 import services.fakes.FakeDisposeWebServiceImpl.TransactionIdValid
 import services.fakes.FakeVehicleLookupWebService._
@@ -19,9 +17,14 @@ final class PdfServiceSpec extends UnitSpec {
   "create" should {
 
     "return a non-empty output stream" in {
-      val vehicleDetailsModel = VehicleDetailsModel(registrationNumber = RegistrationNumberValid,
-        vehicleMake = VehicleMakeValid,
-        vehicleModel = VehicleModelValid)
+      val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
+        vehicleMake = Some(VehicleMakeValid),
+        vehicleModel = Some(VehicleModelValid),
+        keeperTitle = None,
+        keeperFirstName = None,
+        keeperLastName = None,
+        keeperAddress = None
+      )
 
       val retainModel = RetainModel(
         certificateNumber = "certificateNumber",
@@ -30,7 +33,7 @@ final class PdfServiceSpec extends UnitSpec {
       )
 
       val result = pdfService.create(
-        vehicleDetails = vehicleDetailsModel,
+        vehicleDetails = vehicleAndKeeperDetailsModel,
         retainModel = retainModel
       )
 
