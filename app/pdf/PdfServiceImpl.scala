@@ -7,6 +7,7 @@ import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
 import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
+import org.apache.pdfbox.preflight.ValidationResult.ValidationError
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
 import pdf.PdfServiceImpl.{blankPage, v948Blank}
@@ -14,6 +15,7 @@ import play.api.Logger
 import services.DateService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.collection.JavaConversions._
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
@@ -86,16 +88,14 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       case Some(blankFile) =>
         // Load document containing just the watermark image.
         val blankDoc = PDDocument.load(blankFile)
-
-        `PDF/A validation`(blankFile)
-
+        `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
         val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
       case None => document // Other file was not found so cannot combine with it.
     }
   }
 
-  private def `PDF/A validation`(implicit file: File): Unit = {
+  private def `PDF/A validation`(file: File, docName :String): Unit = {
     try {
       val parser = new PreflightParser(file)
 
@@ -117,12 +117,12 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       val result = document.getResult
       document.close()
 
-
       // display validation result
-      if (result.isValid) {
-        println("PDF/A validation: The file is a valid PDF/A-1b file")
-      } else {
-        Logger.warn(s"PDF/A validation: The file does not meet the standard, error(s): ${result.getErrorsList}")
+      if (!result.isValid) {
+        val errors = result.getErrorsList.toList.
+          map(error => s"PDF/A error code ${error.getErrorCode}, error details: ${error.getDetails}").
+          mkString(", ")
+        Logger.warn(s"Document '$docName' does not meet the PDF/A standard because of the following errors - $errors")
       }
     } catch {
       case e: SyntaxValidationException =>
