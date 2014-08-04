@@ -7,15 +7,15 @@ import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
 import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
-import org.apache.pdfbox.preflight.ValidationResult.ValidationError
+import org.apache.pdfbox.preflight.PreflightDocument
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
 import pdf.PdfServiceImpl.{blankPage, v948Blank}
 import play.api.Logger
 import services.DateService
+import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.collection.JavaConversions._
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
@@ -31,24 +31,33 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
 
     document.addPage(page1)
     document.addPage(blankPage)
-    val documentWatermarked = combineWithOriginal
-
-    // Save the results and ensure that the document is properly closed:
-    documentWatermarked.save(output)
-    documentWatermarked.close()
+    var documentWatermarked: PDDocument = null
+    try {
+      documentWatermarked = combineWithOriginal
+      // Save the results and ensure that the document is properly closed:
+      documentWatermarked.save(output)
+    } catch {
+      case e: Exception => Logger.error(s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
+    } finally {
+      documentWatermarked.close()
+    }
     documentWatermarked
   }
 
   private def page1(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, retainModel: RetainModel, document: PDDocument): PDPage = {
     val page = new PDPage()
-    // Start a new content stream which will "hold" the to be created content
-    implicit val contentStream = new PDPageContentStream(document, page)
+    implicit var contentStream: PDPageContentStream = null
+    try {
+      contentStream = new PDPageContentStream(document, page) // Start a new content stream which will "hold" the to be created content
 
-    writeVrn(vehicleAndKeeperDetailsModel.registrationNumber)
-    writeDateOfRetentionAndTransactionId(retainModel.transactionId)
-
-    // Make sure that the content stream is closed:
-    contentStream.close()
+      writeVrn(vehicleAndKeeperDetailsModel.registrationNumber)
+      writeDateOfRetentionAndTransactionId(retainModel.transactionId)
+    } catch {
+      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
+    } finally {
+      // Make sure that the content stream is closed:
+      contentStream.close()
+    }
     page
   }
 
@@ -89,16 +98,16 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
         // Load document containing just the watermark image.
         val blankDoc = PDDocument.load(blankFile)
         `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
-        val overlay = new Overlay()
+      val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
       case None => document // Other file was not found so cannot combine with it.
     }
   }
 
-  private def `PDF/A validation`(file: File, docName :String): Unit = {
+  private def `PDF/A validation`(file: File, docName: String): Unit = {
+    val parser = new PreflightParser(file)
+    var document: PreflightDocument = null
     try {
-      val parser = new PreflightParser(file)
-
       /* Parse the PDF file with PreflightParser that inherits from the NonSequentialParser.
        * Some additional controls are present to check a set of PDF/A requirements.
        * (Stream length consistency, EOL after some Keyword...)
@@ -110,12 +119,12 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
        * (that inherits from PDDocument)
        * This document process the end of PDF/A validation.
        */
-      val document = parser.getPreflightDocument
+      document = parser.getPreflightDocument
       document.validate()
 
       // Get validation result
       val result = document.getResult
-      document.close()
+
 
       // display validation result
       if (!result.isValid) {
@@ -131,6 +140,8 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
          * In this case, the exception contains an instance of ValidationResult
          */
         Logger.error(s"PDF/A validation SyntaxValidationException: ${e.getResult}")
+    } finally {
+      document.close() // Make sure that the document is closed.
     }
   }
 }
@@ -150,9 +161,14 @@ object PdfServiceImpl {
   private def blankPage(implicit document: PDDocument): PDPage = {
     val page = new PDPage()
     // Start a new content stream which will "hold" the to be created content
-    val contentStream = new PDPageContentStream(document, page)
-    // Make sure that the content stream is closed:
-    contentStream.close()
+    var contentStream: PDPageContentStream = null
+    try {
+      contentStream = new PDPageContentStream(document, page)
+    } catch {
+      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
+    } finally {
+      contentStream.close() // Make sure that the content stream is closed.
+    }
     page
   }
 }
