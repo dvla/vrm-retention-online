@@ -1,14 +1,13 @@
 package controllers.vrm_retention
 
-import constraints.common.Postcode.formatPostcode
 import javax.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSession, ClientSideSessionFactory}
+import constraints.common.Postcode.formatPostcode
 import mappings.common.DropDown.addressDropDown
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.vrm_retention.VehicleAndKeeperDetailsModel
-import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel}
+import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
@@ -94,10 +93,9 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
-        addressViewModel.address = addressViewModel.address.updated(addressViewModel.address.length - 1, formatPostcode(addressViewModel.address.last))
         val businessDetailsModel = BusinessDetailsModel(businessName = businessName,
           businessContact = businessContact,
-          businessAddress = addressViewModel)
+          businessAddress = addressViewModel.formatPostcode)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */

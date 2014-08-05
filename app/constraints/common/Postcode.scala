@@ -18,6 +18,7 @@ object Postcode {
     else Invalid(ValidationError("error.restricted.validPostcode"))
   }
 
+  // TODO I think this should move out of the constraint as it is not a constraint, it re-formats for viewing. It could live in a model but we don't yet have a model for postcode
   def formatPostcode(postcode: String): String = {
     val SpaceCharDelimiter = " "
     val A99AA = "([A-Z][0-9]{2}[A-Z]{2})".r // A99AA
