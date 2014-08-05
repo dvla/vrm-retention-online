@@ -26,8 +26,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
   def submit = Action.async { implicit request =>
     request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
-      case Some(vehiclesLookupForm) =>
-        retainVrm(vehiclesLookupForm)
+      case Some(vehiclesLookupForm) => retainVrm(vehiclesLookupForm)
       case None => Future {
         Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
       }
@@ -42,7 +41,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] = {
 
     def retainSuccess(certificateNumber: String) = {
-
       val transactionTimestamp = dateService.today.toDateTime.get
       val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
         ISODateTimeFormat.hourMinute().print(transactionTimestamp)
@@ -71,7 +69,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case Some(responseCode) => retainFailure(responseCode) // There is only a response code when there is a problem.
         case None =>
           // Happy path when there is no response code therefore no problem.
-          (vrmRetentionRetaiResponse.certificateNumber) match {
+          vrmRetentionRetaiResponse.certificateNumber match {
             case Some(certificateNumber) => retainSuccess(certificateNumber)
             case _ => microServiceErrorResult(message = "Certificate number not found in response")
           }

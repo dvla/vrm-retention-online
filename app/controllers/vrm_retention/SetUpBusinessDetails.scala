@@ -29,7 +29,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     implicit request =>
       request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
         case Some(vehicleAndKeeperDetails) =>
-          val setupBusinessDetailsViewModel = createViewModel(vehicleAndKeeperDetails)
+          val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
         case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
       }
@@ -40,7 +40,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
       invalidForm => {
         request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
           case Some(vehicleAndKeeperDetailsModel) =>
-            val setupBusinessDetailsViewModel = createViewModel(vehicleAndKeeperDetailsModel)
+            val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetailsModel)
             val formWithReplacedErrors = invalidForm.
               replaceError(BusinessNameId, FormError(key = BusinessNameId,
               message = "error.validBusinessName",
@@ -61,11 +61,4 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
       validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
     )
   }
-
-  private def createViewModel(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
-    SetupBusinessDetailsViewModel(
-      registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetailsModel.vehicleModel
-    )
 }
