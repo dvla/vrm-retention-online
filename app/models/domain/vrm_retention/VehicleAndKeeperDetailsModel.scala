@@ -17,7 +17,7 @@ final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
 object VehicleAndKeeperDetailsModel {
 
   // Create a VehicleAndKeeperDetailsDto from the given replacementVRM. We do this in order get the data out of the response from micro-service call
-  def fromDto(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
+  def from(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
 
     val addressViewModel = {
       val addressLineModel = AddressLinesModel(vehicleAndKeeperDetailsDto.keeperAddressLine1.get,

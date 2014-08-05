@@ -16,5 +16,6 @@ final case class VehicleAndKeeperDetailsDto(registrationNumber: String,
                                             keeperPostcode: Option[String])
 
 object VehicleAndKeeperDetailsDto {
+
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsDto]
 }

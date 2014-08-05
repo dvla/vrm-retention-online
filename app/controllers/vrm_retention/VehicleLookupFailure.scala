@@ -3,10 +3,9 @@ package controllers.vrm_retention
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.RichCookies
-import constraints.common.RegistrationNumber.formatVrm
 import mappings.vrm_retention.VehicleLookup._
-import models.domain.common.{BruteForcePreventionViewModel, VehicleDetailsModel}
-import models.domain.vrm_retention.{VehicleAndKeeperDetailsModel, VehicleLookupFailureViewModel, VehicleAndKeeperLookupFormModel}
+import models.domain.common.BruteForcePreventionViewModel
+import models.domain.vrm_retention.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.Logger
 import play.api.mvc._
 import utils.helpers.Config
@@ -40,10 +39,13 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
                                           bruteForcePreventionViewModel: BruteForcePreventionViewModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
                                           vehicleAndKeeperLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
-    val viewModel = if (vehicleAndKeeperDetails.isDefined) createViewModel(vehicleAndKeeperDetails.get)
-                    else createViewModel(vehicleAndKeeperLookupFormModel)
+    val vehicleLookupFailureViewModel = vehicleAndKeeperDetails match {
+      case Some(details) => VehicleLookupFailureViewModel(details)
+      case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupFormModel)
+    }
+
     Ok(views.html.vrm_retention.vehicle_lookup_failure(
-      viewModel,
+      vehicleLookupFailureViewModel = vehicleLookupFailureViewModel,
       data = vehicleAndKeeperLookupFormModel,
       responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
       attempts = bruteForcePreventionViewModel.attempts,
@@ -51,16 +53,4 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     ).
       discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
   }
-
-  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): VehicleLookupFailureViewModel =
-    VehicleLookupFailureViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel)
-
-  private def createViewModel(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel): VehicleLookupFailureViewModel =
-    VehicleLookupFailureViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperLookupFormModel.registrationNumber),
-      vehicleMake = None,
-      vehicleModel = None)
 }

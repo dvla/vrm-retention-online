@@ -10,8 +10,9 @@ final case class EnterAddressManuallyViewModel(registrationNumber: String,
                                                businessPostCode: String)
 
 object EnterAddressManuallyViewModel {
+
   def apply(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
-                              vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): EnterAddressManuallyViewModel =
+            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): EnterAddressManuallyViewModel =
     EnterAddressManuallyViewModel(
       registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
       vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,

@@ -49,7 +49,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "")
 
       Redirect(routes.Success.present()).
-        withCookie(RetainModel.fromResponse(certificateNumber, transactionId, isoDateTimeString))
+        withCookie(RetainModel.from(certificateNumber, transactionId, isoDateTimeString))
     }
 
     def retainFailure(responseCode: String) = {

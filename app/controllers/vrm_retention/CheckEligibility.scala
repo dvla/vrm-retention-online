@@ -39,10 +39,10 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
 
       if (vehicleAndKeeperLookupFormModel.keeperConsent == KeeperConsent) {
         Redirect(routes.Confirm.present()).
-          withCookie(EligibilityModel.fromResponse(replacementVRM))
+          withCookie(EligibilityModel.from(replacementVRM))
       } else {
         Redirect(routes.SetUpBusinessDetails.present()).
-          withCookie(EligibilityModel.fromResponse(replacementVRM))
+          withCookie(EligibilityModel.from(replacementVRM))
       }
     }
 

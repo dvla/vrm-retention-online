@@ -5,6 +5,7 @@ final case class SetupBusinessDetailsViewModel(registrationNumber: String,
                                                vehicleModel: Option[String])
 
 object SetupBusinessDetailsViewModel {
+
   def apply(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
     SetupBusinessDetailsViewModel(
       registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,

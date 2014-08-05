@@ -43,7 +43,7 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
           Ok.feed(dataContent).
             withHeaders(
               CONTENT_TYPE -> "application/pdf",
-              CONTENT_DISPOSITION -> "attachment;filename=v948.pdf"
+              CONTENT_DISPOSITION -> "attachment;filename=v948.pdf" // TODO ask BAs do we want a custom filename for each transaction?
             )
         }
       case _ => Future {

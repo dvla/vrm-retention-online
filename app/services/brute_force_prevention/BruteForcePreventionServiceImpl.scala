@@ -24,7 +24,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config,
         def permitted(): Unit = {
           Json.fromJson[BruteForcePreventionResponse](resp.json).asOpt match {
             case Some(model) =>
-              val resultModel = BruteForcePreventionViewModel.fromResponse(
+              val resultModel = BruteForcePreventionViewModel.from(
                 permitted = true,
                 model,
                 dateService,
@@ -36,7 +36,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config,
               returnedFuture.failure(new Exception("TODO"))
           }
         }
-        def notPermitted = BruteForcePreventionViewModel.fromResponse(permitted = false,
+        def notPermitted = BruteForcePreventionViewModel.from(permitted = false,
                                                                       BruteForcePreventionResponse(attempts = 0),
                                                                       dateService,
                                                                       maxAttempts = maxAttempts)
@@ -53,7 +53,7 @@ final class BruteForcePreventionServiceImpl @Inject()(config: Config,
       returnedFuture.future
     }
     else Future {
-      BruteForcePreventionViewModel.fromResponse(permitted = true,
+      BruteForcePreventionViewModel.from(permitted = true,
                                                  BruteForcePreventionResponse(attempts = 0),
                                                  dateService,
                                                  maxAttempts = maxAttempts)

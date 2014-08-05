@@ -9,14 +9,15 @@ final case class BruteForcePreventionViewModel(permitted: Boolean,
                                                dateTimeISOChronology: String)
 
 object BruteForcePreventionViewModel {
+
   implicit final val JsonFormat = Json.format[BruteForcePreventionViewModel]
   implicit final val Key = CacheKey[BruteForcePreventionViewModel](BruteForcePreventionViewModelCacheKey)
   final val BruteForcePreventionViewModelCacheKey = "bruteForcePreventionViewModel"
 
-  def fromResponse(permitted: Boolean,
-                   response: BruteForcePreventionResponse,
-                   dateService: DateService,
-                   maxAttempts: Int): BruteForcePreventionViewModel = {
+  def from(permitted: Boolean,
+           response: BruteForcePreventionResponse,
+           dateService: DateService,
+           maxAttempts: Int): BruteForcePreventionViewModel = {
     BruteForcePreventionViewModel(permitted,
       attempts = response.attempts + 1,
       maxAttempts = maxAttempts,

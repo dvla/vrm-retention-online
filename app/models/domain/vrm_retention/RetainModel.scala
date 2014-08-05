@@ -7,7 +7,8 @@ import play.api.libs.json.Json
 final case class RetainModel(certificateNumber: String, transactionId: String, transactionTimestamp: String)
 
 object RetainModel {
-  def fromResponse(certificateNumber: String, transactionId: String, transactionTimestamp: String) =
+
+  def from(certificateNumber: String, transactionId: String, transactionTimestamp: String) =
     RetainModel(certificateNumber = certificateNumber,
       transactionId = transactionId,
       transactionTimestamp = transactionTimestamp)

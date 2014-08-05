@@ -102,14 +102,13 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                            (implicit request: Request[_]): Future[SimpleResult] = {
 
     def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
-
       // check the keeper's postcode matches
-      if (!(formatPostcode(vehicleAndKeeperLookupFormModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get)))) {
+      if (!formatPostcode(vehicleAndKeeperLookupFormModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))) {
         Redirect(routes.VehicleLookupFailure.present()).
           withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
       } else {
         Redirect(routes.CheckEligibility.present()).
-          withCookie(VehicleAndKeeperDetailsModel.fromDto(vehicleAndKeeperDetailsDto))
+          withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
       }
     }
 
@@ -143,17 +142,13 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         case OK =>
           vehicleAndKeeperDetailsResponse match {
             case Some(response) => createResultFromVehicleAndKeeperLookupResponse(response)
-            case _ => microServiceErrorResult("No vehicleAndKeeperDetailsResponse found") // TODO write test to achieve code coverage.
+            case _ => microServiceErrorResult("No vehicleAndKeeperDetailsResponse found")
           }
         case _ => microServiceErrorResult(s"VehicleAndKeeperLookup web service call http status not OK, it was: $responseStatusVehicleAndKeeperLookupMS. Problem may come from either vehicle-lookup micro-service or the VSS")
       }
 
     val trackingId = request.cookies.trackingId()
-
-    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest(
-      referenceNumber = vehicleAndKeeperLookupFormModel.referenceNumber,
-      registrationNumber = vehicleAndKeeperLookupFormModel.registrationNumber
-    )
+    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest.from(vehicleAndKeeperLookupFormModel)
 
     vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map {
       case (responseStatusVehicleAndKeeperLookupMS: Int, vehicleAndKeeperDetailsResponse: Option[VehicleAndKeeperDetailsResponse]) =>

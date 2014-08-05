@@ -5,12 +5,13 @@ import mappings.disposal_of_vehicle.VehicleLookup.VehicleLookupDetailsCacheKey
 import play.api.libs.json.Json
 
 final case class VehicleDetailsModel(registrationNumber: String,
-                               vehicleMake: String,
-                               vehicleModel: String)
+                                     vehicleMake: String,
+                                     vehicleModel: String)
 
 object VehicleDetailsModel {
+
   // Create a VehicleDetailsModel from the given VehicleDetailsDto. We do this in order get the data out of the response from micro-service call
-  def fromDto(model: VehicleDetailsDto) =
+  def from(model: VehicleDetailsDto) =
     VehicleDetailsModel(
       registrationNumber = formatVrm(model.registrationNumber),
       vehicleMake = model.vehicleMake,

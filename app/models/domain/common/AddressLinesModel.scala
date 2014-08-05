@@ -21,6 +21,7 @@ case class AddressLinesModel(buildingNameOrNumber: String,
 }
 
 object AddressLinesModel {
+
   implicit val JsonFormat = Json.format[AddressLinesModel]
   implicit val Key = CacheKey[AddressLinesModel](AddressLinesCacheKey)
 }

@@ -7,5 +7,6 @@ final case class VehicleDetailsRequest(referenceNumber: String,
                                        userName: String)
 
 object VehicleDetailsRequest {
+
   implicit val JsonFormat = Json.format[VehicleDetailsRequest]
 }
