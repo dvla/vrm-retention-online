@@ -19,27 +19,26 @@ object Postcode {
   }
 
   def formatPostcode(postcode: String): String = {
-
     val SpaceCharDelimiter = " "
-    val Format1 = "([A-Z][0-9]{2}[A-Z]{2})".r // A99AA
-    val Format2 = "([A-Z][0][0-9]{2}[A-Z]{2})".r // A099AA
-    val Format3 = "([A-Z][0-9]{3}[A-Z]{2})".r // A999AA
-    val Format4 = "([A-Z][0-9][A-Z][0-9][A-Z]{2})".r // A9A9AA
-    val Format5 = "([A-Z]{2}[0-9]{2}[A-Z]{2})".r // AA99AA
-    val Format6 = "([A-Z]{2}[0][0-9]{2}[A-Z]{2})".r // AA099AA
-    val Format7 = "([A-Z]{2}[0-9]{3}[A-Z]{2})".r // AA999AA
-    val Format8 = "([A-Z]{2}[0-9][A-Z][0-9][A-Z]{2})".r // AA9A9AA
+    val A99AA = "([A-Z][0-9]{2}[A-Z]{2})".r // A99AA
+    val A099AA = "([A-Z][0][0-9]{2}[A-Z]{2})".r // A099AA
+    val A999AA = "([A-Z][0-9]{3}[A-Z]{2})".r // A999AA
+    val A9A9AA = "([A-Z][0-9][A-Z][0-9][A-Z]{2})".r // A9A9AA
+    val AA99AA = "([A-Z]{2}[0-9]{2}[A-Z]{2})".r // AA99AA
+    val AA099AA = "([A-Z]{2}[0][0-9]{2}[A-Z]{2})".r // AA099AA
+    val AA999AA = "([A-Z]{2}[0-9]{3}[A-Z]{2})".r // AA999AA
+    val AA9A9AA = "([A-Z]{2}[0-9][A-Z][0-9][A-Z]{2})".r // AA9A9AA
 
-    postcode.toUpperCase.replace(SpaceCharDelimiter,"") match {
-      case Format1(p) ⇒ p.substring(0, 2) + SpaceCharDelimiter + p.substring(2, 5)
-      case Format2(p) ⇒ "" + p.charAt(0) + p.charAt(2) + SpaceCharDelimiter + p.substring(3, 6)
-      case Format3(p) ⇒ p.substring(0, 3) + SpaceCharDelimiter + p.substring(3, 6)
-      case Format4(p) ⇒ p.substring(0, 3) + SpaceCharDelimiter + p.substring(3, 6)
-      case Format5(p) ⇒ p.substring(0, 3) + SpaceCharDelimiter + p.substring(3, 6)
-      case Format6(p) ⇒ p.substring(0, 2) + p.charAt(3) + SpaceCharDelimiter + p.substring(4, 7)
-      case Format7(p) ⇒ p.substring(0, 4) + SpaceCharDelimiter + p.substring(4, 7)
-      case Format8(p) ⇒ p.substring(0, 4) + SpaceCharDelimiter + p.substring(4, 7)
-      case _ ⇒ postcode
+    postcode.toUpperCase.replace(SpaceCharDelimiter, "") match {
+      case A99AA(p) => p.substring(0, 2) + SpaceCharDelimiter + p.substring(2, 5)
+      case A099AA(p) => p.substring(0, 1) + p.substring(2, 3) + SpaceCharDelimiter + p.substring(3, 6)
+      case A999AA(p) => p.substring(0, 3) + SpaceCharDelimiter + p.substring(3, 6)
+      case A9A9AA(p) => p.substring(0, 3) + SpaceCharDelimiter + p.substring(3, 6)
+      case AA99AA(p) => p.substring(0, 3) + SpaceCharDelimiter + p.substring(3, 6)
+      case AA099AA(p) => p.substring(0, 2) + p.substring(3, 4) + SpaceCharDelimiter + p.substring(4, 7)
+      case AA999AA(p) => p.substring(0, 4) + SpaceCharDelimiter + p.substring(4, 7)
+      case AA9A9AA(p) => p.substring(0, 4) + SpaceCharDelimiter + p.substring(4, 7)
+      case _ => postcode
     }
   }
 }
