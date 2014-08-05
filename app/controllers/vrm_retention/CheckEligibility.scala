@@ -4,7 +4,6 @@ import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import common.{ClientSideSessionFactory, LogFormats}
 import mappings.vrm_retention.VehicleLookup._
-import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
 import play.api.Logger
 import play.api.mvc._
@@ -21,8 +20,8 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
 
   def present = Action.async {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
-        case Some(form) => checkVRMEligibility(form)
+      request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
+        case Some(form) => checkVrmEligibility(form)
         case _ => Future {
           Redirect(routes.MicroServiceError.present())
         }
@@ -33,7 +32,7 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
    * Call the eligibility service to determine if the VRM is valid for retention and a replacement mark can
    * be found.
    */
-  private def checkVRMEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
+  private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Future[SimpleResult] = {
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {

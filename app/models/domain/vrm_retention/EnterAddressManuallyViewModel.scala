@@ -1,8 +1,23 @@
 package models.domain.vrm_retention
 
+import constraints.common.Postcode.formatPostcode
+
 final case class EnterAddressManuallyViewModel(registrationNumber: String,
                                                vehicleMake: Option[String],
                                                vehicleModel: Option[String],
                                                businessName: String,
                                                businessContact: String,
                                                businessPostCode: String)
+
+object EnterAddressManuallyViewModel {
+  def apply(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
+                              vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): EnterAddressManuallyViewModel =
+    EnterAddressManuallyViewModel(
+      registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,
+      vehicleModel = vehicleAndKeeperDetailsModel.vehicleModel,
+      businessName = setupBusinessDetailsFormModel.businessName,
+      businessContact = setupBusinessDetailsFormModel.businessContact,
+      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)
+    )
+}
