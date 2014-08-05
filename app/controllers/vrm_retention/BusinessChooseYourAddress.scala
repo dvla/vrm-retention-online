@@ -3,7 +3,6 @@ package controllers.vrm_retention
 import javax.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import common.{ClientSideSession, ClientSideSessionFactory}
-import constraints.common.Postcode.formatPostcode
 import mappings.common.DropDown.addressDropDown
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
@@ -36,7 +35,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   def present = Action.async { implicit request =>
     (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
-        val businessChooseYourAddressViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
+        val businessChooseYourAddressViewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsFormModel)(session, lang).map { addresses =>
           Ok(views.html.vrm_retention.business_choose_your_address(businessChooseYourAddressViewModel, form.fill(),
@@ -53,7 +52,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       invalidForm =>
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
           case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
-            val businessChooseYourAddressViewModel = createViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
+            val businessChooseYourAddressViewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel).map { addresses =>
               BadRequest(business_choose_your_address(businessChooseYourAddressViewModel,
@@ -106,15 +105,4 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       case None => Redirect(routes.UprnNotFound.present())
     }
   }
-
-  private def createViewModel(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
-                              vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): BusinessChooseYourAddressViewModel =
-    BusinessChooseYourAddressViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      businessName = setupBusinessDetailsFormModel.businessName,
-      businessContact = setupBusinessDetailsFormModel.businessContact,
-      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)
-    )
 }
