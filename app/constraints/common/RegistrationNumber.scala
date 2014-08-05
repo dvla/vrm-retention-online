@@ -21,7 +21,6 @@ object RegistrationNumber {
   }
 
   def formatVrm(vrm: String): String = {
-
     val FiveSpaceCharPadding = " " * 5
     val FourSpaceCharPadding = " " * 4
     val ThreeSpaceCharPadding = " " * 3
@@ -58,15 +57,15 @@ object RegistrationNumber {
     val `0099AAA` = "([0]{2}[0-9]{2}[A-Z]{3})".r // 0099AAA
     val `999A` = "([0-9]{3}[A-Z])".r // 999A
     val `0999  A` = "([0][0-9]{3}[A-Z])".r // 0999  A
-    val Format31 = "([0-9]{3}[A-Z]{2})".r // 999AA
-    val Format32 = "([0][0-9]{3}[A-Z]{2})".r // 0999 AA
-    val Format33 = "([0-9]{3}[A-Z]{3})".r // 9999AAA
-    val Format34 = "([0][0-9]{3}[A-Z]{3})".r // 0999AAA
-    val Format35 = "([0-9]{4}[A-Z])".r // 9999A
-    val Format36 = "([0-9]{4}[A-Z]{2})".r // 9999AA
-    val Format37 = "([A-Z][0-9][A-Z]{3})".r // Y9AAA
-    val Format38 = "([A-Z][0-9]{2}[A-Z]{3})".r // Y99AAA
-    val Format39 = "([A-Z][0-9]{3}[A-Z]{3})".r // Y999AAA
+    val `999AA` = "([0-9]{3}[A-Z]{2})".r // 999AA
+    val `0999 AA` = "([0][0-9]{3}[A-Z]{2})".r // 0999 AA
+    val `9999AAA` = "([0-9]{3}[A-Z]{3})".r // 9999AAA
+    val `0999AAA` = "([0][0-9]{3}[A-Z]{3})".r // 0999AAA
+    val `9999A` = "([0-9]{4}[A-Z])".r // 9999A
+    val `9999AA` = "([0-9]{4}[A-Z]{2})".r // 9999AA
+    val `A9AAA` = "([A-Z][0-9][A-Z]{3})".r // A9AAA
+    val `A99AAA` = "([A-Z][0-9]{2}[A-Z]{3})".r // A99AAA
+    val `A999AAA` = "([A-Z][0-9]{3}[A-Z]{3})".r // A999AAA
 
     vrm.toUpperCase.replace(OneSpaceCharPadding, "") match {
       case AA99AAA(v) ⇒ v.substring(0, 4) + OneSpaceCharPadding + v.substring(4, 7)
@@ -99,15 +98,15 @@ object RegistrationNumber {
       case `0099AAA`(v) ⇒ v.substring(2,4) + OneSpaceCharPadding + v.substring(4,7) + TwoSpaceCharPadding
       case `999A`(v) ⇒ v.substring(0,3) + OneSpaceCharPadding + v.charAt(3) + ThreeSpaceCharPadding
       case `0999  A`(v) ⇒ v.substring(1,4) + OneSpaceCharPadding + v.charAt(4) + ThreeSpaceCharPadding
-      case Format31(v) ⇒ v.substring(0,3) + OneSpaceCharPadding + v.substring(3,5) + TwoSpaceCharPadding
-      case Format32(v) ⇒ v.substring(1,4) + OneSpaceCharPadding + v.substring(4,6) + TwoSpaceCharPadding
-      case Format33(v) ⇒ v.substring(0,3) + OneSpaceCharPadding + v.substring(3,6) + OneSpaceCharPadding
-      case Format34(v) ⇒ v.substring(1,4) + OneSpaceCharPadding + v.substring(4,7) + OneSpaceCharPadding
-      case Format35(v) ⇒ v.substring(0,4) + OneSpaceCharPadding + v.charAt(4) + TwoSpaceCharPadding
-      case Format36(v) ⇒ v.substring(0,4) + OneSpaceCharPadding + v.substring(4,6) + OneSpaceCharPadding
-      case Format37(v) ⇒ v.substring(0,2) + OneSpaceCharPadding + v.substring(2,5) + TwoSpaceCharPadding
-      case Format38(v) ⇒ v.substring(0,3) + OneSpaceCharPadding + v.substring(3,6) + OneSpaceCharPadding
-      case Format39(v) ⇒ v.substring(0,4) + OneSpaceCharPadding + v.substring(4,7)
+      case `999AA`(v) ⇒ v.substring(0,3) + OneSpaceCharPadding + v.substring(3,5) + TwoSpaceCharPadding
+      case `0999 AA`(v) ⇒ v.substring(1,4) + OneSpaceCharPadding + v.substring(4,6) + TwoSpaceCharPadding
+      case `9999AAA`(v) ⇒ v.substring(0,3) + OneSpaceCharPadding + v.substring(3,6) + OneSpaceCharPadding
+      case `0999AAA`(v) ⇒ v.substring(1,4) + OneSpaceCharPadding + v.substring(4,7) + OneSpaceCharPadding
+      case `9999A`(v) ⇒ v.substring(0,4) + OneSpaceCharPadding + v.charAt(4) + TwoSpaceCharPadding
+      case `9999AA`(v) ⇒ v.substring(0,4) + OneSpaceCharPadding + v.substring(4,6) + OneSpaceCharPadding
+      case `A9AAA`(v) ⇒ v.substring(0,2) + OneSpaceCharPadding + v.substring(2,5) + TwoSpaceCharPadding
+      case `A99AAA`(v) ⇒ v.substring(0,3) + OneSpaceCharPadding + v.substring(3,6) + OneSpaceCharPadding
+      case `A999AAA`(v) ⇒ v.substring(0,4) + OneSpaceCharPadding + v.substring(4,7)
       case _ ⇒ vrm
     }
   }
