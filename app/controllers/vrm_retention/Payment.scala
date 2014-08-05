@@ -1,19 +1,19 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.{ClientSideSessionFactory, LogFormats}
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
+import common.{ClientSideSessionFactory, LogFormats}
 import mappings.vrm_retention.RelatedCacheKeys
 import mappings.vrm_retention.Retain._
-import models.domain.vrm_retention.{VehicleAndKeeperLookupFormModel, VRMRetentionRetainResponse, VRMRetentionRetainRequest, RetainModel}
+import models.domain.vrm_retention.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc._
-import utils.helpers.Config
-import services.vrm_retention_retain.VRMRetentionRetainService
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
 import services.DateService
+import services.vrm_retention_retain.VRMRetentionRetainService
+import utils.helpers.Config
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               dateService: DateService)
@@ -46,10 +46,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         ISODateTimeFormat.hourMinute().print(transactionTimestamp)
 
       val transactionId = vehicleAndKeeperLookupFormModel.registrationNumber +
-        isoDateTimeString.replace(" ","").replace("-","").replace(":","")
+        isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "")
 
       Redirect(routes.Success.present()).
-          withCookie(RetainModel.fromResponse(certificateNumber, transactionId, isoDateTimeString))
+        withCookie(RetainModel.fromResponse(certificateNumber, transactionId, isoDateTimeString))
     }
 
     def retainFailure(responseCode: String) = {
@@ -63,25 +63,25 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       Redirect(routes.MicroServiceError.present())
     }
 
-    def createResultFromVRMRetentionRetainResponse(vrmRetentionRetaiResponse: VRMRetentionRetainResponse)
-                                                       (implicit request: Request[_]) =
-      vrmRetentionRetaiResponse.responseCode match {
+    def createResultFromVrmRetentionRetainResponse(vrmRetentionRetainResponse: VRMRetentionRetainResponse)
+                                                  (implicit request: Request[_]) =
+      vrmRetentionRetainResponse.responseCode match {
         case Some(responseCode) => retainFailure(responseCode) // There is only a response code when there is a problem.
         case None =>
           // Happy path when there is no response code therefore no problem.
-          vrmRetentionRetaiResponse.certificateNumber match {
+          vrmRetentionRetainResponse.certificateNumber match {
             case Some(certificateNumber) => retainSuccess(certificateNumber)
             case _ => microServiceErrorResult(message = "Certificate number not found in response")
           }
       }
 
     def vrmRetentionRetainSuccessResponse(responseStatusVRMRetentionRetainMS: Int,
-                                               vrmRetentionRetainResponse: Option[VRMRetentionRetainResponse])
-                                              (implicit request: Request[_]) =
+                                          vrmRetentionRetainResponse: Option[VRMRetentionRetainResponse])
+                                         (implicit request: Request[_]) =
       responseStatusVRMRetentionRetainMS match {
         case OK =>
           vrmRetentionRetainResponse match {
-            case Some(response) => createResultFromVRMRetentionRetainResponse(response)
+            case Some(response) => createResultFromVrmRetentionRetainResponse(response)
             case _ => microServiceErrorResult("No vrmRetentionRetainResponse found") // TODO write test to achieve code coverage.
           }
         case _ => microServiceErrorResult(s"VRM Retention Retain Response web service call http status not OK, it was: $responseStatusVRMRetentionRetainMS. Problem may come from either vrm-retention-retain micro-service or the VSS")

@@ -5,7 +5,6 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.common.VehicleDetailsModel
 import models.domain.vrm_retention._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
@@ -23,10 +22,10 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getModel[RetainModel]) match {
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(retainModel)) =>
-          val successViewModel = createViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, retainModel)
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(retainModel)) =>
-          val successViewModel = createViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel)
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case _ =>
           Redirect(routes.MicroServiceError.present())
@@ -55,51 +54,5 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
 
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
-  }
-
-  // TODO merge these two create methods together
-  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-                              eligibilityModel: EligibilityModel,
-                              businessDetailsModel: BusinessDetailsModel,
-                              retainModel: RetainModel): SuccessViewModel = {
-
-    SuccessViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
-      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
-      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
-      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
-      businessName = Some(businessDetailsModel.businessName),
-      businessContact = Some(businessDetailsModel.businessContact),
-      businessAddress = Some(businessDetailsModel.businessAddress),
-      replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      retainModel.certificateNumber,
-      retainModel.transactionId,
-      retainModel.transactionTimestamp
-    )
-  }
-
-  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-                              eligibilityModel: EligibilityModel,
-                              retainModel: RetainModel): SuccessViewModel = {
-
-    SuccessViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
-      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
-      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
-      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
-      businessName = None,
-      businessContact = None,
-      businessAddress = None,
-      replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      retainModel.certificateNumber,
-      retainModel.transactionId,
-      retainModel.transactionTimestamp
-    )
   }
 }
