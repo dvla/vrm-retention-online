@@ -15,10 +15,10 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[BusinessDetailsModel]) match {
         case (Some(vehicleAndKeeperDetails), Some(businessDetailsModel)) =>
-          val confirmViewModel = createViewModel(vehicleAndKeeperDetails, businessDetailsModel)
+          val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, businessDetailsModel)
           Ok(views.html.vrm_retention.confirm(confirmViewModel))
         case (Some(vehicleAndKeeperDetails), None) =>
-          val confirmViewModel = createViewModel(vehicleAndKeeperDetails)
+          val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_retention.confirm(confirmViewModel))
         case _ =>
           Redirect(routes.VehicleLookup.present())
@@ -33,32 +33,4 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     Redirect(routes.BeforeYouStart.present())
       .discardingCookies(RelatedCacheKeys.FullSet)
   }
-
-  // TODO merge these two create methods together
-  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-                              businessDetailsModel: BusinessDetailsModel): ConfirmViewModel =
-    ConfirmViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
-      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
-      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
-      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
-      businessName = Some(businessDetailsModel.businessName),
-      businessContact = Some(businessDetailsModel.businessContact),
-      businessAddress = Some(businessDetailsModel.businessAddress)
-    )
-
-  private def createViewModel(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): ConfirmViewModel =
-    ConfirmViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
-      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
-      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
-      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
-      None, None, None
-    )
 }
