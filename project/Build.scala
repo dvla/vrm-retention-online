@@ -131,5 +131,5 @@ object ApplicationBuild extends Build {
         else
           Some("releases" at s"$nexus/releases")
       }
-    )
+    ).settings(credentials ++= Seq(Credentials(Path.userHome / ".sbt/.credentials")))
 }
