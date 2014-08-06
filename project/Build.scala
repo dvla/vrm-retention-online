@@ -5,20 +5,17 @@ import net.litola.SassPlugin
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import org.scalastyle.sbt.ScalastylePlugin
 import templemore.sbt.cucumber.CucumberPlugin
+import Sandbox._
+import CommonResolvers._
 
 object ApplicationBuild extends Build {
   val appName         = "vrm-retention-online"
 
   val appVersion      = "1.0-SNAPSHOT"
 
-  val nexus = "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories"
-
   val appDependencies = Seq(
     cache,
     filters,
-//    "dvla" %% "os-address-lookup" % "0.1" % "test" withSources() withJavadoc(),
-//    "dvla" %% "vehicles-lookup" % "0.1" % "test" withSources() withJavadoc(),
-//    "dvla" %% "vehicles-dispose-fulfil" % "0.1" % "test" withSources() withJavadoc(),
     "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-scala_2.10" % "1.1.7" % "test" withSources() withJavadoc(),
@@ -97,6 +94,29 @@ object ApplicationBuild extends Build {
   val appSettings: Seq[Def.Setting[_]] = myOrganization ++ SassPlugin.sassSettings ++ myScalaVersion ++ compilerOptions ++ myConcurrentRestrictions ++
     myTestOptions ++ excludeTest ++ myJavaOptions ++ fork ++ jcoco ++ scalaCheck ++ requireJsSettings ++ cukes
 
+  lazy val theRootProject = play.Project(
+    appName,
+    appVersion,
+    appDependencies,
+    settings = play.Project.playScalaSettings ++
+      jacoco.settings ++
+      scoverageSettings ++
+      CoverallsPlugin.coverallsSettings ++
+      ScalastylePlugin.Settings
+  ).settings(appSettings: _*)
+    .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+    .settings(resolvers ++= projectResolvers)
+    .settings(
+      publishTo <<= version { v: String =>
+        if (v.trim.endsWith("SNAPSHOT"))
+          Some("snapshots" at s"$nexus/snapshots")
+        else
+          Some("releases" at s"$nexus/releases")
+      }
+    )
+    .settings(credentials ++= Seq(Credentials(Path.userHome / ".sbt/.credentials")))
+    .settings(sandboxSettings: _*)
+
   lazy val scoverageSettings = {
     import ScoverageSbtPlugin._
     instrumentSettings ++
@@ -107,29 +127,7 @@ object ApplicationBuild extends Build {
     )
   }
 
-  val main = play.Project(
-    appName,
-    appVersion,
-    appDependencies,
-    settings = play.Project.playScalaSettings ++
-      jacoco.settings ++
-      scoverageSettings ++
-      CoverallsPlugin.coverallsSettings ++
-      ScalastylePlugin.Settings
-  ).settings(appSettings: _*)
-   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
-   .settings(
-      resolvers ++= Seq(
-        "spray repo" at "http://repo.spray.io/",
-        "local nexus snapshots" at s"$nexus/snapshots",
-        "local nexus releases" at s"$nexus/releases"
-      )
-    ).settings(
-      publishTo <<= version { v: String =>
-        if (v.trim.endsWith("SNAPSHOT"))
-          Some("snapshots" at s"$nexus/snapshots")
-        else
-          Some("releases" at s"$nexus/releases")
-      }
-    ).settings(credentials ++= Seq(Credentials(Path.userHome / ".sbt/.credentials")))
+  override def rootProject = Some(theRootProject)
+
+  override def projects = Seq(theRootProject, osAddressLookup, vehiclesLookup, vehiclesDisposeFulfil, legacyStubs, gatlingTests)
 }
