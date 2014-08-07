@@ -29,7 +29,13 @@ object Sandbox extends Plugin {
   final val VersionGatling = "1.0-SNAPSHOT"
   final val VersionGatlingApp = "2.0.0-M4-NAP"
 
-  val legacyServicesStubsPort = 18086
+  final val OsAddressLookupPort = 18801
+  final val VehicleLookupPort = 18802
+  final val VehicleAndKeeperLookupPort = 18803
+  final val VrmRetentionEligibilityPort = 18804
+  final val VrmRetentionRetainPort = 18805
+  final val LegacyServicesStubsPort = 18806
+
   val secretProperty = "DECRYPT_PASSWORD"
   val secretProperty2 = "GIT_SECRET_PASSPHRASE"
   val gitHost = "gitlab.preview-dvla.co.uk"
@@ -93,60 +99,79 @@ object Sandbox extends Plugin {
       fullClasspath.all(scopeOsAddressLookup).value.flatten,
       Some(ConfigDetails(
         secretRepoFolder,
-        classDirectory.all(scopeOsAddressLookup).value.head,
         "ms/dev/os-address-lookup.conf.enc",
-        osAddressLookup.id
+        Some(ConfigOutput(
+          new File(classDirectory.all(scopeOsAddressLookup).value.head, s"${osAddressLookup.id}.conf"),
+          setServicePort(OsAddressLookupPort)
+        ))
       ))
     )
     runProject(
       fullClasspath.all(scopeVehiclesLookup).value.flatten,
       Some(ConfigDetails(
         secretRepoFolder,
-        classDirectory.all(scopeVehiclesLookup).value.head,
         "ms/dev/vehicles-lookup.conf.enc",
-        vehiclesLookup.id,
-        updatePropertyPort("getVehicleDetails.baseurl", legacyServicesStubsPort)
+        Some(ConfigOutput(
+          new File(classDirectory.all(scopeVehiclesLookup).value.head, s"${vehiclesLookup.id}.conf"),
+          setServicePortAndLegacyServicesPort(VehicleLookupPort, "getVehicleDetails.baseurl", LegacyServicesStubsPort)
+        ))
       ))
     )
     runProject(
       fullClasspath.all(scopeVehicleAndKeeperLookup).value.flatten,
-        Some(ConfigDetails(
-          secretRepoFolder,
-          classDirectory.all(scopeVehicleAndKeeperLookup).value.head,
-          "ms/dev/vehicle-and-keeper-lookup.conf.enc",
-          vehicleAndKeeperLookup.id,
-          updatePropertyPort("getVehicleAndKeeperDetails.baseurl", legacyServicesStubsPort)
+      Some(ConfigDetails(
+        secretRepoFolder,
+        "ms/dev/vehicle-and-keeper-lookup.conf.enc",
+        Some(ConfigOutput(
+          new File(classDirectory.all(scopeVehicleAndKeeperLookup).value.head, s"${vehicleAndKeeperLookup.id}.conf"),
+          setServicePortAndLegacyServicesPort(
+            VehicleAndKeeperLookupPort,
+            "getVehicleAndKeeperDetails.baseurl",
+            LegacyServicesStubsPort
+          )
+        ))
       ))
     )
     runProject(
       fullClasspath.all(scopeVrmRetentionEligibility).value.flatten,
       Some(ConfigDetails(
         secretRepoFolder,
-        classDirectory.all(scopeVrmRetentionEligibility).value.head,
         "ms/dev/vrm-retention-eligibility.conf.enc",
-        vrmRetentionEligibility.id,
-        updatePropertyPort("validateRetain.url", legacyServicesStubsPort)
+        Some(ConfigOutput(
+          new File(classDirectory.all(scopeVrmRetentionEligibility).value.head, s"${vrmRetentionEligibility.id}.conf"),
+          setServicePortAndLegacyServicesPort(
+            VrmRetentionEligibilityPort,
+            "validateRetain.url",
+            LegacyServicesStubsPort
+          )
+        ))
       ))
     )
     runProject(
       fullClasspath.all(scopeVrmRetentionRetain).value.flatten,
       Some(ConfigDetails(
         secretRepoFolder,
-        classDirectory.all(scopeVrmRetentionRetain).value.head,
         "ms/dev/vrm-retention-retain.conf.enc",
-        vrmRetentionRetain.id,
-        updatePropertyPort("retain.url", legacyServicesStubsPort)
+        Some(ConfigOutput(
+          new File(classDirectory.all(scopeVrmRetentionRetain).value.head, s"${vrmRetentionRetain.id}.conf"),
+          setServicePortAndLegacyServicesPort(VrmRetentionRetainPort, "retain.url", LegacyServicesStubsPort)
+        ))
       ))
     )
     runProject(
       fullClasspath.all(scopeLegacyStubs).value.flatten,
       None,
-      runJavaMain("service.LegacyServicesRunner", Array(legacyServicesStubsPort.toString))
+      runJavaMain("service.LegacyServicesRunner", Array(LegacyServicesStubsPort.toString))
     )
   }
 
   lazy val sandbox = taskKey[Unit]("Runs the whole sandbox for manual testing including microservices, webapp and legacy stubs'")
   lazy val sandboxTask = sandbox <<= (runMicroServices, (run in Runtime).toTask("")) { (body, stop) =>
+    System.setProperty("vehicleLookupMicroServiceUrlBase", s"http://localhost:$VehicleLookupPort")
+    System.setProperty("vehicleAndKeeperLookupMicroServiceUrlBase", s"http://localhost:$VehicleAndKeeperLookupPort")
+    System.setProperty("vrmRetentionEligibilityMicroServiceUrlBase", s"http://localhost:$VrmRetentionEligibilityPort")
+    System.setProperty("vrmRetentionRetainMicroServiceUrlBase", s"http://localhost:$VrmRetentionRetainPort")
+    System.setProperty("ordnancesurvey.ms.url", s"http://localhost:$OsAddressLookupPort")
     body.flatMap(t => stop)
   }
 
@@ -266,18 +291,20 @@ object Sandbox extends Plugin {
   }
 
   case class ConfigDetails(secretRepo: File,
-                          classDirectory: File,
                           encryptedConfig: String,
-                          decryptedConfig: String,
-                          decryptedTransform: String => String = a => a)
+                          output: Option[ConfigOutput],
+                          systemPropertySetter: String => Unit = a => ())
+
+  case class ConfigOutput(decryptedOutput: File, transform: String => String = a => a)
 
   def runProject(prjClassPath: Seq[Attributed[File]],
-                 configPair: Option[ConfigDetails],
+                 configDetails: Option[ConfigDetails],
                  runMainMethod: (ClassLoader) => Any = runScalaMain("dvla.microservice.Boot")): Any = {
-    configPair.map { case ConfigDetails(secretRepo, classDir, encryptedConfig, decryptedConfig, decryptedTransform) =>
+    configDetails.map { case ConfigDetails(secretRepo, encryptedConfig, output, systemPropertySetter) =>
       val encryptedConfigFile = new File(secretRepo, encryptedConfig)
-      val decryptedConfigFile = new java.io.File(classDir, s"$decryptedConfig.conf")
-      decryptFile(secretRepo.getAbsolutePath, encryptedConfigFile, decryptedConfigFile, decryptedTransform)
+      output.map { case ConfigOutput(decryptedOutput, transform)=>
+        decryptFile(secretRepo.getAbsolutePath, encryptedConfigFile, decryptedOutput, transform)
+      }
     }
 
     val prjClassloader = new URLClassLoader(
@@ -307,6 +334,17 @@ object Sandbox extends Plugin {
 
     val transformedFile = decryptedTransform(FileUtils.readFileToString(dest))
     FileUtils.writeStringToFile(dest, transformedFile)
+  }
+
+  def setServicePortAndLegacyServicesPort(servicePort: Int, urlProperty: String, newPort: Int)
+                                         (properties: String): String =
+    setServicePort(servicePort)(updatePropertyPort(urlProperty, newPort)(properties))
+
+  def setServicePort(servicePort: Int)(properties: String): String = {
+    s"""
+    |$properties
+    |port=$servicePort
+    """.stripMargin
   }
 
   def updatePropertyPort(urlProperty: String, newPort: Int)(properties: String): String = {
