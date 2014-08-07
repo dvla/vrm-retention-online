@@ -19,7 +19,9 @@ object CommonResolvers {
 object Sandbox extends Plugin {
   final val VersionOsAddressLookup = "0.1-SNAPSHOT"
   final val VersionVehiclesLookup = "0.1-SNAPSHOT"
-  final val VersionVehiclesDisposeFulfil = "0.1-SNAPSHOT"
+  final val VersionVehicleAndKeeperLookup = "0.1-SNAPSHOT"
+  final val VersionVrmRetentionEligibility = "0.1-SNAPSHOT"
+  final val VersionVrmRetentionRetain = "0.1-SNAPSHOT"
   final val VersionLegacyStubs = "1.0-SNAPSHOT"
   final val VersionJetty = "9.2.1.v20140609"
   final val VersionSpringWeb = "3.0.7.RELEASE"
@@ -55,8 +57,12 @@ object Sandbox extends Plugin {
     sandProject("os-address-lookup","dvla" %% "os-address-lookup" % VersionOsAddressLookup)
   lazy val (vehiclesLookup, scopeVehiclesLookup) =
     sandProject("vehicles-lookup", "dvla" %% "vehicles-lookup" % VersionVehiclesLookup)
-  lazy val (vehiclesDisposeFulfil, scopeVehiclesDisposeFulfil) =
-    sandProject("vehicles-dispose-fulfil", "dvla" %% "vehicles-dispose-fulfil" % VersionVehiclesDisposeFulfil)
+  lazy val (vehicleAndKeeperLookup, scopeVehicleAndKeeperLookup) =
+    sandProject("vehicle-and-keeper-lookup", "dvla" %% "vehicle-and-keeper-lookup" % VersionVehicleAndKeeperLookup)
+  lazy val (vrmRetentionEligibility, scopeVrmRetentionEligibility) =
+    sandProject("vrm-retention-eligibility", "dvla" %% "vrm-retention-eligibility" % VersionVrmRetentionEligibility)
+  lazy val (vrmRetentionRetain, scopeVrmRetentionRetain) =
+    sandProject("vrm-retention-retain", "dvla" %% "vrm-retention-retain" % VersionVrmRetentionRetain)
   lazy val (legacyStubs, scopeLegacyStubs) = sandProject(
     name = "legacy-stubs",
     "dvla-legacy-stub-services" % "legacy-stub-services-service" % VersionLegacyStubs,
@@ -71,7 +77,7 @@ object Sandbox extends Plugin {
     "uk.gov.dvla" % "vehicles-gatling" % VersionVehiclesGatling
   )
 
-  lazy val sandboxedProjects = Seq(osAddressLookup, vehiclesLookup, vehiclesDisposeFulfil, legacyStubs)
+  lazy val sandboxedProjects = Seq(osAddressLookup, vehiclesLookup, vehicleAndKeeperLookup, legacyStubs)
 
   lazy val vehiclesOnline = ScopeFilter(inProjects(ThisProject), inConfigurations(Runtime))
 
@@ -103,14 +109,34 @@ object Sandbox extends Plugin {
       ))
     )
     runProject(
-      fullClasspath.all(scopeVehiclesDisposeFulfil).value.flatten,
+      fullClasspath.all(scopeVehicleAndKeeperLookup).value.flatten,
         Some(ConfigDetails(
           secretRepoFolder,
-          classDirectory.all(scopeVehiclesDisposeFulfil).value.head,
-          "ms/dev/vehicles-dispose-fulfil.conf.enc",
-          vehiclesDisposeFulfil.id,
-          updatePropertyPort("vss.baseurl", legacyServicesStubsPort)
-        ))
+          classDirectory.all(scopeVehicleAndKeeperLookup).value.head,
+          "ms/dev/vehicle-and-keeper-lookup.conf.enc",
+          vehicleAndKeeperLookup.id,
+          updatePropertyPort("getVehicleAndKeeperDetails.baseurl", legacyServicesStubsPort)
+      ))
+    )
+    runProject(
+      fullClasspath.all(scopeVrmRetentionEligibility).value.flatten,
+      Some(ConfigDetails(
+        secretRepoFolder,
+        classDirectory.all(scopeVrmRetentionEligibility).value.head,
+        "ms/dev/vrm-retention-eligibility.conf.enc",
+        vrmRetentionEligibility.id,
+        updatePropertyPort("validateRetain.url", legacyServicesStubsPort)
+      ))
+    )
+    runProject(
+      fullClasspath.all(scopeVrmRetentionRetain).value.flatten,
+      Some(ConfigDetails(
+        secretRepoFolder,
+        classDirectory.all(scopeVrmRetentionRetain).value.head,
+        "ms/dev/vrm-retention-retain.conf.enc",
+        vrmRetentionRetain.id,
+        updatePropertyPort("retain.url", legacyServicesStubsPort)
+      ))
     )
     runProject(
       fullClasspath.all(scopeLegacyStubs).value.flatten,

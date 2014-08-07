@@ -129,5 +129,14 @@ object ApplicationBuild extends Build {
 
   override def rootProject = Some(theRootProject)
 
-  override def projects = Seq(theRootProject, osAddressLookup, vehiclesLookup, vehiclesDisposeFulfil, legacyStubs, gatlingTests)
+  override def projects = Seq(
+    theRootProject,
+    osAddressLookup,
+    vehiclesLookup,
+    vehicleAndKeeperLookup,
+    vrmRetentionEligibility,
+    vrmRetentionRetain,
+    legacyStubs,
+    gatlingTests
+  )
 }
