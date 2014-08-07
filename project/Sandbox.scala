@@ -29,6 +29,7 @@ object Sandbox extends Plugin {
   final val VersionGatling = "1.0-SNAPSHOT"
   final val VersionGatlingApp = "2.0.0-M4-NAP"
 
+  final val HttpsPort = 18443
   final val OsAddressLookupPort = 18801
   final val VehicleLookupPort = 18802
   final val VehicleAndKeeperLookupPort = 18803
@@ -212,10 +213,13 @@ object Sandbox extends Plugin {
 
   lazy val runAsync = taskKey[Unit]("Runs the play application")
   lazy val runAsyncTask = runAsync := {
+    System.setProperty("https.port", HttpsPort.toString)
+    System.setProperty("http.port", "disabled")
+    System.setProperty("baseUrl", s"https://localhost:$HttpsPort")
     runProject(
       fullClasspath.in(Test).value,
       None,
-      runScalaMain("utils.helpers.RunPlayApp", Array((baseDirectory in ThisProject).value.getAbsolutePath))
+      runScalaMain("play.core.server.NettyServer", Array((baseDirectory in ThisProject).value.getAbsolutePath))
     )
   }
 
