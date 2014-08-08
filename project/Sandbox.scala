@@ -179,24 +179,20 @@ object Sandbox extends Plugin {
   lazy val testGatling = taskKey[Unit]("Runs the gatling test")
   lazy val testGatlingTask = testGatling := {
     val classPath = fullClasspath.all(scopeGatlingTests).value.flatten
+    val targetFolder = target.in(gatlingTests).value.getAbsolutePath
+    val vehiclesGatlingExtractDir = new File(s"$targetFolder/gatlingJarExtract")
 
     def extractVehiclesGatlingJar(toFolder: File) =
       classPath.find(_.data.toURI.toURL.toString.endsWith(s"vehicles-gatling-$VersionVehiclesGatling.jar"))
         .map { jar => IO.unzip(new File(jar.data.toURI.toURL.getFile), toFolder)}
 
-    val targetFolder = target.in(gatlingTests).value.getAbsolutePath
-    val vehiclesGatlingExtractDir = new File(s"$targetFolder/gatlingJarExtract")
-    IO.delete(vehiclesGatlingExtractDir)
-    vehiclesGatlingExtractDir.mkdirs()
-    extractVehiclesGatlingJar(vehiclesGatlingExtractDir)
-    System.setProperty("gatling.core.disableCompiler", "true")
-    runProject(
+    def simulation(arg: String): Unit = runProject(
       classPath,
       None,
       runJavaMain(
         mainClassName = "io.gatling.app.Gatling",
         args = Array(
-          "--simulation", "uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndFullKeeperAddress",
+          "--simulation", arg,
           "--data-folder", s"${vehiclesGatlingExtractDir.getAbsolutePath}/data",
           "--results-folder", s"$targetFolder/gatling",
           "--request-bodies-folder", s"$targetFolder/request-bodies"
@@ -209,6 +205,14 @@ object Sandbox extends Plugin {
         println("Gatling execution FAILURE")
         throw new Exception(s"Gatling run exited with error $exitCode")
     }
+
+    IO.delete(vehiclesGatlingExtractDir)
+    vehiclesGatlingExtractDir.mkdirs()
+    extractVehiclesGatlingJar(vehiclesGatlingExtractDir)
+    System.setProperty("gatling.core.disableCompiler", "true")
+
+    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndFullKeeperAddress") // Happy Path with full keeper address (4 address lines, plus post town and postcode)
+    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndPartialKeeperAddress") // Happy Path with partial keeper address
   }
 
   lazy val runAsync = taskKey[Unit]("Runs the play application")
