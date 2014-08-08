@@ -6,7 +6,6 @@ import play.api.libs.json.Json
 
 final case class ConfirmFormModel(emailAddress: Option[String])
 
-
 object ConfirmFormModel {
 
   implicit val JsonFormat = Json.format[ConfirmFormModel]

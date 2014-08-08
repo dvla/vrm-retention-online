@@ -1,21 +1,20 @@
 @(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel,
    confirmForm: Form[models.domain.vrm_retention.ConfirmFormModel])(implicit lang: Lang,
-   token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,config: utils.helpers.Config)
+   token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+   config: utils.helpers.Config)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
 @import views.html.helper.base._
 @import utils.helpers._
-@import controllers.vrm_retention.routes.{Confirm, Payment}
 @import mappings.vrm_retention.Confirm._
 @import views.html.vrm_retention.main
 
 @main(
     title = Messages("vrm_retention_confirm.title")
 ) {
-
     @Messages("vrm_retention_confirm.intro")
-<p></p>
+    <p></p>
     <div class="two-col">
         <div class="first-col">
             <h2>@Messages("vrm_retention_confirm.keeperTitle")</h2>
@@ -47,56 +46,55 @@
         </div>
     </div>
 
-@form(action = controllers.vrm_retention.routes.Confirm.submit()) {
-
-    <div class="two-col">
-        <div class="first-col">
-            <h2>@Messages("vrm_retention_confirm.emailAddressTitle")</h2>
-            @valtechInputText(confirmForm(EmailAddressID), args =
-            Map('_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
-            'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
-            '_showConstraints -> false))
-
-
-        </div>
-        <div class="second-col">
-        </div>
-    </div>
-
-    @if(confirmViewModel.businessName.isDefined) {
-    <p>@Messages("vrm_retention_confirm.isBusiness")</p>
-    <div class="two-col">
-        <div class="first-col">
-            <h2>@Messages("vrm_retention_confirm.businessDetailsTitle")</h2>
-            <dl class="summary-detail-list first-line">
-                <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
-                <dd>@confirmViewModel.businessName</dd>
-                <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
-                <dd>@confirmViewModel.businessContact</dd>
-                <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-                <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
-                    @businessAddressLine<br>
-                }</dd>
-                <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-                <dd>@confirmViewModel.businessAddress.get.address.last</dd>
-            </dl>
-        </div>
-        <div class="second-col">
-        </div>
-    </div>
-
- }
-
-    @*<div class="alert-warning">*@
-        @*<p>@Messages("vrm_retention_confirm.warn")</p>*@
-    @*</div>*@
-
-    <div class="form-steps">
+    @form(action = controllers.vrm_retention.routes.Confirm.submit()) {
         @CsrfHelper.hiddenFormField
-        @* Note the reverse routing syntax for the hyperlink *@
-        <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
-        <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
-    </div>
-}
+        <div class="two-col">
+            <div class="first-col">
+                <h2>@Messages("vrm_retention_confirm.emailAddressTitle")</h2>
+                @valtechInputText(confirmForm(EmailAddressId),
+                    args = Map(
+                        '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+                        'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
+                        '_showConstraints -> false
+                    )
+                )
+            </div>
+            <div class="second-col">
+            </div>
+        </div>
+
+        @if(confirmViewModel.businessName.isDefined) {
+            <p>@Messages("vrm_retention_confirm.isBusiness")</p>
+            <div class="two-col">
+                <div class="first-col">
+                    <h2>@Messages("vrm_retention_confirm.businessDetailsTitle")</h2>
+                    <dl class="summary-detail-list first-line">
+                        <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
+                        <dd>@confirmViewModel.businessName</dd>
+                        <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
+                        <dd>@confirmViewModel.businessContact</dd>
+                        <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
+                        <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
+                            @businessAddressLine<br>
+                        }</dd>
+                        <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
+                        <dd>@confirmViewModel.businessAddress.get.address.last</dd>
+                    </dl>
+                </div>
+                <div class="second-col">
+                </div>
+            </div>
+        }
+
+        @*<div class="alert-warning">*@
+            @*<p>@Messages("vrm_retention_confirm.warn")</p>*@
+        @*</div>*@
+
+        <div class="form-steps">
+            @* Note the reverse routing syntax for the hyperlink *@
+            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
+            <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+        </div>
+    }
 
 }

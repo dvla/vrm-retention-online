@@ -1,5 +1,6 @@
-@(vehicleAndKeeperLookupForm: Form[models.domain.vrm_retention.VehicleAndKeeperLookupFormModel])(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+@(vehicleAndKeeperLookupForm: Form[models.domain.vrm_retention.VehicleAndKeeperLookupFormModel])(implicit lang: Lang,
+    token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config)
 
 @import helper._
 @import utils.helpers.BaseTemplate._
@@ -9,46 +10,48 @@
 @import mappings.common.DocumentReferenceNumber
 @import mappings.common.VehicleRegistrationNumber
 @import mappings.common.Postcode
-@import mappings.vrm_retention.KeeperConsent
 @import views.html.vrm_retention.main
-@import controllers.vrm_retention.routes.VehicleLookup
 @import views.html.helper.listRadioGroup
 
 @main(
     title = Messages("vrm_retention_vehiclelookup.title"),
     currentForm = Some(vehicleAndKeeperLookupForm)
 ) {
-
     @form(action = controllers.vrm_retention.routes.VehicleLookup.submit()) {
-
-    @CsrfHelper.hiddenFormField
-
-		<div class="two-col clearfix">
-                <div class="uppercase-input first-col">
+        @CsrfHelper.hiddenFormField
+        <div class="two-col clearfix">
+            <div class="uppercase-input first-col">
                 <p>@Messages("vrm_retention_vehiclelookup.intro")</p>
 
-				@valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), args =
-                    Map('_label -> Messages("vrm_retention_vehiclelookup.vrninputlabel"),
-                    'maxLength -> VehicleRegistrationNumber.MaxLength,
-                    'hint -> Messages("vrm_retention_vehiclelookup.vrnHint"),
-                    '_showConstraints -> false))
-				
-			    @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId), args =
-                    Map('_label -> Messages("vrm_retention_vehiclelookup.refnumlabel"),
-                    'hint -> Messages("vrm_retention_vehiclelookup.refnumHint"),
-                    '_showConstraints -> false,
-                    //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
-                    'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                    //'title -> Messages("error.validDocumentReferenceNumber")
-                    'title -> Messages("")
-                ))
+                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
+                    args = Map(
+                        '_label -> Messages("vrm_retention_vehiclelookup.vrninputlabel"),
+                        'maxLength -> VehicleRegistrationNumber.MaxLength,
+                        'hint -> Messages("vrm_retention_vehiclelookup.vrnHint"),
+                        '_showConstraints -> false
+                    )
+                )
 
-                @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId), args =
-                Map('_label -> Messages("vrm_retention_vehiclelookup.postcodelabel"),
-                '_showConstraints -> false,
-                'maxLength -> Postcode.MaxLength,
-                'hint -> Messages("vrm_retention_vehiclelookup.postcodeHint")
-                ))
+                @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId),
+                    args = Map(
+                        '_label -> Messages("vrm_retention_vehiclelookup.refnumlabel"),
+                        'hint -> Messages("vrm_retention_vehiclelookup.refnumHint"),
+                        '_showConstraints -> false,
+                        //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
+                        'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
+                        //'title -> Messages("error.validDocumentReferenceNumber")
+                        'title -> Messages("")
+                    )
+                )
+
+                @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId),
+                    args = Map(
+                        '_label -> Messages("vrm_retention_vehiclelookup.postcodelabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> Postcode.MaxLength,
+                        'hint -> Messages("vrm_retention_vehiclelookup.postcodeHint")
+                    )
+                )
 
                 @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
                     args = Map(
@@ -61,9 +64,9 @@
                     )
                 )
 
-				@{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
+                @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_vehiclelookup.button")</button> 
+                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_vehiclelookup.button")</button>
                     <a id="@BackId" href="@controllers.vrm_retention.routes.VehicleLookup.back()" class="button-secondary">@Messages("vrm_retention_vehiclelookup.backbutton")</a>
                     <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
