@@ -1,8 +1,13 @@
-@(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,config: utils.helpers.Config)
+@(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel,
+   confirmForm: Form[models.domain.vrm_retention.ConfirmFormModel])(implicit lang: Lang,
+   token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,config: utils.helpers.Config)
 
+@import helper._
+@import utils.helpers.BaseTemplate._
+@import views.html.helper.base._
+@import utils.helpers._
 @import controllers.vrm_retention.routes.{Confirm, Payment}
 @import mappings.vrm_retention.Confirm._
-@import utils.helpers._
 @import views.html.vrm_retention.main
 
 @main(
@@ -47,8 +52,13 @@
     <div class="two-col">
         <div class="first-col">
             <h2>@Messages("vrm_retention_confirm.emailAddressTitle")</h2>
-            <p>@Messages("vrm_retention_confirm.emailAddressHeading")</p>
-            @Messages("vrm_retention_confirm.emailAddressField")
+            @valtechInputText(confirmForm("emailAddress"), args =
+            Map('_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+            'maxLength -> "500",
+            'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
+            '_showConstraints -> false))
+
+
         </div>
         <div class="second-col">
         </div>

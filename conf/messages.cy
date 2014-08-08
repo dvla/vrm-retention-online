@@ -414,4 +414,5 @@ mandatory = Meysydd nad ydynt wedi''u labelu (dewisol) yn orfodol
 #Confirm page
 
 vrm_retention_confirm.emailAddressTitle = Ceidwad cyfeiriad e-bost
-vrm_retention_confirm.emailAddressHeading = Rhowch gyfeiriad y ceidwad pe dymunwch i ni anfon atynt gopi o'r trafodiad a gwblhawyd
+vrm_retention_confirm.emailAddressLabel = Rhowch gyfeiriad y ceidwad pe dymunwch i ni anfon atynt gopi o'r trafodiad a gwblhawyd
+vrm_retention_confirm.emailAddressHint = Mae'r cyfeiriad e-bost yr ydych am gael copi o'r trafodiad wedi'i gwblhau a anfonwyd at

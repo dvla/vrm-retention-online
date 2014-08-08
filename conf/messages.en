@@ -529,8 +529,8 @@ vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
 vrm_retention_confirm.button = Confirm
 vrm_retention_confirm.emailAddressTitle = Keeper e-mail address
-vrm_retention_confirm.emailAddressHeading = Please enter the keeper's address should you wish us to send to them a copy of the completed transaction
-
+vrm_retention_confirm.emailAddressLabel = Please enter the keeper's address should you wish us to send to them a copy of the completed transaction
+vrm_retention_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 
 vrm_retention_exit.button = Exit
 
