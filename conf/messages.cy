@@ -405,3 +405,13 @@ disposal_disposefailure.button3=Print
 ms.vehiclesService.response.unableToProcessApplication-address=DVLA, Longview Road, Morriston, Abertawe, SA6 7JL
 
 mandatory = Meysydd nad ydynt wedi''u labelu (dewisol) yn orfodol
+
+
+#
+# vrm retention messages
+#
+
+#Confirm page
+
+vrm_retention_confirm.emailAddressTitle = Ceidwad cyfeiriad e-bost
+vrm_retention_confirm.emailAddressHeading = Rhowch gyfeiriad y ceidwad pe dymunwch i ni anfon atynt gopi o'r trafodiad a gwblhawyd

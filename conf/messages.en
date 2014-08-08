@@ -528,6 +528,9 @@ vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
 vrm_retention_confirm.button = Confirm
+vrm_retention_confirm.emailAddressTitle = Keeper e-mail address
+vrm_retention_confirm.emailAddressHeading = Please enter the keeper's address should you wish us to send to them a copy of the completed transaction
+
 
 vrm_retention_exit.button = Exit
 
