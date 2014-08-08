@@ -196,7 +196,7 @@ object Sandbox extends Plugin {
       runJavaMain(
         mainClassName = "io.gatling.app.Gatling",
         args = Array(
-          "--simulation", "uk.gov.dvla.SmokeTestSimulation",
+          "--simulation", "uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndFullKeeperAddress",
           "--data-folder", s"${vehiclesGatlingExtractDir.getAbsolutePath}/data",
           "--results-folder", s"$targetFolder/gatling",
           "--request-bodies-folder", s"$targetFolder/request-bodies"
