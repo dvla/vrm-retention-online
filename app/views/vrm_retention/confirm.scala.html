@@ -47,7 +47,7 @@
         </div>
     </div>
 
-
+@form(action = controllers.vrm_retention.routes.Confirm.submit()) {
 
     <div class="two-col">
         <div class="first-col">
@@ -62,7 +62,6 @@
         <div class="second-col">
         </div>
     </div>
-
 
     @if(confirmViewModel.businessName.isDefined) {
     <p>@Messages("vrm_retention_confirm.isBusiness")</p>
@@ -95,7 +94,9 @@
     <div class="form-steps">
         @CsrfHelper.hiddenFormField
         @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@ConfirmId" href="@Payment.present()">@Messages("vrm_retention_confirm.button")</a>
+        <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
         <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
     </div>
+}
+
 }

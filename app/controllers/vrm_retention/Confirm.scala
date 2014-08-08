@@ -16,7 +16,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
 
    val form = Form(
     mapping(
-      EmailAddressID -> email
+      EmailAddressID -> optional(email)
   )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   )
 
