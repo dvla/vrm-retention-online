@@ -52,9 +52,8 @@
     <div class="two-col">
         <div class="first-col">
             <h2>@Messages("vrm_retention_confirm.emailAddressTitle")</h2>
-            @valtechInputText(confirmForm("emailAddress"), args =
+            @valtechInputText(confirmForm(EmailAddressID), args =
             Map('_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
-            'maxLength -> "500",
             'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
             '_showConstraints -> false))
 

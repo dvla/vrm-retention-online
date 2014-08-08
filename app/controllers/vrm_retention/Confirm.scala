@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
+import mappings.vrm_retention.Confirm.EmailAddressID
 import models.domain.vrm_retention._
 import play.api.data.Form
 import play.api.data.Forms._
@@ -15,8 +16,8 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
 
    val form = Form(
     mapping(
-      "EmailAddress" -> nonEmptyText
-    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
+      EmailAddressID -> email
+  )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   )
 
   def present = Action {
