@@ -219,6 +219,7 @@ object Sandbox extends Plugin {
     simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperVeryLongMakeAndModel")
     // Sad paths
     simulation("uk.gov.dvla.retention.simulations.sad.VrmNotFound")
+    simulation("uk.gov.dvla.retention.simulations.sad.EligibilityCheckDirectToPaper")
   }
 
   lazy val runAsync = taskKey[Unit]("Runs the play application")
