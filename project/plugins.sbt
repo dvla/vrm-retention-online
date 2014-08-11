@@ -28,3 +28,5 @@ addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4")
 addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.98.0")
 
 addSbtPlugin("com.sksamuel.scoverage" %% "sbt-coveralls" % "0.0.5")
+
+addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
