@@ -39,9 +39,6 @@ scalaVersion := "2.10.3"
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
 lazy val root = (project in file("."))
-  .dependsOn(vehiclesPresentationCommon)
-
-lazy val vehiclesPresentationCommon = project.in(file("vehicles-presentation-common"))
 
 playScalaSettings
 
@@ -59,11 +56,13 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
   "org.scalatest" % "scalatest_2.10" % "2.2.0" % "test" withSources() withJavadoc(),
   "com.google.inject" % "guice" % "4.0-beta4" withSources() withJavadoc(),
+  "com.google.guava" % "guava" % "15.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
   "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
   "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
   "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc(),
   "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
-  "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc()
+  "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
+  "dvla" %% "vehicles-presentation-common" % "1.0-SNAPSHOT" withSources() withJavadoc()
 )
 
 val jsModulesToOptimise = Seq("custom.js")
@@ -76,7 +75,7 @@ requireJsShim := jsConfig
 
 CucumberPlugin.cucumberSettings ++
   Seq (
-    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/disposal_of_vehicle/",
+    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-retention/",
     CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
     CucumberPlugin.cucumberJunitReport := false,
     CucumberPlugin.cucumberHtmlReport := false,
