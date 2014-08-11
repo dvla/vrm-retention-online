@@ -215,6 +215,7 @@ object Sandbox extends Plugin {
     simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndPartialKeeperAddress") // Happy Path with partial keeper address
     simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndMakeNoModel") // Happy Path with a make but no model
     simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndModelNoMake") // Happy Path with a model but no make
+    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperVeryLongMakeAndModel")
   }
 
   lazy val runAsync = taskKey[Unit]("Runs the play application")
