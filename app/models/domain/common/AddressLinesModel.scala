@@ -2,6 +2,7 @@ package models.domain.common
 
 import mappings.common.AddressLines.AddressLinesCacheKey
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 case class AddressLinesModel(buildingNameOrNumber: String,
                              line2: Option[String] = None,

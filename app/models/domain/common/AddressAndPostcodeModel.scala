@@ -3,6 +3,7 @@ package models.domain.common
 import constraints.common.Postcode.formatPostcode
 import mappings.common.AddressAndPostcode.AddressAndPostcodeCacheKey
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 case class AddressAndPostcodeModel(uprn: Option[Int] = None, addressLinesModel: AddressLinesModel) {
 

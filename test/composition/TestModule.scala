@@ -3,8 +3,6 @@ package composition
 import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
-import filters.AccessLoggingFilter.AccessLoggerName
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
@@ -12,17 +10,13 @@ import services.DateService
 import services.address_lookup.{AddressLookupService, AddressLookupWebService}
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import services.fakes._
-import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
-import services.brute_force_prevention.BruteForcePreventionWebService
-import services.brute_force_prevention.BruteForcePreventionService
-import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import services.vehicle_lookup.{VehicleLookupService, VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, CookieFlags, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 
 class TestModule() extends ScalaModule with MockitoSugar {
 

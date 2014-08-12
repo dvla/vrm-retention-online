@@ -3,8 +3,9 @@ package models.domain.vrm_retention
 import constraints.common.Postcode.formatPostcode
 import constraints.common.RegistrationNumber.formatVrm
 import mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
-import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, CacheKey}
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel}
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               vehicleMake: Option[String],

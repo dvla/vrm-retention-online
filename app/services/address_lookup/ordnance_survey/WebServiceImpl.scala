@@ -1,15 +1,15 @@
 package services.address_lookup.ordnance_survey
 
-import play.api.libs.ws.{Response, WS}
-import services.HttpHeaders
-import utils.helpers.Config
-import scala.concurrent.Future
-import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import play.api.Logger
 import play.api.i18n.Lang
+import play.api.libs.ws.{Response, WS}
+import services.HttpHeaders
+import services.address_lookup.AddressLookupWebService
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import utils.helpers.Config
+import scala.concurrent.Future
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
   private val baseUrl: String = config.ordnanceSurveyMicroServiceUrl // TODO would it be better to move these to a companion object? And maybe private[this]

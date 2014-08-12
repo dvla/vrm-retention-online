@@ -2,6 +2,7 @@ package models.domain.common
 
 import play.api.libs.json.Json
 import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class BruteForcePreventionViewModel(permitted: Boolean,
                                                attempts: Int,

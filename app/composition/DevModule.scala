@@ -3,12 +3,7 @@ package composition
 import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import common.ClearTextClientSideSessionFactory
-import common.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlagsFromConfig
-import common.EncryptedClientSideSessionFactory
-import filters.AccessLoggingFilter.AccessLoggerName
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
 import pdf.{PdfServiceImpl, PdfService}
 import play.api.{LoggerLike, Logger}
 import services.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
@@ -24,9 +19,10 @@ import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupServiceImpl
 import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupWebService
 import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupWebServiceImpl
 import services.{DateService, DateServiceImpl, brute_force_prevention}
-import utils.helpers.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityService}
 import services.vrm_retention_retain.{VRMRetentionRetainServiceImpl, VRMRetentionRetainService, VRMRetentionRetainWebServiceImpl, VRMRetentionRetainWebService}
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 
 /**
  * Provides real implementations of traits

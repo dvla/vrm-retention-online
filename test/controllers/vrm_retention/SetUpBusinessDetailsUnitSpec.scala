@@ -1,11 +1,10 @@
 package controllers.vrm_retention
 
-import common.ClientSideSessionFactory
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.{UnitSpec, WithApplication}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
+import helpers.{UnitSpec, WithApplication}
 import mappings.vrm_retention.SetupBusinessDetails._
 import models.domain.vrm_retention.SetupBusinessDetailsFormModel
 import org.mockito.Mockito.when
@@ -13,6 +12,7 @@ import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.FakeAddressLookupService._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {

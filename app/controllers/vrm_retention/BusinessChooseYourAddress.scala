@@ -1,8 +1,8 @@
 package controllers.vrm_retention
 
 import javax.inject.Inject
-import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import common.{ClientSideSession, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, ClientSideSession}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichCookies, RichSimpleResult}
 import mappings.common.DropDown.addressDropDown
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
@@ -13,7 +13,7 @@ import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import services.address_lookup.AddressLookupService
 import utils.helpers.Config
-import utils.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import views.html.vrm_retention.business_choose_your_address
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

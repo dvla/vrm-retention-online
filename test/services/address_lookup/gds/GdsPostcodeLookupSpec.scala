@@ -1,6 +1,5 @@
 package services.address_lookup.gds
 
-import common.ClearTextClientSideSessionFactory.DefaultTrackingId
 import helpers.UnitSpec
 import org.mockito.Mockito.when
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
@@ -14,6 +13,7 @@ import services.address_lookup.{AddressLookupService, gds}
 import services.fakes.FakeAddressLookupService.PostcodeValid
 import services.fakes.FakeAddressLookupWebServiceImpl.{gdsAddress, traderUprnValid}
 import services.fakes.{FakeAddressLookupWebServiceImpl, FakeResponse}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory.DefaultTrackingId
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

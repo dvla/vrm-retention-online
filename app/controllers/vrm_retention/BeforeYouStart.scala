@@ -1,10 +1,10 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.RichSimpleResult
 import mappings.vrm_retention.RelatedCacheKeys
 import play.api.mvc._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichSimpleResult
 import utils.helpers.Config
 
 final class BeforeYouStart @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,

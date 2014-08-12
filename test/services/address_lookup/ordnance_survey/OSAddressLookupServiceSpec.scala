@@ -1,23 +1,17 @@
 package services.address_lookup.ordnance_survey
 
-import common.ClearTextClientSideSessionFactory
 import helpers.UnitSpec
-import play.api.http.Status.{OK, NOT_FOUND}
-import play.api.libs.json.Json
-import play.api.libs.json.JsValue
+import models.domain.vrm_retention.{PostcodeToAddressResponse, UprnToAddressResponse}
+import play.api.http.Status.{NOT_FOUND, OK}
+import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.Response
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 import services.address_lookup.AddressLookupService
 import services.fakes.FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl.postcodeToAddressResponseValid
-import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress
-import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
-import services.fakes.FakeAddressLookupWebServiceImpl.uprnToAddressResponseValid
-import services.fakes.FakeResponse
-import models.domain.vrm_retention.{UprnToAddressResponse, PostcodeToAddressResponse}
+import services.fakes.FakeAddressLookupWebServiceImpl.{postcodeToAddressResponseValid, responseValidForPostcodeToAddress, responseValidForUprnToAddress, traderUprnValid, uprnToAddressResponseValid}
+import services.fakes.{FakeAddressLookupWebServiceImpl, FakeResponse}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 final class OSAddressLookupServiceSpec extends UnitSpec {
 

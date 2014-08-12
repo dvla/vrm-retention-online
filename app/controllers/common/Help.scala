@@ -1,11 +1,11 @@
 package controllers.common
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.RichCookies
 import controllers.vrm_retention.routes.BeforeYouStart
 import mappings.common.Help.HelpCacheKey
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
 
 final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,

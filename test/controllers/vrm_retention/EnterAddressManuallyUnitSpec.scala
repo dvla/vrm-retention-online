@@ -1,6 +1,5 @@
 package controllers.vrm_retention
 
-import common.ClientSideSessionFactory
 import constraints.common.Postcode.formatPostcode
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
@@ -12,14 +11,14 @@ import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Lin
 import mappings.common.Postcode.PostcodeId
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.vrm_retention.EnterAddressManuallyModel
-import models.domain.vrm_retention.BusinessDetailsModel
+import models.domain.vrm_retention.{BusinessDetailsModel, EnterAddressManuallyModel}
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.SimpleResult
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 import scala.concurrent.Future
 
@@ -201,7 +200,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "submit removes commas, but still applies the min length rule" in new WithApplication {
-      utils.helpers.FormExtensions.trimNonWhiteListedChars( """[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
+      uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.trimNonWhiteListedChars( """[A-Za-z0-9\-]""")(",, m...,,,,   ") should equal("m")
       val result = enterAddressManually.submit(requestWithValidDefaults(
         buildingName = "m...,,,,   " // This should be a min length of 4 chars
       ))

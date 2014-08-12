@@ -1,7 +1,7 @@
 package models.domain.vrm_retention
 
-import play.api.libs.json.Json
 import models.domain.common.AddressViewModel
+import play.api.libs.json.Json
 
 final case class UprnToAddressResponse(addressViewModel: Option[AddressViewModel])
 

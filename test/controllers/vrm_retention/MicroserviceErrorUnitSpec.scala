@@ -1,11 +1,11 @@
 package controllers.vrm_retention
 
-import common.ClientSideSessionFactory
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class MicroserviceErrorUnitSpec extends UnitSpec {

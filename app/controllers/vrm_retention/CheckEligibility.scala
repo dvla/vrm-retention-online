@@ -1,14 +1,14 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.CookieImplicits.{RichCookies, RichSimpleResult}
-import common.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import mappings.vrm_retention.VehicleLookup._
 import models.domain.vrm_retention._
 import play.api.Logger
 import play.api.mvc._
 import services.vrm_retention_eligibility.VRMRetentionEligibilityService
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

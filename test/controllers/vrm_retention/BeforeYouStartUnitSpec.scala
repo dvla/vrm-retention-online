@@ -1,12 +1,12 @@
 package controllers.vrm_retention
 
-import common.ClientSideSessionFactory
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout, status}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class BeforeYouStartUnitSpec extends UnitSpec {

@@ -3,7 +3,7 @@ package mappings.common
 import models.domain.common.AddressLinesModel
 import play.api.data.Forms.{mapping, optional}
 import play.api.data.Mapping
-import utils.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.{nonEmptyTextWithTransform, textWithTransform, trimNonWhiteListedChars}
 
 object AddressLines {
   final val AddressLinesId = "addressLines"

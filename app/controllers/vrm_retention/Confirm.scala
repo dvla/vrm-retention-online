@@ -1,14 +1,14 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.Confirm.EmailAddressId
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.vrm_retention._
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,

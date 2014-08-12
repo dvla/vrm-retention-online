@@ -1,16 +1,16 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import mappings.common.Postcode._
 import mappings.vrm_retention.SetupBusinessDetails._
 import models.domain.vrm_retention.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import utils.helpers.Config
-import utils.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 
 final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
