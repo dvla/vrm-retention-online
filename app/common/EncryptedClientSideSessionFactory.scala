@@ -6,6 +6,7 @@ import java.security.SecureRandom
 import org.apache.commons.codec.binary.Hex
 import play.api.mvc.Cookie
 import utils.helpers.{CookieEncryption, CookieNameHashGenerator}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 
 class EncryptedClientSideSessionFactory @Inject()()
                                         (implicit cookieFlags: CookieFlags,

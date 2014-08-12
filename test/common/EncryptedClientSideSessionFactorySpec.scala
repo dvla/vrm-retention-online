@@ -2,6 +2,7 @@ package common
 
 import helpers.UnitSpec
 import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
 import utils.helpers.{NoEncryption, CookieEncryption, NoHashGenerator, CookieNameHashGenerator}
 
 final class EncryptedClientSideSessionFactorySpec extends UnitSpec {

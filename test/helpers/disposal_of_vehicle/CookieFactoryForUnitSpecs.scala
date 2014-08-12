@@ -1,6 +1,6 @@
 package helpers.disposal_of_vehicle
 
-import common.{ClientSideSessionFactory, CookieFlags, ClearTextClientSideSession}
+import common.{ClientSideSessionFactory, ClearTextClientSideSession}
 import composition.TestComposition
 import mappings.common.Help.HelpCacheKey
 import mappings.common.PreventGoingToDisposePage.{PreventGoingToDisposePageCacheKey, DisposeOccurredCacheKey}
@@ -43,6 +43,7 @@ import services.fakes.FakeVehicleLookupWebService.RegistrationNumberValid
 import services.fakes.FakeVehicleLookupWebService.VehicleModelValid
 import services.fakes.{FakeDateServiceImpl, FakeDisposeWebServiceImpl, FakeVehicleLookupWebService}
 import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 
 object CookieFactoryForUnitSpecs extends TestComposition { // TODO can we make this more fluent by returning "this" at the end of the defs
 

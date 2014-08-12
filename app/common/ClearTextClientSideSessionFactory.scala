@@ -2,6 +2,7 @@ package common
 
 import com.google.inject.Inject
 import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 
 class ClearTextClientSideSessionFactory @Inject()(implicit cookieFlags: CookieFlags) extends ClientSideSessionFactory {
 

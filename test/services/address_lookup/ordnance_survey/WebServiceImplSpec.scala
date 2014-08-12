@@ -1,6 +1,7 @@
 package services.address_lookup.ordnance_survey
 
-import common.{ClientSideSessionFactory, NoCookieFlags}
+import common.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
 import helpers.{UnitSpec, WireMockFixture}
 import org.scalatest.concurrent.PatienceConfiguration.Interval
 import scala.concurrent.duration.DurationInt
