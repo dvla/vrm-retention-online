@@ -2,7 +2,7 @@ package services.address_lookup.ordnance_survey
 
 import javax.inject.Inject
 
-import common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import models.domain.disposal_of_vehicle.{PostcodeToAddressResponse, UprnToAddressResponse}
 import play.api.Logger
 import play.api.i18n.Lang

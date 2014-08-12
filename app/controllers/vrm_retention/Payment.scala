@@ -2,7 +2,8 @@ package controllers.vrm_retention
 
 import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
-import common.{ClientSideSessionFactory, LogFormats}
+import common.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import mappings.vrm_retention.RelatedCacheKeys
 import mappings.vrm_retention.Retain._
 import models.domain.vrm_retention.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}

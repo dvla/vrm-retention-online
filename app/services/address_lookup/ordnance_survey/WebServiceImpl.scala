@@ -6,7 +6,8 @@ import utils.helpers.Config
 import scala.concurrent.Future
 import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
-import common.{LogFormats, ClientSideSessionFactory}
+import common.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import play.api.Logger
 import play.api.i18n.Lang
 

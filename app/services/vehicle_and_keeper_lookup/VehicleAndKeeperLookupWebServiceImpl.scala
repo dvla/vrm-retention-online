@@ -1,7 +1,7 @@
 package services.vehicle_and_keeper_lookup
 
 import com.google.inject.Inject
-import common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}

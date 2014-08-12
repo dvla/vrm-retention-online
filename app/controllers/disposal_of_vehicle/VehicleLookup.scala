@@ -2,7 +2,7 @@ package controllers.disposal_of_vehicle
 
 import com.google.inject.Inject
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import common.{ClientSideSessionFactory, LogFormats}
+import common.ClientSideSessionFactory
 import mappings.common.DocumentReferenceNumber.referenceNumber
 import mappings.common.PreventGoingToDisposePage.{DisposeOccurredCacheKey, PreventGoingToDisposePageCacheKey}
 import mappings.common.VehicleRegistrationNumber.registrationNumber
@@ -18,6 +18,7 @@ import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.Logger
 import play.api.mvc.{Action, AnyContent, Controller, Request, SimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import services.brute_force_prevention.BruteForcePreventionService
