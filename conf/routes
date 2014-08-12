@@ -61,7 +61,7 @@ GET         /vrm-retention/success                                           @co
 GET         /vrm-retention/success/create-pdf                                @controllers.vrm_retention.Success.createPdf
 GET         /vrm-retention/success/exit                                      @controllers.vrm_retention.Success.exit
 
-GET         /vrm-retention/healthcheck                                       @controllers.common.HealthCheck.respond
+GET         /vrm-retention/healthcheck                                       @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
 
 GET         /vrm-retention/enter-address-manually                            @controllers.vrm_retention.EnterAddressManually.present
 POST        /vrm-retention/enter-address-manually                            @controllers.vrm_retention.EnterAddressManually.submit
@@ -135,4 +135,4 @@ POST        /sell-to-the-trade/help                                          @co
 
 GET         /with-language/:chosenLanguage                                   uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
 
-GET         /sell-to-the-trade/healthcheck                                   @controllers.common.HealthCheck.respond
+GET         /sell-to-the-trade/healthcheck                                   @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
