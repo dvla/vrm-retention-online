@@ -3,6 +3,7 @@ package common
 import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeApplication
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
 import utils.helpers.AesEncryption
 import utils.helpers.CookieEncryption
 import utils.helpers.NoEncryption

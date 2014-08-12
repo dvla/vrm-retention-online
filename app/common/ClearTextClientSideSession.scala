@@ -1,6 +1,7 @@
 package common
 
 import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 
 class ClearTextClientSideSession(override val trackingId: String)
                                 (implicit cookieFlags: CookieFlags) extends ClientSideSession {

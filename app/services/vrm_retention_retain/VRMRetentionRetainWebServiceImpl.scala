@@ -1,7 +1,7 @@
 package services.vrm_retention_retain
 
 import com.google.inject.Inject
-import common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import models.domain.vrm_retention.VRMRetentionRetainRequest
 import play.api.Logger
 import play.api.libs.json.Json

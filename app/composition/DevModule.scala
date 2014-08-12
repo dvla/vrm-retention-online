@@ -5,8 +5,8 @@ import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import common.ClearTextClientSideSessionFactory
 import common.ClientSideSessionFactory
-import common.CookieFlags
-import common.CookieFlagsFromConfig
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlagsFromConfig
 import common.EncryptedClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
 import pdf.{PdfServiceImpl, PdfService}

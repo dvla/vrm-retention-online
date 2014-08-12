@@ -4,6 +4,7 @@ import models.domain.common.CacheKey
 import play.api.data.Form
 import play.api.libs.json.{Json, Reads, Writes}
 import play.api.mvc.{Cookie, DiscardingCookie, Request, SimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.JsonValidationException
 
 /**
  * These are adapters that add cookie methods to a number of Play Framework classes.

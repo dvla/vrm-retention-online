@@ -1,6 +1,6 @@
 package helpers.vrm_retention
 
-import common.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
+import common.{ClearTextClientSideSession, ClientSideSessionFactory}
 import composition.TestComposition
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
@@ -20,6 +20,7 @@ import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegis
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{TransactionTimestampValid, TransactionIdValid, CertificateNumberValid}
 import services.fakes.FakeVehicleAndKeeperLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 

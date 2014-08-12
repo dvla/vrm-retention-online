@@ -5,7 +5,6 @@ import javax.crypto.BadPaddingException
 
 import com.google.inject.Inject
 import com.google.inject.name.Named
-import common.InvalidSessionException
 import controllers.vrm_retention.routes
 import filters.AccessLoggingFilter.AccessLoggerName
 import filters.ClfEntryBuilder
@@ -13,6 +12,7 @@ import play.api.libs.Codecs
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{RequestHeader, SimpleResult}
 import play.api.{Logger, LoggerLike}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
 
 import scala.concurrent.{ExecutionContext, Future}
 
