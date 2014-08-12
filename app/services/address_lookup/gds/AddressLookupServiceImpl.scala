@@ -1,17 +1,15 @@
 package services.address_lookup.gds
 
 import javax.inject.Inject
-
+import models.domain.common.AddressViewModel
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.Response
 import services.address_lookup.gds.domain.Address
 import services.address_lookup.gds.domain.JsonFormats.addressFormat
 import services.address_lookup.{AddressLookupService, AddressLookupWebService}
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import models.domain.common.AddressViewModel
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService)
   extends AddressLookupService {

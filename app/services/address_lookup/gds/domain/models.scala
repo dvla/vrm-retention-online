@@ -35,7 +35,7 @@ final case class Ero(telephoneNumber: String = "")
 final case class LocalAuthority(gssId: String, opcsId: String, name: String, ero: Ero = Ero())
 
 object JsonFormats {
-  import play.api.libs.json.{Reads, Writes, Json, Format}
+  import play.api.libs.json.{Format, Json, Reads, Writes}
 
   private final val pattern = "yyyy-MM-dd'T'HH:mm:ssz"
   implicit val dateFormat =

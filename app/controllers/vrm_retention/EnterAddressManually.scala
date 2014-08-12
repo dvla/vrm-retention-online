@@ -9,8 +9,8 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import utils.helpers.Config
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
+import utils.helpers.Config
 import views.html.vrm_retention.enter_address_manually
 
 final class EnterAddressManually @Inject()()

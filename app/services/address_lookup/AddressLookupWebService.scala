@@ -1,8 +1,8 @@
 package services.address_lookup
 
-import scala.concurrent.Future
-import play.api.libs.ws.Response
 import play.api.i18n.Lang
+import play.api.libs.ws.Response
+import scala.concurrent.Future
 
 // Wrapper around our webservice call so that we can IoC fake versions for testing or use the real version.
 trait AddressLookupWebService {

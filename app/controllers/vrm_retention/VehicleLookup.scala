@@ -19,8 +19,8 @@ import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import utils.helpers.Config
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

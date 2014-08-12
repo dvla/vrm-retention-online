@@ -1,7 +1,6 @@
 package pdf
 
-import models.domain.vrm_retention.VehicleAndKeeperDetailsModel
-import models.domain.vrm_retention.RetainModel
+import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperDetailsModel}
 import scala.concurrent.Future
 
 trait PdfService {

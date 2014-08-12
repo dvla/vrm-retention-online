@@ -2,7 +2,7 @@ package composition
 
 import com.google.inject.Guice
 import play.filters.gzip.GzipFilter
-import uk.gov.dvla.vehicles.presentation.common.filters.{CsrfPreventionFilter, AccessLoggingFilter, EnsureSessionCreatedFilter}
+import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
 
 trait Composition {

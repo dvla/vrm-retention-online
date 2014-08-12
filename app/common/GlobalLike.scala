@@ -6,10 +6,10 @@ import com.typesafe.config.ConfigFactory
 import composition.Composition
 import filters.WithFilters
 import play.api.Play.current
-import play.api.{Application, GlobalSettings, Configuration, Play, Logger, Mode}
 import play.api.i18n.Lang
 import play.api.mvc.Results.NotFound
 import play.api.mvc.{RequestHeader, SimpleResult}
+import play.api.{Application, Configuration, GlobalSettings, Logger, Mode, Play}
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

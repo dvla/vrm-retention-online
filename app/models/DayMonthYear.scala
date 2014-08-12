@@ -1,10 +1,10 @@
 package models
 
-import scala.util.{Failure, Success, Try}
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import scala.annotation.tailrec
 import play.api.libs.json.Json
+import scala.annotation.tailrec
+import scala.util.{Failure, Success, Try}
 
 final case class DayMonthYear(day: Int,
                               month: Int,

@@ -1,15 +1,15 @@
 package services.address_lookup.ordnance_survey
 
 import javax.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import models.domain.common.AddressViewModel
+import models.domain.vrm_retention.{PostcodeToAddressResponse, UprnToAddressResponse}
 import play.api.Logger
 import play.api.i18n.Lang
 import play.api.libs.ws.Response
 import services.address_lookup.{AddressLookupService, AddressLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import models.domain.common.AddressViewModel
-import models.domain.vrm_retention.{UprnToAddressResponse, PostcodeToAddressResponse}
 
 final class AddressLookupServiceImpl @Inject()(ws: AddressLookupWebService) extends AddressLookupService {
 

@@ -1,8 +1,8 @@
 package services.address_lookup
 
-import scala.concurrent.Future
-import play.api.i18n.Lang
 import models.domain.common.AddressViewModel
+import play.api.i18n.Lang
+import scala.concurrent.Future
 
 trait AddressLookupService {
 

@@ -1,14 +1,14 @@
 package services.vehicle_lookup
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import models.domain.common.VehicleDetailsRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
 import services.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import utils.helpers.Config
 import scala.concurrent.Future
-import models.domain.common.VehicleDetailsRequest
 
 final class VehicleLookupWebServiceImpl @Inject()(config: Config) extends VehicleLookupWebService {
   private val endPoint: String = s"${config.vehicleLookupMicroServiceBaseUrl}/vehicles/lookup/v1/dispose"

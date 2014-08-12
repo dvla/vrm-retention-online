@@ -9,8 +9,8 @@ import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import utils.helpers.Config
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import utils.helpers.Config
 
 final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {

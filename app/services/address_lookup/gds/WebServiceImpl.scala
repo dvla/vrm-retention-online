@@ -1,13 +1,13 @@
 package services.address_lookup.gds
 
-import play.api.libs.ws.{Response, WS}
-import scala.concurrent.Future
-import play.api.Logger
-import utils.helpers.Config
-import services.address_lookup.AddressLookupWebService
 import com.google.inject.Inject
+import play.api.Logger
 import play.api.i18n.Lang
+import play.api.libs.ws.{Response, WS}
 import services.HttpHeaders
+import services.address_lookup.AddressLookupWebService
+import utils.helpers.Config
+import scala.concurrent.Future
 
 final class WebServiceImpl @Inject()(config: Config) extends AddressLookupWebService {
   private val baseUrl: String = config.gdsAddressLookupBaseUrl
