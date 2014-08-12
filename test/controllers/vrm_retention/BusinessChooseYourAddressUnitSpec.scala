@@ -1,7 +1,7 @@
 package controllers.vrm_retention
 
 import common.ClientSideSessionFactory
-import controllers.disposal_of_vehicle.Common.PrototypeHtml
+import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}

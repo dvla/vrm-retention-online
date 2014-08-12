@@ -6,7 +6,7 @@ import javax.crypto.BadPaddingException
 import com.google.inject.Inject
 import com.google.inject.name.Named
 import common.InvalidSessionException
-import controllers.disposal_of_vehicle.routes
+import controllers.vrm_retention.routes
 import filters.AccessLoggingFilter.AccessLoggerName
 import filters.ClfEntryBuilder
 import play.api.libs.Codecs

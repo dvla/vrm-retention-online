@@ -4,7 +4,7 @@ import controllers.common.AlternateLanguages.withLanguage
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.AlternateLanguages.{CyId, EnId}
-import pages.disposal_of_vehicle.BeforeYouStartPage
+import pages.vrm_retention.BeforeYouStartPage
 import play.api.Play
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, REFERER, SEE_OTHER}

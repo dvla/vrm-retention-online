@@ -2,7 +2,6 @@ package services.address_lookup.ordnance_survey
 
 import common.ClearTextClientSideSessionFactory
 import helpers.UnitSpec
-import models.domain.disposal_of_vehicle.{UprnToAddressResponse, PostcodeToAddressResponse}
 import play.api.http.Status.{OK, NOT_FOUND}
 import play.api.libs.json.Json
 import play.api.libs.json.JsValue
@@ -18,6 +17,7 @@ import services.fakes.FakeAddressLookupWebServiceImpl.responseValidForUprnToAddr
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeAddressLookupWebServiceImpl.uprnToAddressResponseValid
 import services.fakes.FakeResponse
+import models.domain.vrm_retention.{UprnToAddressResponse, PostcodeToAddressResponse}
 
 final class OSAddressLookupServiceSpec extends UnitSpec {
 

@@ -12,7 +12,6 @@ import play.api.{LoggerLike, Logger}
 import services.fakes._
 import services.address_lookup.{AddressLookupWebService, AddressLookupService}
 import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
-import services.dispose_service.{DisposeServiceImpl, DisposeWebService, DisposeService}
 import services.brute_force_prevention.BruteForcePreventionWebService
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
@@ -37,8 +36,6 @@ class TestModule() extends ScalaModule with MockitoSugar {
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupWebService].to[FakeVehicleAndKeeperLookupWebService].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
-    bind[DisposeWebService].to[FakeDisposeWebServiceImpl].asEagerSingleton()
-    bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[FakeDateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()

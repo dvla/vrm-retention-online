@@ -1,7 +1,7 @@
 package utils.helpers
 
-import controllers.disposal_of_vehicle.routes
-import mappings.disposal_of_vehicle.RelatedCacheKeys
+import controllers.vrm_retention.routes
+import mappings.vrm_retention.RelatedCacheKeys
 import play.api.Logger
 import play.api.mvc.Results.Redirect
 import play.api.mvc.DiscardingCookie

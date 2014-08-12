@@ -7,7 +7,7 @@ import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import models.domain.common.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
-import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, BruteForcePreventionViewModel, VehicleDetailsModel}
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, BruteForcePreventionViewModel}
 import models.domain.vrm_retention._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}

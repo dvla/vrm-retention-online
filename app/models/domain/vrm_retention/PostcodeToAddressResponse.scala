@@ -1,4 +1,4 @@
-package models.domain.disposal_of_vehicle
+package models.domain.vrm_retention
 
 import play.api.libs.json.Json
 

@@ -5,7 +5,7 @@ import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import constraints.common.RegistrationNumber.formatVrm
 import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.common.{BruteForcePreventionViewModel, VehicleDetailsModel}
+import models.domain.common.BruteForcePreventionViewModel
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}

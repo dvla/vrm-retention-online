@@ -15,7 +15,6 @@ import services.address_lookup.{AddressLookupWebService, AddressLookupService, o
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.brute_force_prevention.BruteForcePreventionWebService
-import services.dispose_service.{DisposeService, DisposeServiceImpl, DisposeWebService, DisposeWebServiceImpl}
 import services.vehicle_lookup.VehicleLookupService
 import services.vehicle_lookup.VehicleLookupServiceImpl
 import services.vehicle_lookup.VehicleLookupWebService
@@ -57,8 +56,6 @@ object DevModule extends ScalaModule {
     bind[VRMRetentionEligibilityService].to[VRMRetentionEligibilityServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainWebService].to[VRMRetentionRetainWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
-    bind[DisposeWebService].to[DisposeWebServiceImpl].asEagerSingleton()
-    bind[DisposeService].to[DisposeServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[CookieFlagsFromConfig].asEagerSingleton()
 

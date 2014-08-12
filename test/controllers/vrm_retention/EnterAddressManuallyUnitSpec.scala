@@ -2,7 +2,7 @@ package controllers.vrm_retention
 
 import common.ClientSideSessionFactory
 import constraints.common.Postcode.formatPostcode
-import controllers.disposal_of_vehicle.Common.PrototypeHtml
+import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -12,7 +12,7 @@ import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Lin
 import mappings.common.Postcode.PostcodeId
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.disposal_of_vehicle.EnterAddressManuallyModel
+import models.domain.vrm_retention.EnterAddressManuallyModel
 import models.domain.vrm_retention.BusinessDetailsModel
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
