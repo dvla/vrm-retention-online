@@ -1,29 +1,13 @@
 package services.fakes
 
-import composition.TestModule.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
+import composition.TestModule.AddressLookupServiceConstants.PostcodeValid
 import models.domain.vrm_retention.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
 import play.api.http.Status.OK
-import play.api.i18n.Lang
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-
-final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
-                                            responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
-
-  override def callPostcodeWebService(postcode: String, trackingId: String)
-                                     (implicit lang: Lang): Future[Response] =
-    if (postcode == PostcodeInvalid.toUpperCase) Future {
-      FakeResponse(status = OK, fakeJson = None)
-    }
-    else responseOfPostcodeWebService
-
-  override def callUprnWebService(uprn: String, trackingId: String)
-                                 (implicit lang: Lang): Future[Response] = responseOfUprnWebService
-}
 
 object FakeAddressLookupWebServiceImpl {
 
