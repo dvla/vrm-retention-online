@@ -1,5 +1,7 @@
 package controllers.vrm_retention
 
+import com.tzavellas.sse.guice.ScalaModule
+import composition.TestModule.AddressLookupServiceConstants.TraderBusinessNameValid
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -12,12 +14,10 @@ import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundP
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import composition.TestModule.AddressLookupServiceConstants.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnInvalid, traderUprnValid}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import utils.helpers.Config
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -140,7 +140,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "does not write cookie when uprn not found" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress(uprnSelected = traderUprnInvalid.toString)).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithUprnNotFound.submit(request)
       whenReady(result) { r =>
@@ -161,16 +161,21 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true,
                                                           isPrototypeBannerVisible: Boolean = true) = {
-    val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
-    else responseValidForPostcodeToAddressNotFound
-    val responseUprn = if (uprnFound) responseValidForUprnToAddress
-    else responseValidForUprnToAddressNotFound
-    val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
-    val addressLookupService = new AddressLookupServiceImpl(fakeWebService)
-    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    implicit val config: Config = mock[Config]
-    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
-    new BusinessChooseYourAddress(addressLookupService)
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
+        else responseValidForPostcodeToAddressNotFound
+        val responseUprn = if (uprnFound) responseValidForUprnToAddress
+        else responseValidForUprnToAddressNotFound
+        val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
+
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
+
+        bind[Config].toInstance(config)
+        bind[AddressLookupWebService].toInstance(fakeWebService)
+      }
+    }).getInstance(classOf[BusinessChooseYourAddress])
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
