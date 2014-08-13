@@ -1,6 +1,6 @@
 package services.fakes
 
-object FakeVRMRetentionRetainWebServiceImpl {
+object VrmRetentionRetainWebServiceConstants {
 
   final val CertificateNumberValid = "1234567890"
   final val ReplacementRegistrationNumberValid = "SA11AA"

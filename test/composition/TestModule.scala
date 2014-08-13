@@ -18,9 +18,9 @@ import play.api.libs.ws.Response
 import play.api.{Logger, LoggerLike}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import services.fakes.BruteForcePreventionWebServiceConstants._
-import services.fakes.FakeVRMRetentionRetainWebServiceImpl.CertificateNumberValid
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import services.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
 import services.fakes._
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
