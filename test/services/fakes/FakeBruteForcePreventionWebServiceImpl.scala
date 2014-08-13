@@ -1,12 +1,11 @@
-package services.fakes.brute_force_protection
+package services.fakes
 
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
-import services.brute_force_prevention.BruteForcePreventionWebService
-import services.fakes.FakeResponse
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 
 final class FakeBruteForcePreventionWebServiceImpl() extends BruteForcePreventionWebService {
   import FakeBruteForcePreventionWebServiceImpl._

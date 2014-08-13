@@ -8,7 +8,6 @@ import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
-import models.domain.common.BruteForcePreventionViewModel._
 import models.domain.common._
 import models.domain.vrm_retention._
 import play.api.libs.json.{Json, Writes}
@@ -18,13 +17,15 @@ import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
 import services.fakes.FakeVehicleAndKeeperLookupWebService._
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
+import services.fakes.FakeBruteForcePreventionWebServiceImpl
+import FakeBruteForcePreventionWebServiceImpl._
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, AddressModel}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import mappings.vrm_retention.Confirm._
 import scala.Some
 import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -120,7 +121,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                     maxAttempts: Int = MaxAttempts,
                                     dateTimeISOChronology: String = org.joda.time.DateTime.now().toString): Cookie = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(
+    val value = BruteForcePreventionModel(
       permitted,
       attempts,
       maxAttempts,

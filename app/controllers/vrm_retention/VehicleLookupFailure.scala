@@ -2,19 +2,19 @@ package controllers.vrm_retention
 
 import com.google.inject.Inject
 import mappings.vrm_retention.VehicleLookup._
-import models.domain.common.BruteForcePreventionViewModel
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getModel[BruteForcePreventionViewModel],
+    (request.cookies.getModel[BruteForcePreventionModel],
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getString(VehicleAndKeeperLookupResponseCodeCacheKey)) match {
@@ -36,7 +36,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   }
 
   private def displayVehicleLookupFailure(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                          bruteForcePreventionViewModel: BruteForcePreventionViewModel,
+                                          bruteForcePreventionViewModel: BruteForcePreventionModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
                                           vehicleAndKeeperLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
     val vehicleLookupFailureViewModel = vehicleAndKeeperDetails match {

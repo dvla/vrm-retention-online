@@ -7,7 +7,7 @@ import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.Retain._
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.VehicleLookup._
-import models.domain.common.BruteForcePreventionViewModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 
 object RelatedCacheKeys {
 

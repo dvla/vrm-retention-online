@@ -16,11 +16,9 @@ import play.api.libs.ws.Response
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.DateServiceImpl
-import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import services.fakes.FakeResponse
+import services.fakes.{FakeBruteForcePreventionWebServiceImpl, FakeResponse}
 import services.fakes.FakeVehicleAndKeeperLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
+import FakeBruteForcePreventionWebServiceImpl.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -28,6 +26,7 @@ import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionConfig, BruteForcePreventionWebService, BruteForcePreventionService, BruteForcePreventionServiceImpl}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -347,7 +346,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     new BruteForcePreventionServiceImpl(
-      config = new Config(),
+      config = new BruteForcePreventionConfig(),
       ws = bruteForcePreventionWebService,
       dateService = injector.getInstance(classOf[DateService])
     )
