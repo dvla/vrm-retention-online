@@ -16,7 +16,7 @@ import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl._
 import services.fakes.FakeVehicleAndKeeperLookupWebService._
-import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.MaxAttempts
+import services.fakes.brute_force_protection.BruteForcePreventionWebServiceConstants.MaxAttempts
 import services.fakes.FakeVehicleAndKeeperLookupWebService
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
