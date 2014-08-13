@@ -48,7 +48,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page when present with no business details cached" in new WithApplication {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.present(request)
       whenReady(result) { r =>
@@ -63,7 +62,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddressWithPrototypeBannerNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
@@ -75,7 +73,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to VehicleLookup page after a valid submit" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
@@ -86,7 +83,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "return a bad request if not address selected" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "").
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
@@ -96,7 +92,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
@@ -104,8 +99,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(traderUprn = "")
+    "redirect to setupTradeDetails page when bad form submitted and no dealer name cached" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(traderUprn = "") // Bad form because nothing was selected from the drop-down.
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
@@ -124,7 +119,6 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "write cookie when uprn found" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
