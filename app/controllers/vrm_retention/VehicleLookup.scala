@@ -1,14 +1,11 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
-import mappings.common.DocumentReferenceNumber._
 import mappings.common.Postcode.postcode
 import mappings.common.VehicleRegistrationNumber._
 import mappings.vrm_retention.KeeperConsent._
 import mappings.vrm_retention.RelatedCacheKeys
 import mappings.vrm_retention.VehicleLookup._
-import models.domain.common._
 import models.domain.vrm_retention._
 import play.api.Logger
 import play.api.data.Forms._
@@ -18,12 +15,14 @@ import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber._
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService)
