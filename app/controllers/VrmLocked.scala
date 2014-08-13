@@ -1,15 +1,15 @@
 package controllers
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
-import utils.helpers.Config
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
+import utils.helpers.Config
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {

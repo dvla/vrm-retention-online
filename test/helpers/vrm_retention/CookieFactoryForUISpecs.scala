@@ -13,9 +13,9 @@ import play.api.libs.json.{Json, Writes}
 import services.fakes.AddressLookupServiceConstants._
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
-import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
-import services.fakes.FakeVRMRetentionRetainWebServiceImpl._
-import services.fakes.FakeVehicleAndKeeperLookupWebService._
+import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import services.fakes.VrmRetentionRetainWebServiceConstants._
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}

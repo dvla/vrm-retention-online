@@ -4,8 +4,8 @@ import helpers.UnitSpec
 import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import services.fakes.FakeVRMRetentionRetainWebServiceImpl.TransactionIdValid
-import services.fakes.FakeVehicleAndKeeperLookupWebService._
+import services.fakes.VrmRetentionRetainWebServiceConstants.TransactionIdValid
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class PdfServiceSpec extends UnitSpec {
