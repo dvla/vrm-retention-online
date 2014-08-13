@@ -3,24 +3,22 @@ package helpers.vrm_retention
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
+import mappings.vrm_retention.Confirm._
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import models.domain.vrm_retention._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
-import composition.TestModule.AddressLookupServiceConstants._
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.AddressLookupServiceConstants._
+import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
+import services.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl._
 import services.fakes.FakeVehicleAndKeeperLookupWebService._
-import services.fakes.FakeBruteForcePreventionWebServiceImpl
-import FakeBruteForcePreventionWebServiceImpl.MaxAttempts
-import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, AddressModel}
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
-import mappings.vrm_retention.Confirm._
-import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 
 object CookieFactoryForUISpecs {
 

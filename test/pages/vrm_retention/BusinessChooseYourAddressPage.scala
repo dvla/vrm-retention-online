@@ -3,7 +3,7 @@ package pages.vrm_retention
 import helpers.webbrowser.{Element, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
 import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
 import org.openqa.selenium.WebDriver
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 

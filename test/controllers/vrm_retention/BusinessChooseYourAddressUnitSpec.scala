@@ -1,7 +1,7 @@
 package controllers.vrm_retention
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestModule.AddressLookupServiceConstants.TraderBusinessNameValid
+import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -14,8 +14,8 @@ import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundP
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl.{traderUprnInvalid, traderUprnValid}
+import services.fakes.AddressLookupWebServiceConstants
+import services.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import utils.helpers.Config
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
@@ -130,7 +130,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "does not write cookie when uprn not found" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(traderUprn = FakeAddressLookupWebServiceImpl.traderUprnInvalid.toString).
+      val request = buildCorrectlyPopulatedRequest(traderUprn = AddressLookupWebServiceConstants.traderUprnInvalid.toString).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>

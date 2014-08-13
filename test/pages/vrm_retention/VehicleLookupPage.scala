@@ -3,8 +3,8 @@ package pages.vrm_retention
 import helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL, WebDriverFactory}
 import mappings.vrm_retention.VehicleLookup.{BackId, DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
 import org.openqa.selenium.WebDriver
+import services.fakes.BruteForcePreventionWebServiceConstants
 import services.fakes.FakeVehicleAndKeeperLookupWebService.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
-import services.fakes.FakeBruteForcePreventionWebServiceImpl
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
@@ -43,7 +43,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   def tryLockedVrm()(implicit driver: WebDriver) = {
     go to VehicleLookupPage
     documentReferenceNumber.value = ReferenceNumberValid
-    vehicleRegistrationNumber.value = FakeBruteForcePreventionWebServiceImpl.VrmLocked
+    vehicleRegistrationNumber.value = BruteForcePreventionWebServiceConstants.VrmLocked
     keeperPostcode.value = KeeperPostcodeValid
     click on currentKeeperYes
     click on findVehicleDetails

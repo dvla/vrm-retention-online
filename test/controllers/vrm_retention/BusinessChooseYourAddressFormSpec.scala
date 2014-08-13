@@ -2,8 +2,8 @@ package controllers.vrm_retention
 
 import helpers.UnitSpec
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
-import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
+import services.fakes.AddressLookupWebServiceConstants
+import services.fakes.AddressLookupWebServiceConstants.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import utils.helpers.Config

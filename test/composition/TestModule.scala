@@ -2,33 +2,29 @@ package composition
 
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestModule.AddressLookupServiceConstants.PostcodeInvalid
 import composition.TestModule.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import org.joda.time.{DateTime, Instant}
-import org.mockito.Mockito._
-import org.mockito.Matchers._
-import org.scalatest.mock.MockitoSugar
-import org.mockito.Mockito._
+import org.mockito.Matchers.{any, _}
+import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
-import play.api.http.Status.OK
+import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.i18n.Lang
 import play.api.{Logger, LoggerLike}
-import services.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid2, traderUprnValid}
+import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
+import services.fakes.BruteForcePreventionWebServiceConstants._
 import services.fakes._
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, CookieFlags, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionWebService, BruteForcePreventionService, BruteForcePreventionServiceImpl}
 
 class TestModule() extends ScalaModule with MockitoSugar {
 
@@ -38,15 +34,15 @@ class TestModule() extends ScalaModule with MockitoSugar {
   def configure() {
     Logger.debug("Guice is loading TestModule")
 
-    ordnanceSurveyAddressLookup()
+    stubOrdnanceSurveyAddressLookup()
+    stubDateService()
+    stubBruteForcePreventionWebService()
 
     bind[VehicleAndKeeperLookupWebService].to[FakeVehicleAndKeeperLookupWebService].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
-    bind[DateService].toInstance(stubDateService)
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
-    bind[BruteForcePreventionWebService].to[FakeBruteForcePreventionWebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
 
@@ -58,19 +54,19 @@ class TestModule() extends ScalaModule with MockitoSugar {
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
   }
 
-  private def ordnanceSurveyAddressLookup() = {
+  private def stubOrdnanceSurveyAddressLookup() = {
     bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
 
     val stubbedWebServiceImpl = mock[AddressLookupWebService]
-    when(stubbedWebServiceImpl.callPostcodeWebService(postcode = any[String], trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress)
-    when(stubbedWebServiceImpl.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase),  any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseWhenPostcodeInvalid)
-    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(FakeAddressLookupWebServiceImpl.traderUprnValid.toString), trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress)
-    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(FakeAddressLookupWebServiceImpl.traderUprnInvalid.toString), trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound)
+    when(stubbedWebServiceImpl.callPostcodeWebService(postcode = any[String], trackingId = any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseValidForPostcodeToAddress)
+    when(stubbedWebServiceImpl.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase), any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseWhenPostcodeInvalid)
+    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnValid.toString), trackingId = any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddress)
+    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnInvalid.toString), trackingId = any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddressNotFound)
 
     bind[AddressLookupWebService].toInstance(stubbedWebServiceImpl)
   }
 
-  private def stubDateService: DateService = {
+  private def stubDateService() = {
     val dateTimeISOChronology: String = new DateTime(
       DateOfDisposalYearValid.toInt,
       DateOfDisposalMonthValid.toInt,
@@ -88,7 +84,18 @@ class TestModule() extends ScalaModule with MockitoSugar {
     when(dateService.dateTimeISOChronology).thenReturn(dateTimeISOChronology)
     when(dateService.today).thenReturn(today)
     when(dateService.now).thenReturn(now)
-    dateService
+    bind[DateService].toInstance(dateService)
+  }
+
+  private def stubBruteForcePreventionWebService() = {
+    val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+    when(bruteForcePreventionWebService.callBruteForce(any[String])).thenReturn(Future {
+      new FakeResponse(status = OK, fakeJson = responseFirstAttempt)
+    })
+    when(bruteForcePreventionWebService.callBruteForce(matches(VrmLocked))).thenReturn(Future {
+      new FakeResponse(status = FORBIDDEN)
+    })
+    bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
   }
 }
 
@@ -101,28 +108,4 @@ object TestModule {
     final val DateOfDisposalYearValid = "1970"
   }
 
-  object AddressLookupServiceConstants {
-    final val TraderBusinessNameValid = "example trader name"
-    final val TraderBusinessContactValid = "example trader contact"
-    final val TraderBusinessEmailValid = "example@email.com"
-    final val KeeperEmailValid = Some("example@email.com")
-    final val PostcodeInvalid = "xx99xx"
-    final val PostcodeValid = "QQ99QQ"
-    val addressWithoutUprn = AddressModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))
-    val addressWithUprn = AddressModel(
-      uprn = Some(traderUprnValid),
-      address = Seq("44 Hythe Road", "White City", "London", PostcodeValid)
-    )
-    final val BuildingNameOrNumberValid = "1234"
-    final val Line2Valid = "line2 stub"
-    final val Line3Valid = "line3 stub"
-    final val PostTownValid = "postTown stub"
-
-    final val PostcodeValidWithSpace = "QQ9 9QQ"
-    final val PostcodeNoResults = "SA99 1DD"
-    val fetchedAddresses = Seq(
-      traderUprnValid.toString -> addressWithUprn.address.mkString(", "),
-      traderUprnValid2.toString -> addressWithUprn.address.mkString(", ")
-    )
-  }
 }
