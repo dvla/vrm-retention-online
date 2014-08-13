@@ -1,7 +1,7 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import constraints.common.RegistrationNumber.formatVrm
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
 import play.api.Logger

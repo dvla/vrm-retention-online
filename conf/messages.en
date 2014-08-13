@@ -533,6 +533,7 @@ vrm_retention_confirm.emailAddressLabel = Please enter the keeper's address shou
 vrm_retention_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 
 vrm_retention_exit.button = Exit
+vrm_retention_finish.button = Finish
 
 
 # choose business address

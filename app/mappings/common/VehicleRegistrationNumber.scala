@@ -1,6 +1,6 @@
 package mappings.common
 
-import constraints.common.RegistrationNumber.validRegistrationNumber
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.validRegistrationNumber
 import play.api.data.Forms.nonEmptyText
 import play.api.data.Mapping
 

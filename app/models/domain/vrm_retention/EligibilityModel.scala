@@ -1,6 +1,6 @@
 package models.domain.vrm_retention
 
-import constraints.common.RegistrationNumber.formatVrm
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

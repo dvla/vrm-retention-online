@@ -1,7 +1,7 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.Success.ExitId
+import mappings.vrm_retention.Success.FinishId
 import org.openqa.selenium.WebDriver
 
 object SuccessPage extends Page with WebBrowserDSL {
@@ -10,5 +10,5 @@ object SuccessPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Summary"
 
-  def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
+  def exit(implicit driver: WebDriver): Element = find(id(FinishId)).get
 }

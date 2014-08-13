@@ -1,6 +1,6 @@
 package models.domain.vrm_retention
 
-import constraints.common.RegistrationNumber.formatVrm
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final case class VehicleLookupFailureViewModel(registrationNumber: String,
                                                vehicleMake: Option[String],
