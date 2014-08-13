@@ -15,8 +15,7 @@ import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
 import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddressNotFound, traderUprnInvalid, traderUprnValid}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
+import services.fakes.FakeAddressLookupWebServiceImpl.{traderUprnInvalid, traderUprnValid}
 import utils.helpers.Config
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
@@ -100,7 +99,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "redirect to setupTradeDetails page when bad form submitted and no dealer name cached" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(traderUprn = "") // Bad form because nothing was selected from the drop-down.
+      val request = buildCorrectlyPopulatedRequest(traderUprn = "")
+      // Bad form because nothing was selected from the drop-down.
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
