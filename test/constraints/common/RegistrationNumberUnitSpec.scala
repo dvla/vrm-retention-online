@@ -2,7 +2,6 @@ package constraints.common
 
 import helpers.UnitSpec
 
-
 final class RegistrationNumberUnitSpec extends UnitSpec {
    "output format" should {
      "transform AB12CDE correctly" in {

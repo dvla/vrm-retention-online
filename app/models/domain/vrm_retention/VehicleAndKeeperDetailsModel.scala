@@ -1,6 +1,6 @@
 package models.domain.vrm_retention
 
-import constraints.common.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import constraints.common.RegistrationNumber.formatVrm
 import mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
 import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel}

@@ -1,6 +1,6 @@
 package models.domain.common
 
-import constraints.common.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import mappings.common.AddressAndPostcode.AddressAndPostcodeCacheKey
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

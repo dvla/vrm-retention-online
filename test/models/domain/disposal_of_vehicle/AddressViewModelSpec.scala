@@ -1,18 +1,12 @@
 package models.domain.disposal_of_vehicle
 
-import constraints.common.Postcode.formatPostcode
-import models.domain.common.{AddressViewModel, AddressLinesModel, AddressAndPostcodeModel}
-import AddressViewModel.JsonFormat
 import helpers.UnitSpec
-import models.domain.common.{AddressViewModel, AddressLinesModel, AddressAndPostcodeModel}
+import models.domain.common.AddressViewModel.JsonFormat
+import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel}
 import play.api.libs.json.Json
-import services.fakes.FakeAddressLookupService.BuildingNameOrNumberValid
-import services.fakes.FakeAddressLookupService.Line2Valid
-import services.fakes.FakeAddressLookupService.Line3Valid
-import services.fakes.FakeAddressLookupService.PostcodeValid
-import services.fakes.FakeAddressLookupService.PostTownValid
+import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import services.fakes.FakeVehicleLookupWebService.KeeperUprnValid
-
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 
 final class AddressViewModelSpec extends UnitSpec {
   "from" should {

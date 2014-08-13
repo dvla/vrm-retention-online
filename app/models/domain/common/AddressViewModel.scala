@@ -1,6 +1,6 @@
 package models.domain.common
 
-import constraints.common.Postcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode
 import play.api.libs.json.Json
 
 final case class AddressViewModel(uprn: Option[Long] = None, address: Seq[String]) {

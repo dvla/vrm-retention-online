@@ -1,6 +1,6 @@
 package controllers.vrm_retention
 
-import constraints.common.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
