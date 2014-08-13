@@ -2,7 +2,7 @@ package controllers.vrm_retention
 
 import helpers.UnitSpec
 import mappings.vrm_retention.SetupBusinessDetails._
-import services.fakes.FakeAddressLookupService._
+import composition.TestModule.AddressLookupServiceConstants._
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 

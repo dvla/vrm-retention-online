@@ -9,8 +9,8 @@ import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
 import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage}
-import services.fakes.FakeAddressLookupService
-import services.fakes.FakeAddressLookupService.PostcodeValid
+import composition.TestModule.AddressLookupServiceConstants
+import composition.TestModule.AddressLookupServiceConstants.PostcodeValid
 import mappings.vrm_retention.Confirm
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
@@ -41,7 +41,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.source.contains(FakeAddressLookupService.PostcodeValid.toUpperCase) should equal(true)
+      page.source.contains(AddressLookupServiceConstants.PostcodeValid.toUpperCase) should equal(true)
     }
 
     "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {

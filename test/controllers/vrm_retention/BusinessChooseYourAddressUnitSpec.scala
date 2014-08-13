@@ -12,7 +12,7 @@ import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundP
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import services.fakes.FakeAddressLookupService.TraderBusinessNameValid
+import composition.TestModule.AddressLookupServiceConstants.TraderBusinessNameValid
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
