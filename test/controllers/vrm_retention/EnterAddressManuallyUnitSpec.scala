@@ -7,8 +7,7 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.AddressAndPostcode.AddressAndPostcodeId
-import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
+import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import mappings.common.Postcode.PostcodeId
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
@@ -22,6 +21,7 @@ import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaul
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import utils.helpers.Config
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
 

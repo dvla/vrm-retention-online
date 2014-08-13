@@ -1,11 +1,11 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.common.AddressAndPostcode.AddressAndPostcodeId
-import mappings.common.AddressLines.{AddressLinesId, BuildingNameOrNumberId, Line2Id, Line3Id, PostTownId}
 import mappings.vrm_retention.EnterAddressManually.{BackId, NextId}
+import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import org.openqa.selenium.WebDriver
 import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 

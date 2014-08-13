@@ -21,6 +21,8 @@ import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{TransactionTimestamp
 import services.fakes.FakeVehicleAndKeeperLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -49,15 +51,15 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                           postTown: Option[String] = KeeperPostTownValid,
                           postCode: Option[String] = KeeperPostCodeValid): Cookie = {
     val key = VehicleAndKeeperLookupDetailsCacheKey
-    val addressAndPostcodeModel = AddressAndPostcodeModel(
-      addressLinesModel = AddressLinesModel(
+    val addressAndPostcodeModel = AddressAndPostcodeViewModel(
+      addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,
         line2 = addressLine2,
         line3 = None,
         postTown = PostTownValid
       )
     )
-    val addressViewModel = AddressViewModel.from(addressAndPostcodeModel, postCode.get)
+    val addressViewModel = AddressModel.from(addressAndPostcodeModel, postCode.get)
     val value = VehicleAndKeeperDetailsModel(registrationNumber = registrationNumber,
       vehicleMake = vehicleMake,
       vehicleModel = vehicleModel,
@@ -97,8 +99,8 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def enterAddressManually(): Cookie = {
     val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyModel(
-      addressAndPostcodeModel = AddressAndPostcodeModel(
-        addressLinesModel = AddressLinesModel(
+      addressAndPostcodeModel = AddressAndPostcodeViewModel(
+        addressLinesModel = AddressLinesViewModel(
           buildingNameOrNumber = BuildingNameOrNumberValid,
           line2 = Some(Line2Valid),
           line3 = Some(Line3Valid),
@@ -154,7 +156,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
 
   def businessDetailsModel(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
-                           businessAddress: AddressViewModel = addressWithUprn): Cookie = {
+                           businessAddress: AddressModel = addressWithUprn): Cookie = {
     val key = BusinessDetailsCacheKey
     val value = BusinessDetailsModel(businessName = businessName,
       businessContact = businessContact,

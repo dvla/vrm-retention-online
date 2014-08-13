@@ -1,15 +1,15 @@
 package services.fakes
 
 import services.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid, traderUprnValid2}
-import models.domain.common.AddressViewModel
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 object FakeAddressLookupService {
   final val TraderBusinessNameValid = "example trader name"
   final val TraderBusinessContactValid = "example trader contact"
   final val PostcodeInvalid = "xx99xx"
   final val PostcodeValid = "QQ99QQ"
-  val addressWithoutUprn = AddressViewModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))
-  val addressWithUprn = AddressViewModel(
+  val addressWithoutUprn = AddressModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))
+  val addressWithUprn = AddressModel(
     uprn = Some(traderUprnValid),
     address = Seq("44 Hythe Road", "White City", "London", PostcodeValid)
   )
