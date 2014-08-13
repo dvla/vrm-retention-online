@@ -34,7 +34,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
+      val result = businessChooseYourAddress.present(request)
       val content = contentAsString(result)
       content should include(TraderBusinessNameValid)
       content should include( s"""<option value="$traderUprnValid" selected>""")
@@ -50,7 +50,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnFound.present(request)
+      val result = businessChooseYourAddress.present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
@@ -77,7 +77,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
@@ -88,7 +88,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
       }
@@ -98,7 +98,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
@@ -106,18 +106,16 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to setupTradeDetails page when bad submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
-      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
     "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnNotFound.submit(request)
+      val request = buildCorrectlyPopulatedRequest(traderUprn = traderUprnInvalid.toString).
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+      val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
       }
@@ -128,7 +126,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnFound.submit(request)
+      val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey,
@@ -138,11 +136,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "does not write cookie when uprn not found" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest().
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress(uprnSelected = traderUprnInvalid.toString)).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithUprnNotFound.submit(request)
+      val request = buildCorrectlyPopulatedRequest(traderUprn = FakeAddressLookupWebServiceImpl.traderUprnInvalid.toString).
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+      val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
         cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey)
@@ -154,21 +150,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-    businessChooseYourAddressWithUprnFound.present(request)
+    businessChooseYourAddress.present(request)
   }
-  private val businessChooseYourAddressWithUprnFound = injector.getInstance(classOf[BusinessChooseYourAddress])
-
-  private def businessChooseYourAddressWithUprnNotFound = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val fakeWebService = new FakeAddressLookupWebServiceImpl(
-          responseOfPostcodeWebService = responseValidForPostcodeToAddressNotFound,
-          responseOfUprnWebService = responseValidForUprnToAddressNotFound
-        )
-        bind[AddressLookupWebService].toInstance(fakeWebService)
-      }
-    }).getInstance(classOf[BusinessChooseYourAddress])
-  }
+  private val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
 
   private def businessChooseYourAddressWithPrototypeBannerNotVisible = {
     testInjector(new ScalaModule() {

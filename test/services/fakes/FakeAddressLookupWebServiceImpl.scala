@@ -1,19 +1,19 @@
 package services.fakes
 
+import composition.TestModule.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
+import models.domain.vrm_retention.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
 import play.api.http.Status.OK
 import play.api.i18n.Lang
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import composition.TestModule.AddressLookupServiceConstants.PostcodeInvalid
-import composition.TestModule.AddressLookupServiceConstants.PostcodeValid
-import models.domain.vrm_retention.{UprnAddressPair, UprnToAddressResponse, PostcodeToAddressResponse}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
+
   override def callPostcodeWebService(postcode: String, trackingId: String)
                                      (implicit lang: Lang): Future[Response] =
     if (postcode == PostcodeInvalid.toUpperCase) Future {
@@ -26,6 +26,7 @@ final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future
 }
 
 object FakeAddressLookupWebServiceImpl {
+
   final val traderUprnValid = 12345L
   final val traderUprnValid2 = 4567L
   final val traderUprnInvalid = 66666L
@@ -87,5 +88,4 @@ object FakeAddressLookupWebServiceImpl {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
-
 }
