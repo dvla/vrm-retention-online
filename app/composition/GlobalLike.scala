@@ -1,10 +1,8 @@
-package common
+package composition
 
 import java.io.File
 import java.util.UUID
 import com.typesafe.config.ConfigFactory
-import composition.Composition
-import filters.WithFilters
 import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.mvc.Results.NotFound

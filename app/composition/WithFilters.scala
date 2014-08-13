@@ -1,6 +1,5 @@
-package filters
+package composition
 
-import composition.Composition
 import play.api.GlobalSettings
 import play.api.mvc.{EssentialAction, Filters}
 
