@@ -15,7 +15,7 @@ import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
 import services.fakes.FakeAddressLookupWebServiceImpl
-import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnInvalid, traderUprnValid}
+import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddressNotFound, traderUprnInvalid, traderUprnValid}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import utils.helpers.Config
 
@@ -65,7 +65,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithFakeWebService(isPrototypeBannerVisible = false).present(request)
+      val result = businessChooseYourAddressWithPrototypeBannerNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -156,24 +156,26 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
     businessChooseYourAddressWithUprnFound.present(request)
   }
-  private val businessChooseYourAddressWithUprnFound = businessChooseYourAddressWithFakeWebService()
-  private val businessChooseYourAddressWithUprnNotFound = businessChooseYourAddressWithFakeWebService(uprnFound = false)
+  private val businessChooseYourAddressWithUprnFound = injector.getInstance(classOf[BusinessChooseYourAddress])
 
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true,
-                                                          isPrototypeBannerVisible: Boolean = true) = {
+  private def businessChooseYourAddressWithUprnNotFound = {
     testInjector(new ScalaModule() {
       override def configure(): Unit = {
-        val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
-        else responseValidForPostcodeToAddressNotFound
-        val responseUprn = if (uprnFound) responseValidForUprnToAddress
-        else responseValidForUprnToAddressNotFound
-        val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
-
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
-
-        bind[Config].toInstance(config)
+        val fakeWebService = new FakeAddressLookupWebServiceImpl(
+          responseOfPostcodeWebService = responseValidForPostcodeToAddressNotFound,
+          responseOfUprnWebService = responseValidForUprnToAddressNotFound
+        )
         bind[AddressLookupWebService].toInstance(fakeWebService)
+      }
+    }).getInstance(classOf[BusinessChooseYourAddress])
+  }
+
+  private def businessChooseYourAddressWithPrototypeBannerNotVisible = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+        bind[Config].toInstance(config)
       }
     }).getInstance(classOf[BusinessChooseYourAddress])
   }
