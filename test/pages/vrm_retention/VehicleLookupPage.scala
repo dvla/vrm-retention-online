@@ -3,8 +3,8 @@ package pages.vrm_retention
 import helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL, WebDriverFactory}
 import mappings.vrm_retention.VehicleLookup.{BackId, DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
 import org.openqa.selenium.WebDriver
+import services.fakes.BruteForcePreventionWebServiceConstants
 import services.fakes.FakeVehicleAndKeeperLookupWebService.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
-import services.fakes.brute_force_protection.BruteForcePreventionWebServiceConstants
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 

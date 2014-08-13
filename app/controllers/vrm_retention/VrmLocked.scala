@@ -3,20 +3,20 @@ package controllers.vrm_retention
 import com.google.inject.Inject
 import constraints.common.RegistrationNumber.formatVrm
 import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.common.BruteForcePreventionViewModel
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
 
   def present = Action {
     implicit request =>
-      (request.cookies.getModel[BruteForcePreventionViewModel],
+      (request.cookies.getModel[BruteForcePreventionModel],
         request.cookies.getModel[VehicleAndKeeperLookupFormModel],
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(bruteForcePreventionViewModel), Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails)) =>

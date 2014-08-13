@@ -1,4 +1,4 @@
-package services.fakes.brute_force_protection
+package services.fakes
 
 import play.api.libs.json.Json
 

@@ -14,7 +14,6 @@ import play.api.Logger
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
-import services.brute_force_prevention.BruteForcePreventionService
 import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -23,6 +22,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService)
@@ -98,7 +99,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     }
 
   private def lookupVehicle(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                            bruteForcePreventionViewModel: BruteForcePreventionViewModel)
+                            bruteForcePreventionViewModel: BruteForcePreventionModel)
                            (implicit request: Request[_]): Future[SimpleResult] = {
 
     def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {

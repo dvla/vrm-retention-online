@@ -4,27 +4,24 @@ import composition.TestComposition
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
+import mappings.vrm_retention.Confirm._
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
-import models.domain.common.BruteForcePreventionViewModel._
-import models.domain.common._
 import models.domain.vrm_retention._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import services.fakes.AddressLookupServiceConstants._
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
+import services.fakes.BruteForcePreventionWebServiceConstants._
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
 import services.fakes.FakeVehicleAndKeeperLookupWebService._
-import services.fakes.brute_force_protection.BruteForcePreventionWebServiceConstants._
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
-import mappings.vrm_retention.Confirm._
-import scala.Some
-import play.api.mvc.Cookie
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -45,15 +42,15 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   }
 
   def vehicleAndKeeperDetailsModel(registrationNumber: String = RegistrationNumberValid,
-                          vehicleMake: Option[String] = VehicleMakeValid,
-                          vehicleModel: Option[String] = VehicleModelValid,
-                          title: Option[String] = KeeperTitleValid,
-                          firstName: Option[String] = KeeperFirstNameValid,
-                          lastName: Option[String] = KeeperLastNameValid,
-                          addressLine1: Option[String] = KeeperAddressLine1Valid,
-                          addressLine2: Option[String] = KeeperAddressLine2Valid,
-                          postTown: Option[String] = KeeperPostTownValid,
-                          postCode: Option[String] = KeeperPostCodeValid): Cookie = {
+                                   vehicleMake: Option[String] = VehicleMakeValid,
+                                   vehicleModel: Option[String] = VehicleModelValid,
+                                   title: Option[String] = KeeperTitleValid,
+                                   firstName: Option[String] = KeeperFirstNameValid,
+                                   lastName: Option[String] = KeeperLastNameValid,
+                                   addressLine1: Option[String] = KeeperAddressLine1Valid,
+                                   addressLine2: Option[String] = KeeperAddressLine2Valid,
+                                   postTown: Option[String] = KeeperPostTownValid,
+                                   postCode: Option[String] = KeeperPostCodeValid): Cookie = {
     val key = VehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
@@ -81,9 +78,9 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   }
 
   def vehicleAndKeeperLookupFormModel(referenceNumber: String = ReferenceNumberValid,
-                             registrationNumber: String = RegistrationNumberValid,
-                             postcode: String = KeeperPostcodeValid,
-                             keeperConsent: String = KeeperConsentValid): Cookie = {
+                                      registrationNumber: String = RegistrationNumberValid,
+                                      postcode: String = KeeperPostcodeValid,
+                                      keeperConsent: String = KeeperConsentValid): Cookie = {
     val key = VehicleAndKeeperLookupFormModelCacheKey
     val value = VehicleAndKeeperLookupFormModel(
       referenceNumber = referenceNumber,
@@ -120,7 +117,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                                     maxAttempts: Int = MaxAttempts,
                                     dateTimeISOChronology: String = org.joda.time.DateTime.now().toString): Cookie = {
     val key = BruteForcePreventionViewModelCacheKey
-    val value = BruteForcePreventionViewModel(
+    val value = BruteForcePreventionModel(
       permitted,
       attempts,
       maxAttempts,
@@ -138,19 +135,19 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     session.newCookie(cookieName, value)
   }
 
-//  def keeperDetailsModel(title: String = "title",
-//                         firstName: String = "firstName",
-//                         lastName: String = "lastName",
-//                         address: AddressViewModel = addressWithUprn): Cookie = {
-//    val key = KeeperLookupDetailsCacheKey
-//    val value = KeeperDetailsModel(
-//      title = title,
-//      firstName = firstName,
-//      lastName = lastName,
-//      address = address
-//    )
-//    createCookie(key, value)
-//  }
+  //  def keeperDetailsModel(title: String = "title",
+  //                         firstName: String = "firstName",
+  //                         lastName: String = "lastName",
+  //                         address: AddressViewModel = addressWithUprn): Cookie = {
+  //    val key = KeeperLookupDetailsCacheKey
+  //    val value = KeeperDetailsModel(
+  //      title = title,
+  //      firstName = firstName,
+  //      lastName = lastName,
+  //      address = address
+  //    )
+  //    createCookie(key, value)
+  //  }
 
   def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid): Cookie = {
     val key = CheckEligibilityCacheKey

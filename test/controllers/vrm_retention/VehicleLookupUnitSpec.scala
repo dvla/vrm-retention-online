@@ -16,14 +16,13 @@ import play.api.libs.ws.Response
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.DateServiceImpl
-import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import services.fakes.FakeResponse
+import services.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.fakes.FakeVehicleAndKeeperLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
-import services.fakes.brute_force_protection.BruteForcePreventionWebServiceConstants
-import services.fakes.brute_force_protection.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
+import services.fakes.{BruteForcePreventionWebServiceConstants, FakeResponse}
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionConfig, BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -347,7 +346,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     new BruteForcePreventionServiceImpl(
-      config = new Config(),
+      config = new BruteForcePreventionConfig(),
       ws = bruteForcePreventionWebService,
       dateService = injector.getInstance(classOf[DateService])
     )
@@ -358,8 +357,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleAndKeeperLookupResponseGenerator(fullResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess,
-                                             bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true),
-                                             isPrototypeBannerVisible: Boolean = true) = {
+                                                      bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true),
+                                                      isPrototypeBannerVisible: Boolean = true) = {
     val (status, vehicleAndKeeperDetailsResponse) = fullResponse
     val ws: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
     when(ws.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future {

@@ -11,10 +11,9 @@ import pdf.{PdfService, PdfServiceImpl}
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.i18n.Lang
 import play.api.{Logger, LoggerLike}
-import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
+import services.fakes.BruteForcePreventionWebServiceConstants._
 import services.fakes._
-import services.fakes.brute_force_protection.BruteForcePreventionWebServiceConstants._
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
@@ -23,6 +22,7 @@ import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.Acce
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
