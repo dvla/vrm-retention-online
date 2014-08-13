@@ -1,7 +1,7 @@
 package controllers.vrm_retention
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestModule.AddressLookupServiceConstants.TraderBusinessNameValid
+import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import controllers.vrm_retention.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs

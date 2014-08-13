@@ -11,7 +11,7 @@ import models.domain.common.BruteForcePreventionViewModel
 import models.domain.vrm_retention._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
-import composition.TestModule.AddressLookupServiceConstants._
+import services.fakes.AddressLookupServiceConstants._
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl._
