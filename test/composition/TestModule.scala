@@ -3,16 +3,21 @@ package composition
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import composition.TestModule.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import models.domain.vrm_retention.VehicleAndKeeperDetailsRequest
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Matchers.{any, _}
 import org.mockito.Mockito.when
+import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.i18n.Lang
+import play.api.libs.json.Json
 import play.api.{Logger, LoggerLike}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import services.fakes.BruteForcePreventionWebServiceConstants._
+import services.fakes.FakeVehicleAndKeeperLookupWebService._
 import services.fakes._
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
@@ -37,8 +42,8 @@ class TestModule() extends ScalaModule with MockitoSugar {
     stubOrdnanceSurveyAddressLookup()
     stubDateService()
     stubBruteForcePreventionWebService()
+    stubVehicleAndKeeperLookupWebService()
 
-    bind[VehicleAndKeeperLookupWebService].to[FakeVehicleAndKeeperLookupWebService].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
@@ -96,6 +101,32 @@ class TestModule() extends ScalaModule with MockitoSugar {
       new FakeResponse(status = FORBIDDEN)
     })
     bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
+  }
+
+  private def stubVehicleAndKeeperLookupWebService() = {
+    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+    when(vehicleAndKeeperLookupWebService.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).
+      thenAnswer(
+        new Answer[Future[FakeResponse]] {
+          override def answer(invocation: InvocationOnMock) = {
+            Future {
+              val args: Array[AnyRef] = invocation.getArguments
+              val request: VehicleAndKeeperDetailsRequest = args(0).asInstanceOf[VehicleAndKeeperDetailsRequest] // Cast first argument.
+              val (responseStatus, response) = {
+                request.referenceNumber match {
+                  case "99999999991" => vehicleAndKeeperDetailsResponseVRMNotFound
+                  case "99999999992" => vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+                  case "99999999999" => vehicleAndKeeperDetailsResponseNotFoundResponseCode
+                  case _ => vehicleAndKeeperDetailsResponseSuccess
+                }
+              }
+              val responseAsJson = Json.toJson(response)
+              new FakeResponse(status = responseStatus, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+            }
+          }
+        }
+      )
+    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
   }
 }
 

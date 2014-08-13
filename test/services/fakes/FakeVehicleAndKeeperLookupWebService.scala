@@ -1,32 +1,10 @@
 package services.fakes
 
-import models.domain.vrm_retention.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
+import models.domain.vrm_retention.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
-import play.api.libs.json.Json
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupWebService
-
-final class FakeVehicleAndKeeperLookupWebService extends VehicleAndKeeperLookupWebService {
-
-  import FakeVehicleAndKeeperLookupWebService._
-
-  override def callVehicleAndKeeperLookupService(request: VehicleAndKeeperDetailsRequest, trackingId: String) = Future {
-    val (responseStatus, response) = {
-      request.referenceNumber match {
-        case "99999999991" => vehicleAndKeeperDetailsResponseVRMNotFound
-        case "99999999992" => vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
-        case "99999999999" => vehicleAndKeeperDetailsResponseNotFoundResponseCode
-        case _ => vehicleAndKeeperDetailsResponseSuccess
-      }
-    }
-    val responseAsJson = Json.toJson(response)
-    //Logger.debug(s"FakeVehicleLookupWebService callVehicleLookupService with: $responseAsJson")
-    new FakeResponse(status = responseStatus, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
-  }
-}
 
 object FakeVehicleAndKeeperLookupWebService {
+
   final val RegistrationNumberValid = "AB12AWR"
   final val RegistrationNumberWithSpaceValid = "AB12 AWR"
   final val ReferenceNumberValid = "12345678910"
