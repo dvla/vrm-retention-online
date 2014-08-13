@@ -3,10 +3,6 @@ package controllers.vrm_retention
 import com.google.inject.Inject
 import common.ClientSideSessionFactory
 import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import constraints.common.Postcode.formatPostcode
-import constraints.common.RegistrationNumber.formatVrm
-import mappings.common.AddressAndPostcode.{AddressAndPostcodeId, addressAndPostcode}
-import models.domain.common.AddressViewModel
 import models.domain.vrm_retention._
 import play.api.Logger
 import play.api.data.Forms.mapping
@@ -21,9 +17,7 @@ final class EnterAddressManually @Inject()()
                                            config: Config) extends Controller {
 
   private[vrm_retention] val form = Form(
-    mapping(
-      AddressAndPostcodeId -> addressAndPostcode
-    )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
+    EnterAddressManuallyModel.Form.Mapping
   )
 
   def present = Action { implicit request =>

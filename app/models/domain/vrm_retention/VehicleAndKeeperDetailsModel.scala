@@ -3,8 +3,10 @@ package models.domain.vrm_retention
 import constraints.common.Postcode.formatPostcode
 import constraints.common.RegistrationNumber.formatVrm
 import mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
-import models.domain.common.{AddressAndPostcodeModel, AddressLinesModel, AddressViewModel, CacheKey}
+import models.domain.common.CacheKey
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               vehicleMake: Option[String],
@@ -12,7 +14,7 @@ final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               keeperTitle: Option[String],
                                               keeperFirstName: Option[String],
                                               keeperLastName: Option[String],
-                                              keeperAddress: Option[AddressViewModel])
+                                              keeperAddress: Option[AddressModel])
 
 object VehicleAndKeeperDetailsModel {
 
@@ -20,13 +22,13 @@ object VehicleAndKeeperDetailsModel {
   def from(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
 
     val addressViewModel = {
-      val addressLineModel = AddressLinesModel(vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
+      val addressLineModel = AddressLinesViewModel(vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
         vehicleAndKeeperDetailsDto.keeperAddressLine2,
         vehicleAndKeeperDetailsDto.keeperAddressLine3,
         vehicleAndKeeperDetailsDto.keeperAddressLine4,
         vehicleAndKeeperDetailsDto.keeperPostTown.get)
-      val addressAndPostcodeModel = AddressAndPostcodeModel(None, addressLineModel)
-      AddressViewModel.from(addressAndPostcodeModel, formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))
+      val addressAndPostcodeModel = AddressAndPostcodeViewModel(None, addressLineModel)
+      AddressModel.from(addressAndPostcodeModel, formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))
     }
 
     VehicleAndKeeperDetailsModel(registrationNumber = formatVrm(vehicleAndKeeperDetailsDto.registrationNumber),

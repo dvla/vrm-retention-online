@@ -6,15 +6,11 @@ import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import services.address_lookup.AddressLookupWebService
-import services.address_lookup.gds.domain.Address
-import services.address_lookup.gds.domain.Details
-import services.address_lookup.gds.domain.Location
-import services.address_lookup.gds.domain.Presentation
 import services.fakes.FakeAddressLookupService.PostcodeInvalid
 import services.fakes.FakeAddressLookupService.PostcodeValid
-import models.domain.common.AddressViewModel
 import models.domain.vrm_retention.{UprnAddressPair, UprnToAddressResponse, PostcodeToAddressResponse}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
                                             responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
@@ -68,7 +64,7 @@ object FakeAddressLookupWebServiceImpl {
 
   val uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
-    UprnToAddressResponse(addressViewModel = Some(AddressViewModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
+    UprnToAddressResponse(addressViewModel = Some(AddressModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
   }
 
   def responseValidForUprnToAddress: Future[Response] = {
@@ -87,39 +83,4 @@ object FakeAddressLookupWebServiceImpl {
     }
   }
 
-  def gdsAddress(presentationProperty: String = "property stub", presentationStreet: String = "123"): Address =
-    Address(
-      gssCode = "gssCode stub",
-      countryCode = "countryCode stub",
-      postcode = PostcodeValid,
-      houseName = Some("presentationProperty stub"),
-      houseNumber = Some("123"),
-      presentation = Presentation(property = Some(presentationProperty),
-        street = Some(presentationStreet),
-        town = Some("town stub"),
-        area = Some("area stub"),
-        postcode = PostcodeValid,
-        uprn = traderUprnValid.toString),
-      details = Details(
-        usrn = "usrn stub",
-        isResidential = true,
-        isCommercial = true,
-        isPostalAddress = true,
-        classification = "classification stub",
-        state = "state stub",
-        organisation = Some("organisation stub")
-      ),
-      location = Location(
-        x = 1.0d,
-        y = 2.0d)
-    )
-
-  def responseValidForGdsAddressLookup: Future[Response] = {
-    import services.address_lookup.gds.domain.JsonFormats._
-    val inputAsJson = Json.toJson(Seq(gdsAddress(), gdsAddress(presentationStreet = "456")))
-
-    Future {
-      FakeResponse(status = OK, fakeJson = Some(inputAsJson))
-    }
-  }
 }

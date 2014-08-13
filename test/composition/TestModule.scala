@@ -9,17 +9,14 @@ import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
 import services.DateService
-import services.address_lookup.{AddressLookupService, AddressLookupWebService}
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import services.fakes._
-import services.address_lookup.{AddressLookupWebService, AddressLookupService}
-import services.vehicle_lookup.{VehicleLookupServiceImpl, VehicleLookupService, VehicleLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupWebService, AddressLookupService}
 import services.brute_force_prevention.BruteForcePreventionWebService
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
-import services.vehicle_lookup.{VehicleLookupService, VehicleLookupServiceImpl, VehicleLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
@@ -32,12 +29,8 @@ class TestModule() extends ScalaModule with MockitoSugar {
   def configure() {
     Logger.debug("Guice is loading TestModule")
 
-    getProperty("addressLookupService.type", "ordnanceSurvey") match {
-      case "ordnanceSurvey" => ordnanceSurveyAddressLookup()
-      case _ => gdsAddressLookup()
-    }
-    bind[VehicleLookupWebService].to[FakeVehicleLookupWebService].asEagerSingleton()
-    bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
+    ordnanceSurveyAddressLookup()
+
     bind[VehicleAndKeeperLookupWebService].to[FakeVehicleAndKeeperLookupWebService].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[DateService].to[FakeDateServiceImpl].asEagerSingleton()
@@ -57,7 +50,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
   }
 
   private def ordnanceSurveyAddressLookup() = {
-    bind[AddressLookupService].to[services.address_lookup.ordnance_survey.AddressLookupServiceImpl]
+    bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
 
     val fakeWebServiceImpl = new FakeAddressLookupWebServiceImpl(
       responseOfPostcodeWebService = FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress,
@@ -66,12 +59,4 @@ class TestModule() extends ScalaModule with MockitoSugar {
     bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
   }
 
-  private def gdsAddressLookup() = {
-    bind[AddressLookupService].to[services.address_lookup.gds.AddressLookupServiceImpl]
-    val fakeWebServiceImpl = new FakeAddressLookupWebServiceImpl(
-      responseOfPostcodeWebService = FakeAddressLookupWebServiceImpl.responseValidForGdsAddressLookup,
-      responseOfUprnWebService = FakeAddressLookupWebServiceImpl.responseValidForGdsAddressLookup
-    )
-    bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
-  }
 }

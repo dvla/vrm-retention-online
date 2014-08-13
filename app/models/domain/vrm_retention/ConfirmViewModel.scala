@@ -1,6 +1,6 @@
 package models.domain.vrm_retention
 
-import models.domain.common.AddressViewModel
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 final case class ConfirmViewModel(registrationNumber: String,
                                   vehicleMake: Option[String],
@@ -8,10 +8,10 @@ final case class ConfirmViewModel(registrationNumber: String,
                                   keeperTitle: Option[String],
                                   keeperFirstName: Option[String],
                                   keeperLastName: Option[String],
-                                  keeperAddress: Option[AddressViewModel],
+                                  keeperAddress: Option[AddressModel],
                                   businessName: Option[String],
                                   businessContact: Option[String],
-                                  businessAddress: Option[AddressViewModel])
+                                  businessAddress: Option[AddressModel])
 
 object ConfirmViewModel {
 

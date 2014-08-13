@@ -172,7 +172,7 @@ object Sandbox extends Plugin {
     System.setProperty("vehicleAndKeeperLookupMicroServiceUrlBase", s"http://localhost:$VehicleAndKeeperLookupPort")
     System.setProperty("vrmRetentionEligibilityMicroServiceUrlBase", s"http://localhost:$VrmRetentionEligibilityPort")
     System.setProperty("vrmRetentionRetainMicroServiceUrlBase", s"http://localhost:$VrmRetentionRetainPort")
-    System.setProperty("ordnancesurvey.ms.url", s"http://localhost:$OsAddressLookupPort")
+    System.setProperty("ordnancesurvey.baseUrl", s"http://localhost:$OsAddressLookupPort")
     body.flatMap(t => stop)
   }
 

@@ -11,12 +11,12 @@ import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
-import services.address_lookup.AddressLookupService
 import utils.helpers.Config
 import utils.helpers.FormExtensions.formBinding
 import views.html.vrm_retention.business_choose_your_address
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,

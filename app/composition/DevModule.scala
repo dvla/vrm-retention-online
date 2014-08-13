@@ -11,7 +11,6 @@ import common.EncryptedClientSideSessionFactory
 import filters.AccessLoggingFilter.AccessLoggerName
 import pdf.{PdfServiceImpl, PdfService}
 import play.api.{LoggerLike, Logger}
-import services.address_lookup.{AddressLookupWebService, AddressLookupService, ordnance_survey, gds}
 import services.brute_force_prevention.BruteForcePreventionService
 import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.brute_force_prevention.BruteForcePreventionWebService
@@ -27,6 +26,8 @@ import services.{DateService, DateServiceImpl, brute_force_prevention}
 import utils.helpers.{CookieEncryption, AesEncryption, CookieNameHashGenerator, Sha1HashGenerator}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityService}
 import services.vrm_retention_retain.{VRMRetentionRetainServiceImpl, VRMRetentionRetainService, VRMRetentionRetainWebServiceImpl, VRMRetentionRetainWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupWebService, AddressLookupService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressLookupServiceImpl, WebServiceImpl}
 
 /**
  * Provides real implementations of traits
@@ -40,14 +41,9 @@ import services.vrm_retention_retain.{VRMRetentionRetainServiceImpl, VRMRetentio
  */
 object DevModule extends ScalaModule {
   def configure() {
-    getProperty("addressLookupService.type", "ordnanceSurvey") match {
-      case "ordnanceSurvey" =>
-        bind[AddressLookupService].to[ordnance_survey.AddressLookupServiceImpl].asEagerSingleton()
-        bind[AddressLookupWebService].to[ordnance_survey.WebServiceImpl].asEagerSingleton()
-      case _ =>
-        bind[AddressLookupService].to[gds.AddressLookupServiceImpl].asEagerSingleton()
-        bind[AddressLookupWebService].to[gds.WebServiceImpl].asEagerSingleton()
-    }
+
+    bind[AddressLookupService].to[AddressLookupServiceImpl].asEagerSingleton()
+    bind[AddressLookupWebService].to[WebServiceImpl].asEagerSingleton()
     bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupWebService].to[VehicleAndKeeperLookupWebServiceImpl].asEagerSingleton()

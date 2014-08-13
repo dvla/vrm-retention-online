@@ -1,9 +1,9 @@
 package models.domain.vrm_retention
 
 import play.api.libs.json.Json
-import models.domain.common.AddressViewModel
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
-final case class UprnToAddressResponse(addressViewModel: Option[AddressViewModel])
+final case class UprnToAddressResponse(addressViewModel: Option[AddressModel])
 
 object UprnToAddressResponse {
   implicit val JsonFormat = Json.format[UprnToAddressResponse]

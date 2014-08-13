@@ -2,11 +2,13 @@
         token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import mappings.common.AddressAndPostcode.AddressAndPostcodeId
 @import mappings.vrm_retention.EnterAddressManually._
 @import utils.helpers.CsrfHelper
 @import views.html.vrm_retention.main
-@import views.html.helper.{addressAndPostcode, form}
+@import views.html.helper.form
+@import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.addressAndPostcode
 
 @main(
     progress = Some(Messages("vrm_retention_progress_3")),
