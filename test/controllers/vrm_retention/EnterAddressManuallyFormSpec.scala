@@ -2,7 +2,7 @@ package controllers.vrm_retention
 
 import helpers.UnitSpec
 import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import services.fakes.FakeAddressLookupService.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import composition.TestModule.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {

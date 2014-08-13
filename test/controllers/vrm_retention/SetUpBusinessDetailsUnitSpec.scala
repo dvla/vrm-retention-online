@@ -11,7 +11,7 @@ import org.mockito.Mockito.when
 import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import services.fakes.FakeAddressLookupService._
+import composition.TestModule.AddressLookupServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 

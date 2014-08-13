@@ -6,8 +6,8 @@ import play.api.libs.json.Json
 import play.api.libs.ws.Response
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import services.fakes.FakeAddressLookupService.PostcodeInvalid
-import services.fakes.FakeAddressLookupService.PostcodeValid
+import composition.TestModule.AddressLookupServiceConstants.PostcodeInvalid
+import composition.TestModule.AddressLookupServiceConstants.PostcodeValid
 import models.domain.vrm_retention.{UprnAddressPair, UprnToAddressResponse, PostcodeToAddressResponse}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
@@ -60,6 +60,10 @@ object FakeAddressLookupWebServiceImpl {
     Future {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
+  }
+
+  def responseWhenPostcodeInvalid = Future {
+    FakeResponse(status = OK, fakeJson = None)
   }
 
   val uprnToAddressResponseValid = {
