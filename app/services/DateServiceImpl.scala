@@ -1,6 +1,6 @@
 package services
 
-import models.DayMonthYear
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import org.joda.time.{DateTime, Instant}
 
 final class DateServiceImpl extends DateService {

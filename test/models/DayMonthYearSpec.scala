@@ -3,9 +3,11 @@ package models
 import helpers.UnitSpec
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import scala.language.postfixOps
 import scala.util.Try
 
+// TODO move to common project
 final class DayMonthYearSpec extends UnitSpec {
   "DayMonthYear" should {
     "return the correct 'yyyy-MM-dd' date format" in {
