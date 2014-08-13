@@ -1,6 +1,6 @@
 package mappings.common
 
-import constraints.NumberOnly
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.NumberOnly
 import play.api.data.Forms.nonEmptyText
 import play.api.data.Mapping
 
