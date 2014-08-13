@@ -17,12 +17,13 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.DateServiceImpl
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import services.fakes.{FakeDateServiceImpl, FakeResponse}
+import services.fakes.FakeResponse
 import services.fakes.FakeVehicleAndKeeperLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -348,7 +349,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     new BruteForcePreventionServiceImpl(
       config = new Config(),
       ws = bruteForcePreventionWebService,
-      dateService = new FakeDateServiceImpl
+      dateService = injector.getInstance(classOf[DateService])
     )
   }
 
