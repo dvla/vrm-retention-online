@@ -51,5 +51,6 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       enterAddressManually().
       businessDetails().
       eligibilityModel().
+      confirmModel().
       retainModel()
 }

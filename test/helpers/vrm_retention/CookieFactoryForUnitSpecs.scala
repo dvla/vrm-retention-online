@@ -22,6 +22,9 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
+import mappings.vrm_retention.Confirm._
+import scala.Some
+import play.api.mvc.Cookie
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -164,6 +167,12 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       businessContact = businessContact,
       businessEmail = businessEmail,
       businessAddress = businessAddress)
+    createCookie(key, value)
+  }
+
+  def confirmModel(keeperEmail: Option[String] = KeeperEmailValid): Cookie = {
+    val key = ConfirmFormModelCacheKey
+    val value = ConfirmFormModel(keeperEmail = keeperEmail)
     createCookie(key, value)
   }
 

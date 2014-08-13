@@ -446,7 +446,7 @@ vrm_retention_setupbusinessdetails.businesspostcodelabel.validation = Must be be
 vrm_retention_setupbusinessdetails.button = Find address
 error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 error.validBusinessContact = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
-error.validBusinessEmail = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, and @)
+error.validEmail = Must be a valid email address
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Find the vehicle

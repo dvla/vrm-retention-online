@@ -63,7 +63,10 @@
                     	@keeperAddressLine<br>
                 	}
                     @successViewModel.keeperAddress.get.address.last
-            	</p>
+                    @if(successViewModel.keeperEmail.isDefined) {
+                        <p>@successViewModel.keeperEmail</p>
+                    }
+                </p>
 			</div>
 		</div>
 		<h2>@Messages("vrm_retention_success.aboutTransactionTitle")</h2>

@@ -105,6 +105,7 @@ object TestModule {
     final val TraderBusinessNameValid = "example trader name"
     final val TraderBusinessContactValid = "example trader contact"
     final val TraderBusinessEmailValid = "example@email.com"
+    final val KeeperEmailValid = Some("example@email.com")
     final val PostcodeInvalid = "xx99xx"
     final val PostcodeValid = "QQ99QQ"
     val addressWithoutUprn = AddressModel(address = Seq("44 Hythe Road", "White City", "London", PostcodeValid))

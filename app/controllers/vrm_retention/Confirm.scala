@@ -1,14 +1,15 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import mappings.vrm_retention.Confirm.EmailAddressId
+import mappings.vrm_retention.Confirm.KeeperEmailId
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.vrm_retention._
-import play.api.data.Form
+import play.api.data.{Form, FormError}
 import play.api.data.Forms._
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -16,7 +17,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
 
   val form = Form(
     mapping(
-      EmailAddressId -> optional(email)
+      KeeperEmailId -> optional(email)
     )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   )
 
@@ -35,8 +36,38 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   }
 
   def submit = Action { implicit request =>
-    Redirect(routes.Payment.present())
+    form.bindFromRequest.fold(
+      invalidForm => {
+        (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[BusinessDetailsModel]) match {
+          case (Some(vehicleAndKeeperDetails), Some(businessDetailsModel)) =>
+            val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, businessDetailsModel)
+            val formWithReplacedErrors = invalidForm.
+              replaceError(KeeperEmailId,
+                FormError(
+                  key = KeeperEmailId,
+                  message = "error.validEmail",
+                  args = Seq.empty)).
+              distinctErrors
+            BadRequest(views.html.vrm_retention.confirm(confirmViewModel, formWithReplacedErrors))
+          case (Some(vehicleAndKeeperDetails), None) =>
+            val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails)
+            val formWithReplacedErrors = invalidForm.
+            replaceError(KeeperEmailId,
+              FormError(
+                key = KeeperEmailId,
+                message = "error.validEmail",
+                args = Seq.empty)).
+            distinctErrors
+            BadRequest(views.html.vrm_retention.confirm(confirmViewModel, formWithReplacedErrors))
+          case _ =>
+            Redirect(routes.VehicleLookup.present())
+        }
+      },
+      validForm => Redirect(routes.Payment.present()).withCookie(validForm)
+    )
   }
+
+
 
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())

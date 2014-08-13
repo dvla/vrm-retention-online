@@ -20,6 +20,8 @@ import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceI
 import services.fakes.FakeVehicleAndKeeperLookupWebService
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
+import mappings.vrm_retention.Confirm._
+import scala.Some
 
 object CookieFactoryForUISpecs {
 
@@ -74,6 +76,13 @@ object CookieFactoryForUISpecs {
   def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid)(implicit webDriver: WebDriver) = {
     val key = CheckEligibilityCacheKey
     val value = EligibilityModel(replacementVRM = replacementVRM)
+    addCookie(key, value)
+    this
+  }
+
+  def confirmModel(keeperEmail: Option[String] = KeeperEmailValid)(implicit webDriver: WebDriver) = {
+    val key = ConfirmFormModelCacheKey
+    val value = ConfirmFormModel(keeperEmail = keeperEmail)
     addCookie(key, value)
     this
   }

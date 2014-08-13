@@ -20,11 +20,14 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
-        request.cookies.getModel[RetainModel]) match {
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(retainModel)) =>
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, retainModel)
+        request.cookies.getModel[ConfirmFormModel], request.cookies.getModel[RetainModel]) match {
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(confirmModel), Some(retainModel)) =>
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(retainModel)) =>
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(confirmModel), Some(retainModel)) =>
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, confirmModel, retainModel)
+          Ok(views.html.vrm_retention.success(successViewModel))
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case _ =>

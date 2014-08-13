@@ -55,7 +55,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
               replaceError(BusinessEmailId,
                 FormError(
                   key = BusinessEmailId,
-                  message = "error.email",
+                  message = "error.validEmail",
                   args = Seq.empty)).
               replaceError(BusinessPostcodeId,
                 FormError(

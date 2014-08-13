@@ -11,7 +11,8 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
 
 @main(
-    title = Messages("vrm_retention_confirm.title")
+    title = Messages("vrm_retention_confirm.title"),
+    currentForm = Some(confirmForm)
 ) {
     @Messages("vrm_retention_confirm.intro")
     <p></p>
@@ -51,7 +52,7 @@
         <div class="two-col">
             <div class="first-col">
                 <h2>@Messages("vrm_retention_confirm.emailAddressTitle")</h2>
-                @valtechInputText(confirmForm(EmailAddressId),
+                @valtechInputText(confirmForm(KeeperEmailId),
                     args = Map(
                         '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
                         'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
