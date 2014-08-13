@@ -5,6 +5,7 @@ import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import services.fakes.FakeAddressLookupWebServiceImpl
 import services.fakes.FakeAddressLookupWebServiceImpl.{responseValidForPostcodeToAddress, responseValidForPostcodeToAddressNotFound, responseValidForUprnToAddress, responseValidForUprnToAddressNotFound, traderUprnValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 import utils.helpers.Config
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl
 
@@ -34,11 +35,8 @@ final class BusinessChooseYourAddressFormSpec extends UnitSpec {
   }
 
   private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
-    val responsePostcode = if (uprnFound) responseValidForPostcodeToAddress
-    else responseValidForPostcodeToAddressNotFound
-    val responseUprn = if (uprnFound) responseValidForUprnToAddress else responseValidForUprnToAddressNotFound
-    val fakeWebService = new FakeAddressLookupWebServiceImpl(responsePostcode, responseUprn)
-    val addressLookupService = new AddressLookupServiceImpl(fakeWebService)
+    val fakeWebService = injector.getInstance(classOf[AddressLookupWebService])
+    val addressLookupService = new AddressLookupServiceImpl(fakeWebService)  /////// 
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
     new BusinessChooseYourAddress(addressLookupService)
