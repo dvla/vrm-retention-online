@@ -1,8 +1,8 @@
 package mappings.vrm_retention
 
-import constraints.vrm_retention.BusinessName
 import play.api.data.Mapping
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.nonEmptyTextWithTransform
+import constraints.BusinessName
 
 object SetupBusinessDetails {
 

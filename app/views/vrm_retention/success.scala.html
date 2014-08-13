@@ -1,7 +1,7 @@
 @(successViewModel: models.domain.vrm_retention.SuccessViewModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.Success
+@import controllers.routes.Success
 @import mappings.vrm_retention.Success.FinishId
 @import helper._
 @import views.html.helper.base._
@@ -104,6 +104,6 @@
 
 	}
 	<button id="printRetainSuccess" type="button" name="action" value="printRetainSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
-    <a class="button-secondary" id="@FinishId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_finish.button")</a>
+    <a class="button-secondary" id="@FinishId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_finish.button")</a>
 
 }

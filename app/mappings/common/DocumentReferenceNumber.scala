@@ -1,8 +1,8 @@
 package mappings.common
 
-import constraints.NumberOnly
 import play.api.data.Forms.nonEmptyText
 import play.api.data.Mapping
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.NumberOnly
 
 object DocumentReferenceNumber {
   final val MinLength = 11

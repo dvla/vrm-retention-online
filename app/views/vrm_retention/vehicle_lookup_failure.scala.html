@@ -6,7 +6,7 @@
 
 @import mappings.vrm_retention.VehicleLookupFailure._
 @import views.html.vrm_retention.main
-@import controllers.vrm_retention.routes.VehicleLookupFailure
+@import controllers.routes.VehicleLookupFailure
 
 @main(
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
@@ -29,10 +29,10 @@
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
                 @if(!(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility"))) {
-                    <a class="button" id="@VehicleLookupId" href="@controllers.vrm_retention.routes.VehicleLookup.present()">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
+                    <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
                 }
-                <a id="@BackId" href="@controllers.vrm_retention.routes.VehicleLookup.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
-                <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
+                <a id="@BackId" href="@controllers.routes.VehicleLookup.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
+                <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
             </div>
         </div>
         <div id="vehicle-details" class="second-col trader-details">

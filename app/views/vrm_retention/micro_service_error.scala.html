@@ -11,7 +11,7 @@
 
     <div class="form-steps">
         @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="tryagain" href="@controllers.vrm_retention.routes.VehicleLookup.present()">@Messages("micro_service_error.back.button")</a>
-        <a class="button-secondary" id="exit" href="@controllers.vrm_retention.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
+        <a class="button" id="tryagain" href="@controllers.routes.VehicleLookup.present()">@Messages("micro_service_error.back.button")</a>
+        <a class="button-secondary" id="exit" href="@controllers.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
     </div>
 }

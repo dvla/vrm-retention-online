@@ -10,7 +10,7 @@
 @main(
     title = Messages("error.title")
 ){
-    @form(action = controllers.vrm_retention.routes.Error.submit(exceptionDigest)) {
+    @form(action = controllers.routes.Error.submit(exceptionDigest)) {
         @CsrfHelper.hiddenFormField
 
         <div class="form-steps">

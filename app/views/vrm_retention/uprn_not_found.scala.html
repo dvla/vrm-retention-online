@@ -12,7 +12,7 @@
 
     <div class="form-steps">
         @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@ManualAddressButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_uprnnotfound.setuptradedetailsbutton")</a>
-        <a class="button-secondary" id="@SetupBusinessDetailsButtonId" href="@controllers.vrm_retention.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_uprnnotfound.manualaddressbutton")</a>
+        <a class="button" id="@ManualAddressButtonId" href="@controllers.routes.EnterAddressManually.present()">@Messages("vrm_retention_uprnnotfound.setuptradedetailsbutton")</a>
+        <a class="button-secondary" id="@SetupBusinessDetailsButtonId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_uprnnotfound.manualaddressbutton")</a>
     </div>
 }

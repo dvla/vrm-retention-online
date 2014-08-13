@@ -3,7 +3,7 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.BusinessChooseYourAddress
+@import controllers.routes.BusinessChooseYourAddress
 @import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, ExitId, SelectId}
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import utils.helpers.CsrfHelper
@@ -41,15 +41,15 @@
                 }
 
                 <br/>
-                <a id="@EnterAddressManuallyButtonId" href="@controllers.vrm_retention.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
+                <a id="@EnterAddressManuallyButtonId" href="@controllers.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
 
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
                     @if(dropDownOptions.nonEmpty) {
                     <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
-                    <a id="@BackId" href="@controllers.vrm_retention.routes.SetUpBusinessDetails.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
-                    <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                    <a id="@BackId" href="@controllers.routes.SetUpBusinessDetails.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
+                    <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
             <div id="vehicle-details" class="second-col trader-details">

@@ -1,7 +1,7 @@
 @()(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.Payment
+@import controllers.routes.Payment
 @import mappings.vrm_retention.Payment._
 @import utils.helpers._
 @import views.html.vrm_retention.main
@@ -19,6 +19,6 @@
         @CsrfHelper.hiddenFormField
         @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="@PayNowId" href="@Payment.submit()">@Messages("vrm_retention_payment.button")</a>
-        <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+        <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }

@@ -3,7 +3,7 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.SetUpBusinessDetails
+@import controllers.routes.SetUpBusinessDetails
 @import mappings.common.Postcode
 @import mappings.vrm_retention.SetupBusinessDetails._
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
@@ -40,7 +40,7 @@
 
 	        	<div class="form-steps">
 	            	<button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
-                    <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                    <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
 	    	</div>
 	        <div id="vehicle-details" class="second-col trader-details">
