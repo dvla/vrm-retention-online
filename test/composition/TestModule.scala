@@ -64,12 +64,13 @@ class TestModule() extends ScalaModule with MockitoSugar {
     val stubbedWebServiceImpl = mock[AddressLookupWebService]
     when(stubbedWebServiceImpl.callPostcodeWebService(postcode = any[String], trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress)
     when(stubbedWebServiceImpl.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase),  any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseWhenPostcodeInvalid)
-    when(stubbedWebServiceImpl.callUprnWebService(uprn = any[String], trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress)
+    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(FakeAddressLookupWebServiceImpl.traderUprnValid.toString), trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress)
+    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(FakeAddressLookupWebServiceImpl.traderUprnInvalid.toString), trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound)
 
     bind[AddressLookupWebService].toInstance(stubbedWebServiceImpl)
   }
 
-  private val stubDateService: DateService = {
+  private def stubDateService: DateService = {
     val dateTimeISOChronology: String = new DateTime(
       DateOfDisposalYearValid.toInt,
       DateOfDisposalMonthValid.toInt,

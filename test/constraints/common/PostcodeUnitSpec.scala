@@ -17,7 +17,6 @@ final class PostcodeUnitSpec extends UnitSpec {
       val postcode = "A 012BC"
 
       val result = Postcode.formatPostcode(postcode)
-      println(result)
       result should equal("A1 2BC")
     }
     "transform 'A123BC' correctly" in {

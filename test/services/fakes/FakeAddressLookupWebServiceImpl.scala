@@ -1,33 +1,19 @@
 package services.fakes
 
+import composition.TestModule.AddressLookupServiceConstants.PostcodeValid
+import models.domain.vrm_retention.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
 import play.api.http.Status.OK
-import play.api.i18n.Lang
 import play.api.libs.json.Json
 import play.api.libs.ws.Response
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import composition.TestModule.AddressLookupServiceConstants.PostcodeInvalid
-import composition.TestModule.AddressLookupServiceConstants.PostcodeValid
-import models.domain.vrm_retention.{UprnAddressPair, UprnToAddressResponse, PostcodeToAddressResponse}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-
-final class FakeAddressLookupWebServiceImpl(responseOfPostcodeWebService: Future[Response],
-                                            responseOfUprnWebService: Future[Response]) extends AddressLookupWebService {
-  override def callPostcodeWebService(postcode: String, trackingId: String)
-                                     (implicit lang: Lang): Future[Response] =
-    if (postcode == PostcodeInvalid.toUpperCase) Future {
-      FakeResponse(status = OK, fakeJson = None)
-    }
-    else responseOfPostcodeWebService
-
-  override def callUprnWebService(uprn: String, trackingId: String)
-                                 (implicit lang: Lang): Future[Response] = responseOfUprnWebService
-}
 
 object FakeAddressLookupWebServiceImpl {
+
   final val traderUprnValid = 12345L
   final val traderUprnValid2 = 4567L
+  final val traderUprnInvalid = 66666L
 
   private def addressSeq(houseName: String, houseNumber: String): Seq[String] = {
     Seq(houseName, houseNumber, "property stub", "street stub", "town stub", "area stub", PostcodeValid)
@@ -86,5 +72,4 @@ object FakeAddressLookupWebServiceImpl {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
-
 }
