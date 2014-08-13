@@ -62,6 +62,10 @@ object FakeAddressLookupWebServiceImpl {
     }
   }
 
+  def responseWhenPostcodeInvalid = Future {
+    FakeResponse(status = OK, fakeJson = None)
+  }
+
   val uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
     UprnToAddressResponse(addressViewModel = Some(AddressModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))

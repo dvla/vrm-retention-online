@@ -2,11 +2,17 @@ package composition
 
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
+import composition.TestModule.AddressLookupServiceConstants.PostcodeInvalid
 import composition.TestModule.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Mockito._
+import org.mockito.Matchers._
+import org.scalatest.mock.MockitoSugar
+import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
+import play.api.http.Status.OK
+import play.api.i18n.Lang
 import play.api.{Logger, LoggerLike}
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import services.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid2, traderUprnValid}
@@ -21,6 +27,9 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
+import scala.concurrent.Future
 
 class TestModule() extends ScalaModule with MockitoSugar {
 
@@ -53,11 +62,12 @@ class TestModule() extends ScalaModule with MockitoSugar {
   private def ordnanceSurveyAddressLookup() = {
     bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
 
-    val fakeWebServiceImpl = new FakeAddressLookupWebServiceImpl(
-      responseOfPostcodeWebService = FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress,
-      responseOfUprnWebService = FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress
-    )
-    bind[AddressLookupWebService].toInstance(fakeWebServiceImpl)
+    val stubbedWebServiceImpl = mock[AddressLookupWebService]
+    when(stubbedWebServiceImpl.callPostcodeWebService(postcode = any[String], trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress)
+    when(stubbedWebServiceImpl.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase),  any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseWhenPostcodeInvalid)
+    when(stubbedWebServiceImpl.callUprnWebService(uprn = any[String], trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress)
+
+    bind[AddressLookupWebService].toInstance(stubbedWebServiceImpl)
   }
 
   private val stubDateService: DateService = {
