@@ -9,7 +9,6 @@ import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
-import services.vehicle_lookup.{VehicleLookupService, VehicleLookupServiceImpl, VehicleLookupWebService, VehicleLookupWebServiceImpl}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
 import services.{DateServiceImpl, brute_force_prevention}
@@ -32,8 +31,6 @@ object DevModule extends ScalaModule {
 
     bind[AddressLookupService].to[AddressLookupServiceImpl].asEagerSingleton()
     bind[AddressLookupWebService].to[WebServiceImpl].asEagerSingleton()
-    bind[VehicleLookupWebService].to[VehicleLookupWebServiceImpl].asEagerSingleton()
-    bind[VehicleLookupService].to[VehicleLookupServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupWebService].to[VehicleAndKeeperLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[VRMRetentionEligibilityWebService].to[VRMRetentionEligibilityWebServiceImpl].asEagerSingleton()

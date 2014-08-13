@@ -5,7 +5,7 @@ import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.TransactionIdValid
-import services.fakes.FakeVehicleLookupWebService._
+import services.fakes.FakeVehicleAndKeeperLookupWebService._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class PdfServiceSpec extends UnitSpec {
@@ -18,8 +18,8 @@ final class PdfServiceSpec extends UnitSpec {
 
     "return a non-empty output stream" in {
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
-        vehicleMake = Some(VehicleMakeValid),
-        vehicleModel = Some(VehicleModelValid),
+        vehicleMake = VehicleMakeValid,
+        vehicleModel = VehicleModelValid,
         keeperTitle = None,
         keeperFirstName = None,
         keeperLastName = None,
