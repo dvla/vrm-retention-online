@@ -1,7 +1,6 @@
 package controllers
 
 import javax.inject.Inject
-import mappings.common.DropDown.addressDropDown
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
@@ -17,6 +16,7 @@ import views.html.vrm_retention.business_choose_your_address
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
+import mappings.DropDown
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -28,7 +28,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       We would need the request here to get the cookie.
       Validation is done when we make a second web call with the UPRN,
       so if a bad guy is injecting a non-existent UPRN then it will fail at that step instead */
-      AddressSelectId -> addressDropDown
+      AddressSelectId -> DropDown.addressDropDown
     )(BusinessChooseYourAddressFormModel.apply)(BusinessChooseYourAddressFormModel.unapply)
   )
 
