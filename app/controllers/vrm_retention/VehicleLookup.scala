@@ -1,7 +1,7 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import mappings.common.Postcode.postcode
+import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
 import mappings.common.VehicleRegistrationNumber._
 import mappings.vrm_retention.KeeperConsent._
 import mappings.vrm_retention.RelatedCacheKeys

@@ -1,15 +1,15 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import mappings.common.Postcode._
 import mappings.vrm_retention.SetupBusinessDetails._
 import models.domain.vrm_retention.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.Forms._
-import play.api.data.{Form, FormError}
 import play.api.data.validation.Constraints
+import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode._
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 
