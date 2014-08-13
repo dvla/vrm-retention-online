@@ -3,7 +3,7 @@ package services.fakes
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 
-object FakeVehicleAndKeeperLookupWebService {
+object VehicleAndKeeperLookupWebServiceConstants {
 
   final val RegistrationNumberValid = "AB12AWR"
   final val RegistrationNumberWithSpaceValid = "AB12 AWR"

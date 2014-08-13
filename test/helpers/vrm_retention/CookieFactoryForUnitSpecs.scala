@@ -17,7 +17,7 @@ import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.BruteForcePreventionWebServiceConstants._
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
-import services.fakes.FakeVehicleAndKeeperLookupWebService._
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
