@@ -5,7 +5,7 @@ import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention.MockFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
-import services.fakes.FakeDateServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class VrmLockedUnitSpec extends UnitSpec {
 
@@ -45,7 +45,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   private lazy val present = {
-    val dateService = new FakeDateServiceImpl
+    val dateService = injector.getInstance(classOf[DateService])
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.bruteForcePreventionViewModel(
         dateTimeISOChronology = dateService.dateTimeISOChronology)

@@ -4,9 +4,9 @@ import helpers.UnitSpec
 import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import services.fakes.FakeDateServiceImpl
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.TransactionIdValid
 import services.fakes.FakeVehicleLookupWebService._
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class PdfServiceSpec extends UnitSpec {
 
@@ -44,7 +44,7 @@ final class PdfServiceSpec extends UnitSpec {
     }
   }
 
-  private val dateService = new FakeDateServiceImpl
+  private val dateService = injector.getInstance(classOf[DateService])
   implicit val pdfService = injector.getInstance(classOf[PdfService])
   private val longTimeout = Timeout(Span(10, Seconds))
 }
