@@ -16,7 +16,7 @@
             <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
             <div class="form-steps">
                 <div class="step">
-                    @form(action = controllers.vrm_retention.routes.VrmLocked.exit()) {
+                    @form(action = controllers.routes.VrmLocked.exit()) {
                         @CsrfHelper.hiddenFormField
                         <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
                     }

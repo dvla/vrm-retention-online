@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    @form(action = controllers.vrm_retention.routes.Confirm.submit()) {
+    @form(action = controllers.routes.Confirm.submit()) {
         @CsrfHelper.hiddenFormField
         <div class="two-col">
             <div class="first-col">
@@ -96,7 +96,7 @@
         <div class="form-steps">
             @* Note the reverse routing syntax for the hyperlink *@
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
-            <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+            <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
 

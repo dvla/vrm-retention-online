@@ -9,8 +9,6 @@
 # Guice to provide the actual instance complete with its injected dependencies
 
 
-
-
 ######################
 ## VRM RETENTION
 ######################
@@ -18,56 +16,56 @@
 GET         /vrm-retention/assets/*file                                      controllers.Assets.at(path="/public", file)
 
 GET         /                                                                controllers.Application.index
-GET         /vrm-retention/before-you-start                                  @controllers.vrm_retention.BeforeYouStart.present
+GET         /vrm-retention/before-you-start                                  @controllers.BeforeYouStart.present
 
-GET         /vrm-retention/vehicle-lookup                                    @controllers.vrm_retention.VehicleLookup.present
-POST        /vrm-retention/vehicle-lookup                                    @controllers.vrm_retention.VehicleLookup.submit
-GET         /vrm-retention/vehicle-lookup-back                               @controllers.vrm_retention.VehicleLookup.back
+GET         /vrm-retention/vehicle-lookup                                    @controllers.VehicleLookup.present
+POST        /vrm-retention/vehicle-lookup                                    @controllers.VehicleLookup.submit
+GET         /vrm-retention/vehicle-lookup-back                               @controllers.VehicleLookup.back
 
-GET         /vrm-retention/vehicle-lookup-failure                            @controllers.vrm_retention.VehicleLookupFailure.present
-POST        /vrm-retention/vehicle-lookup-failure                            @controllers.vrm_retention.VehicleLookupFailure.submit
+GET         /vrm-retention/vehicle-lookup-failure                            @controllers.VehicleLookupFailure.present
+POST        /vrm-retention/vehicle-lookup-failure                            @controllers.VehicleLookupFailure.submit
 
-GET         /vrm-retention/micro-service-error                               @controllers.vrm_retention.MicroServiceError.present
+GET         /vrm-retention/micro-service-error                               @controllers.MicroServiceError.present
 
-GET         /vrm-retention/soap-endpoint-error                               @controllers.vrm_retention.SoapEndpointError.present
+GET         /vrm-retention/soap-endpoint-error                               @controllers.SoapEndpointError.present
 
-GET         /vrm-retention/vrm-locked                                        @controllers.vrm_retention.VrmLocked.present
-POST        /vrm-retention/vrm-locked/exit                                   @controllers.vrm_retention.VrmLocked.exit
+GET         /vrm-retention/vrm-locked                                        @controllers.VrmLocked.present
+POST        /vrm-retention/vrm-locked/exit                                   @controllers.VrmLocked.exit
 
-GET         /vrm-retention/error/:exceptionDigest                            @controllers.vrm_retention.Error.present(exceptionDigest)
-POST        /vrm-retention/error/:exceptionDigest                            @controllers.vrm_retention.Error.submit(exceptionDigest)
+GET         /vrm-retention/error/:exceptionDigest                            @controllers.Error.present(exceptionDigest)
+POST        /vrm-retention/error/:exceptionDigest                            @controllers.Error.submit(exceptionDigest)
 
-GET         /vrm-retention/check-eligibility                                 @controllers.vrm_retention.CheckEligibility.present
+GET         /vrm-retention/check-eligibility                                 @controllers.CheckEligibility.present
 
-GET         /vrm-retention/setup-business-details                            @controllers.vrm_retention.SetUpBusinessDetails.present
-POST        /vrm-retention/setup-business-details                            @controllers.vrm_retention.SetUpBusinessDetails.submit
+GET         /vrm-retention/setup-business-details                            @controllers.SetUpBusinessDetails.present
+POST        /vrm-retention/setup-business-details                            @controllers.SetUpBusinessDetails.submit
 
-GET         /vrm-retention/business-choose-your-address                      @controllers.vrm_retention.BusinessChooseYourAddress.present
-POST        /vrm-retention/business-choose-your-address                      @controllers.vrm_retention.BusinessChooseYourAddress.submit
+GET         /vrm-retention/business-choose-your-address                      @controllers.BusinessChooseYourAddress.present
+POST        /vrm-retention/business-choose-your-address                      @controllers.BusinessChooseYourAddress.submit
 
-GET         /vrm-retention/uprn-not-found                                    @controllers.vrm_retention.UprnNotFound.present
+GET         /vrm-retention/uprn-not-found                                    @controllers.UprnNotFound.present
 
-GET         /vrm-retention/confirm                                           @controllers.vrm_retention.Confirm.present
-POST        /vrm-retention/confirm                                           @controllers.vrm_retention.Confirm.submit
-GET         /vrm-retention/confirm/exit                                      @controllers.vrm_retention.Confirm.exit
+GET         /vrm-retention/confirm                                           @controllers.Confirm.present
+POST        /vrm-retention/confirm                                           @controllers.Confirm.submit
+GET         /vrm-retention/confirm/exit                                      @controllers.Confirm.exit
 
-GET         /vrm-retention/payment                                           @controllers.vrm_retention.Payment.present
+GET         /vrm-retention/payment                                           @controllers.Payment.present
 # no form on payment page so is GET the right http verb for submit
-GET         /vrm-retention/payment/submit                                    @controllers.vrm_retention.Payment.submit
-GET         /vrm-retention/payment/exit                                      @controllers.vrm_retention.Payment.exit
+GET         /vrm-retention/payment/submit                                    @controllers.Payment.submit
+GET         /vrm-retention/payment/exit                                      @controllers.Payment.exit
 
-GET         /vrm-retention/success                                           @controllers.vrm_retention.Success.present
-GET         /vrm-retention/success/create-pdf                                @controllers.vrm_retention.Success.createPdf
-GET         /vrm-retention/success/exit                                      @controllers.vrm_retention.Success.exit
+GET         /vrm-retention/success                                           @controllers.Success.present
+GET         /vrm-retention/success/create-pdf                                @controllers.Success.createPdf
+GET         /vrm-retention/success/exit                                      @controllers.Success.exit
 
 GET         /vrm-retention/healthcheck                                       @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
 
-GET         /vrm-retention/enter-address-manually                            @controllers.vrm_retention.EnterAddressManually.present
-POST        /vrm-retention/enter-address-manually                            @controllers.vrm_retention.EnterAddressManually.submit
+GET         /vrm-retention/enter-address-manually                            @controllers.EnterAddressManually.present
+POST        /vrm-retention/enter-address-manually                            @controllers.EnterAddressManually.submit
 
-GET         /vrm-retention/help                                              @controllers.common.Help.present
-POST        /vrm-retention/help                                              @controllers.common.Help.back
+GET         /vrm-retention/help                                              @controllers.Help.present
+POST        /vrm-retention/help                                              @controllers.Help.back
 
-GET         /vrm-retention/mock-gov-uk-feedback                              @controllers.vrm_retention.MockFeedback.present
+GET         /vrm-retention/mock-gov-uk-feedback                              @controllers.MockFeedback.present
 
 GET         /with-language/:chosenLanguage                                   uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)

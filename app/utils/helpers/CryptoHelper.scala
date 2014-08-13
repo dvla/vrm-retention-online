@@ -1,6 +1,6 @@
 package utils.helpers
 
-import controllers.vrm_retention.routes
+import controllers.routes
 import mappings.vrm_retention.RelatedCacheKeys
 import play.api.Logger
 import play.api.mvc.Results.Redirect

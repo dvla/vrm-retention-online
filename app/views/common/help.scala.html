@@ -2,7 +2,7 @@
 token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
 config: utils.helpers.Config)
 
-@import controllers.common.routes.Help
+@import controllers.routes.Help
 @import views.common.Help.{BackId, ExitId}
 @import utils.helpers.CsrfHelper
 @import views.html.vrm_retention.main
@@ -21,7 +21,7 @@ title = Messages("disposal.help.title")
             @CsrfHelper.hiddenFormField
             @* Note the reverse routing syntax for the hyperlink *@
             <button id="@BackId" type="submit" name="action" class="button">@Messages("disposal.help.back_button")</button>
-            <a id="@ExitId" href="@controllers.vrm_retention.routes.BeforeYouStart.present()" class="button-secondary">@Messages("disposal.help.exit_button")</a>
+            <a id="@ExitId" href="@controllers.routes.BeforeYouStart.present()" class="button-secondary">@Messages("disposal.help.exit_button")</a>
         </div>
     }
 }

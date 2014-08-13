@@ -2,7 +2,7 @@
         config: utils.helpers.Config)
 
 @import views.html.vrm_retention.main
-@import controllers.vrm_retention.routes.SoapEndpointError
+@import controllers.routes.SoapEndpointError
 
     @main(
         title = Messages("soap_endpoint_error.title")
@@ -11,6 +11,6 @@
 
     <div class="form-steps">
         @{ /* Note the reverse routing syntax for the hyperlink */ }
-        <a class="button" id="exit" href="@controllers.vrm_retention.routes.BeforeYouStart.present()">@Messages("soap_endpoint_error.exit.button")</a>
+        <a class="button" id="exit" href="@controllers.routes.BeforeYouStart.present()">@Messages("soap_endpoint_error.exit.button")</a>
     </div>
 }

@@ -17,7 +17,7 @@
     title = Messages("vrm_retention_vehiclelookup.title"),
     currentForm = Some(vehicleAndKeeperLookupForm)
 ) {
-    @form(action = controllers.vrm_retention.routes.VehicleLookup.submit()) {
+    @form(action = controllers.routes.VehicleLookup.submit()) {
         @CsrfHelper.hiddenFormField
         <div class="two-col clearfix">
             <div class="uppercase-input first-col">
@@ -67,8 +67,8 @@
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_vehiclelookup.button")</button>
-                    <a id="@BackId" href="@controllers.vrm_retention.routes.VehicleLookup.back()" class="button-secondary">@Messages("vrm_retention_vehiclelookup.backbutton")</a>
-                    <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                    <a id="@BackId" href="@controllers.routes.VehicleLookup.back()" class="button-secondary">@Messages("vrm_retention_vehiclelookup.backbutton")</a>
+                    <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
             <div class="second-col">
