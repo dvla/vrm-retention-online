@@ -1,15 +1,13 @@
 package utils.helpers
 
-import app.ConfigProperties.getProperty
 import play.api.templates.{Html, HtmlFormat}
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken
 
 object CsrfHelper {
 
-  val csrfPrevention = getProperty("csrf.prevention", default = true)
-
-  def hiddenFormField(implicit token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Html =
-    if (csrfPrevention) {
+  def hiddenFormField(implicit token: CsrfPreventionToken, config: utils.helpers.Config): Html =
+    if (config.isCsrfPreventionEnabled) {
       val csrfTokenName = uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName
-      Html(s"""<input type="hidden" name="$csrfTokenName" value="${HtmlFormat.escape(token.value)}"/>""")
-    } else Html("")
+      Html( s"""<input type="hidden" name="$csrfTokenName" value="${HtmlFormat.escape(token.value)}"/>""")
+    } else Html.empty
 }
