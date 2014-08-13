@@ -11,9 +11,11 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid,
         traderBusinessContact = TraderBusinessContactValid,
+        traderBusinessEmail = TraderBusinessEmailValid,
         traderPostcode = PostcodeValid).get
       model.businessName should equal(TraderBusinessNameValid.toUpperCase)
       model.businessContact should equal(TraderBusinessContactValid.toUpperCase)
+      model.businessEmail should equal(TraderBusinessEmailValid)
       model.businessPostcode should equal(PostcodeValid)
     }
   }
@@ -79,12 +81,14 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
                                     traderBusinessContact: String = TraderBusinessContactValid,
+                                    traderBusinessEmail: String = TraderBusinessEmailValid,
                                     traderPostcode: String = PostcodeValid) = {
     injector.getInstance(classOf[SetUpBusinessDetails])
       .form.bind(
         Map(
           BusinessNameId -> traderBusinessName,
           BusinessContactId -> traderBusinessContact,
+          BusinessEmailId -> traderBusinessEmail,
           BusinessPostcodeId -> traderPostcode
         )
       )

@@ -5,7 +5,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
-final case class BusinessDetailsModel(businessName: String, businessContact: String, businessAddress: AddressModel)
+final case class BusinessDetailsModel(businessName: String, businessContact: String, businessEmail: String, businessAddress: AddressModel)
 
 object BusinessDetailsModel {
 
@@ -21,6 +21,7 @@ object BusinessDetailsModel {
     BusinessDetailsModel(
       businessName = setupBusinessDetailsFormModel.businessName,
       businessContact = setupBusinessDetailsFormModel.businessContact,
+      businessEmail = setupBusinessDetailsFormModel.businessEmail,
       businessAddress = businessAddress)
   }
 }

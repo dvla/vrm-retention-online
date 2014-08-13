@@ -7,6 +7,7 @@ final case class BusinessChooseYourAddressViewModel(registrationNumber: String,
                                                     vehicleModel: Option[String],
                                                     businessName: String,
                                                     businessContact: String,
+                                                    businessEmail: String,
                                                     businessPostCode: String)
 
 object BusinessChooseYourAddressViewModel {
@@ -19,6 +20,7 @@ object BusinessChooseYourAddressViewModel {
       vehicleModel = vehicleAndKeeperDetails.vehicleModel,
       businessName = setupBusinessDetailsFormModel.businessName,
       businessContact = setupBusinessDetailsFormModel.businessContact,
+      businessEmail = setupBusinessDetailsFormModel.businessEmail,
       businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)
     )
 }

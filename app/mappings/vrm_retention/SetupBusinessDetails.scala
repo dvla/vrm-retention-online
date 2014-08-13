@@ -14,7 +14,7 @@ object SetupBusinessDetails {
   final val BusinessEmailMinLength = 2
   final val BusinessNameId = "Business Name"
   final val BusinessContactId = "Business Contact"
-  final val BusinessEmailId = "Business@Email.com"
+  final val BusinessEmailId = "Business Email"
   final val BusinessPostcodeId = "Postcode"
   final val SetupBusinessDetailsCacheKey = "setupBusinessDetails"
   final val SubmitId = "submit"

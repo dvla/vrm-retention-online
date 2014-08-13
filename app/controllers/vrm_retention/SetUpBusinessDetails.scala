@@ -6,6 +6,7 @@ import mappings.vrm_retention.SetupBusinessDetails._
 import models.domain.vrm_retention.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.Forms._
 import play.api.data.{Form, FormError}
+import play.api.data.validation.Constraints
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
@@ -19,6 +20,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     mapping(
       BusinessNameId -> businessName(),
       BusinessContactId -> businessContact(),
+      BusinessEmailId -> email.verifying(Constraints.nonEmpty),
       BusinessPostcodeId -> postcode
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   )
@@ -49,6 +51,11 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
                 FormError(
                   key = BusinessContactId,
                   message = "error.validBusinessContact",
+                  args = Seq.empty)).
+              replaceError(BusinessEmailId,
+                FormError(
+                  key = BusinessEmailId,
+                  message = "error.email",
                   args = Seq.empty)).
               replaceError(BusinessPostcodeId,
                 FormError(

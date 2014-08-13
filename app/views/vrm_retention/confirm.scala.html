@@ -73,6 +73,8 @@
                         <dd>@confirmViewModel.businessName</dd>
                         <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
                         <dd>@confirmViewModel.businessContact</dd>
+                        <dt>@Messages("vrm_retention_confirm.businessEmailLabel")</dt>
+                        <dd>@confirmViewModel.businessEmail</dd>
                         <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
                         <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
                             @businessAddressLine<br>

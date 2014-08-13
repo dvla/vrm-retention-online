@@ -31,10 +31,12 @@ object CookieFactoryForUnitSpecs extends TestComposition {
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
+                           businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
     val value = SetupBusinessDetailsFormModel(businessName = businessName,
       businessContact = businessContact,
+      businessEmail = businessEmail,
       businessPostcode = businessPostcode)
     createCookie(key, value)
   }
@@ -155,10 +157,12 @@ object CookieFactoryForUnitSpecs extends TestComposition {
 
   def businessDetailsModel(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
+                           businessEmail: String = TraderBusinessEmailValid,
                            businessAddress: AddressModel = addressWithUprn): Cookie = {
     val key = BusinessDetailsCacheKey
     val value = BusinessDetailsModel(businessName = businessName,
       businessContact = businessContact,
+      businessEmail = businessEmail,
       businessAddress = businessAddress)
     createCookie(key, value)
   }

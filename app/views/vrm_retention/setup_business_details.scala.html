@@ -29,6 +29,10 @@
                     Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
                         '_showConstraints -> false,
                         'maxLength -> BusinessContactMaxLength))
+            @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), args =
+                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> BusinessEmailMaxLength))
             @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
 	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
 	                    '_showConstraints -> false,

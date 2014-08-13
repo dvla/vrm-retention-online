@@ -125,10 +125,12 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
                                              dealerContact: String = TraderBusinessContactValid,
+                                             dealerEmail: String = TraderBusinessEmailValid,
                                              dealerPostcode: String = PostcodeValid) = {
     FakeRequest().withFormUrlEncodedBody(
       BusinessNameId -> dealerName,
       BusinessContactId -> dealerContact,
+      BusinessEmailId -> dealerEmail,
       BusinessPostcodeId -> dealerPostcode)
   }
 }
