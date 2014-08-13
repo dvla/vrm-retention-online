@@ -14,7 +14,7 @@ import models.domain.vrm_retention._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import composition.TestModule.AddressLookupServiceConstants._
-import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
+import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
 import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
 import services.fakes.FakeVehicleAndKeeperLookupWebService._

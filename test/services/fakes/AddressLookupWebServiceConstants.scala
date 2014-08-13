@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object FakeAddressLookupWebServiceImpl {
+object AddressLookupWebServiceConstants {
 
   final val traderUprnValid = 12345L
   final val traderUprnValid2 = 4567L

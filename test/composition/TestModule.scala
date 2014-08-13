@@ -15,7 +15,7 @@ import play.api.http.Status.OK
 import play.api.i18n.Lang
 import play.api.{Logger, LoggerLike}
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
-import services.fakes.FakeAddressLookupWebServiceImpl.{traderUprnValid2, traderUprnValid}
+import services.fakes.AddressLookupWebServiceConstants.{traderUprnValid2, traderUprnValid}
 import services.fakes._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
@@ -63,10 +63,10 @@ class TestModule() extends ScalaModule with MockitoSugar {
     bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
 
     val stubbedWebServiceImpl = mock[AddressLookupWebService]
-    when(stubbedWebServiceImpl.callPostcodeWebService(postcode = any[String], trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForPostcodeToAddress)
-    when(stubbedWebServiceImpl.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase),  any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseWhenPostcodeInvalid)
-    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(FakeAddressLookupWebServiceImpl.traderUprnValid.toString), trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddress)
-    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(FakeAddressLookupWebServiceImpl.traderUprnInvalid.toString), trackingId = any[String])(any[Lang])).thenReturn(FakeAddressLookupWebServiceImpl.responseValidForUprnToAddressNotFound)
+    when(stubbedWebServiceImpl.callPostcodeWebService(postcode = any[String], trackingId = any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseValidForPostcodeToAddress)
+    when(stubbedWebServiceImpl.callPostcodeWebService(matches(PostcodeInvalid.toUpperCase),  any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseWhenPostcodeInvalid)
+    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnValid.toString), trackingId = any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddress)
+    when(stubbedWebServiceImpl.callUprnWebService(uprn = matches(AddressLookupWebServiceConstants.traderUprnInvalid.toString), trackingId = any[String])(any[Lang])).thenReturn(AddressLookupWebServiceConstants.responseValidForUprnToAddressNotFound)
 
     bind[AddressLookupWebService].toInstance(stubbedWebServiceImpl)
   }
