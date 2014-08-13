@@ -1,15 +1,14 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
 import models.domain.vrm_retention._
 import play.api.Logger
-import play.api.data.Forms.mapping
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-import utils.helpers.FormExtensions.formBinding
 import views.html.vrm_retention.enter_address_manually
 
 final class EnterAddressManually @Inject()()

@@ -2,13 +2,13 @@ package controllers.vrm_retention
 
 import java.io.ByteArrayInputStream
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
-import common.CookieImplicits.{RichCookies, RichSimpleResult}
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.vrm_retention._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

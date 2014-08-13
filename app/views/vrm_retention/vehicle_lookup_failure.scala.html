@@ -1,7 +1,7 @@
 @(vehicleLookupFailureViewModel: models.domain.vrm_retention.VehicleLookupFailureViewModel, data: models.domain.vrm_retention.VehicleAndKeeperLookupFormModel,
         responseCodeVehicleLookupMSErrorMessage: String,
         attempts: Int,
-        maxAttempts: Int)(implicit lang: Lang, token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        maxAttempts: Int)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import mappings.vrm_retention.VehicleLookupFailure._

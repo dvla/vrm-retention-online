@@ -2,8 +2,8 @@ package models.domain.vrm_retention
 
 import constraints.common.RegistrationNumber.formatVrm
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import models.domain.common.CacheKey
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class EligibilityModel(replacementVRM: String)
 

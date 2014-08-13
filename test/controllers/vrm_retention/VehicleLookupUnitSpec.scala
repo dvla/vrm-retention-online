@@ -1,11 +1,10 @@
 package controllers.vrm_retention
 
 import com.tzavellas.sse.guice.ScalaModule
-import common.ClientSideSessionFactory
 import controllers.vrm_retention
 import controllers.vrm_retention.Common.PrototypeHtml
-import helpers.{UnitSpec, WithApplication}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
+import helpers.{UnitSpec, WithApplication}
 import mappings.common.DocumentReferenceNumber
 import mappings.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
@@ -18,18 +17,16 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.DateServiceImpl
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
+import services.fakes.{FakeDateServiceImpl, FakeResponse}
+import services.fakes.FakeVehicleAndKeeperLookupWebService.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
-import services.fakes.{FakeDateServiceImpl, FakeResponse}
-import services.fakes.FakeVehicleAndKeeperLookupWebService.vehicleAndKeeperDetailsResponseSuccess
-import services.fakes.FakeVehicleAndKeeperLookupWebService.ReferenceNumberValid
-import services.fakes.FakeVehicleAndKeeperLookupWebService.RegistrationNumberValid
+import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
-import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupServiceImpl}
-import models.domain.vrm_retention.VehicleAndKeeperDetailsRequest
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 

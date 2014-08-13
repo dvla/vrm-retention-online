@@ -1,9 +1,9 @@
 package models.domain.vrm_retention
 
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import models.domain.common.CacheKey
-import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class BusinessDetailsModel(businessName: String, businessContact: String, businessAddress: AddressModel)
 

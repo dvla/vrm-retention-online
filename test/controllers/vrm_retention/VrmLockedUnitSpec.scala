@@ -2,7 +2,7 @@ package controllers.vrm_retention
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage}
+import pages.vrm_retention.MockFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import services.fakes.FakeDateServiceImpl

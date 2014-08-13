@@ -3,6 +3,7 @@ package utils.helpers
 import helpers.webbrowser.TestGlobal
 import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeApplication
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.AesEncryption
 
 final class AesEncryptionSpec extends UnitSpec {
   "encryptCookie" should {

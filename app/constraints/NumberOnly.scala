@@ -1,6 +1,6 @@
 package constraints
 
-import play.api.data.validation.{ValidationError, Invalid, Valid, Constraint}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 
 object NumberOnly {
 

@@ -1,17 +1,17 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.CookieImplicits.{RichCookies, RichSimpleResult}
-import common.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import mappings.vrm_retention.RelatedCacheKeys
 import mappings.vrm_retention.Retain._
 import models.domain.vrm_retention.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc._
-import services.DateService
 import services.vrm_retention_retain.VRMRetentionRetainService
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -1,13 +1,12 @@
 package helpers.vrm_retention
 
-import common.{ClearTextClientSideSession, ClientSideSessionFactory}
 import composition.TestComposition
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
+import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
 import models.domain.common.BruteForcePreventionViewModel._
 import models.domain.common._
@@ -17,12 +16,12 @@ import play.api.mvc.Cookie
 import services.fakes.FakeAddressLookupService._
 import services.fakes.FakeAddressLookupWebServiceImpl.traderUprnValid
 import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
-import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{TransactionTimestampValid, TransactionIdValid, CertificateNumberValid}
+import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
 import services.fakes.FakeVehicleAndKeeperLookupWebService._
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressLinesViewModel, AddressAndPostcodeViewModel}
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 

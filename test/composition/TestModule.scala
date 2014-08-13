@@ -1,25 +1,20 @@
 package composition
 
-import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import common.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
-import filters.AccessLoggingFilter.AccessLoggerName
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupWebService, AddressLookupService}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import services.fakes._
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupWebService, AddressLookupService}
-import services.brute_force_prevention.BruteForcePreventionWebService
-import services.brute_force_prevention.BruteForcePreventionService
-import services.brute_force_prevention.BruteForcePreventionServiceImpl
 import services.fakes.brute_force_protection.FakeBruteForcePreventionWebServiceImpl
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, CookieFlags, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 
 class TestModule() extends ScalaModule with MockitoSugar {
 

@@ -1,7 +1,8 @@
 package helpers
 
-import utils.helpers.HtmlArgsExtensions.RichHtmlArgs
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.HtmlArgsExtensions.RichHtmlArgs
 
+// TODO move into common project
 final class HtmlArgsExtensionsSpec extends UnitSpec {
   "HtmlArgsExtensions maxlength rules" should {
     "remove maxLength from args when key maxLength is present and in test mode" in new WithApplication {

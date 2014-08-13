@@ -1,10 +1,10 @@
 package services.brute_force_prevention
 
+import com.google.inject.Inject
 import play.api.Logger
 import play.api.libs.ws.{Response, WS}
-import scala.concurrent.Future
 import utils.helpers.Config
-import com.google.inject.Inject
+import scala.concurrent.Future
 
 final class WebServiceImpl @Inject()(config: Config) extends BruteForcePreventionWebService {
   private val baseUrl: String = config.bruteForcePreventionMicroServiceBaseUrl

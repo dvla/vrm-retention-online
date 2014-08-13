@@ -1,6 +1,6 @@
 package utils.helpers
 
-import app.ConfigProperties.{getProperty, getDurationProperty}
+import app.ConfigProperties.{getDurationProperty, getProperty}
 import scala.concurrent.duration.DurationInt
 
 class Config {

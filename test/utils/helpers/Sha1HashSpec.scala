@@ -1,6 +1,7 @@
 package utils.helpers
 
 import helpers.{UnitSpec, WithApplication}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.Sha1HashGenerator
 
 final class Sha1HashSpec extends UnitSpec {
 

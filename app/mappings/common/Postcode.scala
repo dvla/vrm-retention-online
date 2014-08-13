@@ -1,8 +1,8 @@
 package mappings.common
 
-import constraints.common.Postcode.validPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.validPostcode
 import play.api.data.Mapping
-import utils.helpers.FormExtensions.nonEmptyTextWithTransform
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.nonEmptyTextWithTransform
 
 object Postcode {
   final val PostcodeId = "postcode"

@@ -1,6 +1,6 @@
 package models.domain.vrm_retention
 
-import constraints.common.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 
 final case class EnterAddressManuallyViewModel(registrationNumber: String,
                                                vehicleMake: Option[String],

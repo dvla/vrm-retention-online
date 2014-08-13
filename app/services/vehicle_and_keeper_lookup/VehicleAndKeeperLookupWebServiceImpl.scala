@@ -1,14 +1,14 @@
 package services.vehicle_and_keeper_lookup
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import models.domain.vrm_retention.VehicleAndKeeperDetailsRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
 import services.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import utils.helpers.Config
 import scala.concurrent.Future
-import models.domain.vrm_retention.VehicleAndKeeperDetailsRequest
 
 final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: Config) extends VehicleAndKeeperLookupWebService {
   private val endPoint: String = s"${config.vehicleAndKeeperLookupMicroServiceBaseUrl}/vehicleandkeeper/lookup/v1"

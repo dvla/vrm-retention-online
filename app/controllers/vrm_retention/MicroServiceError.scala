@@ -1,8 +1,8 @@
 package controllers.vrm_retention
 
 import com.google.inject.Inject
-import common.ClientSideSessionFactory
 import play.api.mvc.{Action, Controller}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class MicroServiceError @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,

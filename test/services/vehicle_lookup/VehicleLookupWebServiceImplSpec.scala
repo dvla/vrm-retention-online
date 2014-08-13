@@ -1,11 +1,11 @@
 package services.vehicle_lookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import common.ClientSideSessionFactory
 import helpers.{UnitSpec, WireMockFixture}
 import models.domain.common.VehicleDetailsRequest
 import play.api.libs.json.Json
 import services.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class VehicleLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {

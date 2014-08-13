@@ -1,12 +1,12 @@
 package services.vrm_retention_eligibility
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import models.domain.vrm_retention.VRMRetentionEligibilityRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}
 import services.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import utils.helpers.Config
 import scala.concurrent.Future
 

@@ -1,8 +1,9 @@
 package constraints.common
 
 import helpers.UnitSpec
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode
 
-
+// TODO move to common project
 final class PostcodeUnitSpec extends UnitSpec {
   "output format" should {
     "transform 'A12BC' correctly" in {

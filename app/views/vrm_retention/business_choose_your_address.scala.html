@@ -1,6 +1,6 @@
 @(businessChooseYourAddressViewModel: models.domain.vrm_retention.BusinessChooseYourAddressViewModel, businessChooseYourAddressForm: Form[models.domain.vrm_retention.BusinessChooseYourAddressFormModel],
         dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
-        token: filters.csrf_prevention.CsrfPreventionAction.CsrfPreventionToken,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.vrm_retention.routes.BusinessChooseYourAddress
