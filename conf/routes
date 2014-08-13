@@ -19,7 +19,6 @@ GET         /vrm-retention/assets/*file                                      con
 
 GET         /                                                                controllers.Application.index
 GET         /vrm-retention/before-you-start                                  @controllers.vrm_retention.BeforeYouStart.present
-GET         /vrm-retention                                                   @controllers.vrm_retention.BeforeYouStart.present
 
 GET         /vrm-retention/vehicle-lookup                                    @controllers.vrm_retention.VehicleLookup.present
 POST        /vrm-retention/vehicle-lookup                                    @controllers.vrm_retention.VehicleLookup.submit

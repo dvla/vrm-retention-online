@@ -6,7 +6,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import services.address_lookup.{AddressLookupService, AddressLookupWebService}
 import services.brute_force_prevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import services.fakes._

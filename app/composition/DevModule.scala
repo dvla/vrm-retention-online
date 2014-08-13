@@ -11,9 +11,10 @@ import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, Vehicl
 import services.vehicle_lookup.{VehicleLookupService, VehicleLookupServiceImpl, VehicleLookupWebService, VehicleLookupWebServiceImpl}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
-import services.{DateService, DateServiceImpl, brute_force_prevention}
+import services.{DateServiceImpl, brute_force_prevention}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieEncryption, CookieNameHashGenerator, Sha1HashGenerator, _}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 /**
  * Provides real implementations of traits

@@ -5,10 +5,10 @@ import models.domain.common.BruteForcePreventionResponse.JsonFormat
 import models.domain.common.{BruteForcePreventionResponse, BruteForcePreventionViewModel}
 import play.api.Logger
 import play.api.libs.json.Json
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 final class BruteForcePreventionServiceImpl @Inject()(config: Config,
                                                       ws: BruteForcePreventionWebService,

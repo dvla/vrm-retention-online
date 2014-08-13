@@ -1,7 +1,7 @@
 package models.domain.common
 
 import play.api.libs.json.Json
-import services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 final case class BruteForcePreventionViewModel(permitted: Boolean,
@@ -12,8 +12,8 @@ final case class BruteForcePreventionViewModel(permitted: Boolean,
 object BruteForcePreventionViewModel {
 
   implicit final val JsonFormat = Json.format[BruteForcePreventionViewModel]
-  implicit final val Key = CacheKey[BruteForcePreventionViewModel](BruteForcePreventionViewModelCacheKey)
   final val BruteForcePreventionViewModelCacheKey = "bruteForcePreventionViewModel"
+  implicit final val Key = CacheKey[BruteForcePreventionViewModel](BruteForcePreventionViewModelCacheKey)
 
   def from(permitted: Boolean,
            response: BruteForcePreventionResponse,
