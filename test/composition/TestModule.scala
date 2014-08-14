@@ -2,7 +2,6 @@ package composition
 
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestModule.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import models.domain.vrm_retention._
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Matchers.{any, _}
@@ -18,6 +17,7 @@ import play.api.libs.ws.Response
 import play.api.{Logger, LoggerLike}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import services.fakes.BruteForcePreventionWebServiceConstants._
+import services.fakes.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
@@ -171,15 +171,4 @@ class TestModule() extends ScalaModule with MockitoSugar {
       )
     bind[VRMRetentionRetainWebService].toInstance(vrmRetentionRetainWebService)
   }
-}
-
-object TestModule {
-
-  object DateServiceConstants {
-
-    final val DateOfDisposalDayValid = "25"
-    final val DateOfDisposalMonthValid = "11"
-    final val DateOfDisposalYearValid = "1970"
-  }
-
 }
