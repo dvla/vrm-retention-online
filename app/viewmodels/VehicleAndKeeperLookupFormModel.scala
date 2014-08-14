@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 import mappings.vrm_retention.KeeperConsent._
 import mappings.vrm_retention.VehicleLookup._

@@ -3,7 +3,7 @@ package controllers
 import com.google.inject.Inject
 import mappings.vrm_retention.Confirm.KeeperEmailId
 import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.vrm_retention._
+import viewmodels._
 import play.api.data.{Form, FormError}
 import play.api.data.Forms._
 import play.api.mvc._

@@ -3,7 +3,7 @@ package controllers
 import com.google.inject.Inject
 import mappings.vrm_retention.RelatedCacheKeys
 import mappings.vrm_retention.VehicleLookup._
-import models.domain.vrm_retention._
+import viewmodels._
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc._

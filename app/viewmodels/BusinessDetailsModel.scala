@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel

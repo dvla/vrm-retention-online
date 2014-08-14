@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 import mappings.vrm_retention.Confirm._
 import play.api.libs.json.Json

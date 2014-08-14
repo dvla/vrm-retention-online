@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.domain.vrm_retention._
+import viewmodels._
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}

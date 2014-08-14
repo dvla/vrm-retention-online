@@ -3,7 +3,7 @@ package composition
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import composition.TestModule.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import models.domain.vrm_retention._
+import viewmodels._
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Matchers.{any, _}
 import org.mockito.Mockito.when

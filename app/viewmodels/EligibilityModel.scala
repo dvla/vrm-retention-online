@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey

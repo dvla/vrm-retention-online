@@ -1,4 +1,4 @@
-@(businessChooseYourAddressViewModel: models.domain.vrm_retention.BusinessChooseYourAddressViewModel, businessChooseYourAddressForm: Form[models.domain.vrm_retention.BusinessChooseYourAddressFormModel],
+@(businessChooseYourAddressViewModel: viewmodels.BusinessChooseYourAddressViewModel, businessChooseYourAddressForm: Form[viewmodels.BusinessChooseYourAddressFormModel],
         dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
@@ -6,7 +6,8 @@
 @import controllers.routes.BusinessChooseYourAddress
 @import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, ExitId, SelectId}
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers.CsrfHelper
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_retention.main
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechSelect
 @import views.html.helper.form
@@ -17,7 +18,7 @@
     currentForm = Some(businessChooseYourAddressForm)
 ) {
     @form(action = BusinessChooseYourAddress.submit()) {
-        @CsrfHelper.hiddenFormField
+        @csrfTokenHiddenField()
         <div class="two-col">
             <div class="first-col">
                 <dl class="summary-detail-list">

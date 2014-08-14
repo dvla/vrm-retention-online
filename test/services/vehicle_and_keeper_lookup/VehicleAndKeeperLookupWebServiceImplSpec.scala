@@ -2,7 +2,7 @@ package services.vehicle_and_keeper_lookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import helpers.{UnitSpec, WireMockFixture}
-import models.domain.vrm_retention.VehicleAndKeeperDetailsRequest
+import viewmodels.VehicleAndKeeperDetailsRequest
 import play.api.libs.json.Json
 import services.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory

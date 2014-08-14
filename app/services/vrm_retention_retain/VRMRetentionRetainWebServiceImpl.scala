@@ -1,7 +1,7 @@
 package services.vrm_retention_retain
 
 import com.google.inject.Inject
-import models.domain.vrm_retention.VRMRetentionRetainRequest
+import viewmodels.VRMRetentionRetainRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}

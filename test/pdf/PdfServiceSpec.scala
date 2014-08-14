@@ -1,7 +1,7 @@
 package pdf
 
 import helpers.UnitSpec
-import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperDetailsModel}
+import viewmodels.{RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import services.fakes.VrmRetentionRetainWebServiceConstants.TransactionIdValid

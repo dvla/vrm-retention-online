@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import mappings.vrm_retention.VehicleLookup._
-import models.domain.vrm_retention._
+import viewmodels._
 import play.api.Logger
 import play.api.mvc._
 import services.vrm_retention_eligibility.VRMRetentionEligibilityService

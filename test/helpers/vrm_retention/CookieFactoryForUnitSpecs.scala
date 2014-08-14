@@ -8,8 +8,8 @@ import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import mappings.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
-import models.domain.vrm_retention._
-import models.domain.vrm_retention.ConfirmFormModel.ConfirmFormModelCacheKey
+import viewmodels._
+import viewmodels.ConfirmFormModel.ConfirmFormModelCacheKey
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import services.fakes.AddressLookupServiceConstants._

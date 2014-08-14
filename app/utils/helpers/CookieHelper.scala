@@ -1,23 +1,20 @@
 package utils.helpers
 
 import controllers.routes
-import mappings.vrm_retention.RelatedCacheKeys
 import play.api.Logger
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{DiscardingCookie, RequestHeader, SimpleResult}
+import viewmodels.SeenCookieMessageCacheKey
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object CryptoHelper {
-
-  def handleApplicationSecretChange(implicit request: RequestHeader): Future[SimpleResult] = discardAllCookies
-
+object CookieHelper {
   def discardAllCookies(implicit request: RequestHeader): Future[SimpleResult] = {
-    Logger.warn("Handling BadPaddingException or IllegalBlockSizeException by removing all cookies except seen cookie."
-      + " Has the application secret changed or has a user tampered with his session secret ?")
+    Logger.warn("Removing all cookies except seen cookie.")
 
     Future {
-      val discardingCookiesKeys = request.cookies.map(_.name).filter(_ != RelatedCacheKeys.SeenCookieMessageKey)
+      val discardingCookiesKeys = request.cookies.map(_.name).filter(_ != SeenCookieMessageCacheKey)
       val discardingCookies = discardingCookiesKeys.map(DiscardingCookie(_)).toSeq
       Redirect(routes.BeforeYouStart.present())
         .discardingCookies(discardingCookies: _*)

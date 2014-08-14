@@ -1,6 +1,6 @@
 package services.fakes
 
-import models.domain.vrm_retention.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
+import viewmodels.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 
 object VehicleAndKeeperLookupWebServiceConstants {

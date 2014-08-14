@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 final case class SetupBusinessDetailsViewModel(registrationNumber: String,
                                                vehicleMake: Option[String],

@@ -1,6 +1,6 @@
 package services.fakes
 
-import models.domain.vrm_retention.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
+import viewmodels.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.Response

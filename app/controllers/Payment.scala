@@ -3,7 +3,7 @@ package controllers
 import com.google.inject.Inject
 import mappings.vrm_retention.RelatedCacheKeys
 import mappings.vrm_retention.Retain._
-import models.domain.vrm_retention.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
+import viewmodels.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc._

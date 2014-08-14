@@ -1,7 +1,7 @@
 package services.vrm_retention_eligibility
 
 import javax.inject.Inject
-import models.domain.vrm_retention.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse}
+import viewmodels.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse}
 import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global

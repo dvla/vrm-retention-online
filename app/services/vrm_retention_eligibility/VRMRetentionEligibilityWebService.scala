@@ -1,6 +1,6 @@
 package services.vrm_retention_eligibility
 
-import models.domain.vrm_retention.VRMRetentionEligibilityRequest
+import viewmodels.VRMRetentionEligibilityRequest
 import play.api.libs.ws.Response
 import scala.concurrent.Future
 

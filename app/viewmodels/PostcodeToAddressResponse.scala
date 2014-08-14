@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 import play.api.libs.json.Json
 

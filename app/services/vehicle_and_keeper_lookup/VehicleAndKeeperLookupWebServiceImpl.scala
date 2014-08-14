@@ -1,7 +1,7 @@
 package services.vehicle_and_keeper_lookup
 
 import com.google.inject.Inject
-import models.domain.vrm_retention.VehicleAndKeeperDetailsRequest
+import viewmodels.VehicleAndKeeperDetailsRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}

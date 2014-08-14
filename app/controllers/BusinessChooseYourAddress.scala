@@ -3,7 +3,7 @@ package controllers
 import javax.inject.Inject
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
+import viewmodels.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}

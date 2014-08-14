@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 final case class VrmLockedViewModel(registrationNumber: String,
                                     vehicleMake: Option[String],

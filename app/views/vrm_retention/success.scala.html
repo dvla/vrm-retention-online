@@ -1,4 +1,4 @@
-@(successViewModel: models.domain.vrm_retention.SuccessViewModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+@(successViewModel: viewmodels.SuccessViewModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.routes.Success
@@ -6,7 +6,8 @@
 @import helper._
 @import views.html.helper.base._
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers._
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_retention.main
 
 @main(

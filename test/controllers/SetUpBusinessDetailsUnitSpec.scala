@@ -6,7 +6,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.vrm_retention.SetupBusinessDetails._
-import models.domain.vrm_retention.SetupBusinessDetailsFormModel
+import viewmodels.SetupBusinessDetailsFormModel
 import org.mockito.Mockito.when
 import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest

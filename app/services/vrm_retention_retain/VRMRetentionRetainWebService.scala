@@ -1,6 +1,6 @@
 package services.vrm_retention_retain
 
-import models.domain.vrm_retention.VRMRetentionRetainRequest
+import viewmodels.VRMRetentionRetainRequest
 import play.api.libs.ws.Response
 import scala.concurrent.Future
 

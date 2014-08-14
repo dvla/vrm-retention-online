@@ -3,7 +3,7 @@ package controllers
 import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.vrm_retention._
+import viewmodels._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._

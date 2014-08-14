@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 import mappings.vrm_retention.SetupBusinessDetails._
 import play.api.libs.json.Json

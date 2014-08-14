@@ -1,7 +1,7 @@
 package services.vrm_retention_retain
 
 import javax.inject.Inject
-import models.domain.vrm_retention.{VRMRetentionRetainRequest, VRMRetentionRetainResponse}
+import viewmodels.{VRMRetentionRetainRequest, VRMRetentionRetainResponse}
 import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global

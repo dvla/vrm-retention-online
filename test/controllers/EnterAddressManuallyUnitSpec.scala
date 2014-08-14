@@ -8,8 +8,8 @@ import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import models.domain.vrm_retention.{BusinessDetailsModel, EnterAddressManuallyModel}
+import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.SimpleResult

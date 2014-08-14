@@ -1,7 +1,7 @@
 package services.vrm_retention_eligibility
 
 import com.google.inject.Inject
-import models.domain.vrm_retention.VRMRetentionEligibilityRequest
+import viewmodels.VRMRetentionEligibilityRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{Response, WS}

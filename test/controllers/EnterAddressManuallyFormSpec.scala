@@ -1,7 +1,7 @@
 package controllers
 
 import helpers.UnitSpec
-import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 

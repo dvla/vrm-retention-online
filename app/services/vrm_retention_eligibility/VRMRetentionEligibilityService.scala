@@ -1,6 +1,6 @@
 package services.vrm_retention_eligibility
 
-import models.domain.vrm_retention.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse}
+import viewmodels.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse}
 import scala.concurrent.Future
 
 trait VRMRetentionEligibilityService {

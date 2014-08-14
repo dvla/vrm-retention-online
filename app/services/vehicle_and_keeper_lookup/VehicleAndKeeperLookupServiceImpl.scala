@@ -1,7 +1,7 @@
 package services.vehicle_and_keeper_lookup
 
 import javax.inject.Inject
-import models.domain.vrm_retention.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
+import viewmodels.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
 import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global

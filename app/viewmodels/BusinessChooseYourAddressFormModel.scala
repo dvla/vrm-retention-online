@@ -1,4 +1,4 @@
-package models.domain.vrm_retention
+package viewmodels
 
 import mappings.DropDown
 import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
