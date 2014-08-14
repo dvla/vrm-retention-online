@@ -1,15 +1,14 @@
 package controllers
 
 import controllers.Common.PrototypeHtml
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import mappings.common.Postcode.PostcodeId
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import models.domain.vrm_retention.{BusinessDetailsModel, EnterAddressManuallyModel}
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
@@ -18,9 +17,10 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import utils.helpers.Config
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
 

@@ -4,7 +4,7 @@ import controllers.Common.PrototypeHtml
 import com.tzavellas.sse.guice.ScalaModule
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.DocumentReferenceNumber
+import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import mappings.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import models.domain.vrm_retention.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
 import org.mockito.Matchers.any

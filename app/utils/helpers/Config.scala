@@ -4,6 +4,9 @@ import app.ConfigProperties.{getDurationProperty, getProperty}
 import scala.concurrent.duration.DurationInt
 
 class Config {
+
+  val isCsrfPreventionEnabled = getProperty("csrf.prevention", default = true)
+
   // Micro-service config
   val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookupMicroServiceUrlBase", "NOT FOUND")
   val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicleMicroServiceUrlBase", "NOT FOUND")
@@ -49,5 +52,4 @@ class Config {
   // Vrm Retain
   val vrmRetentionRetainMicroServiceUrlBase: String = getProperty("vrmRetentionRetainMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionRetainMsRequestTimeout: Int = getProperty("vrmRetentionRetain.ms.requesttimeout", 5.seconds.toMillis.toInt)
-
 }
