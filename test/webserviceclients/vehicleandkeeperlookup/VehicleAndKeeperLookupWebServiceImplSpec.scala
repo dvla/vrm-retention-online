@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFo
 import helpers.{UnitSpec, WireMockFixture}
 import viewmodels.VehicleAndKeeperDetailsRequest
 import play.api.libs.json.Json
-import services.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
