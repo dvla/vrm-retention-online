@@ -3,6 +3,7 @@ package utils.helpers
 import helpers.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.Sha1HashGenerator
 
+// TODO move to common project
 final class Sha1HashSpec extends UnitSpec {
 
   "Sha1Hash" should {

@@ -10,7 +10,7 @@ import utils.helpers.Config
 
 final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
-  "callDisposeService" should {
+  "callVehicleAndKeeperLookupService" should {
 
     "send the serialised json request" in {
       val resultFuture = lookupService.callVehicleAndKeeperLookupService(request, trackingId)

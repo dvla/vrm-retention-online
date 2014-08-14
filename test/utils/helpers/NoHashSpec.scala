@@ -3,6 +3,7 @@ package utils.helpers
 import helpers.{UnitSpec, WithApplication}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoHashGenerator
 
+// TODO move to common project
 final class NoHashSpec extends UnitSpec {
 
   "NoHash" should {
