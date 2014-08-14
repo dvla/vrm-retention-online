@@ -1,10 +1,11 @@
 package utils.helpers
 
+import helpers.{WithApplication, UnitSpec}
 import helpers.webbrowser.TestGlobal
-import helpers.{UnitSpec, WithApplication}
 import play.api.test.FakeApplication
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.AesEncryption
 
+// TODO move to common project
 final class AesEncryptionSpec extends UnitSpec {
   "encryptCookie" should {
     "return an encrypted string" in new WithApplication(app = fakeAppWithCryptoConfig) {
