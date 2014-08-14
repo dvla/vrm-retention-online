@@ -20,27 +20,27 @@ object ConfirmViewModel {
             businessDetailsModel: BusinessDetailsModel): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
-      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
-      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
-      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
-      businessName = Some(businessDetailsModel.businessName),
-      businessContact = Some(businessDetailsModel.businessContact),
-      businessEmail = Some(businessDetailsModel.businessEmail),
-      businessAddress = Some(businessDetailsModel.businessAddress)
+      vehicleMake = vehicleAndKeeperDetails.make,
+      vehicleModel = vehicleAndKeeperDetails.model,
+      keeperTitle = vehicleAndKeeperDetails.title,
+      keeperFirstName = vehicleAndKeeperDetails.firstName,
+      keeperLastName = vehicleAndKeeperDetails.lastName,
+      keeperAddress = vehicleAndKeeperDetails.address,
+      businessName = Some(businessDetailsModel.name),
+      businessContact = Some(businessDetailsModel.contact),
+      businessEmail = Some(businessDetailsModel.email),
+      businessAddress = Some(businessDetailsModel.address)
     )
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      keeperTitle = vehicleAndKeeperDetails.keeperTitle,
-      keeperFirstName = vehicleAndKeeperDetails.keeperFirstName,
-      keeperLastName = vehicleAndKeeperDetails.keeperLastName,
-      keeperAddress = vehicleAndKeeperDetails.keeperAddress,
+      vehicleMake = vehicleAndKeeperDetails.make,
+      vehicleModel = vehicleAndKeeperDetails.model,
+      keeperTitle = vehicleAndKeeperDetails.title,
+      keeperFirstName = vehicleAndKeeperDetails.firstName,
+      keeperLastName = vehicleAndKeeperDetails.lastName,
+      keeperAddress = vehicleAndKeeperDetails.address,
       None, None, None, None
     )
 }

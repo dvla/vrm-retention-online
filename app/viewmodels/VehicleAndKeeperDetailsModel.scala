@@ -1,20 +1,20 @@
 package viewmodels
 
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
-                                              vehicleMake: Option[String],
-                                              vehicleModel: Option[String],
-                                              keeperTitle: Option[String],
-                                              keeperFirstName: Option[String],
-                                              keeperLastName: Option[String],
-                                              keeperAddress: Option[AddressModel])
+                                              make: Option[String],
+                                              model: Option[String],
+                                              title: Option[String],
+                                              firstName: Option[String],
+                                              lastName: Option[String],
+                                              address: Option[AddressModel])
 
 object VehicleAndKeeperDetailsModel {
 
@@ -32,12 +32,12 @@ object VehicleAndKeeperDetailsModel {
     }
 
     VehicleAndKeeperDetailsModel(registrationNumber = formatVrm(vehicleAndKeeperDetailsDto.registrationNumber),
-      vehicleMake = vehicleAndKeeperDetailsDto.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetailsDto.vehicleModel,
-      keeperTitle = vehicleAndKeeperDetailsDto.keeperTitle,
-      keeperFirstName = vehicleAndKeeperDetailsDto.keeperFirstName,
-      keeperLastName = vehicleAndKeeperDetailsDto.keeperLastName,
-      keeperAddress = Some(addressViewModel))
+      make = vehicleAndKeeperDetailsDto.vehicleMake,
+      model = vehicleAndKeeperDetailsDto.vehicleModel,
+      title = vehicleAndKeeperDetailsDto.keeperTitle,
+      firstName = vehicleAndKeeperDetailsDto.keeperFirstName,
+      lastName = vehicleAndKeeperDetailsDto.keeperLastName,
+      address = Some(addressViewModel))
   }
 
   implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsModel]

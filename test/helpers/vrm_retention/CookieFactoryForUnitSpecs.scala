@@ -62,12 +62,12 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     )
     val addressViewModel = AddressModel.from(addressAndPostcodeModel, postCode.get)
     val value = VehicleAndKeeperDetailsModel(registrationNumber = registrationNumber,
-      vehicleMake = vehicleMake,
-      vehicleModel = vehicleModel,
-      keeperTitle = title,
-      keeperFirstName = firstName,
-      keeperLastName = lastName,
-      keeperAddress = Some(addressViewModel))
+      make = vehicleMake,
+      model = vehicleModel,
+      title = title,
+      firstName = firstName,
+      lastName = lastName,
+      address = Some(addressViewModel))
     createCookie(key, value)
   }
 
@@ -86,7 +86,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       postcode = postcode,
-      keeperConsent = keeperConsent
+      consent = keeperConsent
     )
     createCookie(key, value)
   }
@@ -100,7 +100,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def enterAddressManually(): Cookie = {
     val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyModel(
-      addressAndPostcodeModel = AddressAndPostcodeViewModel(
+      addressAndPostcodeViewModel = AddressAndPostcodeViewModel(
         addressLinesModel = AddressLinesViewModel(
           buildingNameOrNumber = BuildingNameOrNumberValid,
           line2 = Some(Line2Valid),
@@ -160,10 +160,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                            businessEmail: String = TraderBusinessEmailValid,
                            businessAddress: AddressModel = addressWithUprn): Cookie = {
     val key = BusinessDetailsCacheKey
-    val value = BusinessDetailsModel(businessName = businessName,
-      businessContact = businessContact,
-      businessEmail = businessEmail,
-      businessAddress = businessAddress)
+    val value = BusinessDetailsModel(name = businessName,
+      contact = businessContact,
+      email = businessEmail,
+      address = businessAddress)
     createCookie(key, value)
   }
 

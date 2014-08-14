@@ -16,8 +16,8 @@ object EnterAddressManuallyViewModel {
             vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): EnterAddressManuallyViewModel =
     EnterAddressManuallyViewModel(
       registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetailsModel.vehicleModel,
+      vehicleMake = vehicleAndKeeperDetailsModel.make,
+      vehicleModel = vehicleAndKeeperDetailsModel.model,
       businessName = setupBusinessDetailsFormModel.name,
       businessContact = setupBusinessDetailsFormModel.contact,
       businessEmail = setupBusinessDetailsFormModel.email,

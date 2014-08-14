@@ -83,10 +83,10 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
-        val businessDetailsModel = BusinessDetailsModel(businessName = businessName,
-          businessContact = businessContact,
-          businessEmail = businessEmail,
-          businessAddress = addressViewModel.formatPostcode)
+        val businessDetailsModel = BusinessDetailsModel(name = businessName,
+          contact = businessContact,
+          email = businessEmail,
+          address = addressViewModel.formatPostcode)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */

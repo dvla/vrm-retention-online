@@ -9,7 +9,7 @@ object SetupBusinessDetailsViewModel {
   def apply(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
     SetupBusinessDetailsViewModel(
       registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetailsModel.vehicleModel
+      vehicleMake = vehicleAndKeeperDetailsModel.make,
+      vehicleModel = vehicleAndKeeperDetailsModel.model
     )
 }

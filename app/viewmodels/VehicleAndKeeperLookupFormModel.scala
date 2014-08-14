@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumb
 final case class VehicleAndKeeperLookupFormModel(referenceNumber: String,
                                                  registrationNumber: String,
                                                  postcode: String,
-                                                 keeperConsent: String)
+                                                 consent: String)
 
 object VehicleAndKeeperLookupFormModel {
 
@@ -20,6 +20,7 @@ object VehicleAndKeeperLookupFormModel {
   implicit val Key = CacheKey[VehicleAndKeeperLookupFormModel](VehicleAndKeeperLookupFormModelCacheKey)
 
   object Form {
+
     final val Mapping = mapping(
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
@@ -27,4 +28,5 @@ object VehicleAndKeeperLookupFormModel {
       KeeperConsentId -> keeperConsent
     )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
   }
+
 }

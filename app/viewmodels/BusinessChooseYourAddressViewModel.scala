@@ -16,8 +16,8 @@ object BusinessChooseYourAddressViewModel {
             vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): BusinessChooseYourAddressViewModel =
     BusinessChooseYourAddressViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.vehicleMake,
-      vehicleModel = vehicleAndKeeperDetails.vehicleModel,
+      vehicleMake = vehicleAndKeeperDetails.make,
+      vehicleModel = vehicleAndKeeperDetails.model,
       name = setupBusinessDetailsFormModel.name,
       contact = setupBusinessDetailsFormModel.contact,
       email = setupBusinessDetailsFormModel.email,

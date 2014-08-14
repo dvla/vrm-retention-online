@@ -114,11 +114,11 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             val json = cookie.value
             val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
 
-            model.addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber should equal(
+            model.addressAndPostcodeViewModel.addressLinesModel.buildingNameOrNumber should equal(
               BuildingNameOrNumberValid.toUpperCase)
-            model.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
-            model.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
-            model.addressAndPostcodeModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
+            model.addressAndPostcodeViewModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
+            model.addressAndPostcodeViewModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
+            model.addressAndPostcodeViewModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
           case None => fail(s"$enterAddressManuallyCookieName cookie not found")
         }
 
@@ -131,7 +131,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
               Line3Valid.toUpperCase,
               PostTownValid.toUpperCase,
               formatPostcode(PostcodeValid.toUpperCase))
-            expectedData should equal(model.businessAddress.address)
+            expectedData should equal(model.address.address)
 
           case None => fail(s"$BusinessDetailsCacheKey cookie not found")
         }
@@ -300,7 +300,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             line3,
             postTown,
             formatPostcode(postCode))
-          expectedData should equal(model.businessAddress.address)
+          expectedData should equal(model.address.address)
         case None => fail(s"$BusinessDetailsCacheKey cookie not found")
       }
     }

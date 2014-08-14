@@ -1,9 +1,9 @@
 package viewmodels
 
 import mappings.vrm_retention.SetupBusinessDetails._
-import play.api.libs.json.Json
 import play.api.data.Forms._
 import play.api.data.validation.Constraints
+import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode._
 
@@ -15,6 +15,7 @@ object SetupBusinessDetailsFormModel {
   implicit val Key = CacheKey[SetupBusinessDetailsFormModel](SetupBusinessDetailsCacheKey)
 
   object Form {
+
     final val Mapping = mapping(
       BusinessNameId -> businessName(),
       BusinessContactId -> businessContact(),
@@ -22,4 +23,5 @@ object SetupBusinessDetailsFormModel {
       BusinessPostcodeId -> postcode
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   }
+
 }
