@@ -1,7 +1,0 @@
-@(field: play.api.data.Field, options: Seq[(String, String)], args: Map[Symbol, Any])(implicit handler: helper.FieldConstructor, lang: Lang)
-
-@import views.html.helper.base.valtechRadio
-
-<ul class="radio" id="@field.id">
-@valtechRadio(field, options, args)
-</ul>
