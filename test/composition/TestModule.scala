@@ -16,7 +16,7 @@ import play.api.libs.ws.Response
 import play.api.{Logger, LoggerLike}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import services.fakes.BruteForcePreventionWebServiceConstants._
-import services.fakes.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import services.fakes.DateServiceConstants._
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
@@ -78,15 +78,15 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
   private def stubDateService() = {
     val dateTimeISOChronology: String = new DateTime(
-      DateOfDisposalYearValid.toInt,
-      DateOfDisposalMonthValid.toInt,
-      DateOfDisposalDayValid.toInt,
+      YearValid.toInt,
+      MonthValid.toInt,
+      DayValid.toInt,
       0,
       0).toString
     val today = DayMonthYear(
-      DateOfDisposalDayValid.toInt,
-      DateOfDisposalMonthValid.toInt,
-      DateOfDisposalYearValid.toInt
+      DayValid.toInt,
+      MonthValid.toInt,
+      YearValid.toInt
     )
     val now = Instant.now()
 

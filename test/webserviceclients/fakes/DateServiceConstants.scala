@@ -2,7 +2,7 @@ package services.fakes
 
 object DateServiceConstants {
 
-  final val DateOfDisposalDayValid = "25"
-  final val DateOfDisposalMonthValid = "11"
-  final val DateOfDisposalYearValid = "1970"
+  final val DayValid = "25"
+  final val MonthValid = "11"
+  final val YearValid = "1970"
 }

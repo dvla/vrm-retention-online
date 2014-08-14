@@ -167,53 +167,11 @@ datePlaceholder.December=December
 select_default = Please select
 error.invalid = Invalid value
 
-##
-# DISPOSAL OF VEHICLE
-##
 
-#page 1 - Before You Start
-disposal_beforeyoustart.title = Sell a vehicle into the motor trade
-disposal_beforeyoustart.p1 = Before you start:
-disposal_beforeyoustart.listitem1 = You will need the most recent vehicle registration certificate (V5C). There must be no changes needed to the V5C and the name and address of the registered keeper must be up to date and correct.
-disposal_beforeyoustart.listitem1linktext = Vehicle Enquiry Service (VES)
-
-disposal_beforeyoustart.listitem2 = If the vehicle being sold has a personal registration number, the keeper must understand that the registration number will be sold with the vehicle. If the keeper wants to keep the personal registration number, they must firstly retain or transfer it to another vehicle.
-
-disposal_beforeyoustart.listitem3 = Only a sale to the motor trade can be notified using this service. Any other notification such as a sale to a private individual or change of address cannot currently be made on-line.  These requests must be made by sending the application and any relevant documentation to DVLA, Swansea.
-disposal_beforeyoustart.listitem4 = If the vehicle is currently taxed and there is more than one full month left to run, the keeper must
-disposal_beforeyoustart.listitem4.link = apply for a refund on a V14
-disposal_beforeyoustart.button = Start now
-
-#page 2 - set-up trade details
-disposal_setuptradedetails.title = Provide your Trader details
-disposal_setuptradedetails.name = Sell a vehicle into the motor trade
-disposal_setuptradedetails.p1 = Set-up trade details
-disposal_setuptradedetails.tradernamelabel = Trader name
-disposal_setuptradedetails.traderpostcodelabel = Postcode
-disposal_setuptradedetails.traderpostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
-disposal_setuptradedetails.button = Find address
 traderName = Trader name
 traderPostcode = Postcode
 
-#page 3
-disposal_businessChooseYourAddress_title = Select your Trader address
-disposal_businessChooseYourAddress_legend = Set up trade details
-disposal_businessChooseYourAddress_businessName_label = Trader name
-disposal_businessChooseYourAddress_businessName = {0}
-disposal_businessChooseYourAddress_postcode_label = Postcode
-disposal_businessChooseYourAddress_businessAddress_label = Trader address
-disposal_businessChooseYourAddress_addressSelect = Choose your address
-disposal_businessChooseYourAddress_addressSelect_label = Choose your address
-disposal_businessChooseYourAddress.backbutton = Back
-disposal_businessChooseYourAddress.submitbutton = Next
-disposal_businessChooseYourAddress.manualAddressEntry = My address is not in the list
-#error.dropDownInvalid = Please select a value from the drop down list.
-disposal_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually
 
-#page 3 - manual address entry
-disposal_enteraddressmanually.title = Enter address
-disposal_enteraddressmanually.submitbutton = Next
-disposal_enteraddressmanually.backbutton = Back
 addressAndPostcode_addressLines = Address
 address.lines.label = Building and street
 address.buildingNameOrNumber.label =
@@ -229,109 +187,10 @@ addressAndPostcode.addressLines.postTown = Town or city
 error.address.characterInvalid = Address contains invalid characters
 error.postTown.characterInvalid = Post town contains invalid characters
 
-#page 3 - uprn not found
-disposal_uprnnotfound.title = Error confirming post code
-disposal_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
-disposal_uprnnotfound.manualaddressbutton = Set-up trade details
-disposal_uprnnotfound.setuptradedetailsbutton = Manually enter address
-
-disposal_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
-
-#page 4 - vehicle Lookup
-disposal_vehiclelookup.title = Enter vehicle details
-disposal_vehiclelookup.name = Sell a vehicle into the motor trade
-disposal_vehiclelookup.p1 = Vehicle being sold
-disposal_vehiclelookup.p2 = Vehicle will be sold to
-disposal_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
-disposal_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
-disposal_vehiclelookup.img.h2 = Help finding your V5C document reference number?
-disposal_vehiclelookup.img.alt = V5C document reference number
-disposal_vehiclelookup.refnumlabel = Latest V5C Document Reference Number
-disposal_vehiclelookup.vrninputlabel = Vehicle registration number
-disposal_vehiclelookup.backbutton = Back
-disposal_vehiclelookup.button = Next
-disposal_vehiclelookup.button2 = Edit
-disposal_vehiclelookup.exitbutton = Finish
-disposal_vehiclelookup.tradernamelabel = Trader name
-disposal_vehiclelookup.traderaddresslabel = Trader address
 vehicleRegistrationNumber = Vehicle registration number
 documentReferenceNumber = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
 
-#page 5 - confirm disposal
-disposal_dispose.title = Complete & confirm
-disposal_dispose.warning=If the details above do not match the vehicle to be sold, please contact the DVLA.
-disposal_dispose.vehicledetails = Vehicle being sold
-disposal_dispose.vehiclereg = Registration
-disposal_dispose.vehiclemake = Make
-disposal_dispose.vehiclemodel = Model
-disposal_dispose.vehiclekeeper = Keeper
-disposal_dispose.disposevehicleto = Trader Details
-disposal_dispose.mileage.label = Vehicle mileage
-disposal_dispose.mileage.validation = You must enter a valid mileage between 0 and 999999
-dateOfDisposal = Date of sale
-disposal_dispose.dateofdisposal.label = Date of sale
-disposal_dispose.backbutton = Back
-disposal_dispose.submitbutton = Confirm sale
-disposal_dispose.consent = I have the consent of the current keeper to notify the sale of this vehicle
-disposal_dispose.consent.notgiven = You must have the consent of the registered keeper to notify the sale of this vehicle
-dateOfDisposal_day = Day of sale
-dateOfDisposal_month = Month of sale
-dateOfDisposal_year = Year of sale
-dateOfDisposal.day = Day of sale
-dateOfDisposal.month = Month of sale
-dateOfDisposal.year = Year of sale
-disposal_dispose.todays_date_of_disposal = Use today''s date
-error.dateOfDisposal = Must be between today and two years ago
-disposal_dispose.consent.mandatory = You must have the consent of the registered keeper to notify the sale of this vehicle
-consent = Consent
-disposal_dispose.loss_of_registration.consent = I confirm that the current keeper understands that the registration number will be lost on the sale of this vehicle
-disposal_dispose.loss_of_registration.consent.notgiven = You must confirm that you have made the keeper aware that they will lose the registration mark associated with this vehicle
-lossOfRegistrationConsent = Loss of registration consent
-
-#page 6 - summary
-disposal_disposeconfirmation.title = Sell a vehicle into the motor trade: summary
-disposal_disposeconfirmation.disposalComplete = Thank you
-disposal_disposeconfirmation.yourTransactionId = The transaction ID is
-disposal_disposeconfirmation.disposaldetails = Sale details
-disposal_disposeconfirmation.vehiclemake = Make
-disposal_disposeconfirmation.vehiclemodel = Model
-disposal_disposeconfirmation.vehiclekeeper = Keeper
-disposal_disposeconfirmation.disposedto = Sold to
-disposal_disposeconfirmation.exkeeper = A letter will be sent to the name and address on the V5C within 4 weeks. If they do not receive a letter in this time they must contact DVLA Customer Enquiries on 0300 790 6802 as they could still be liable for this vehicle. 
-disposal_disposeconfirmation.exkeeper-p2 = Please print this page and pass to the customer.
-disposal_disposeconfirmation.sendbutton = Send
-disposal_disposeconfirmation.transactionid = {0}
-disposal_disposeconfirmation.transactionid_label = Transaction id
-disposal_disposeconfirmation.transactionid_message = Transaction message goes here
-disposal_disposeconfirmation.registrationNumber = {0}
-disposal_disposeconfirmation.registrationNumber_label = Registration
-disposal_disposeconfirmation.backbutton = Back
-disposal_disposeconfirmation.newdisposalbutton = Sell another vehicle
-disposal_disposeconfirmation.disposaldate = Date of sale
-disposal_disposeconfirmation.mileage = Mileage
-disposal_disposeconfirmation.noMileageEntered = No mileage entered
-disposal_disposeconfirmation.exitbutton = Finish
-disposal_disposeconfirmation.survey = Take a survey
-
-#page 7 - dispose failure
-disposal_disposefailure.title = Sell a vehicle into the motor trade: failure
-disposal_disposefailure.name = Failure
-disposal_disposefailure.p1 = It has not been possible to complete your transaction. Please call 0300 790 6802
-disposal_disposefailure.button = Sell Another Vehicle
-disposal_disposefailure.button2 = Exit
-disposal_disposefailure.button3 = Print
-disposal_disposefailure.transactiontext = Your transaction ID is:
-disposal_disposefailure.transactionid = {0}
-
-#page 8 - vehicle lookup failure
-disposal_vehiclelookupfailure.title = Look-up was unsuccessful
-disposal_vehiclelookupfailure.name = Failure
-disposal_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
-#disposal_vehiclelookupfailure.button = Vehicle Lookup
-disposal_vehiclelookupfailure.button = Try again
-#disposal_vehiclelookupfailure.button2 = Setup New Trader Details
-disposal_vehiclelookupfailure.button2 = Exit
 vehicle_lookup_vrm_not_found.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
 vehicle_lookup_vrm_not_found.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
@@ -348,22 +207,6 @@ error.address.buildingNameOrNumber.invalid = Building name or number - Must cont
 error.address.postTown = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
 
-# progress messages
-disposal_progress_1 = Step 1 of 6
-disposal_progress_2 = Step 2 of 6
-disposal_progress_3 = Step 3 of 6
-disposal_progress_4 = Step 4 of 6
-disposal_progress_5 = Step 5 of 6
-disposal_progress_6 = Step 6 of 6
-
-# help
-disposal.help.title = Help
-disposal.help.p1 = This service is in Private Beta Phase
-disposal.help.p2.1 = If you require any help using it then please contact Julie Riseley on 01792 788410 or
-disposal.help.p2.2 = send an email
-disposal.help.email =  mailto:julie.riseley@dvla.gsi.gov.uk?Subject=Sell%20to%20the%20Trade%20Help
-disposal.help.exit_button = Exit
-disposal.help.back_button = Back
 
 # micro-service response codes
 ms.vehiclesService.response.applicationBeingProcessed.p1 = The application is being processed.
