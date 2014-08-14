@@ -102,7 +102,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Dispose after a valid submission of all fields" in new WithApplication {
+    "redirect to Confirm after a valid submission of all fields" in new WithApplication {
       val request = requestWithValidDefaults()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
@@ -138,7 +138,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Dispose after a valid submission of mandatory fields" in new WithApplication {
+    "redirect to Confirm after a valid submission of mandatory fields" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,

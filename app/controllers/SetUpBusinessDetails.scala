@@ -24,7 +24,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
         case Some(vehicleAndKeeperDetails) =>
           val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
-        case _ => Redirect(routes.VehicleLookup.present()) // US320 the user has pressed back button after being on dispose-success and pressing new dispose.
+        case _ => Redirect(routes.VehicleLookup.present())
       }
   }
 
