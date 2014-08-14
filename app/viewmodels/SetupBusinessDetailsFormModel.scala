@@ -7,8 +7,7 @@ import play.api.data.validation.Constraints
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode._
 
-// TODO the names of the params repeat names from the model so refactor
-final case class SetupBusinessDetailsFormModel(businessName: String, businessContact: String, businessEmail: String, businessPostcode: String)
+final case class SetupBusinessDetailsFormModel(name: String, contact: String, email: String, postcode: String)
 
 object SetupBusinessDetailsFormModel {
 

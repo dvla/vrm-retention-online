@@ -34,10 +34,10 @@ object CookieFactoryForUISpecs {
                            businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupBusinessDetailsCacheKey
-    val value = SetupBusinessDetailsFormModel(businessName = businessName,
-      businessContact = businessContact,
-      businessEmail = businessEmail,
-      businessPostcode = businessPostcode)
+    val value = SetupBusinessDetailsFormModel(name = businessName,
+      contact = businessContact,
+      email = businessEmail,
+      postcode = businessPostcode)
     addCookie(key, value)
     this
   }

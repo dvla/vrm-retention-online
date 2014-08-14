@@ -19,9 +19,9 @@ object BusinessDetailsModel {
     val businessAddress = AddressModel.from(enterAddressManuallyModel.addressAndPostcodeModel,
       enterAddressManuallyViewModel.businessPostCode)
     BusinessDetailsModel(
-      businessName = setupBusinessDetailsFormModel.businessName,
-      businessContact = setupBusinessDetailsFormModel.businessContact,
-      businessEmail = setupBusinessDetailsFormModel.businessEmail,
+      businessName = setupBusinessDetailsFormModel.name,
+      businessContact = setupBusinessDetailsFormModel.contact,
+      businessEmail = setupBusinessDetailsFormModel.email,
       businessAddress = businessAddress)
   }
 }

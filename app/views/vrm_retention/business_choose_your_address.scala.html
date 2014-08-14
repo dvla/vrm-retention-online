@@ -23,13 +23,13 @@
             <div class="first-col">
                 <dl class="summary-detail-list">
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessName_label")</dt>
-                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessName", businessChooseYourAddressViewModel.businessName)</dd>
+                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessName", businessChooseYourAddressViewModel.name)</dd>
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessContact_label")</dt>
-                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessContact", businessChooseYourAddressViewModel.businessContact)</dd>
+                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessContact", businessChooseYourAddressViewModel.contact)</dd>
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessEmail_label")</dt>
-                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessEmail", businessChooseYourAddressViewModel.businessEmail)</dd>
+                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessEmail", businessChooseYourAddressViewModel.email)</dd>
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_postcode_label")</dt>
-                    <dd>@businessChooseYourAddressViewModel.businessPostCode</dd>
+                    <dd>@businessChooseYourAddressViewModel.postCode</dd>
                 </dl>
 
                 @if(dropDownOptions.isEmpty) {

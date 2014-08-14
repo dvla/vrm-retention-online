@@ -5,10 +5,10 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.forma
 final case class BusinessChooseYourAddressViewModel(registrationNumber: String,
                                                     vehicleMake: Option[String],
                                                     vehicleModel: Option[String],
-                                                    businessName: String,
-                                                    businessContact: String,
-                                                    businessEmail: String,
-                                                    businessPostCode: String)
+                                                    name: String,
+                                                    contact: String,
+                                                    email: String,
+                                                    postCode: String)
 
 object BusinessChooseYourAddressViewModel {
 
@@ -18,9 +18,9 @@ object BusinessChooseYourAddressViewModel {
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       vehicleMake = vehicleAndKeeperDetails.vehicleMake,
       vehicleModel = vehicleAndKeeperDetails.vehicleModel,
-      businessName = setupBusinessDetailsFormModel.businessName,
-      businessContact = setupBusinessDetailsFormModel.businessContact,
-      businessEmail = setupBusinessDetailsFormModel.businessEmail,
-      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)
+      name = setupBusinessDetailsFormModel.name,
+      contact = setupBusinessDetailsFormModel.contact,
+      email = setupBusinessDetailsFormModel.email,
+      postCode = formatPostcode(setupBusinessDetailsFormModel.postcode)
     )
 }

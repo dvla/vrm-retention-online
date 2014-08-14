@@ -13,10 +13,10 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
         traderBusinessContact = TraderBusinessContactValid,
         traderBusinessEmail = TraderBusinessEmailValid,
         traderPostcode = PostcodeValid).get
-      model.businessName should equal(TraderBusinessNameValid.toUpperCase)
-      model.businessContact should equal(TraderBusinessContactValid.toUpperCase)
-      model.businessEmail should equal(TraderBusinessEmailValid)
-      model.businessPostcode should equal(PostcodeValid)
+      model.name should equal(TraderBusinessNameValid.toUpperCase)
+      model.contact should equal(TraderBusinessContactValid.toUpperCase)
+      model.email should equal(TraderBusinessEmailValid)
+      model.postcode should equal(PostcodeValid)
     }
   }
 
@@ -44,7 +44,7 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
     "accept if trader business name is valid" in {
       formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).
-        get.businessName should equal(TraderBusinessNameValid.toUpperCase)
+        get.name should equal(TraderBusinessNameValid.toUpperCase)
     }
   }
 

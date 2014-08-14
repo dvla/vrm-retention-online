@@ -59,9 +59,9 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           case Some(setupBusinessDetailsFormModel) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             lookupUprn(validForm,
-              setupBusinessDetailsFormModel.businessName,
-              setupBusinessDetailsFormModel.businessContact,
-              setupBusinessDetailsFormModel.businessEmail)
+              setupBusinessDetailsFormModel.name,
+              setupBusinessDetailsFormModel.contact,
+              setupBusinessDetailsFormModel.email)
           case None => Future {
             Redirect(routes.SetUpBusinessDetails.present())
           }
@@ -76,7 +76,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       distinctErrors
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =
-    addressLookupService.fetchAddressesForPostcode(model.businessPostcode, session.trackingId)
+    addressLookupService.fetchAddressesForPostcode(model.postcode, session.trackingId)
 
   private def lookupUprn(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String)
                         (implicit request: Request[_], session: ClientSideSession) = {

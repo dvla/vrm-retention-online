@@ -18,10 +18,10 @@ object EnterAddressManuallyViewModel {
       registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
       vehicleMake = vehicleAndKeeperDetailsModel.vehicleMake,
       vehicleModel = vehicleAndKeeperDetailsModel.vehicleModel,
-      businessName = setupBusinessDetailsFormModel.businessName,
-      businessContact = setupBusinessDetailsFormModel.businessContact,
-      businessEmail = setupBusinessDetailsFormModel.businessEmail,
-      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.businessPostcode)
+      businessName = setupBusinessDetailsFormModel.name,
+      businessContact = setupBusinessDetailsFormModel.contact,
+      businessEmail = setupBusinessDetailsFormModel.email,
+      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.postcode)
     )
 }
 
