@@ -3,11 +3,11 @@ package helpers.vrm_retention
 import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import mappings.vrm_retention.Confirm._
 import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import mappings.vrm_retention.Retain.RetainCacheKey
 import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import models.domain.vrm_retention._
+import models.domain.vrm_retention.ConfirmFormModel.ConfirmFormModelCacheKey
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
 import services.fakes.AddressLookupServiceConstants._

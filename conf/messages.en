@@ -560,6 +560,8 @@ vrm_retention_businessChooseYourAddress.address.required = Select an address fro
 vrm_retention_enteraddressmanually.title = Enter address
 vrm_retention_enteraddressmanually.submitbutton = Next
 vrm_retention_enteraddressmanually.backbutton = Back
+address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
+addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 
 #Success page
 vrm_retention_success.title = Summary

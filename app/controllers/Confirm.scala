@@ -15,11 +15,7 @@ import utils.helpers.Config
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
-  val form = Form(
-    mapping(
-      KeeperEmailId -> optional(email)
-    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
-  )
+  private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
   def present = Action {
     implicit request =>
