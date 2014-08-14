@@ -14,7 +14,7 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.Response
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import services.DateServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 import services.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import services.fakes.{BruteForcePreventionWebServiceConstants, FakeResponse}

@@ -4,7 +4,7 @@ import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
-import services.DateServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 import services.vrm_retention_retain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
