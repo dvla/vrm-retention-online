@@ -1,7 +1,7 @@
 package controllers
 
 import helpers.UnitSpec
-import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
+import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService

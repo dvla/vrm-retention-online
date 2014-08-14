@@ -1,7 +1,8 @@
 package viewmodels
 
 import uk.gov.dvla.vehicles.presentation.common.mappings.DropDown
-import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
+import views.vrm_retention.BusinessChooseYourAddress
+import BusinessChooseYourAddress.AddressSelectId
 import play.api.data.Forms._
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

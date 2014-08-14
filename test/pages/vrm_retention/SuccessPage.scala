@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.Success.FinishId
+import views.vrm_retention.Success
+import Success.FinishId
 import org.openqa.selenium.WebDriver
 
 object SuccessPage extends Page with WebBrowserDSL {

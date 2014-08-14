@@ -1,8 +1,9 @@
 @(vrmLockedViewModel: viewmodels.VrmLockedViewModel, timeString: String)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken, config: utils.helpers.Config)
+@import views.vrm_retention.VrmLocked
 
 @import helper._
-@import mappings.vrm_retention.VrmLocked._
+@import VrmLocked._
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_retention.main

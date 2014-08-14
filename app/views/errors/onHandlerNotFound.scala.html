@@ -1,7 +1,8 @@
 @(request: RequestHeader)(implicit lang: Lang, config: utils.helpers.Config)
+@import views.vrm_retention.OnHandlerNotFound
 
 @import views.html.common.{govMainDefault, protoType}
-@import mappings.vrm_retention.OnHandlerNotFound.{TryAgainId, ExitId}
+@import OnHandlerNotFound.{TryAgainId, ExitId}
 
 @govMainDefault(Messages("onHandlerNotFound.title")) {
     <div class="vehicles-online">

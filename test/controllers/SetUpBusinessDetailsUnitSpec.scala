@@ -5,7 +5,8 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.vrm_retention.SetupBusinessDetails._
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails._
 import viewmodels.SetupBusinessDetailsFormModel
 import org.mockito.Mockito.when
 import pages.vrm_retention.BusinessChooseYourAddressPage

@@ -1,11 +1,13 @@
 package helpers.vrm_retention
 
-import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import mappings.vrm_retention.Retain.RetainCacheKey
-import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
+import views.vrm_retention._
+import BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
+import BusinessDetails.BusinessDetailsCacheKey
+import CheckEligibility.CheckEligibilityCacheKey
+import EnterAddressManually.EnterAddressManuallyCacheKey
+import scala.Some
+import Retain.RetainCacheKey
+import SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import viewmodels._
 import viewmodels.ConfirmFormModel.ConfirmFormModelCacheKey
 import org.openqa.selenium.{Cookie, WebDriver}
@@ -19,6 +21,7 @@ import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import views.vrm_retention
 
 object CookieFactoryForUISpecs {
 
@@ -116,7 +119,7 @@ object CookieFactoryForUISpecs {
                              postcode: String = PostcodeValid,
                              keeperConsent: String = KeeperConsentValid)
                             (implicit webDriver: WebDriver) = {
-    val key = mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
+    val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
     val value = VehicleAndKeeperLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber, postcode = postcode, keeperConsent = keeperConsent)
     addCookie(key, value)
@@ -134,7 +137,7 @@ object CookieFactoryForUISpecs {
                           postTown: Option[String] = KeeperPostTownValid,
                           postCode: Option[String] = KeeperPostCodeValid)
                          (implicit webDriver: WebDriver) = {
-    val key = mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
+    val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,
@@ -157,7 +160,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleAndKeeperLookupResponseCode(responseCode: String)
                                (implicit webDriver: WebDriver) = {
-    val key = mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+    val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
     val value = responseCode
     addCookie(key, value)
     this

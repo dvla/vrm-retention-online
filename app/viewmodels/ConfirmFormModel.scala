@@ -1,6 +1,7 @@
 package viewmodels
 
-import mappings.vrm_retention.Confirm._
+import views.vrm_retention.Confirm
+import Confirm._
 import play.api.libs.json.Json
 import play.api.data.Forms._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

@@ -1,6 +1,7 @@
 package viewmodels
 
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_retention.BusinessDetails
+import BusinessDetails.BusinessDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

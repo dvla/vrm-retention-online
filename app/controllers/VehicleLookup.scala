@@ -1,8 +1,8 @@
 package controllers
 
 import com.google.inject.Inject
-import mappings.vrm_retention.RelatedCacheKeys
-import mappings.vrm_retention.VehicleLookup._
+import views.vrm_retention.{VehicleLookup, RelatedCacheKeys}
+import VehicleLookup._
 import viewmodels._
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -18,6 +18,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import views.vrm_retention.RelatedCacheKeys
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService)

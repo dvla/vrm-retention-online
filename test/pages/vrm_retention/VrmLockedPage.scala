@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.VrmLocked.{ExitRetentionId, NewRetentionId}
+import views.vrm_retention.VrmLocked
+import VrmLocked.{ExitRetentionId, NewRetentionId}
 import org.openqa.selenium.WebDriver
 
 object VrmLockedPage extends Page with WebBrowserDSL {

@@ -8,8 +8,8 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 final case class EnterAddressManuallyModel(addressAndPostcodeModel: AddressAndPostcodeViewModel)
 
 object EnterAddressManuallyModel {
-  implicit val JsonFormat = Json.format[EnterAddressManuallyModel]
 
+  implicit val JsonFormat = Json.format[EnterAddressManuallyModel]
   final val EnterAddressManuallyCacheKey = "enterAddressManually"
   implicit val Key = CacheKey[EnterAddressManuallyModel](EnterAddressManuallyCacheKey)
 

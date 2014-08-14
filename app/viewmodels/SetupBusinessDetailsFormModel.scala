@@ -1,6 +1,7 @@
 package viewmodels
 
-import mappings.vrm_retention.SetupBusinessDetails._
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails._
 import play.api.libs.json.Json
 import play.api.data.Forms._
 import play.api.data.validation.Constraints

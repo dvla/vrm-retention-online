@@ -6,9 +6,10 @@ import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.{EnterAddressManually, BusinessDetails, BusinessChooseYourAddress}
+import BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
+import BusinessDetails.BusinessDetailsCacheKey
+import EnterAddressManually.EnterAddressManuallyCacheKey
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundPage}
 import play.api.mvc.Cookies

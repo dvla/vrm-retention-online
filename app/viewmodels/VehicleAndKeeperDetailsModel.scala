@@ -2,7 +2,8 @@ package viewmodels
 
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
-import mappings.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
+import views.vrm_retention.VehicleLookup
+import VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import play.api.libs.json.Json

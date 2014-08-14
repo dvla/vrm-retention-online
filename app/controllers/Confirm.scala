@@ -1,8 +1,8 @@
 package controllers
 
 import com.google.inject.Inject
-import mappings.vrm_retention.Confirm.KeeperEmailId
-import mappings.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.{RelatedCacheKeys, Confirm}
+import Confirm.KeeperEmailId
 import viewmodels._
 import play.api.data.{Form, FormError}
 import play.api.data.Forms._

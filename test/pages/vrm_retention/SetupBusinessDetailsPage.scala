@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
 import org.openqa.selenium.WebDriver
 import services.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid, TraderBusinessContactValid, TraderBusinessEmailValid, TraderBusinessNameValid}
 

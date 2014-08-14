@@ -1,7 +1,8 @@
 package controllers
 
 import com.google.inject.Inject
-import mappings.vrm_retention.SetupBusinessDetails._
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails._
 import viewmodels.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._

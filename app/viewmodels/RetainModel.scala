@@ -1,6 +1,7 @@
 package viewmodels
 
-import mappings.vrm_retention.Retain.RetainCacheKey
+import views.vrm_retention.Retain
+import Retain.RetainCacheKey
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 

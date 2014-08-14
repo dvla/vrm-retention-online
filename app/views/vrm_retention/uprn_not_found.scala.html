@@ -1,8 +1,9 @@
 @()(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
+@import views.vrm_retention.UprnNotFound
 
-@import mappings.vrm_retention.UprnNotFound.{ManualAddressButtonId, SetupBusinessDetailsButtonId}
+@import UprnNotFound.{ManualAddressButtonId, SetupBusinessDetailsButtonId}
 @import views.html.vrm_retention.main
 
 @main(

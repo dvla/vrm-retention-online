@@ -1,8 +1,9 @@
 package controllers
 
 import javax.inject.Inject
-import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.{EnterAddressManually, BusinessChooseYourAddress}
+import BusinessChooseYourAddress.AddressSelectId
+import EnterAddressManually.EnterAddressManuallyCacheKey
 import viewmodels.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang

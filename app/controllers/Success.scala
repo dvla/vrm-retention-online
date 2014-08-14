@@ -2,7 +2,6 @@ package controllers
 
 import java.io.ByteArrayInputStream
 import com.google.inject.Inject
-import mappings.vrm_retention.RelatedCacheKeys
 import viewmodels._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
@@ -12,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import views.vrm_retention.RelatedCacheKeys
 
 final class Success @Inject()(pdfService: PdfService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                       config: Config) extends Controller {

@@ -1,4 +1,4 @@
-package mappings.vrm_retention
+package views.vrm_retention
 
 import play.api.data.Mapping
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.nonEmptyTextWithTransform

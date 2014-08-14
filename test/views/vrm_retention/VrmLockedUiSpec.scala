@@ -4,7 +4,6 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import mappings.vrm_retention.RelatedCacheKeys
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.vrm_retention.VrmLockedPage.exit
 import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage, VrmLockedPage}

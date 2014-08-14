@@ -6,8 +6,9 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.{EnterAddressManually, BusinessDetails}
+import BusinessDetails.BusinessDetailsCacheKey
+import EnterAddressManually.EnterAddressManuallyCacheKey
 import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
 import org.mockito.Mockito.when

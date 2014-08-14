@@ -1,4 +1,4 @@
-package mappings.vrm_retention
+package views.vrm_retention
 
 object VrmLocked {
 

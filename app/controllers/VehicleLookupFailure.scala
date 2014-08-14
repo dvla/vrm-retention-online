@@ -1,7 +1,8 @@
 package controllers
 
 import com.google.inject.Inject
-import mappings.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup
+import VehicleLookup._
 import viewmodels.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.Logger
 import play.api.mvc._

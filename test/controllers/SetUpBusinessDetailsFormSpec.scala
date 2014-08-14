@@ -1,7 +1,8 @@
 package controllers
 
 import helpers.UnitSpec
-import mappings.vrm_retention.SetupBusinessDetails._
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails._
 import services.fakes.AddressLookupServiceConstants._
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
