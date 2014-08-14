@@ -1,16 +1,15 @@
 package controllers
 
 import com.google.inject.Inject
-import views.vrm_retention.{RelatedCacheKeys, Confirm}
-import Confirm.KeeperEmailId
-import viewmodels._
 import play.api.data.{Form, FormError}
-import play.api.data.Forms._
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
+import viewmodels._
+import views.vrm_retention.Confirm.KeeperEmailId
+import views.vrm_retention.RelatedCacheKeys
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
@@ -48,12 +47,12 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
           case (Some(vehicleAndKeeperDetails), None) =>
             val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails)
             val formWithReplacedErrors = invalidForm.
-            replaceError(KeeperEmailId,
-              FormError(
-                key = KeeperEmailId,
-                message = "error.validEmail",
-                args = Seq.empty)).
-            distinctErrors
+              replaceError(KeeperEmailId,
+                FormError(
+                  key = KeeperEmailId,
+                  message = "error.validEmail",
+                  args = Seq.empty)).
+              distinctErrors
             BadRequest(views.html.vrm_retention.confirm(confirmViewModel, formWithReplacedErrors))
           case _ =>
             Redirect(routes.VehicleLookup.present())
@@ -62,8 +61,6 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       validForm => Redirect(routes.Payment.present()).withCookie(validForm)
     )
   }
-
-
 
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())

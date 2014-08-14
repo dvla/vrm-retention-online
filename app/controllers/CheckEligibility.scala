@@ -1,9 +1,6 @@
 package controllers
 
 import com.google.inject.Inject
-import views.vrm_retention.VehicleLookup
-import VehicleLookup._
-import viewmodels._
 import play.api.Logger
 import play.api.mvc._
 import services.vrm_retention_eligibility.VRMRetentionEligibilityService
@@ -11,6 +8,8 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
 import utils.helpers.Config
+import viewmodels.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, EligibilityModel, VehicleAndKeeperLookupFormModel}
+import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
