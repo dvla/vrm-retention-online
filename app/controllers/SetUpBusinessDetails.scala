@@ -3,13 +3,10 @@ package controllers
 import com.google.inject.Inject
 import mappings.vrm_retention.SetupBusinessDetails._
 import models.domain.vrm_retention.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
-import play.api.data.Forms._
-import play.api.data.validation.Constraints
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode._
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 
@@ -17,12 +14,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
                                              config: Config) extends Controller {
 
   private[controllers] val form = Form(
-    mapping(
-      BusinessNameId -> businessName(),
-      BusinessContactId -> businessContact(),
-      BusinessEmailId -> email.verifying(Constraints.nonEmpty),
-      BusinessPostcodeId -> postcode
-    )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
+    SetupBusinessDetailsFormModel.Form.Mapping
   )
 
   def present = Action {
