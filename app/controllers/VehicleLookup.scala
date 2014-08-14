@@ -1,8 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import views.vrm_retention.{VehicleLookup, RelatedCacheKeys}
-import VehicleLookup._
+import views.vrm_retention.VehicleLookup._
 import viewmodels._
 import play.api.Logger
 import play.api.data.{Form, FormError}
