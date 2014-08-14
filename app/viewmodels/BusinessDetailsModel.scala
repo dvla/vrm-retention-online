@@ -2,11 +2,11 @@ package viewmodels
 
 import views.vrm_retention.BusinessDetails
 import BusinessDetails.BusinessDetailsCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
-final case class BusinessDetailsModel(businessName: String, businessContact: String, businessEmail: String, businessAddress: AddressModel)
+final case class BusinessDetailsModel(name: String, contact: String, email: String, address: AddressModel)
 
 object BusinessDetailsModel {
 
@@ -17,12 +17,12 @@ object BusinessDetailsModel {
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
            enterAddressManuallyModel: EnterAddressManuallyModel): BusinessDetailsModel = {
     val enterAddressManuallyViewModel = EnterAddressManuallyViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
-    val businessAddress = AddressModel.from(enterAddressManuallyModel.addressAndPostcodeModel,
+    val businessAddress = AddressModel.from(enterAddressManuallyModel.addressAndPostcodeViewModel,
       enterAddressManuallyViewModel.businessPostCode)
     BusinessDetailsModel(
-      businessName = setupBusinessDetailsFormModel.businessName,
-      businessContact = setupBusinessDetailsFormModel.businessContact,
-      businessEmail = setupBusinessDetailsFormModel.businessEmail,
-      businessAddress = businessAddress)
+      name = setupBusinessDetailsFormModel.name,
+      contact = setupBusinessDetailsFormModel.contact,
+      email = setupBusinessDetailsFormModel.email,
+      address = businessAddress)
   }
 }

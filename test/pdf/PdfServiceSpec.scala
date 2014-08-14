@@ -18,12 +18,12 @@ final class PdfServiceSpec extends UnitSpec {
 
     "return a non-empty output stream" in {
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
-        vehicleMake = VehicleMakeValid,
-        vehicleModel = VehicleModelValid,
-        keeperTitle = None,
-        keeperFirstName = None,
-        keeperLastName = None,
-        keeperAddress = None
+        make = VehicleMakeValid,
+        model = VehicleModelValid,
+        title = None,
+        firstName = None,
+        lastName = None,
+        address = None
       )
 
       val retainModel = RetainModel(

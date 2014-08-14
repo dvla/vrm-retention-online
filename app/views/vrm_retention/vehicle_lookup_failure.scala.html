@@ -40,13 +40,13 @@
                 <dl class="summary-detail-list">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="regNum">@vehicleLookupFailureViewModel.registrationNumber</dd>
-                    @if(vehicleLookupFailureViewModel.vehicleMake.isDefined) {
+                    @if(vehicleLookupFailureViewModel.make.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.vehicleMake.get.take(20)</dd>
+                        <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
                     }
-                    @if(vehicleLookupFailureViewModel.vehicleModel.isDefined) {
+                    @if(vehicleLookupFailureViewModel.model.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.vehicleModel.get.take(20)</dd>
+                        <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
                     }
                 </dl>
         </div>

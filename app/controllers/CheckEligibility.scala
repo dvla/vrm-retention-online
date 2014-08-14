@@ -39,7 +39,7 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
 
-      if (vehicleAndKeeperLookupFormModel.keeperConsent == KeeperConsent) {
+      if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent) {
         Redirect(routes.Confirm.present()).
           withCookie(EligibilityModel.from(replacementVRM))
       } else {

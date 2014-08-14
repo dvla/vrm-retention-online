@@ -1,8 +1,7 @@
 package viewmodels
 
-import views.vrm_retention.{VehicleLookup, KeeperConsent}
-import KeeperConsent._
-import VehicleLookup._
+import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.KeeperConsent._
 import play.api.data.Forms._
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
@@ -13,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumb
 final case class VehicleAndKeeperLookupFormModel(referenceNumber: String,
                                                  registrationNumber: String,
                                                  postcode: String,
-                                                 keeperConsent: String)
+                                                 consent: String)
 
 object VehicleAndKeeperLookupFormModel {
 
@@ -21,6 +20,7 @@ object VehicleAndKeeperLookupFormModel {
   implicit val Key = CacheKey[VehicleAndKeeperLookupFormModel](VehicleAndKeeperLookupFormModelCacheKey)
 
   object Form {
+
     final val Mapping = mapping(
       DocumentReferenceNumberId -> referenceNumber,
       VehicleRegistrationNumberId -> registrationNumber,
@@ -28,4 +28,5 @@ object VehicleAndKeeperLookupFormModel {
       KeeperConsentId -> keeperConsent
     )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
   }
+
 }
