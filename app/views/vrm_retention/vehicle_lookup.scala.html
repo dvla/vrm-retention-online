@@ -58,10 +58,10 @@
                 @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
                     args = Map(
                         'items -> Seq(
-                            "Business" -> Messages("vrm_retention_vehiclelookup.business"),
-                            "Keeper" -> Messages("vrm_retention_vehiclelookup.keeper")
+                            KeeperConsent_Business -> Messages("vrm_retention_vehiclelookup.business"),
+                            KeeperConsent_Keeper -> Messages("vrm_retention_vehiclelookup.keeper")
                         ),
-                        'value -> "Business",
+                        'value -> KeeperConsent_Business, // One radio button is checked when user arrives on the page.
                         '_label -> Messages("vrm_retention_vehiclelookup.label")
                     )
                 )
