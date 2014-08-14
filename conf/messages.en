@@ -337,9 +337,7 @@ vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C 
 vehicle_lookup_vrm_not_found.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
 vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
-disposal_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the vehicle''s records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
-
+vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, only 3 attempts can be made to retrieve the vehicle details.
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
