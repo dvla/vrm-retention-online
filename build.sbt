@@ -62,7 +62,11 @@ libraryDependencies ++= Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc(),
   "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
   "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
-  "dvla" %% "vehicles-presentation-common" % "1.0-SNAPSHOT" withSources() withJavadoc()
+  "dvla" %% "vehicles-presentation-common" % "1.0-SNAPSHOT" withSources() withJavadoc(),
+//  "com.typesafe" %% "play-plugins-util" % "2.2.0",
+//  "com.typesafe" %% "play-plugins-mailer" % "2.2.0",
+//  "com.sun.mail" % "javax.mail" % "1.5.1"
+    "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0"
 )
 
 val jsModulesToOptimise = Seq("custom.js")

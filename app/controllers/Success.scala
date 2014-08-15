@@ -23,15 +23,15 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getModel[ConfirmFormModel], request.cookies.getModel[RetainModel]) match {
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(confirmModel), Some(retainModel)) =>
-          emailService.sendBusinessEmail(businessDetailsModel.email)
+          emailService.sendBusinessEmail(businessDetailsModel.email, vehicleAndKeeperDetails.registrationNumber)
           if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendKeeperEmail(confirmModel.keeperEmail.get)
+            emailService.sendKeeperEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber)
           }
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(confirmModel), Some(retainModel)) =>
           if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendKeeperEmail(confirmModel.keeperEmail.get)
+            emailService.sendKeeperEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber)
           }
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
