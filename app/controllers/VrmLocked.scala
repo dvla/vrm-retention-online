@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import play.api.Logger
 import viewmodels.VehicleAndKeeperDetailsModel
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 

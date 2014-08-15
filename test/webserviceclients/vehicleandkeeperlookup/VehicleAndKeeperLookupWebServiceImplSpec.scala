@@ -1,7 +1,7 @@
 package services.vehicle_and_keeper_lookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import helpers.{UnitSpec, WireMockFixture}
+import helpers.{WithApplication, UnitSpec, WireMockFixture}
 import viewmodels.VehicleAndKeeperDetailsRequest
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -12,7 +12,7 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
 
   "callVehicleAndKeeperLookupService" should {
 
-    "send the serialised json request" in {
+    "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.callVehicleAndKeeperLookupService(request, trackingId)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(

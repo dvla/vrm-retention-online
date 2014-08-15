@@ -9,7 +9,7 @@ import play.api.mvc._
 import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -66,7 +66,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     model.copy(registrationNumber = model.registrationNumber.replace(" ", "").toUpperCase)
 
   private def bruteForceAndLookup(formModel: VehicleAndKeeperLookupFormModel)
-                                 (implicit request: Request[_]): Future[SimpleResult] =
+                                 (implicit request: Request[_]): Future[Result] =
 
     bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).flatMap { bruteForcePreventionViewModel =>
       // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
@@ -89,7 +89,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   private def lookupVehicle(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                             bruteForcePreventionViewModel: BruteForcePreventionModel)
-                           (implicit request: Request[_]): Future[SimpleResult] = {
+                           (implicit request: Request[_]): Future[Result] = {
 
     def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
       // check the keeper's postcode matches

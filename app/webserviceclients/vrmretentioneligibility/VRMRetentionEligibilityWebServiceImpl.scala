@@ -4,7 +4,8 @@ import com.google.inject.Inject
 import viewmodels.VRMRetentionEligibilityRequest
 import play.api.Logger
 import play.api.libs.json.Json
-import play.api.libs.ws.{Response, WS}
+import play.api.libs.ws.{WSResponse, WS}
+import play.api.Play.current
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import utils.helpers.Config
@@ -15,7 +16,7 @@ final class VRMRetentionEligibilityWebServiceImpl @Inject()(config: Config) exte
   private val endPoint: String = s"${config.vrmRetentionEligibilityMicroServiceUrlBase}/vrm/retention/eligibility"
 
   override def callVRMRetentionEligibilityService(request: VRMRetentionEligibilityRequest,
-                                                  trackingId: String): Future[Response] = {
+                                                  trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
     val refNo = LogFormats.anonymize(request.docRefNumber)
 

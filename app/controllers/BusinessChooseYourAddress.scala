@@ -7,7 +7,7 @@ import viewmodels.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddress
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
@@ -27,7 +27,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
         val businessChooseYourAddressViewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
         val session = clientSideSessionFactory.getSession(request.cookies)
-        fetchAddresses(setupBusinessDetailsFormModel)(session, lang).map { addresses =>
+        fetchAddresses(setupBusinessDetailsFormModel)(session, request2lang).map { addresses =>
           Ok(views.html.vrm_retention.business_choose_your_address(businessChooseYourAddressViewModel, form.fill(),
             addresses))
         }
