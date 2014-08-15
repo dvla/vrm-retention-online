@@ -3,14 +3,13 @@ token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.Csr
 config: utils.helpers.Config)
 
 @import controllers.routes.Help
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.common.Help.{BackId, ExitId}
-@import uk.gov.dvla.vehicles.presentation.common
-@import common.views.html.widgets.base.csrfTokenHiddenField
-@import views.html.vrm_retention.main
 @import views.html.helper.form
+@import views.html.vrm_retention.main
 
 @main(
-title = Messages("vrm_retention.help.title")
+    title = Messages("vrm_retention.help.title")
 ) {
     <p>@Messages("vrm_retention.help.p1")</p>
     <p>@Messages("vrm_retention.help.p2.1") <a href=@Messages("vrm_retention.help.email")> @Messages("vrm_retention.help.p2.2") </a></p>

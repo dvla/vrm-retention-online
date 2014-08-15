@@ -1,12 +1,10 @@
 @()(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
-@import views.vrm_retention.BeforeYouStart
 
 @import controllers.routes.VehicleLookup
-@import BeforeYouStart._
-@import uk.gov.dvla.vehicles.presentation.common
-@import common.views.html.widgets.base.csrfTokenHiddenField
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_retention.main
+@import views.vrm_retention.BeforeYouStart.NextId
 
 @main(
     title = Messages("vrm_retention_beforeyoustart.title")

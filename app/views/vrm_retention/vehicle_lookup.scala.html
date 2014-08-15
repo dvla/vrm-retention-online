@@ -1,19 +1,14 @@
 @(vehicleAndKeeperLookupForm: Form[viewmodels.VehicleAndKeeperLookupFormModel])(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config)
-@import views.vrm_retention.VehicleLookup
 
-@import helper._
+@import uk.gov.dvla.vehicles.presentation.common.mappings.{DocumentReferenceNumber, Postcode, VehicleRegistrationNumber}
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import uk.gov.dvla.vehicles.presentation.common
-@import common.views.html.widgets.base.csrfTokenHiddenField
-@import VehicleLookup._
-@import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
-@import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber
-@import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
-@import views.html.vrm_retention.main
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.listRadioGroup
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
+@import views.html.helper.form
+@import views.html.vrm_retention.main
+@import views.vrm_retention.VehicleLookup._
 
 @main(
     title = Messages("vrm_retention_vehiclelookup.title"),
