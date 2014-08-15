@@ -1,18 +1,18 @@
 package helpers.webbrowser
 
-import app.ConfigProperties._
+import java.util.concurrent.TimeUnit
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.ie.InternetExplorerDriver
-import org.openqa.selenium.safari.SafariDriver
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
+import org.openqa.selenium.htmlunit.HtmlUnitDriver
+import org.openqa.selenium.ie.InternetExplorerDriver
 import org.openqa.selenium.phantomjs.{PhantomJSDriver, PhantomJSDriverService}
 import org.openqa.selenium.remote.DesiredCapabilities
-
-import java.util.concurrent.TimeUnit
+import org.openqa.selenium.safari.SafariDriver
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 
 object WebDriverFactory {
+
   private val systemProperties = System.getProperties
 
   def webDriver: WebDriver = {

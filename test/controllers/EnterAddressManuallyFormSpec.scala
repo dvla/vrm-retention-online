@@ -1,7 +1,7 @@
 package controllers
 
 import helpers.UnitSpec
-import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 
@@ -10,7 +10,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
   "form" should {
 
     "accept if form is valid with all fields filled in" in {
-      val model = formWithValidDefaults().get.addressAndPostcodeModel
+      val model = formWithValidDefaults().get.addressAndPostcodeViewModel
 
       model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
       model.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
@@ -19,7 +19,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "accept if form is valid with only mandatory filled in" in {
-      val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeModel
+      val model = formWithValidDefaults(line2 = "", line3 = "").get.addressAndPostcodeViewModel
 
       model.addressLinesModel.buildingNameOrNumber should equal(BuildingNameOrNumberValid.toUpperCase)
     }
@@ -30,7 +30,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     "accept if form address lines contain hyphens" in {
       val model = formWithValidDefaults(buildingNameOrNumber = buildingNameOrNumberHypthens,
         line2 = line2Hypthens, line3 = line3Hypthens, postTown = postTownHypthens)
-        .get.addressAndPostcodeModel
+        .get.addressAndPostcodeViewModel
 
       model.addressLinesModel.buildingNameOrNumber should equal(buildingNameOrNumberHypthens.toUpperCase)
       model.addressLinesModel.line2 should equal(Some(line2Hypthens.toUpperCase))
@@ -51,7 +51,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
     }
 
     "accept if post town starts with spaces" in {
-      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeModel.addressLinesModel.
+      formWithValidDefaults(postTown = " Swansea").get.addressAndPostcodeViewModel.addressLinesModel.
         postTown should equal("SWANSEA")
     }
 

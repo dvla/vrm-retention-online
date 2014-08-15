@@ -5,8 +5,9 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.vrm_retention.SetupBusinessDetails._
-import models.domain.vrm_retention.SetupBusinessDetailsFormModel
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails._
+import viewmodels.SetupBusinessDetailsFormModel
 import org.mockito.Mockito.when
 import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
@@ -75,8 +76,8 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
             case Some(cookie) =>
               val json = cookie.value
               val model = deserializeJsonToModel[SetupBusinessDetailsFormModel](json)
-              model.businessName should equal(TraderBusinessNameValid.toUpperCase)
-              model.businessPostcode should equal(PostcodeValid.toUpperCase)
+              model.name should equal(TraderBusinessNameValid.toUpperCase)
+              model.postcode should equal(PostcodeValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
       }

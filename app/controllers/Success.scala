@@ -3,8 +3,7 @@ package controllers
 import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import email.EmailService
-import mappings.vrm_retention.RelatedCacheKeys
-import models.domain.vrm_retention._
+import viewmodels._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
@@ -13,6 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import views.vrm_retention.RelatedCacheKeys
 
 final class Success @Inject()(pdfService: PdfService, emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                       config: Config) extends Controller {
@@ -23,7 +23,7 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getModel[ConfirmFormModel], request.cookies.getModel[RetainModel]) match {
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(confirmModel), Some(retainModel)) =>
-          emailService.sendBusinessEmail(businessDetailsModel.businessEmail)
+          emailService.sendBusinessEmail(businessDetailsModel.email)
           if (confirmModel.keeperEmail.isDefined) {
             emailService.sendKeeperEmail(confirmModel.keeperEmail.get)
           }

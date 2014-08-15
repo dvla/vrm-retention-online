@@ -1,13 +1,9 @@
-@(successViewModel: models.domain.vrm_retention.SuccessViewModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+@(successViewModel: viewmodels.SuccessViewModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.routes.Success
-@import mappings.vrm_retention.Success.FinishId
-@import helper._
-@import views.html.helper.base._
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers._
 @import views.html.vrm_retention.main
+@import views.vrm_retention.Success.FinishId
 
 @main(
     title = Messages("vrm_retention_success.title")

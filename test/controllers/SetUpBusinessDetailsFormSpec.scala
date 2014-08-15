@@ -1,7 +1,8 @@
 package controllers
 
 import helpers.UnitSpec
-import mappings.vrm_retention.SetupBusinessDetails._
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails._
 import services.fakes.AddressLookupServiceConstants._
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
@@ -13,10 +14,10 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
         traderBusinessContact = TraderBusinessContactValid,
         traderBusinessEmail = TraderBusinessEmailValid,
         traderPostcode = PostcodeValid).get
-      model.businessName should equal(TraderBusinessNameValid.toUpperCase)
-      model.businessContact should equal(TraderBusinessContactValid.toUpperCase)
-      model.businessEmail should equal(TraderBusinessEmailValid)
-      model.businessPostcode should equal(PostcodeValid)
+      model.name should equal(TraderBusinessNameValid.toUpperCase)
+      model.contact should equal(TraderBusinessContactValid.toUpperCase)
+      model.email should equal(TraderBusinessEmailValid)
+      model.postcode should equal(PostcodeValid)
     }
   }
 
@@ -44,7 +45,7 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
     "accept if trader business name is valid" in {
       formWithValidDefaults(traderBusinessName = TraderBusinessNameValid, traderPostcode = PostcodeValid).
-        get.businessName should equal(TraderBusinessNameValid.toUpperCase)
+        get.name should equal(TraderBusinessNameValid.toUpperCase)
     }
   }
 

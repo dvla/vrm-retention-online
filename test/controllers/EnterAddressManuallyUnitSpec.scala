@@ -6,10 +6,10 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import models.domain.vrm_retention.{BusinessDetailsModel, EnterAddressManuallyModel}
+import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.SimpleResult
@@ -102,7 +102,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Dispose after a valid submission of all fields" in new WithApplication {
+    "redirect to Confirm after a valid submission of all fields" in new WithApplication {
       val request = requestWithValidDefaults()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
@@ -114,11 +114,11 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             val json = cookie.value
             val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
 
-            model.addressAndPostcodeModel.addressLinesModel.buildingNameOrNumber should equal(
+            model.addressAndPostcodeViewModel.addressLinesModel.buildingNameOrNumber should equal(
               BuildingNameOrNumberValid.toUpperCase)
-            model.addressAndPostcodeModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
-            model.addressAndPostcodeModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
-            model.addressAndPostcodeModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
+            model.addressAndPostcodeViewModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
+            model.addressAndPostcodeViewModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
+            model.addressAndPostcodeViewModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
           case None => fail(s"$enterAddressManuallyCookieName cookie not found")
         }
 
@@ -131,14 +131,14 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
               Line3Valid.toUpperCase,
               PostTownValid.toUpperCase,
               formatPostcode(PostcodeValid.toUpperCase))
-            expectedData should equal(model.businessAddress.address)
+            expectedData should equal(model.address.address)
 
           case None => fail(s"$BusinessDetailsCacheKey cookie not found")
         }
       }
     }
 
-    "redirect to Dispose after a valid submission of mandatory fields" in new WithApplication {
+    "redirect to Confirm after a valid submission of mandatory fields" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
@@ -300,7 +300,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
             line3,
             postTown,
             formatPostcode(postCode))
-          expectedData should equal(model.businessAddress.address)
+          expectedData should equal(model.address.address)
         case None => fail(s"$BusinessDetailsCacheKey cookie not found")
       }
     }

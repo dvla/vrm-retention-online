@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.Payment._
+import views.vrm_retention.Payment
+import Payment._
 import org.openqa.selenium.WebDriver
 
 object PaymentPage extends Page with WebBrowserDSL {

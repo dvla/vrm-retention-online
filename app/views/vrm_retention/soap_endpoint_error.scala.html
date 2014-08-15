@@ -2,11 +2,10 @@
         config: utils.helpers.Config)
 
 @import views.html.vrm_retention.main
-@import controllers.routes.SoapEndpointError
 
-    @main(
-        title = Messages("soap_endpoint_error.title")
-    ){
+@main(
+    title = Messages("soap_endpoint_error.title")
+){
     <p>@Messages("soap_endpoint_error.text")</p>
 
     <div class="form-steps">

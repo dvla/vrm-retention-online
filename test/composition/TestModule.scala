@@ -2,8 +2,7 @@ package composition
 
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestModule.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
-import models.domain.vrm_retention._
+import email.{EmailService, EmailServiceImpl}
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Matchers.{any, _}
 import org.mockito.Mockito.when
@@ -18,6 +17,7 @@ import play.api.libs.ws.Response
 import play.api.{Logger, LoggerLike}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import services.fakes.BruteForcePreventionWebServiceConstants._
+import services.fakes.DateServiceConstants._
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
@@ -33,6 +33,9 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import viewmodels._
+import play.api.libs.ws.Response
+import scala.Some
 
 class TestModule() extends ScalaModule with MockitoSugar {
 
@@ -60,6 +63,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
+    bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
   }
 
   private def stubOrdnanceSurveyAddressLookup() = {
@@ -76,15 +80,15 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
   private def stubDateService() = {
     val dateTimeISOChronology: String = new DateTime(
-      DateOfDisposalYearValid.toInt,
-      DateOfDisposalMonthValid.toInt,
-      DateOfDisposalDayValid.toInt,
+      YearValid.toInt,
+      MonthValid.toInt,
+      DayValid.toInt,
       0,
       0).toString
     val today = DayMonthYear(
-      DateOfDisposalDayValid.toInt,
-      DateOfDisposalMonthValid.toInt,
-      DateOfDisposalYearValid.toInt
+      DayValid.toInt,
+      MonthValid.toInt,
+      YearValid.toInt
     )
     val now = Instant.now()
 
@@ -171,15 +175,4 @@ class TestModule() extends ScalaModule with MockitoSugar {
       )
     bind[VRMRetentionRetainWebService].toInstance(vrmRetentionRetainWebService)
   }
-}
-
-object TestModule {
-
-  object DateServiceConstants {
-
-    final val DateOfDisposalDayValid = "25"
-    final val DateOfDisposalMonthValid = "11"
-    final val DateOfDisposalYearValid = "1970"
-  }
-
 }

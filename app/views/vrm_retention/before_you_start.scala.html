@@ -2,9 +2,9 @@
         config: utils.helpers.Config)
 
 @import controllers.routes.VehicleLookup
-@import mappings.vrm_retention.BeforeYouStart._
-@import utils.helpers.CsrfHelper
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_retention.main
+@import views.vrm_retention.BeforeYouStart.NextId
 
 @main(
     title = Messages("vrm_retention_beforeyoustart.title")
@@ -18,7 +18,7 @@
     </ol>
 
     <div class="form-steps">
-        @CsrfHelper.hiddenFormField
+        @csrfTokenHiddenField()
         @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="@NextId" href="@VehicleLookup.present()">@Messages("vrm_retention_beforeyoustart.button")</a>
     </div>

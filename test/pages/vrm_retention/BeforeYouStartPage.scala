@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.BeforeYouStart.NextId
+import views.vrm_retention.BeforeYouStart
+import BeforeYouStart.NextId
 import org.openqa.selenium.WebDriver
 
 object BeforeYouStartPage extends Page with WebBrowserDSL {

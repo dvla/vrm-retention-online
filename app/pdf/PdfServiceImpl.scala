@@ -2,7 +2,7 @@ package pdf
 
 import java.io.{ByteArrayOutputStream, File, OutputStream}
 import com.google.inject.Inject
-import models.domain.vrm_retention.{RetainModel, VehicleAndKeeperDetailsModel}
+import viewmodels.{RetainModel, VehicleAndKeeperDetailsModel}
 import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}

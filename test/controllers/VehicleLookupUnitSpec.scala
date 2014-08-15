@@ -1,12 +1,9 @@
 package controllers
 
-import controllers.Common.PrototypeHtml
 import com.tzavellas.sse.guice.ScalaModule
+import controllers.Common.PrototypeHtml
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
-import mappings.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
-import models.domain.vrm_retention.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import pages.vrm_retention._
@@ -14,15 +11,17 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.Response
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import services.DateServiceImpl
 import services.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import services.fakes.{BruteForcePreventionWebServiceConstants, FakeResponse}
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
+import uk.gov.dvla.vehicles.presentation.common.services.{DateService, DateServiceImpl}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionConfig, BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import utils.helpers.Config
+import viewmodels.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
+import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt

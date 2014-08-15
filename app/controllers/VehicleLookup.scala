@@ -1,21 +1,15 @@
 package controllers
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
-import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber._
-import mappings.vrm_retention.KeeperConsent._
-import mappings.vrm_retention.RelatedCacheKeys
-import mappings.vrm_retention.VehicleLookup._
-import models.domain.vrm_retention._
+import views.vrm_retention.VehicleLookup._
+import viewmodels._
 import play.api.Logger
-import play.api.data.Forms._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichSimpleResult}
-import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber._
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -23,6 +17,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import views.vrm_retention.RelatedCacheKeys
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService)
@@ -30,12 +25,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                                     config: Config) extends Controller {
 
   private[controllers] val form = Form(
-    mapping(
-      DocumentReferenceNumberId -> referenceNumber,
-      VehicleRegistrationNumberId -> registrationNumber,
-      PostcodeId -> postcode,
-      KeeperConsentId -> keeperConsent
-    )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
+    VehicleAndKeeperLookupFormModel.Form.Mapping
   )
 
   def present = Action {

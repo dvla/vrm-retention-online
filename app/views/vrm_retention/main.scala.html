@@ -3,9 +3,8 @@
     currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config)
 
-@import views.html.common.{progressBar, protoType}
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
-@import views.html.common.govMainDefault
+@import views.html.common.{govMainDefault, progressBar, protoType}
 
 @govMainDefault(title) {
     <div class="vrm-retention-online">

@@ -1,9 +1,9 @@
 package controllers
 
 import javax.inject.Inject
-import mappings.vrm_retention.BusinessChooseYourAddress.AddressSelectId
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import models.domain.vrm_retention.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
+import viewmodels.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
@@ -59,9 +59,9 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           case Some(setupBusinessDetailsFormModel) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             lookupUprn(validForm,
-              setupBusinessDetailsFormModel.businessName,
-              setupBusinessDetailsFormModel.businessContact,
-              setupBusinessDetailsFormModel.businessEmail)
+              setupBusinessDetailsFormModel.name,
+              setupBusinessDetailsFormModel.contact,
+              setupBusinessDetailsFormModel.email)
           case None => Future {
             Redirect(routes.SetUpBusinessDetails.present())
           }
@@ -76,17 +76,17 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       distinctErrors
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =
-    addressLookupService.fetchAddressesForPostcode(model.businessPostcode, session.trackingId)
+    addressLookupService.fetchAddressesForPostcode(model.postcode, session.trackingId)
 
   private def lookupUprn(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String)
                         (implicit request: Request[_], session: ClientSideSession) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
-        val businessDetailsModel = BusinessDetailsModel(businessName = businessName,
-          businessContact = businessContact,
-          businessEmail = businessEmail,
-          businessAddress = addressViewModel.formatPostcode)
+        val businessDetailsModel = BusinessDetailsModel(name = businessName,
+          contact = businessContact,
+          email = businessEmail,
+          address = addressViewModel.formatPostcode)
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */

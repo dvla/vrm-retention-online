@@ -1,9 +1,9 @@
 package controllers
 
 import com.google.inject.Inject
-import mappings.vrm_retention.RelatedCacheKeys
-import mappings.vrm_retention.Retain._
-import models.domain.vrm_retention.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
+import views.vrm_retention.{Retain, RelatedCacheKeys}
+import Retain._
+import viewmodels.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc._
@@ -15,6 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import views.vrm_retention.RelatedCacheKeys
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               dateService: DateService)

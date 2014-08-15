@@ -1,22 +1,22 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
+import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import services.fakes.AddressLookupWebServiceConstants
 import services.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import utils.helpers.Config
+import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
+import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 

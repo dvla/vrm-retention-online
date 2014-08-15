@@ -3,25 +3,23 @@ token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.Csr
 config: utils.helpers.Config)
 
 @import controllers.routes.Help
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.common.Help.{BackId, ExitId}
-@import utils.helpers.CsrfHelper
-@import views.html.vrm_retention.main
 @import views.html.helper.form
+@import views.html.vrm_retention.main
 
 @main(
-title = Messages("disposal.help.title")
+    title = Messages("vrm_retention.help.title")
 ) {
-    <p>@Messages("disposal.help.p1")</p>
-    <p>@Messages("disposal.help.p2.1") <a href=@Messages("disposal.help.email")> @Messages("disposal.help.p2.2") </a></p>
+    <p>@Messages("vrm_retention.help.p1")</p>
+    <p>@Messages("vrm_retention.help.p2.1") <a href=@Messages("vrm_retention.help.email")> @Messages("vrm_retention.help.p2.2") </a></p>
 
     @form(action = Help.back) {
-        @CsrfHelper.hiddenFormField
-
         <div class="form-steps">
-            @CsrfHelper.hiddenFormField
+            @csrfTokenHiddenField()
             @* Note the reverse routing syntax for the hyperlink *@
-            <button id="@BackId" type="submit" name="action" class="button">@Messages("disposal.help.back_button")</button>
-            <a id="@ExitId" href="@controllers.routes.BeforeYouStart.present()" class="button-secondary">@Messages("disposal.help.exit_button")</a>
+            <button id="@BackId" type="submit" name="action" class="button">@Messages("vrm_retention.help.back_button")</button>
+            <a id="@ExitId" href="@controllers.routes.BeforeYouStart.present()" class="button-secondary">@Messages("vrm_retention.help.exit_button")</a>
         </div>
     }
 }
