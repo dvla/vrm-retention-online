@@ -3,6 +3,7 @@ package composition
 import app.ConfigProperties.getProperty
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
+import email.{EmailService, EmailServiceImpl}
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
@@ -52,5 +53,6 @@ object DevModule extends ScalaModule {
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
+    bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
   }
 }

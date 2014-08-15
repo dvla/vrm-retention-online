@@ -2,6 +2,7 @@ package controllers
 
 import java.io.ByteArrayInputStream
 import com.google.inject.Inject
+import email.EmailService
 import mappings.vrm_retention.RelatedCacheKeys
 import models.domain.vrm_retention._
 import pdf.PdfService
@@ -13,7 +14,7 @@ import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class Success @Inject()(pdfService: PdfService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Success @Inject()(pdfService: PdfService, emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                       config: Config) extends Controller {
 
   def present = Action {
@@ -22,9 +23,16 @@ final class Success @Inject()(pdfService: PdfService)(implicit clientSideSession
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getModel[ConfirmFormModel], request.cookies.getModel[RetainModel]) match {
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(confirmModel), Some(retainModel)) =>
+          emailService.sendBusinessEmail(businessDetailsModel.businessEmail)
+          if (confirmModel.keeperEmail.isDefined) {
+            emailService.sendKeeperEmail(confirmModel.keeperEmail.get)
+          }
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(confirmModel), Some(retainModel)) =>
+          if (confirmModel.keeperEmail.isDefined) {
+            emailService.sendKeeperEmail(confirmModel.keeperEmail.get)
+          }
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
