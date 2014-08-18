@@ -2,17 +2,25 @@ package composition
 
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestModule.DateServiceConstants.{DateOfDisposalDayValid, DateOfDisposalMonthValid, DateOfDisposalYearValid}
+import email.{EmailService, EmailServiceImpl}
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Matchers.{any, _}
 import org.mockito.Mockito.when
+import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.i18n.Lang
+import play.api.libs.json.Json
+import play.api.libs.ws.WSResponse
 import play.api.{Logger, LoggerLike}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import services.fakes.BruteForcePreventionWebServiceConstants._
+import services.fakes.DateServiceConstants._
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import services.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
 import services.fakes._
 import services.vehicle_and_keeper_lookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
 import services.vrm_retention_eligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
@@ -25,6 +33,8 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import viewmodels._
+import scala.Some
 
 class TestModule() extends ScalaModule with MockitoSugar {
 
@@ -37,8 +47,10 @@ class TestModule() extends ScalaModule with MockitoSugar {
     stubOrdnanceSurveyAddressLookup()
     stubDateService()
     stubBruteForcePreventionWebService()
+    stubVehicleAndKeeperLookupWebService()
+    stubVrmRetentionEligibilityWebService()
+    stubVrmRetentionRetainWebService()
 
-    bind[VehicleAndKeeperLookupWebService].to[FakeVehicleAndKeeperLookupWebService].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
@@ -46,12 +58,11 @@ class TestModule() extends ScalaModule with MockitoSugar {
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
 
-    bind[VRMRetentionEligibilityWebService].to[FakeVRMRetentionEligibilityWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionEligibilityService].to[VRMRetentionEligibilityServiceImpl].asEagerSingleton()
 
-    bind[VRMRetentionRetainWebService].to[FakeVRMRetentionRetainWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
+    bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
   }
 
   private def stubOrdnanceSurveyAddressLookup() = {
@@ -68,15 +79,15 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
   private def stubDateService() = {
     val dateTimeISOChronology: String = new DateTime(
-      DateOfDisposalYearValid.toInt,
-      DateOfDisposalMonthValid.toInt,
-      DateOfDisposalDayValid.toInt,
+      YearValid.toInt,
+      MonthValid.toInt,
+      DayValid.toInt,
       0,
       0).toString
     val today = DayMonthYear(
-      DateOfDisposalDayValid.toInt,
-      DateOfDisposalMonthValid.toInt,
-      DateOfDisposalYearValid.toInt
+      DayValid.toInt,
+      MonthValid.toInt,
+      YearValid.toInt
     )
     val now = Instant.now()
 
@@ -97,15 +108,70 @@ class TestModule() extends ScalaModule with MockitoSugar {
     })
     bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
   }
-}
 
-object TestModule {
-
-  object DateServiceConstants {
-
-    final val DateOfDisposalDayValid = "25"
-    final val DateOfDisposalMonthValid = "11"
-    final val DateOfDisposalYearValid = "1970"
+  private def stubVehicleAndKeeperLookupWebService() = {
+    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+    when(vehicleAndKeeperLookupWebService.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).
+      thenAnswer(
+        new Answer[Future[WSResponse]] {
+          override def answer(invocation: InvocationOnMock) = Future {
+            val args: Array[AnyRef] = invocation.getArguments
+            val request = args(0).asInstanceOf[VehicleAndKeeperDetailsRequest] // Cast first argument.
+            val (responseStatus, response) = {
+              request.referenceNumber match {
+                case "99999999991" => vehicleAndKeeperDetailsResponseVRMNotFound
+                case "99999999992" => vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+                case "99999999999" => vehicleAndKeeperDetailsResponseNotFoundResponseCode
+                case _ => vehicleAndKeeperDetailsResponseSuccess
+              }
+            }
+            val responseAsJson = Json.toJson(response)
+            new FakeResponse(status = responseStatus, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+          }
+        }
+      )
+    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
   }
 
+  private def stubVrmRetentionEligibilityWebService() = {
+    val vrmRetentionEligibilityWebService = mock[VRMRetentionEligibilityWebService]
+    when(vrmRetentionEligibilityWebService.callVRMRetentionEligibilityService(any[VRMRetentionEligibilityRequest], any[String])).
+      thenAnswer(
+        new Answer[Future[WSResponse]] {
+          override def answer(invocation: InvocationOnMock) = Future {
+            val args: Array[AnyRef] = invocation.getArguments
+            val request = args(0).asInstanceOf[VRMRetentionEligibilityRequest] // Cast first argument.
+            val vrmRetentionEligibilityResponse = VRMRetentionEligibilityResponse(
+                currentVRM = Some(request.currentVRM),
+                replacementVRM = Some(ReplacementRegistrationNumberValid),
+                responseCode = None)
+            val asJson = Json.toJson(vrmRetentionEligibilityResponse)
+            new FakeResponse(status = OK, fakeJson = Some(asJson))
+          }
+        }
+      )
+    bind[VRMRetentionEligibilityWebService].toInstance(vrmRetentionEligibilityWebService)
+  }
+
+  private def stubVrmRetentionRetainWebService() = {
+    val vrmRetentionRetainWebService = mock[VRMRetentionRetainWebService]
+    when(vrmRetentionRetainWebService.callVRMRetentionRetainService(any[VRMRetentionRetainRequest], any[String])).
+      thenAnswer(
+        new Answer[Future[WSResponse]] {
+          override def answer(invocation: InvocationOnMock) = Future {
+            val args: Array[AnyRef] = invocation.getArguments
+            val request = args(0).asInstanceOf[VRMRetentionRetainRequest] // Cast first argument.
+            val vrmRetentionRetainResponse = VRMRetentionRetainResponse(
+                certificateNumber = Some(CertificateNumberValid),
+                currentVRM = request.currentVRM,
+                docRefNumber = request.docRefNumber,
+                replacementVRM = Some(ReplacementRegistrationNumberValid),
+                responseCode = None)
+            val asJson = Json.toJson(vrmRetentionRetainResponse)
+            new FakeResponse(status = OK, fakeJson = Some(asJson))
+          }
+        }
+      )
+    bind[VRMRetentionRetainWebService].toInstance(vrmRetentionRetainWebService)
+  }
 }

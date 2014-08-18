@@ -1,14 +1,13 @@
-@(enterAddressManuallyViewModel: models.domain.vrm_retention.EnterAddressManuallyViewModel, enterAddressManuallyForm: Form[models.domain.vrm_retention.EnterAddressManuallyModel])(implicit lang: Lang,
+@(enterAddressManuallyViewModel: viewmodels.EnterAddressManuallyViewModel, enterAddressManuallyForm: Form[viewmodels.EnterAddressManuallyModel])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import mappings.vrm_retention.EnterAddressManually._
-@import utils.helpers.CsrfHelper
-@import views.html.vrm_retention.main
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressAndPostcode
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
+@import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 @import views.html.helper.form
-@import models.domain.vrm_retention.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-@import uk.gov.dvla.vehicles.presentation.common
-@import common.views.html.widgets.addressAndPostcode
+@import views.html.vrm_retention.main
+@import views.vrm_retention.EnterAddressManually.{BackId, ExitId, NextId}
 
 @main(
     progress = Some(Messages("vrm_retention_progress_3")),
@@ -28,8 +27,8 @@
                     <dd>@enterAddressManuallyViewModel.businessPostCode</dd>
                 </dl>
 
-        @form(action = controllers.vrm_retention.routes.EnterAddressManually.submit()) {
-            @CsrfHelper.hiddenFormField
+        @form(action = controllers.routes.EnterAddressManually.submit()) {
+            @csrfTokenHiddenField()
 
             @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 
@@ -40,8 +39,8 @@
             <div class="read-only-input">@enterAddressManuallyViewModel.businessPostCode</div>
             <div class="form-steps">
                 <button id="@NextId" type="submit" name="action" class="button">@Messages("vrm_retention_enteraddressmanually.submitbutton")</button>
-                <a id="@BackId" class="button-secondary" href="@controllers.vrm_retention.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_enteraddressmanually.backbutton")</a>
-                <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                <a id="@BackId" class="button-secondary" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_enteraddressmanually.backbutton")</a>
+                <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
             </div>
         }
         </div>

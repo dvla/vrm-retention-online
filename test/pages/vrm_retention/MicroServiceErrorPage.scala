@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.MicroserviceError.{ExitId, TryAgainId}
+import views.vrm_retention.MicroserviceError
+import MicroserviceError.{ExitId, TryAgainId}
 import org.openqa.selenium.WebDriver
 
 object MicroServiceErrorPage extends Page with WebBrowserDSL {

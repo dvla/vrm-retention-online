@@ -1,23 +1,26 @@
 package helpers.vrm_retention
 
 import composition.TestComposition
-import mappings.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
-import mappings.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import mappings.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import mappings.vrm_retention.Confirm._
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import mappings.vrm_retention.Retain.RetainCacheKey
-import mappings.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import mappings.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
-import models.domain.vrm_retention._
+import views.vrm_retention._
+import BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
+import BusinessDetails.BusinessDetailsCacheKey
+import CheckEligibility.CheckEligibilityCacheKey
+import EnterAddressManually.EnterAddressManuallyCacheKey
+import scala.Some
+import play.api.mvc.Cookie
+import Retain.RetainCacheKey
+import SetupBusinessDetails.SetupBusinessDetailsCacheKey
+import VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
+import viewmodels._
+import viewmodels.ConfirmFormModel.ConfirmFormModelCacheKey
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import services.fakes.AddressLookupServiceConstants._
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.BruteForcePreventionWebServiceConstants._
-import services.fakes.FakeVRMRetentionEligibilityWebServiceImpl.ReplacementRegistrationNumberValid
-import services.fakes.FakeVRMRetentionRetainWebServiceImpl.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
-import services.fakes.FakeVehicleAndKeeperLookupWebService._
+import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import services.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
@@ -34,10 +37,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                            businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
-    val value = SetupBusinessDetailsFormModel(businessName = businessName,
-      businessContact = businessContact,
-      businessEmail = businessEmail,
-      businessPostcode = businessPostcode)
+    val value = SetupBusinessDetailsFormModel(name = businessName,
+      contact = businessContact,
+      email = businessEmail,
+      postcode = businessPostcode)
     createCookie(key, value)
   }
 
@@ -62,12 +65,12 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     )
     val addressViewModel = AddressModel.from(addressAndPostcodeModel, postCode.get)
     val value = VehicleAndKeeperDetailsModel(registrationNumber = registrationNumber,
-      vehicleMake = vehicleMake,
-      vehicleModel = vehicleModel,
-      keeperTitle = title,
-      keeperFirstName = firstName,
-      keeperLastName = lastName,
-      keeperAddress = Some(addressViewModel))
+      make = vehicleMake,
+      model = vehicleModel,
+      title = title,
+      firstName = firstName,
+      lastName = lastName,
+      address = Some(addressViewModel))
     createCookie(key, value)
   }
 
@@ -86,7 +89,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       postcode = postcode,
-      keeperConsent = keeperConsent
+      consent = keeperConsent
     )
     createCookie(key, value)
   }
@@ -100,7 +103,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def enterAddressManually(): Cookie = {
     val key = EnterAddressManuallyCacheKey
     val value = EnterAddressManuallyModel(
-      addressAndPostcodeModel = AddressAndPostcodeViewModel(
+      addressAndPostcodeViewModel = AddressAndPostcodeViewModel(
         addressLinesModel = AddressLinesViewModel(
           buildingNameOrNumber = BuildingNameOrNumberValid,
           line2 = Some(Line2Valid),
@@ -160,10 +163,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                            businessEmail: String = TraderBusinessEmailValid,
                            businessAddress: AddressModel = addressWithUprn): Cookie = {
     val key = BusinessDetailsCacheKey
-    val value = BusinessDetailsModel(businessName = businessName,
-      businessContact = businessContact,
-      businessEmail = businessEmail,
-      businessAddress = businessAddress)
+    val value = BusinessDetailsModel(name = businessName,
+      contact = businessContact,
+      email = businessEmail,
+      address = businessAddress)
     createCookie(key, value)
   }
 

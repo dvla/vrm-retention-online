@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.Confirm.{ExitId, ConfirmId}
+import views.vrm_retention.Confirm
+import Confirm.{ExitId, ConfirmId}
 import org.openqa.selenium.WebDriver
 
 object ConfirmPage extends Page with WebBrowserDSL {

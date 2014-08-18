@@ -1,14 +1,13 @@
-@(confirmViewModel: models.domain.vrm_retention.ConfirmViewModel,
-   confirmForm: Form[models.domain.vrm_retention.ConfirmFormModel])(implicit lang: Lang,
+@(confirmViewModel: viewmodels.ConfirmViewModel,
+   confirmForm: Form[viewmodels.ConfirmFormModel])(implicit lang: Lang,
    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
    config: utils.helpers.Config)
 
-@import helper._
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers._
-@import mappings.vrm_retention.Confirm._
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
+@import views.html.helper.form
 @import views.html.vrm_retention.main
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
+@import views.vrm_retention.Confirm._
 
 @main(
     title = Messages("vrm_retention_confirm.title"),
@@ -47,8 +46,8 @@
         </div>
     </div>
 
-    @form(action = controllers.vrm_retention.routes.Confirm.submit()) {
-        @CsrfHelper.hiddenFormField
+    @form(action = controllers.routes.Confirm.submit()) {
+        @csrfTokenHiddenField()
         <div class="two-col">
             <div class="first-col">
                 <h2>@Messages("vrm_retention_confirm.emailAddressTitle")</h2>
@@ -96,7 +95,7 @@
         <div class="form-steps">
             @* Note the reverse routing syntax for the hyperlink *@
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
-            <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+            <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
 

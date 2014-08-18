@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId}
+import views.vrm_retention.VehicleLookupFailure
+import VehicleLookupFailure.{ExitId, VehicleLookupId}
 import org.openqa.selenium.WebDriver
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {

@@ -4,14 +4,13 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import mappings.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import EnterAddressManually.EnterAddressManuallyCacheKey
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
 import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import services.fakes.AddressLookupServiceConstants
 import services.fakes.AddressLookupServiceConstants.PostcodeValid
-import mappings.vrm_retention.Confirm
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 

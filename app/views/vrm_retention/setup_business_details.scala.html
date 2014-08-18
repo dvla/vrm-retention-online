@@ -1,23 +1,22 @@
-@(setupBusinessDetailsFormModel: Form[models.domain.vrm_retention.SetupBusinessDetailsFormModel],
-        viewModel: models.domain.vrm_retention.SetupBusinessDetailsViewModel)(implicit lang: Lang,
+@(setupBusinessDetailsFormModel: Form[viewmodels.SetupBusinessDetailsFormModel],
+        viewModel: viewmodels.SetupBusinessDetailsViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.vrm_retention.routes.SetUpBusinessDetails
-@import mappings.common.Postcode
-@import mappings.vrm_retention.SetupBusinessDetails._
+@import controllers.routes.SetUpBusinessDetails
+@import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import utils.helpers.CsrfHelper
-@import views.html.vrm_retention.main
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
+@import views.html.vrm_retention.main
+@import views.vrm_retention.SetupBusinessDetails._
 
 @main(
     title = Messages("vrm_retention_setupbusinessdetails.title"),
     currentForm = Some(setupBusinessDetailsFormModel)
 ) {
     @form(action = SetUpBusinessDetails.submit) {
-        @CsrfHelper.hiddenFormField
+        @csrfTokenHiddenField()
 
         <div class="uppercase-input two-col">
         	<div class="first-col">
@@ -40,7 +39,7 @@
 
 	        	<div class="form-steps">
 	            	<button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
-                    <a class="button-secondary" id="@ExitId" href="@controllers.vrm_retention.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                    <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
 	    	</div>
 	        <div id="vehicle-details" class="second-col trader-details">

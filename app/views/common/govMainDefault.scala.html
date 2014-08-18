@@ -1,10 +1,10 @@
 @(title: String)(content: Html)(implicit lang: Lang,
         config: utils.helpers.Config)
 
-@import views.html.common.{alternateLanguages, feedback}
 @import mappings.common.Help.HelpId
 @import play.api.Play
 @import play.api.Play.current
+@import views.html.common.{alternateLanguages, feedback}
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -111,17 +111,11 @@
 
         <div id="global-app-error" class="app-error hidden"></div>
 
-        @* The OnHandlerNotFoundIntegrationSpec "javascript enabled" tests generate warnings when require.js was included *@
-        @if(!Play.isTest) {
-            @helper.requireJs(core = routes.Assets.at("javascripts/require.js").url, module = routes.Assets.at("javascripts/custom").url)
-        }
+        <script data-main="@routes.Assets.at("javascripts/main.js")" src="@routes.Assets.at("lib/requirejs/require.js")"></script>
 
-        @* The OnHandlerNotFoundIntegrationSpec "javascript enabled" tests generate warnings when respond.min.js was included *@
-        @if(!Play.isTest) {
-            <!--[if (lt IE 9) & (!IEMobile)]>
-            <script src="@routes.Assets.at("javascripts/lib/respond.min.js")"></script>
-            <![endif]-->
-        }
+        <!--[if (lt IE 9) & (!IEMobile)]>
+        <script src="@routes.Assets.versioned("javascripts/lib/respond.min.js")"></script>
+        <![endif]-->
 
         <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 

@@ -1,7 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import mappings.vrm_retention.UprnNotFound._
+import views.vrm_retention.UprnNotFound
+import UprnNotFound._
 import org.openqa.selenium.WebDriver
 
 object UprnNotFoundPage extends Page with WebBrowserDSL {

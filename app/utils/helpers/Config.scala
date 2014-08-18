@@ -1,25 +1,22 @@
 package utils.helpers
 
-import app.ConfigProperties.{getDurationProperty, getProperty}
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.{getDurationProperty, getProperty}
 import scala.concurrent.duration.DurationInt
 
 class Config {
+
+  val isCsrfPreventionEnabled = getProperty("csrf.prevention", default = true)
+
   // Micro-service config
-  val vehicleLookupMicroServiceBaseUrl: String = getProperty("vehicleLookupMicroServiceUrlBase", "NOT FOUND")
-  val disposeVehicleMicroServiceBaseUrl: String = getProperty("disposeVehicleMicroServiceUrlBase", "NOT FOUND")
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
+  val vrmRetentionEligibilityMicroServiceUrlBase: String = getProperty("vrmRetentionEligibilityMicroServiceUrlBase", "NOT FOUND")
+  val vrmRetentionEligibilityMsRequestTimeout: Int = getProperty("vrmRetentionEligibility.ms.requesttimeout", 5.seconds.toMillis.toInt)
+  val vrmRetentionRetainMicroServiceUrlBase: String = getProperty("vrmRetentionRetainMicroServiceUrlBase", "NOT FOUND")
+  val vrmRetentionRetainMsRequestTimeout: Int = getProperty("vrmRetentionRetain.ms.requesttimeout", 5.seconds.toMillis.toInt)
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")
   val ordnanceSurveyRequestTimeout: Int = getProperty("ordnancesurvey.requesttimeout", 5.seconds.toMillis.toInt)
-
-  // GDS address lookup config
-  val gdsAddressLookupBaseUrl: String = getProperty("gdsaddresslookup.baseurl", "")
-  val gdsAddressLookupAuthorisation: String = getProperty("gdsaddresslookup.authorisation", "")
-  val gdsAddressLookupRequestTimeout: Int = getProperty("gdsaddresslookup.requesttimeout", 5.seconds.toMillis.toInt)
-
-  // Dispose
-  val disposeMsRequestTimeout: Int = getProperty("dispose.ms.requesttimeout", 5.seconds.toMillis.toInt)
 
   // Brute force prevention config
   val bruteForcePreventionMicroServiceBaseUrl: String = getProperty("bruteForcePreventionMicroServiceBase", "NOT FOUND")
@@ -42,12 +39,12 @@ class Config {
   // Progress step indicator
   val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)
 
-  // Vrm Eligibility
-  val vrmRetentionEligibilityMicroServiceUrlBase: String = getProperty("vrmRetentionEligibilityMicroServiceUrlBase", "NOT FOUND")
-  val vrmRetentionEligibilityMsRequestTimeout: Int = getProperty("vrmRetentionEligibility.ms.requesttimeout", 5.seconds.toMillis.toInt)
-
-  // Vrm Retain
-  val vrmRetentionRetainMicroServiceUrlBase: String = getProperty("vrmRetentionRetainMicroServiceUrlBase", "NOT FOUND")
-  val vrmRetentionRetainMsRequestTimeout: Int = getProperty("vrmRetentionRetain.ms.requesttimeout", 5.seconds.toMillis.toInt)
-
+  // Email Service
+  val emailSmtpHost: String = getProperty("smtp.host", "")
+  val emailSmtpPort : Int = getProperty("smtp.port", 25)
+  val emailSmtpSsl: Boolean = getProperty("smtp.ssl", false)
+  val emailSmtpTls: Boolean = getProperty("smtp.tls", true)
+  val emailSmtpUser: String = getProperty("smtp.user", "")
+  val emailSmtpPassword: String = getProperty("smtp.password", "")
+  val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
 }
