@@ -8,7 +8,7 @@ import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -23,15 +23,24 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getModel[ConfirmFormModel], request.cookies.getModel[RetainModel]) match {
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(confirmModel), Some(retainModel)) =>
-          emailService.sendBusinessEmail(businessDetailsModel.email, vehicleAndKeeperDetails.registrationNumber)
+          emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails.registrationNumber,
+          retainModel.certificateNumber, retainModel.transactionId, retainModel.transactionTimestamp,
+          vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName,
+          vehicleAndKeeperDetails.address, "£80.00", eligibilityModel.replacementVRM)
           if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendKeeperEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber)
+            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber,
+              retainModel.certificateNumber, retainModel.transactionId, retainModel.transactionTimestamp,
+              vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName,
+              vehicleAndKeeperDetails.address, "£80.00", eligibilityModel.replacementVRM) // TODO retrieve amount debited from somewhere
           }
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(confirmModel), Some(retainModel)) =>
           if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendKeeperEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber)
+            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber,
+              retainModel.certificateNumber, retainModel.transactionId, retainModel.transactionTimestamp,
+              vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName,
+              vehicleAndKeeperDetails.address, "£80.00", eligibilityModel.replacementVRM) // TODO retrieve amount debited from somewhere
           }
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))

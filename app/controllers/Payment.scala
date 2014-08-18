@@ -10,7 +10,7 @@ import play.api.mvc._
 import services.vrm_retention_retain.VRMRetentionRetainService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -40,7 +40,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       .discardingCookies(RelatedCacheKeys.FullSet)
   }
 
-  private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit request: Request[_]): Future[SimpleResult] = {
+  private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit request: Request[_]): Future[Result] = {
 
     def retainSuccess(certificateNumber: String) = {
       val transactionTimestamp = dateService.today.toDateTime.get

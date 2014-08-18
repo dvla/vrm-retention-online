@@ -47,4 +47,5 @@ class Config {
   val emailSmtpUser: String = getProperty("smtp.user", "")
   val emailSmtpPassword: String = getProperty("smtp.password", "")
   val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
+  val emailSenderAddress: String = getProperty("email.senderAddress", "")
 }

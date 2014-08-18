@@ -13,6 +13,7 @@
 ## VRM RETENTION
 ######################
 
+GET         /vrm-retention/assets/versioned/*file                                          controllers.Assets.versioned(path="/public", file: Asset)
 GET         /vrm-retention/assets/*file                                      controllers.Assets.at(path="/public", file)
 
 GET         /                                                                controllers.Application.index

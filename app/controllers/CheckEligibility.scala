@@ -6,7 +6,7 @@ import play.api.mvc._
 import services.vrm_retention_eligibility.VRMRetentionEligibilityService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichSimpleResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
 import viewmodels.{EligibilityModel, VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VehicleAndKeeperLookupFormModel}
 import views.vrm_retention.VehicleLookup.{KeeperConsent_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
@@ -32,7 +32,7 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
    * be found.
    */
   private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
-                                 (implicit request: Request[_]): Future[SimpleResult] = {
+                                 (implicit request: Request[_]): Future[Result] = {
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
 

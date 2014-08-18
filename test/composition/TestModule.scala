@@ -13,7 +13,7 @@ import pdf.{PdfService, PdfServiceImpl}
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.i18n.Lang
 import play.api.libs.json.Json
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import play.api.{Logger, LoggerLike}
 import services.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import services.fakes.BruteForcePreventionWebServiceConstants._
@@ -34,7 +34,6 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import viewmodels._
-import play.api.libs.ws.Response
 import scala.Some
 
 class TestModule() extends ScalaModule with MockitoSugar {
@@ -114,7 +113,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
     val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
     when(vehicleAndKeeperLookupWebService.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).
       thenAnswer(
-        new Answer[Future[Response]] {
+        new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VehicleAndKeeperDetailsRequest] // Cast first argument.
@@ -138,7 +137,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
     val vrmRetentionEligibilityWebService = mock[VRMRetentionEligibilityWebService]
     when(vrmRetentionEligibilityWebService.callVRMRetentionEligibilityService(any[VRMRetentionEligibilityRequest], any[String])).
       thenAnswer(
-        new Answer[Future[Response]] {
+        new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VRMRetentionEligibilityRequest] // Cast first argument.
@@ -158,7 +157,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
     val vrmRetentionRetainWebService = mock[VRMRetentionRetainWebService]
     when(vrmRetentionRetainWebService.callVRMRetentionRetainService(any[VRMRetentionRetainRequest], any[String])).
       thenAnswer(
-        new Answer[Future[Response]] {
+        new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VRMRetentionRetainRequest] // Cast first argument.

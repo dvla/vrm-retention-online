@@ -4,7 +4,8 @@ import com.google.inject.Inject
 import viewmodels.VRMRetentionRetainRequest
 import play.api.Logger
 import play.api.libs.json.Json
-import play.api.libs.ws.{Response, WS}
+import play.api.libs.ws.{WSResponse, WS}
+import play.api.Play.current
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import utils.helpers.Config
@@ -14,7 +15,7 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends V
 
   private val endPoint: String = s"${config.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
 
-  override def callVRMRetentionRetainService(request: VRMRetentionRetainRequest, trackingId: String): Future[Response] = {
+  override def callVRMRetentionRetainService(request: VRMRetentionRetainRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
     val refNo = LogFormats.anonymize(request.docRefNumber)
 
