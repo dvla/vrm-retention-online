@@ -13,14 +13,6 @@
     src: local("HelveticaNeue"), local("Helvetica Neue"), local("Arial"), local("Helvetica");
 }
 
-@-ms-viewport {
-    width: device-width;
-}
-
-@-o-viewport {
-    width: device-width;
-}
-
 html, body, button, input, table, td, th {
     font-family:$NTA-Light;
 }
@@ -72,6 +64,11 @@ button {
     }
 }
 
+.print-only {
+    display:none !important;
+}
+
+
 //main content wrapper
 #main {
     background:$white;
@@ -83,31 +80,54 @@ button {
 
 //coloured prototype banner
 #{$htmlNamespace} .prototype {
-    padding: 0.750em 1em 0 1em;
-    background-color: phase-colour($phase);
+    padding:0.750em 0 0 0;
+    margin:0 15px;
+    border-top: 10px solid phase-colour($phase);
 
-    @media screen and (max-width: $device-small) {
-        margin: .9em .9em 0 .9em;
+    @media screen and (max-width: $device-large) {
         padding-top:0.7em;
         padding-bottom: 0.7em;
     }
 
-    p {
-        margin: 0;
-        padding: 0 0 8px 0;
-        line-height: 1.2em;
-        color: $white;
+    span.phase-tag {
+        display:inline-block;
+        vertical-align:baseline;
+        background:phase-tag-colour($phase);
+        color:$white;
         font: {
-            size: 1.5rem;
-            weight: 600;
+          size:16px;
+          weight:bold;
         }
-        .ie & {
-           font-size: 15px;
+        padding:5px 6px 2px 6px;
+        margin-right:.3em;
+        text-transform:uppercase;
+
+        &.alpha {
+            background: phase-tag-colour($phase);
+        }
+        &.beta {
+            background: phase-tag-colour($phase);
+        }
+    }
+
+    p {
+        margin:0;
+        padding:0 0 8px 0;
+        line-height:1.2em;
+        color:$black-2;
+        font: {
+            size:15px;
+            size:1.5rem;
+        }
+
+        @media screen and (max-width: $device-small) {
+            font-size:1.3rem;
+            font-size:13px;
         }
     }
 
     a, a:visited {
-        color: $white;
+        color: $purple-2;
         text-decoration: underline;
         &:hover {
             color: $black-1;

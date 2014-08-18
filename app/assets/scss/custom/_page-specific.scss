@@ -19,19 +19,17 @@
 .vehicle-lookup {
     .first-col .form-steps {
         margin-top:0;
-    }
-    //hide exit button in IE6/IE7 (double form posts do not work)
-    .exit-button {
-        .ie6 &,
-        .ie7 & {
-            display:none;
+
+        .button-secondary {
+          color:$black-2; //failsafe for ie6
         }
     }
+
     .trader-details {
         .summary-detail-list {
             margin-bottom:38px;
             margin-bottom:3.75rem;
-            @media screen and (max-width:$device-small) {
+            @media screen and (max-width:$device-medium) {
                 margin-bottom:20px;
                 margin-bottom:2rem;
             }
@@ -42,12 +40,64 @@
             }
         }
     }
+    .img-wrap img {
+        .ie8 & {
+            max-height:200px; //failsafe to ensure that the correct height is rendered in ie8
+        }
+    }
 }
 
 //disposal
 .disposal-date {
     legend {
         margin-top:20px;
+        padding-bottom:0.5em;
+    }
+    .todays-date {
+        margin-bottom:10px;
+        margin-bottom:1rem;
+
+        @media screen and (max-width:$device-medium) {
+            margin-bottom:12px;
+            margin-bottom:1.25rem;
+        }
+
+        button {
+            -webkit-appearance:none;
+            border:0 none;
+            padding:0;
+            font-size:0.9em;
+            background:none;
+            color:$govuk-blue;
+            cursor:pointer;
+            @include box-shadow(none);
+            &:hover,
+            &:active {
+                background:none;
+                color:$govuk-blue;
+                text-decoration:underline;
+            }
+            
+            &:focus {
+              overflow:hidden; //prevents overlapping bug in Firefox
+            }
+
+            .ie & {
+              font-size:15px;
+            }
+            .ie8 &,
+            .ie7 & {
+              padding-right:0;
+              padding-left:0;
+            }
+            @media screen and (max-width:$device-medium) {
+              padding:0.6em 0;
+              margin-top:0;
+            }
+        }
+    }
+    .form-date {
+      clear:both;
     }
     .ie6 & {
         .form-date .form-item {
@@ -56,7 +106,14 @@
     }
 }
 
-// Retention online  vehicle details
+
+//disposal success
+.disposal-sucesss {
+  .ie8 & .button-new-disposal {
+      min-width:180px;
+  }
+}
+
 ul.radio {
     margin-left: 0;
     padding: 0;
@@ -77,22 +134,10 @@ dd.regNum {
     font-weight: 700;
     font-size: 120%;
     border-radius: 5px;
-    width: 100px;
-}
-.vrm-retention-online .success-playback {
-    .summary-detail-list {
-        margin:0;
-        dt,dd {
-            width: 50%;
-            border-bottom: 1px solid $black-1;
-            padding: .5em 0;
-        }
-    }
 }
 
-#{$htmlNamespace} {
-    .summary-detail-list.transaction-details dt {
-        width:auto;
-        padding-right: 0.5em;
-    }
+a.pdfLink img {
+    max-height: 40px;
+    float: left;
+    padding-right: 10px;
 }

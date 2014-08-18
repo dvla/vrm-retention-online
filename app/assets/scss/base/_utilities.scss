@@ -3,6 +3,13 @@
 @function phase-colour($phase) {
     @if $phase == "alpha" { @return $alpha-colour; }
     @if $phase == "beta" { @return $beta-colour; }
+    @else { @return $govuk-blue;  }
+}
+
+@function phase-tag-colour($phase) {
+  @if $phase == "alpha" { @return $alpha-colour }
+  @if $phase == "beta" { @return $beta-colour }
+  @else { @return $beta-colour; }
 }
 
 @mixin clearfix {
@@ -23,7 +30,11 @@
     left:-9999px;
 }
 
-//summery detail (playback info after user-input)
+@mixin to-uppercase {
+    text-transform:uppercase;
+}
+
+
 //provides smaller width, more flexible container with a single/full column row
 @mixin summary-detail-list-flex {
     @media screen and (min-width:$device-medium) {
@@ -34,29 +45,79 @@
     }
 }
 
-@mixin to-uppercase {
-    text-transform:uppercase;
+@mixin summary-detail-list-item-float {
+    float:left;
+    @media screen and (max-width:$device-small) {
+        width:auto !important;
+    }
+}
+
+//summary detail item width for one column
+@mixin summary-detail-list-item-float-one-col {
+    p,
+    dd {
+        @include summary-detail-list-item-float;
+        width:73.5%;
+        @media screen and (max-width: $device-medium) {
+            width:66%;
+        }
+    }
+}
+
+//summary detail item width for the first column in a two column layout
+@mixin summary-detail-list-item-float-two-col-first {
+    p,
+    dd {
+        @include summary-detail-list-item-float;
+        @media screen and (max-width: $device-medium) {
+            width:auto;
+        }
+    }
+}
+
+//summary detail item width for the second/last column in a two column layout
+@mixin summary-detail-list-item-float-two-col-second {
+    p,
+    dd {
+        @include summary-detail-list-item-float;
+            width:44%;
+        @media screen and (max-width: $device-medium) {
+            width:auto;
+        }
+    }
 }
 
 //img wrapper to show-hide mobile/desktop images
 @mixin img-multi-wrap($max-width){
     img {
+        width:100%;
         max-width:$max-width;
+        .ie6 & {
+            width:$max-width;
+        }
     }
     &.img-wrap-mobile {
         display:none;
     }
-    @media screen and (max-width:$device-small) {
+    @media screen and (max-width:$device-medium) {
         &.img-wrap-mobile {
             display:block;
             img {
-                display:block;
-                margin:0 auto 2.2em auto;
-                text-align:center;
+                display:inline-block;
+                vertical-align:top;
+                margin:0 0 2.2em 0;
+                text-align:left;
             }
         }
         &.img-wrap-desktop {
             display:none;
+        }
+    }
+    @media screen and (max-width:$device-small) {
+        &.img-wrap-mobile img {
+          display:block;
+          margin-left:auto;
+          margin-right:auto;
         }
     }
 }
