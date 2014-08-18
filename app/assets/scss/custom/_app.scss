@@ -4,13 +4,13 @@
     background: $white;
     margin: 0 auto;
     max-width: 980px;
-
-   	@media screen and (max-width: $device-small) {
-        border-top: 10px solid phase-colour($phase);
+    .ie7 &,
+    .ie6 & {
+      width:940px;
     }
 
     .section-content {
-        padding: 1.7em 1em 0 1em;
+        padding:1.7em 15px 0 15px;
         margin-bottom:4em;
         @include clearfix;
         .ie7 & {
@@ -66,13 +66,15 @@
     }
     
     .img-wrap {
-      @include img-multi-wrap(300px);
+        @include img-multi-wrap(300px);
     }
 
     //information list
     //this could be a DL element, or a wrapping div
     .summary-detail-list {
         @include clearfix;
+        width:100%;
+
         margin:23px 0 20px 0;
         margin:2.3rem 0 2rem 0;
         //padding:10px;
@@ -81,6 +83,21 @@
 
         p {
             margin:0;
+        }
+
+        @include summary-detail-list-item-float-one-col;
+
+        //prevent long text from breaking out of container. see:
+        //css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/
+        p,
+        dd {
+          -ms-word-break:break-all;
+          word-break:break-all;
+          word-break:break-word;
+          word-wrap:break-word;
+          webkit-hyphens:auto;
+          -moz-hyphens:auto;
+          hyphens:auto;
         }
 
         dt, dd {
@@ -93,35 +110,19 @@
         }
         dt {
             float:left;
-            width:190px;
+            width:200px;
             font-weight:bold;
             clear:left;
 
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 padding-top:0;
                 margin-bottom:0;
             }
         }
         dd {
             @include to-uppercase;
-            overflow:hidden;
-
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 clear:both;
-            }
-            &.regNum {
-                display: inline-block;
-                text-align: center;
-                line-height: 1.25;
-                padding-right: 0.25em;
-                padding-left: 0.25em;
-                background-color: #ffd307;
-                border: 1px solid #999;
-                padding: 0.2em 0.5em 0.1em 0.5em;
-                font-weight: 700;
-                font-size: 120%;
-                border-radius: 5px;
-                width:100px;
             }
         }
 
@@ -146,34 +147,30 @@
             @include clearfix;
             width:47%;
             float:left;
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
                 clear:both;
                 margin-bottom:2em;
+            }
+            .summary-detail-list {
+                @include summary-detail-list-item-float-two-col-first;
             }
         }
         .second-col {
             @include clearfix;
             width:47%;
             float:right;
-            @media screen and (max-width: $device-small) {
+            @media screen and (max-width: $device-medium) {
                 float:none;
                 width:100%;
                 clear:both;
                 margin-bottom:2em;
             }
+            .summary-detail-list {
+                @include summary-detail-list-item-float-two-col-second;
+            }
         }
-    }
-
-    // PDF download link with icon
-    a.pdfLink {
-        img {
-            float:left;
-            max-height: 40px;
-            max-width: 40px;
-            padding-right: 10px;
-        }
-        min-height: 30px;
+        
     }
 }

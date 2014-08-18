@@ -1,3 +1,5 @@
+@media print{@page {size: portrait}}
+
 @font-face {
     font-family: GDS-Logo;
     src: local("HelveticaNeue"),local("Helvetica Neue"),local("Arial"),local("Helvetica");
@@ -38,213 +40,142 @@ body {
     }
 }
 
-section> .global-header {
-    position: relative;
-    h1 {
-        font-family: "nta",Arial,sans-serif;
-        font-size: 16pt;
-        line-height: 1.25;
-        font-weight: 400;
-        text-transform: none;
-        border-bottom: solid 1pt black;
-        padding-bottom: 6pt;
-        width: 80%;
-
-        &:after {
-            content: " from GOV.UK";
-        }
-        @media (max-width: 640px) {
-            font-size: 2rem;
-            line-height: 1.2;
-        }
-    }
-    p {
-        font-family: "nta",Arial,sans-serif;
-        font-size: 11pt;
-        line-height: 1.42857;
-        font-weight: 400;
-        text-transform: none;
-        border-bottom: solid 1pt black;
-        bottom: -11pt;
-        position: absolute;
-        text-align: center;
-        text-transform: uppercase;
-        padding-bottom: 6pt;
-        right: 0;
-        width: 15%;
-        @media (max-width: 640px) {
-            font-size: 1.2rem;
-            line-height: 1.25;
-        }
-    }
-}
-
 .vehicles-online {
-    margin-bottom:50px;
+    display:inline-block;
+    vertical-align:top;
+    padding:20px;
+    margin-bottom:0;
 }
 
-article {
-    margin-bottom: 1cm;
-    width: 80%;
-    .global-header h1, h2, h3, h4, h5, h6 {
-        font-weight: bold;
-    }
-    h2, h3, h4, p, ul {
-        orphans: 3;
-        widows: 3;
-    }
-    h2, h3, h4, .info-notice {
-        page-break-after: avoid;
-    }
-    .global-header {
-        h1 {
-          font-family: "nta",Arial,sans-serif;
-          font-size: 14pt;
-          line-height: 1.31579;
-          font-weight: 400;
-          text-transform: none;
-          border-bottom: 1pt solid #7f7f7f;
-          padding-top: 7pt;
-          padding-bottom: 7pt;
-          @media (max-width: 640px) {
-              font-size: 1.6rem;
-              line-height: 1.25;
-          }
-        }
-    }
-    h2 {
-        font-family: "nta",Arial,sans-serif;
-        font-size: 14pt;
-        line-height: 1.31579;
-        font-weight: 400;
-        text-transform: none;
-        padding-top: 7pt;
-        @media (max-width: 640px) {
-            font-size: 1.6rem;
-            line-height: 1.25;
-        }
-    }
-    h3 {
-        font-family: "nta",Arial,sans-serif;
-        font-size: 12pt;
-        line-height: 1.25;
-        font-weight: 300;
-        text-transform: none;
-        @media (max-width: 640px) {
-            font-size: 1.4rem;
-            line-height: 1.14286;
-        }
-    }
-    p {
-        font-family: "nta",Arial,sans-serif;
-        font-size: 11pt;
-        line-height: 1.42857;
-        font-weight: 400;
-        text-transform: none;
-        @media (max-width: 640px) {
-            font-size: 1.2rem;
-            line-height: 1.25;
-        }
-    }
-    li {
-        line-height: 1.5em;
-        p {
-            margin: 0;
-        }
-    }
-    h4 {
-        font-family: "nta",Arial,sans-serif;
-        font-size: 11pt;
-        line-height: 1.42857;
-        font-weight: 400;
-        text-transform: none;
-        @media (max-width: 640px) {
-            font-size: 1.2rem;
-            line-height: 1.25;
-        }
-    }
-    table {
-        border: 1pt solid #7d7d7d;
-        border-collapse: collapse;
-        width: 100%;
-        thead {
-            display: table-header-group;
-        }
-        th, td {
-            border: 1pt solid #7d7d7d;
-            padding: 0.25em 0.5em;
-            text-align: left;
-        }
-        td:nth-child(n+2) {
-            text-align: right;
-        }
-        caption {
-            font-family: "nta",Arial,sans-serif;
-            font-size: 14pt;
-            line-height: 1.31579;
-            font-weight: 400;
-            text-transform: none;
-            margin: 14pt 0;
-            @media (max-width: 640px) {
-                font-size: 1.6rem;
-                line-height: 1.25;
-            }
-        }
-    }
-    ul, ol {
-        font-family: "nta",Arial,sans-serif;
-        font-size: 11pt;
-        line-height: 1.42857;
-        font-weight: 400;
-        text-transform: none;
-        padding-left: 13pt;
-        list-style-image: none;
-        list-style-type: disc;
-        @media (max-width: 640px) {
-            font-size: 1.2rem;
-            line-height: 1.25;
-        }
-    }
-    .contact, .info-notice, .help-notice {
-      border: 1pt solid #7d7d7d;
-      padding: 2pt;
-      margin: 14pt 0;
-    }
-    .info-notice:before, .help-notice:before {
-      content: "!";
-      float: left;
-      font-family: "nta",Arial,sans-serif;
-      font-size: 18pt;
-      line-height: 1.04167;
-      font-weight: 400;
-      text-transform: none;
-      font-weight: bold;
-      margin: 10pt 0 0 6pt;
-      @media (max-width: 640px) {
-          font-size: 3.2rem;
-          line-height: 1.09375;
-      }
-    }
-    .info-notice p, .help-notice p {
-      margin-left: 22pt;
-    }
-    .highlight-answer p, .highlighted-event p {
+.global-header h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+h1, h2, h3, h4 {
+    margin-top:0;
+    margin-bottom:15px;
+}
+p {
+    margin-top:0;
+    margin-bottom:10px;
+}
+h2, h3, h4, p, ul {
+    orphans: 3;
+    widows: 3;
+}
+h2, h3, h4, .info-notice {
+    page-break-after: avoid;
+}
+.print-only {
+  display:block;
+}
+.global-header {
+    h1 {
       font-family: "nta",Arial,sans-serif;
       font-size: 14pt;
       line-height: 1.31579;
       font-weight: 400;
       text-transform: none;
+      border-bottom: 1pt solid #7f7f7f;
+      padding-bottom: 0;
+      margin-bottom: 0;
       @media (max-width: 640px) {
           font-size: 1.6rem;
           line-height: 1.25;
       }
     }
-    .highlight-answer p em, .highlighted-event p em {
-      font-style: normal;
-      font-weight: 700;
+}
+h2 {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 14pt;
+    line-height: 1.31579;
+    font-weight: 400;
+    text-transform: none;
+    @media (max-width: 640px) {
+        font-size: 1.6rem;
+        line-height: 1.25;
     }
 }
-
+h3 {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 12pt;
+    line-height: 1.25;
+    font-weight: 300;
+    text-transform: none;
+    @media (max-width: 640px) {
+        font-size: 1.4rem;
+        line-height: 1.14286;
+    }
+}
+p {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 11pt;
+    line-height: 1.42857;
+    font-weight: 400;
+    text-transform: none;
+    @media (max-width: 640px) {
+        font-size: 1.2rem;
+        line-height: 1.25;
+    }
+}
+li {
+    line-height: 1.5em;
+    p {
+        margin: 0;
+    }
+}
+h4 {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 11pt;
+    line-height: 1.42857;
+    font-weight: 400;
+    text-transform: none;
+    @media (max-width: 640px) {
+        font-size: 1.2rem;
+        line-height: 1.25;
+    }
+}
+table {
+    border: 1pt solid #7d7d7d;
+    border-collapse: collapse;
+    width: 100%;
+    thead {
+        display: table-header-group;
+    }
+    th, td {
+        border: 1pt solid #7d7d7d;
+        padding: 0.25em 0.5em;
+        text-align: left;
+    }
+    td:nth-child(n+2) {
+        text-align: right;
+    }
+    caption {
+        font-family: "nta",Arial,sans-serif;
+        font-size: 14pt;
+        line-height: 1.31579;
+        font-weight: 400;
+        text-transform: none;
+        margin: 14pt 0;
+        @media (max-width: 640px) {
+            font-size: 1.6rem;
+            line-height: 1.25;
+        }
+    }
+}
+ul, ol {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 11pt;
+    line-height: 1.42857;
+    font-weight: 400;
+    text-transform: none;
+    padding-left: 13pt;
+    list-style-image: none;
+    list-style-type: disc;
+    @media (max-width: 640px) {
+        font-size: 1.2rem;
+        line-height: 1.25;
+    }
+}
 dl {
     dt {
         font-weight:bold;
@@ -255,23 +186,25 @@ dl {
 }
 
 a {
-  text-decoration: underline;
-  word-wrap: break-word;
-  &:visited {
     text-decoration: underline;
     word-wrap: break-word;
-  }
-  &[href^="/"]:after {
-    content: " (https://www.gov.uk" attr(href) ")";
-    font-size: 90%;
-  }
-  &[href^="http://"]:after, &[href^="https://"]:after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-  }
-  &[href^="javascript:"]:after, &[href^="#"]:after {
-    content: "";
-  }
+    &:visited {
+        text-decoration: underline;
+        word-wrap: break-word;
+    }
+    /*
+    &[href^="/"]:after {
+        content: " (https://www.gov.uk" attr(href) ")";
+        font-size: 90%;
+    }
+    &[href^="http://"]:after, &[href^="https://"]:after {
+        content: " (" attr(href) ")";
+        font-size: 90%;
+    }
+    &[href^="javascript:"]:after, &[href^="#"]:after {
+        content: "";
+    }
+    */
 }
 
 img {
@@ -282,54 +215,89 @@ img {
     display: none;
 }
 
-.modified-date {
-    color: #e1e1e1;
-    font-family: "nta",Arial,sans-serif;
-    font-size: 11pt;
-    line-height: 1.42857;
-    font-weight: 400;
-    text-transform: none;
-    &:after {
-        content: "\00A9  Crown Copyright";
-        float: right;
+.first-col,
+.second-col {
+  > div {
+      margin-bottom:20px;
+  }
+}
+
+dl.summary-detail-list {
+    display:inline-block;
+    vertical-align:top;
+    width:100%;
+    margin-top:0;
+    dt {
+        float:left;
+        clear:both;
+        min-width:165px;
     }
-    @media (max-width: 640px) {
-        font-size: 1.2rem;
-        line-height: 1.25;
+    dd {
+        float:left;
     }
 }
+
+.enter-address-manually form {
+    fieldset > .form-item {
+        margin-bottom:0;
+    }
+}
+
+p.transaction-id {
+    font-weight:bold;
+    br {
+        display:none;
+    }
+}
+
 
 .global-header {
-  background: transparent;
-  margin-top: 10px;
-  #logo {
-    position: relative;
-    display: block;
-    width: 166px;
-    height: 30px;
-    overflow: hidden;
-    img {
-      position: absolute;
-      left: -46px;
-      top: -62px;
-      max-width: none !important;
-      width: 200%;
-      height: 300%;
-      border: none;
+    background:transparent;
+    padding: {
+      top:20px;
+      right:20px;
+      bottom:0;
+      left:20px;
     }
-    &:after {
-      display: none;
+    margin:0;
+
+    .header-logo {
+        position: relative;
+        display: block;
+        //width: 166px;
+        //height:30px;
+        overflow: hidden;
+        a {
+            font-size:26pt;
+            font-weight:bold;
+            text-decoration:none;
+            &[href^="http://"]:after, 
+            &[href^="https://"]:after {
+                content:'';
+            }
+
+        }
+        &:after {
+            display: none;
+        }
     }
-  }
-  #search, .search-toggle {
-    display: none;
-  }
+    h1 {
+        border:0 none;
+    }
+    .header-proposition ul { 
+        display:none;
+    }
 }
 
-.done-questions {
-  .start-again, .question-number, li.done .undo {
-    display: none;
-  }
+.form-item {
+    clear:both;
+    display:inline-block;
+    vertical-align:top;
+    width:100%;
+    margin:0 0 10px 0;
+}
+.form-declaration {
+    margin-bottom:0 !important;
 }
 
 fieldset {
@@ -338,30 +306,49 @@ fieldset {
     border:0 none !important;
 }
 
+.form-hint,
 label {
     display:block !important;
     width:100%;
 }
 
-input {
-    margin-bottom:10px;
-}
-
-/*prevent chrome OSX from displaying grey lines in print preview*/
+//prevent chrome OSX from displaying grey lines in print preview
 select {
     background: #fff !important;
 }
 
-footer{
+.footer {
+    padding: {
+      top:0;
+      right:20px;
+      bottom:20px;
+      left:20px;
+    }
     ul {
         padding-left:0;
     }
+    .copyright {
+        margin-bottom:5px;
+        text-align:right;
+        a {
+            text-decoration:none;
+        }
+        img {
+            max-width:100px !important;
+        }
+    }
 }
 
+//page specific
+.vehicles-online .img-wrap img {
+    width:200px;
+}
+
+
 //hide specific elements/sections
-body #global-user-location,
-body .related-positioning,
-.global-header .header-phase h1 span,
+.print-message,
+.vehicles-online .prototype,
+.footer .footer-meta-inner,
 body .actions,
 .visuallyhidden,
 #local-locator-form,
@@ -384,11 +371,6 @@ button,
 .button,
 .button-secondary,
 .button-not-implemented,
-.pdfLink,
-#help,
-#feedback,
-.nav-wrapper,
-.prototype,
 .button-text {
     display: none !important;
 }
