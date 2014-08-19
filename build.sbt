@@ -48,7 +48,7 @@ libraryDependencies ++= Seq(
   "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
   "com.sun.mail" % "javax.mail" % "1.4.7",
   "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-  "dvla" %% "vehicles-presentation-common" % "2.0-SNAPSHOT" classifier "asset" withSources() withJavadoc(),
+  "dvla" %% "vehicles-presentation-common" % "2.0-SNAPSHOT" withSources() withJavadoc(),
   "org.webjars" % "requirejs" % "2.1.14-1"
 )
 
