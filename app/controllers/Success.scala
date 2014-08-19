@@ -22,31 +22,30 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
       (request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getModel[ConfirmFormModel], request.cookies.getModel[RetainModel]) match {
+
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(confirmModel), Some(retainModel)) =>
-          emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails.registrationNumber,
-          retainModel.certificateNumber, retainModel.transactionId, retainModel.transactionTimestamp,
-          vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName,
-          vehicleAndKeeperDetails.address, "£80.00", eligibilityModel.replacementVRM)
+          // send business email
+          emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel)
+          // send keeper email if supplied
           if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber,
-              retainModel.certificateNumber, retainModel.transactionId, retainModel.transactionTimestamp,
-              vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName,
-              vehicleAndKeeperDetails.address, "£80.00", eligibilityModel.replacementVRM) // TODO retrieve amount debited from somewhere
+            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails, eligibilityModel, retainModel)
           }
+          // create success model for display
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
+
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(confirmModel), Some(retainModel)) =>
+          // send keeper email if supplied
           if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails.registrationNumber,
-              retainModel.certificateNumber, retainModel.transactionId, retainModel.transactionTimestamp,
-              vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName,
-              vehicleAndKeeperDetails.address, "£80.00", eligibilityModel.replacementVRM) // TODO retrieve amount debited from somewhere
+            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails, eligibilityModel, retainModel)
           }
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, confirmModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
+
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
+
         case _ =>
           Redirect(routes.MicroServiceError.present())
       }
