@@ -149,7 +149,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
 object PdfServiceImpl {
 
   private val v948Blank: Option[File] = {
-    val filename = "v948_blank.pdf"
+    val filename = "vrm-retention-online-v948-blank.pdf"
     val file = new File(filename)
     if (file.exists()) Some(file)
     else {
