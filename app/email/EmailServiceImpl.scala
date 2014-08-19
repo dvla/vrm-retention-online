@@ -86,16 +86,14 @@ final class EmailServiceImpl @Inject()(dateService: DateService, config: Config)
   case object Rich extends MailType
   case object MultiPart extends MailType
 
-  case class Mail(
-                   from: (String, String), // (email -> name)
-                   to: Seq[String],
-                   cc: Seq[String] = Seq.empty,
-                   bcc: Seq[String] = Seq.empty,
-                   subject: String,
-                   message: String,
-                   richMessage: Option[String] = None,
-                   attachment: Option[(java.io.File)] = None
-                   )
+  case class Mail(from: (String, String), // (email -> name)
+                  to: Seq[String],
+                  cc: Seq[String] = Seq.empty,
+                  bcc: Seq[String] = Seq.empty,
+                  subject: String,
+                  message: String,
+                  richMessage: Option[String] = None,
+                  attachment: Option[(java.io.File)] = None)
 
   object send {
     def a(mail: Mail) {
@@ -121,11 +119,10 @@ final class EmailServiceImpl @Inject()(dateService: DateService, config: Config)
       // Can't add these via fluent API because it produces exceptions
       mail.to foreach (commonsMail.addTo(_))
       mail.cc foreach (commonsMail.addCc(_))
-      mail.bcc foreach (commonsMail.addBcc(_))
 
       commonsMail.setHostName(config.emailSmtpHost)
       commonsMail.setSmtpPort(config.emailSmtpPort)
-      commonsMail.setStartTLSEnabled(true)
+      commonsMail.setStartTLSEnabled(config.emailSmtpTls)
       commonsMail.setAuthentication(config.emailSmtpUser,config.emailSmtpPassword)
 
       commonsMail.
