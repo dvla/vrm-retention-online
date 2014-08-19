@@ -15,7 +15,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   private val emailDomainWhitelist: Array[String] = config.emailWhitelist
   private val senderEmailAddress: String = config.emailSenderAddress
   private val NEW_LINE: String = "\n"
-  private val amountDebited: String = "£80.00" // TODO need to get this form somewhere!
+  private val amountDebited: String = "80.00" // TODO need to get this form somewhere!
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
