@@ -26,6 +26,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
     if (emailDomainWhitelist contains inputEmailAddressDomain.toLowerCase) {
 
+      // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
       val mc = new MailcapCommandMap()
       mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html")
       mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml")
