@@ -6,13 +6,9 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import mappings.common.Postcode.PostcodeId
-import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
-import play.api.mvc.SimpleResult
+import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
@@ -20,6 +16,10 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import utils.helpers.Config
+import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
+import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.concurrent.Future
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
@@ -286,7 +286,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     injector.getInstance(classOf[EnterAddressManually])
   }
 
-  private def validateAddressCookieValues(result: Future[SimpleResult], buildingName: String, line2: String,
+  private def validateAddressCookieValues(result: Future[Result], buildingName: String, line2: String,
                                           line3: String, postTown: String, postCode: String = PostcodeValid) = {
 
     whenReady(result) { r =>

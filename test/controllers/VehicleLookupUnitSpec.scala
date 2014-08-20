@@ -8,7 +8,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import pages.vrm_retention._
 import play.api.libs.json.{JsValue, Json}
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
@@ -350,7 +350,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     )
   }
 
-  private def responseThrows: Future[Response] = Future {
+  private def responseThrows: Future[WSResponse] = Future {
     throw new RuntimeException("This error is generated deliberately by a test")
   }
 
