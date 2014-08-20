@@ -1,14 +1,13 @@
 package email
 
-import com.google.inject.Inject
 import javax.activation.{CommandMap, MailcapCommandMap}
+import com.google.inject.Inject
 import pdf.PdfService
 import play.api.Logger
-import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.{VehicleAndKeeperDetailsModel, EligibilityModel, RetainModel}
-
+import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
@@ -36,21 +35,20 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
       pdfService.create(vehicleAndKeeperDetailsModel, retainModel).map {
         pdf =>
-              send a new Mail (
-                from = (senderEmailAddress, "DO NOT REPLY"),
-                to = Seq(emailAddress),
-                subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber,
-                message = "VRM: " + vehicleAndKeeperDetailsModel.registrationNumber + NEW_LINE +
-                          "Retention Cert Id: " + retainModel.certificateNumber + NEW_LINE +
-                          "Transaction Id: " + retainModel.transactionId + NEW_LINE +
-                          "Transaction Timestamp: " + retainModel.transactionTimestamp + NEW_LINE +
-                          "Keeper Name: " + getKeeperName(vehicleAndKeeperDetailsModel) + NEW_LINE +
-                          "Keeper Address: " + getKeeperAddress(vehicleAndKeeperDetailsModel) + NEW_LINE +
-                          "Amount Debited: " + amountDebited + NEW_LINE +
-                          "Replacement VRM: " + eligibilityModel.replacementVRM,
-                attachmentInBytes = pdf
-              )
-
+          send a new Mail(
+            from = (senderEmailAddress, "DO NOT REPLY"),
+            to = Seq(emailAddress),
+            subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber,
+            message = "VRM: " + vehicleAndKeeperDetailsModel.registrationNumber + NEW_LINE +
+              "Retention Cert Id: " + retainModel.certificateNumber + NEW_LINE +
+              "Transaction Id: " + retainModel.transactionId + NEW_LINE +
+              "Transaction Timestamp: " + retainModel.transactionTimestamp + NEW_LINE +
+              "Keeper Name: " + getKeeperName(vehicleAndKeeperDetailsModel) + NEW_LINE +
+              "Keeper Address: " + getKeeperAddress(vehicleAndKeeperDetailsModel) + NEW_LINE +
+              "Amount Debited: " + amountDebited + NEW_LINE +
+              "Replacement VRM: " + eligibilityModel.replacementVRM,
+            attachmentInBytes = pdf
+          )
       }
       Logger.debug("Email sent to " + emailAddress)
     } else {
@@ -67,7 +65,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     keeperName.trim // remove extra space if no title or last name
   }
 
-  def getKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String =  {
+  def getKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
 
     var keeperAddress = ""
     if (vehicleAndKeeperDetailsModel.address.isDefined) {
@@ -85,14 +83,15 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                   attachmentInBytes: Array[Byte])
 
   object send {
+
     def a(mail: Mail) {
       import org.apache.commons.mail._
 
       val commonsMail: Email = {
-          val source = new ByteArrayDataSource(mail.attachmentInBytes, "application/pdf");
-          new MultiPartEmail().attach(source, "v948.pdf",
-            "Replacement registration number letter of authorisation").setMsg(mail.message)
-        }
+        val source = new ByteArrayDataSource(mail.attachmentInBytes, "application/pdf");
+        new MultiPartEmail().attach(source, "v948.pdf",
+          "Replacement registration number letter of authorisation").setMsg(mail.message)
+      }
 
       // Can't add these via fluent API because it produces exceptions
       mail.to foreach (commonsMail.addTo(_))
@@ -100,7 +99,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       commonsMail.setHostName(config.emailSmtpHost)
       commonsMail.setSmtpPort(config.emailSmtpPort)
       commonsMail.setStartTLSEnabled(config.emailSmtpTls)
-      commonsMail.setAuthentication(config.emailSmtpUser,config.emailSmtpPassword)
+      commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
 
       commonsMail.
         setFrom(mail.from._1, mail.from._2).
@@ -108,4 +107,5 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
         send()
     }
   }
+
 }
