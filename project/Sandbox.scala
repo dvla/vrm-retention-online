@@ -212,17 +212,7 @@ object Sandbox extends Plugin {
     extractVehiclesGatlingJar(vehiclesGatlingExtractDir)
     System.setProperty("gatling.core.disableCompiler", "true")
 
-    // Happy paths
-    simulation("uk.gov.dvla.retention.simulations.happy.AssetsAreAccessible")
-    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndFullKeeperAddress") // Happy Path with full keeper address (4 address lines, plus post town and postcode)
-    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndPartialKeeperAddress") // Happy Path with partial keeper address
-    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndMakeNoModel") // Happy Path with a make but no model
-    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperAndModelNoMake") // Happy Path with a model but no make
-    simulation("uk.gov.dvla.retention.simulations.happy.RegisteredKeeperVeryLongMakeAndModel")
-    // Sad paths
-    simulation("uk.gov.dvla.retention.simulations.sad.VrmNotFound")
-    simulation("uk.gov.dvla.retention.simulations.sad.EligibilityCheckDirectToPaper")
-    simulation("uk.gov.dvla.retention.simulations.sad.NotEligibleToTransact")
+    simulation("uk.gov.dvla.retention.Simulate")
   }
 
   lazy val runAsync = taskKey[Unit]("Runs the play application")
