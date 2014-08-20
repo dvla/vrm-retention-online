@@ -85,7 +85,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   object send {
 
     def a(mail: Mail) {
-      import org.apache.commons.mail._
+      import javax.mail.util.ByteArrayDataSource
+      import org.apache.commons.mail.{Email, MultiPartEmail}
 
       val commonsMail: Email = {
         val source = new ByteArrayDataSource(mail.attachmentInBytes, "application/pdf");
