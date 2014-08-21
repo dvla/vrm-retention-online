@@ -1,11 +1,11 @@
 package services.fakes
 
-import viewmodels.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
 import play.api.http.Status.OK
 import play.api.libs.json.Json
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import services.fakes.AddressLookupServiceConstants.PostcodeValid
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import viewmodels.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -32,7 +32,7 @@ object AddressLookupWebServiceConstants {
     PostcodeToAddressResponse(addresses = results)
   }
 
-  def responseValidForPostcodeToAddress: Future[Response] = {
+  def responseValidForPostcodeToAddress: Future[WSResponse] = {
     val inputAsJson = Json.toJson(postcodeToAddressResponseValid)
 
     Future {
@@ -40,7 +40,7 @@ object AddressLookupWebServiceConstants {
     }
   }
 
-  def responseValidForPostcodeToAddressNotFound: Future[Response] = {
+  def responseValidForPostcodeToAddressNotFound: Future[WSResponse] = {
     val inputAsJson = Json.toJson(PostcodeToAddressResponse(addresses = Seq.empty))
 
     Future {
@@ -57,7 +57,7 @@ object AddressLookupWebServiceConstants {
     UprnToAddressResponse(addressViewModel = Some(AddressModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
   }
 
-  def responseValidForUprnToAddress: Future[Response] = {
+  def responseValidForUprnToAddress: Future[WSResponse] = {
     val inputAsJson = Json.toJson(uprnToAddressResponseValid)
 
     Future {
@@ -65,7 +65,7 @@ object AddressLookupWebServiceConstants {
     }
   }
 
-  def responseValidForUprnToAddressNotFound: Future[Response] = {
+  def responseValidForUprnToAddressNotFound: Future[WSResponse] = {
     val inputAsJson = Json.toJson(UprnToAddressResponse(addressViewModel = None))
 
     Future {

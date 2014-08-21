@@ -1,9 +1,6 @@
 package controllers
 
 import com.google.inject.Inject
-import views.vrm_retention.{Retain, RelatedCacheKeys}
-import Retain._
-import viewmodels.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc._
@@ -13,9 +10,11 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
+import viewmodels.{RetainModel, VRMRetentionRetainRequest, VRMRetentionRetainResponse, VehicleAndKeeperLookupFormModel}
+import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.Retain._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import views.vrm_retention.RelatedCacheKeys
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               dateService: DateService)
@@ -51,8 +50,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       val transactionId = vehicleAndKeeperLookupFormModel.registrationNumber +
         isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "")
 
+      val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
+
       Redirect(routes.Success.present()).
-        withCookie(RetainModel.from(certificateNumber, transactionId, isoDateTimeString))
+        withCookie(RetainModel.from(certificateNumber, transactionId, transactionTimestampWithZone))
     }
 
     def retainFailure(responseCode: String) = {
