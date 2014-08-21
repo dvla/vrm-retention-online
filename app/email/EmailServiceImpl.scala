@@ -50,9 +50,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
             attachmentInBytes = pdf
           )
       }
-      Logger.debug("Email sent to " + emailAddress)
+      Logger.debug("Email sent")
     } else {
-      Logger.debug("Email not in whitelist so not sent")
+      Logger.debug("Email not sent as not in whitelist")
     }
   }
 
