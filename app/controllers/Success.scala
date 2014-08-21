@@ -13,6 +13,8 @@ import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.Confirm._
+import scala.Some
 
 final class Success @Inject()(pdfService: PdfService, emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                       config: Config) extends Controller {
@@ -21,28 +23,33 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
-        request.cookies.getModel[ConfirmFormModel], request.cookies.getModel[RetainModel]) match {
+        request.cookies.getString(KeeperEmailCacheKey), request.cookies.getModel[RetainModel]) match {
 
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(confirmModel), Some(retainModel)) =>
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(keeperEmail), Some(retainModel)) =>
           // send business email
           emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel)
           // send keeper email if supplied
-          if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails, eligibilityModel, retainModel)
-          }
+          emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel)
           // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, confirmModel, retainModel)
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, Some(keeperEmail), retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
 
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(confirmModel), Some(retainModel)) =>
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), None, Some(retainModel)) =>
+          // send business email
+          emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel)
+          // create success model for display
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, None, retainModel)
+          Ok(views.html.vrm_retention.success(successViewModel))
+
+        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(keeperEmail), Some(retainModel)) =>
           // send keeper email if supplied
-          if (confirmModel.keeperEmail.isDefined) {
-            emailService.sendEmail(confirmModel.keeperEmail.get, vehicleAndKeeperDetails, eligibilityModel, retainModel)
-          }
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, confirmModel, retainModel)
+          emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel)
+          // create success model for display
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, Some(keeperEmail), retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
 
         case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
+          // create success model for display
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
 
@@ -72,6 +79,8 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).discardingCookies(RelatedCacheKeys.FullSet)
+    Redirect(routes.BeforeYouStart.present()).
+      discardingCookies(RelatedCacheKeys.RetainSet)
+    // TODO remove Business Cache if consent not sent
   }
 }

@@ -4,7 +4,7 @@
    config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechOptionalDeclareCheck, valtechInputText}
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
@@ -68,6 +68,7 @@
             <div class="two-col">
                 <div class="first-col">
                     <h2>@Messages("vrm_retention_confirm.businessDetailsTitle")</h2>
+
                     <dl class="summary-detail-list first-line">
                         <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
                         <dd>@confirmViewModel.businessName</dd>
@@ -82,15 +83,23 @@
                         <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
                         <dd>@confirmViewModel.businessAddress.get.address.last</dd>
                     </dl>
+
+                    <div class="form-declaration">
+                    @valtechOptionalDeclareCheck(confirmForm(StoreDetailsConsentId),
+                        args = Map(
+                            '_showConstraints -> false,
+                            'autofocus -> true,
+                            '_label -> Messages("vrm_retention_confirm.storeDetailsConsent")
+                        )
+                    )
+                    </div>
+                    <dd>@Messages("vrm_retention_confirm.storeDetailsConsentWarning")</dd>
+
                 </div>
                 <div class="second-col">
                 </div>
             </div>
         }
-
-        @*<div class="alert-warning">*@
-            @*<p>@Messages("vrm_retention_confirm.warn")</p>*@
-        @*</div>*@
 
         <div class="form-steps">
             @* Note the reverse routing syntax for the hyperlink *@

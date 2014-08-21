@@ -13,7 +13,8 @@ final class BeforeYouStart @Inject()()(implicit clientSideSessionFactory: Client
   def present = Action { implicit request =>
     Ok(views.html.vrm_retention.before_you_start()).
       withNewSession.
-      discardingCookies(RelatedCacheKeys.FullSet)
+      discardingCookies(RelatedCacheKeys.RetainSet)
+    // TODO remove Business Cache if consent not sent
   }
 
   def submit = Action { implicit request =>

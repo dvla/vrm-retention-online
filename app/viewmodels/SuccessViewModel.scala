@@ -24,7 +24,7 @@ object SuccessViewModel {
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             eligibilityModel: EligibilityModel,
             businessDetailsModel: BusinessDetailsModel,
-            confirmFormModel: ConfirmFormModel,
+            keeperEmail: Option[String],
             retainModel: RetainModel): SuccessViewModel = {
     SuccessViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
@@ -34,7 +34,7 @@ object SuccessViewModel {
       keeperFirstName = vehicleAndKeeperDetails.firstName,
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
-      keeperEmail = confirmFormModel.keeperEmail,
+      keeperEmail = keeperEmail,
       businessName = Some(businessDetailsModel.name),
       businessContact = Some(businessDetailsModel.contact),
       businessEmail = Some(businessDetailsModel.email),
@@ -48,7 +48,7 @@ object SuccessViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             eligibilityModel: EligibilityModel,
-            confirmFormModel: ConfirmFormModel,
+            keeperEmail: Option[String],
             retainModel: RetainModel): SuccessViewModel = {
     SuccessViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
@@ -58,7 +58,7 @@ object SuccessViewModel {
       keeperFirstName = vehicleAndKeeperDetails.firstName,
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
-      keeperEmail = confirmFormModel.keeperEmail,
+      keeperEmail = keeperEmail,
       businessName = None,
       businessContact = None,
       businessEmail = None,

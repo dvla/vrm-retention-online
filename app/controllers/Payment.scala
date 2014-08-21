@@ -37,7 +37,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
   def exit = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
-      .discardingCookies(RelatedCacheKeys.FullSet)
+      .discardingCookies(RelatedCacheKeys.RetainSet)
+    // TODO remove Business Cache if consent not sent
   }
 
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit request: Request[_]): Future[Result] = {

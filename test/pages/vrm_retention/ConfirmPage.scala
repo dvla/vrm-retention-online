@@ -1,8 +1,8 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser._
 import views.vrm_retention.Confirm
-import Confirm.{ExitId, ConfirmId}
+import Confirm.{ExitId, ConfirmId, StoreDetailsConsentId}
 import org.openqa.selenium.WebDriver
 
 object ConfirmPage extends Page with WebBrowserDSL {
@@ -13,10 +13,13 @@ object ConfirmPage extends Page with WebBrowserDSL {
 
   def confirm(implicit driver: WebDriver): Element = find(id(ConfirmId)).get
 
+  def consent(implicit driver: WebDriver): Checkbox = checkbox(id(StoreDetailsConsentId))
+
   def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
 
   def happyPath(implicit driver: WebDriver) = {
     go to ConfirmPage
+    click on consent
     click on confirm
   }
 

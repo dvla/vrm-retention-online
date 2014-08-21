@@ -6,10 +6,10 @@ import BusinessDetails.BusinessDetailsCacheKey
 import CheckEligibility.CheckEligibilityCacheKey
 import EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.Some
+import Confirm.KeeperEmailCacheKey
 import Retain.RetainCacheKey
 import SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import viewmodels._
-import viewmodels.ConfirmFormModel.ConfirmFormModelCacheKey
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
 import services.fakes.AddressLookupServiceConstants._
@@ -80,10 +80,9 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def confirmModel(keeperEmail: Option[String] = KeeperEmailValid)(implicit webDriver: WebDriver) = {
-    val key = ConfirmFormModelCacheKey
-    val value = ConfirmFormModel(keeperEmail = keeperEmail)
-    addCookie(key, value)
+  def keeperEmail(keeperEmail: Option[String] = KeeperEmailValid)(implicit webDriver: WebDriver) = {
+    val key = KeeperEmailCacheKey
+    addCookie(key, keeperEmail)
     this
   }
 

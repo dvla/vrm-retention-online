@@ -9,10 +9,10 @@ import EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.Some
 import play.api.mvc.Cookie
 import Retain.RetainCacheKey
+import Confirm.KeeperEmailCacheKey
 import SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
 import viewmodels._
-import viewmodels.ConfirmFormModel.ConfirmFormModelCacheKey
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import services.fakes.AddressLookupServiceConstants._
@@ -170,10 +170,9 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  def confirmModel(keeperEmail: Option[String] = KeeperEmailValid): Cookie = {
-    val key = ConfirmFormModelCacheKey
-    val value = ConfirmFormModel(keeperEmail = keeperEmail)
-    createCookie(key, value)
+  def keeperEmail(keeperEmail: Option[String] = KeeperEmailValid): Cookie = {
+    val key = KeeperEmailCacheKey
+    createCookie(key, keeperEmail)
   }
 
   def retainModel(certificateNumber: String = CertificateNumberValid,

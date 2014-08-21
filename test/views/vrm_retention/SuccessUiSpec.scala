@@ -39,7 +39,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       click on exit
 
       // Verify the cookies identified by the full set of cache keys have been removed
-      RelatedCacheKeys.FullSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+      RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
     }
   }
 
@@ -50,6 +50,6 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       enterAddressManually().
       businessDetails().
       eligibilityModel().
-      confirmModel().
+      keeperEmail().
       retainModel()
 }

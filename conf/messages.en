@@ -146,7 +146,7 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVrnOnly = Must be valid format
-error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
+error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
@@ -205,7 +205,7 @@ addressAndPostcode.postcode = Postcode
 error.validTraderBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
 error.address.postTown = Post town - Requires a minimum length of three characters
-error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. PR2 8AE or PR28AE
+error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
 
 # micro-service response codes
@@ -283,7 +283,7 @@ vrm_retention_setupbusinessdetails.businessnamelabel = Business name
 vrm_retention_setupbusinessdetails.businesscontactlabel = Business contact name
 vrm_retention_setupbusinessdetails.businessemaillabel = Business email address
 vrm_retention_setupbusinessdetails.businesspostcodelabel = Postcode
-vrm_retention_setupbusinessdetails.businesspostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. PR2 8AE or PR28AE
+vrm_retention_setupbusinessdetails.businesspostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. SA1 2FA or SA12FA
 vrm_retention_setupbusinessdetails.button = Find address
 error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 error.validBusinessContact = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
@@ -372,7 +372,8 @@ vrm_retention_confirm.button = Confirm
 vrm_retention_confirm.emailAddressTitle = Keeper e-mail address
 vrm_retention_confirm.emailAddressLabel = Please enter the keeper's address should you wish us to send to them a copy of the completed transaction
 vrm_retention_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
-
+vrm_retention_confirm.storeDetailsConsent = Remember my business details for later
+vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option
 vrm_retention_exit.button = Exit
 vrm_retention_finish.button = Finish
 

@@ -4,6 +4,8 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
+import views.vrm_retention.Confirm.KeeperEmailCacheKey
+import views.vrm_retention.Confirm.StoreBusinessDetailsConsentCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Retain.{RetainCacheKey, RetainResponseCodeCacheKey}
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
@@ -18,26 +20,23 @@ object RelatedCacheKeys {
     VehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey,
-    BusinessChooseYourAddressCacheKey,
-    BusinessDetailsCacheKey,
     CheckEligibilityCacheKey,
     EnterAddressManuallyCacheKey,
-    SetupBusinessDetailsCacheKey,
+    KeeperEmailCacheKey,
     RetainCacheKey,
     RetainResponseCodeCacheKey
   )
 
-  val FullSet = RetainSet
-
   val VehicleAndKeeperLookupSet = Set(
     VehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
+    VehicleAndKeeperLookupFormModelCacheKey
+  )
+
+  val BusinessDetailsSet = Set(
     BusinessChooseYourAddressCacheKey,
     BusinessDetailsCacheKey,
-    CheckEligibilityCacheKey,
-    EnterAddressManuallyCacheKey,
     SetupBusinessDetailsCacheKey,
-    RetainCacheKey,
-    RetainResponseCodeCacheKey
+    StoreBusinessDetailsConsentCacheKey
   )
 }
