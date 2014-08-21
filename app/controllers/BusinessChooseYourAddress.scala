@@ -31,7 +31,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           Ok(views.html.vrm_retention.business_choose_your_address(businessChooseYourAddressViewModel, form.fill(),
             addresses))
         }
-      case _ => Future {
+      case _ => Future.successful {
         Redirect(routes.SetUpBusinessDetails.present())
       }
     }
@@ -50,7 +50,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
                 addresses)
               )
             }
-          case _ => Future {
+          case _ => Future.successful {
             Redirect(routes.SetUpBusinessDetails.present())
           }
         },
@@ -62,7 +62,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
               setupBusinessDetailsFormModel.name,
               setupBusinessDetailsFormModel.contact,
               setupBusinessDetailsFormModel.email)
-          case None => Future {
+          case None => Future.successful {
             Redirect(routes.SetUpBusinessDetails.present())
           }
         }

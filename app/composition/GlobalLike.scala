@@ -56,7 +56,7 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
 
   // 404 - page not found error http://alvinalexander.com/scala/handling-scala-play-framework-2-404-500-errors
   override def onHandlerNotFound(request: RequestHeader): Future[Result] = {
-    Future {
+    Future.successful {
       val playLangCookie = request.cookies.get(Play.langCookieName)
       val value: String = playLangCookie match {
         case Some(cookie) => cookie.value

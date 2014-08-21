@@ -36,8 +36,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
 
   def submit = Action.async { implicit request =>
     form.bindFromRequest.fold(
-      invalidForm =>
-        Future {
+      invalidForm => Future.successful {
           val formWithReplacedErrors = invalidForm.
             replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId,
             message = "error.restricted.validVrnOnly",
@@ -50,7 +49,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
             args = Seq.empty)).
             distinctErrors
           BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors))
-        },
+      },
       validForm => {
         bruteForceAndLookup(convertToUpperCaseAndRemoveSpaces(validForm))
       }
@@ -72,7 +71,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       // TODO US270 @Lawrence please code review the way we are using map, the lambda (I think we could use _ but it looks strange to read) and flatmap
       // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
       if (bruteForcePreventionViewModel.permitted) lookupVehicle(formModel, bruteForcePreventionViewModel)
-      else Future {
+      else Future.successful {
         val registrationNumber = LogFormats.anonymize(formModel.registrationNumber)
         Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
         Redirect(routes.VrmLocked.present()).

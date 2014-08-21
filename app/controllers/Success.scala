@@ -72,7 +72,7 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
               CONTENT_DISPOSITION -> "attachment;filename=v948.pdf" // TODO ask BAs do we want a custom filename for each transaction?
             )
         }
-      case _ => Future {
+      case _ => Future.successful {
         BadRequest("You are missing the cookies required to create a pdf")
       }
     }

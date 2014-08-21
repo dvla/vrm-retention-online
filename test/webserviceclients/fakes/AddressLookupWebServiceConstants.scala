@@ -35,7 +35,7 @@ object AddressLookupWebServiceConstants {
   def responseValidForPostcodeToAddress: Future[WSResponse] = {
     val inputAsJson = Json.toJson(postcodeToAddressResponseValid)
 
-    Future {
+    Future.successful {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
@@ -43,12 +43,12 @@ object AddressLookupWebServiceConstants {
   def responseValidForPostcodeToAddressNotFound: Future[WSResponse] = {
     val inputAsJson = Json.toJson(PostcodeToAddressResponse(addresses = Seq.empty))
 
-    Future {
+    Future.successful {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
 
-  def responseWhenPostcodeInvalid = Future {
+  def responseWhenPostcodeInvalid = Future.successful {
     FakeResponse(status = OK, fakeJson = None)
   }
 
@@ -60,7 +60,7 @@ object AddressLookupWebServiceConstants {
   def responseValidForUprnToAddress: Future[WSResponse] = {
     val inputAsJson = Json.toJson(uprnToAddressResponseValid)
 
-    Future {
+    Future.successful {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
@@ -68,7 +68,7 @@ object AddressLookupWebServiceConstants {
   def responseValidForUprnToAddressNotFound: Future[WSResponse] = {
     val inputAsJson = Json.toJson(UprnToAddressResponse(addressViewModel = None))
 
-    Future {
+    Future.successful {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
     }
   }
