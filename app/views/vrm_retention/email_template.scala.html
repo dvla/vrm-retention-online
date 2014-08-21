@@ -1,0 +1,95 @@
+@(vrm: String,
+retentionCertId: String,
+transactionId: String,
+transactionTimestamp: String,
+keeperName: String,
+keeperAddress: String,
+amount: String,
+replacementVRM: String )
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Your Message Subject or Title</title>
+
+	<!-- Targeting Windows Mobile -->
+	<!--[if IEMobile 7]>
+	<style type="text/css">
+	
+	</style>
+	<![endif]-->   
+
+	<!-- ***********************************************
+	****************************************************
+	END MOBILE TARGETING
+	****************************************************
+	************************************************ -->
+
+	<!--[if gte mso 9]>
+		<style>
+		/* Target Outlook 2007 and 2010 */
+		</style>
+	<![endif]-->
+</head>
+<body>
+<!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
+<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
+	<tr>
+		<td id="GovUkContainer" class="spacing">
+			<table>
+				<tr>
+					<td>VRM : @vrm</td>
+				</tr>
+				<tr>
+					<td>Retention Cert Id: @retentionCertId</td>
+				</tr>
+				<tr>
+					<td>Transaction Id: @transactionId</td>
+				</tr>
+				<tr>
+					<td>Transaction Timestamp: @transactionTimestamp</td>
+				</tr>
+				<tr>
+					<td>Keeper Name: @keeperName</td>
+				</tr>
+				<tr>
+					<td>Keeper Address: @keeperAddress</td>
+				</tr>
+				<tr>
+					<td>Amount Debited: @amount</td>
+				</tr>
+				<tr>
+					<td>Replacement VRM: @replacementVRM</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" class="spacing"> 
+			<!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" id="mainBody">
+				<tr>
+					<td id="helpTop" valign="top">
+						If you need to contact the DVLA, call our helpline on 0300 790 6802
+					</td>
+				</tr>
+			</table>
+			<!-- End example table -->
+
+			<!-- Yahoo Link color fix updated: Simply bring your link styling inline. -->
+			<a href="http://tomharrop.com" target ="_blank" title="Styling Links" style="color: orange; text-decoration: none;">This is a link</a>
+
+			<!-- Gmail/Hotmail image display fix -->
+			<img class="image_fix" src="https://dl.dropboxusercontent.com/u/18077450/demo.png" alt="Your alt text" title="Your title text" width="x" height="x" />
+
+			<!-- Working with telephone numbers (including sms prompts).  Use the "mobile" class to style appropriately in desktop clients
+			versus mobile clients. -->
+			<span class="mobile_link">123-456-7890</span>
+		</td>
+	</tr>
+</table>  
+<!-- End of wrapper table -->
+</body>
+</html>
