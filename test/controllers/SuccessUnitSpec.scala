@@ -2,7 +2,7 @@ package controllers
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.MockFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, defaultAwaitTimeout, status}
 
@@ -29,19 +29,19 @@ final class SuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
-//        withCookies(CookieFactoryForUnitSpecs.confirmModel()).
+        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
         withCookies(CookieFactoryForUnitSpecs.retainModel())
       val result = success.present(request)
       status(result) should equal(OK)
     }
   }
 
-  "exit" should {
+  "finish" should {
 
-    "redirect to BeforeYouStartPage" in {
-      val result = success.exit(FakeRequest())
+    "redirect to MockFeedbackPage" in {
+      val result = success.finish(FakeRequest())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
     }
   }

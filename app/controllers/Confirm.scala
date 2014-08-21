@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.data.{Form, FormError}
+import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
@@ -24,21 +25,29 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
 
         case (Some(vehicleAndKeeperDetails), Some(businessDetailsModel), Some(storeBusinessDetailsConsent)) =>
+          Logger.debug("case 1 " + storeBusinessDetailsConsent)
+
           val confirmFormModel = ConfirmFormModel(None, storeBusinessDetailsConsent)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, businessDetailsModel)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
 
         case (Some(vehicleAndKeeperDetails), Some(businessDetailsModel), None) =>
+          Logger.debug("case 2 ")
+
           val confirmFormModel = ConfirmFormModel(None, "")
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, businessDetailsModel)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
 
         case (Some(vehicleAndKeeperDetails), None, Some(storeBusinessDetailsConsent)) =>
+          Logger.debug("case 3 " + storeBusinessDetailsConsent)
+
           val confirmFormModel = ConfirmFormModel(None, storeBusinessDetailsConsent)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
 
         case (Some(vehicleAndKeeperDetails), None, None) =>
+          Logger.debug("case 4 ")
+
           val confirmFormModel = ConfirmFormModel(None, "")
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
@@ -49,6 +58,9 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   }
 
   def submit = Action { implicit request =>
+
+    Logger.debug("submit ")
+
     form.bindFromRequest.fold(
       invalidForm => {
         (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[BusinessDetailsModel]) match {
@@ -77,6 +89,9 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         }
       },
       validForm => {
+
+        Logger.debug("validForm " + validForm.storeBusinessDetailsConsent)
+
         if (validForm.keeperEmail.isDefined) {
           Redirect(routes.Payment.present()).
             withCookie(KeeperEmailCacheKey, validForm.keeperEmail.get).
@@ -90,8 +105,26 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present())
-      .discardingCookies(RelatedCacheKeys.RetainSet)
-    // TODO remove Business Cache if consent not sent
+
+    Logger.debug("confirm exit 1")
+
+    (request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
+      case (Some(storeBusinessDetailsConsent)) =>
+        Logger.debug("confirm exit 2")
+
+        if (storeBusinessDetailsConsent == "") {
+          Redirect(routes.MockFeedback.present())
+            .discardingCookies(RelatedCacheKeys.RetainSet)
+            .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+        } else {
+          Redirect(routes.MockFeedback.present())
+            .discardingCookies(RelatedCacheKeys.RetainSet)
+        }
+      case _ =>
+        Logger.debug("confirm exit 3")
+
+        Redirect(routes.MockFeedback.present())
+          .discardingCookies(RelatedCacheKeys.RetainSet)
+    }
   }
 }

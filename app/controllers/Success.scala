@@ -78,9 +78,20 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
     }
   }
 
-  def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present()).
-      discardingCookies(RelatedCacheKeys.RetainSet)
-    // TODO remove Business Cache if consent not sent
+  def finish = Action { implicit request =>
+    (request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
+      case (Some(storeBusinessDetailsConsent)) =>
+        if (storeBusinessDetailsConsent == "") {
+          Redirect(routes.MockFeedback.present())
+            .discardingCookies(RelatedCacheKeys.RetainSet)
+            .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+        } else {
+          Redirect(routes.MockFeedback.present())
+            .discardingCookies(RelatedCacheKeys.RetainSet)
+        }
+      case _ =>
+        Redirect(routes.MockFeedback.present())
+          .discardingCookies(RelatedCacheKeys.RetainSet)
+    }
   }
 }

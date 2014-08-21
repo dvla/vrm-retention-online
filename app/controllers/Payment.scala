@@ -15,6 +15,9 @@ import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.Retain._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import views.vrm_retention.Confirm._
+import scala.Some
+import play.api.mvc.Result
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               dateService: DateService)
@@ -35,9 +38,20 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.BeforeYouStart.present())
-      .discardingCookies(RelatedCacheKeys.RetainSet)
-    // TODO remove Business Cache if consent not sent
+    (request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
+      case (Some(storeBusinessDetailsConsent)) =>
+        if (storeBusinessDetailsConsent == "") {
+          Redirect(routes.MockFeedback.present())
+            .discardingCookies(RelatedCacheKeys.RetainSet)
+            .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+        } else {
+          Redirect(routes.MockFeedback.present())
+            .discardingCookies(RelatedCacheKeys.RetainSet)
+        }
+      case _ =>
+        Redirect(routes.MockFeedback.present())
+          .discardingCookies(RelatedCacheKeys.RetainSet)
+    }
   }
 
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit request: Request[_]): Future[Result] = {
