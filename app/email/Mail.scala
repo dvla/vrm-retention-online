@@ -1,7 +1,7 @@
 package email
 
-case class Mail(from: (String, String), // (email -> name)
+case class Mail(from: From, // (email -> name)
                 to: Seq[String],
                 subject: String,
-                message: String,
+                htmlMessage: String,
                 attachment: Attachment)
