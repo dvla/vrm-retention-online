@@ -1,80 +1,80 @@
 package email
 
 import javax.activation.{CommandMap, MailcapCommandMap}
+
 import com.google.inject.Inject
+import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
 import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
   private val emailDomainWhitelist: Array[String] = config.emailWhitelist
   private val senderEmailAddress: String = config.emailSenderAddress
-  private val NEW_LINE: String = "\n"
   private val amountDebited: String = "80.00" // TODO need to get this form somewhere!
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                 eligibilityModel: EligibilityModel,
                 retainModel: RetainModel) {
-
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if (emailDomainWhitelist contains inputEmailAddressDomain.toLowerCase) {
-
-      // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
-      val mc = new MailcapCommandMap()
-      mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html")
-      mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml")
-      mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain")
-      mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed")
-      mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822")
-      CommandMap.setDefaultCommandMap(mc)
-
       pdfService.create(vehicleAndKeeperDetailsModel, retainModel).map {
         pdf =>
+          // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
+          val mc = new MailcapCommandMap()
+          mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html")
+          mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml")
+          mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain")
+          mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed")
+          mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822")
+          CommandMap.setDefaultCommandMap(mc)
+
+          val htmlMessage = populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel)
+
           send a new Mail(
             from = (senderEmailAddress, "DO NOT REPLY"),
             to = Seq(emailAddress),
             subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber,
-            message = "VRM: " + vehicleAndKeeperDetailsModel.registrationNumber + NEW_LINE +
-              "Retention Cert Id: " + retainModel.certificateNumber + NEW_LINE +
-              "Transaction Id: " + retainModel.transactionId + NEW_LINE +
-              "Transaction Timestamp: " + retainModel.transactionTimestamp + NEW_LINE +
-              "Keeper Name: " + getKeeperName(vehicleAndKeeperDetailsModel) + NEW_LINE +
-              "Keeper Address: " + getKeeperAddress(vehicleAndKeeperDetailsModel) + NEW_LINE +
-              "Amount Debited: " + amountDebited + NEW_LINE +
-              "Replacement VRM: " + eligibilityModel.replacementVRM,
+            message = htmlMessage,
             attachmentInBytes = pdf
           )
       }
       Logger.debug("Email sent")
     } else {
-      Logger.debug("Email not sent as not in whitelist")
+      Logger.error("Email not sent as not in whitelist")
     }
   }
 
-  def getKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-
-    var keeperName = vehicleAndKeeperDetailsModel.title.getOrElse("") + " " +
-      vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " +
-      vehicleAndKeeperDetailsModel.lastName.getOrElse("")
-    keeperName = keeperName.replace("  ", " ") // remove extra space if no first name
-    keeperName.trim // remove extra space if no title or last name
+  def populateEmailTemplate(emailAddress: String,
+                            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                            eligibilityModel: EligibilityModel,
+                            retainModel: RetainModel): String = {
+    views.html.vrm_retention.email_template(
+      vrm = vehicleAndKeeperDetailsModel.registrationNumber,
+      retentionCertId = retainModel.certificateNumber,
+      transactionId = retainModel.transactionId,
+      transactionTimestamp = retainModel.transactionTimestamp,
+      keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
+      keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
+      amount = amountDebited,
+      replacementVRM = eligibilityModel.replacementVRM).toString()
   }
 
-  def getKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+  def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+    Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
+      flatten.
+      mkString(" ")
+  }
 
-    var keeperAddress = ""
-    if (vehicleAndKeeperDetailsModel.address.isDefined) {
-      for (addressLine <- vehicleAndKeeperDetailsModel.address.get.address) {
-        keeperAddress = keeperAddress + NEW_LINE + addressLine
-      }
-    }
-    keeperAddress
+  def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+    vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
   }
 
   case class Mail(from: (String, String), // (email -> name)
@@ -87,16 +87,17 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
     def a(mail: Mail) {
       import javax.mail.util.ByteArrayDataSource
-      import org.apache.commons.mail.{Email, MultiPartEmail}
+      import org.apache.commons.mail.Email
 
       val commonsMail: Email = {
-        val source = new ByteArrayDataSource(mail.attachmentInBytes, "application/pdf");
-        new MultiPartEmail().attach(source, "v948.pdf",
-          "Replacement registration number letter of authorisation").setMsg(mail.message)
+        val source = new ByteArrayDataSource(mail.attachmentInBytes, "application/pdf")
+        new HtmlEmail().
+          attach(source, "v948.pdf", "Replacement registration number letter of authorisation").
+          setMsg(mail.message)
       }
 
       // Can't add these via fluent API because it produces exceptions
-      mail.to foreach (commonsMail.addTo(_))
+      mail.to foreach commonsMail.addTo
 
       commonsMail.setHostName(config.emailSmtpHost)
       commonsMail.setSmtpPort(config.emailSmtpPort)
