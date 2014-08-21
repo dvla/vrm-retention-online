@@ -1,7 +1,6 @@
 package email
 
 import javax.activation.{CommandMap, MailcapCommandMap}
-
 import com.google.inject.Inject
 import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
@@ -9,7 +8,7 @@ import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
-
+import views.html.vrm_retention.email_template
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
@@ -37,13 +36,19 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
           CommandMap.setDefaultCommandMap(mc)
 
           val htmlMessage = populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel)
+          val attachment = Attachment(
+            bytes = pdf,
+            contentType = "application/pdf",
+            filename = "v948.pdf",
+            description = "Replacement registration number letter of authorisation"
+          )
 
           send a new Mail(
             from = (senderEmailAddress, "DO NOT REPLY"),
             to = Seq(emailAddress),
             subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber,
             message = htmlMessage,
-            attachmentInBytes = pdf
+            attachment = attachment
           )
       }
       Logger.debug("Email sent")
@@ -56,7 +61,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                             vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                             eligibilityModel: EligibilityModel,
                             retainModel: RetainModel): String = {
-    views.html.vrm_retention.email_template(
+    email_template(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber,
       retentionCertId = retainModel.certificateNumber,
       transactionId = retainModel.transactionId,
@@ -77,22 +82,14 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
   }
 
-  case class Mail(from: (String, String), // (email -> name)
-                  to: Seq[String],
-                  subject: String,
-                  message: String,
-                  attachmentInBytes: Array[Byte])
-
   object send {
 
     def a(mail: Mail) {
-      import javax.mail.util.ByteArrayDataSource
       import org.apache.commons.mail.Email
 
       val commonsMail: Email = {
-        val source = new ByteArrayDataSource(mail.attachmentInBytes, "application/pdf")
         new HtmlEmail().
-          attach(source, "v948.pdf", "Replacement registration number letter of authorisation").
+          attach(mail.attachment.bytes, mail.attachment.filename, mail.attachment.description).
           setMsg(mail.message)
       }
 
