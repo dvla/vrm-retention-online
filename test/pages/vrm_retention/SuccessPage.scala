@@ -11,5 +11,5 @@ object SuccessPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Summary"
 
-  def exit(implicit driver: WebDriver): Element = find(id(FinishId)).get
+  def finish(implicit driver: WebDriver): Element = find(id(FinishId)).get
 }

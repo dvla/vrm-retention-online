@@ -23,7 +23,7 @@ object SuccessViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             eligibilityModel: EligibilityModel,
-            businessDetailsModel: BusinessDetailsModel,
+            businessDetailsModel: Option[BusinessDetailsModel],
             keeperEmail: Option[String],
             retainModel: RetainModel): SuccessViewModel = {
     SuccessViewModel(
@@ -35,34 +35,10 @@ object SuccessViewModel {
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
       keeperEmail = keeperEmail,
-      businessName = Some(businessDetailsModel.name),
-      businessContact = Some(businessDetailsModel.contact),
-      businessEmail = Some(businessDetailsModel.email),
-      businessAddress = Some(businessDetailsModel.address),
-      replacementRegistrationNumber = eligibilityModel.replacementVRM,
-      retainModel.certificateNumber,
-      retainModel.transactionId,
-      retainModel.transactionTimestamp
-    )
-  }
-
-  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-            eligibilityModel: EligibilityModel,
-            keeperEmail: Option[String],
-            retainModel: RetainModel): SuccessViewModel = {
-    SuccessViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.make,
-      vehicleModel = vehicleAndKeeperDetails.model,
-      keeperTitle = vehicleAndKeeperDetails.title,
-      keeperFirstName = vehicleAndKeeperDetails.firstName,
-      keeperLastName = vehicleAndKeeperDetails.lastName,
-      keeperAddress = vehicleAndKeeperDetails.address,
-      keeperEmail = keeperEmail,
-      businessName = None,
-      businessContact = None,
-      businessEmail = None,
-      businessAddress = None,
+      businessName = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.name) else None,
+      businessContact = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.contact) else None,
+      businessEmail = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.email) else None,
+      businessAddress = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.address) else None,
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
       retainModel.certificateNumber,
       retainModel.transactionId,

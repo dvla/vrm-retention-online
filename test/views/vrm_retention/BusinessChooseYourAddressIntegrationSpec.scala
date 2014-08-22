@@ -121,6 +121,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
+      vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
       setupBusinessDetails()
 }

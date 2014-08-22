@@ -5,7 +5,7 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import pages.vrm_retention.SuccessPage.exit
+import pages.vrm_retention.SuccessPage.finish
 import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage, SuccessPage}
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
@@ -21,13 +21,13 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
-  "exit" should {
+  "finish" should {
 
     "redirect to feedback page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage
-      click on exit
+      click on finish
 
       page.url should equal(MockFeedbackPage.url)
     }
@@ -36,7 +36,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage
-      click on exit
+      click on finish
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
@@ -44,7 +44,9 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupBusinessDetails().
+    CookieFactoryForUISpecs.
+      vehicleAndKeeperLookupFormModel().
+      setupBusinessDetails().
       businessChooseYourAddress().
       vehicleAndKeeperDetailsModel().
       enterAddressManually().

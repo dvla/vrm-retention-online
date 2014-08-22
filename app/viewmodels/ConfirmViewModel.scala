@@ -17,7 +17,7 @@ final case class ConfirmViewModel(registrationNumber: String,
 object ConfirmViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-            businessDetailsModel: BusinessDetailsModel): ConfirmViewModel =
+            businessDetailsModel: Option[BusinessDetailsModel]): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       vehicleMake = vehicleAndKeeperDetails.make,
@@ -26,21 +26,9 @@ object ConfirmViewModel {
       keeperFirstName = vehicleAndKeeperDetails.firstName,
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
-      businessName = Some(businessDetailsModel.name),
-      businessContact = Some(businessDetailsModel.contact),
-      businessEmail = Some(businessDetailsModel.email),
-      businessAddress = Some(businessDetailsModel.address)
-    )
-
-  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): ConfirmViewModel =
-    ConfirmViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.make,
-      vehicleModel = vehicleAndKeeperDetails.model,
-      keeperTitle = vehicleAndKeeperDetails.title,
-      keeperFirstName = vehicleAndKeeperDetails.firstName,
-      keeperLastName = vehicleAndKeeperDetails.lastName,
-      keeperAddress = vehicleAndKeeperDetails.address,
-      None, None, None, None
+      businessName = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.name) else None,
+      businessContact = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.contact) else None,
+      businessEmail = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.email) else None,
+      businessAddress = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.address) else None
     )
 }
