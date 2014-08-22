@@ -70,3 +70,6 @@ POST        /vrm-retention/help                                              @co
 GET         /vrm-retention/mock-gov-uk-feedback                              @controllers.MockFeedback.present
 
 GET         /with-language/:chosenLanguage                                   uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
+
+
+GET         /vrm-retention/email-template                                    @controllers.Success.previewEmail
