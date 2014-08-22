@@ -21,7 +21,7 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
     implicit request =>
       request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
         case Some(form) => checkVrmEligibility(form)
-        case _ => Future {
+        case _ => Future.successful {
           Redirect(routes.MicroServiceError.present())
         }
       }

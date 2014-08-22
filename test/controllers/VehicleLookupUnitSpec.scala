@@ -63,6 +63,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
+  // TODO Why is this commented out?
   "submit" should {
     //    "redirect to Confirm after a valid submit and true message returned from the fake microservice" in new WithApplication {
     //      val request = buildCorrectlyPopulatedRequest()
@@ -304,10 +305,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private final val ExitAnchorHtml = """a id="exit""""
   private lazy val vehicleAndKeeperLookupError = {
     val permitted = true // The lookup is permitted as we want to test failure on the vehicle lookup micro-service step.
-    val vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-    when(vehicleAndKeeperLookupWebService.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future {
-      throw new IllegalArgumentException
-    })
+    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+
+    when(vehicleAndKeeperLookupWebService.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).
+      thenReturn(Future.failed(new IllegalArgumentException))
+
     val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(vehicleAndKeeperLookupWebService)
     implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
     implicit val config: Config = mock[Config]
@@ -325,20 +327,19 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def bruteForceServiceImpl(permitted: Boolean): BruteForcePreventionService = {
     def bruteForcePreventionWebService: BruteForcePreventionWebService = {
       val status = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
-      val bruteForcePreventionWebService: BruteForcePreventionWebService = mock[BruteForcePreventionWebService]
+      val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
-      when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).thenReturn(Future {
-        new FakeResponse(status = status, fakeJson = responseFirstAttempt)
-      })
+      when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).
+        thenReturn(Future.successful(new FakeResponse(status = status, fakeJson = responseFirstAttempt)))
+
       when(bruteForcePreventionWebService.callBruteForce(BruteForcePreventionWebServiceConstants.VrmAttempt2)).
-        thenReturn(Future {
-        new FakeResponse(status = status, fakeJson = responseSecondAttempt)
-      })
+        thenReturn(Future.successful(new FakeResponse(status = status, fakeJson = responseSecondAttempt)))
+
       when(bruteForcePreventionWebService.callBruteForce(BruteForcePreventionWebServiceConstants.VrmLocked)).
-        thenReturn(Future {
-        new FakeResponse(status = status)
-      })
-      when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).thenReturn(responseThrows)
+        thenReturn(Future.successful(new FakeResponse(status = status)))
+
+      when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).
+        thenReturn(responseThrows)
 
       bruteForcePreventionWebService
     }
@@ -350,16 +351,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     )
   }
 
-  private def responseThrows: Future[WSResponse] = Future {
-    throw new RuntimeException("This error is generated deliberately by a test")
-  }
+  private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a test"))
 
   private def vehicleAndKeeperLookupResponseGenerator(fullResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess,
                                                       bruteForceService: BruteForcePreventionService = bruteForceServiceImpl(permitted = true),
                                                       isPrototypeBannerVisible: Boolean = true) = {
     val (status, vehicleAndKeeperDetailsResponse) = fullResponse
     val ws: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-    when(ws.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future {
+    when(ws.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful {
       val responseAsJson: Option[JsValue] = vehicleAndKeeperDetailsResponse match {
         case Some(e) => Some(Json.toJson(e))
         case _ => None

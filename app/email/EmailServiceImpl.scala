@@ -1,7 +1,6 @@
 package email
 
 import javax.activation.{CommandMap, MailcapCommandMap}
-
 import com.google.inject.Inject
 import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
@@ -9,14 +8,12 @@ import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
-
+import views.html.vrm_retention.email_template
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
-  private val emailDomainWhitelist: Array[String] = config.emailWhitelist
-  private val senderEmailAddress: String = config.emailSenderAddress
-  private val amountDebited: String = "80.00" // TODO need to get this form somewhere!
+  private final val amountDebited: String = "80.00" // TODO need to get this form somewhere!
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -24,7 +21,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                 retainModel: RetainModel) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if (emailDomainWhitelist contains inputEmailAddressDomain.toLowerCase) {
+    if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
       pdfService.create(vehicleAndKeeperDetailsModel, retainModel).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
@@ -36,14 +33,23 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
           mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822")
           CommandMap.setDefaultCommandMap(mc)
 
+          val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
+
           val htmlMessage = populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel)
 
+          val attachment = Attachment(
+            bytes = pdf,
+            contentType = "application/pdf",
+            filename = "v948.pdf",
+            description = "Replacement registration number letter of authorisation"
+          )
+
           send a new Mail(
-            from = (senderEmailAddress, "DO NOT REPLY"),
+            from = From(email = config.emailSenderAddress, name = "DO NOT REPLY"),
             to = Seq(emailAddress),
-            subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber,
-            message = htmlMessage,
-            attachmentInBytes = pdf
+            subject = subject,
+            htmlMessage = htmlMessage,
+            attachment = attachment
           )
       }
       Logger.debug("Email sent")
@@ -56,7 +62,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                             vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                             eligibilityModel: EligibilityModel,
                             retainModel: RetainModel): String = {
-    views.html.vrm_retention.email_template(
+    email_template(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber,
       retentionCertId = retainModel.certificateNumber,
       transactionId = retainModel.transactionId,
@@ -77,37 +83,29 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
   }
 
-  case class Mail(from: (String, String), // (email -> name)
-                  to: Seq[String],
-                  subject: String,
-                  message: String,
-                  attachmentInBytes: Array[Byte])
-
   object send {
 
     def a(mail: Mail) {
-      import javax.mail.util.ByteArrayDataSource
       import org.apache.commons.mail.Email
 
       val commonsMail: Email = {
-        val source = new ByteArrayDataSource(mail.attachmentInBytes, "application/pdf")
         new HtmlEmail().
-          attach(source, "v948.pdf", "Replacement registration number letter of authorisation").
-          setMsg(mail.message)
+          setTextMsg("Your email client does not support HTML messages"). // TODO replace with actual content!
+          setHtmlMsg(mail.htmlMessage).
+          attach(mail.attachment.bytes, mail.attachment.filename, mail.attachment.description).
+          setFrom(mail.from.email, mail.from.name).
+          setSubject(mail.subject).
+          setStartTLSEnabled(config.emailSmtpTls)
       }
 
-      // Can't add these via fluent API because it produces exceptions
+      // Can't add these via fluent API because they return void
       mail.to foreach commonsMail.addTo
 
       commonsMail.setHostName(config.emailSmtpHost)
       commonsMail.setSmtpPort(config.emailSmtpPort)
-      commonsMail.setStartTLSEnabled(config.emailSmtpTls)
       commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
 
-      commonsMail.
-        setFrom(mail.from._1, mail.from._2).
-        setSubject(mail.subject).
-        send()
+      commonsMail.send()
     }
   }
 

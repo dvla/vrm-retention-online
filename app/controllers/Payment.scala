@@ -31,7 +31,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   def submit = Action.async { implicit request =>
     request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
       case Some(vehiclesLookupForm) => retainVrm(vehiclesLookupForm)
-      case None => Future {
+      case None => Future.successful {
         Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
       }
     }
