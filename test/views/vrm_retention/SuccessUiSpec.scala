@@ -5,8 +5,8 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
-import pages.vrm_retention.SuccessPage.finish
-import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage, SuccessPage}
+import pages.vrm_retention.SuccessPage.{finish, previewEmail}
+import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage, SuccessPage, EmailTemplatePage}
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
 
@@ -40,6 +40,18 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+  }
+
+  "preview email" should {
+
+    "display the email template preview page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to SuccessPage
+      click on previewEmail
+
+      page.url should equal(EmailTemplatePage.url)
     }
   }
 
