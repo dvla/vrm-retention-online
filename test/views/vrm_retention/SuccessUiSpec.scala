@@ -44,7 +44,9 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.setupBusinessDetails().
+    CookieFactoryForUISpecs.
+      vehicleAndKeeperLookupFormModel().
+      setupBusinessDetails().
       businessChooseYourAddress().
       vehicleAndKeeperDetailsModel().
       enterAddressManually().

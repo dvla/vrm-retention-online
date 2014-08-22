@@ -14,41 +14,52 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.Confirm._
+import views.vrm_retention.VehicleLookup.KeeperConsent_Business
 import scala.Some
+import play.api.Logger
 
 final class Success @Inject()(pdfService: PdfService, emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                       config: Config) extends Controller {
 
   def present = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getString(KeeperEmailCacheKey), request.cookies.getModel[RetainModel]) match {
 
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(keeperEmail), Some(retainModel)) =>
-          // send business email
-          emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel)
+        case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(keeperEmail), Some(retainModel)) =>
+          if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) {
+            // send business email
+            emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel)
+          }
           // send keeper email if supplied
           emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel)
           // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, Some(keeperEmail), retainModel)
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel,
+            if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None,
+            Some(keeperEmail), retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
 
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), None, Some(retainModel)) =>
-          // send business email
-          emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel)
+        case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), None, Some(retainModel)) =>
+          if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) {
+            // send business email
+            emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel)
+          }
           // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsModel, None, retainModel)
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel,
+            if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None,
+            None, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
 
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(keeperEmail), Some(retainModel)) =>
+        case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(keeperEmail), Some(retainModel)) =>
           // send keeper email if supplied
           emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel)
           // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, Some(keeperEmail), retainModel)
+          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, None, Some(keeperEmail), retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))
 
-        case (Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
+        case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
           // create success model for display
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel)
           Ok(views.html.vrm_retention.success(successViewModel))

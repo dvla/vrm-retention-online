@@ -12,6 +12,7 @@ final class SuccessUnitSpec extends UnitSpec {
 
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
       val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
@@ -25,6 +26,7 @@ final class SuccessUnitSpec extends UnitSpec {
 
     "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
       val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
