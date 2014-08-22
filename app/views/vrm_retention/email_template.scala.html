@@ -10,28 +10,87 @@ replacementVRM: String )
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<title>Your Message Subject or Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Your Message Subject or Title</title>
+    <style type="text/css">
+        /* Based on The MailChimp Reset INLINE: Yes. */
+        /* Client-specific Styles */
+        #outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
+        body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
+        /* Prevent Webkit and Windows Mobile platforms from changing default font sizes.*/
+        .ExternalClass {width:100%;} /* Force Hotmail to display emails at full width */
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+        /* Forces Hotmail to display normal line spacing.  More on that: http://www.emailonacid.com/forum/viewthread/43/ */
+        #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
+        /* End reset */
 
-	<!-- Targeting Windows Mobile -->
-	<!--[if IEMobile 7]>
-	<style type="text/css">
-	
-	</style>
-	<![endif]-->   
+        /* Some sensible defaults for images
+        Bring inline: Yes. */
+        img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
+        a img {border:none;}
+        .image_fix {display:block;}
 
-	<!-- ***********************************************
-	****************************************************
-	END MOBILE TARGETING
-	****************************************************
-	************************************************ -->
+        /* Yahoo paragraph fix
+        Bring inline: Yes. */
+        p {margin: 1em 0;}
 
-	<!--[if gte mso 9]>
-		<style>
-		/* Target Outlook 2007 and 2010 */
-		</style>
-	<![endif]-->
+        /* Hotmail header color reset
+        Bring inline: Yes. */
+        h1, h2, h3, h4, h5, h6 {color: black !important;}
+
+        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {color: blue !important;}
+
+        h1 a:active, h2 a:active,  h3 a:active, h4 a:active, h5 a:active, h6 a:active {
+        color: red !important; /* Preferably not the same color as the normal header link color.  There is limited support for psuedo classes in email clients, this was added just for good measure. */
+        }
+
+        h1 a:visited, h2 a:visited,  h3 a:visited, h4 a:visited, h5 a:visited, h6 a:visited {
+        color: purple !important; /* Preferably not the same color as the normal header link color. There is limited support for psuedo classes in email clients, this was added just for good measure. */
+        }
+
+        /* Outlook 07, 10 Padding issue fix
+        Bring inline: No.*/
+        table td {border-collapse: collapse;}
+
+        /* Remove spacing around Outlook 07, 10 tables
+        Bring inline: Yes */
+        table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+
+        /* Styling your links has become much simpler with the new Yahoo.  In fact, it falls in line with the main credo of styling in email and make sure to bring your styles inline.  Your link colors will be uniform across clients when brought inline.
+        Bring inline: Yes. */
+        a {color: orange;}
+
+
+        #backgroundTable{background: #fff; font-family: Helvetica, Arial, sans-serif, sans;}
+        #backgroundTable .spacing {padding:0 30px;}
+        #GovUkContainer {background:#000; color:#fff;}
+        #GovUkContainer td {padding:10px 0;}
+        #mainBody {width:100%;}
+        #helpTop {background: #eee; text-align: right; padding: 10px;}
+
+
+
+    </style>
+
+    <!-- Targeting Windows Mobile -->
+    <!--[if IEMobile 7]>
+    <style type="text/css">
+
+    </style>
+    <![endif]-->
+
+    <!-- ***********************************************
+    ****************************************************
+    END MOBILE TARGETING
+    ****************************************************
+    ************************************************ -->
+
+    <!--[if gte mso 9]>
+    <style>
+        /* Target Outlook 2007 and 2010 */
+    </style>
+    <![endif]-->
 </head>
 <body>
 <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
@@ -40,29 +99,9 @@ replacementVRM: String )
 		<td id="GovUkContainer" class="spacing">
 			<table>
 				<tr>
-					<td>VRM : @vrm</td>
+					<td>Email confirmation</td>
 				</tr>
-				<tr>
-					<td>Retention Cert Id: @retentionCertId</td>
-				</tr>
-				<tr>
-					<td>Transaction Id: @transactionId</td>
-				</tr>
-				<tr>
-					<td>Transaction Timestamp: @transactionTimestamp</td>
-				</tr>
-				<tr>
-					<td>Keeper Name: @keeperName</td>
-				</tr>
-				<tr>
-					<td>Keeper Address: @keeperAddress</td>
-				</tr>
-				<tr>
-					<td>Amount Debited: @amount</td>
-				</tr>
-				<tr>
-					<td>Replacement VRM: @replacementVRM</td>
-				</tr>
+
 			</table>
 		</td>
 	</tr>
@@ -78,6 +117,34 @@ replacementVRM: String )
 			</table>
 			<!-- End example table -->
 
+            <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" id="mainBody">
+                <tr>
+                    <td>VRM : @vrm</td>
+                </tr>
+                <tr>
+                    <td>Retention Cert Id: @retentionCertId</td>
+                </tr>
+                <tr>
+                    <td>Transaction Id: @transactionId</td>
+                </tr>
+                <tr>
+                    <td>Transaction Timestamp: @transactionTimestamp</td>
+                </tr>
+                <tr>
+                    <td>Keeper Name: @keeperName</td>
+                </tr>
+                <tr>
+                    <td>Keeper Address: @keeperAddress</td>
+                </tr>
+                <tr>
+                    <td>Amount Debited: @amount</td>
+                </tr>
+                <tr>
+                    <td>Replacement VRM: @replacementVRM</td>
+                </tr>
+
+            </table>
 			<!-- Yahoo Link color fix updated: Simply bring your link styling inline. -->
 			<a href="http://tomharrop.com" target ="_blank" title="Styling Links" style="color: orange; text-decoration: none;">This is a link</a>
 

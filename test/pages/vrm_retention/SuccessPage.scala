@@ -2,7 +2,7 @@ package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import views.vrm_retention.Success
-import Success.FinishId
+import Success.{FinishId, PreviewEmailId}
 import org.openqa.selenium.WebDriver
 
 object SuccessPage extends Page with WebBrowserDSL {
@@ -12,4 +12,5 @@ object SuccessPage extends Page with WebBrowserDSL {
   final override val title: String = "Summary"
 
   def finish(implicit driver: WebDriver): Element = find(id(FinishId)).get
+  def previewEmail(implicit driver: WebDriver): Element = find(id(PreviewEmailId)).get
 }
