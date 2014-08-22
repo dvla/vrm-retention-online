@@ -7,6 +7,7 @@ import viewmodels._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
+import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
@@ -15,8 +16,6 @@ import scala.concurrent.Future
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.Confirm._
 import views.vrm_retention.VehicleLookup.KeeperConsent_Business
-import scala.Some
-import play.api.Logger
 
 final class Success @Inject()(pdfService: PdfService, emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                       config: Config) extends Controller {

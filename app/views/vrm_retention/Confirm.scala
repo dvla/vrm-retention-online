@@ -9,4 +9,5 @@ object Confirm {
   final val ConfirmCacheKey = "confirm"
   final val KeeperEmailCacheKey = "keeperEmail"
   final val StoreBusinessDetailsConsentCacheKey = "storeBusinessDetailsConsent"
+  final val StoreBusinessDetails_NotChecked = ""
 }

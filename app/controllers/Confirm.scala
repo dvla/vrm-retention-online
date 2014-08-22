@@ -3,6 +3,7 @@ package controllers
 import com.google.inject.Inject
 import play.api.data.{Form, FormError}
 import play.api.mvc._
+import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -11,8 +12,6 @@ import viewmodels._
 import views.vrm_retention.Confirm._
 import views.vrm_retention.VehicleLookup.KeeperConsent_Business
 import views.vrm_retention.RelatedCacheKeys
-import scala.Some
-import play.api.Logger
 
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -33,7 +32,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(businessDetailsModel), None) =>
-          val confirmFormModel = ConfirmFormModel(None, "")
+          val confirmFormModel = ConfirmFormModel(None, StoreBusinessDetails_NotChecked)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
 
@@ -43,7 +42,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), None, None) =>
-          val confirmFormModel = ConfirmFormModel(None, "")
+          val confirmFormModel = ConfirmFormModel(None, StoreBusinessDetails_NotChecked)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, None)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
 

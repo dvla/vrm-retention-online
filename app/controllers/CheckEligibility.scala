@@ -9,6 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
 import viewmodels.{EligibilityModel, VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VehicleAndKeeperLookupFormModel}
+import views.vrm_retention.Confirm.StoreBusinessDetailsConsentCacheKey
 import views.vrm_retention.VehicleLookup.{KeeperConsent_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,8 +20,9 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
 
   def present = Action.async {
     implicit request =>
-      request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
-        case Some(form) => checkVrmEligibility(form)
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
+        case (Some(form), Some(storeBusinessDetailsConsentCacheKey)) => checkVrmEligibility(form, Some(storeBusinessDetailsConsentCacheKey))
+        case (Some(form), None) => checkVrmEligibility(form, None)
         case _ => Future.successful {
           Redirect(routes.MicroServiceError.present())
         }
@@ -31,12 +33,14 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
    * Call the eligibility service to determine if the VRM is valid for retention and a replacement mark can
    * be found.
    */
-  private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
+  private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                                  storeBusinessDetailsConsentCacheKey: Option[String])
                                  (implicit request: Request[_]): Future[Result] = {
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
 
-      if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Keeper) {
+      if ((vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Keeper) ||
+        (storeBusinessDetailsConsentCacheKey.getOrElse("false") == "true")) {
         Redirect(routes.Confirm.present()).
           withCookie(EligibilityModel.from(replacementVRM))
       } else {
