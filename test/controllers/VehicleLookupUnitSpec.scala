@@ -315,7 +315,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     implicit val config: Config = mock[Config]
     new VehicleLookup(
       bruteForceService = bruteForceServiceImpl(permitted = permitted),
-      vehicleAndKeeperLookupService = vehicleAndKeeperLookupServiceImpl)
+      vehicleAndKeeperLookupService = vehicleAndKeeperLookupServiceImpl,
+      dateService = dateService)
   }
   private lazy val present = {
     val request = FakeRequest()
@@ -371,7 +372,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
     new VehicleLookup(
       bruteForceService = bruteForceService,
-      vehicleAndKeeperLookupService = vehicleAndKeeperLookupServiceImpl)
+      vehicleAndKeeperLookupService = vehicleAndKeeperLookupServiceImpl,
+      dateService = dateService)
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,

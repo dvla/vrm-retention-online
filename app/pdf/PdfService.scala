@@ -5,5 +5,5 @@ import scala.concurrent.Future
 
 trait PdfService {
 
-  def create(implicit vehicleDetails: VehicleAndKeeperDetailsModel, retainModel: RetainModel): Future[Array[Byte]]
+  def create(implicit vehicleDetails: VehicleAndKeeperDetailsModel, transactionId: String): Future[Array[Byte]]
 }

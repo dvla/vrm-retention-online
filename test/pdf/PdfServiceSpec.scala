@@ -4,7 +4,6 @@ import helpers.UnitSpec
 import viewmodels.{RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import services.fakes.VrmRetentionRetainWebServiceConstants.TransactionIdValid
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
@@ -28,13 +27,12 @@ final class PdfServiceSpec extends UnitSpec {
 
       val retainModel = RetainModel(
         certificateNumber = "certificateNumber",
-        transactionId = TransactionIdValid,
         transactionTimestamp = dateService.today.`dd/MM/yyyy`
       )
 
       val result = pdfService.create(
         vehicleDetails = vehicleAndKeeperDetailsModel,
-        retainModel = retainModel
+        transactionId = TransactionIdValid
       )
 
       whenReady(result, longTimeout) { r =>

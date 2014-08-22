@@ -57,17 +57,15 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)(implicit request: Request[_]): Future[Result] = {
 
     def retainSuccess(certificateNumber: String) = {
-      val transactionTimestamp = dateService.today.toDateTime.get
+
+      // create the transaction timestamp
+      val transactionTimestamp = dateService.today.toDateTimeMillis.get
       val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-        ISODateTimeFormat.hourMinute().print(transactionTimestamp)
-
-      val transactionId = vehicleAndKeeperLookupFormModel.registrationNumber +
-        isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "")
-
+        ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
       val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
 
       Redirect(routes.Success.present()).
-        withCookie(RetainModel.from(certificateNumber, transactionId, transactionTimestampWithZone))
+        withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
     }
 
     def retainFailure(responseCode: String) = {

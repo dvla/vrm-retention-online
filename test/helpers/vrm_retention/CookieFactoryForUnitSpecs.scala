@@ -11,7 +11,7 @@ import play.api.mvc.Cookie
 import Retain.RetainCacheKey
 import Confirm.KeeperEmailCacheKey
 import SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
+import VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
 import viewmodels._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
@@ -19,7 +19,7 @@ import services.fakes.AddressLookupServiceConstants._
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.BruteForcePreventionWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import services.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionIdValid, TransactionTimestampValid}
+import services.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
@@ -175,12 +175,16 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, keeperEmail)
   }
 
+  def transactionId(transactionId: String = TransactionIdValid): Cookie = {
+    val key = TransactionIdCacheKey
+    createCookie(key, transactionId)
+  }
+
   def retainModel(certificateNumber: String = CertificateNumberValid,
                   transactionId: String = TransactionIdValid,
                   transactionTimestamp: String = TransactionTimestampValid): Cookie = {
     val key = RetainCacheKey
     val value = RetainModel(certificateNumber = certificateNumber,
-      transactionId = transactionId,
       transactionTimestamp = transactionTimestamp)
     createCookie(key, value)
   }

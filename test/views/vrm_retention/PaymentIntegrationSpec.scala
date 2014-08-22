@@ -63,5 +63,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       businessDetails().
       eligibilityModel().
       keeperEmail().
-      retainModel()
+      retainModel().
+      transactionId()
 }

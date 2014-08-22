@@ -32,5 +32,6 @@ final class EmailTemplateUiSpec extends UiSpec with TestHarness {
       businessDetails().
       eligibilityModel().
       keeperEmail().
-      retainModel()
+      retainModel().
+      transactionId()
 }

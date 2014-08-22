@@ -9,6 +9,7 @@ import scala.Some
 import Confirm.KeeperEmailCacheKey
 import Retain.RetainCacheKey
 import SetupBusinessDetails.SetupBusinessDetailsCacheKey
+import VehicleLookup.TransactionIdCacheKey
 import viewmodels._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
@@ -87,13 +88,17 @@ object CookieFactoryForUISpecs {
   }
 
   def retainModel(certificateNumber: String = CertificateNumberValid,
-                  transactionId: String = TransactionIdValid,
                   transactionTimestamp: String = TransactionTimestampValid)(implicit webDriver: WebDriver) = {
     val key = RetainCacheKey
     val value = RetainModel(certificateNumber = certificateNumber,
-      transactionId = transactionId,
       transactionTimestamp = transactionTimestamp)
     addCookie(key, value)
+    this
+  }
+
+  def transactionId(transactionId: String = TransactionIdValid)(implicit webDriver: WebDriver) = {
+    val key = TransactionIdCacheKey
+    addCookie(key, transactionId)
     this
   }
 

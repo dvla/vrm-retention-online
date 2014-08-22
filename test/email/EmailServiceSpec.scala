@@ -4,7 +4,6 @@ import helpers.UnitSpec
 import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import services.fakes.VrmRetentionRetainWebServiceConstants.TransactionIdValid
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
@@ -29,7 +28,6 @@ final class EmailServiceSpec extends UnitSpec {
 
       val retain = RetainModel(
         certificateNumber = "certificateNumber",
-        transactionId = TransactionIdValid,
         transactionTimestamp = dateService.today.`dd/MM/yyyy`
       )
 

@@ -7,5 +7,6 @@ trait EmailService {
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                 eligibilityModel: EligibilityModel,
-                retainModel: RetainModel)
+                retainModel: RetainModel,
+                transactionId: String)
 }

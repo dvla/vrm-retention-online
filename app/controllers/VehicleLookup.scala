@@ -18,9 +18,12 @@ import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import views.vrm_retention.RelatedCacheKeys
+import org.joda.time.format.ISODateTimeFormat
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
-                                    vehicleAndKeeperLookupService: VehicleAndKeeperLookupService)
+                                    vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
+                                     dateService: DateService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends Controller {
 
@@ -90,21 +93,31 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                             bruteForcePreventionViewModel: BruteForcePreventionModel)
                            (implicit request: Request[_]): Future[Result] = {
 
+    // create the transaction id
+    val transactionTimestamp = dateService.today.toDateTimeMillis.get
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+      ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
+    val transactionId = vehicleAndKeeperLookupFormModel.registrationNumber +
+      isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
+
     def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
       // check the keeper's postcode matches
       if (!formatPostcode(vehicleAndKeeperLookupFormModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))) {
         Redirect(routes.VehicleLookupFailure.present()).
-          withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+          withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = "vehicle_and_keeper_lookup_keeper_postcode_mismatch").
+          withCookie(TransactionIdCacheKey, transactionId)
       } else {
         Redirect(routes.CheckEligibility.present()).
-          withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
+          withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)).
+          withCookie(TransactionIdCacheKey, transactionId)
       }
     }
 
     def vehicleNotFoundResult(responseCode: String) = {
       Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleAndKeeperLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode).
+        withCookie(TransactionIdCacheKey, transactionId)
     }
 
     def microServiceErrorResult(message: String) = {
@@ -145,7 +158,9 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
           responseStatusVehicleAndKeeperLookupMS = responseStatusVehicleAndKeeperLookupMS,
           vehicleAndKeeperDetailsResponse = vehicleAndKeeperDetailsResponse).
           withCookie(vehicleAndKeeperLookupFormModel).
-          withCookie(bruteForcePreventionViewModel)
+          withCookie(bruteForcePreventionViewModel).
+          withCookie(TransactionIdCacheKey, transactionId)
+
     }.recover {
       case e: Throwable => microServiceErrorResult(message = s"VehicleAndKeeperLookup Web service call failed. Exception " + e.toString.take(45))
     }

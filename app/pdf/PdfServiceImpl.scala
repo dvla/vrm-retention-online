@@ -19,13 +19,13 @@ import scala.concurrent.Future
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
-  def create(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, retainModel: RetainModel): Future[Array[Byte]] = Future {
+  def create(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String): Future[Array[Byte]] = Future {
     implicit val output = new ByteArrayOutputStream()
     v948
     output.toByteArray
   }
 
-  private def v948(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, retainModel: RetainModel, output: OutputStream) = {
+  private def v948(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String, output: OutputStream) = {
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
@@ -44,14 +44,14 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     documentWatermarked
   }
 
-  private def page1(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, retainModel: RetainModel, document: PDDocument): PDPage = {
+  private def page1(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String, document: PDDocument): PDPage = {
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
       contentStream = new PDPageContentStream(document, page) // Start a new content stream which will "hold" the to be created content
 
       writeVrn(vehicleAndKeeperDetailsModel.registrationNumber)
-      writeDateOfRetentionAndTransactionId(retainModel.transactionId)
+      writeDateOfRetentionAndTransactionId(transactionId)
     } catch {
       case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
     } finally {

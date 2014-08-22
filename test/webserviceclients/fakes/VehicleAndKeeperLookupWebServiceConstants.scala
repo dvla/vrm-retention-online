@@ -8,6 +8,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val RegistrationNumberValid = "AB12AWR"
   final val RegistrationNumberWithSpaceValid = "AB12 AWR"
   final val ReferenceNumberValid = "12345678910"
+  final val TransactionIdValid = "ABC123123123123"
   final val VehicleMakeValid = Some("Alfa Romeo")
   final val VehicleModelValid = Some("Alfasud ti")
   final val KeeperNameValid = "Keeper Name"

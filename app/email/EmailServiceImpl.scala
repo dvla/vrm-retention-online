@@ -18,11 +18,12 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                 eligibilityModel: EligibilityModel,
-                retainModel: RetainModel) {
+                retainModel: RetainModel,
+                transactionId: String) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
-      pdfService.create(vehicleAndKeeperDetailsModel, retainModel).map {
+      pdfService.create(vehicleAndKeeperDetailsModel, transactionId).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
@@ -35,7 +36,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
           val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
 
-          val htmlMessage = populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel)
+          val htmlMessage = populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId)
 
           val attachment = Attachment(
             bytes = pdf,
@@ -61,11 +62,12 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   def populateEmailTemplate(emailAddress: String,
                             vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                             eligibilityModel: EligibilityModel,
-                            retainModel: RetainModel): String = {
+                            retainModel: RetainModel,
+                            transactionId: String): String = {
     email_template(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber,
       retentionCertId = retainModel.certificateNumber,
-      transactionId = retainModel.transactionId,
+      transactionId = transactionId,
       transactionTimestamp = retainModel.transactionTimestamp,
       keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
