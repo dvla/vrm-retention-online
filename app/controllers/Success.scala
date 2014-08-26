@@ -6,27 +6,26 @@ import email.EmailService
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
-import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
 import viewmodels._
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys
-import views.vrm_retention.VehicleLookup.{KeeperConsent_Business,TransactionIdCacheKey}
+import views.vrm_retention.VehicleLookup._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.Some
 
 final class Success @Inject()(pdfService: PdfService, emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                                                   config: Config) extends Controller {
 
   def present = Action {
     implicit request =>
-      (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-       request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[EligibilityModel],
-       request.cookies.getModel[BusinessDetailsModel], request.cookies.getString(KeeperEmailCacheKey),
-       request.cookies.getModel[RetainModel]) match {
+      (request.cookies.getString(TransactionIdCacheKey),
+        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
+        request.cookies.getString(KeeperEmailCacheKey), request.cookies.getModel[RetainModel]) match {
 
         case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(keeperEmail), Some(retainModel)) =>
           if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) {
@@ -90,7 +89,7 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
   }
 
   def finish = Action { implicit request =>
-    (request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
+    request.cookies.getString(StoreBusinessDetailsConsentCacheKey) match {
       case (Some(storeBusinessDetailsConsent)) =>
         if (storeBusinessDetailsConsent == StoreBusinessDetails_NotChecked) {
           Redirect(routes.MockFeedback.present())
@@ -106,11 +105,20 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
     }
   }
 
-  //TODO: This is duplicate val used within EmailServiceImpl
-  private final val amountDebited: String = "80.00"
-
-  //TODO: We do not want the user to be able to get to this page - added for Tom to be able to style email easier
+  //TODO: We do not want the user to be able to get to this page - added for Tom to be able to style email easier. DELETE after US1017 is accepted.
   def previewEmail = Action { implicit request =>
+    val amountDebited: String = "80.00"
+
+    def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+      Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
+        flatten.
+        mkString(" ")
+    }
+
+    def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+      vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
+    }
+
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
       request.cookies.getString(KeeperEmailCacheKey), request.cookies.getModel[RetainModel]) match {
@@ -125,13 +133,12 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
           amountDebited,
           eligibilityModel.replacementVRM))
 
-
       case (Some(transactionId), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), None, Some(retainModel)) =>
         Ok(views.html.vrm_retention.email_template(vehicleAndKeeperDetails.registrationNumber,
           retainModel.certificateNumber,
           transactionId,
           retainModel.transactionTimestamp,
-          formatKeeperAddress(vehicleAndKeeperDetails),
+          formatKeeperName(vehicleAndKeeperDetails),
           formatKeeperAddress(vehicleAndKeeperDetails),
           amountDebited,
           eligibilityModel.replacementVRM))
@@ -141,7 +148,7 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
           retainModel.certificateNumber,
           transactionId,
           retainModel.transactionTimestamp,
-          formatKeeperAddress(vehicleAndKeeperDetails),
+          formatKeeperName(vehicleAndKeeperDetails),
           formatKeeperAddress(vehicleAndKeeperDetails),
           amountDebited,
           eligibilityModel.replacementVRM))
@@ -151,7 +158,7 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
           retainModel.certificateNumber,
           transactionId,
           retainModel.transactionTimestamp,
-          formatKeeperAddress(vehicleAndKeeperDetails),
+          formatKeeperName(vehicleAndKeeperDetails),
           formatKeeperAddress(vehicleAndKeeperDetails),
           amountDebited,
           eligibilityModel.replacementVRM))
@@ -159,17 +166,5 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
       case _ =>
         Redirect(routes.MicroServiceError.present())
     }
-  }
-
-  //TODO: This is duplicate code used within EmailServiceImpl
-  def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-    Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
-      flatten.
-      mkString(" ")
-  }
-
-  //TODO: This is duplicate code used within EmailServiceImpl
-  def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-    vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
   }
 }
