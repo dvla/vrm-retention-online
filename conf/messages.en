@@ -398,6 +398,12 @@ error.dropDownInvalid = Please select a value from the drop down list.
 vrm_retention_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually.
 vrm_retention_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
 
+#page 3 - uprn not found
+vrm_retention_uprnnotfound.title = Error confirming post code
+vrm_retention_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
+vrm_retention_uprnnotfound.manualaddressbutton = Set-up business details
+vrm_retention_uprnnotfound.setuptradedetailsbutton = Manually enter address
+
 # enter address manually
 vrm_retention_enteraddressmanually.title = Enter address
 vrm_retention_enteraddressmanually.submitbutton = Next
