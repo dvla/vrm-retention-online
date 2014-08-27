@@ -1,4 +1,4 @@
-@(vehicleLookupFailureViewModel: viewmodels.VehicleLookupFailureViewModel, data: viewmodels.VehicleAndKeeperLookupFormModel,
+@(transactionId: String, vehicleLookupFailureViewModel: viewmodels.VehicleLookupFailureViewModel, data: viewmodels.VehicleAndKeeperLookupFormModel,
         responseCodeVehicleLookupMSErrorMessage: String,
         attempts: Int,
         maxAttempts: Int)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
@@ -12,6 +12,7 @@
 ) {
     <div class="two-col">
         <div class="first-col">
+            <p>Transaction Id @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
