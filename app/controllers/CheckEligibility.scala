@@ -89,8 +89,7 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
     val trackingId = request.cookies.trackingId()
 
     val vrmRetentionEligibilityRequest = VRMRetentionEligibilityRequest(
-      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
-      docRefNumber = vehicleAndKeeperLookupFormModel.referenceNumber
+      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
     )
 
     vrmRetentionEligibilityService.invoke(vrmRetentionEligibilityRequest, trackingId).map {

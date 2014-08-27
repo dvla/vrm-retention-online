@@ -106,8 +106,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     val trackingId = request.cookies.trackingId()
 
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
-      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
-      docRefNumber = vehicleAndKeeperLookupFormModel.referenceNumber
+      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {

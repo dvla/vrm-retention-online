@@ -18,9 +18,8 @@ final class VRMRetentionEligibilityWebServiceImpl @Inject()(config: Config) exte
   override def callVRMRetentionEligibilityService(request: VRMRetentionEligibilityRequest,
                                                   trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
-    val refNo = LogFormats.anonymize(request.docRefNumber)
 
-    Logger.debug(s"Calling vrm retention eligibility micro-service with request $refNo $vrm") //object: $request on ${endPoint}")
+    Logger.debug(s"Calling vrm retention eligibility micro-service with request $vrm") //object: $request on ${endPoint}")
     Logger.debug(s"Calling vrm retention eligibility micro-service with tracking id: $trackingId") //object: $request on ${endPoint}")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).

@@ -17,9 +17,8 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends V
 
   override def callVRMRetentionRetainService(request: VRMRetentionRetainRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
-    val refNo = LogFormats.anonymize(request.docRefNumber)
 
-    Logger.debug(s"Calling vrm retention retain micro-service with request $refNo $vrm")
+    Logger.debug(s"Calling vrm retention retain micro-service with request $vrm")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       post(Json.toJson(request))

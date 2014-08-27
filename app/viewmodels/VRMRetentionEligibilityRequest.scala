@@ -2,8 +2,7 @@ package viewmodels
 
 import play.api.libs.json.Json
 
-case class VRMRetentionEligibilityRequest(currentVRM: String,
-                                          docRefNumber: String)
+case class VRMRetentionEligibilityRequest(currentVRM: String)
 
 object VRMRetentionEligibilityRequest {
 

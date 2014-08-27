@@ -164,7 +164,6 @@ class TestModule() extends ScalaModule with MockitoSugar {
             val vrmRetentionRetainResponse = VRMRetentionRetainResponse(
                 certificateNumber = Some(CertificateNumberValid),
                 currentVRM = request.currentVRM,
-                docRefNumber = request.docRefNumber,
                 replacementVRM = Some(ReplacementRegistrationNumberValid),
                 responseCode = None)
             val asJson = Json.toJson(vrmRetentionRetainResponse)
