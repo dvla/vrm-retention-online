@@ -43,7 +43,7 @@ mkdir -p workdir/etc/monit.d
 # copy objects to workdir directory
 cd workdir/$RPM_PREFIX/
 unzip $WORKSPACE/target/universal/$ZIP_FILENAME
-mv vrm-retention-online-$VERSION vehicles-online
+mv vrm-retention-online-$VERSION vrm-retention-online
 cd -
 
 # add a git log file
@@ -55,6 +55,7 @@ cp -r $UPSTART_FILES_DIR/* workdir/etc/init
 
 # package the thine
 test -e $RPM_TARGETDIR || mkdir $RPM_TARGETDIR
+
 fpm -n $RPM_NAME \
   --before-remove="rpm-build/pkg-scripts/stop" \
   --after-install="rpm-build/pkg-scripts/restart" \
