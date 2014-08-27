@@ -376,6 +376,7 @@ vrm_retention_confirm.storeDetailsConsent = Remember my business details for lat
 vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option
 vrm_retention_exit.button = Exit
 vrm_retention_finish.button = Finish
+vrm_retention_changedetails.button = Change Details
 
 
 # choose business address

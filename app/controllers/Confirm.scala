@@ -29,22 +29,22 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(businessDetailsModel), Some(storeBusinessDetailsConsent)) =>
           val confirmFormModel = ConfirmFormModel(None, storeBusinessDetailsConsent)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None)
-          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
+          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), Some(storeBusinessDetailsConsent)))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(businessDetailsModel), None) =>
           val confirmFormModel = ConfirmFormModel(None, StoreBusinessDetails_NotChecked)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None)
-          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
+          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), None))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), None, Some(storeBusinessDetailsConsent)) =>
           val confirmFormModel = ConfirmFormModel(None, storeBusinessDetailsConsent)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, None)
-          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
+          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), Some(storeBusinessDetailsConsent)))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), None, None) =>
           val confirmFormModel = ConfirmFormModel(None, StoreBusinessDetails_NotChecked)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, None)
-          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel)))
+          Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), None))
 
         case _ =>
           Redirect(routes.VehicleLookup.present())
@@ -56,8 +56,9 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       invalidForm => {
         (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
           request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          request.cookies.getModel[BusinessDetailsModel]) match {
-          case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(businessDetailsModel)) =>
+          request.cookies.getModel[BusinessDetailsModel],
+          request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
+          case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(businessDetailsModel), Some(storeBusinessDetailsConsent)) =>
             val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails,
               if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None)
             val formWithReplacedErrors = invalidForm.
@@ -67,8 +68,8 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
                   message = "error.validEmail",
                   args = Seq.empty)).
               distinctErrors
-            BadRequest(views.html.vrm_retention.confirm(confirmViewModel, formWithReplacedErrors))
-          case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), None) =>
+            BadRequest(views.html.vrm_retention.confirm(confirmViewModel, formWithReplacedErrors, Some(storeBusinessDetailsConsent)))
+          case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), None, Some(storeBusinessDetailsConsent)) =>
             val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, None)
             val formWithReplacedErrors = invalidForm.
               replaceError(KeeperEmailId,
@@ -77,7 +78,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
                   message = "error.validEmail",
                   args = Seq.empty)).
               distinctErrors
-            BadRequest(views.html.vrm_retention.confirm(confirmViewModel, formWithReplacedErrors))
+            BadRequest(views.html.vrm_retention.confirm(confirmViewModel, formWithReplacedErrors, Some(storeBusinessDetailsConsent)))
           case _ =>
             Redirect(routes.MicroServiceError.present())
         }

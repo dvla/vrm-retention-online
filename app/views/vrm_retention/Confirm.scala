@@ -2,6 +2,7 @@ package views.vrm_retention
 
 object Confirm {
 
+  final val ChangeDetailsId = "changeDetails"
   final val ConfirmId = "confirm"
   final val ExitId = "exit"
   final val KeeperEmailId = "Keeper Email"
