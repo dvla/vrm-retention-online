@@ -1,5 +1,6 @@
 @(confirmViewModel: viewmodels.ConfirmViewModel,
-   confirmForm: Form[viewmodels.ConfirmFormModel])(implicit lang: Lang,
+   confirmForm: Form[viewmodels.ConfirmFormModel],
+   storeBusinessDetailsConsent: Option[String])(implicit lang: Lang,
    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
    config: utils.helpers.Config)
 
@@ -103,6 +104,9 @@
 
         <div class="form-steps">
             @* Note the reverse routing syntax for the hyperlink *@
+            @if(storeBusinessDetailsConsent.isDefined && (storeBusinessDetailsConsent.get != StoreBusinessDetails_NotChecked)) {
+                <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_changedetails.button")</a>
+            }
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
             <a class="button-secondary" id="@ExitId" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>
