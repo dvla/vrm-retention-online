@@ -85,6 +85,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         Logger.warn(s"BruteForceService locked out vrm: $registrationNumber")
         Redirect(routes.VrmLocked.present()).
           withCookie(TransactionIdCacheKey, transactionId).
+          withCookie(formModel).
           withCookie(bruteForcePreventionViewModel)
       }
     } recover {
