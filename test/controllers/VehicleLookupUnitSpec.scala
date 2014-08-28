@@ -22,7 +22,6 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 import utils.helpers.Config
 import viewmodels.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
 

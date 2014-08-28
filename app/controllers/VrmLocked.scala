@@ -1,17 +1,15 @@
 package controllers
 
 import com.google.inject.Inject
-import views.vrm_retention.RelatedCacheKeys
-import viewmodels.{VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import play.api.Logger
-import viewmodels.VehicleAndKeeperDetailsModel
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import utils.helpers.Config
+import viewmodels.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
+import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import scala.Some
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: Config) extends Controller {
