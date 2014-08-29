@@ -1,8 +1,9 @@
 package viewmodels
 
 import mappings.common.Consent.consent
+import mappings.common.Email.email
 import views.vrm_retention.Confirm._
-import play.api.data.Forms._
+import play.api.data.Forms.{mapping, optional}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
