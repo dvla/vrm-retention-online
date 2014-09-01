@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
-  private final val amountDebited: String = "80.00" // TODO need to get this form somewhere!
+  private final val amountDebited = "80.00" // TODO need to get this from somewhere!
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -75,13 +75,13 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       replacementVRM = eligibilityModel.replacementVRM).toString()
   }
 
-  def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+  private def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
     Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
       flatten.
       mkString(" ")
   }
 
-  def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+  private def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
     vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
   }
 
