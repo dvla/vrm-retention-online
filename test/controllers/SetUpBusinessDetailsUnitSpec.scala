@@ -1,20 +1,19 @@
 package controllers
 
+import com.tzavellas.sse.guice.ScalaModule
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import views.vrm_retention.SetupBusinessDetails
-import SetupBusinessDetails._
-import viewmodels.SetupBusinessDetailsFormModel
 import org.mockito.Mockito.when
 import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.AddressLookupServiceConstants._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
+import viewmodels.SetupBusinessDetailsFormModel
+import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SetupBusinessDetailsCacheKey}
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
@@ -51,13 +50,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
-      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
-      // Stub this config value.
-      val setUpTradeDetailsPrototypeNotVisible = new SetUpBusinessDetails()
-
-      val result = setUpTradeDetailsPrototypeNotVisible.present(request)
+      val result = setUpBusinessDetailsPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -123,6 +116,16 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     setUpBusinessDetails.present(request)
   }
   private val setUpBusinessDetails = injector.getInstance(classOf[SetUpBusinessDetails])
+
+  private def setUpBusinessDetailsPrototypeNotVisible = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+        bind[Config].toInstance(config)
+      }
+    }).getInstance(classOf[SetUpBusinessDetails])
+  }
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
                                              dealerContact: String = TraderBusinessContactValid,
