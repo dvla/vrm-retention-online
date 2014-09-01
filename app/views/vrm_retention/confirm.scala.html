@@ -104,7 +104,9 @@
 
         <div class="form-steps">
             @* Note the reverse routing syntax for the hyperlink *@
-            @if(storeBusinessDetailsConsent.isDefined && (storeBusinessDetailsConsent.get != StoreBusinessDetails_NotChecked)) {
+            @if(confirmViewModel.businessName.isDefined &&
+                    storeBusinessDetailsConsent.isDefined &&
+                    (storeBusinessDetailsConsent.get != StoreBusinessDetails_NotChecked)) {
                 <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_changedetails.button")</a>
             }
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
