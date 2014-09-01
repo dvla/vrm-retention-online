@@ -11,7 +11,22 @@
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
 ) {
     <div class="two-col">
-        <div class="first-col">
+    <div id="vehicle-details" class="first-col trader-details">
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                <dl class="summary-detail-list">
+                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                    <dd class="regNum">@vehicleLookupFailureViewModel.registrationNumber</dd>
+                    @if(vehicleLookupFailureViewModel.make.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
+                    }
+                    @if(vehicleLookupFailureViewModel.model.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
+                    }
+                </dl>
+        </div>
+        <div class="second-col">
             <p>Transaction Id @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
@@ -27,21 +42,6 @@
                 <a id="@BackId" href="@controllers.routes.VehicleLookup.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
                 <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
             </div>
-        </div>
-        <div id="vehicle-details" class="second-col trader-details">
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                <dl class="summary-detail-list">
-                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="regNum">@vehicleLookupFailureViewModel.registrationNumber</dd>
-                    @if(vehicleLookupFailureViewModel.make.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
-                    }
-                    @if(vehicleLookupFailureViewModel.model.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
-                    }
-                </dl>
         </div>
     </div>
 
