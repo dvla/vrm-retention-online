@@ -1,30 +1,28 @@
 package helpers.vrm_retention
 
 import composition.TestComposition
-import views.vrm_retention._
-import BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
-import BusinessDetails.BusinessDetailsCacheKey
-import CheckEligibility.CheckEligibilityCacheKey
-import EnterAddressManually.EnterAddressManuallyCacheKey
-import scala.Some
-import play.api.mvc.Cookie
-import Retain.RetainCacheKey
-import Confirm.KeeperEmailCacheKey
-import SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
-import viewmodels._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
 import services.fakes.AddressLookupServiceConstants._
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.BruteForcePreventionWebServiceConstants._
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import viewmodels._
+import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
+import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
+import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsConsentCacheKey}
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.Retain.RetainCacheKey
+import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
+import views.vrm_retention._
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -187,5 +185,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     val value = RetainModel(certificateNumber = certificateNumber,
       transactionTimestamp = transactionTimestamp)
     createCookie(key, value)
+  }
+
+  def storeBusinessDetailsConsent(consent: String): Cookie = {
+    val key = StoreBusinessDetailsConsentCacheKey
+    createCookie(key, consent)
   }
 }
