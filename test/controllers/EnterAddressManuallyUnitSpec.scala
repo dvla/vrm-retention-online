@@ -1,5 +1,6 @@
 package controllers
 
+import com.tzavellas.sse.guice.ScalaModule
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -66,13 +67,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "not display prototype message when config set to false" in new WithApplication {
+      // TODO use testInjectory to override config
       val request = FakeRequest()
-      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
-      // Stub this config value.
-      val enterAddressManuallyPrototypeNotVisible = new EnterAddressManually()
-
       val result = enterAddressManuallyPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
@@ -276,12 +272,23 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
   }
 
+  private def enterAddressManuallyPrototypeNotVisible = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+        bind[Config].toInstance(config)
+      }
+    }).getInstance(classOf[EnterAddressManually])
+  }
+
   private lazy val present = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
     enterAddressManually.present(request)
   }
+
   private val enterAddressManually = {
     injector.getInstance(classOf[EnterAddressManually])
   }
