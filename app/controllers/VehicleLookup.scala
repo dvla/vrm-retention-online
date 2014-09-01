@@ -103,7 +103,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                             transactionId: String)
                            (implicit request: Request[_]): Future[Result] = {
     def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
-      // check the keeper's postcode matches
+      // Check the keeper's postcode matches the value on record. This is not calling any address lookup service.
       if (!formatPostcode(vehicleAndKeeperLookupFormModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))) {
         Redirect(routes.VehicleLookupFailure.present()).
           withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = "vehicle_and_keeper_lookup_keeper_postcode_mismatch").
