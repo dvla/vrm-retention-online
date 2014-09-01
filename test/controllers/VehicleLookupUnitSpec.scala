@@ -56,8 +56,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
-      val result = vehicleAndKeeperLookupResponseGenerator(isPrototypeBannerVisible = false).present(request)
-
+      val result = vehicleLookupPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -386,4 +385,14 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(new ScalaModule() {
       override def configure(): Unit = bind[Config].toInstance(config)
     }).getInstance(classOf[VehicleLookup])
+
+  private def vehicleLookupPrototypeNotVisible = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+        bind[Config].toInstance(config)
+      }
+    }).getInstance(classOf[VehicleLookup])
+  }
 }
