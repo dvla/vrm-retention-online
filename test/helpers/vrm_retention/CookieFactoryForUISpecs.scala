@@ -1,28 +1,26 @@
 package helpers.vrm_retention
 
-import views.vrm_retention._
-import BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
-import BusinessDetails.BusinessDetailsCacheKey
-import CheckEligibility.CheckEligibilityCacheKey
-import EnterAddressManually.EnterAddressManuallyCacheKey
-import scala.Some
-import Confirm.KeeperEmailCacheKey
-import Retain.RetainCacheKey
-import SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import VehicleLookup.TransactionIdCacheKey
-import viewmodels._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
 import services.fakes.AddressLookupServiceConstants._
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import services.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants._
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import viewmodels._
 import views.vrm_retention
+import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
+import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
+import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
+import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsConsentCacheKey}
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.Retain.RetainCacheKey
+import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
+import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 object CookieFactoryForUISpecs {
 
@@ -119,10 +117,10 @@ object CookieFactoryForUISpecs {
   }
 
   def vehicleAndKeeperLookupFormModel(referenceNumber: String = ReferenceNumberValid,
-                             registrationNumber: String = RegistrationNumberValid,
-                             postcode: String = PostcodeValid,
-                             keeperConsent: String = KeeperConsentValid)
-                            (implicit webDriver: WebDriver) = {
+                                      registrationNumber: String = RegistrationNumberValid,
+                                      postcode: String = PostcodeValid,
+                                      keeperConsent: String = KeeperConsentValid)
+                                     (implicit webDriver: WebDriver) = {
     val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
     val value = VehicleAndKeeperLookupFormModel(referenceNumber = referenceNumber,
       registrationNumber = registrationNumber, postcode = postcode, consent = keeperConsent)
@@ -131,16 +129,16 @@ object CookieFactoryForUISpecs {
   }
 
   def vehicleAndKeeperDetailsModel(registrationNumber: String = RegistrationNumberValid,
-                          vehicleMake: Option[String] = VehicleMakeValid,
-                          vehicleModel: Option[String] = VehicleModelValid,
-                          title: Option[String] = KeeperTitleValid,
-                          firstName: Option[String] = KeeperFirstNameValid,
-                          lastName: Option[String] = KeeperLastNameValid,
-                          addressLine1: Option[String] = KeeperAddressLine1Valid,
-                          addressLine2: Option[String] = KeeperAddressLine2Valid,
-                          postTown: Option[String] = KeeperPostTownValid,
-                          postCode: Option[String] = KeeperPostCodeValid)
-                         (implicit webDriver: WebDriver) = {
+                                   vehicleMake: Option[String] = VehicleMakeValid,
+                                   vehicleModel: Option[String] = VehicleModelValid,
+                                   title: Option[String] = KeeperTitleValid,
+                                   firstName: Option[String] = KeeperFirstNameValid,
+                                   lastName: Option[String] = KeeperLastNameValid,
+                                   addressLine1: Option[String] = KeeperAddressLine1Valid,
+                                   addressLine2: Option[String] = KeeperAddressLine2Valid,
+                                   postTown: Option[String] = KeeperPostTownValid,
+                                   postCode: Option[String] = KeeperPostCodeValid)
+                                  (implicit webDriver: WebDriver) = {
     val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
@@ -163,10 +161,16 @@ object CookieFactoryForUISpecs {
   }
 
   def vehicleAndKeeperLookupResponseCode(responseCode: String)
-                               (implicit webDriver: WebDriver) = {
+                                        (implicit webDriver: WebDriver) = {
     val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
     val value = responseCode
     addCookie(key, value)
+    this
+  }
+
+  def storeBusinessDetailsConsent(consent: String)(implicit webDriver: WebDriver) = {
+    val key = StoreBusinessDetailsConsentCacheKey
+    addCookie(key, consent)
     this
   }
 }
