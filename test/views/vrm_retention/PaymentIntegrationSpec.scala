@@ -69,13 +69,13 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove RetainSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is empty string" taggedAs UiTag in new WebBrowser {
+    "remove RetainSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
       cacheSetup().
         businessChooseYourAddress().
         setupBusinessDetails().
-        storeBusinessDetailsConsent(consent = "")
+        storeBusinessDetailsConsent(consent = "false")
 
       exitPath
 

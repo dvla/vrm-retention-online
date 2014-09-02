@@ -23,7 +23,7 @@ object SuccessViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             eligibilityModel: EligibilityModel,
-            businessDetailsModel: Option[BusinessDetailsModel],
+            businessDetailsModelOpt: Option[BusinessDetailsModel],
             keeperEmail: Option[String],
             retainModel: RetainModel,
             transactionId: String): SuccessViewModel = {
@@ -36,10 +36,10 @@ object SuccessViewModel {
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
       keeperEmail = keeperEmail,
-      businessName = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.name) else None,
-      businessContact = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.contact) else None,
-      businessEmail = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.email) else None,
-      businessAddress = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.address) else None,
+      businessName = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.name) else None,
+      businessContact = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.contact) else None,
+      businessEmail = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.email) else None,
+      businessAddress = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.address) else None,
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
       retainModel.certificateNumber,
       transactionId,

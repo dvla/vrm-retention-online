@@ -17,7 +17,7 @@ final case class ConfirmViewModel(registrationNumber: String,
 object ConfirmViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-            businessDetailsModel: Option[BusinessDetailsModel]): ConfirmViewModel =
+            businessDetailsOpt: Option[BusinessDetailsModel]): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       vehicleMake = vehicleAndKeeperDetails.make,
@@ -26,9 +26,9 @@ object ConfirmViewModel {
       keeperFirstName = vehicleAndKeeperDetails.firstName,
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
-      businessName = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.name) else None,
-      businessContact = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.contact) else None,
-      businessEmail = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.email) else None,
-      businessAddress = if (businessDetailsModel.isDefined) Some(businessDetailsModel.get.address) else None
+      businessName = businessDetailsOpt.map(_.name),
+      businessContact = businessDetailsOpt.map(_.contact),
+      businessEmail = businessDetailsOpt.map(_.email),
+      businessAddress = businessDetailsOpt.map(_.address)
     )
 }

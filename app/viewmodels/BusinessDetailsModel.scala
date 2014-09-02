@@ -13,16 +13,17 @@ object BusinessDetailsModel {
   implicit val JsonFormat = Json.format[BusinessDetailsModel]
   implicit val Key = CacheKey[BusinessDetailsModel](value = BusinessDetailsCacheKey)
 
-  def from(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
-           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-           enterAddressManuallyModel: EnterAddressManuallyModel): BusinessDetailsModel = {
-    val enterAddressManuallyViewModel = EnterAddressManuallyViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
-    val businessAddress = AddressModel.from(enterAddressManuallyModel.addressAndPostcodeViewModel,
-      enterAddressManuallyViewModel.businessPostCode)
+  def from(businessDetailsForm: SetupBusinessDetailsFormModel,
+           vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
+           enterAddressManually: EnterAddressManuallyModel): BusinessDetailsModel = {
+
+    val formattedPostcode = EnterAddressManuallyViewModel(businessDetailsForm, vehicleAndKeeperDetails).businessPostCode
+    val businessAddress = AddressModel.from(enterAddressManually.addressAndPostcodeViewModel, formattedPostcode)
+
     BusinessDetailsModel(
-      name = setupBusinessDetailsFormModel.name,
-      contact = setupBusinessDetailsFormModel.contact,
-      email = setupBusinessDetailsFormModel.email,
+      name = businessDetailsForm.name,
+      contact = businessDetailsForm.contact,
+      email = businessDetailsForm.email,
       address = businessAddress)
   }
 }

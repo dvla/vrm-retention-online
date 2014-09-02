@@ -6,5 +6,4 @@ object EnterAddressManually {
   final val NextId = "next"
   final val BackId = "back"
   final val ExitId = "exit"
-
 }

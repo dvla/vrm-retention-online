@@ -27,27 +27,27 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
         request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
         request.cookies.getString(KeeperEmailCacheKey), request.cookies.getModel[RetainModel]) match {
 
-        case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(keeperEmail), Some(retainModel)) =>
-          if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) {
+        case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetails), Some(keeperEmail), Some(retainModel)) =>
+          if (vehicleAndKeeperLookupForm.userType == UserType_Business) {
             // send business email
-            emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
+            emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
           }
           // send keeper email if supplied
           emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
           // create success model for display
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel,
-            if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None,
+            if (vehicleAndKeeperLookupForm.userType == UserType_Business) Some(businessDetails) else None,
             Some(keeperEmail), retainModel, transactionId)
           Ok(views.html.vrm_retention.success(successViewModel))
 
         case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), None, Some(retainModel)) =>
-          if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) {
+          if (vehicleAndKeeperLookupFormModel.userType == UserType_Business) {
             // send business email
             emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
           }
           // create success model for display
           val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel,
-            if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None,
+            if (vehicleAndKeeperLookupFormModel.userType == UserType_Business) Some(businessDetailsModel) else None,
             None, retainModel, transactionId)
           Ok(views.html.vrm_retention.success(successViewModel))
 
@@ -70,8 +70,8 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
 
   def createPdf = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getString(TransactionIdCacheKey)) match {
-      case (Some(vehicleAndKeeperDetailsModel), Some(transactionId)) =>
-        pdfService.create(vehicleAndKeeperDetailsModel, transactionId).map { pdf =>
+      case (Some(model), Some(transactionId)) =>
+        pdfService.create(model, transactionId).map { pdf =>
           val inputStream = new ByteArrayInputStream(pdf)
           val dataContent = Enumerator.fromStream(inputStream)
           // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
@@ -89,19 +89,13 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
   }
 
   def finish = Action { implicit request =>
-    request.cookies.getString(StoreBusinessDetailsConsentCacheKey) match {
-      case (Some(storeBusinessDetailsConsent)) =>
-        if (storeBusinessDetailsConsent == StoreBusinessDetails_NotChecked) {
-          Redirect(routes.MockFeedback.present())
-            .discardingCookies(RelatedCacheKeys.RetainSet)
-            .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
-        } else {
-          Redirect(routes.MockFeedback.present())
-            .discardingCookies(RelatedCacheKeys.RetainSet)
-        }
-      case _ =>
-        Redirect(routes.MockFeedback.present())
-          .discardingCookies(RelatedCacheKeys.RetainSet)
+    if (request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) {
+      Redirect(routes.MockFeedback.present())
+        .discardingCookies(RelatedCacheKeys.RetainSet)
+    } else {
+      Redirect(routes.MockFeedback.present())
+        .discardingCookies(RelatedCacheKeys.RetainSet)
+        .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
     }
   }
 

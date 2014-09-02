@@ -9,8 +9,8 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
 import viewmodels.{EligibilityModel, VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VehicleAndKeeperLookupFormModel}
-import views.vrm_retention.Confirm.StoreBusinessDetailsConsentCacheKey
-import views.vrm_retention.VehicleLookup.{KeeperConsent_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
+import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
+import views.vrm_retention.VehicleLookup.{UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -20,9 +20,9 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
 
   def present = Action.async {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
-        case (Some(form), Some(storeBusinessDetailsConsentCacheKey)) => checkVrmEligibility(form, Some(storeBusinessDetailsConsentCacheKey))
-        case (Some(form), None) => checkVrmEligibility(form, None)
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) match {
+        case (Some(form), storeBusinessDetails) => checkVrmEligibility(form, storeBusinessDetails)
         case _ => Future.successful {
           Redirect(routes.MicroServiceError.present())
         }
@@ -34,13 +34,12 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
    * be found.
    */
   private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                  storeBusinessDetailsConsentCacheKey: Option[String])
+                                  storeBusinessDetails: Boolean)
                                  (implicit request: Request[_]): Future[Result] = {
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
 
-      if ((vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Keeper) ||
-        (storeBusinessDetailsConsentCacheKey.getOrElse("false") == "true")) {
+      if ((vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) || storeBusinessDetails ) {
         Redirect(routes.Confirm.present()).
           withCookie(EligibilityModel.from(replacementVRM))
       } else {
