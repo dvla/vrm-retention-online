@@ -14,21 +14,21 @@ replacementVRM: String )
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Your Message Subject or Title</title>
     <style type="text/css">
-        /* Based on The MailChimp Reset INLINE: Yes. */
+        /* Based on The MailChimp Reset INLINE: Yes. */  
         /* Client-specific Styles */
         #outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
-        body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
-        /* Prevent Webkit and Windows Mobile platforms from changing default font sizes.*/
-        .ExternalClass {width:100%;} /* Force Hotmail to display emails at full width */
+        body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;} 
+        /* Prevent Webkit and Windows Mobile platforms from changing default font sizes.*/ 
+        .ExternalClass {width:100%;} /* Force Hotmail to display emails at full width */  
         .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
-        /* Forces Hotmail to display normal line spacing.  More on that: http://www.emailonacid.com/forum/viewthread/43/ */
+        /* Forces Hotmail to display normal line spacing.  More on that: http://www.emailonacid.com/forum/viewthread/43/ */ 
         #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
         /* End reset */
 
         /* Some sensible defaults for images
         Bring inline: Yes. */
-        img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;}
-        a img {border:none;}
+        img {outline:none; text-decoration:none; -ms-interpolation-mode: bicubic;} 
+        a img {border:none;} 
         .image_fix {display:block;}
 
         /* Yahoo paragraph fix
@@ -65,20 +65,104 @@ replacementVRM: String )
         #backgroundTable{background: #fff; font-family: Helvetica, Arial, sans-serif, sans;}
         #backgroundTable .spacing {padding:0 30px;}
         #GovUkContainer {background:#000; color:#fff;}
-        #GovUkContainer td {padding:10px 0;}
+        #GovUkContainer td {padding:20px 0; font-size:1.6em;}
+        #GovUkFooter {background:#DEE0E2; color:#000;}
+        #GovUkFooter td {padding:20px 0; font-size:0.8em; text-align: right;}
         #mainBody {width:100%;}
-        #helpTop {background: #eee; text-align: right; padding: 10px;}
+        #helpTop {background: #DEE0E2; text-align: right; padding: 10px;}
+        .twoThirds {width: 66%; float: left;}
+        .oneThird {width:33%; float:left;}
+
+        h1 {font-size:2em; line-height:110%;}
+        p {line-height: 110%;}
+
+        .transDetails {width:100%;}
+        .transDetails td {padding:30px 0; width: 33%; text-align: center;}
+
+        .successBanner {background:#28A287; text-align: center; color: #fff; padding: 0 30px;}
+        .successBanner h1 {color: #fff !important;}
+
+        .replacementInfo {text-align: center;}
+        .skeuPlate {font-size: 2em; line-height: 3em;}
+        .skeuPlate span {background:#FFD307; padding:10px; border-radius:6px; font-weight: bold;}
+
+        .actorDetails p {line-height: 110%;}
+        .actorDetails .oneThird div, .actorDetails .twoThirds div {padding:5px;}
+        .actorDetails .oneThird div {border-left:3px solid #ccc; display:block;height:100%; padding-left: 30px}
+
+        .docList, .docList li {list-style: none; line-height: 150%;}
+        .docList {border-left:5px solid #ccc; margin: 3em auto;}
+
+        .clearfix {clear: both;}
 
 
+        /***************************************************
+        ****************************************************
+        MOBILE TARGETING
+        ****************************************************
+        ***************************************************/
+        @@media only screen and (max-device-width: 480px) {
+            /* Part one of controlling phone number linking for mobile. */
+            a[href^="tel"], a[href^="sms"] {
+                        text-decoration: none;
+                        color: blue; /* or whatever your want */
+                        pointer-events: none;
+                        cursor: default;
+                    }
+
+            .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+                        text-decoration: default;
+                        color: orange !important;
+                        pointer-events: auto;
+                        cursor: default;
+                    }
+
+        }
+
+        /* More Specific Targeting */
+
+        @@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        /* You guessed it, ipad (tablets, smaller screens, etc) */
+            /* repeating for the ipad */
+            a[href^="tel"], a[href^="sms"] {
+                        text-decoration: none;
+                        color: blue; /* or whatever your want */
+                        pointer-events: none;
+                        cursor: default;
+                    }
+
+            .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
+                        text-decoration: default;
+                        color: orange !important;
+                        pointer-events: auto;
+                        cursor: default;
+                    }
+        }
+
+        @@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+        /* Put your iPhone 4g styles in here */ 
+        }
+
+        /* Android targeting */
+        @@media only screen and (-webkit-device-pixel-ratio:.75){
+        /* Put CSS for low density (ldpi) Android layouts in here */
+        }
+        @@media only screen and (-webkit-device-pixel-ratio:1){
+        /* Put CSS for medium density (mdpi) Android layouts in here */
+        }
+        @@media only screen and (-webkit-device-pixel-ratio:1.5){
+        /* Put CSS for high density (hdpi) Android layouts in here */
+        }
+        /* end Android targeting */
 
     </style>
 
     <!-- Targeting Windows Mobile -->
     <!--[if IEMobile 7]>
     <style type="text/css">
-
+    
     </style>
-    <![endif]-->
+    <![endif]-->   
 
     <!-- ***********************************************
     ****************************************************
@@ -87,76 +171,141 @@ replacementVRM: String )
     ************************************************ -->
 
     <!--[if gte mso 9]>
-    <style>
+        <style>
         /* Target Outlook 2007 and 2010 */
-    </style>
+        </style>
     <![endif]-->
 </head>
 <body>
 <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
 <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable">
-	<tr>
-		<td id="GovUkContainer" class="spacing">
-			<table>
-				<tr>
-					<td>Email confirmation</td>
-				</tr>
-
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td valign="top" class="spacing"> 
-			<!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
-			<table cellpadding="0" cellspacing="0" border="0" width="100%" id="mainBody">
-				<tr>
-					<td id="helpTop" valign="top">
-						If you need to contact the DVLA, call our helpline on 0300 790 6802
-					</td>
-				</tr>
-			</table>
-			<!-- End example table -->
-
+    <tr>
+        <td id="GovUkContainer" class="spacing">
+            <table>
+                <tr>
+                    <td>GOV.UK</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" class="spacing"> 
             <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
             <table cellpadding="0" cellspacing="0" border="0" width="100%" id="mainBody">
                 <tr>
-                    <td>VRM : @vrm</td>
+                    <td id="helpTop" valign="top">
+                        If you need to contact the DVLA, call our helpline on 0300 790 6802
+                    </td>
                 </tr>
                 <tr>
-                    <td>Retention Cert Id: @retentionCertId</td>
+                    <td>
+                        <h1>Your application to retain a vehicle registration number</h1>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Transaction Id: @transactionId</td>
+                    <td>
+                        <table class="transDetails">
+                            <tr>
+                                <td>
+                                    Retention Certificate Number
+                                    <br>
+                                    <strong>@retentionCertId</strong>
+                                </td>
+                                <td>
+                                    Transaction Completed
+                                    <br>
+                                    <strong>@transactionTimestamp</strong>
+                                </td>
+                                <td>
+                                    Your Transaction ID is: 
+                                    <br>
+                                    <strong>@transactionId</strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Transaction Timestamp: @transactionTimestamp</td>
+                    <td class="successBanner">
+                        <h1>Retention successful for @vrm</h1>
+                        <p>A Certificate of Retention will be now be issued to the registered keeper.
+                        We have also sent to you details of the replacement registration number, which are detailed below, along with a PDF of the Letter of Authorisation (V948) which can be downloaded or printed using the link provided.</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Keeper Name: @keeperName</td>
+                    <td class="replacementInfo">
+                        <h1>Replacement Registration</h1>
+                        <p>Now that the personal registration number ‘@vrm’ has been retained, the vehicle has been assigned the
+                        following replacement registration:<p>
+                        <p class="skeuPlate"><span>@replacementVRM</span></p>
+                        <p>To make up the number plates for the replacement registration number assigned, you will need the Letter of Authorisation for a Replacement Registration (V948) which is attached or should you have trouble opening the attachment you can also download the PDF using this link or by pasting the following url in your browser: https://www.gov.uk/personalised-vehicle-registration-numbers/retaining-a-registration-number</p>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Keeper Address: @keeperAddress</td>
+                    <td class="actorDetails">
+                        <hr>
+                        <h1>About this transaction</h1>
+                        <div class="twoThirds">
+                            <div>
+                                <p>This transaction was completed, with the consent of the registered keeper by:</p>
+                                <p><strong>Contact Name</strong><br>
+                                Vehicle Dealer Name Street<br>
+                                Town/City<br>
+                                County<br>
+                                Postcode</p>
+                                <p>emailaddress@@isp.com</p>
+                            </div>
+                        </div>
+                        <div class="oneThird">
+                            <div>
+                                <p>Registered Keeper:</p>
+                                <p><strong>@keeperName</strong><br>
+                                @keeperAddress</p>
+                                <p>emailaddress@@isp.com</p>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </td>
                 </tr>
+                <tr>
+                    <td>
+                        <h1>New Documentation:</h1>
+                        <p>The following documents will be sent to the registered keeper:</p>
+                        <ul class="docList">
+                            <li>A new Vehicle Registration Certificate (V5C) displaying the replacement registration number</li>
+                            <li>A new MOT Certificate displaying the replacement registration number*</li>
+                            <li>A Retention Certificate for the retained Registration Number</li>
+                        </ul>
+                        <p>If the keeper has not received a new V5C by [todays date + 15 working days] please advise them to call the DVLA helpline on 0300 790 6802 with the transaction ID listed in the green box above and we will do our upmost to resolve their query promptly. </p>
+                        <p>* A new MOT Certificate will only be sent if the vehicle has an existing MOT record.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td id="GovUkFooter" class="spacing">
+            <table>
+                <tr>
+                    <td>All content is available under the Open government License v2.0, except where otherwise stated</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>  
+<!-- End of wrapper table -->
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" id="mainBody">
                 <tr>
                     <td>Amount Debited: @amount</td>
                 </tr>
                 <tr>
                     <td>Replacement VRM: @replacementVRM</td>
                 </tr>
-
             </table>
-			<!-- Yahoo Link color fix updated: Simply bring your link styling inline. -->
-			<a href="http://tomharrop.com" target ="_blank" title="Styling Links" style="color: orange; text-decoration: none;">This is a link</a>
-
-			<!-- Gmail/Hotmail image display fix -->
-			<img class="image_fix" src="https://dl.dropboxusercontent.com/u/18077450/demo.png" alt="Your alt text" title="Your title text" width="x" height="x" />
-
-			<!-- Working with telephone numbers (including sms prompts).  Use the "mobile" class to style appropriately in desktop clients
-			versus mobile clients. -->
-			<span class="mobile_link">123-456-7890</span>
-		</td>
-	</tr>
-</table>  
-<!-- End of wrapper table -->
 </body>
 </html>
