@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumb
 final case class VehicleAndKeeperLookupFormModel(referenceNumber: String,
                                                  registrationNumber: String,
                                                  postcode: String,
-                                                 consent: String)
+                                                 userType: String)
 
 object VehicleAndKeeperLookupFormModel {
 
