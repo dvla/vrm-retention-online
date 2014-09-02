@@ -1,5 +1,6 @@
 package controllers
 
+import com.tzavellas.sse.guice.ScalaModule
 import controllers.Common.PrototypeHtml
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{bruteForcePreventionViewModel, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import helpers.{UnitSpec, WithApplication}
@@ -8,7 +9,6 @@ import pages.vrm_retention.MockFeedbackPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 
@@ -32,12 +32,6 @@ final class VrmLockedUnitSpec extends UnitSpec {
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
-      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
-      // Stub this config value.
-      val vrmLockedPrototypeNotVisible = new VrmLocked()
-
       val result = vrmLockedPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
@@ -64,4 +58,14 @@ final class VrmLockedUnitSpec extends UnitSpec {
     vrmLocked.present(request)
   }
   private val vrmLocked = injector.getInstance(classOf[VrmLocked])
+
+  private def vrmLockedPrototypeNotVisible = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+        bind[Config].toInstance(config)
+      }
+    }).getInstance(classOf[VrmLocked])
+  }
 }
