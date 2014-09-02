@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.data.{Form, FormError}
+import play.api.Logger
 import play.api.mvc._
 import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -27,21 +28,25 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(businessDetailsModel), Some(storeBusinessDetailsConsent)) =>
+          Logger.debug("case 1 - " + vehicleAndKeeperLookupFormModel.consent)
           val confirmFormModel = ConfirmFormModel(None, storeBusinessDetailsConsent)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), Some(storeBusinessDetailsConsent)))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(businessDetailsModel), None) =>
+          Logger.debug("case 2 - " + vehicleAndKeeperLookupFormModel.consent)
           val confirmFormModel = ConfirmFormModel(None, StoreBusinessDetails_NotChecked)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, if (vehicleAndKeeperLookupFormModel.consent == KeeperConsent_Business) Some(businessDetailsModel) else None)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), None))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), None, Some(storeBusinessDetailsConsent)) =>
+          Logger.debug("case 3 - " + storeBusinessDetailsConsent)
           val confirmFormModel = ConfirmFormModel(None, storeBusinessDetailsConsent)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, None)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), Some(storeBusinessDetailsConsent)))
 
         case (Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), None, None) =>
+          Logger.debug("case 4 - ")
           val confirmFormModel = ConfirmFormModel(None, StoreBusinessDetails_NotChecked)
           val confirmViewModel = ConfirmViewModel(vehicleAndKeeperDetails, None)
           Ok(views.html.vrm_retention.confirm(confirmViewModel, form.fill(confirmFormModel), None))

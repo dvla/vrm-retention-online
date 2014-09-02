@@ -102,6 +102,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
                             bruteForcePreventionViewModel: BruteForcePreventionModel,
                             transactionId: String)
                            (implicit request: Request[_]): Future[Result] = {
+
     def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
       // check the keeper's postcode matches
       if (!formatPostcode(vehicleAndKeeperLookupFormModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))) {
