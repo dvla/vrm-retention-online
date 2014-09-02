@@ -1,11 +1,11 @@
 package controllers
 
+import com.tzavellas.sse.guice.ScalaModule
 import controllers.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class SoapEndpointErrorUnitSpec extends UnitSpec {
@@ -28,12 +28,6 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
-      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
-      // Stub this config value.
-      val soapEndpointErrorPrototypeNotVisible = new SoapEndpointError()
-
       val result = soapEndpointErrorPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
@@ -41,4 +35,14 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
 
   private lazy val present = soapEndpointError.present(FakeRequest())
   private val soapEndpointError = injector.getInstance(classOf[SoapEndpointError])
+
+  private def soapEndpointErrorPrototypeNotVisible = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+        bind[Config].toInstance(config)
+      }
+    }).getInstance(classOf[SoapEndpointError])
+  }
 }

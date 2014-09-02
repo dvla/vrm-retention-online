@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 
-final class EmailServiceSpec extends UnitSpec {
+final class EmailServiceImplSpec extends UnitSpec {
 
   "sendEmail" should {
 
