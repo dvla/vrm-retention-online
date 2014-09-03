@@ -19,11 +19,11 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   private final val amountDebited = "80.00"
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
 
-  def sendEmail(emailAddress: String,
-                vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                eligibilityModel: EligibilityModel,
-                retainModel: RetainModel,
-                transactionId: String) {
+  override def sendEmail(emailAddress: String,
+                         vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                         eligibilityModel: EligibilityModel,
+                         retainModel: RetainModel,
+                         transactionId: String) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
@@ -46,11 +46,18 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               filename = "v948.pdf",
               description = "Replacement registration number letter of authorisation"
             )
+
             val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
             def htmlMessage = {
-              val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
-              val crownContentId = "cid:" + htmlEmail.embed(crownUrl, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
-              populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId)
+              val crownContentId = {
+                val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
+                "cid:" + htmlEmail.embed(crownUrl, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+              }
+              val openGovernmentLicenceContentId = {
+                val openGovernmentLicence = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png").get
+                "cid:" + htmlEmail.embed(openGovernmentLicence, "open-government-licence.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+              }
+              populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId, openGovernmentLicenceContentId)
             }
 
             htmlEmail.
@@ -74,12 +81,13 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     }
   }
 
-  def populateEmailTemplate(emailAddress: String,
-                            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                            eligibilityModel: EligibilityModel,
-                            retainModel: RetainModel,
-                            transactionId: String,
-                            crownContentId: String): HtmlFormat.Appendable = {
+  override def populateEmailTemplate(emailAddress: String,
+                                     vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                                     eligibilityModel: EligibilityModel,
+                                     retainModel: RetainModel,
+                                     transactionId: String,
+                                     crownContentId: String,
+                                     openGovernmentLicenceContentId: String): HtmlFormat.Appendable = {
     email_template(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber,
       retentionCertId = retainModel.certificateNumber,
@@ -89,7 +97,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
       amount = amountDebited,
       replacementVRM = eligibilityModel.replacementVRM,
-      crownContentId = crownContentId)
+      crownContentId = crownContentId,
+      openGovernmentLicenceContentId = openGovernmentLicenceContentId)
   }
 
   private def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {

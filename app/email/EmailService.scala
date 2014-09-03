@@ -16,5 +16,6 @@ trait EmailService {
                             eligibilityModel: EligibilityModel,
                             retainModel: RetainModel,
                             transactionId: String,
-                            crownContentId: String): HtmlFormat.Appendable
+                            crownContentId: String,
+                            openGovernmentLicenceContentId: String): HtmlFormat.Appendable
 }
