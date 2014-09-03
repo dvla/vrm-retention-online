@@ -8,6 +8,7 @@ import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import utils.helpers.Config
 import viewmodels._
 import views.vrm_retention.Confirm._
@@ -107,64 +108,23 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
 
   //TODO: We do not want the user to be able to get to this page - added for Tom to be able to style email easier. DELETE after US1017 is accepted.
   def previewEmail = Action { implicit request =>
-    val amountDebited: String = "80.00"
+    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(registrationNumber = "stub registrationNumber",
+      make = Some("stub make"),
+      model = Some("stub model"),
+      title = Some("stub title"),
+      firstName = Some("stub firstname"),
+      lastName = Some("stub lastname"),
+      address = Some(AddressModel(address = Seq("stub address line1"))))
+    val eligibilityModel = EligibilityModel(replacementVRM = "stub replacementVRM")
+    val retainModel = RetainModel(certificateNumber = "stub certificateNumber", transactionTimestamp = "stub transactionTimestamp")
 
-    def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-      Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
-        flatten.
-        mkString(" ")
-    }
-
-    def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-      vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
-    }
-
-    (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
-      request.cookies.getString(KeeperEmailCacheKey), request.cookies.getModel[RetainModel]) match {
-
-      case (Some(transactionId), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), Some(keeperEmail), Some(retainModel)) =>
-        Ok(views.html.vrm_retention.email_template(vehicleAndKeeperDetails.registrationNumber,
-          retainModel.certificateNumber,
-          transactionId,
-          retainModel.transactionTimestamp,
-          formatKeeperAddress(vehicleAndKeeperDetails),
-          formatKeeperAddress(vehicleAndKeeperDetails),
-          amountDebited,
-          eligibilityModel.replacementVRM))
-
-      case (Some(transactionId), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), None, Some(retainModel)) =>
-        Ok(views.html.vrm_retention.email_template(vehicleAndKeeperDetails.registrationNumber,
-          retainModel.certificateNumber,
-          transactionId,
-          retainModel.transactionTimestamp,
-          formatKeeperName(vehicleAndKeeperDetails),
-          formatKeeperAddress(vehicleAndKeeperDetails),
-          amountDebited,
-          eligibilityModel.replacementVRM))
-
-      case (Some(transactionId), Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(keeperEmail), Some(retainModel)) =>
-        Ok(views.html.vrm_retention.email_template(vehicleAndKeeperDetails.registrationNumber,
-          retainModel.certificateNumber,
-          transactionId,
-          retainModel.transactionTimestamp,
-          formatKeeperName(vehicleAndKeeperDetails),
-          formatKeeperAddress(vehicleAndKeeperDetails),
-          amountDebited,
-          eligibilityModel.replacementVRM))
-
-      case (Some(transactionId), Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
-        Ok(views.html.vrm_retention.email_template(vehicleAndKeeperDetails.registrationNumber,
-          retainModel.certificateNumber,
-          transactionId,
-          retainModel.transactionTimestamp,
-          formatKeeperName(vehicleAndKeeperDetails),
-          formatKeeperAddress(vehicleAndKeeperDetails),
-          amountDebited,
-          eligibilityModel.replacementVRM))
-
-      case _ =>
-        Redirect(routes.MicroServiceError.present())
-    }
+    Ok(
+      emailService.populateEmailTemplate(emailAddress = "stub email address",
+        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+        eligibilityModel = eligibilityModel,
+        retainModel = retainModel,
+        transactionId = "stub transactionId",
+        crownContentId = "/vrm-retention/assets/images/apple-touch-icon-57x57.png")
+    )
   }
 }
