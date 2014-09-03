@@ -1,12 +1,12 @@
 package controllers
 
+import com.tzavellas.sse.guice.ScalaModule
 import controllers.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
 import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout, status}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
@@ -25,12 +25,6 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest()
-      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-      implicit val config: Config = mock[Config]
-      when(config.isPrototypeBannerVisible).thenReturn(false)
-      // Stub this config value.
-      val beforeYouStartPrototypeNotVisible = new BeforeYouStart()
-
       val result = beforeYouStartPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
     }
@@ -44,6 +38,16 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
+  }
+
+  private def beforeYouStartPrototypeNotVisible = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        val config: Config = mock[Config]
+        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
+        bind[Config].toInstance(config)
+      }
+    }).getInstance(classOf[BeforeYouStart])
   }
 
   private val beforeYouStart = injector.getInstance(classOf[BeforeYouStart])

@@ -40,8 +40,10 @@ object Sandbox extends Plugin {
 
   val secretProperty = "DECRYPT_PASSWORD"
   val secretProperty2 = "GIT_SECRET_PASSPHRASE"
-  val gitHost = "gitlab.preview-dvla.co.uk"
-  val secretRepoUrl = s"git@$gitHost:dvla/secret-vehicles-online.git"
+  val SecretRepoGitUrlKey = "SANDBOX_SECRET_REPO_GIT_URL"
+  val secretRepoUrl = sys.props.get(SecretRepoGitUrlKey)
+    .orElse(sys.env.get(SecretRepoGitUrlKey))
+  val gitHost = secretRepoUrl.map(url=> url.replace("git@", "").substring(0, url.indexOf(":") - 4))
 
   val decryptPassword = sys.props.get(secretProperty)
     .orElse(sys.env.get(secretProperty))
@@ -255,11 +257,21 @@ object Sandbox extends Plugin {
       throw new Exception("You don't have git installed. Please install git and try again")
     }
 
-    print(s"${scala.Console.YELLOW}Verifying there is ssh access to $gitHost ...${scala.Console.RESET}")
-    if (Process(s"ssh -T git@$gitHost").! != 0) {
+    print(s"${scala.Console.YELLOW}Verifying $SecretRepoGitUrlKey is passed ...${scala.Console.RESET}")
+    secretRepoUrl map(secret => println(s"done set to $secret")) orElse {
+      println(s"""${scala.Console.RED}FAILED.${scala.Console.RESET}""")
+      println(s"""${scala.Console.RED}"$SecretRepoGitUrlKey" not set. Please set it either as jvm arg of sbt """ +
+        s""" "-D$SecretRepoGitUrlKey='git@git-host:theSecretRepoProjectName'"""" +
+        s" or export it in the environment with export $SecretRepoGitUrlKey='git@git-host:theSecretRepoProjectName'" +
+        s" ${scala.Console.RESET}")
+      throw new Exception(s""" There is no "$SecretRepoGitUrlKey" set neither as env variable nor as JVM property """)
+    }
+
+    print(s"${scala.Console.YELLOW}Verifying there is ssh access to ${gitHost.get} ...${scala.Console.RESET}")
+    if (Process(s"ssh -T git@${gitHost.get}").! != 0) {
       println(s"${scala.Console.RED}FAILED.")
-      println(s"Cannot connect to git@$gitHost. Please check your ssh connection to $gitHost. You might need to import your public key to $gitHost${scala.Console.RESET}")
-      throw new Exception(s"Cannot connect to git@$gitHost. Please check your ssh connection to $gitHost.")
+      println(s"Cannot connect to git@${gitHost.get}. Please check your ssh connection to ${gitHost.get}. You might need to import your public key to $gitHost${scala.Console.RESET}")
+      throw new Exception(s"Cannot connect to git@${gitHost.get}. Please check your ssh connection to ${gitHost.get}.")
     }
 
     print(s"${scala.Console.YELLOW}Verifying $secretProperty is passed ...${scala.Console.RESET}")
@@ -331,7 +343,7 @@ object Sandbox extends Plugin {
     if (new File(secretRepo, ".git").exists())
       println(Process(s"git $gitOptions pull origin master").!!<)
     else
-      println(Process(s"git clone $secretRepoUrl $secretRepoLocalPath").!!<)
+      println(Process(s"git clone ${secretRepoUrl.get} $secretRepoLocalPath").!!<)
   }
 
   def decryptFile(secretRepo: String, encrypted: File, dest: File, decryptedTransform: String => String) {

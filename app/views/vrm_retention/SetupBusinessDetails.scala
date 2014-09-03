@@ -10,7 +10,7 @@ object SetupBusinessDetails {
   final val BusinessNameMinLength = 2
   final val BusinessContactMaxLength = 58
   final val BusinessContactMinLength = 2
-  final val BusinessEmailMaxLength = 58
+  final val BusinessEmailMaxLength = 254
   final val BusinessEmailMinLength = 2
   final val BusinessNameId = "Business Name"
   final val BusinessContactId = "Business Contact"

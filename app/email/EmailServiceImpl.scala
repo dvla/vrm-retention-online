@@ -2,9 +2,11 @@ package email
 
 import javax.activation.{CommandMap, MailcapCommandMap}
 import com.google.inject.Inject
-import org.apache.commons.mail.HtmlEmail
+import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
-import play.api.Logger
+import play.api.Play.current
+import play.api.{Logger, Play}
+import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
@@ -13,7 +15,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
-  private final val amountDebited = "80.00" // TODO need to get this from somewhere!
+  // TODO amountDebited needs to be passed in from somewhere!
+  private final val amountDebited = "80.00"
+  private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -23,7 +27,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
-      pdfService.create(vehicleAndKeeperDetailsModel, transactionId).map {
+      pdfService.create(eligibilityModel, transactionId).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
@@ -34,26 +38,37 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
           mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822")
           CommandMap.setDefaultCommandMap(mc)
 
-          val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
+          val commonsMail: Email = {
+            val htmlEmail = new HtmlEmail()
+            val pdfAttachment = Attachment(
+              bytes = pdf,
+              contentType = "application/pdf",
+              filename = "v948.pdf",
+              description = "Replacement registration number letter of authorisation"
+            )
+            val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
+            def htmlMessage = {
+              val crownUrl = Play.resource(name = "public/images/apple-touch-icon-57x57.png").get
+              val crownContentId = "cid:" + htmlEmail.embed(crownUrl, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+              populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId)
+            }
 
-          val htmlMessage = populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId)
+            htmlEmail.
+              setTextMsg("Your email client does not support HTML messages"). // TODO replace with actual content!
+              setHtmlMsg(htmlMessage.toString()).
+              attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description).
+              setFrom(from.email, from.name).
+              setSubject(subject).
+              setStartTLSEnabled(config.emailSmtpTls).
+              addTo(emailAddress)
+          }
 
-          val attachment = Attachment(
-            bytes = pdf,
-            contentType = "application/pdf",
-            filename = "v948.pdf",
-            description = "Replacement registration number letter of authorisation"
-          )
-
-          send a new Mail(
-            from = From(email = config.emailSenderAddress, name = "DO NOT REPLY"),
-            to = Seq(emailAddress),
-            subject = subject,
-            htmlMessage = htmlMessage,
-            attachment = attachment
-          )
+          commonsMail.setHostName(config.emailSmtpHost)
+          commonsMail.setSmtpPort(config.emailSmtpPort)
+          commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
+          commonsMail.send()
+          Logger.debug("Email sent")
       }
-      Logger.debug("Email sent")
     } else {
       Logger.error("Email not sent as not in whitelist")
     }
@@ -63,7 +78,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                             vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                             eligibilityModel: EligibilityModel,
                             retainModel: RetainModel,
-                            transactionId: String): String = {
+                            transactionId: String,
+                            crownContentId: String): HtmlFormat.Appendable = {
     email_template(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber,
       retentionCertId = retainModel.certificateNumber,
@@ -72,7 +88,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
       amount = amountDebited,
-      replacementVRM = eligibilityModel.replacementVRM).toString()
+      replacementVRM = eligibilityModel.replacementVRM,
+      crownContentId = crownContentId)
   }
 
   private def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
@@ -84,31 +101,4 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   private def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
     vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
   }
-
-  object send {
-
-    def a(mail: Mail) {
-      import org.apache.commons.mail.Email
-
-      val commonsMail: Email = {
-        new HtmlEmail().
-          setTextMsg("Your email client does not support HTML messages"). // TODO replace with actual content!
-          setHtmlMsg(mail.htmlMessage).
-          attach(mail.attachment.bytes, mail.attachment.filename, mail.attachment.description).
-          setFrom(mail.from.email, mail.from.name).
-          setSubject(mail.subject).
-          setStartTLSEnabled(config.emailSmtpTls)
-      }
-
-      // Can't add these via fluent API because they return void
-      mail.to foreach commonsMail.addTo
-
-      commonsMail.setHostName(config.emailSmtpHost)
-      commonsMail.setSmtpPort(config.emailSmtpPort)
-      commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
-
-      commonsMail.send()
-    }
-  }
-
 }

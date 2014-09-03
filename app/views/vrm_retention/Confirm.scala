@@ -2,6 +2,7 @@ package views.vrm_retention
 
 object Confirm {
 
+  final val KeeperEmailMaxLength = 254
   final val ChangeDetailsId = "changeDetails"
   final val ConfirmId = "confirm"
   final val ExitId = "exit"
