@@ -48,8 +48,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
             )
             val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
             def htmlMessage = {
-              val crownUrl = Play.resource(name = "public/images/apple-touch-icon-57x57.png").get
-              //val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
+              val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
               val crownContentId = "cid:" + htmlEmail.embed(crownUrl, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
               populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId)
             }
