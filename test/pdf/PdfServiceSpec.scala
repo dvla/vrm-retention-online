@@ -1,11 +1,11 @@
 package pdf
 
 import helpers.UnitSpec
-import viewmodels.{RetainModel, VehicleAndKeeperDetailsModel}
+import viewmodels.EligibilityModel
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
+import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 
 final class PdfServiceSpec extends UnitSpec {
 
@@ -16,22 +16,10 @@ final class PdfServiceSpec extends UnitSpec {
   "create" should {
 
     "return a non-empty output stream" in {
-      val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
-        make = VehicleMakeValid,
-        model = VehicleModelValid,
-        title = None,
-        firstName = None,
-        lastName = None,
-        address = None
-      )
-
-      val retainModel = RetainModel(
-        certificateNumber = "certificateNumber",
-        transactionTimestamp = dateService.today.`dd/MM/yyyy`
-      )
+      val eligibilityModel = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
 
       val result = pdfService.create(
-        vehicleDetails = vehicleAndKeeperDetailsModel,
+        eligibilityModel = eligibilityModel,
         transactionId = TransactionIdValid
       )
 
@@ -42,7 +30,6 @@ final class PdfServiceSpec extends UnitSpec {
     }
   }
 
-  private val dateService = injector.getInstance(classOf[DateService])
   implicit val pdfService = injector.getInstance(classOf[PdfService])
   private val longTimeout = Timeout(Span(10, Seconds))
 }

@@ -23,7 +23,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
-      pdfService.create(vehicleAndKeeperDetailsModel, transactionId).map {
+      pdfService.create(eligibilityModel, transactionId).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
