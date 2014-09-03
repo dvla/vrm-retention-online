@@ -43,10 +43,10 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "15.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
   "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
   "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
-  "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc(),
+  "org.apache.httpcomponents" % "httpclient" % "4.3.5" withSources() withJavadoc(),
   "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
   "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
-  "com.sun.mail" % "javax.mail" % "1.4.7", // TODO we should upgrade to 1.5.2 only after we have an email test suite inplace
+  "com.sun.mail" % "javax.mail" % "1.5.2", // TODO we should upgrade to 1.5.2 only after we have an email test suite inplace
   "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
   "dvla" %% "vehicles-presentation-common" % "2.1-SNAPSHOT" withSources() withJavadoc(),
   "org.webjars" % "requirejs" % "2.1.14-1"

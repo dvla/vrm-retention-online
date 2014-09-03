@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.data.{Form, FormError}
+import play.api.Logger
 import play.api.mvc._
 import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory

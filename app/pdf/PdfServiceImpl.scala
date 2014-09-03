@@ -1,8 +1,7 @@
 package pdf
 
-import java.io.{ByteArrayOutputStream, File, OutputStream}
 import com.google.inject.Inject
-import viewmodels.{RetainModel, VehicleAndKeeperDetailsModel}
+import java.io.{ByteArrayOutputStream, File, OutputStream}
 import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
@@ -12,20 +11,21 @@ import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
 import pdf.PdfServiceImpl.{blankPage, v948Blank}
 import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import viewmodels.EligibilityModel
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
-  def create(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String): Future[Array[Byte]] = Future {
+  def create(implicit eligibilityModel: EligibilityModel, transactionId: String): Future[Array[Byte]] = Future {
     implicit val output = new ByteArrayOutputStream()
     v948
     output.toByteArray
   }
 
-  private def v948(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String, output: OutputStream) = {
+  private def v948(implicit eligibilityModel: EligibilityModel, transactionId: String, output: OutputStream) = {
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
@@ -44,13 +44,13 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     documentWatermarked
   }
 
-  private def page1(implicit vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String, document: PDDocument): PDPage = {
+  private def page1(implicit eligibilityModel: EligibilityModel, transactionId: String, document: PDDocument): PDPage = {
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
       contentStream = new PDPageContentStream(document, page) // Start a new content stream which will "hold" the to be created content
 
-      writeVrn(vehicleAndKeeperDetailsModel.registrationNumber)
+      writeVrn(eligibilityModel.replacementVRM)
       writeDateOfRetentionAndTransactionId(transactionId)
     } catch {
       case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
