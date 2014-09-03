@@ -91,15 +91,10 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
 
   def finish = Action { implicit request =>
     request.cookies.getString(StoreBusinessDetailsConsentCacheKey) match {
-      case (Some(storeBusinessDetailsConsent)) =>
-        if (storeBusinessDetailsConsent == StoreBusinessDetails_NotChecked) {
-          Redirect(routes.MockFeedback.present())
-            .discardingCookies(RelatedCacheKeys.RetainSet)
-            .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
-        } else {
-          Redirect(routes.MockFeedback.present())
-            .discardingCookies(RelatedCacheKeys.RetainSet)
-        }
+      case Some(storeBusinessDetailsConsent) if storeBusinessDetailsConsent == StoreBusinessDetails_NotChecked =>
+        Redirect(routes.MockFeedback.present())
+          .discardingCookies(RelatedCacheKeys.RetainSet)
+          .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
       case _ =>
         Redirect(routes.MockFeedback.present())
           .discardingCookies(RelatedCacheKeys.RetainSet)
