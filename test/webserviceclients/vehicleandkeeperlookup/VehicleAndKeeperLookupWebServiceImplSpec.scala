@@ -1,4 +1,4 @@
-package services.vehicle_and_keeper_lookup
+package webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import helpers.{WithApplication, UnitSpec, WireMockFixture}

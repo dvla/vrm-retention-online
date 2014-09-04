@@ -1,4 +1,4 @@
-package services.vehicle_and_keeper_lookup
+package webserviceclients.vehicleandkeeperlookup
 
 import viewmodels.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
 import scala.concurrent.Future

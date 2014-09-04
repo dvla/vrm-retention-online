@@ -5,7 +5,7 @@ import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc._
-import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupService
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}

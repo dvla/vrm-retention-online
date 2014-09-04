@@ -14,7 +14,7 @@ import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import services.fakes.{BruteForcePreventionWebServiceConstants, FakeResponse}
-import services.vehicle_and_keeper_lookup.VehicleAndKeeperLookupWebService
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService

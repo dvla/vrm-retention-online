@@ -1,4 +1,4 @@
-package services.vehicle_and_keeper_lookup
+package webserviceclients.vehicleandkeeperlookup
 
 import com.google.inject.Inject
 import viewmodels.VehicleAndKeeperDetailsRequest
