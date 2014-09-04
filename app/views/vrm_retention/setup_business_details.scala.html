@@ -19,7 +19,23 @@
         @csrfTokenHiddenField()
 
         <div class="uppercase-input two-col">
-        	<div class="first-col">
+            <div id="vehicle-details" class="first-col trader-details">
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                <dl class="summary-detail-list">
+                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                    <dd class="regNum">@viewModel.registrationNumber</dd>
+                    @if(viewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@viewModel.vehicleMake.get.take(20)</dd>
+                    }
+                    @if(viewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@viewModel.vehicleModel.get.take(20)</dd>
+                    }
+                </dl>
+            </div>
+
+        	<div class="second-col">
 	        @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
 	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
 	                    '_showConstraints -> false,
@@ -42,21 +58,6 @@
                     <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
 	    	</div>
-	        <div id="vehicle-details" class="second-col trader-details">
-            	<h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-	            <dl class="summary-detail-list">
-	                <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-	                <dd class="regNum">@viewModel.registrationNumber</dd>
-                    @if(viewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@viewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(viewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@viewModel.vehicleModel.get.take(20)</dd>
-                    }
-	            </dl>
-        	</div>
       	</div>
     }
 }
