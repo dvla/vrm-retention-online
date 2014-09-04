@@ -16,7 +16,7 @@ import views.vrm_retention
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsConsentCacheKey}
+import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsCacheKey}
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
@@ -123,7 +123,7 @@ object CookieFactoryForUISpecs {
                                      (implicit webDriver: WebDriver) = {
     val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
     val value = VehicleAndKeeperLookupFormModel(referenceNumber = referenceNumber,
-      registrationNumber = registrationNumber, postcode = postcode, consent = keeperConsent)
+      registrationNumber = registrationNumber, postcode = postcode, userType = keeperConsent)
     addCookie(key, value)
     this
   }
@@ -169,7 +169,7 @@ object CookieFactoryForUISpecs {
   }
 
   def storeBusinessDetailsConsent(consent: String)(implicit webDriver: WebDriver) = {
-    val key = StoreBusinessDetailsConsentCacheKey
+    val key = StoreBusinessDetailsCacheKey
     addCookie(key, consent)
     this
   }

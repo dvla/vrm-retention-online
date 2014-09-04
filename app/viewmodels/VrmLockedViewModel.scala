@@ -14,9 +14,9 @@ object VrmLockedViewModel {
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model)
 
-  def apply(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel): VrmLockedViewModel =
+  def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel): VrmLockedViewModel =
     VrmLockedViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperLookupFormModel.registrationNumber),
+      registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
       vehicleMake = None,
       vehicleModel = None)
 }

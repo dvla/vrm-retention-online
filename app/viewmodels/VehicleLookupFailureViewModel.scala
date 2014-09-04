@@ -14,9 +14,9 @@ object VehicleLookupFailureViewModel {
       make = vehicleAndKeeperDetails.make,
       model = vehicleAndKeeperDetails.model)
 
-  def apply(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel): VehicleLookupFailureViewModel =
+  def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel): VehicleLookupFailureViewModel =
     VehicleLookupFailureViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperLookupFormModel.registrationNumber),
+      registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
       make = None,
       model = None)
 }

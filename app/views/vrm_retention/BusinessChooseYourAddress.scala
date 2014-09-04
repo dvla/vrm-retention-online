@@ -8,5 +8,4 @@ object BusinessChooseYourAddress {
   final val BackId = "backButton"
   final val SelectId = "select"
   final val ExitId = "exit"
-
 }

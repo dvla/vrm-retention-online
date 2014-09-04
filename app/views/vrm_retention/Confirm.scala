@@ -3,13 +3,12 @@ package views.vrm_retention
 object Confirm {
 
   final val KeeperEmailMaxLength = 254
-  final val ChangeDetailsId = "changeDetails"
+  final val ChangeDetailsId = "change-details"
   final val ConfirmId = "confirm"
   final val ExitId = "exit"
-  final val KeeperEmailId = "Keeper Email"
-  final val StoreDetailsConsentId = "Store Details Consent"
+  final val KeeperEmailId = "keeper-email"
+  final val StoreDetailsConsentId = "store-details-consent"
   final val ConfirmCacheKey = "confirm"
   final val KeeperEmailCacheKey = "keeperEmail"
-  final val StoreBusinessDetailsConsentCacheKey = "storeBusinessDetailsConsent"
-  final val StoreBusinessDetails_NotChecked = ""
+  final val StoreBusinessDetailsCacheKey = "storeBusinessDetails"
 }

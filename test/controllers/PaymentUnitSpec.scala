@@ -17,9 +17,9 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to feedback page when storeBusinessDetailsConsent cookie is empty string" in {
+    "redirect to feedback page when storeBusinessDetailsConsent cookie contains false" in {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.storeBusinessDetailsConsent(consent = ""))
+        withCookies(CookieFactoryForUnitSpecs.storeBusinessDetailsConsent(consent = "false"))
       val result = payment.exit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))

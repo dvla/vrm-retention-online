@@ -22,8 +22,8 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     implicit request =>
       request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
         case Some(vehicleAndKeeperDetails) =>
-          val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_retention.setup_business_details(form.fill(), setupBusinessDetailsViewModel))
+          val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
+          Ok(views.html.vrm_retention.setup_business_details(form.fill(), viewModel))
         case _ => Redirect(routes.VehicleLookup.present())
       }
   }
@@ -32,8 +32,8 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
     form.bindFromRequest.fold(
       invalidForm => {
         request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
-          case Some(vehicleAndKeeperDetailsModel) =>
-            val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetailsModel)
+          case Some(vehicleAndKeeperDetails) =>
+            val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
             val formWithReplacedErrors = invalidForm.
               replaceError(BusinessNameId,
                 FormError(

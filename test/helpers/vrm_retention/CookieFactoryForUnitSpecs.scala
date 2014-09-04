@@ -17,12 +17,11 @@ import viewmodels._
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsConsentCacheKey}
+import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsCacheKey}
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
-import views.vrm_retention._
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -87,7 +86,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       referenceNumber = referenceNumber,
       registrationNumber = registrationNumber,
       postcode = postcode,
-      consent = keeperConsent
+      userType = keeperConsent
     )
     createCookie(key, value)
   }
@@ -188,7 +187,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   }
 
   def storeBusinessDetailsConsent(consent: String): Cookie = {
-    val key = StoreBusinessDetailsConsentCacheKey
+    val key = StoreBusinessDetailsCacheKey
     createCookie(key, consent)
   }
 }

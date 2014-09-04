@@ -6,10 +6,10 @@ final case class SetupBusinessDetailsViewModel(registrationNumber: String,
 
 object SetupBusinessDetailsViewModel {
 
-  def apply(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
+  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
     SetupBusinessDetailsViewModel(
-      registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetailsModel.make,
-      vehicleModel = vehicleAndKeeperDetailsModel.model
+      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetails.make,
+      vehicleModel = vehicleAndKeeperDetails.model
     )
 }

@@ -16,7 +16,6 @@ import views.vrm_retention.Retain._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import views.vrm_retention.Confirm._
-import scala.Some
 import play.api.mvc.Result
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
@@ -38,19 +37,13 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   }
 
   def exit = Action { implicit request =>
-    (request.cookies.getString(StoreBusinessDetailsConsentCacheKey)) match {
-      case (Some(storeBusinessDetailsConsent)) =>
-        if (storeBusinessDetailsConsent == "") {
-          Redirect(routes.MockFeedback.present())
-            .discardingCookies(RelatedCacheKeys.RetainSet)
-            .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
-        } else {
-          Redirect(routes.MockFeedback.present())
-            .discardingCookies(RelatedCacheKeys.RetainSet)
-        }
-      case _ =>
-        Redirect(routes.MockFeedback.present())
-          .discardingCookies(RelatedCacheKeys.RetainSet)
+    if (request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) {
+      Redirect(routes.MockFeedback.present())
+        .discardingCookies(RelatedCacheKeys.RetainSet)
+    } else {
+      Redirect(routes.MockFeedback.present())
+        .discardingCookies(RelatedCacheKeys.RetainSet)
+        .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
     }
   }
 

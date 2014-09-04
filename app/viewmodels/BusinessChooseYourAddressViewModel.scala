@@ -12,15 +12,15 @@ final case class BusinessChooseYourAddressViewModel(registrationNumber: String,
 
 object BusinessChooseYourAddressViewModel {
 
-  def apply(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
+  def apply(businessDetailsForm: SetupBusinessDetailsFormModel,
             vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): BusinessChooseYourAddressViewModel =
     BusinessChooseYourAddressViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
-      name = setupBusinessDetailsFormModel.name,
-      contact = setupBusinessDetailsFormModel.contact,
-      email = setupBusinessDetailsFormModel.email,
-      postCode = formatPostcode(setupBusinessDetailsFormModel.postcode)
+      name = businessDetailsForm.name,
+      contact = businessDetailsForm.contact,
+      email = businessDetailsForm.email,
+      postCode = formatPostcode(businessDetailsForm.postcode)
     )
 }

@@ -21,9 +21,9 @@ final class EnterAddressManually @Inject()()
 
   def present = Action { implicit request =>
     (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-      case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
-        val enterAddressManuallyViewModel = EnterAddressManuallyViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
-        Ok(enter_address_manually(enterAddressManuallyViewModel, form.fill()))
+      case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
+        val viewModel = EnterAddressManuallyViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
+        Ok(enter_address_manually(viewModel, form.fill()))
       case _ => Redirect(routes.SetUpBusinessDetails.present())
     }
   }
@@ -32,20 +32,20 @@ final class EnterAddressManually @Inject()()
     form.bindFromRequest.fold(
       invalidForm =>
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-          case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
-            val enterAddressManuallyViewModel = EnterAddressManuallyViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
-            BadRequest(enter_address_manually(enterAddressManuallyViewModel, formWithReplacedErrors(invalidForm)))
+          case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
+            val viewModel = EnterAddressManuallyViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
+            BadRequest(enter_address_manually(viewModel, formWithReplacedErrors(invalidForm)))
           case _ =>
             Logger.debug("Failed to find dealer name in cache, redirecting")
             Redirect(routes.SetUpBusinessDetails.present())
         },
       validForm =>
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-          case (Some(setupBusinessDetailsFormModel), Some(vehicleAndKeeperDetailsModel)) =>
-            val businessDetailsModel = BusinessDetailsModel.from(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel, validForm)
+          case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
+            val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
             Redirect(routes.Confirm.present()).
               withCookie(validForm).
-              withCookie(businessDetailsModel)
+              withCookie(viewModel)
           case _ =>
             Logger.debug("Failed to find dealer name in cache on submit, redirecting")
             Redirect(routes.SetUpBusinessDetails.present())

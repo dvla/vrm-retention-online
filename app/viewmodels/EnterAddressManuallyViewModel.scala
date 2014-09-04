@@ -12,16 +12,16 @@ final case class EnterAddressManuallyViewModel(registrationNumber: String,
 
 object EnterAddressManuallyViewModel {
 
-  def apply(setupBusinessDetailsFormModel: SetupBusinessDetailsFormModel,
-            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): EnterAddressManuallyViewModel =
+  def apply(businessDetailsForm: SetupBusinessDetailsFormModel,
+            vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): EnterAddressManuallyViewModel =
     EnterAddressManuallyViewModel(
-      registrationNumber = vehicleAndKeeperDetailsModel.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetailsModel.make,
-      vehicleModel = vehicleAndKeeperDetailsModel.model,
-      businessName = setupBusinessDetailsFormModel.name,
-      businessContact = setupBusinessDetailsFormModel.contact,
-      businessEmail = setupBusinessDetailsFormModel.email,
-      businessPostCode = formatPostcode(setupBusinessDetailsFormModel.postcode)
+      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
+      vehicleMake = vehicleAndKeeperDetails.make,
+      vehicleModel = vehicleAndKeeperDetails.model,
+      businessName = businessDetailsForm.name,
+      businessContact = businessDetailsForm.contact,
+      businessEmail = businessDetailsForm.email,
+      businessPostCode = formatPostcode(businessDetailsForm.postcode)
     )
 }
 

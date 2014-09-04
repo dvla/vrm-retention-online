@@ -13,6 +13,6 @@ object VehicleLookup {
   final val BackId = "back"
   final val SubmitId = "submit"
   final val ExitId = "exit"
-  final val KeeperConsent_Keeper = "Keeper"
-  final val KeeperConsent_Business = "Business"
+  final val UserType_Keeper = "Keeper"
+  final val UserType_Business = "Business"
 }
