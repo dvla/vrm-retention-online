@@ -1,7 +1,6 @@
 package webserviceclients.vehicleandkeeperlookup
 
 import com.google.inject.Inject
-import viewmodels.VehicleAndKeeperDetailsRequest
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.libs.ws.{WSResponse, WS}
@@ -11,15 +10,17 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import utils.helpers.Config
 import scala.concurrent.Future
 
-final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: Config) extends VehicleAndKeeperLookupWebService {
-  private val endPoint: String = s"${config.vehicleAndKeeperLookupMicroServiceBaseUrl}/vehicleandkeeper/lookup/v1"
+final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: Config)
+  extends VehicleAndKeeperLookupWebService {
 
-  override def callVehicleAndKeeperLookupService(request: VehicleAndKeeperDetailsRequest, trackingId: String): Future[WSResponse] = {
+  private val endPoint: String =
+    s"${config.vehicleAndKeeperLookupMicroServiceBaseUrl}/vehicleandkeeper/lookup/v1"
+
+  override def invoke(request: VehicleAndKeeperDetailsRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.registrationNumber)
     val refNo = LogFormats.anonymize(request.referenceNumber)
 
-    Logger.debug(s"Calling vehicle and keeper lookup micro-service with request $refNo $vrm")
-    Logger.debug(s"Calling vehicle and keeper lookup micro-service with tracking id: $trackingId")
+    Logger.debug(s"Calling vehicle and keeper lookup micro-service with request $refNo $vrm tracking id: $trackingId")
     WS.url(endPoint)
       .withHeaders(HttpHeaders.TrackingId -> trackingId)
       .post(Json.toJson(request))

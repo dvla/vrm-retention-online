@@ -14,12 +14,12 @@ import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import services.fakes.{BruteForcePreventionWebServiceConstants, FakeResponse}
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import utils.helpers.Config
-import viewmodels.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse}
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
 import scala.concurrent.Future
 
@@ -313,7 +313,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         // Stub VehicleAndKeeperLookupService
         val (responseStatus, vehicleAndKeeperDetailsResponse) = fullResponse
         val ws: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-        when(ws.callVehicleAndKeeperLookupService(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful {
+        when(ws.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful {
           val responseAsJson: Option[JsValue] = vehicleAndKeeperDetailsResponse match {
             case Some(e) => Some(Json.toJson(e))
             case _ => None

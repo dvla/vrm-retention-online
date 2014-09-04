@@ -1,6 +1,7 @@
-package viewmodels
+package webserviceclients.vehicleandkeeperlookup
 
 import play.api.libs.json.Json
+import viewmodels.VehicleAndKeeperLookupFormModel
 
 final case class VehicleAndKeeperDetailsRequest(referenceNumber: String,
                                                 registrationNumber: String)
