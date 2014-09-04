@@ -1,22 +1,26 @@
 package services.vrm_retention_eligibility
 
 import javax.inject.Inject
-import viewmodels.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse}
-import play.api.Logger
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.control.NonFatal
+import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityResponse, VRMRetentionEligibilityRequest}
 
 final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibilityWebService)
   extends VRMRetentionEligibilityService {
 
   override def invoke(cmd: VRMRetentionEligibilityRequest,
-                      trackingId: String): (Future[(Int, Option[VRMRetentionEligibilityResponse])]) = {
-    ws.callVRMRetentionEligibilityService(cmd, trackingId).map {
-      resp =>
-        Logger.debug(s"Http response code from vrm retention eligibility lookup micro-service was: ${resp.status}")
-        if (resp.status == Status.OK) (resp.status, Some(resp.json.as[VRMRetentionEligibilityResponse]))
-        else (resp.status, None)
+                      trackingId: String): Future[VRMRetentionEligibilityResponse] = {
+
+    ws.invoke(cmd, trackingId).map { resp =>
+      if (resp.status == Status.OK) resp.json.as[VRMRetentionEligibilityResponse]
+      else throw new RuntimeException(
+        s"VRM Retention Eligibility Response web service call http status not OK, it " +
+          s"was: ${resp.status}. Problem may come from either vrm-retention-eligibility micro-service or the VSS"
+      )
+    }.recover {
+      case NonFatal(e) => throw new RuntimeException("VRM Retention Eligibility call failed for an unknown reason", e)
     }
   }
 }

@@ -1,4 +1,4 @@
-package viewmodels
+package webserviceclients.vrmretentioneligibility
 
 import play.api.libs.json.Json
 

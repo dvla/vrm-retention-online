@@ -8,16 +8,17 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
-import viewmodels.{EligibilityModel, VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VehicleAndKeeperLookupFormModel}
+import viewmodels.{EligibilityModel, VehicleAndKeeperLookupFormModel}
 import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
+import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.control.NonFatal
 
-final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetentionEligibilityService)
+final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
-
   def present = Action.async {
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -59,45 +60,25 @@ final class CheckEligibility @Inject()(vrmRetentionEligibilityService: VRMRetent
       Redirect(routes.MicroServiceError.present())
     }
 
-    def createResultFromVRMRetentionEligibilityResponse(vrmRetentionEligibilityResponse: VRMRetentionEligibilityResponse)
-                                                       (implicit request: Request[_]) =
-      vrmRetentionEligibilityResponse.responseCode match {
+    val eligibilityRequest = VRMRetentionEligibilityRequest(
+      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
+    )
+    val trackingId = request.cookies.trackingId()
+
+    eligibilityService.invoke(eligibilityRequest, trackingId).map { response =>
+      response.responseCode match {
         case Some(responseCode) => eligibilityFailure(responseCode) // There is only a response code when there is a problem.
         case None =>
           // Happy path when there is no response code therefore no problem.
-          (vrmRetentionEligibilityResponse.currentVRM, vrmRetentionEligibilityResponse.replacementVRM) match {
+          (response.currentVRM, response.replacementVRM) match {
             case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, replacementVRM)
             case (Some(currentVRM), None) => microServiceErrorResult(message = "No replacement VRM found")
             case (None, Some(replacementVRM)) => microServiceErrorResult(message = "No current VRM found")
             case _ => microServiceErrorResult(message = "Current vrm and Replacement VRM not found in response")
           }
       }
-
-    def vrmRetentionEligibilitySuccessResponse(responseStatusVRMRetentionEligibilityMS: Int,
-                                               vrmRetentionEligibilityResponse: Option[VRMRetentionEligibilityResponse])
-                                              (implicit request: Request[_]) =
-      responseStatusVRMRetentionEligibilityMS match {
-        case OK =>
-          vrmRetentionEligibilityResponse match {
-            case Some(response) => createResultFromVRMRetentionEligibilityResponse(response)
-            case _ => microServiceErrorResult("No vrmRetentionEligibilityResponse found") // TODO write test to achieve code coverage.
-          }
-        case _ => microServiceErrorResult(s"VRM Retention Eligibility Response web service call http status not OK, it was: $responseStatusVRMRetentionEligibilityMS. Problem may come from either vrm-retention-eligibility micro-service or the VSS")
-      }
-
-    val trackingId = request.cookies.trackingId()
-
-    val vrmRetentionEligibilityRequest = VRMRetentionEligibilityRequest(
-      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
-    )
-
-    vrmRetentionEligibilityService.invoke(vrmRetentionEligibilityRequest, trackingId).map {
-      case (responseStatusVRMRetentionEligibilityMS: Int, vrmRetentionEligibilityResponse: Option[VRMRetentionEligibilityResponse]) =>
-        vrmRetentionEligibilitySuccessResponse(
-          responseStatusVRMRetentionEligibilityMS = responseStatusVRMRetentionEligibilityMS,
-          vrmRetentionEligibilityResponse = vrmRetentionEligibilityResponse)
     }.recover {
-      case e: Throwable =>
+      case NonFatal(e) =>
         Logger.debug(s"VRM Retention Eligibility Web service call failed. Exception " + e.toString.take(45))
         Redirect(routes.MicroServiceError.present())
     }

@@ -31,6 +31,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
+import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityResponse, VRMRetentionEligibilityRequest}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import viewmodels._
@@ -135,7 +136,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
   private def stubVrmRetentionEligibilityWebService() = {
     val vrmRetentionEligibilityWebService = mock[VRMRetentionEligibilityWebService]
-    when(vrmRetentionEligibilityWebService.callVRMRetentionEligibilityService(any[VRMRetentionEligibilityRequest], any[String])).
+    when(vrmRetentionEligibilityWebService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
       thenAnswer(
         new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {
