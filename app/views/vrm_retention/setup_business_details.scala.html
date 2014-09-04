@@ -35,11 +35,11 @@
                 </dl>
             </div>
 
-        	<div class="second-col">
-	        @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
-	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
-	                    '_showConstraints -> false,
-	                    'maxLength -> BusinessNameMaxLength))
+            <div class="second-col">
+            @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
+                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> BusinessNameMaxLength))
             @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), args =
                     Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
                         '_showConstraints -> false,
@@ -49,15 +49,15 @@
                         '_showConstraints -> false,
                         'maxLength -> BusinessEmailMaxLength))
             @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
-	                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
-	                    '_showConstraints -> false,
-	                    'maxLength -> Postcode.MaxLength))
+                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> Postcode.MaxLength))
 
-	        	<div class="form-steps">
-	            	<button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
+                <div class="form-steps">
+                <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
                     <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
-	    	</div>
-      	</div>
+            </div>
+        </div>
     }
 }
