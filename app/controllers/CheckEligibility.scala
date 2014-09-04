@@ -79,8 +79,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       }
     }.recover {
       case NonFatal(e) =>
-        Logger.debug(s"VRM Retention Eligibility Web service call failed. Exception " + e.toString.take(45))
-        Redirect(routes.MicroServiceError.present())
+        microServiceErrorResult(s"VRM Retention Eligibility Web service call failed. Exception " + e.toString.take(45))
     }
   }
 }

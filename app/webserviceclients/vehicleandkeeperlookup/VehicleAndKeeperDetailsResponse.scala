@@ -1,6 +1,7 @@
-package viewmodels
+package webserviceclients.vehicleandkeeperlookup
 
 import play.api.libs.json.Json
+import viewmodels.VehicleAndKeeperDetailsDto
 
 final case class VehicleAndKeeperDetailsResponse(responseCode: Option[String],
                                                  vehicleAndKeeperDetailsDto: Option[VehicleAndKeeperDetailsDto])
