@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
-import services.vrm_retention_retain.VRMRetentionRetainService
+import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}

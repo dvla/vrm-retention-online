@@ -1,8 +1,7 @@
-package services.vrm_retention_retain
+package webserviceclients.vrmretentionretain
 
 import javax.inject.Inject
 import play.api.http.Status
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainResponse}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal

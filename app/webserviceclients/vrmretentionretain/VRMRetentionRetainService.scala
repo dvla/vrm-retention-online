@@ -1,6 +1,5 @@
-package services.vrm_retention_retain
+package webserviceclients.vrmretentionretain
 
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainResponse, VRMRetentionRetainRequest}
 import scala.concurrent.Future
 
 trait VRMRetentionRetainService {

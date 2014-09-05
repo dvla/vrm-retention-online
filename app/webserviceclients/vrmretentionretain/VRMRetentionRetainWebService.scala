@@ -1,7 +1,6 @@
-package services.vrm_retention_retain
+package webserviceclients.vrmretentionretain
 
 import play.api.libs.ws.WSResponse
-import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
 import scala.concurrent.Future
 
 trait VRMRetentionRetainWebService {
