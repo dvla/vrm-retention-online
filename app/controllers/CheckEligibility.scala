@@ -3,7 +3,7 @@ package controllers
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.mvc._
-import services.vrm_retention_eligibility.VRMRetentionEligibilityService
+import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}

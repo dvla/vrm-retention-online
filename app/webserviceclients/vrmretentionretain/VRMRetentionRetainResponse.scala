@@ -1,4 +1,4 @@
-package viewmodels
+package webserviceclients.vrmretentionretain
 
 import play.api.libs.json.Json
 

@@ -1,11 +1,10 @@
-package services.vrm_retention_eligibility
+package webserviceclients.vrmretentioneligibility
 
 import javax.inject.Inject
 import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityResponse, VRMRetentionEligibilityRequest}
 
 final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibilityWebService)
   extends VRMRetentionEligibilityService {

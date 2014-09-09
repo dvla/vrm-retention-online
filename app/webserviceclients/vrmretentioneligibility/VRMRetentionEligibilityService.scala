@@ -1,6 +1,5 @@
-package services.vrm_retention_eligibility
+package webserviceclients.vrmretentioneligibility
 
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityResponse, VRMRetentionEligibilityRequest}
 import scala.concurrent.Future
 
 trait VRMRetentionEligibilityService {
