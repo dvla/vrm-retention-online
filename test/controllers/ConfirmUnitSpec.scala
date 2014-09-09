@@ -9,6 +9,7 @@ import play.api.test.Helpers.{LOCATION, OK}
 import services.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId, StoreBusinessDetailsCacheKey, StoreDetailsConsentId}
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
+import scala.concurrent.duration.DurationInt
 
 final class ConfirmUnitSpec extends UnitSpec {
 
@@ -84,6 +85,23 @@ final class ConfirmUnitSpec extends UnitSpec {
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
       }
     }
+
+//    "write StoreBusinessDetails cookie with maxAge 7 days" in {
+//      val request = buildRequest(keeperEmail = "").
+//        withCookies(
+//          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+//          vehicleAndKeeperDetailsModel(),
+//          businessDetailsModel()
+//        )
+//      val result = confirm.submit(request)
+//      whenReady(result) { r =>
+//        val cookies = fetchCookiesFromHeaders(r)
+//        cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey) match {
+//          case Some(storeBusinessDetails) => storeBusinessDetails.maxAge should equal(7.days.toMillis)
+//          case None => fail("StoreBusinessDetails cookie did not exist")
+//        }
+//      }
+//    }
 
     "write StoreBusinessDetails cookie when user type is Business and has provided a keeperEmail" in {
       val request = buildRequest().
