@@ -1,9 +1,8 @@
-package services.vrm_retention_retain
+package webserviceclients.vrmretentionretain
 
-import viewmodels.{VRMRetentionRetainRequest, VRMRetentionRetainResponse}
 import scala.concurrent.Future
 
 trait VRMRetentionRetainService {
 
-  def invoke(cmd: VRMRetentionRetainRequest, trackingId: String): Future[(Int, Option[VRMRetentionRetainResponse])]
+  def invoke(cmd: VRMRetentionRetainRequest, trackingId: String): Future[VRMRetentionRetainResponse]
 }

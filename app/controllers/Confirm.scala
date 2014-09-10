@@ -19,23 +19,21 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
-  def present = Action { implicit request =>
-    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[BusinessDetailsModel],
-      request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) match {
-
-      case (Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeper), businessDetailsOpt, storeBusinessDetails) =>
-        val businessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
-        val showStoreDetails = storeBusinessDetails && businessUser
-        val formModel = ConfirmFormModel(None, showStoreDetails)
-        val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetailsOpt.filter(o => businessUser))
-        Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
-
-      case _ =>
-        Redirect(routes.VehicleLookup.present())
+  def present = Action(implicit request => {
+    val happyPath = for {
+      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
+    } yield {
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+      val businessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
+      val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => businessUser)
+      val showStoreDetails = storeBusinessDetails && businessUser
+      val formModel = ConfirmFormModel(None, showStoreDetails)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
+      Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
-  }
+    happyPath.getOrElse(Redirect(routes.VehicleLookup.present()))
+  })
 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
@@ -44,7 +42,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     )
   }
 
-  private def replaceErrorMsg(form: Form[ConfirmFormModel], id: String, msgId: String) = {
+  private def replaceErrorMsg(form: Form[ConfirmFormModel], id: String, msgId: String) =
     form.replaceError(
       KeeperEmailId,
       FormError(
@@ -53,12 +51,11 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         args = Seq.empty
       )
     )
-  }
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
-    val storedBusinessDetails = model.storeBusinessDetails.toString
-    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
-      case Some(vehicleAndKeeperLookup) if (vehicleAndKeeperLookup.userType == UserType_Business) =>
+    val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup => 
+      val storedBusinessDetails = model.storeBusinessDetails.toString
+      if (vehicleAndKeeperLookup.userType == UserType_Business)
         model.keeperEmail.fold {
           Redirect(routes.Payment.present()).
             withCookie(StoreBusinessDetailsCacheKey, storedBusinessDetails)
@@ -67,16 +64,15 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
             withCookie(KeeperEmailCacheKey, email).
             withCookie(StoreBusinessDetailsCacheKey, storedBusinessDetails)
         }
-      case Some(vehicleAndKeeperLookup) =>
+      else
         model.keeperEmail.fold {
           Redirect(routes.Payment.present())
         } { email =>
           Redirect(routes.Payment.present()).
           withCookie(KeeperEmailCacheKey, email)
         }
-      case _ =>
-        Redirect(routes.MicroServiceError.present())
     }
+    happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
   }
 
   private def handleInvalid(form: Form[ConfirmFormModel])(implicit request: Request[_]): Result = {

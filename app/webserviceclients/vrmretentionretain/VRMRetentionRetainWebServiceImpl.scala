@@ -1,13 +1,12 @@
-package services.vrm_retention_retain
+package webserviceclients.vrmretentionretain
 
 import com.google.inject.Inject
-import viewmodels.VRMRetentionRetainRequest
 import play.api.Logger
-import play.api.libs.json.Json
-import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
+import play.api.libs.json.Json
+import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 import scala.concurrent.Future
 
@@ -15,7 +14,7 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends V
 
   private val endPoint: String = s"${config.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
 
-  override def callVRMRetentionRetainService(request: VRMRetentionRetainRequest, trackingId: String): Future[WSResponse] = {
+  override def invoke(request: VRMRetentionRetainRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
 
     Logger.debug(s"Calling vrm retention retain micro-service with request $vrm")

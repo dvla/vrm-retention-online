@@ -1,6 +1,6 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser._
 import views.vrm_retention.SetupBusinessDetails
 import SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
 import org.openqa.selenium.WebDriver
@@ -16,7 +16,7 @@ object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
 
   def traderContact(implicit driver: WebDriver): TextField = textField(id(BusinessContactId))
 
-  def traderEmail(implicit driver: WebDriver): TextField = textField(id(BusinessEmailId))
+  def traderEmail(implicit driver: WebDriver): EmailField = emailField(id(BusinessEmailId))
 
   def traderPostcode(implicit driver: WebDriver): TextField = textField(id(BusinessPostcodeId))
 
