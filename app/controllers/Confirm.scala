@@ -69,20 +69,18 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   }
 
   private def handleInvalid(form: Form[ConfirmFormModel])(implicit request: Request[_]): Result = {
-    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[BusinessDetailsModel],
-      request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) match {
-        case (Some(vehicleAndKeeperLookupForm),
-              Some(vehicleAndKeeper),
-              businessDetailsOpt,
-              storeBusinessDetails) =>
-          val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetailsOpt.filter(x => storeBusinessDetails))
-          val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
-          BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
-        case _ =>
-          Redirect(routes.MicroServiceError.present())
+    val happyPath = for {
+      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     }
+    yield {
+      val businessDetails = request.cookies.getModel[BusinessDetailsModel]
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetails.filter(x => storeBusinessDetails))
+      val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
+      BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
+    }
+    happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
   }
 
   def exit = Action { implicit request =>
