@@ -84,13 +84,8 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   }
 
   def exit = Action { implicit request =>
-    if (request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-    } else {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-        .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
-    }
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+    val cacheKeys = RelatedCacheKeys.RetainSet ++ { if (storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty }
+    Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 }
