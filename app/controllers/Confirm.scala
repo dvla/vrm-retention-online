@@ -5,6 +5,7 @@ import play.api.data.{Form, FormError}
 import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
@@ -54,52 +55,39 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup => 
-      val storedBusinessDetails = model.storeBusinessDetails.toString
-      if (vehicleAndKeeperLookup.userType == UserType_Business)
-        model.keeperEmail.fold {
-          Redirect(routes.Payment.present()).
-            withCookie(StoreBusinessDetailsCacheKey, storedBusinessDetails)
-        } { email =>
-          Redirect(routes.Payment.present()).
-            withCookie(KeeperEmailCacheKey, email).
-            withCookie(StoreBusinessDetailsCacheKey, storedBusinessDetails)
-        }
-      else
-        model.keeperEmail.fold {
-          Redirect(routes.Payment.present())
-        } { email =>
-          Redirect(routes.Payment.present()).
-          withCookie(KeeperEmailCacheKey, email)
-        }
+      val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
+      val storeBusinessDetails = 
+        if (vehicleAndKeeperLookup.userType == UserType_Business)
+          Some(CookieKeyValue(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString))
+        else
+          None
+
+      val cookies = List(keeperEmail, storeBusinessDetails).flatten
+      Redirect(routes.Payment.present()).withCookiesEx(cookies:_*)
     }
     happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
   }
 
   private def handleInvalid(form: Form[ConfirmFormModel])(implicit request: Request[_]): Result = {
-    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      request.cookies.getModel[BusinessDetailsModel],
-      request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) match {
-        case (Some(vehicleAndKeeperLookupForm),
-              Some(vehicleAndKeeper),
-              businessDetailsOpt,
-              storeBusinessDetails) =>
-          val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetailsOpt.filter(x => storeBusinessDetails))
-          val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
-          BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
-        case _ =>
-          Redirect(routes.MicroServiceError.present())
+    val happyPath = for {
+      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     }
+    yield {
+      val businessDetails = request.cookies.getModel[BusinessDetailsModel]
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetails.filter(x => storeBusinessDetails))
+      val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
+      BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
+    }
+    happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
   }
 
   def exit = Action { implicit request =>
-    if (request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-    } else {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-        .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+    val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+      if (storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
     }
+    Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 }
