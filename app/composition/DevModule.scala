@@ -5,18 +5,18 @@ import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailService, EmailServiceImpl}
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
-import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieEncryption, CookieNameHashGenerator, Sha1HashGenerator, _}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.services.{DateService, DateServiceImpl}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressLookupServiceImpl, WebServiceImpl}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
+import utils.helpers.CookieFlagsRetention
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
+import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
+import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
 
 /**
  * Provides real implementations of traits
@@ -41,7 +41,7 @@ object DevModule extends ScalaModule {
     bind[VRMRetentionRetainWebService].to[VRMRetentionRetainWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
-    bind[CookieFlags].to[CookieFlagsFromConfig].asEagerSingleton()
+    bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
 
     if (getProperty("encryptCookies", default = true)) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)

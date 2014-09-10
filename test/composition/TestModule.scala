@@ -22,8 +22,6 @@ import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
 import services.fakes._
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, CookieFlags, NoCookieFlags}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -31,8 +29,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService}
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse}
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainResponse}
+import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService}
+import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainResponse, VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -174,3 +172,4 @@ class TestModule() extends ScalaModule with MockitoSugar {
     bind[VRMRetentionRetainWebService].toInstance(vrmRetentionRetainWebService)
   }
 }
+
