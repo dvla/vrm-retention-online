@@ -138,7 +138,7 @@
         background-color: #ffd307;
         border: 1px solid #999;
         padding: 0.2em 0.5em 0.1em 0.5em;
-        font-weight: 700;
+        font-weight: bold;
         font-size: 120%;
         border-radius: 5px;
     }
@@ -148,5 +148,15 @@
         float: left;
         padding-right: 10px;
     }
+    @media only screen and (min-width:768px) { 
+        .two-col {
 
+            .first-col {
+                float:left;
+            }
+            .second-col {
+                float:right;
+            }
+        }
+    }
 }

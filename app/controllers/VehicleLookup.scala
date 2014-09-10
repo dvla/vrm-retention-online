@@ -54,7 +54,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors))
       },
       validForm => {
-        bruteForceAndLookup(convertToUpperCaseAndRemoveSpaces(validForm))
+        bruteForceAndLookup(validForm)
       }
     )
   }
@@ -62,9 +62,6 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   def back = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
   }
-
-  private def convertToUpperCaseAndRemoveSpaces(model: VehicleAndKeeperLookupFormModel): VehicleAndKeeperLookupFormModel =
-    model.copy(registrationNumber = model.registrationNumber.replace(" ", "").toUpperCase)
 
   private def bruteForceAndLookup(formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Future[Result] = {
