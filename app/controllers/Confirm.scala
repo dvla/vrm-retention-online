@@ -43,7 +43,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     )
   }
 
-  private def replaceErrorMsg(form: Form[ConfirmFormModel], id: String, msgId: String) = {
+  private def replaceErrorMsg(form: Form[ConfirmFormModel], id: String, msgId: String) =
     form.replaceError(
       KeeperEmailId,
       FormError(
@@ -52,7 +52,6 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
         args = Seq.empty
       )
     )
-  }
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val storedBusinessDetails = model.storeBusinessDetails.toString
