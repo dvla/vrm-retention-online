@@ -28,7 +28,7 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMReten
  *
  * Look in build.scala for where we import the sse-guice library
  */
-object DevModule extends ScalaModule {
+class DevModule extends ScalaModule {
 
   def configure() {
 
