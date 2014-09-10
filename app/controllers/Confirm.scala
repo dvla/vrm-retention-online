@@ -32,7 +32,6 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
-
     happyPath.getOrElse(Redirect(routes.VehicleLookup.present()))
   })
 
@@ -54,9 +53,9 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     )
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
-    val storedBusinessDetails = model.storeBusinessDetails.toString
-    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
-      case Some(vehicleAndKeeperLookup) if (vehicleAndKeeperLookup.userType == UserType_Business) =>
+    val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup => 
+      val storedBusinessDetails = model.storeBusinessDetails.toString
+      if (vehicleAndKeeperLookup.userType == UserType_Business)
         model.keeperEmail.fold {
           Redirect(routes.Payment.present()).
             withCookie(StoreBusinessDetailsCacheKey, storedBusinessDetails)
@@ -65,16 +64,15 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
             withCookie(KeeperEmailCacheKey, email).
             withCookie(StoreBusinessDetailsCacheKey, storedBusinessDetails)
         }
-      case Some(vehicleAndKeeperLookup) =>
+      else
         model.keeperEmail.fold {
           Redirect(routes.Payment.present())
         } { email =>
           Redirect(routes.Payment.present()).
           withCookie(KeeperEmailCacheKey, email)
         }
-      case _ =>
-        Redirect(routes.MicroServiceError.present())
     }
+    happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
   }
 
   private def handleInvalid(form: Form[ConfirmFormModel])(implicit request: Request[_]): Result = {
