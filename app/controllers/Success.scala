@@ -28,7 +28,7 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
       eligibilityModel <- request.cookies.getModel[EligibilityModel]
       retainModel <- request.cookies.getModel[RetainModel]
     } yield {
-      val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].filter(x => vehicleAndKeeperLookupForm.userType == UserType_Business)
+      val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
       val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
       val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt, keeperEmailOpt, retainModel, transactionId)
 
