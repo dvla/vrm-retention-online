@@ -17,14 +17,14 @@
     @form(action = controllers.routes.VehicleLookup.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col clearfix vehicle-lookup">
-            <div class="second-col">
+            <div class="first-col">
                 <div class="img-wrap img-wrap-desktop">
                     <h2>Where to find your V5C document reference number</h2>
                     <img src="/vrm-retention/assets/images/document-reference-number.png" alt="V5C document reference number">
                 </div>
             </div>
 
-            <div class="uppercase-input first-col">
+            <div class="uppercase-input second-col">
                 <p>@Messages("vrm_retention_vehiclelookup.intro")</p>
 
                 @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
