@@ -60,7 +60,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
   private val vrmLocked = injector.getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.

@@ -39,14 +39,9 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                                  (implicit request: Request[_]): Future[Result] = {
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
-
-      if ((vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) || storeBusinessDetails ) {
-        Redirect(routes.Confirm.present()).
-          withCookie(EligibilityModel.from(replacementVRM))
-      } else {
-        Redirect(routes.SetUpBusinessDetails.present()).
-          withCookie(EligibilityModel.from(replacementVRM))
-      }
+      val confirmWithUser = (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) || storeBusinessDetails
+      val redirectLocation = if (confirmWithUser) routes.Confirm.present() else routes.SetUpBusinessDetails.present()
+      Redirect(redirectLocation).withCookie(EligibilityModel.from(replacementVRM))
     }
 
     def eligibilityFailure(responseCode: String) = {

@@ -32,7 +32,7 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
   }
 
   private def microServiceErrorPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.

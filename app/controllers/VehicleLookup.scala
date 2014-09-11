@@ -40,17 +40,26 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   def submit = Action.async { implicit request =>
     form.bindFromRequest.fold(
       invalidForm => Future.successful {
-        val formWithReplacedErrors = invalidForm.
-          replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId,
-          message = "error.restricted.validVrnOnly",
-          args = Seq.empty)).
-          replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId,
-          message = "error.validDocumentReferenceNumber",
-          args = Seq.empty)).
-          replaceError(PostcodeId, FormError(key = PostcodeId,
-          message = "error.restricted.validPostcode",
-          args = Seq.empty)).
-          distinctErrors
+        val formWithReplacedErrors = invalidForm
+          .replaceError(
+            VehicleRegistrationNumberId, 
+            FormError(
+              key = VehicleRegistrationNumberId,
+              message = "error.restricted.validVrnOnly",
+              args = Seq.empty))
+          .replaceError(
+            DocumentReferenceNumberId, 
+            FormError(
+              key = DocumentReferenceNumberId,
+              message = "error.validDocumentReferenceNumber",
+              args = Seq.empty))
+          .replaceError(
+            PostcodeId, 
+            FormError(
+              key = PostcodeId,
+              message = "error.restricted.validPostcode",
+              args = Seq.empty))
+          .distinctErrors
         BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors))
       },
       validForm => {

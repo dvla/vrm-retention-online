@@ -118,7 +118,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   private val setUpBusinessDetails = injector.getInstance(classOf[SetUpBusinessDetails])
 
   private def setUpBusinessDetailsPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.

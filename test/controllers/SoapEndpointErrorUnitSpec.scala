@@ -37,7 +37,7 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
   private val soapEndpointError = injector.getInstance(classOf[SoapEndpointError])
 
   private def soapEndpointErrorPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
