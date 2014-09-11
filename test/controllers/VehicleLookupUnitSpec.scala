@@ -308,7 +308,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleLookupStubs(fullResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess,
                                  isPrototypeBannerVisible: Boolean = true,
                                  permitted: Boolean = true) = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         // Stub VehicleAndKeeperLookupService
         val (responseStatus, vehicleAndKeeperDetailsResponse) = fullResponse

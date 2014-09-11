@@ -40,7 +40,7 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
   private val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
 
   private def uprnNotFoundPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
