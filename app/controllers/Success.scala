@@ -21,28 +21,30 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
                                                                                   config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    val happyPath = for {
-      transactionId <- request.cookies.getString(TransactionIdCacheKey)
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      vehicleAndKeeperDetails <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-      eligibilityModel <- request.cookies.getModel[EligibilityModel]
-      retainModel <- request.cookies.getModel[RetainModel]
-    } yield {
-      val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-      val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
-      val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt, keeperEmailOpt, retainModel, transactionId)
+    (request.cookies.getString(TransactionIdCacheKey), 
+      request.cookies.getModel[VehicleAndKeeperLookupFormModel], 
+      request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[EligibilityModel],
+      request.cookies.getModel[RetainModel]) match {
 
-      businessDetailsOpt.foreach { businessDetails =>
-        emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
-      }
+      case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(retainModel)) =>
+        val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
+        val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
+        val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt, keeperEmailOpt, retainModel, transactionId)
 
-      keeperEmailOpt.foreach { keeperEmail =>
-        emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
-      }
+        businessDetailsOpt.foreach { businessDetails =>
+          emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
+        }
 
-      Ok(views.html.vrm_retention.success(successViewModel))
-    }
-    happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
+        keeperEmailOpt.foreach { keeperEmail =>
+          emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
+        }
+
+        Ok(views.html.vrm_retention.success(successViewModel))
+
+      case _ =>
+        Redirect(routes.MicroServiceError.present())
+    } 
   }
 
   def createPdf = Action.async { implicit request =>
