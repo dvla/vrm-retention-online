@@ -49,7 +49,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   private lazy val present = {
-    val dateService = injector.getInstance(classOf[DateService])
+    val dateService = testInjectorOverrideDev().getInstance(classOf[DateService])
     val request = FakeRequest().
       withCookies(transactionId()).
       withCookies(bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology)).

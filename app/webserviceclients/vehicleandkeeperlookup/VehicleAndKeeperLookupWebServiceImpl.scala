@@ -2,11 +2,11 @@ package webserviceclients.vehicleandkeeperlookup
 
 import com.google.inject.Inject
 import play.api.Logger
-import play.api.libs.json.Json
-import play.api.libs.ws.{WSResponse, WS}
 import play.api.Play.current
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
+import play.api.libs.json.Json
+import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 import scala.concurrent.Future
 

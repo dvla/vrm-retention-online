@@ -1,6 +1,6 @@
 package email
 
-import helpers.UnitSpec
+import helpers.{WithApplication, UnitSpec}
 import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
@@ -13,7 +13,7 @@ final class EmailServiceImplSpec extends UnitSpec {
 
   "sendEmail" should {
 
-    "send an email with an attachment to a business email address" in {
+    "send an email with an attachment to a business email address" in new WithApplication {
 
       val vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
         make = VehicleMakeValid,
@@ -45,7 +45,6 @@ final class EmailServiceImplSpec extends UnitSpec {
     }
   }
 
-  private val dateService = injector.getInstance(classOf[DateService])
-  implicit val emailService = injector.getInstance(classOf[EmailService])
+  private lazy val dateService = testInjectorOverrideDev().getInstance(classOf[DateService])
   private val longTimeout = Timeout(Span(10, Seconds))
 }
