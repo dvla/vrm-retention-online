@@ -158,7 +158,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.present(request)
   }
 
-  private def confirm = testInjectorOverrideDev().getInstance(classOf[Confirm])
+  private def confirm = testInjector().getInstance(classOf[Confirm])
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(
@@ -168,7 +168,7 @@ final class ConfirmUnitSpec extends UnitSpec {
   }
 
   private def confirmWithCookieFlags = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
       }

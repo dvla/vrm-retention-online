@@ -26,7 +26,7 @@ import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeepe
 object CookieFactoryForUnitSpecs extends TestComposition {
 
   private final val TrackingIdValue = "trackingId"
-  private lazy val session = testInjectorOverrideDev().getInstance(classOf[ClientSideSessionFactory]).getSession(Array.empty[Cookie])
+  private lazy val session = testInjector().getInstance(classOf[ClientSideSessionFactory]).getSession(Array.empty[Cookie])
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,

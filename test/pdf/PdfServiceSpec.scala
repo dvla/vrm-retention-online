@@ -31,6 +31,6 @@ final class PdfServiceSpec extends UnitSpec {
     }
   }
 
-  private lazy val pdfService = testInjectorOverrideDev(new TestDateService).getInstance(classOf[PdfService])
+  private lazy val pdfService = testInjector(new TestDateService).getInstance(classOf[PdfService])
   private val longTimeout = Timeout(Span(10, Seconds))
 }

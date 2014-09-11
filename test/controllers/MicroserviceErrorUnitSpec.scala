@@ -32,7 +32,7 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
   }
 
   private def microServiceErrorPrototypeNotVisible = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
@@ -42,5 +42,5 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
   }
 
   private lazy val present = microServiceError.present(FakeRequest())
-  private lazy val microServiceError = testInjectorOverrideDev().getInstance(classOf[MicroServiceError])
+  private lazy val microServiceError = testInjector().getInstance(classOf[MicroServiceError])
 }

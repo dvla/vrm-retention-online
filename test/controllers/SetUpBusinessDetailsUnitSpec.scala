@@ -115,10 +115,10 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     val request = FakeRequest()
     setUpBusinessDetails.present(request)
   }
-  private lazy val setUpBusinessDetails = testInjectorOverrideDev().getInstance(classOf[SetUpBusinessDetails])
+  private lazy val setUpBusinessDetails = testInjector().getInstance(classOf[SetUpBusinessDetails])
 
   private def setUpBusinessDetailsPrototypeNotVisible = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.

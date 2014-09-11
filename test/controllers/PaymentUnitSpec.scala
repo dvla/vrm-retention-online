@@ -36,5 +36,5 @@ final class PaymentUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val payment = testInjectorOverrideDev().getInstance(classOf[Payment])
+  private lazy val payment = testInjector().getInstance(classOf[Payment])
 }

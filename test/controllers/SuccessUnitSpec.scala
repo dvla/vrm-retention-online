@@ -68,5 +68,5 @@ final class SuccessUnitSpec extends UnitSpec {
     }*/
   }
 
-  private lazy val success = testInjectorOverrideDev().getInstance(classOf[Success])
+  private lazy val success = testInjector().getInstance(classOf[Success])
 }

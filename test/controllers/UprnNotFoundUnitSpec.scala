@@ -35,12 +35,12 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
 
   private lazy val present = {
     val request = FakeRequest()
-    val uprnNotFound = testInjectorOverrideDev().getInstance(classOf[UprnNotFound])
+    val uprnNotFound = testInjector().getInstance(classOf[UprnNotFound])
     uprnNotFound.present(request)
   }
 
   private def uprnNotFoundPrototypeNotVisible = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.

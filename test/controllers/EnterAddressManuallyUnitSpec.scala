@@ -272,7 +272,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   private def enterAddressManuallyPrototypeNotVisible = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
@@ -288,7 +288,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     enterAddressManually.present(request)
   }
 
-  private def enterAddressManually = testInjectorOverrideDev().getInstance(classOf[EnterAddressManually])
+  private def enterAddressManually = testInjector().getInstance(classOf[EnterAddressManually])
 
   private def validateAddressCookieValues(result: Future[Result], buildingName: String, line2: String,
                                           line3: String, postTown: String, postCode: String = PostcodeValid) = {

@@ -41,7 +41,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
   }
 
   private lazy val beforeYouStartPrototypeNotVisible = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
@@ -50,5 +50,5 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     }).getInstance(classOf[BeforeYouStart])
   }
 
-  private lazy val beforeYouStart = testInjectorOverrideDev().getInstance(classOf[BeforeYouStart])
+  private lazy val beforeYouStart = testInjector().getInstance(classOf[BeforeYouStart])
 }

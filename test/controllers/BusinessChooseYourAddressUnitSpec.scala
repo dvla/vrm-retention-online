@@ -150,7 +150,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   }
 
   private def businessChooseYourAddress = {
-    testInjectorOverrideDev(
+    testInjector(
       new TestOrdnanceSurvey,
       new TestVehicleAndKeeperLookupWebService,
       new ScalaModule() {
@@ -161,7 +161,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   }
 
   private def businessChooseYourAddressWithPrototypeBannerNotVisible = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.

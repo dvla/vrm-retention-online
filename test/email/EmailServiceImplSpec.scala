@@ -45,6 +45,6 @@ final class EmailServiceImplSpec extends UnitSpec {
     }
   }
 
-  private lazy val dateService = testInjectorOverrideDev().getInstance(classOf[DateService])
+  private lazy val dateService = testInjector().getInstance(classOf[DateService])
   private val longTimeout = Timeout(Span(10, Seconds))
 }

@@ -49,7 +49,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   private lazy val present = {
-    val dateService = testInjectorOverrideDev().getInstance(classOf[DateService])
+    val dateService = testInjector().getInstance(classOf[DateService])
     val request = FakeRequest().
       withCookies(transactionId()).
       withCookies(bruteForcePreventionViewModel(dateTimeISOChronology = dateService.dateTimeISOChronology)).
@@ -57,10 +57,10 @@ final class VrmLockedUnitSpec extends UnitSpec {
       withCookies(vehicleAndKeeperDetailsModel())
     vrmLocked.present(request)
   }
-  private lazy val vrmLocked = testInjectorOverrideDev().getInstance(classOf[VrmLocked])
+  private lazy val vrmLocked = testInjector().getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {
-    testInjectorOverrideDev(new ScalaModule() {
+    testInjector(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
