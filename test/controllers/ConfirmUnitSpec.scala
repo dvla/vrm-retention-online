@@ -89,7 +89,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "write StoreBusinessDetails cookie with maxAge 7 days" in {
+    "write StoreBusinessDetails cookie with maxAge 7 days" in new WithApplication {
       val expected = 7.days.toSeconds.toInt
       val request = buildRequest(keeperEmail = "").
         withCookies(
@@ -168,7 +168,7 @@ final class ConfirmUnitSpec extends UnitSpec {
   }
 
   private def confirmWithCookieFlags = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
       }
