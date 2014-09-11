@@ -14,7 +14,7 @@ import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest,
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class TestVehicleAndKeeperLookupWebServiceModule extends ScalaModule with MockitoSugar {
+class TestVehicleAndKeeperLookupWebService extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]

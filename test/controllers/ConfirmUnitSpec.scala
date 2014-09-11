@@ -49,7 +49,7 @@ final class ConfirmUnitSpec extends UnitSpec {
 
   "submit" should {
 
-    "redirect to Payment page when valid submit and user type is Business" in {
+    "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
       val request = buildRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -62,7 +62,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Payment page when valid submit and user type is Keeper" in {
+    "redirect to Payment page when valid submit and user type is Keeper" in new WithApplication {
       val request = buildRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -75,7 +75,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "write StoreBusinessDetails cookie when user type is Business and has not provided a keeperEmail" in {
+    "write StoreBusinessDetails cookie when user type is Business and has not provided a keeperEmail" in new WithApplication {
       val request = buildRequest(keeperEmail = "").
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -104,7 +104,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "write StoreBusinessDetails cookie when user type is Business and has provided a keeperEmail" in {
+    "write StoreBusinessDetails cookie when user type is Business and has provided a keeperEmail" in new WithApplication {
       val request = buildRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -119,7 +119,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "not write cookies when user type is Keeper and has not provided a keeperEmail" in {
+    "not write cookies when user type is Keeper and has not provided a keeperEmail" in new WithApplication {
       val request = buildRequest(keeperEmail = "").
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -133,7 +133,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "write KeeperEmail cookie when user type is Keeper and has provided a keeperEmail" in {
+    "write KeeperEmail cookie when user type is Keeper and has provided a keeperEmail" in new WithApplication {
       val request = buildRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -148,7 +148,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val present = {
+  private def present = {
     val request = FakeRequest().
       withCookies(
         vehicleAndKeeperLookupFormModel(),
@@ -157,7 +157,8 @@ final class ConfirmUnitSpec extends UnitSpec {
       )
     confirm.present(request)
   }
-  private val confirm = injector.getInstance(classOf[Confirm])
+
+  private def confirm = testInjectorOverrideDev().getInstance(classOf[Confirm])
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(

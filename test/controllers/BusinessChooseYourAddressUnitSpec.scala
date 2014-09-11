@@ -1,7 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.{TestOrdnanceSurveyModule, TestVehicleAndKeeperLookupWebServiceModule}
+import composition.{TestOrdnanceSurvey, TestVehicleAndKeeperLookupWebService}
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -150,11 +150,14 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   }
 
   private def businessChooseYourAddress = {
-    testInjectorOverrideDev(new TestOrdnanceSurveyModule, new TestVehicleAndKeeperLookupWebServiceModule, new ScalaModule() {
-      override def configure(): Unit = {
-        bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
-      }
-    }).getInstance(classOf[BusinessChooseYourAddress])
+    testInjectorOverrideDev(
+      new TestOrdnanceSurvey,
+      new TestVehicleAndKeeperLookupWebService,
+      new ScalaModule() {
+        override def configure(): Unit = {
+          bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
+        }
+      }).getInstance(classOf[BusinessChooseYourAddress])
   }
 
   private def businessChooseYourAddressWithPrototypeBannerNotVisible = {
