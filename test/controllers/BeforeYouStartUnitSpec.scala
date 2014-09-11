@@ -41,7 +41,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
   }
 
   private def beforeYouStartPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
+    testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
         when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.

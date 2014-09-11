@@ -10,4 +10,9 @@ trait TestComposition extends Composition {
   def testModule(module: Module*) = Modules.`override`(new TestModule()).`with`(module: _*)
 
   def testInjector(module: Module*) = Guice.createInjector(testModule(module: _*))
+
+  def testInjectorOverrideDev(module: Module*) = {
+    val overridingModule = Modules.`override`(new DevModule()).`with`(module: _*)
+    Guice.createInjector(overridingModule)
+  }
 }
