@@ -40,7 +40,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     }
   }
 
-  private def beforeYouStartPrototypeNotVisible = {
+  private lazy val beforeYouStartPrototypeNotVisible = {
     testInjectorOverrideDev(new ScalaModule() {
       override def configure(): Unit = {
         val config: Config = mock[Config]
@@ -50,5 +50,5 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     }).getInstance(classOf[BeforeYouStart])
   }
 
-  private val beforeYouStart = injector.getInstance(classOf[BeforeYouStart])
+  private lazy val beforeYouStart = testInjectorOverrideDev().getInstance(classOf[BeforeYouStart])
 }
