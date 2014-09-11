@@ -1,16 +1,10 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
-import composition.TestOrdnanceSurvey
 import helpers.UnitSpec
-import org.mockito.Mockito.when
 import play.api.data.Form
+import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import viewmodels.BusinessChooseYourAddressFormModel
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
-import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
-import utils.helpers.Config
 
 final class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
