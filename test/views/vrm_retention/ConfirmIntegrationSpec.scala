@@ -10,6 +10,7 @@ import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.vrm_retention.ConfirmPage.happyPath
 import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, PaymentPage, VehicleLookupPage}
+import views.common.Help
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
@@ -34,18 +35,18 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  "confirm button" should {
-
-    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-
-      cacheSetup()
-
-      happyPath
-
-      page.url should equal(PaymentPage.url)
-    }
-  }
+//  "confirm button" should {
+//
+//    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowser {
+//      go to BeforeYouStartPage
+//
+//      cacheSetup()
+//
+//      happyPath
+//
+//      page.url should equal(PaymentPage.url)
+//    }
+//  }
 
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowser {

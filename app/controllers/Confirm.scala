@@ -63,7 +63,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
           None
 
       val cookies = List(keeperEmail, storeBusinessDetails).flatten
-      Redirect(routes.Payment.present()).withCookiesEx(cookies:_*)
+      Redirect(routes.Payment.begin()).withCookiesEx(cookies:_*)
     }
     happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
   }

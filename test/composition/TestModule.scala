@@ -33,6 +33,8 @@ import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainResponse, VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import webserviceclients.paymentsolve._
+import scala.Some
 
 class TestModule() extends ScalaModule with MockitoSugar {
 
@@ -48,10 +50,13 @@ class TestModule() extends ScalaModule with MockitoSugar {
     stubVehicleAndKeeperLookupWebService()
     stubVrmRetentionEligibilityWebService()
     stubVrmRetentionRetainWebService()
+    stubPaymentSolveWebService()
 
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
     bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
+
+    bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
 
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
@@ -98,10 +103,10 @@ class TestModule() extends ScalaModule with MockitoSugar {
 
   private def stubBruteForcePreventionWebService() = {
     val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-    when(bruteForcePreventionWebService.callBruteForce(any[String])).thenReturn(Future {
+    when(bruteForcePreventionWebService.callBruteForce(any[String])).thenReturn(Future.successful {
       new FakeResponse(status = OK, fakeJson = responseFirstAttempt)
     })
-    when(bruteForcePreventionWebService.callBruteForce(matches(VrmLocked))).thenReturn(Future {
+    when(bruteForcePreventionWebService.callBruteForce(matches(VrmLocked))).thenReturn(Future.successful {
       new FakeResponse(status = FORBIDDEN)
     })
     bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
@@ -112,7 +117,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
     when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
       thenAnswer(
         new Answer[Future[WSResponse]] {
-          override def answer(invocation: InvocationOnMock) = Future {
+          override def answer(invocation: InvocationOnMock) = Future.successful {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VehicleAndKeeperDetailsRequest] // Cast first argument.
             val (responseStatus, response) = {
@@ -136,7 +141,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
     when(vrmRetentionEligibilityWebService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
       thenAnswer(
         new Answer[Future[WSResponse]] {
-          override def answer(invocation: InvocationOnMock) = Future {
+          override def answer(invocation: InvocationOnMock) = Future.successful {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VRMRetentionEligibilityRequest] // Cast first argument.
             val vrmRetentionEligibilityResponse = VRMRetentionEligibilityResponse(
@@ -156,7 +161,7 @@ class TestModule() extends ScalaModule with MockitoSugar {
     when(vrmRetentionRetainWebService.invoke(any[VRMRetentionRetainRequest], any[String])).
       thenAnswer(
         new Answer[Future[WSResponse]] {
-          override def answer(invocation: InvocationOnMock) = Future {
+          override def answer(invocation: InvocationOnMock) = Future.successful {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VRMRetentionRetainRequest] // Cast first argument.
             val vrmRetentionRetainResponse = VRMRetentionRetainResponse(
@@ -170,6 +175,26 @@ class TestModule() extends ScalaModule with MockitoSugar {
         }
       )
     bind[VRMRetentionRetainWebService].toInstance(vrmRetentionRetainWebService)
+  }
+
+  private def stubPaymentSolveWebService() = {
+    val paymentSolveWebService = mock[PaymentSolveWebService]
+    when(paymentSolveWebService.invoke(any[PaymentSolveBeginRequest], any[String])).
+      thenAnswer(
+        new Answer[Future[WSResponse]] {
+          override def answer(invocation: InvocationOnMock) = Future.successful {
+            val paymentSolveBeginRequestResponse = PaymentSolveBeginResponse(
+                response = "validated",
+                status = "USER_DETAILS",
+                trxRef = Some("123123123"),
+                redirectUrl = Some(controllers.routes.Success.present().url)
+              )
+            val asJson = Json.toJson(paymentSolveBeginRequestResponse)
+            new FakeResponse(status = OK, fakeJson = Some(asJson))
+          }
+        }
+      )
+    bind[PaymentSolveWebService].toInstance(paymentSolveWebService)
   }
 }
 

@@ -1,25 +1,22 @@
 package controllers
 
 import com.google.inject.Inject
-import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.{RetainModel, VehicleAndKeeperLookupFormModel}
+import viewmodels.VehicleAndKeeperLookupFormModel
 import views.vrm_retention.Confirm._
+import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
-import views.vrm_retention.Retain._
-import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveService}
-import webserviceclients.paymentsolve.PaymentSolveBeginRequest
+import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveBeginRequest, PaymentSolveService}
+
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               paymentSolveService: PaymentSolveService,
@@ -29,19 +26,30 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
 
   private val VALIDATED_RESPONSE = "validated"
+  private val AUTHORISED_STATUS = "AUTHORISED"
 
-  def present = Action.async { implicit request =>
-    //Ok(views.html.vrm_retention.payment())
-    beginWebPayment("ABC123")
+  def begin = Action.async { implicit request =>
+      request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
+        case Some(vehiclesLookupForm) =>
+          callBeginWebPaymentService(vehiclesLookupForm.registrationNumber)
+        case None => Future.successful {
+          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+        }
+      }
   }
 
-  def submit = Action.async { implicit request =>
-    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
-      case Some(vehiclesLookupForm) => retainVrm(vehiclesLookupForm)
+  def paymentCallback = Action.async { implicit request =>
+    request.cookies.getString(TransactionReferenceCacheKey) match {
+      case Some(trxRef) =>
+        callGetWebPaymentService(trxRef)
       case None => Future.successful {
         Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
       }
     }
+  }
+
+  def submit = Action.async { implicit request =>
+      ???
   }
 
   def exit = Action { implicit request =>
@@ -55,81 +63,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
   }
 
-  private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
+  private def callBeginWebPaymentService(vrm: String)
                        (implicit request: Request[_]): Future[Result] = {
-
-    def retainSuccess(certificateNumber: String) = {
-
-      // create the transaction timestamp
-      val transactionTimestamp = dateService.today.toDateTimeMillis.get
-      val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-        ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
-      val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
-
-      Redirect(routes.Success.present()).
-        withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
-    }
-
-    def retainFailure(responseCode: String) = {
-      Logger.debug(s"VRMRetentionRetain encountered a problem with request" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
-        s" redirect to VehicleLookupFailure")
-      Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = RetainResponseCodeCacheKey, value = responseCode)
-    }
-
-    def microServiceErrorResult(message: String) = {
-      Logger.error(message)
-      Redirect(routes.MicroServiceError.present())
-    }
-
-    val trackingId = request.cookies.trackingId()
-
-    val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
-      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
-    )
-
-    vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map { response =>
-      response.responseCode match {
-        case Some(responseCode) => retainFailure(responseCode) // There is only a response code when there is a problem.
-        case None =>
-          // Happy path when there is no response code therefore no problem.
-          response.certificateNumber match {
-            case Some(certificateNumber) => retainSuccess(certificateNumber)
-            case _ => microServiceErrorResult(message = "Certificate number not found in response")
-          }
-      }
-    }.recover {
-      case NonFatal(e) =>
-        microServiceErrorResult(s"VRM Retention Retain Web service call failed. Exception " + e.toString.take(45))
-    }
-  }
-
-
-  private def beginWebPayment(vrm: String)
-                       (implicit request: Request[_]): Future[Result] = {
-
-//    def retainSuccess(certificateNumber: String) = {
-//
-//      // create the transaction timestamp
-//      val transactionTimestamp = dateService.today.toDateTimeMillis.get
-//      val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-//        ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
-//      val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
-//
-//      Redirect(routes.Success.present()).
-//        withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
-//    }
-
-//    def retainFailure(responseCode: String) = {
-//      Logger.debug(s"VRMRetentionRetain encountered a problem with request" +
-//        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-//        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
-//        s" redirect to VehicleLookupFailure")
-//      Redirect(routes.VehicleLookupFailure.present()).
-//        withCookie(key = RetainResponseCodeCacheKey, value = responseCode)
-//    }
 
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
@@ -138,17 +73,46 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     val paymentSolveBeginRequest = PaymentSolveBeginRequest(
       transNo = "1234567890", // TODO generate!
-      vrm = vrm
+      vrm = vrm,
+      paymentCallback = routes.Payment.paymentCallback().absoluteURL()
     )
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
       if (response.response == VALIDATED_RESPONSE) {
-        Redirect(new Call("GET", response.redirectUrl.get))
-//        Ok(views.html.vrm_retention.payment())
-        // TODO store the txnRef in a cookie
+//        Redirect(new Call("GET", response.redirectUrl.get)) // TODO call this when csrf problem resolved
+        Redirect(routes.Payment.paymentCallback()).withCookie(TransactionReferenceCacheKey, response.trxRef.get)
       } else {
         microServiceErrorResult(message = "The begin web request to Solve was not validated.") // TODO redirect to a failure page?
+      }
+    }.recover {
+      case NonFatal(e) =>
+        microServiceErrorResult(s"Payment Solve Web service call failed. Exception " + e.toString.take(245))
+    }
+  }
+
+  private def callGetWebPaymentService(trxRef: String)
+                                        (implicit request: Request[_]): Future[Result] = {
+
+    def microServiceErrorResult(message: String) = {
+      Logger.error(message)
+      Redirect(routes.MicroServiceError.present())
+    }
+
+    val paymentSolveGetRequest = PaymentSolveGetRequest(
+      transNo = "1234567890", // TODO same as prev transNo or a new one?
+      trxRef = trxRef
+    )
+    val trackingId = request.cookies.trackingId()
+
+    paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map { response =>
+        // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
+//      if ((response.response == VALIDATED_RESPONSE) && (response.status == AUTHORISED_STATUS)) {
+        if (response.response == VALIDATED_RESPONSE) {
+        // TODO store the auth code and masked pan
+        Redirect(routes.Retain.submit())
+      } else {
+        microServiceErrorResult(message = "The get web request to Solve was not validated or the payment was not authorised.") // TODO redirect to a failure page?
       }
     }.recover {
       case NonFatal(e) =>

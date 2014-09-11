@@ -12,13 +12,23 @@ import scala.concurrent.Future
 
 final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends PaymentSolveWebService {
 
-  private val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/beginWebPayment"
-
   override def invoke(request: PaymentSolveBeginRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.vrm)
+    val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/beginWebPayment"
 
     Logger.debug(endPoint)
     Logger.debug(s"Calling payment solve micro-service with request ${request.transNo} and $vrm")
+    WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
+      post(Json.toJson(request))
+  }
+
+  override def invoke(request: PaymentSolveGetRequest, trackingId: String): Future[WSResponse] = {
+    val trxRef = LogFormats.anonymize(request.trxRef)
+    val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/getWebPayment"
+
+    Logger.debug(endPoint)
+    Logger.debug(s"Calling payment solve micro-service with request ${trxRef}")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       post(Json.toJson(request))
