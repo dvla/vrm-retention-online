@@ -115,7 +115,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     val request = FakeRequest()
     setUpBusinessDetails.present(request)
   }
-  private val setUpBusinessDetails = injector.getInstance(classOf[SetUpBusinessDetails])
+  private lazy val setUpBusinessDetails = testInjectorOverrideDev().getInstance(classOf[SetUpBusinessDetails])
 
   private def setUpBusinessDetailsPrototypeNotVisible = {
     testInjectorOverrideDev(new ScalaModule() {

@@ -35,9 +35,9 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
 
   private lazy val present = {
     val request = FakeRequest()
+    val uprnNotFound = testInjectorOverrideDev().getInstance(classOf[UprnNotFound])
     uprnNotFound.present(request)
   }
-  private val uprnNotFound = injector.getInstance(classOf[UprnNotFound])
 
   private def uprnNotFoundPrototypeNotVisible = {
     testInjectorOverrideDev(new ScalaModule() {

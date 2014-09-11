@@ -301,7 +301,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val request = FakeRequest()
     vehicleLookupStubs(vehicleAndKeeperDetailsResponseSuccess).present(request)
   }
-  private implicit val dateService = new DateServiceImpl
 
   private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a test"))
 

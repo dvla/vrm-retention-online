@@ -57,7 +57,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
       withCookies(vehicleAndKeeperDetailsModel())
     vrmLocked.present(request)
   }
-  private val vrmLocked = injector.getInstance(classOf[VrmLocked])
+  private lazy val vrmLocked = testInjectorOverrideDev().getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {
     testInjectorOverrideDev(new ScalaModule() {
