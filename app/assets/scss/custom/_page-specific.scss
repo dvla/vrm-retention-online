@@ -153,15 +153,4 @@
         float: left;
         padding-right: 10px;
     }
-    @media only screen and (min-width:768px) { 
-        .two-col {
-
-            .first-col {
-                float:left;
-            }
-            .second-col {
-                float:right;
-            }
-        }
-    }
 }
