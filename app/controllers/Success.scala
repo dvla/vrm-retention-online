@@ -68,14 +68,11 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
   }
 
   def finish = Action { implicit request =>
-    if (request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-    } else {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-        .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+    val cookies = RelatedCacheKeys.RetainSet ++ {
+      if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
     }
+    Redirect(routes.MockFeedback.present()).discardingCookies(cookies)
   }
 
   //TODO: We do not want the user to be able to get to this page - added for Tom to be able to style email easier. DELETE after US1017 is accepted.
