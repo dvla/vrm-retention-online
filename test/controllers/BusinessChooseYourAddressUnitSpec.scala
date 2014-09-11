@@ -1,6 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
+import composition.{TestOrdnanceSurveyModule, TestVehicleAndKeeperLookupWebServiceModule}
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -13,6 +14,7 @@ import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsSt
 import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import services.fakes.AddressLookupWebServiceConstants
 import services.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
 import utils.helpers.Config
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
@@ -146,7 +148,14 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
     businessChooseYourAddress.present(request)
   }
-  private val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
+
+  private def businessChooseYourAddress = {
+    testInjectorOverrideDev(new TestOrdnanceSurveyModule, new TestVehicleAndKeeperLookupWebServiceModule, new ScalaModule() {
+      override def configure(): Unit = {
+        bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
+      }
+    }).getInstance(classOf[BusinessChooseYourAddress])
+  }
 
   private def businessChooseYourAddressWithPrototypeBannerNotVisible = {
     testInjectorOverrideDev(new ScalaModule() {

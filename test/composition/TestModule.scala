@@ -36,12 +36,12 @@ import scala.concurrent.Future
 import webserviceclients.paymentsolve._
 import scala.Some
 
-class TestModule() extends ScalaModule with MockitoSugar {
+class TestModule extends ScalaModule with MockitoSugar {
 
   /**
    * Bind the fake implementations the traits
    */
-  def configure() {
+  def configure() = {
     Logger.debug("Guice is loading TestModule")
 
     stubOrdnanceSurveyAddressLookup()
