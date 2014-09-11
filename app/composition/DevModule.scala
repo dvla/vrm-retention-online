@@ -17,6 +17,7 @@ import utils.helpers.CookieFlagsRetention
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
+import webserviceclients.paymentsolve.{PaymentSolveWebService, PaymentSolveWebServiceImpl, PaymentSolveServiceImpl, PaymentSolveService}
 
 /**
  * Provides real implementations of traits
@@ -40,6 +41,8 @@ class DevModule extends ScalaModule {
     bind[VRMRetentionEligibilityService].to[VRMRetentionEligibilityServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainWebService].to[VRMRetentionRetainWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
+    bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
+    bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
 
