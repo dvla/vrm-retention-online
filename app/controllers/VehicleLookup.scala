@@ -17,7 +17,7 @@ import utils.helpers.Config
 import viewmodels._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
