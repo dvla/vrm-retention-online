@@ -5,8 +5,9 @@ import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import services.fakes.AddressLookupServiceConstants.PostcodeValid
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import viewmodels.{PostcodeToAddressResponse, UprnAddressPair, UprnToAddressResponse}
-import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{PostcodeToAddressResponseDto, UprnAddressPairDto}
+import viewmodels.UprnToAddressResponse
+
 import scala.concurrent.Future
 
 object AddressLookupWebServiceConstants {
@@ -20,16 +21,16 @@ object AddressLookupWebServiceConstants {
   }
 
   def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString, houseName: String = "presentationProperty stub", houseNumber: String = "123") =
-    UprnAddressPair(uprn, address = addressSeq(houseName, houseNumber).mkString(", "))
+    UprnAddressPairDto(uprn, address = addressSeq(houseName, houseNumber).mkString(", "))
 
-  def postcodeToAddressResponseValid: PostcodeToAddressResponse = {
+  def postcodeToAddressResponseValid: PostcodeToAddressResponseDto = {
     val results = Seq(
       uprnAddressPairWithDefaults(),
       uprnAddressPairWithDefaults(uprn = "67890", houseNumber = "456"),
       uprnAddressPairWithDefaults(uprn = "111213", houseNumber = "789")
     )
 
-    PostcodeToAddressResponse(addresses = results)
+    PostcodeToAddressResponseDto(addresses = results)
   }
 
   def responseValidForPostcodeToAddress: Future[WSResponse] = {
@@ -41,7 +42,7 @@ object AddressLookupWebServiceConstants {
   }
 
   def responseValidForPostcodeToAddressNotFound: Future[WSResponse] = {
-    val inputAsJson = Json.toJson(PostcodeToAddressResponse(addresses = Seq.empty))
+    val inputAsJson = Json.toJson(PostcodeToAddressResponseDto(addresses = Seq.empty))
 
     Future.successful {
       FakeResponse(status = OK, fakeJson = Some(inputAsJson))
