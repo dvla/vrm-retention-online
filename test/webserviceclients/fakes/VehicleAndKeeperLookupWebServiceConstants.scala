@@ -1,8 +1,7 @@
 package services.fakes
 
-import viewmodels.VehicleAndKeeperDetailsDto
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 
 object VehicleAndKeeperLookupWebServiceConstants {
 

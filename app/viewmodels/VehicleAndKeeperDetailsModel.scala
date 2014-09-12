@@ -8,6 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               make: Option[String],
