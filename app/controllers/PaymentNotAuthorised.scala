@@ -8,7 +8,7 @@ import utils.helpers.Config
 import viewmodels.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import views.vrm_retention.VehicleLookup._
 
-final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
 
   def present = Action { implicit request =>
@@ -16,7 +16,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm)) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-        displayPaymentFailure(transactionId, vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
+        displayPaymentNotAuthorised(transactionId, vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
       case _ => Redirect(routes.BeforeYouStart.present())
     }
   }
@@ -29,7 +29,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
     }
   }
 
-  private def displayPaymentFailure(transactionId: String,
+  private def displayPaymentNotAuthorised(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
                                      )(implicit request: Request[AnyContent]) = {
@@ -38,7 +38,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
-    Ok(views.html.vrm_retention.payment_failure(
+    Ok(views.html.vrm_retention.payment_not_authorised(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
       data = vehicleAndKeeperLookupForm)

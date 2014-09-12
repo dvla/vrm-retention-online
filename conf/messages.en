@@ -351,12 +351,20 @@ vrm_retention_vehicle_callback.modelLabel = Model
 vrm_retention_payment.title = Payment details
 vrm_retention_paymentfailure.tryagainbutton = Try again
 vrm_retention_paymentfailure.exitbutton = Exit
+vrm_retention_paymentnotauthorised.tryagainbutton = Try again
+vrm_retention_paymentnotauthorised.exitbutton = Exit
 
 # Payment failure page
 paymentFailureErrorMessage.title = Payment Failure
 paymentFailureErrorMessage.p1 = No payment was taken.
 paymentFailureErrorMessage.p2 = Please either try again or exit the service.
 paymentFailureErrorMessage.p3 =
+
+# Payment not authorised page
+paymentNotAuthorisedErrorMessage.title = Payment Not Authorised
+paymentNotAuthorisedErrorMessage.p1 = Please either try again or exit the service.
+paymentNotAuthorisedErrorMessage.p2 =
+paymentNotAuthorisedErrorMessage.p3 =
 
 #Confirm page
 vrm_retention_confirm.title = Check details

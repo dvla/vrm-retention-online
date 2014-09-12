@@ -33,27 +33,27 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private val AUTHORISED_STATUS = "AUTHORISED"
 
   def begin = Action.async { implicit request =>
-      request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
-        case Some(vehiclesLookupForm) =>
-          callBeginWebPaymentService(vehiclesLookupForm.registrationNumber)
-        case None => Future.successful {
+    (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel])  match {
+        case (Some(transactionId), Some(vehiclesLookupForm)) =>
+          callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
+        case _ => Future.successful {
           Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
         }
       }
   }
 
   def paymentCallback = Action.async { implicit request =>
-    request.cookies.getString(TransactionReferenceCacheKey) match {
-      case Some(trxRef) =>
-        callGetWebPaymentService(trxRef)
-      case None => Future.successful {
+    (request.cookies.getString(TransactionIdCacheKey), request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
+      case (Some(transactionId), Some(trxRef)) =>
+        callGetWebPaymentService(transactionId, trxRef)
+      case _ => Future.successful {
         Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
       }
     }
   }
 
   def submit = Action.async { implicit request =>
-      ???
+      ??? // TODO
   }
 
   def exit = Action { implicit request =>
@@ -67,7 +67,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
   }
 
-  private def callBeginWebPaymentService(vrm: String)(implicit request: Request[_]): Future[Result] = {
+  private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_]): Future[Result] = {
 
     def paymentBeginFailure = {
       Logger.debug(s"Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
@@ -75,7 +75,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
 
     val paymentSolveBeginRequest = PaymentSolveBeginRequest(
-      transNo = "1234567890", // TODO generate!
+      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
       vrm = vrm,
       paymentCallback = routes.Payment.paymentCallback().absoluteURL()
     )
@@ -84,7 +84,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
       if (response.response == VALIDATED_RESPONSE) {
 //        Redirect(new Call("GET", response.redirectUrl.get)) // TODO call this when csrf problem resolved
-        Redirect(routes.Payment.paymentCallback()).withCookie(TransactionReferenceCacheKey, response.trxRef.get)
+        Redirect(routes.Payment.paymentCallback()).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
       } else {
         Logger.error("The begin web request to Solve was not validated.")
         paymentBeginFailure
@@ -96,32 +96,42 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
   }
 
-  private def callGetWebPaymentService(trxRef: String)
+  private def callGetWebPaymentService(transactionId: String, trxRef: String)
                                         (implicit request: Request[_]): Future[Result] = {
 
-    def microServiceErrorResult(message: String) = {
-      Logger.error(message)
-      Redirect(routes.MicroServiceError.present())
+    def paymentGetFailure = {
+      Logger.debug(s"Payment Solve encountered a problem with request ${LogFormats.anonymize(trxRef)}, redirect to PaymentFailure")
+      Redirect(routes.PaymentFailure.present())
+    }
+
+    def paymentNotAuthorised = {
+      Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
+      Redirect(routes.PaymentNotAuthorised.present())
     }
 
     val paymentSolveGetRequest = PaymentSolveGetRequest(
-      transNo = "1234567890", // TODO same as prev transNo or a new one?
+      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map { response =>
-        // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
-//      if ((response.response == VALIDATED_RESPONSE) && (response.status == AUTHORISED_STATUS)) {
         if (response.response == VALIDATED_RESPONSE) {
-        // TODO store the auth code and masked pan
-        Redirect(routes.Retain.submit())
-      } else {
-        microServiceErrorResult(message = "The get web request to Solve was not validated or the payment was not authorised.") // TODO redirect to a failure page?
-      }
+          // TODO store the auth code and masked pan
+//          if (response.status == AUTHORISED_STATUS) { // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
+            Redirect(routes.Retain.submit())
+//          } else {
+//            Logger.debug("The payment was not authorised.")
+//            paymentNotAuthorised
+//          }
+        } else {
+          Logger.error("The get web request to Solve was not validated.")
+          paymentGetFailure
+        }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"Payment Solve Web service call failed. Exception " + e.toString.take(245))
+        Logger.error(s"Payment Solve Web service call failed. Exception " + e.toString.take(245))
+        paymentGetFailure
     }
   }
 }
