@@ -16,6 +16,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveBeginRequest, PaymentSolveService}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
+import views.vrm_retention.VehicleLookup._
+import scala.Some
+import play.api.mvc.Result
 
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
@@ -63,12 +67,11 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
   }
 
-  private def callBeginWebPaymentService(vrm: String)
-                       (implicit request: Request[_]): Future[Result] = {
+  private def callBeginWebPaymentService(vrm: String)(implicit request: Request[_]): Future[Result] = {
 
-    def microServiceErrorResult(message: String) = {
-      Logger.error(message)
-      Redirect(routes.MicroServiceError.present())
+    def paymentBeginFailure = {
+      Logger.debug(s"Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
+      Redirect(routes.PaymentFailure.present())
     }
 
     val paymentSolveBeginRequest = PaymentSolveBeginRequest(
@@ -83,11 +86,13 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 //        Redirect(new Call("GET", response.redirectUrl.get)) // TODO call this when csrf problem resolved
         Redirect(routes.Payment.paymentCallback()).withCookie(TransactionReferenceCacheKey, response.trxRef.get)
       } else {
-        microServiceErrorResult(message = "The begin web request to Solve was not validated.") // TODO redirect to a failure page?
+        Logger.error("The begin web request to Solve was not validated.")
+        paymentBeginFailure
       }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"Payment Solve Web service call failed. Exception " + e.toString.take(245))
+        Logger.error(s"Payment Solve Web service call failed. Exception " + e.toString.take(45))
+        paymentBeginFailure
     }
   }
 

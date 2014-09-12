@@ -10,17 +10,15 @@ import utils.helpers.Config
 import viewmodels.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import views.vrm_retention.VehicleLookup._
 
-final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[BruteForcePreventionModel],
-      request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getString(VehicleAndKeeperLookupResponseCodeCacheKey)) match {
-      case (Some(transactionId), Some(bruteForcePreventionResponse), Some(vehicleAndKeeperLookupForm), Some(vehicleLookupResponseCode)) =>
+      request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
+      case (Some(transactionId), Some(vehicleAndKeeperLookupForm)) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-        displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse, vehicleAndKeeperDetails, vehicleLookupResponseCode)
+        displayPaymentFailure(transactionId, vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
       case _ => Redirect(routes.BeforeYouStart.present())
     }
   }
@@ -33,24 +31,19 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     }
   }
 
-  private def displayVehicleLookupFailure(transactionId: String,
+  private def displayPaymentFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
-                                          bruteForcePreventionModel: BruteForcePreventionModel,
-                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
-                                          vehicleAndKeeperLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
+                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
+                                     )(implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
-    Ok(views.html.vrm_retention.vehicle_lookup_failure(
+    Ok(views.html.vrm_retention.payment_failure(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm,
-      responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-      attempts = bruteForcePreventionModel.attempts,
-      maxAttempts = bruteForcePreventionModel.maxAttempts)
-    ).
-      discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+      data = vehicleAndKeeperLookupForm)
+    )
   }
 }
