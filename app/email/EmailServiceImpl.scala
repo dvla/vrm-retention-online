@@ -57,11 +57,15 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                 val openGovernmentLicence = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png").get
                 "cid:" + htmlEmail.embed(openGovernmentLicence, "open-government-licence.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
               }
-              populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId, openGovernmentLicenceContentId)
+              val crestId = {
+                val openGovernmentLicence = Play.resource(name = "public/images/govuk-crest.png").get
+                "cid:" + htmlEmail.embed(openGovernmentLicence, "govuk-crest.png")
+              }
+              populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId, openGovernmentLicenceContentId, crestId)
             }
 
             htmlEmail.
-              setTextMsg("Your email client does not support HTML messages"). // TODO replace with actual content!
+              setTextMsg("Your email client does not support HTML messages. Please open this email in another email client or view the attached pdf").
               setHtmlMsg(htmlMessage.toString()).
               attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description).
               setFrom(from.email, from.name).
@@ -87,7 +91,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                                      retainModel: RetainModel,
                                      transactionId: String,
                                      crownContentId: String,
-                                     openGovernmentLicenceContentId: String): HtmlFormat.Appendable = {
+                                     openGovernmentLicenceContentId: String,
+                                     crestId: String): HtmlFormat.Appendable = {
     email_template(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber,
       retentionCertId = retainModel.certificateNumber,
@@ -98,7 +103,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       amount = amountDebited,
       replacementVRM = eligibilityModel.replacementVRM,
       crownContentId = crownContentId,
-      openGovernmentLicenceContentId = openGovernmentLicenceContentId)
+      openGovernmentLicenceContentId = openGovernmentLicenceContentId,
+      crestId = crestId
+    )
   }
 
   private def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {

@@ -9,7 +9,7 @@ import viewmodels.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                             config: Config) extends Controller {
+                                       config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -30,8 +30,8 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   private def displayPaymentFailure(transactionId: String,
-                                          vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
-                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
+                                    vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
+                                    vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
                                      )(implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)
