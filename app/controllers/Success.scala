@@ -8,7 +8,6 @@ import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import utils.helpers.Config
 import viewmodels._
 import views.vrm_retention.Confirm._
@@ -21,14 +20,15 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
                                                                                   config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    (request.cookies.getString(TransactionIdCacheKey), 
-      request.cookies.getModel[VehicleAndKeeperLookupFormModel], 
+    (request.cookies.getString(TransactionIdCacheKey),
+      request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[EligibilityModel],
       request.cookies.getModel[RetainModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(retainModel)) =>
-        val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
+        val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
+          filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
         val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt, keeperEmailOpt, retainModel, transactionId)
 
@@ -44,7 +44,7 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
 
       case _ =>
         Redirect(routes.MicroServiceError.present())
-    } 
+    }
   }
 
   def createPdf = Action.async { implicit request =>
@@ -68,35 +68,10 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
   }
 
   def finish = Action { implicit request =>
-    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
     val cookies = RelatedCacheKeys.RetainSet ++ {
-      if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
+      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }
     Redirect(routes.MockFeedback.present()).discardingCookies(cookies)
-  }
-
-  //TODO: We do not want the user to be able to get to this page - added for Tom to be able to style email easier. DELETE after US1017 is accepted.
-  def previewEmail = Action { implicit request =>
-    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(registrationNumber = "stub registrationNumber",
-      make = Some("stub make"),
-      model = Some("stub model"),
-      title = Some("stub title"),
-      firstName = Some("stub firstname"),
-      lastName = Some("stub lastname"),
-      address = Some(AddressModel(address = Seq("stub address line1"))))
-    val eligibilityModel = EligibilityModel(replacementVRM = "stub replacementVRM")
-    val retainModel = RetainModel(certificateNumber = "stub certificateNumber", transactionTimestamp = "stub transactionTimestamp")
-
-    Ok(
-      emailService.populateEmailTemplate(emailAddress = "stub email address",
-        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-        eligibilityModel = eligibilityModel,
-        retainModel = retainModel,
-        transactionId = "stub transactionId",
-        crownContentId = "/vrm-retention/assets/images/apple-touch-icon-57x57.png",
-        openGovernmentLicenceContentId = "/vrm-retention/assets/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png",
-        crestId = "/vrm-retention/assets/images/govuk-crest.png"
-      )
-    )
   }
 }

@@ -15,7 +15,7 @@ import scala.concurrent.Future
 /**
  * Application configuration is in a hierarchy of files:
  *
- *         application.conf
+ * application.conf
  * /             |            \
  * application.prod.conf    application.dev.conf    application.test.conf <- these can override and add to application.conf
  *
@@ -27,6 +27,7 @@ import scala.concurrent.Future
  * play -Dconfig.file=conf/application.test.conf run
  */
 trait GlobalLike extends WithFilters with GlobalSettings with Composition {
+
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings
    * that we can override to resolve a given controller. This resolution is required by the Play router.
