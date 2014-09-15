@@ -24,11 +24,13 @@ object VehicleAndKeeperDetailsModel {
   def from(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
 
     val addressViewModel = {
-      val addressLineModel = AddressLinesViewModel(vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
+      val addressLineModel = AddressLinesViewModel(
+        vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
         vehicleAndKeeperDetailsDto.keeperAddressLine2,
         vehicleAndKeeperDetailsDto.keeperAddressLine3,
         vehicleAndKeeperDetailsDto.keeperAddressLine4,
-        vehicleAndKeeperDetailsDto.keeperPostTown.get)
+        vehicleAndKeeperDetailsDto.keeperPostTown.get
+      )
       val addressAndPostcodeModel = AddressAndPostcodeViewModel(None, addressLineModel)
       AddressModel.from(addressAndPostcodeModel, formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))
     }
