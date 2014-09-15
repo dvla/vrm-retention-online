@@ -65,7 +65,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
             }
 
             htmlEmail.
-              setTextMsg("Your email client does not support HTML messages"). // TODO replace with actual content!
+              setTextMsg("Your email client does not support HTML messages. Please open this email in another email client or view the attached pdf").
               setHtmlMsg(htmlMessage.toString()).
               attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description).
               setFrom(from.email, from.name).
