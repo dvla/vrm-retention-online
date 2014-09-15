@@ -1,7 +1,7 @@
 package pdf
 
-import com.google.inject.Inject
 import java.io.{ByteArrayOutputStream, File, OutputStream}
+import com.google.inject.Inject
 import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
@@ -11,11 +11,11 @@ import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
 import pdf.PdfServiceImpl.{blankPage, v948Blank}
 import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import viewmodels.EligibilityModel
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import viewmodels.EligibilityModel
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 

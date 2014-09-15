@@ -1,7 +1,7 @@
 package pdf
 
-import scala.concurrent.Future
 import viewmodels.EligibilityModel
+import scala.concurrent.Future
 
 trait PdfService {
 

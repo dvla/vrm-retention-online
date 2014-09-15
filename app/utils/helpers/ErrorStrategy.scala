@@ -2,19 +2,16 @@ package utils.helpers
 
 import java.util.Date
 import javax.crypto.BadPaddingException
-
 import com.google.inject.Inject
 import com.google.inject.name.Named
 import controllers.routes
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter
-import AccessLoggingFilter.AccessLoggerName
 import play.api.libs.Codecs
 import play.api.mvc.Results.Redirect
 import play.api.mvc.{RequestHeader, Result}
 import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
-import uk.gov.dvla.vehicles.presentation.common.filters.ClfEntryBuilder
-
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
+import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, ClfEntryBuilder}
 import scala.concurrent.{ExecutionContext, Future}
 
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
