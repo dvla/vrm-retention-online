@@ -3,7 +3,7 @@ package controllers
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.mvc.{Result, _}
-import webserviceclients.vrmretentionretain.VRMRetentionRetainService
+import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -12,15 +12,12 @@ import viewmodels.VehicleAndKeeperLookupFormModel
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.VehicleLookup._
+import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveGetRequest, PaymentSolveService}
+import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveBeginRequest, PaymentSolveService}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import views.vrm_retention.VehicleLookup._
-import scala.Some
-import play.api.mvc.Result
-
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               paymentSolveService: PaymentSolveService,
@@ -28,18 +25,17 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
-
   private val VALIDATED_RESPONSE = "validated"
   private val AUTHORISED_STATUS = "AUTHORISED"
 
   def begin = Action.async { implicit request =>
-    (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel])  match {
-        case (Some(transactionId), Some(vehiclesLookupForm)) =>
-          callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
-        case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
-        }
+    (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
+      case (Some(transactionId), Some(vehiclesLookupForm)) =>
+        callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
+      case _ => Future.successful {
+        Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
       }
+    }
   }
 
   def paymentCallback = Action.async { implicit request =>
@@ -53,11 +49,11 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   }
 
   def submit = Action.async { implicit request =>
-      ??? // TODO
+    ??? // TODO
   }
 
   def exit = Action { implicit request =>
-    if (request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) {
+    if (request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)) {
       Redirect(routes.MockFeedback.present())
         .discardingCookies(RelatedCacheKeys.RetainSet)
     } else {
@@ -83,7 +79,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
       if (response.response == VALIDATED_RESPONSE) {
-//        Redirect(new Call("GET", response.redirectUrl.get)) // TODO call this when csrf problem resolved
+        //        Redirect(new Call("GET", response.redirectUrl.get)) // TODO call this when csrf problem resolved
         Redirect(routes.Payment.paymentCallback()).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
       } else {
         Logger.error("The begin web request to Solve was not validated.")
@@ -97,7 +93,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   }
 
   private def callGetWebPaymentService(transactionId: String, trxRef: String)
-                                        (implicit request: Request[_]): Future[Result] = {
+                                      (implicit request: Request[_]): Future[Result] = {
 
     def paymentGetFailure = {
       Logger.debug(s"Payment Solve encountered a problem with request ${LogFormats.anonymize(trxRef)}, redirect to PaymentFailure")
@@ -116,18 +112,18 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map { response =>
-        if (response.response == VALIDATED_RESPONSE) {
-          // TODO store the auth code and masked pan
-//          if (response.status == AUTHORISED_STATUS) { // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
-            Redirect(routes.Retain.submit())
-//          } else {
-//            Logger.debug("The payment was not authorised.")
-//            paymentNotAuthorised
-//          }
-        } else {
-          Logger.error("The get web request to Solve was not validated.")
-          paymentGetFailure
-        }
+      if (response.response == VALIDATED_RESPONSE) {
+        // TODO store the auth code and masked pan
+        //          if (response.status == AUTHORISED_STATUS) { // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
+        Redirect(routes.Retain.submit())
+        //          } else {
+        //            Logger.debug("The payment was not authorised.")
+        //            paymentNotAuthorised
+        //          }
+      } else {
+        Logger.error("The get web request to Solve was not validated.")
+        paymentGetFailure
+      }
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"Payment Solve Web service call failed. Exception " + e.toString.take(245))

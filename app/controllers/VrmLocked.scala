@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -20,12 +21,16 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
         request.cookies.getModel[BruteForcePreventionModel],
         request.cookies.getModel[VehicleAndKeeperLookupFormModel],
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-        case (Some(transactionId), Some(bruteForcePreventionModel), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails)) =>
+        case (Some(transactionId), Some(bruteForcePreventionModel), _, Some(vehicleAndKeeperDetails)) =>
           Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
-          Ok(views.html.vrm_retention.vrm_locked(transactionId, VrmLockedViewModel(vehicleAndKeeperDetails), bruteForcePreventionModel.dateTimeISOChronology))
+          val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
+          val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
+          Ok(views.html.vrm_retention.vrm_locked(transactionId, VrmLockedViewModel(vehicleAndKeeperDetails, timeString, javascriptTimestamp)))
         case (Some(transactionId), Some(bruteForcePreventionModel), Some(vehicleAndKeeperLookupForm), None) =>
           Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
-          Ok(views.html.vrm_retention.vrm_locked(transactionId, VrmLockedViewModel(vehicleAndKeeperLookupForm), bruteForcePreventionModel.dateTimeISOChronology))
+          val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
+          val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
+          Ok(views.html.vrm_retention.vrm_locked(transactionId, VrmLockedViewModel(vehicleAndKeeperLookupForm, timeString, javascriptTimestamp)))
         case _ =>
           Logger.debug("VrmLocked - Can't find cookies")
           Redirect(routes.VehicleLookup.present())

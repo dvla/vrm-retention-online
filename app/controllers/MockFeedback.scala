@@ -8,7 +8,7 @@ import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys
 
 final class MockFeedback @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config) extends Controller {
+                                     config: Config) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.vrm_retention.mock_gov_uk_feedback()).
@@ -16,5 +16,4 @@ final class MockFeedback @Inject()()(implicit clientSideSessionFactory: ClientSi
       discardingCookies(RelatedCacheKeys.RetainSet)
     // TODO remove Business Cache if consent not sent
   }
-
 }

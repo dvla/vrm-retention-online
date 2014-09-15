@@ -17,6 +17,8 @@ function getCookie(e) {
     }
     return null
 }
+
+// TODO: Remove var below if it is not used anywhere.
 var vehiclesOnline = {
     daysInMsec: function (e) {
         return e * 24 * 60 * 60 * 1e3

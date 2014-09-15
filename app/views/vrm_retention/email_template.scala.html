@@ -7,7 +7,8 @@ keeperAddress: String,
 amount: String,
 replacementVRM: String,
 crownContentId: String,
-openGovernmentLicenceContentId: String)
+openGovernmentLicenceContentId: String,
+crestId: String)
 
 <!-- Inliner Build Version 4380b7741bb759d6cb997545f3add21ad48f010b -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -101,6 +102,7 @@ openGovernmentLicenceContentId: String)
     }
 </style>
 <!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
+
 <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable"
        style="width: 100% !important; line-height: 100% !important; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-family: Helvetica, Arial, sans-serif, sans; background: #fff; margin: 0; padding: 0;"
        bgcolor="#fff">
@@ -280,19 +282,10 @@ openGovernmentLicenceContentId: String)
         </td>
     </tr>
     <tr>
-        <td id="GovUkFooter" class="spacing"
-            style="border-collapse: collapse; color: #000; background: #DEE0E2; padding: 0 30px;" bgcolor="#DEE0E2">
-            <table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
-                <tr>
-                    <td style="border-collapse: collapse; font-size: 0.8em; text-align: right; padding: 20px 0;"
-                        align="right"><img src="@openGovernmentLicenceContentId"
-                                           style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans-serif, sans;"/>
-                        All content is available under the Open government License v2.0, except where otherwise stated
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-<!-- End of wrapper table --></body>
+        <td id="GovUkFooter" class="spacing" style="border-collapse: collapse; color: #000; background: #DEE0E2; padding: 0 30px;" bgcolor="#DEE0E2">
+            <table style="width:100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td style="border-collapse: collapse; font-size: 0.8em; text-align: left; padding: 20px 0; font-family: Helvetica, Arial, sans-serif, sans;" align="right"><img src="@openGovernmentLicenceContentId" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;" /> All content is available under the Open government License v2.0, except where otherwise stated</td>
+                </td><td align="right" style="padding:20px 0;"><img src="@crestId"></td>
+                </tr></table></td>
+    </tr></table><!-- End of wrapper table --></body>
+
 </html>

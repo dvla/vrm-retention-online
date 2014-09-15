@@ -1,4 +1,4 @@
-@(transactionId: String, vrmLockedViewModel: viewmodels.VrmLockedViewModel, timeString: String)(implicit lang: Lang,
+@(transactionId: String, vrmLockedViewModel: viewmodels.VrmLockedViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken, config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
@@ -13,7 +13,7 @@
         <div class="first-col">
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_locked.text1")</p>
-            <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@timeString</span></p>
+            <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@vrmLockedViewModel.timeString</span></p>
             <p>@Messages("vrm_locked.text3.1")&nbsp;<strong>@Messages("vrm_locked.text3.2")</strong></p>
             <div class="form-steps">
                 <div class="step">
@@ -44,13 +44,15 @@
     </div>
 }
 
-@* TODO Move to separate .js file? *@
+@* TODO instead of inserting into html the html needs the default value (for browsers without javascript) and this script should totally replace the span. *@
 <script type="text/javascript">
-    function localize(dateTimeISOChronology)
+    function localize(milliseconds)
     {
-        var localTime =new Date(dateTimeISOChronology).toLocaleTimeString();
+        var date = new Date();
+        date.setTime(milliseconds);
+        var localTime = date.toLocaleTimeString();
         document.getElementById('localTimeOfVrmLock').innerHTML = localTime;
     }
 
-    localize("@timeString");
+localize(@vrmLockedViewModel.javascriptTimestamp);
 </script>

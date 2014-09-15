@@ -32,7 +32,7 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
   private def displayPaymentNotAuthorised(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
-                                     )(implicit request: Request[AnyContent]) = {
+                                           )(implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
