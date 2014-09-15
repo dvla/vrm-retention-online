@@ -16,8 +16,8 @@ import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, 
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import utils.helpers.Config
-import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
+import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import models.{BusinessDetailsModel, EnterAddressManuallyModel}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.concurrent.Future

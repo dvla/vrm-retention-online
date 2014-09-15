@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models._
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
@@ -8,7 +9,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-import viewmodels._
 import views.html.vrm_retention.enter_address_manually
 
 final class EnterAddressManually @Inject()()
@@ -71,10 +71,6 @@ final class EnterAddressManually @Inject()()
       ).
       replaceError(
         "addressAndPostcode.postcode",
-        FormError(
-          key = "addressAndPostcode.postcode",
-          message = "error.address.postcode.invalid"
-        )
-      ).
-      distinctErrors
+        FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
+      ).distinctErrors
 }

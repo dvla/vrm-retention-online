@@ -1,4 +1,4 @@
-package viewmodels
+package models
 
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey

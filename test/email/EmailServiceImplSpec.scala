@@ -1,7 +1,7 @@
 package email
 
 import helpers.{WithApplication, UnitSpec}
-import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._

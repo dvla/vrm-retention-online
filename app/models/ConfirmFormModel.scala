@@ -1,4 +1,4 @@
-package viewmodels
+package models
 
 import play.api.data.Forms.{boolean, mapping, optional}
 import play.api.libs.json.Json
@@ -20,5 +20,4 @@ object ConfirmFormModel {
       StoreDetailsConsentId -> boolean
     )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   }
-
 }

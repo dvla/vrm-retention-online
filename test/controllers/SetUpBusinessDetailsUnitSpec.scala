@@ -12,7 +12,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.AddressLookupServiceConstants._
 import utils.helpers.Config
-import viewmodels.SetupBusinessDetailsFormModel
+import models.SetupBusinessDetailsFormModel
 import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SetupBusinessDetailsCacheKey}
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {

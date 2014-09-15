@@ -1,4 +1,4 @@
-package viewmodels
+package models
 
 final case class SetupBusinessDetailsViewModel(registrationNumber: String,
                                                vehicleMake: Option[String],

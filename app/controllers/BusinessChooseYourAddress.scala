@@ -1,6 +1,7 @@
 package controllers
 
 import javax.inject.Inject
+import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
@@ -9,7 +10,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSes
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import utils.helpers.Config
-import viewmodels.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import views.html.vrm_retention.business_choose_your_address
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey

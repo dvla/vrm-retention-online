@@ -1,7 +1,7 @@
 package email
 
 import play.twirl.api.HtmlFormat
-import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
 
 trait EmailService {
 

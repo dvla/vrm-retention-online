@@ -11,11 +11,11 @@ import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
 import pdf.PdfServiceImpl.{blankPage, v948Blank}
 import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import viewmodels.EligibilityModel
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import models.EligibilityModel
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
