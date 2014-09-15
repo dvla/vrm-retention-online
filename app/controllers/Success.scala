@@ -94,7 +94,9 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
         retainModel = retainModel,
         transactionId = "stub transactionId",
         crownContentId = "/vrm-retention/assets/images/apple-touch-icon-57x57.png",
-        openGovernmentLicenceContentId = "/vrm-retention/assets/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png")
+        openGovernmentLicenceContentId = "/vrm-retention/assets/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png",
+        crestId = "/vrm-retention/assets/images/govuk-crest.png"
+      )
     )
   }
 }
