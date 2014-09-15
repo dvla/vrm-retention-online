@@ -51,7 +51,7 @@ POST        /vrm-retention/confirm                             @controllers.Conf
 GET         /vrm-retention/confirm/exit                        @controllers.Confirm.exit
 
 GET         /vrm-retention/payment/begin                       @controllers.Payment.begin
-GET         /vrm-retention/payment/paymentCallback             @controllers.Payment.paymentCallback
+POST        /vrm-retention/payment/callback                    @controllers.Payment.callback
 # no form on payment page so is GET the right http verb for submit
 GET         /vrm-retention/payment/submit                      @controllers.Payment.submit
 GET         /vrm-retention/payment/exit                        @controllers.Payment.exit
