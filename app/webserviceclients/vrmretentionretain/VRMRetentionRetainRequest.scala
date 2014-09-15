@@ -2,7 +2,7 @@ package webserviceclients.vrmretentionretain
 
 import play.api.libs.json.Json
 
-case class VRMRetentionRetainRequest(currentVRM: String) //pr mark
+case class VRMRetentionRetainRequest(currentVRM: String)
 
 object VRMRetentionRetainRequest {
 
