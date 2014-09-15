@@ -13,7 +13,6 @@ import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import utils.helpers.Config
@@ -289,9 +288,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     enterAddressManually.present(request)
   }
 
-  private val enterAddressManually = {
-    injector.getInstance(classOf[EnterAddressManually])
-  }
+  private def enterAddressManually = testInjector().getInstance(classOf[EnterAddressManually])
 
   private def validateAddressCookieValues(result: Future[Result], buildingName: String, line2: String,
                                           line3: String, postTown: String, postCode: String = PostcodeValid) = {

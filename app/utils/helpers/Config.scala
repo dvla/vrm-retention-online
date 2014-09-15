@@ -7,12 +7,14 @@ class Config {
 
   val isCsrfPreventionEnabled = getProperty("csrf.prevention", default = true)
 
-  // Micro-service config
+  // Micro-service config // TODO take defaults off the timeouts
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionEligibilityMicroServiceUrlBase: String = getProperty("vrmRetentionEligibilityMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionEligibilityMsRequestTimeout: Int = getProperty("vrmRetentionEligibility.ms.requesttimeout", 5.seconds.toMillis.toInt)
   val vrmRetentionRetainMicroServiceUrlBase: String = getProperty("vrmRetentionRetainMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionRetainMsRequestTimeout: Int = getProperty("vrmRetentionRetain.ms.requesttimeout", 5.seconds.toMillis.toInt)
+  val paymentSolveMicroServiceUrlBase: String = getProperty("paymentSolveMicroServiceUrlBase", "NOT FOUND")
+  val paymentSolveMsRequestTimeout: Int = getProperty("paymentSolve.ms.requesttimeout", 5.seconds.toMillis.toInt)
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")

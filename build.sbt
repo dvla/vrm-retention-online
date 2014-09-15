@@ -127,3 +127,4 @@ lazy val p4 = vrmRetentionEligibility.disablePlugins(PlayScala, SassPlugin, SbtW
 lazy val p5 = vrmRetentionRetain.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p6 = legacyStubs.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p7 = gatlingTests.disablePlugins(PlayScala, SassPlugin, SbtWeb)
+val p8 = paymentSolve.disablePlugins(PlayScala, SassPlugin, SbtWeb)

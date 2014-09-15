@@ -1,11 +1,12 @@
 package pdf
 
-import helpers.UnitSpec
-import viewmodels.EligibilityModel
+import composition.TestDateService
+import helpers.{UnitSpec, WithApplication}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import viewmodels.EligibilityModel
 
 final class PdfServiceSpec extends UnitSpec {
 
@@ -15,7 +16,7 @@ final class PdfServiceSpec extends UnitSpec {
 
   "create" should {
 
-    "return a non-empty output stream" in {
+    "return a non-empty output stream" in new WithApplication {
       val eligibilityModel = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
 
       val result = pdfService.create(
@@ -30,6 +31,6 @@ final class PdfServiceSpec extends UnitSpec {
     }
   }
 
-  implicit val pdfService = injector.getInstance(classOf[PdfService])
+  private lazy val pdfService = testInjector(new TestDateService).getInstance(classOf[PdfService])
   private val longTimeout = Timeout(Span(10, Seconds))
 }

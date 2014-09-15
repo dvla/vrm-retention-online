@@ -9,7 +9,7 @@ import services.fakes.BruteForcePreventionWebServiceConstants._
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSession, ClientSideSessionFactory, CookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
@@ -26,8 +26,7 @@ import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeepe
 object CookieFactoryForUnitSpecs extends TestComposition {
 
   private final val TrackingIdValue = "trackingId"
-  implicit private val cookieFlags = injector.getInstance(classOf[CookieFlags])
-  private val session = new ClearTextClientSideSession(TrackingIdValue)
+  private lazy val session = testInjector().getInstance(classOf[ClientSideSessionFactory]).getSession(Array.empty[Cookie])
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,

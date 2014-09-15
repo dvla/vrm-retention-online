@@ -1,0 +1,42 @@
+@(transactionId: String, vehicleLookupFailureViewModel: viewmodels.VehicleLookupFailureViewModel, data: viewmodels.VehicleAndKeeperLookupFormModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import views.html.vrm_retention.main
+@import views.vrm_retention.PaymentNotAuthorised.{TryAgainId, ExitId}
+
+@main(
+    title =  Messages("paymentNotAuthorisedErrorMessage.title")
+) {
+    <div class="two-col">
+    <div id="vehicle-details" class="first-col trader-details">
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                <dl class="summary-detail-list">
+                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                    <dd class="regNum">@vehicleLookupFailureViewModel.registrationNumber</dd>
+                    @if(vehicleLookupFailureViewModel.make.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
+                    }
+                    @if(vehicleLookupFailureViewModel.model.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
+                    }
+                </dl>
+        </div>
+        <div class="second-col">
+            <p>Transaction Id @transactionId</p>
+            <p>@Messages("paymentNotAuthorisedErrorMessage.p1")</p>
+            <p>@Messages("paymentNotAuthorisedErrorMessage.p2")</p>
+            <p>@Messages("paymentNotAuthorisedErrorMessage.p3")</p>
+            <br>
+
+            @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
+            <div class="form-steps">
+                @{ /* Note the reverse routing syntax for the hyperlink */ }
+                <a id="@TryAgainId" href="@controllers.routes.Payment.begin()" class="button-secondary">@Messages("vrm_retention_paymentnotauthorised.tryagainbutton")</a>
+                <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_paymentnotauthorised.exitbutton")</a>
+            </div>
+        </div>
+    </div>
+
+}

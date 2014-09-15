@@ -1,4 +1,4 @@
-package viewmodels
+package webserviceclients.vehicleandkeeperlookup
 
 import play.api.libs.json.Json
 

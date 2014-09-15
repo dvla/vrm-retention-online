@@ -1,9 +1,11 @@
 package controllers
 
 import helpers.UnitSpec
-import views.vrm_retention.SetupBusinessDetails
-import SetupBusinessDetails._
+import play.api.data.Form
 import services.fakes.AddressLookupServiceConstants._
+import viewmodels.SetupBusinessDetailsFormModel
+import views.vrm_retention.SetupBusinessDetails
+import views.vrm_retention.SetupBusinessDetails._
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
@@ -84,14 +86,13 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
                                     traderBusinessContact: String = TraderBusinessContactValid,
                                     traderBusinessEmail: String = TraderBusinessEmailValid,
                                     traderPostcode: String = PostcodeValid) = {
-    injector.getInstance(classOf[SetUpBusinessDetails])
-      .form.bind(
-        Map(
-          BusinessNameId -> traderBusinessName,
-          BusinessContactId -> traderBusinessContact,
-          BusinessEmailId -> traderBusinessEmail,
-          BusinessPostcodeId -> traderPostcode
-        )
+    Form(SetupBusinessDetailsFormModel.Form.Mapping).bind(
+      Map(
+        BusinessNameId -> traderBusinessName,
+        BusinessContactId -> traderBusinessContact,
+        BusinessEmailId -> traderBusinessEmail,
+        BusinessPostcodeId -> traderPostcode
       )
+    )
   }
 }

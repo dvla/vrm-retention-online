@@ -17,7 +17,7 @@ import utils.helpers.Config
 import viewmodels._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -40,17 +40,26 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   def submit = Action.async { implicit request =>
     form.bindFromRequest.fold(
       invalidForm => Future.successful {
-        val formWithReplacedErrors = invalidForm.
-          replaceError(VehicleRegistrationNumberId, FormError(key = VehicleRegistrationNumberId,
-          message = "error.restricted.validVrnOnly",
-          args = Seq.empty)).
-          replaceError(DocumentReferenceNumberId, FormError(key = DocumentReferenceNumberId,
-          message = "error.validDocumentReferenceNumber",
-          args = Seq.empty)).
-          replaceError(PostcodeId, FormError(key = PostcodeId,
-          message = "error.restricted.validPostcode",
-          args = Seq.empty)).
-          distinctErrors
+        val formWithReplacedErrors = invalidForm
+          .replaceError(
+            VehicleRegistrationNumberId, 
+            FormError(
+              key = VehicleRegistrationNumberId,
+              message = "error.restricted.validVrnOnly",
+              args = Seq.empty))
+          .replaceError(
+            DocumentReferenceNumberId, 
+            FormError(
+              key = DocumentReferenceNumberId,
+              message = "error.validDocumentReferenceNumber",
+              args = Seq.empty))
+          .replaceError(
+            PostcodeId, 
+            FormError(
+              key = PostcodeId,
+              message = "error.restricted.validPostcode",
+              args = Seq.empty))
+          .distinctErrors
         BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors))
       },
       validForm => {

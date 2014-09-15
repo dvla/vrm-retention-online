@@ -10,14 +10,14 @@ final class PaymentUnitSpec extends UnitSpec {
 
   "exit" should {
 
-    "redirect to feedback page when storeBusinessDetailsConsent cookie does not exist" in {
+    "redirect to feedback page when storeBusinessDetailsConsent cookie does not exist" in new WithApplication {
       val result = payment.exit(FakeRequest())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
     }
 
-    "redirect to feedback page when storeBusinessDetailsConsent cookie contains false" in {
+    "redirect to feedback page when storeBusinessDetailsConsent cookie contains false" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.storeBusinessDetailsConsent(consent = "false"))
       val result = payment.exit(request)
@@ -26,7 +26,7 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to feedback page when storeBusinessDetailsConsent cookie contains true" in {
+    "redirect to feedback page when storeBusinessDetailsConsent cookie contains true" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.storeBusinessDetailsConsent(consent = "true"))
       val result = payment.exit(request)
@@ -36,5 +36,5 @@ final class PaymentUnitSpec extends UnitSpec {
     }
   }
 
-  private val payment = injector.getInstance(classOf[Payment])
+  private lazy val payment = testInjector().getInstance(classOf[Payment])
 }

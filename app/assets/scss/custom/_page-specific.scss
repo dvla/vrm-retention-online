@@ -19,6 +19,11 @@
 
     //vehicle lookup/enter vehicle details
     .vehicle-lookup {
+        .ie6 & {
+            label.form-radio input {
+                left:10px;
+            }
+        }
         .first-col {
             @media screen and (max-width:$device-medium) {
                 margin:0;
@@ -147,16 +152,5 @@
         max-height: 40px;
         float: left;
         padding-right: 10px;
-    }
-    @media only screen and (min-width:768px) { 
-        .two-col {
-
-            .first-col {
-                float:left;
-            }
-            .second-col {
-                float:right;
-            }
-        }
     }
 }

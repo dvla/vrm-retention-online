@@ -1,10 +1,9 @@
 package webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import helpers.{WithApplication, UnitSpec, WireMockFixture}
+import helpers.{UnitSpec, WireMockFixture, WithApplication}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import utils.helpers.Config
 
 final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
@@ -22,7 +21,6 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     }
   }
 
-  private implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
   private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
     override val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
   })

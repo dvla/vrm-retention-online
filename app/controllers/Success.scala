@@ -20,53 +20,31 @@ import scala.concurrent.Future
 final class Success @Inject()(pdfService: PdfService, emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                                                   config: Config) extends Controller {
 
-  def present = Action {
-    implicit request =>
-      (request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        request.cookies.getModel[EligibilityModel], request.cookies.getModel[BusinessDetailsModel],
-        request.cookies.getString(KeeperEmailCacheKey), request.cookies.getModel[RetainModel]) match {
+  def present = Action { implicit request =>
+    (request.cookies.getString(TransactionIdCacheKey), 
+      request.cookies.getModel[VehicleAndKeeperLookupFormModel], 
+      request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[EligibilityModel],
+      request.cookies.getModel[RetainModel]) match {
 
-        case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetails), Some(keeperEmail), Some(retainModel)) =>
-          if (vehicleAndKeeperLookupForm.userType == UserType_Business) {
-            // send business email
-            emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
-          }
-          // send keeper email if supplied
+      case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(retainModel)) =>
+        val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
+        val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
+        val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt, keeperEmailOpt, retainModel, transactionId)
+
+        businessDetailsOpt.foreach { businessDetails =>
+          emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
+        }
+
+        keeperEmailOpt.foreach { keeperEmail =>
           emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
-          // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel,
-            if (vehicleAndKeeperLookupForm.userType == UserType_Business) Some(businessDetails) else None,
-            Some(keeperEmail), retainModel, transactionId)
-          Ok(views.html.vrm_retention.success(successViewModel))
+        }
 
-        case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), Some(businessDetailsModel), None, Some(retainModel)) =>
-          if (vehicleAndKeeperLookupFormModel.userType == UserType_Business) {
-            // send business email
-            emailService.sendEmail(businessDetailsModel.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
-          }
-          // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel,
-            if (vehicleAndKeeperLookupFormModel.userType == UserType_Business) Some(businessDetailsModel) else None,
-            None, retainModel, transactionId)
-          Ok(views.html.vrm_retention.success(successViewModel))
+        Ok(views.html.vrm_retention.success(successViewModel))
 
-        case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, Some(keeperEmail), Some(retainModel)) =>
-          // send keeper email if supplied
-          emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
-          // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, None, Some(keeperEmail), retainModel, transactionId)
-          Ok(views.html.vrm_retention.success(successViewModel))
-
-        case (Some(transactionId), Some(vehicleAndKeeperLookupFormModel), Some(vehicleAndKeeperDetails), Some(eligibilityModel), None, None, Some(retainModel)) =>
-          // create success model for display
-          val successViewModel = SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
-          Ok(views.html.vrm_retention.success(successViewModel))
-
-        case _ =>
-          Redirect(routes.MicroServiceError.present())
-      }
+      case _ =>
+        Redirect(routes.MicroServiceError.present())
+    } 
   }
 
   def createPdf = Action.async { implicit request =>
@@ -90,14 +68,11 @@ final class Success @Inject()(pdfService: PdfService, emailService: EmailService
   }
 
   def finish = Action { implicit request =>
-    if (request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-    } else {
-      Redirect(routes.MockFeedback.present())
-        .discardingCookies(RelatedCacheKeys.RetainSet)
-        .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+    val cookies = RelatedCacheKeys.RetainSet ++ {
+      if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
     }
+    Redirect(routes.MockFeedback.present()).discardingCookies(cookies)
   }
 
   //TODO: We do not want the user to be able to get to this page - added for Tom to be able to style email easier. DELETE after US1017 is accepted.

@@ -1,11 +1,10 @@
 package controllers
 
 import helpers.UnitSpec
-import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
+import play.api.data.Form
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
-import utils.helpers.Config
+import viewmodels.BusinessChooseYourAddressFormModel
+import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 
 final class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
@@ -27,15 +26,8 @@ final class BusinessChooseYourAddressFormSpec extends UnitSpec {
   }
 
   private def formWithValidDefaults(addressSelected: String = traderUprnValid.toString) = {
-    businessChooseYourAddressWithFakeWebService().form.bind(
+    Form(BusinessChooseYourAddressFormModel.Form.Mapping).bind(
       Map(AddressSelectId -> addressSelected)
     )
-  }
-
-  private def businessChooseYourAddressWithFakeWebService(uprnFound: Boolean = true) = {
-    val addressLookupService = injector.getInstance(classOf[AddressLookupService])
-    implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    implicit val config: Config = mock[Config]
-    new BusinessChooseYourAddress(addressLookupService)
   }
 }

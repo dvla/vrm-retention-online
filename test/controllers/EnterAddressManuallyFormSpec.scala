@@ -1,9 +1,11 @@
 package controllers
 
 import helpers.UnitSpec
-import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import play.api.data.Form
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
+import viewmodels.EnterAddressManuallyModel
+import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
 
@@ -121,7 +123,7 @@ final class EnterAddressManuallyFormSpec extends UnitSpec {
                                     line2: String = Line2Valid,
                                     line3: String = Line3Valid,
                                     postTown: String = PostTownValid) = {
-    injector.getInstance(classOf[EnterAddressManually]).form.bind(
+    Form(EnterAddressManuallyModel.Form.Mapping).bind(
       Map(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> buildingNameOrNumber,
         s"$AddressAndPostcodeId.$AddressLinesId.$Line2Id" -> line2,

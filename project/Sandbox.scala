@@ -23,6 +23,7 @@ object Sandbox extends Plugin {
   final val VersionVehicleAndKeeperLookup = "0.1-SNAPSHOT"
   final val VersionVrmRetentionEligibility = "0.1-SNAPSHOT"
   final val VersionVrmRetentionRetain = "0.1-SNAPSHOT"
+  final val VersionPaymentSolve= "0.1-SNAPSHOT"
   final val VersionLegacyStubs = "1.0-SNAPSHOT"
   final val VersionJetty = "9.2.1.v20140609"
   final val VersionSpringWeb = "3.0.7.RELEASE"
@@ -37,6 +38,7 @@ object Sandbox extends Plugin {
   final val VrmRetentionEligibilityPort = 18804
   final val VrmRetentionRetainPort = 18805
   final val LegacyServicesStubsPort = 18806
+  final val PaymentSolvePort = 18807
 
   val secretProperty = "DECRYPT_PASSWORD"
   val secretProperty2 = "GIT_SECRET_PASSPHRASE"
@@ -73,6 +75,8 @@ object Sandbox extends Plugin {
     sandProject("vrm-retention-eligibility", "dvla" %% "vrm-retention-eligibility" % VersionVrmRetentionEligibility)
   lazy val (vrmRetentionRetain, scopeVrmRetentionRetain) =
     sandProject("vrm-retention-retain", "dvla" %% "vrm-retention-retain" % VersionVrmRetentionRetain)
+  lazy val (paymentSolve, scopePaymentSolve) =
+    sandProject("payment-solve", "dvla" %% "payment-solve" % VersionPaymentSolve)
   lazy val (legacyStubs, scopeLegacyStubs) = sandProject(
     name = "legacy-stubs",
     "dvla-legacy-stub-services" % "legacy-stub-services-service" % VersionLegacyStubs,
@@ -87,7 +91,7 @@ object Sandbox extends Plugin {
     "uk.gov.dvla" % "vehicles-gatling" % VersionVehiclesGatling
   )
 
-  lazy val sandboxedProjects = Seq(osAddressLookup, vehiclesLookup, vehicleAndKeeperLookup, legacyStubs)
+//  lazy val sandboxedProjects = Seq(osAddressLookup, vehiclesLookup, vehicleAndKeeperLookup, legacyStubs)
 
   lazy val vehiclesOnline = ScopeFilter(inProjects(ThisProject), inConfigurations(Runtime))
 
@@ -163,6 +167,17 @@ object Sandbox extends Plugin {
       ))
     )
     runProject(
+      fullClasspath.all(scopePaymentSolve).value.flatten,
+      Some(ConfigDetails(
+        secretRepoFolder,
+        "ms/dev/payment-solve.conf.enc",
+        Some(ConfigOutput(
+          new File(classDirectory.all(scopePaymentSolve).value.head, s"${paymentSolve.id}.conf"),
+          setServicePort(PaymentSolvePort)
+        ))
+      ))
+    )
+    runProject(
       fullClasspath.all(scopeLegacyStubs).value.flatten,
       None,
       runJavaMain("service.LegacyServicesRunner", Array(LegacyServicesStubsPort.toString))
@@ -175,6 +190,7 @@ object Sandbox extends Plugin {
     System.setProperty("vehicleAndKeeperLookupMicroServiceUrlBase", s"http://localhost:$VehicleAndKeeperLookupPort")
     System.setProperty("vrmRetentionEligibilityMicroServiceUrlBase", s"http://localhost:$VrmRetentionEligibilityPort")
     System.setProperty("vrmRetentionRetainMicroServiceUrlBase", s"http://localhost:$VrmRetentionRetainPort")
+    System.setProperty("paymentSolveMicroServiceUrlBase", s"http://localhost:$PaymentSolvePort")
     System.setProperty("ordnancesurvey.baseUrl", s"http://localhost:$OsAddressLookupPort")
     body.flatMap(t => stop)
   }
