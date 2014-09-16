@@ -1,12 +1,10 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
-import utils.helpers.Config
 
 final class UprnNotFoundUnitSpec extends UnitSpec {
 
@@ -40,12 +38,7 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
   }
 
   private def uprnNotFoundPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[UprnNotFound])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
+      getInstance(classOf[UprnNotFound])
   }
 }

@@ -1,12 +1,10 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout}
-import utils.helpers.Config
 
 final class SoapEndpointErrorUnitSpec extends UnitSpec {
 
@@ -37,12 +35,7 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
   private lazy val soapEndpointError = testInjector().getInstance(classOf[SoapEndpointError])
 
   private def soapEndpointErrorPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[SoapEndpointError])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
+      getInstance(classOf[SoapEndpointError])
   }
 }

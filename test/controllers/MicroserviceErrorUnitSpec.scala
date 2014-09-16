@@ -1,12 +1,10 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito.when
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
-import utils.helpers.Config
 
 final class MicroserviceErrorUnitSpec extends UnitSpec {
 
@@ -32,13 +30,8 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
   }
 
   private def microServiceErrorPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[MicroServiceError])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
+      getInstance(classOf[MicroServiceError])
   }
 
   private lazy val present = microServiceError.present(FakeRequest())
