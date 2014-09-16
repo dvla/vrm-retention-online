@@ -77,6 +77,19 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     )
     val trackingId = request.cookies.trackingId()
 
+    Logger.debug("paymentCallback " + paymentSolveBeginRequest.paymentCallback)
+    Logger.info("paymentCallback " + paymentSolveBeginRequest.paymentCallback)
+
+    Logger.debug("routes.Payment.callback().absoluteURL() " + routes.Payment.callback().absoluteURL())
+    Logger.info("routes.Payment.callback().absoluteURL() " + routes.Payment.callback().absoluteURL())
+
+    Logger.debug("routes.Payment.callback().url() " + routes.Payment.callback().url)
+    Logger.info("routes.Payment.callback().url() " + routes.Payment.callback().url)
+
+    Logger.debug("request.headers.get(\"host\") " + request.headers.get("host").get)
+    Logger.info("request.headers.get(\"host\") " + request.headers.get("host").get)
+
+
     paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
       if (response.response == VALIDATED_RESPONSE) {
         Redirect(new Call("GET", response.redirectUrl.get)).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
