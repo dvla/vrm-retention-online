@@ -1,6 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
+import composition.{TestBruteForcePreventionWebService, TestConfig}
 import controllers.Common.PrototypeHtml
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
@@ -14,13 +15,10 @@ import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import services.fakes.{BruteForcePreventionWebServiceConstants, FakeResponse}
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
-import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
-import utils.helpers.Config
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import scala.concurrent.Future
 
 final class VehicleLookupUnitSpec extends UnitSpec {
@@ -320,31 +318,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           new FakeResponse(status = responseStatus, fakeJson = responseAsJson) // Any call to a webservice will always return this successful response.
         })
         bind[VehicleAndKeeperLookupWebService].toInstance(ws)
-
-        // Stub config
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
-        bind[Config].toInstance(config)
-
-        // Stub BruteForcePreventionWebService
-        val bruteForceStatus = if (permitted) play.api.http.Status.OK else play.api.http.Status.FORBIDDEN
-        val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
-
-        when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid)).
-          thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
-
-        when(bruteForcePreventionWebService.callBruteForce(BruteForcePreventionWebServiceConstants.VrmAttempt2)).
-          thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseSecondAttempt)))
-
-        when(bruteForcePreventionWebService.callBruteForce(BruteForcePreventionWebServiceConstants.VrmLocked)).
-          thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus)))
-
-        when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).
-          thenReturn(responseThrows)
-
-        bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
       }
-    }).getInstance(classOf[VehicleLookup])
+    },
+      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible)).getInstance(classOf[VehicleLookup])
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
