@@ -1,14 +1,15 @@
 package controllers
 
 import com.google.inject.Inject
+import views.vrm_retention.SetupBusinessDetails
+import SetupBusinessDetails._
+import models.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
-import viewmodels.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
-import views.vrm_retention.SetupBusinessDetails
 import views.vrm_retention.SetupBusinessDetails._
 
 final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,

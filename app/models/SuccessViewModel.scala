@@ -1,4 +1,4 @@
-package viewmodels
+package models
 
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
@@ -36,10 +36,18 @@ object SuccessViewModel {
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
       keeperEmail = keeperEmail,
-      businessName = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.name) else None,
-      businessContact = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.contact) else None,
-      businessEmail = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.email) else None,
-      businessAddress = if (businessDetailsModelOpt.isDefined) Some(businessDetailsModelOpt.get.address) else None,
+      businessName = for (businessDetails <- businessDetailsModelOpt) yield {
+        businessDetails.name
+      },
+      businessContact = for (businessDetails <- businessDetailsModelOpt) yield {
+        businessDetails.contact
+      },
+      businessEmail = for (businessDetails <- businessDetailsModelOpt) yield {
+        businessDetails.email
+      },
+      businessAddress = for (businessDetails <- businessDetailsModelOpt) yield {
+        businessDetails.address
+      },
       replacementRegistrationNumber = eligibilityModel.replacementVRM,
       retainModel.certificateNumber,
       transactionId,

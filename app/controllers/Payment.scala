@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.VehicleAndKeeperLookupFormModel
+import models.VehicleAndKeeperLookupFormModel
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys

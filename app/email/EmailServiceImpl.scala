@@ -9,7 +9,7 @@ import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
 import views.html.vrm_retention.email_template
 import scala.concurrent.ExecutionContext.Implicits.global
 

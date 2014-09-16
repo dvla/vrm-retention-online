@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
-import viewmodels.{EligibilityModel, VehicleAndKeeperLookupFormModel}
+import models.{EligibilityModel, VehicleAndKeeperLookupFormModel}
 import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}

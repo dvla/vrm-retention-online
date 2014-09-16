@@ -14,7 +14,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.forma
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
-import viewmodels._
+import models._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
