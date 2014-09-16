@@ -29,6 +29,11 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private val AUTHORISED_STATUS = "AUTHORISED"
 
   def begin = Action.async { implicit request =>
+
+    Logger.debug("****************")
+    Logger.debug(request.toString())
+    Logger.debug(request.headers.toString())
+
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
       case (Some(transactionId), Some(vehiclesLookupForm)) =>
         callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
