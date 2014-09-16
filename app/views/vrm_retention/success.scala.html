@@ -20,7 +20,7 @@
 	<div class="alert-passive success-playback">
 		<div class="two-col">
 			<div class="first-col">
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_success.replacementRegNumberLabel")</dt>
                     <dd>@successViewModel.replacementRegistrationNumber</dd>
                     @if(successViewModel.vehicleMake.isDefined) {
@@ -83,7 +83,7 @@
 			<div class="second-col">
 				@*<label>@Messages("vrm_retention_success.aboutTransactionEmployeeLabel")</label> *@
 				@*<input type="text">*@
-				<dl class="summary-detail-list transaction-details">
+				<dl class="playback transaction-details">
 					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
 					<dd> @successViewModel.transactionId</dd>
 					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>
@@ -92,7 +92,7 @@
 			</div>
 		</div>
 	} else {
-				<dl class="summary-detail-list transaction-details">
+				<dl class="playback transaction-details">
 					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
 					<dd> @successViewModel.transactionId</dd>
 					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>

@@ -19,7 +19,7 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="first-col">
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessName_label")</dt>
                     <dd>@Messages("vrm_retention_businessChooseYourAddress_businessName", businessChooseYourAddressViewModel.name)</dd>
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessContact_label")</dt>
@@ -53,7 +53,7 @@
             </div>
             <div id="vehicle-details" class="second-col trader-details">
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="regNum">@businessChooseYourAddressViewModel.registrationNumber</dd>
                     @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {

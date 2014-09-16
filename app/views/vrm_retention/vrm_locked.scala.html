@@ -27,7 +27,7 @@
         <div id="vehicle-details" class="second-col trader-details">
             @if(vrmLockedViewModel.vehicleMake.isDefined) {
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="regNum">@vrmLockedViewModel.registrationNumber</dd>
                     @if(vrmLockedViewModel.vehicleMake.isDefined) {
