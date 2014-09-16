@@ -6,7 +6,7 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.Postcode.PostcodeId
+import views.vrm_retention.EnterAddressManually.PostcodeId
 import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.Result
@@ -16,8 +16,8 @@ import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, 
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import utils.helpers.Config
-import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
+import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import models.{BusinessDetailsModel, EnterAddressManuallyModel}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.concurrent.Future

@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.{RetainModel, VehicleAndKeeperLookupFormModel}
+import models.{RetainModel, VehicleAndKeeperLookupFormModel}
 import views.vrm_retention.Retain._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
 import scala.concurrent.ExecutionContext.Implicits.global

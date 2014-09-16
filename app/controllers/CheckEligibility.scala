@@ -3,15 +3,14 @@ package controllers
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.mvc._
-import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityService
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
-import viewmodels.{EligibilityModel, VehicleAndKeeperLookupFormModel}
+import models.{EligibilityModel, VehicleAndKeeperLookupFormModel}
 import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
-import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
+import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -19,10 +18,11 @@ import scala.util.control.NonFatal
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
+
   def present = Action.async {
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)) match {
+        request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)) match {
         case (Some(form), storeBusinessDetails) => checkVrmEligibility(form, storeBusinessDetails)
         case _ => Future.successful {
           Redirect(routes.MicroServiceError.present())
@@ -45,7 +45,9 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
 
     def eligibilityFailure(responseCode: String) = {
-      Logger.debug(s"VRMRetentionEligibility encountered a problem with request ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)} ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+      Logger.debug(s"VRMRetentionEligibility encountered a problem with request" +
+        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
+        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
     }

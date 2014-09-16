@@ -1,13 +1,13 @@
-package viewmodels
+package models
 
-import views.vrm_retention.VehicleLookup
-import VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import views.vrm_retention.VehicleLookup
+import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
 import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
@@ -24,11 +24,13 @@ object VehicleAndKeeperDetailsModel {
   def from(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto) = {
 
     val addressViewModel = {
-      val addressLineModel = AddressLinesViewModel(vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
+      val addressLineModel = AddressLinesViewModel(
+        vehicleAndKeeperDetailsDto.keeperAddressLine1.get,
         vehicleAndKeeperDetailsDto.keeperAddressLine2,
         vehicleAndKeeperDetailsDto.keeperAddressLine3,
         vehicleAndKeeperDetailsDto.keeperAddressLine4,
-        vehicleAndKeeperDetailsDto.keeperPostTown.get)
+        vehicleAndKeeperDetailsDto.keeperPostTown.get
+      )
       val addressAndPostcodeModel = AddressAndPostcodeViewModel(None, addressLineModel)
       AddressModel.from(addressAndPostcodeModel, formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))
     }

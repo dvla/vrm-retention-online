@@ -51,7 +51,7 @@ POST        /vrm-retention/confirm                             @controllers.Conf
 GET         /vrm-retention/confirm/exit                        @controllers.Confirm.exit
 
 GET         /vrm-retention/payment/begin                       @controllers.Payment.begin
-GET         /vrm-retention/payment/paymentCallback             @controllers.Payment.paymentCallback
+POST        /vrm-retention/payment/callback                    @controllers.Payment.callback
 # no form on payment page so is GET the right http verb for submit
 GET         /vrm-retention/payment/submit                      @controllers.Payment.submit
 GET         /vrm-retention/payment/exit                        @controllers.Payment.exit
@@ -80,6 +80,3 @@ POST        /vrm-retention/help                                @controllers.Help
 GET         /vrm-retention/mock-gov-uk-feedback                @controllers.MockFeedback.present
 
 GET         /with-language/:chosenLanguage                     uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
-
-
-GET         /vrm-retention/email-template                      @controllers.Success.previewEmail

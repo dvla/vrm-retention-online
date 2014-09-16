@@ -5,7 +5,6 @@ import play.api.http.Status
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import play.api.Logger
 
 final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService)
   extends PaymentSolveService {

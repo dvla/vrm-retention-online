@@ -3,13 +3,14 @@ package controllers
 import com.google.inject.Inject
 import views.vrm_retention.SetupBusinessDetails
 import SetupBusinessDetails._
-import viewmodels.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
+import models.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
+import views.vrm_retention.SetupBusinessDetails._
 
 final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
@@ -34,29 +35,7 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
         request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
           case Some(vehicleAndKeeperDetails) =>
             val setupBusinessDetailsViewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
-            val formWithReplacedErrors = invalidForm.
-              replaceError(BusinessNameId,
-                FormError(
-                  key = BusinessNameId,
-                  message = "error.validBusinessName",
-                  args = Seq.empty)).
-              replaceError(BusinessContactId,
-                FormError(
-                  key = BusinessContactId,
-                  message = "error.validBusinessContact",
-                  args = Seq.empty)).
-              replaceError(BusinessEmailId,
-                FormError(
-                  key = BusinessEmailId,
-                  message = "error.validEmail",
-                  args = Seq.empty)).
-              replaceError(BusinessPostcodeId,
-                FormError(
-                  key = BusinessPostcodeId,
-                  message = "error.restricted.validPostcode",
-                  args = Seq.empty)).
-              distinctErrors
-            BadRequest(views.html.vrm_retention.setup_business_details(formWithReplacedErrors,
+            BadRequest(views.html.vrm_retention.setup_business_details(formWithReplacedErrors(invalidForm),
               setupBusinessDetailsViewModel))
           case _ =>
             Redirect(routes.VehicleLookup.present())
@@ -65,4 +44,28 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
       validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
     )
   }
+
+  private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =
+    form.
+      replaceError(BusinessNameId,
+        FormError(
+          key = BusinessNameId,
+          message = "error.validBusinessName",
+          args = Seq.empty)).
+      replaceError(BusinessContactId,
+        FormError(
+          key = BusinessContactId,
+          message = "error.validBusinessContact",
+          args = Seq.empty)).
+      replaceError(BusinessEmailId,
+        FormError(
+          key = BusinessEmailId,
+          message = "error.validEmail",
+          args = Seq.empty)).
+      replaceError(BusinessPostcodeId,
+        FormError(
+          key = BusinessPostcodeId,
+          message = "error.restricted.validPostcode",
+          args = Seq.empty)).
+      distinctErrors
 }

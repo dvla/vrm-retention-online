@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import viewmodels._
+import models._
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
@@ -54,14 +54,22 @@ final class EnterAddressManually @Inject()()
   }
 
   private def formWithReplacedErrors(form: Form[EnterAddressManuallyModel])(implicit request: Request[_]) =
-    form.replaceError(
-      "addressAndPostcode.addressLines.buildingNameOrNumber",
-      FormError("addressAndPostcode.addressLines", "error.address.buildingNameOrNumber.invalid")
-    ).replaceError(
+    form.
+      replaceError(
+        "addressAndPostcode.addressLines.buildingNameOrNumber",
+        FormError(
+          key = "addressAndPostcode.addressLines",
+          message = "error.address.buildingNameOrNumber.invalid"
+        )
+      ).
+      replaceError(
         "addressAndPostcode.addressLines.postTown",
-        FormError("addressAndPostcode.addressLines",
-          "error.address.postTown")
-      ).replaceError(
+        FormError(
+          key = "addressAndPostcode.addressLines",
+          message = "error.address.postTown"
+        )
+      ).
+      replaceError(
         "addressAndPostcode.postcode",
         FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
       ).distinctErrors

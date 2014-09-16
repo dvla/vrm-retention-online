@@ -2,18 +2,15 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.data.{Form, FormError}
-import play.api.Logger
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
-import viewmodels._
+import models._
 import views.vrm_retention.Confirm._
-import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.RelatedCacheKeys
-
+import views.vrm_retention.VehicleLookup.UserType_Business
 
 final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
@@ -25,15 +22,16 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
-      val businessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
-      val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => businessUser)
-      val showStoreDetails = storeBusinessDetails && businessUser
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
+      val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
+      val showStoreDetails = storeBusinessDetails && isBusinessUser
       val formModel = ConfirmFormModel(None, showStoreDetails)
       val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
-    happyPath.getOrElse(Redirect(routes.VehicleLookup.present()))
+    val sadPath = Redirect(routes.VehicleLookup.present())
+    happyPath.getOrElse(sadPath)
   })
 
   def submit = Action { implicit request =>
@@ -54,18 +52,19 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     )
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
-    val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup => 
+    val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
       val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
-      val storeBusinessDetails = 
+      val storeBusinessDetails =
         if (vehicleAndKeeperLookup.userType == UserType_Business)
           Some(CookieKeyValue(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString))
         else
           None
 
       val cookies = List(keeperEmail, storeBusinessDetails).flatten
-      Redirect(routes.Payment.begin()).withCookiesEx(cookies:_*)
+      Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
     }
-    happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
+    val sadPath = Redirect(routes.MicroServiceError.present())
+    happyPath.getOrElse(sadPath)
   }
 
   private def handleInvalid(form: Form[ConfirmFormModel])(implicit request: Request[_]): Result = {
@@ -75,16 +74,17 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
     }
     yield {
       val businessDetails = request.cookies.getModel[BusinessDetailsModel]
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetails.filter(x => storeBusinessDetails))
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetails.filter(details => storeBusinessDetails))
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
     }
-    happyPath.getOrElse(Redirect(routes.MicroServiceError.present()))
+    val sadPath = Redirect(routes.MicroServiceError.present())
+    happyPath.getOrElse(sadPath)
   }
 
   def exit = Action { implicit request =>
-    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).map(_.toBoolean).getOrElse(false)
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
     val cacheKeys = RelatedCacheKeys.RetainSet ++ {
       if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
     }

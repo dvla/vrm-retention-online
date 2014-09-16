@@ -14,7 +14,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.forma
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
-import viewmodels._
+import models._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
@@ -40,27 +40,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
   def submit = Action.async { implicit request =>
     form.bindFromRequest.fold(
       invalidForm => Future.successful {
-        val formWithReplacedErrors = invalidForm
-          .replaceError(
-            VehicleRegistrationNumberId, 
-            FormError(
-              key = VehicleRegistrationNumberId,
-              message = "error.restricted.validVrnOnly",
-              args = Seq.empty))
-          .replaceError(
-            DocumentReferenceNumberId, 
-            FormError(
-              key = DocumentReferenceNumberId,
-              message = "error.validDocumentReferenceNumber",
-              args = Seq.empty))
-          .replaceError(
-            PostcodeId, 
-            FormError(
-              key = PostcodeId,
-              message = "error.restricted.validPostcode",
-              args = Seq.empty))
-          .distinctErrors
-        BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors))
+        BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors(invalidForm)))
       },
       validForm => {
         bruteForceAndLookup(validForm)
@@ -72,17 +52,44 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     Redirect(routes.BeforeYouStart.present())
   }
 
+  private def formWithReplacedErrors(form: Form[VehicleAndKeeperLookupFormModel])(implicit request: Request[_]) =
+    form.
+      replaceError(
+        VehicleRegistrationNumberId,
+        FormError(
+          key = VehicleRegistrationNumberId,
+          message = "error.restricted.validVrnOnly",
+          args = Seq.empty
+        )
+      ).
+      replaceError(
+        DocumentReferenceNumberId,
+        FormError(
+          key = DocumentReferenceNumberId,
+          message = "error.validDocumentReferenceNumber",
+          args = Seq.empty
+        )
+      ).
+      replaceError(
+        PostcodeId,
+        FormError(
+          key = PostcodeId,
+          message = "error.restricted.validPostcode",
+          args = Seq.empty
+        )
+      ).
+      distinctErrors
+
   private def bruteForceAndLookup(formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Future[Result] = {
-    val transactionId = {
-      val transactionTimestamp = dateService.today.toDateTimeMillis.get
-      val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-        ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
-      formModel.registrationNumber +
-        isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
-    }
-
     bruteForceService.isVrmLookupPermitted(formModel.registrationNumber).flatMap { bruteForcePreventionViewModel =>
+      val transactionId = {
+        val transactionTimestamp = dateService.today.toDateTimeMillis.get
+        val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+          ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
+        formModel.registrationNumber +
+          isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
+      }
       // US270: The security micro-service will return a Forbidden (403) message when the vrm is locked, we have hidden that logic as a boolean.
       if (bruteForcePreventionViewModel.permitted) lookupVehicle(formModel, bruteForcePreventionViewModel, transactionId)
       else Future.successful {

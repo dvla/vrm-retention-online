@@ -5,11 +5,11 @@ import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
-import viewmodels.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
+import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                             config: Config) extends Controller {
+                                       config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -30,8 +30,8 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   private def displayPaymentFailure(transactionId: String,
-                                          vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
-                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
+                                    vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
+                                    vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
                                      )(implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)

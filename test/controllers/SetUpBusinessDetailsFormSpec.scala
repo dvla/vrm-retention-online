@@ -3,7 +3,7 @@ package controllers
 import helpers.UnitSpec
 import play.api.data.Form
 import services.fakes.AddressLookupServiceConstants._
-import viewmodels.SetupBusinessDetailsFormModel
+import models.SetupBusinessDetailsFormModel
 import views.vrm_retention.SetupBusinessDetails
 import views.vrm_retention.SetupBusinessDetails._
 
