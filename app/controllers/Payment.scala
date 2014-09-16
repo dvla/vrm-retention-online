@@ -31,7 +31,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   def begin = Action.async { implicit request =>
 
     Logger.debug("****************")
-    Logger.debug(request.toString())
     Logger.debug(request.headers.toString())
 
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
@@ -75,25 +74,17 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       Redirect(routes.PaymentFailure.present())
     }
 
+    def paymentCallbackUrl = {
+      val domain = request.headers.get("referer").get.split("/vrm-retention")(0)
+      domain + routes.Payment.callback().url
+    }
+
     val paymentSolveBeginRequest = PaymentSolveBeginRequest(
       transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
       vrm = vrm,
-      paymentCallback = routes.Payment.callback().absoluteURL()
+      paymentCallback = paymentCallbackUrl
     )
     val trackingId = request.cookies.trackingId()
-
-    Logger.debug("paymentCallback " + paymentSolveBeginRequest.paymentCallback)
-    Logger.info("paymentCallback " + paymentSolveBeginRequest.paymentCallback)
-
-    Logger.debug("routes.Payment.callback().absoluteURL() " + routes.Payment.callback().absoluteURL())
-    Logger.info("routes.Payment.callback().absoluteURL() " + routes.Payment.callback().absoluteURL())
-
-    Logger.debug("routes.Payment.callback().url() " + routes.Payment.callback().url)
-    Logger.info("routes.Payment.callback().url() " + routes.Payment.callback().url)
-
-    Logger.debug("request.headers.get(\"host\") " + request.headers.get("host").get)
-    Logger.info("request.headers.get(\"host\") " + request.headers.get("host").get)
-
 
     paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
       if (response.response == VALIDATED_RESPONSE) {
