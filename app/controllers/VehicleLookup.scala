@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.{Form, FormError}
@@ -14,7 +15,6 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.forma
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
-import models._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
@@ -127,7 +127,10 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     }
 
     def vehicleNotFoundResult(responseCode: String) = {
-      Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request ${LogFormats.anonymize(vehicleAndKeeperLookupForm.referenceNumber)} ${LogFormats.anonymize(vehicleAndKeeperLookupForm.registrationNumber)}, redirect to VehicleAndKeeperLookupFailure")
+      Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request" +
+        s" ${LogFormats.anonymize(vehicleAndKeeperLookupForm.referenceNumber)}" +
+        s" ${LogFormats.anonymize(vehicleAndKeeperLookupForm.registrationNumber)}," +
+        s" redirect to VehicleAndKeeperLookupFailure")
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
     }
@@ -155,7 +158,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         .withCookie(TransactionIdCacheKey, transactionId)
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(message = s"VehicleAndKeeperLookup Web service call failed. Exception " + e.toString.take(45))
+        microServiceErrorResult(message = s"VehicleAndKeeperLookup web service call failed. Exception " + e.toString.take(45))
     }
   }
 }

@@ -12,6 +12,7 @@ trait TestComposition extends Composition {
     new TestVehicleAndKeeperLookupWebService,
     new TestVRMRetentionEligibilityWebService,
     new TestVrmRetentionRetainWebService
+    // TODO add payment Test module
   )
 
   def testInjector(modules: Module*) = {

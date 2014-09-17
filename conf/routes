@@ -34,7 +34,7 @@ GET         /vrm-retention/vrm-locked                          @controllers.VrmL
 POST        /vrm-retention/vrm-locked/exit                     @controllers.VrmLocked.exit
 
 GET         /vrm-retention/error/:exceptionDigest              @controllers.Error.present(exceptionDigest)
-POST        /vrm-retention/error/:exceptionDigest              @controllers.Error.submit(exceptionDigest)
+POST        /vrm-retention/error/:exceptionDigest              @controllers.Error.startAgain(exceptionDigest)
 
 GET         /vrm-retention/check-eligibility                   @controllers.CheckEligibility.present
 
@@ -63,7 +63,7 @@ GET         /vrm-retention/payment-not-authorised              @controllers.Paym
 POST        /vrm-retention/payment-not-authorised              @controllers.PaymentNotAuthorised.submit
 
 # no form on payment page so is GET the right http verb for submit
-GET         /vrm-retention/retain/submit                       @controllers.Retain.submit
+GET         /vrm-retention/retain                       @controllers.Retain.retain
 
 GET         /vrm-retention/success                             @controllers.Success.present
 GET         /vrm-retention/success/create-pdf                  @controllers.Success.createPdf

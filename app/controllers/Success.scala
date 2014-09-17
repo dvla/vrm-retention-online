@@ -3,13 +3,13 @@ package controllers
 import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import email.EmailService
+import models._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
-import models._
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._

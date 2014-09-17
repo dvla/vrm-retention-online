@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models.VehicleAndKeeperLookupFormModel
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -8,7 +9,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import models.VehicleAndKeeperLookupFormModel
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
@@ -123,7 +123,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       if (response.response == VALIDATED_RESPONSE) {
         // TODO store the auth code and masked pan
         //          if (response.status == AUTHORISED_STATUS) { // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
-        Redirect(routes.Retain.submit())
+        Redirect(routes.Retain.retain())
         //          } else {
         //            Logger.debug("The payment was not authorised.")
         //            paymentNotAuthorised
