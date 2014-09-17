@@ -1,13 +1,13 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import mappings.common.Postcode.PostcodeId
-import org.mockito.Mockito.when
+import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import models.{BusinessDetailsModel, EnterAddressManuallyModel}
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.Result
 import play.api.test.FakeRequest
@@ -15,11 +15,8 @@ import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaul
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
-import utils.helpers.Config
-import viewmodels.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import viewmodels.{BusinessDetailsModel, EnterAddressManuallyModel}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.EnterAddressManually.{EnterAddressManuallyCacheKey, PostcodeId}
 import scala.concurrent.Future
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {
@@ -272,13 +269,8 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   private def enterAddressManuallyPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[EnterAddressManually])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false))
+      .getInstance(classOf[EnterAddressManually])
   }
 
   private lazy val present = {

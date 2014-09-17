@@ -1,9 +1,9 @@
-package viewmodels
+package models
 
-import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
+import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 
 final case class EligibilityModel(replacementVRM: String)
 

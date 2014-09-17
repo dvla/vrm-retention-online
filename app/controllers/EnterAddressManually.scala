@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models._
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
@@ -8,7 +9,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-import viewmodels._
 import views.html.vrm_retention.enter_address_manually
 
 final class EnterAddressManually @Inject()()
@@ -36,18 +36,18 @@ final class EnterAddressManually @Inject()()
             val viewModel = EnterAddressManuallyViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
             BadRequest(enter_address_manually(viewModel, formWithReplacedErrors(invalidForm)))
           case _ =>
-            Logger.debug("Failed to find dealer name in cache, redirecting")
+            Logger.debug("Failed to find either setupBusinessDetailsForm or vehicleAndKeeperDetails in cache on submit, redirecting")
             Redirect(routes.SetUpBusinessDetails.present())
         },
       validForm =>
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
           case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
-            Redirect(routes.Confirm.present()).
-              withCookie(validForm).
-              withCookie(viewModel)
+            Redirect(routes.Confirm.present())
+              .withCookie(validForm)
+              .withCookie(viewModel)
           case _ =>
-            Logger.debug("Failed to find dealer name in cache on submit, redirecting")
+            Logger.debug("Failed to find either setupBusinessDetailsForm or vehicleAndKeeperDetails in cache on submit, redirecting")
             Redirect(routes.SetUpBusinessDetails.present())
         }
     )
@@ -71,10 +71,6 @@ final class EnterAddressManually @Inject()()
       ).
       replaceError(
         "addressAndPostcode.postcode",
-        FormError(
-          key = "addressAndPostcode.postcode",
-          message = "error.address.postcode.invalid"
-        )
-      ).
-      distinctErrors
+        FormError("addressAndPostcode.postcode", "error.address.postcode.invalid")
+      ).distinctErrors
 }

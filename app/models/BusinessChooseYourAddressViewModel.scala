@@ -1,4 +1,4 @@
-package viewmodels
+package models
 
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 

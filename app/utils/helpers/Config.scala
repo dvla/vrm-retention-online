@@ -43,7 +43,7 @@ class Config {
 
   // Email Service
   val emailSmtpHost: String = getProperty("smtp.host", "")
-  val emailSmtpPort : Int = getProperty("smtp.port", 25)
+  val emailSmtpPort: Int = getProperty("smtp.port", 25)
   val emailSmtpSsl: Boolean = getProperty("smtp.ssl", false)
   val emailSmtpTls: Boolean = getProperty("smtp.tls", true)
   val emailSmtpUser: String = getProperty("smtp.user", "")

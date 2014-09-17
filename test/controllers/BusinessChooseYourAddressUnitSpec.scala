@@ -1,12 +1,11 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.{TestOrdnanceSurvey, TestVehicleAndKeeperLookupWebService}
+import composition.{TestConfig, TestOrdnanceSurvey, TestVehicleAndKeeperLookupWebService}
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito.when
 import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
@@ -15,7 +14,6 @@ import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import services.fakes.AddressLookupWebServiceConstants
 import services.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
-import utils.helpers.Config
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
@@ -161,13 +159,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   }
 
   private def businessChooseYourAddressWithPrototypeBannerNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[BusinessChooseYourAddress])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
+      getInstance(classOf[BusinessChooseYourAddress])
   }
 
   private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {

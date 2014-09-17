@@ -3,7 +3,7 @@ package controllers
 import helpers.UnitSpec
 import play.api.data.Form
 import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
-import viewmodels.BusinessChooseYourAddressFormModel
+import models.BusinessChooseYourAddressFormModel
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 
 final class BusinessChooseYourAddressFormSpec extends UnitSpec {

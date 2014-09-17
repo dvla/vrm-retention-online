@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models.VehicleAndKeeperLookupFormModel
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -8,7 +9,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.VehicleAndKeeperLookupFormModel
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
@@ -29,6 +29,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private val AUTHORISED_STATUS = "AUTHORISED"
 
   def begin = Action.async { implicit request =>
+
+    Logger.debug("****************")
+    Logger.debug(request.headers.toString())
+
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
       case (Some(transactionId), Some(vehiclesLookupForm)) =>
         callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
@@ -38,7 +42,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
   }
 
-  def paymentCallback = Action.async { implicit request =>
+  def callback = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
       case (Some(transactionId), Some(trxRef)) =>
         callGetWebPaymentService(transactionId, trxRef)
@@ -70,17 +74,21 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       Redirect(routes.PaymentFailure.present())
     }
 
+    def paymentCallbackUrl = {
+      val domain = request.headers.get("referer").get.split("/vrm-retention")(0)
+      domain + routes.Payment.callback().url
+    }
+
     val paymentSolveBeginRequest = PaymentSolveBeginRequest(
       transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
       vrm = vrm,
-      paymentCallback = routes.Payment.paymentCallback().absoluteURL()
+      paymentCallback = paymentCallbackUrl
     )
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
       if (response.response == VALIDATED_RESPONSE) {
-        //        Redirect(new Call("GET", response.redirectUrl.get)) // TODO call this when csrf problem resolved
-        Redirect(routes.Payment.paymentCallback()).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
+        Redirect(new Call("GET", response.redirectUrl.get)).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
       } else {
         Logger.error("The begin web request to Solve was not validated.")
         paymentBeginFailure
@@ -115,7 +123,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       if (response.response == VALIDATED_RESPONSE) {
         // TODO store the auth code and masked pan
         //          if (response.status == AUTHORISED_STATUS) { // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
-        Redirect(routes.Retain.submit())
+        Redirect(routes.Retain.retain())
         //          } else {
         //            Logger.debug("The payment was not authorised.")
         //            paymentNotAuthorised

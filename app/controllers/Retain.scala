@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models.{RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
@@ -9,30 +10,22 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import viewmodels.{RetainModel, VehicleAndKeeperLookupFormModel}
 import views.vrm_retention.Retain._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-// Rename to BeginPayment
-// Need BeginPaymentFailure controller
-// A get for the redirect to come back in
-// GetPaymentStatus controller
-// GetPaymentStatusFailure controller
-// Retain controller
-// Extract retain stuff out of Payment and put into Retain controller
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                              dateService: DateService)
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config) extends Controller {
 
-  def submit = Action.async { implicit request =>
-    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
+  def retain = Action.async { implicit request =>
+    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match { // TODO check for existence of all the cookies created by the payment page
       case Some(vehiclesLookupForm) => retainVrm(vehiclesLookupForm)
       case None => Future.successful {
-        Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+        Redirect(routes.MicroServiceError.present()) // TODO need an error page for this scenario
       }
     }
   }
@@ -66,11 +59,10 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       Redirect(routes.MicroServiceError.present())
     }
 
-    val trackingId = request.cookies.trackingId()
-
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
     )
+    val trackingId = request.cookies.trackingId()
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map { response =>
       response.responseCode match {
@@ -84,7 +76,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"VRM Retention Retain Web service call failed. Exception " + e.toString.take(45))
+        microServiceErrorResult(s"VRM Retention Retain web service call failed. Exception " + e.toString.take(45))
     }
   }
 }

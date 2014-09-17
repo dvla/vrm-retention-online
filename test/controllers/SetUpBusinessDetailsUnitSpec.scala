@@ -1,18 +1,16 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito.when
+import models.SetupBusinessDetailsFormModel
 import pages.vrm_retention.BusinessChooseYourAddressPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import services.fakes.AddressLookupServiceConstants._
-import utils.helpers.Config
-import viewmodels.SetupBusinessDetailsFormModel
 import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SetupBusinessDetailsCacheKey}
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
@@ -117,14 +115,9 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
   private lazy val setUpBusinessDetails = testInjector().getInstance(classOf[SetUpBusinessDetails])
 
-  private def setUpBusinessDetailsPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[SetUpBusinessDetails])
+  private def setUpBusinessDetailsPrototypeNotVisible() = {
+    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
+      getInstance(classOf[SetUpBusinessDetails])
   }
 
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,

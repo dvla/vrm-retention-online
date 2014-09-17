@@ -1,13 +1,11 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito.when
 import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout, status}
-import utils.helpers.Config
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
 
@@ -41,13 +39,8 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
   }
 
   private lazy val beforeYouStartPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[BeforeYouStart])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
+      getInstance(classOf[BeforeYouStart])
   }
 
   private lazy val beforeYouStart = testInjector().getInstance(classOf[BeforeYouStart])

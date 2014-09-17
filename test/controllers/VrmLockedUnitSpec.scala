@@ -1,6 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
+import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{bruteForcePreventionViewModel, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import helpers.{UnitSpec, WithApplication}
@@ -60,12 +61,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
   private lazy val vrmLocked = testInjector().getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {
-    testInjector(new ScalaModule() {
-      override def configure(): Unit = {
-        val config: Config = mock[Config]
-        when(config.isPrototypeBannerVisible).thenReturn(false) // Stub this config value.
-        bind[Config].toInstance(config)
-      }
-    }).getInstance(classOf[VrmLocked])
+    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
+      getInstance(classOf[VrmLocked])
   }
 }

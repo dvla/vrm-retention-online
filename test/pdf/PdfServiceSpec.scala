@@ -6,7 +6,7 @@ import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import viewmodels.EligibilityModel
+import models.EligibilityModel
 
 final class PdfServiceSpec extends UnitSpec {
 
