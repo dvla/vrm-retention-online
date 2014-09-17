@@ -138,16 +138,17 @@
         text-align:center;
         line-height:1.25;
         font-weight:bold;
-        padding:0.2em 0.5em 0.1em 0.5em;
+        padding:0.4em 0.5em 0.3em 0.5em;
         margin-bottom:10px;
         background-color:$yellow-75;
         border:1px solid $grey-9;
         border-radius:5px;
     }
 
-    a.pdfLink img {
-        max-height: 40px;
-        float: left;
-        padding-right: 10px;
+    a.pdf-link img {
+        float:left;
+        max-height:40px;
+        padding-right:10px;
     }
+
 }
