@@ -29,7 +29,7 @@
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="regNum">@vrmLockedViewModel.registrationNumber</dd>
+                    <dd class="reg-number">@vrmLockedViewModel.registrationNumber</dd>
                     @if(vrmLockedViewModel.vehicleMake.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                         <dd>@vrmLockedViewModel.vehicleMake.get.take(20)</dd>
