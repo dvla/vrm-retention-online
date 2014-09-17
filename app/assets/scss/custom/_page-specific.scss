@@ -132,17 +132,17 @@
     }
 
     dd.regNum {
-        display: inline-block;
-        text-align: center;
-        line-height: 1.25;
-        padding-right: 0.25em;
-        padding-left: 0.25em;
-        background-color: #ffd307;
-        border: 1px solid #999;
-        padding: 0.2em 0.5em 0.1em 0.5em;
-        font-weight: bold;
-        font-size: 120%;
-        border-radius: 5px;
+        display:inline-block;
+        vertical-align:top;
+        width:272px;
+        text-align:center;
+        line-height:1.25;
+        font-weight:bold;
+        padding:0.2em 0.5em 0.1em 0.5em;
+        margin-bottom:10px;
+        background-color:$yellow-75;
+        border:1px solid $grey-9;
+        border-radius:5px;
     }
 
     a.pdfLink img {
