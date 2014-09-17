@@ -18,7 +18,22 @@
     @form(action = BusinessChooseYourAddress.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col">
-            <div class="first-col">
+            <div id="vehicle-details" class="first-col trader-details">
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                <dl class="playback">
+                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                    <dd class="regNum">@businessChooseYourAddressViewModel.registrationNumber</dd>
+                    @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@businessChooseYourAddressViewModel.vehicleMake.get.take(20)</dd>
+                    }
+                    @if(businessChooseYourAddressViewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@businessChooseYourAddressViewModel.vehicleModel.get.take(20)</dd>
+                    }
+                </dl>
+            </div>
+            <div class="second-col">
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessName_label")</dt>
                     <dd>@Messages("vrm_retention_businessChooseYourAddress_businessName", businessChooseYourAddressViewModel.name)</dd>
@@ -50,21 +65,6 @@
                     <a id="@BackId" href="@controllers.routes.SetUpBusinessDetails.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
                     <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
-            </div>
-            <div id="vehicle-details" class="second-col trader-details">
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                <dl class="playback">
-                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="regNum">@businessChooseYourAddressViewModel.registrationNumber</dd>
-                    @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@businessChooseYourAddressViewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(businessChooseYourAddressViewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@businessChooseYourAddressViewModel.vehicleModel.get.take(20)</dd>
-                    }
-                </dl>
             </div>
         </div>
     }
