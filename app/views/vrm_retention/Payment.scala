@@ -2,7 +2,8 @@ package views.vrm_retention
 
 object Payment {
 
-  final val PayNowId = "payNow"
+  final val GetWebPaymentlId = "getWebPayment"
+  final val CancelId = "cancel"
   final val ExitId = "exit"
   final val PaymentTransactionReferenceCacheKey = "paymentTransactionReference"
 }

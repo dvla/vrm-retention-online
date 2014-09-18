@@ -43,7 +43,12 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       }
   }
 
-  def callback = Action.async {
+  def callback = Action {
+    implicit request =>
+      Ok(views.html.vrm_retention.payment_callback_interstitial())
+  }
+
+  def getWebPayment = Action.async {
     implicit request =>
       (request.cookies.getString(TransactionIdCacheKey), request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
         case (Some(transactionId), Some(trxRef)) =>
@@ -106,7 +111,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
             if ((response.response == VALIDATED_RESPONSE) && (response.status == CARD_DETAILS_STATUS)) {
-              Redirect(new Call(GET, response.redirectUrl.get)).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
+              Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get)) // TODO need sad path for when redirectUrl is None
+                .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
             } else {
               Logger.error("The begin web request to Solve was not validated.")
               paymentBeginFailure

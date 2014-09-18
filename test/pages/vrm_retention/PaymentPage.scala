@@ -11,7 +11,7 @@ object PaymentPage extends Page with WebBrowserDSL {
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Payment details"
 
-  def payNow(implicit driver: WebDriver): Element = find(id(PayNowId)).get
+  def payNow(implicit driver: WebDriver): Element = find(id(CancelId)).get
 
   def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
 
