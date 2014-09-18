@@ -3,7 +3,7 @@ package controllers
 import com.google.inject.Inject
 import models.VehicleAndKeeperLookupFormModel
 import play.api.http.HeaderNames.REFERER
-import play.api.http.HttpVerbs.POST
+import play.api.http.HttpVerbs.GET
 import play.api.Logger
 import play.api.mvc.{Action, Call, Controller, Request, Result}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -29,6 +29,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
                               config: Config) extends Controller {
 
   private val VALIDATED_RESPONSE = "validated"
+  private val CARD_DETAILS_STATUS = "CARD_DETAILS"
   private val AUTHORISED_STATUS = "AUTHORISED"
 
   def begin = Action.async {
@@ -70,6 +71,11 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       }
   }
 
+  private def microServiceErrorResult(message: String) = {
+    Logger.error(message)
+    Redirect(routes.MicroServiceError.present())
+  }
+
   private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_]): Future[Result] = {
     request.headers.get(REFERER) match {
       case Some(referer) =>
@@ -88,16 +94,16 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
-            if (response.response == VALIDATED_RESPONSE) {
-              Redirect(new Call(POST, response.redirectUrl.get)).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
+            if ((response.response == VALIDATED_RESPONSE) && (response.status == CARD_DETAILS_STATUS)) {
+              Redirect(new Call(GET, response.redirectUrl.get)).withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
             } else {
               Logger.error("The begin web request to Solve was not validated.")
               paymentBeginFailure
             }
         }.recover {
           case NonFatal(e) =>
-            Logger.error(s"Payment Solve Web service call failed. Exception " + e.toString.take(45))
-            paymentBeginFailure
+            Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
+            microServiceErrorResult(message = "Payment Solve web service call failed.")
         }
       case _ => Future.successful(Redirect(routes.MicroServiceError.present()))
     }
@@ -138,8 +144,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         }
     }.recover {
       case NonFatal(e) =>
-        Logger.error(s"Payment Solve Web service call failed. Exception " + e.toString.take(245))
-        paymentGetFailure
+        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(245))
+        microServiceErrorResult(message = "Payment Solve web service call failed.")
     }
   }
 }
