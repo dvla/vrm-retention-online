@@ -1,13 +1,13 @@
 package controllers
 
 import com.google.inject.Inject
+import models.{EligibilityModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
-import models.{EligibilityModel, VehicleAndKeeperLookupFormModel}
 import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}
@@ -71,12 +71,12 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
             case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, replacementVRM)
             case (Some(currentVRM), None) => microServiceErrorResult(message = "No replacement VRM found")
             case (None, Some(replacementVRM)) => microServiceErrorResult(message = "No current VRM found")
-            case _ => microServiceErrorResult(message = "Current vrm and Replacement VRM not found in response")
+            case _ => microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
           }
       }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"VRM Retention Eligibility Web service call failed. Exception " + e.toString.take(45))
+        microServiceErrorResult(s"VRM Retention Eligibility web service call failed. Exception " + e.toString.take(45))
     }
   }
 }

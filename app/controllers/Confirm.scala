@@ -1,13 +1,13 @@
 package controllers
 
 import com.google.inject.Inject
+import models._
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
-import models._
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup.UserType_Business
@@ -86,7 +86,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
   def exit = Action { implicit request =>
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
     val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-      if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
+      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }
     Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }

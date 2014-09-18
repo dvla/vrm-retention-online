@@ -16,7 +16,7 @@
 ) {
     <div class="enter-address-manually uppercase-input two-col">
         <dtiv class="first-col sr-only-labels">
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessName_label")</dt>
                     <dd>@Messages("vrm_retention_businessChooseYourAddress_businessName", enterAddressManuallyViewModel.businessName)</dd>
                     <dt>@Messages("vrm_retention_businessChooseYourAddress_businessContact_label")</dt>
@@ -46,9 +46,9 @@
         </div>
             <div id="vehicle-details" class="second-col trader-details">
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="regNum">@enterAddressManuallyViewModel.registrationNumber</dd>
+                    <dd class="reg-number">@enterAddressManuallyViewModel.registrationNumber</dd>
                     @if(enterAddressManuallyViewModel.vehicleMake.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                         <dd>@enterAddressManuallyViewModel.vehicleMake.get.take(20)</dd>

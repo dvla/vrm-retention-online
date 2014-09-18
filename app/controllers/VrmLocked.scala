@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
 import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
@@ -8,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import utils.helpers.Config
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
+import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 
@@ -23,24 +24,32 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(transactionId), Some(bruteForcePreventionModel), _, Some(vehicleAndKeeperDetails)) =>
           Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
-          val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
-          val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
-          Ok(views.html.vrm_retention.vrm_locked(transactionId, VrmLockedViewModel(vehicleAndKeeperDetails, timeString, javascriptTimestamp)))
+          val viewModel = {
+            val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
+            val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
+            VrmLockedViewModel(vehicleAndKeeperDetails, timeString, javascriptTimestamp)
+          }
+          Ok(views.html.vrm_retention.vrm_locked(transactionId, viewModel))
         case (Some(transactionId), Some(bruteForcePreventionModel), Some(vehicleAndKeeperLookupForm), None) =>
           Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
-          val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
-          val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
-          Ok(views.html.vrm_retention.vrm_locked(transactionId, VrmLockedViewModel(vehicleAndKeeperLookupForm, timeString, javascriptTimestamp)))
+          val viewModel = {
+            val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
+            val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
+            VrmLockedViewModel(vehicleAndKeeperLookupForm, timeString, javascriptTimestamp)
+          }
+          Ok(views.html.vrm_retention.vrm_locked(transactionId, viewModel))
         case _ =>
           Logger.debug("VrmLocked - Can't find cookies")
-          Redirect(routes.VehicleLookup.present())
+          Redirect(routes.VehicleLookup.present()) // TODO need an error page with a message to explain that there is a cookie problem.
       }
   }
 
   def exit = Action {
     implicit request =>
-      Redirect(routes.MockFeedback.present()).
-        discardingCookies(RelatedCacheKeys.RetainSet)
-    // TODO remove Business Cache if consent not sent
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+      }
+      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 }

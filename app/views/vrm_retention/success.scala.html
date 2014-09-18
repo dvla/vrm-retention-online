@@ -20,7 +20,7 @@
 	<div class="alert-passive success-playback">
 		<div class="two-col">
 			<div class="first-col">
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_success.replacementRegNumberLabel")</dt>
                     <dd>@successViewModel.replacementRegistrationNumber</dd>
                     @if(successViewModel.vehicleMake.isDefined) {
@@ -36,7 +36,7 @@
 			<div class="second-col">
 				<p><strong>@Messages("vrm_retention_success.makingUp-p1")</strong></p>
 				<p>@Messages("vrm_retention_success.makingUp-p2")</p>
-				<a class="pdfLink" href="@Success.createPdf()">
+				<a class="pdf-link" href="@Success.createPdf()">
 					<img src="/vrm-retention/assets/images/PDF_download.png" alt="Download PDF">
 					@Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
 				</a>
@@ -83,7 +83,7 @@
 			<div class="second-col">
 				@*<label>@Messages("vrm_retention_success.aboutTransactionEmployeeLabel")</label> *@
 				@*<input type="text">*@
-				<dl class="summary-detail-list transaction-details">
+				<dl class="playback transaction-details">
 					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
 					<dd> @successViewModel.transactionId</dd>
 					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>
@@ -92,7 +92,7 @@
 			</div>
 		</div>
 	} else {
-				<dl class="summary-detail-list transaction-details">
+				<dl class="playback transaction-details">
 					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
 					<dd> @successViewModel.transactionId</dd>
 					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>

@@ -36,18 +36,18 @@ final class EnterAddressManually @Inject()()
             val viewModel = EnterAddressManuallyViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
             BadRequest(enter_address_manually(viewModel, formWithReplacedErrors(invalidForm)))
           case _ =>
-            Logger.debug("Failed to find dealer name in cache, redirecting")
+            Logger.debug("Failed to find either setupBusinessDetailsForm or vehicleAndKeeperDetails in cache on submit, redirecting")
             Redirect(routes.SetUpBusinessDetails.present())
         },
       validForm =>
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
           case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
-            Redirect(routes.Confirm.present()).
-              withCookie(validForm).
-              withCookie(viewModel)
+            Redirect(routes.Confirm.present())
+              .withCookie(validForm)
+              .withCookie(viewModel)
           case _ =>
-            Logger.debug("Failed to find dealer name in cache on submit, redirecting")
+            Logger.debug("Failed to find either setupBusinessDetailsForm or vehicleAndKeeperDetails in cache on submit, redirecting")
             Redirect(routes.SetUpBusinessDetails.present())
         }
     )

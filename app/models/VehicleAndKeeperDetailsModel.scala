@@ -10,6 +10,7 @@ import views.vrm_retention.VehicleLookup
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
 import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 
+// TODO possibly rename this to remove Model and add suffix ...Dto depending on what naming scheme we agree on.
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               make: Option[String],
                                               model: Option[String],

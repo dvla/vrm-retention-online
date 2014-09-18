@@ -127,8 +127,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         if (response.response == VALIDATED_RESPONSE) {
           // TODO store the auth code and masked pan
           if (response.status == AUTHORISED_STATUS) {
-            // TODO because we don't call Solve , because of csrf, the AUTHORISED status is NOT_AUTHORISED so ignore for now
-            Redirect(routes.Retain.submit())
+            Redirect(routes.Retain.retain())
           } else {
             Logger.debug("The payment was not authorised.")
             paymentNotAuthorised

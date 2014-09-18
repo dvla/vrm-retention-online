@@ -18,7 +18,7 @@
     <div class="two-col">
         <div class="first-col">
             <h2>@Messages("vrm_retention_confirm.keeperTitle")</h2>
-            <dl class="summary-detail-list first-line">
+            <dl class="playback first-line">
                 <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
                 <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
                 <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
@@ -31,9 +31,9 @@
         </div>
         <div class="second-col">
             <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-            <dl class="summary-detail-list">
+            <dl class="playback">
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                <dd class="regNum">@confirmViewModel.registrationNumber</dd>
+                <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
                     <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                     <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
@@ -71,7 +71,7 @@
                 <div class="first-col">
                     <h2>@Messages("vrm_retention_confirm.businessDetailsTitle")</h2>
 
-                    <dl class="summary-detail-list first-line">
+                    <dl class="playback first-line">
                         <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
                         <dd>@confirmViewModel.businessName</dd>
                         <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>

@@ -14,6 +14,5 @@ final class MockFeedback @Inject()()(implicit clientSideSessionFactory: ClientSi
     Ok(views.html.vrm_retention.mock_gov_uk_feedback()).
       withNewSession.
       discardingCookies(RelatedCacheKeys.RetainSet)
-    // TODO remove Business Cache if consent not sent
   }
 }

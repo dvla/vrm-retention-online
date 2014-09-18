@@ -13,9 +13,9 @@
     <div class="two-col">
     <div id="vehicle-details" class="first-col trader-details">
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                <dl class="summary-detail-list">
+                <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="regNum">@vehicleLookupFailureViewModel.registrationNumber</dd>
+                    <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
                     @if(vehicleLookupFailureViewModel.make.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                         <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>

@@ -14,8 +14,8 @@ final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessi
     Ok(views.html.vrm_retention.error(exceptionDigest))
   }
 
-  def submit(exceptionDigest: String) = Action.async { implicit request =>
-    Logger.debug("Error submit called - now removing full set of cookies and redirecting to Start page")
+  def startAgain(exceptionDigest: String) = Action.async { implicit request =>
+    Logger.debug("Error start again called - now removing full set of cookies and redirecting to Start page")
     CookieHelper.discardAllCookies
   }
 }
