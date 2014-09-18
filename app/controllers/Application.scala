@@ -7,7 +7,7 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 * This allows us to change the start page using the config file without having to change any code. */
 object Application extends Controller {
 
-  private final val startUrl: String = getProperty("start.page", "/vrm-retention/before-you-start")
+  private final val startUrl: String = getProperty("start.page", "/before-you-start")
 
   def index = Action {
     Redirect(startUrl)

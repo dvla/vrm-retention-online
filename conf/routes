@@ -13,71 +13,71 @@
 ## VRM RETENTION
 ######################
 
-GET         /vrm-retention/assets/versioned/*file              controllers.Assets.versioned(path="/public", file: Asset)
-GET         /vrm-retention/assets/*file                        controllers.Assets.at(path="/public", file)
+GET         /assets/versioned/*file              controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                        controllers.Assets.at(path="/public", file)
 
 GET         /                                                  controllers.Application.index
-GET         /vrm-retention/before-you-start                    @controllers.BeforeYouStart.present
+GET         /before-you-start                    @controllers.BeforeYouStart.present
 
-GET         /vrm-retention/vehicle-lookup                      @controllers.VehicleLookup.present
-POST        /vrm-retention/vehicle-lookup                      @controllers.VehicleLookup.submit
-GET         /vrm-retention/vehicle-lookup-back                 @controllers.VehicleLookup.back
+GET         /vehicle-lookup                      @controllers.VehicleLookup.present
+POST        /vehicle-lookup                      @controllers.VehicleLookup.submit
+GET         /vehicle-lookup-back                 @controllers.VehicleLookup.back
 
-GET         /vrm-retention/vehicle-lookup-failure              @controllers.VehicleLookupFailure.present
-POST        /vrm-retention/vehicle-lookup-failure              @controllers.VehicleLookupFailure.submit
+GET         /vehicle-lookup-failure              @controllers.VehicleLookupFailure.present
+POST        /vehicle-lookup-failure              @controllers.VehicleLookupFailure.submit
 
-GET         /vrm-retention/micro-service-error                 @controllers.MicroServiceError.present
+GET         /micro-service-error                 @controllers.MicroServiceError.present
 
-GET         /vrm-retention/soap-endpoint-error                 @controllers.SoapEndpointError.present
+GET         /soap-endpoint-error                 @controllers.SoapEndpointError.present
 
-GET         /vrm-retention/vrm-locked                          @controllers.VrmLocked.present
-POST        /vrm-retention/vrm-locked/exit                     @controllers.VrmLocked.exit
+GET         /vrm-locked                          @controllers.VrmLocked.present
+POST        /vrm-locked/exit                     @controllers.VrmLocked.exit
 
-GET         /vrm-retention/error/:exceptionDigest              @controllers.Error.present(exceptionDigest)
-POST        /vrm-retention/error/:exceptionDigest              @controllers.Error.startAgain(exceptionDigest)
+GET         /error/:exceptionDigest              @controllers.Error.present(exceptionDigest)
+POST        /error/:exceptionDigest              @controllers.Error.startAgain(exceptionDigest)
 
-GET         /vrm-retention/check-eligibility                   @controllers.CheckEligibility.present
+GET         /check-eligibility                   @controllers.CheckEligibility.present
 
-GET         /vrm-retention/setup-business-details              @controllers.SetUpBusinessDetails.present
-POST        /vrm-retention/setup-business-details              @controllers.SetUpBusinessDetails.submit
+GET         /setup-business-details              @controllers.SetUpBusinessDetails.present
+POST        /setup-business-details              @controllers.SetUpBusinessDetails.submit
 
-GET         /vrm-retention/business-choose-your-address        @controllers.BusinessChooseYourAddress.present
-POST        /vrm-retention/business-choose-your-address        @controllers.BusinessChooseYourAddress.submit
+GET         /business-choose-your-address        @controllers.BusinessChooseYourAddress.present
+POST        /business-choose-your-address        @controllers.BusinessChooseYourAddress.submit
 
-GET         /vrm-retention/uprn-not-found                      @controllers.UprnNotFound.present
+GET         /uprn-not-found                      @controllers.UprnNotFound.present
 
-GET         /vrm-retention/confirm                             @controllers.Confirm.present
-POST        /vrm-retention/confirm                             @controllers.Confirm.submit
-GET         /vrm-retention/confirm/exit                        @controllers.Confirm.exit
+GET         /confirm                             @controllers.Confirm.present
+POST        /confirm                             @controllers.Confirm.submit
+GET         /confirm/exit                        @controllers.Confirm.exit
 
-GET         /vrm-retention/payment/begin                       @controllers.Payment.begin
-POST        /vrm-retention/payment/callback                    @controllers.Payment.callback
-GET         /vrm-retention/payment/cancel                      @controllers.Payment.cancel
+GET         /payment/begin                       @controllers.Payment.begin
+POST        /payment/callback                    @controllers.Payment.callback
+GET         /payment/cancel                      @controllers.Payment.cancel
 # no form on payment page so is GET the right http verb for submit
-GET         /vrm-retention/payment/submit                      @controllers.Payment.submit
-GET         /vrm-retention/payment/exit                        @controllers.Payment.exit
+GET         /payment/submit                      @controllers.Payment.submit
+GET         /payment/exit                        @controllers.Payment.exit
 
-GET         /vrm-retention/payment-failure                     @controllers.PaymentFailure.present
-POST        /vrm-retention/payment-failure                     @controllers.PaymentFailure.submit
+GET         /payment-failure                     @controllers.PaymentFailure.present
+POST        /payment-failure                     @controllers.PaymentFailure.submit
 
-GET         /vrm-retention/payment-not-authorised              @controllers.PaymentNotAuthorised.present
-POST        /vrm-retention/payment-not-authorised              @controllers.PaymentNotAuthorised.submit
+GET         /payment-not-authorised              @controllers.PaymentNotAuthorised.present
+POST        /payment-not-authorised              @controllers.PaymentNotAuthorised.submit
 
 # no form on payment page so is GET the right http verb for submit
-GET         /vrm-retention/retain                       @controllers.Retain.retain
+GET         /retain                       @controllers.Retain.retain
 
-GET         /vrm-retention/success                             @controllers.Success.present
-GET         /vrm-retention/success/create-pdf                  @controllers.Success.createPdf
-GET         /vrm-retention/success/finish                      @controllers.Success.finish
+GET         /success                             @controllers.Success.present
+GET         /success/create-pdf                  @controllers.Success.createPdf
+GET         /success/finish                      @controllers.Success.finish
 
 GET         /healthcheck                                       @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
 
-GET         /vrm-retention/enter-address-manually              @controllers.EnterAddressManually.present
-POST        /vrm-retention/enter-address-manually              @controllers.EnterAddressManually.submit
+GET         /enter-address-manually              @controllers.EnterAddressManually.present
+POST        /enter-address-manually              @controllers.EnterAddressManually.submit
 
-GET         /vrm-retention/help                                @controllers.Help.present
-POST        /vrm-retention/help                                @controllers.Help.back
+GET         /help                                @controllers.Help.present
+POST        /help                                @controllers.Help.back
 
-GET         /vrm-retention/mock-gov-uk-feedback                @controllers.MockFeedback.present
+GET         /mock-gov-uk-feedback                @controllers.MockFeedback.present
 
 GET         /with-language/:chosenLanguage                     uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)
