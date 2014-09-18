@@ -327,17 +327,17 @@ vrm_retention_vehiclelookupfailure.button = Try again
 vrm_retention_vehiclelookupfailure.button2 = Exit
 vehicle_and_keeper_lookup_vrm_not_found.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration mark, there will be three attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be three attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration mark, there will be three attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be three attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C and try again.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
-vrm_retention_eligibility_direct_to_paper.p1 = Direct to Paper Channel Error Message
+vrm_retention_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line please submit a V317. You must send both application pages and the appropriate documents to DVLA Personalised Registrations, Swansea SA99 1DS.  All documents must be originals, not photocopies or faxed copies.
 vrm_retention_eligibility_direct_to_paper.p2 =
 vrm_retention_eligibility_direct_to_paper.p3 =
-vrm_retention_eligibility_failure.p1 = Not Eligible to Transact Error Message
+vrm_retention_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.  If you need further assistance please ring our Contact Centre on 0300 790 6801.
 vrm_retention_eligibility_failure.p2 =
 vrm_retention_eligibility_failure.p3 =
 
@@ -362,7 +362,7 @@ paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment Cancelled or Not Authorised
-paymentNotAuthorisedErrorMessage.p1 = Please either try again or exit the service.
+paymentNotAuthorisedErrorMessage.p1 = Please contact your Card Issuer (the phone number may be on the back of the card) to find out further information.  There is no need to contact DVLA, no payment has been taken.
 paymentNotAuthorisedErrorMessage.p2 =
 paymentNotAuthorisedErrorMessage.p3 =
 
