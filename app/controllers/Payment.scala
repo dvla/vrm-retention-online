@@ -18,7 +18,7 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveGetRequest, PaymentSolveService}
+import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveBeginRequest, PaymentSolveGetRequest, PaymentSolveService}
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 
 
@@ -48,6 +48,17 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       (request.cookies.getString(TransactionIdCacheKey), request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
         case (Some(transactionId), Some(trxRef)) =>
           callGetWebPaymentService(transactionId, trxRef)
+        case _ => Future.successful {
+          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+        }
+      }
+  }
+
+  def cancel = Action.async {
+    implicit request =>
+      (request.cookies.getString(TransactionIdCacheKey), request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
+        case (Some(transactionId), Some(trxRef)) =>
+          callCancelWebPaymentService(transactionId, trxRef)
         case _ => Future.successful {
           Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
         }
@@ -146,6 +157,36 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       case NonFatal(e) =>
         Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(245))
         microServiceErrorResult(message = "Payment Solve web service call failed.")
+    }
+  }
+
+  private def callCancelWebPaymentService(transactionId: String, trxRef: String)
+                                         (implicit request: Request[_]): Future[Result] = {
+
+    val paymentSolveCancelRequest = PaymentSolveCancelRequest(
+      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+      trxRef = trxRef
+    )
+    val trackingId = request.cookies.trackingId()
+
+    paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map {
+      response =>
+        if (response.response == VALIDATED_RESPONSE) {
+          Logger.error("The get web request to Solve was not validated.")
+        }
+        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+        val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+          if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+        }
+        Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+    }.recover {
+      case NonFatal(e) =>
+        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
+        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+        val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+          if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+        }
+        Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
     }
   }
 }

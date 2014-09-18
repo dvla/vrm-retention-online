@@ -34,4 +34,17 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService)
       case NonFatal(e) => throw new RuntimeException("Payment Solve call failed for an unknown reason", e)
     }
   }
+
+  override def invoke(cmd: PaymentSolveCancelRequest,
+                      trackingId: String): Future[PaymentSolveCancelResponse] = {
+    ws.invoke(cmd, trackingId).map { resp =>
+      if (resp.status == Status.OK) resp.json.as[PaymentSolveCancelResponse]
+      else throw new RuntimeException(
+        s"Payment Solve web service call http status not OK, it " +
+          s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
+      )
+    }.recover {
+      case NonFatal(e) => throw new RuntimeException("Payment Solve call failed for an unknown reason", e)
+    }
+  }
 }
