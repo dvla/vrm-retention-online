@@ -50,7 +50,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
         s" redirect to VehicleLookupFailure")
-      Redirect(routes.VehicleLookupFailure.present()).
+      Redirect(routes.RetainFailure.present()).
         withCookie(key = RetainResponseCodeCacheKey, value = responseCode)
     }
 
