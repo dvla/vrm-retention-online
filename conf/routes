@@ -70,6 +70,8 @@ GET         /vrm-retention/success                             @controllers.Succ
 GET         /vrm-retention/success/create-pdf                  @controllers.Success.createPdf
 GET         /vrm-retention/success/finish                      @controllers.Success.finish
 
+GET         /vrm-retention/retention-failure                   @controllers.RetainFailure.present
+
 GET         /healthcheck                                       @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
 
 GET         /vrm-retention/enter-address-manually              @controllers.EnterAddressManually.present
