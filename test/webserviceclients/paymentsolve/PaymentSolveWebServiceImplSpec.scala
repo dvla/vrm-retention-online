@@ -30,6 +30,7 @@ final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture
   private val request = PaymentSolveBeginRequest(
     transNo = "ref number",
     vrm = "reg number",
+    purchaseAmount = 9999,
     paymentCallback = "callback url"
   )
 
