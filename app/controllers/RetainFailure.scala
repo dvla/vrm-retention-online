@@ -9,6 +9,6 @@ final class RetainFailure @Inject()()(implicit clientSideSessionFactory: ClientS
                                        config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_retention.before_you_start())
+    Ok(views.html.vrm_retention.retention_failure())
   }
 }
