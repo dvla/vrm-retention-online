@@ -4,10 +4,11 @@ import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import views.vrm_retention.VrmLocked
 import VrmLocked.{ExitRetentionId, NewRetentionId}
 import org.openqa.selenium.WebDriver
+import pages.ApplicationContext.applicationContext
 
 object VrmLockedPage extends Page with WebBrowserDSL {
 
-  final val address = "/vrm-retention/vrm-locked"
+  final val address = s"$applicationContext/vrm-locked"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title = "Registration mark is locked"
 

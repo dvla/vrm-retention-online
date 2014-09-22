@@ -5,12 +5,13 @@ import views.vrm_retention.EnterAddressManually
 import EnterAddressManually.{BackId, NextId}
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import org.openqa.selenium.WebDriver
+import pages.ApplicationContext.applicationContext
 import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
-  final val address = "/vrm-retention/enter-address-manually"
+  final val address = s"$applicationContext/enter-address-manually"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Enter address"
 
