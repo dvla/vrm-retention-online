@@ -33,7 +33,6 @@
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
             <br>
             @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
-
                <p><a href="https://www.gov.uk/government/publications/application-to-transfer-or-retain-a-vehicle-registration-number">Download V317</a></p>
             }
 
@@ -42,7 +41,6 @@
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
                 @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
                     <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
-
                 }
                 <a id="@BackId" href="@controllers.routes.VehicleLookup.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
                 <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
