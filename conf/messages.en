@@ -235,7 +235,7 @@ soap_endpoint_error.back.button=Back
 soap_endpoint_error.exit.button=Exit
 
 #vrm locked
-vrm_locked.title=Registration mark is locked
+vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been three attempts to access the vehicle details without success. The vehicle registration number is now locked for 10 minutes as a safeguard. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
 vrm_locked.text3.1=If you need assistance to process this vehicle, please call our Contact Centre on
@@ -341,18 +341,26 @@ vrm_retention_eligibility_failure.p1 = Our records show this registration number
 vrm_retention_eligibility_failure.p2 =
 vrm_retention_eligibility_failure.p3 =
 
+# Payment page 
+vrm_retention_payment.title = Payment details
+vrm_retention_payment.iframe.title = Payment iframe
+vrm_retention_payment.javascript-disabled.message = You are seeing this additional message as we have detected that you have Javascript disabled. Please do not click the Continue button below until you are told that the payment process has ended.
+vrm_retention_payment.javascript-disabled.button = Continue
+vrm_retention_payment.cancel.button = Cancel
+vrm_retention_paymentfailure.tryagainbutton = Try again
+vrm_retention_paymentfailure.exitbutton = Exit
+vrm_retention_paymentnotauthorised.tryagainbutton = Try again
+vrm_retention_paymentnotauthorised.exitbutton = Exit
+
+# Payment callback interstitial
+vrm_retention_payment.callback.message-when-javascript-enabled = Redirecting, please do not click any buttons...
+vrm_retention_payment.callback.message-when-javascript-disabled = The payment process has ended. Please click the Continue button below.
+
 # Vehicle details partial view
 vrm_retention_vehicle_callback.title = Vehicle details
 vrm_retention_vehicle_callback.regNumLabel = Registration number
 vrm_retention_vehicle_callback.makeLabel = Make
 vrm_retention_vehicle_callback.modelLabel = Model
-
-# Payment page 
-vrm_retention_payment.title = Payment details
-vrm_retention_paymentfailure.tryagainbutton = Try again
-vrm_retention_paymentfailure.exitbutton = Exit
-vrm_retention_paymentnotauthorised.tryagainbutton = Try again
-vrm_retention_paymentnotauthorised.exitbutton = Exit
 
 # Payment failure page
 paymentFailureErrorMessage.title = Payment Failure
@@ -456,6 +464,10 @@ micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later.
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
+
+#Retention failure page
+vrm_retention_failure.title = Transaction not successful
+vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.
 
 # progress messages
 vrm_retention_progress_1 = Step 1 of 6

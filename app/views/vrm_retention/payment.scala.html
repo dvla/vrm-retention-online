@@ -1,22 +1,37 @@
-@()(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+@(paymentRedirectUrl: String)(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import controllers.routes.Payment
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_retention.main
-@import views.vrm_retention.Payment.{ExitId, PayNowId}
+@import views.vrm_retention.Payment.{ExitId, CancelId, GetWebPaymentlId}
 
 @main(
     title = Messages("vrm_retention_payment.title")
 ) {
-    <div class="form-steps">
-        <img src="/vrm-retention/assets/images/payMock.png">
-    </div>
+    <iframe
+        src="@paymentRedirectUrl"
+        seamless="seamless"
+        title="@Messages("vrm_retention_payment.iframe.title")"
+        width="600"
+        height="300"
+        frameborder="0"
+        sandbox="allow-forms allow-scripts allow-top-navigation"
+    ></iframe>
 
     <div class="form-steps">
         @csrfTokenHiddenField()
-        @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@PayNowId" href="@Payment.submit()">@Messages("vrm_retention_payment.button")</a>
-        <a class="button-secondary" id="@ExitId" href="@controllers.routes.Payment.exit()">@Messages("vrm_retention_exit.button")</a>
+
+        <noscript>
+            @*
+            Non-javascript browsers need a way of causing the parent browser to redirect, as meta-refresh won't work
+            on the parent when in an iframe
+            *@
+            <p>@Messages("vrm_retention_payment.javascript-disabled.message")</p>
+            <a class="button" id="@GetWebPaymentlId" href="@Payment.getWebPayment">@Messages("vrm_retention_payment.javascript-disabled.button")</a>
+        </noscript>
+        <a class="button" id="@CancelId" href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a>
+        <a class="button-secondary" id="@ExitId" href="@Payment.exit()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }

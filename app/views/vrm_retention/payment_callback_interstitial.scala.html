@@ -1,0 +1,35 @@
+@()(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import controllers.routes.Payment
+@import views.vrm_retention.PaymentCallbackInterstitial.MessageWhenJavascriptEnabled
+
+<html>
+    <head>
+        <title>@Messages("vrm_retention_payment.callback.interstitial")</title>
+        <style type="text/css">
+            #@MessageWhenJavascriptEnabled
+            { display: none; }
+        </style>
+    </head>
+    <body>
+        <noscript>
+            <p>@Messages("vrm_retention_payment.callback.message-when-javascript-disabled")</p>
+        </noscript>
+
+        <div id="@MessageWhenJavascriptEnabled">
+            @* Message is hidden by default and only shown when javascript enabled *@
+            <p>@Messages("vrm_retention_payment.callback.message-when-javascript-enabled")</p>
+        </div>
+
+        <script>
+            window.onload = function() {
+                @* Display message *@
+                document.getElementById("@MessageWhenJavascriptEnabled").style.display = 'block';
+                @* Redirect the top parent browser (not the iframe itself) *@
+                window.top.location.href = "@{Payment.getWebPayment}";
+            };
+        </script>
+    </body>
+</html>
