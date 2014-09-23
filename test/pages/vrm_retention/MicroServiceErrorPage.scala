@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver
 
 object MicroServiceErrorPage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/micro-service-error"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/micro-service-error"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title = "We are sorry"
 
   def tryAgain(implicit driver: WebDriver): Element = find(id(TryAgainId)).get

@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver
 
 object BeforeYouStartPage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/before-you-start"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/before-you-start"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Take a registration number off a vehicle"
   final val titleCy: String = "Cael gwared cerbyd i mewn i'r fasnach foduron"
 

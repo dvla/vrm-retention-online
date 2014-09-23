@@ -5,7 +5,7 @@ import pages.ApplicationContext.applicationContext
 
 object SummaryPage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/success"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/success"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Summary"
 }

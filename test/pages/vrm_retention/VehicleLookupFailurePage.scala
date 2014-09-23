@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/vehicle-lookup-failure"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/vehicle-lookup-failure"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Look-up was unsuccessful"
   final val directToPaperTitle: String = "Direct to Paper Channel Error Message"
   final val failureTitle: String = "Not Eligible to Transact Error Message"

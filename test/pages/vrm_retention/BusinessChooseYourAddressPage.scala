@@ -10,7 +10,7 @@ import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   final val address: String = s"$applicationContext/business-choose-your-address"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title = "Select your business address"
   final val titleCy = "Dewiswch eich cyfeiriad masnach"
 

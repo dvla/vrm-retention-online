@@ -7,8 +7,8 @@ import pages.ApplicationContext.applicationContext
 
 object PaymentNotAuthorisedPage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/payment-not-authorised"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/payment-not-authorised"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Payment Cancelled or Not Authorised"
 
   def tryAgain(implicit driver: WebDriver): Element = find(id(TryAgainId)).get

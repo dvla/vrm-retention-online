@@ -8,8 +8,8 @@ import pages.ApplicationContext.applicationContext
 
 object PaymentPage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/payment/begin"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/payment/begin"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Payment details"
 
   def payNow(implicit driver: WebDriver): Element = find(id(CancelId)).get

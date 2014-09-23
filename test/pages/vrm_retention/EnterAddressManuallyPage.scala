@@ -11,8 +11,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewMod
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/enter-address-manually"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/enter-address-manually"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Enter address"
 
   def addressBuildingNameOrNumber(implicit driver: WebDriver): TextField =

@@ -10,8 +10,8 @@ import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeV
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
-  final val address = s"$applicationContext/vehicle-lookup"
-  override val url: String = WebDriverFactory.testUrl + address.substring(1)
+  def address = s"$applicationContext/vehicle-lookup"
+  def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Find the vehicle"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
