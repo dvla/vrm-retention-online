@@ -6,7 +6,6 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
-import views.vrm_retention.VehicleLookup
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
 import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 

@@ -1,13 +1,13 @@
 package models
 
-import play.api.data.Forms._
+import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber._
+import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber.referenceNumber
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
-import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber._
-import views.vrm_retention.KeeperConsent._
-import views.vrm_retention.VehicleLookup._
+import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber.registrationNumber
+import views.vrm_retention.KeeperConsent.keeperConsent
+import views.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupFormModelCacheKey, DocumentReferenceNumberId, VehicleRegistrationNumberId, PostcodeId, KeeperConsentId}
 
 final case class VehicleAndKeeperLookupFormModel(referenceNumber: String,
                                                  registrationNumber: String,
@@ -28,5 +28,4 @@ object VehicleAndKeeperLookupFormModel {
       KeeperConsentId -> keeperConsent
     )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
   }
-
 }

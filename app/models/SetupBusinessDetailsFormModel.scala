@@ -6,8 +6,8 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
-import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode._
-import views.vrm_retention.SetupBusinessDetails._
+import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
+import views.vrm_retention.SetupBusinessDetails.{SetupBusinessDetailsCacheKey, BusinessNameId, BusinessContactId, BusinessEmailId, BusinessPostcodeId}
 
 final case class SetupBusinessDetailsFormModel(name: String, contact: String, email: String, postcode: String)
 
@@ -25,5 +25,4 @@ object SetupBusinessDetailsFormModel {
       BusinessPostcodeId -> postcode
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   }
-
 }

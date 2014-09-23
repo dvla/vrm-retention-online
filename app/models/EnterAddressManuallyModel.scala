@@ -20,5 +20,4 @@ object EnterAddressManuallyModel {
       AddressAndPostcodeId -> AddressAndPostcodeViewModel.Form.Mapping
     )(EnterAddressManuallyModel.apply)(EnterAddressManuallyModel.unapply)
   }
-
 }
