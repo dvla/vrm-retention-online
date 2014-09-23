@@ -3,11 +3,12 @@ package pages.vrm_retention
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import views.vrm_retention.VehicleLookupFailure
 import VehicleLookupFailure.{ExitId, VehicleLookupId}
+import pages.ApplicationContext.applicationContext
 import org.openqa.selenium.WebDriver
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
 
-  final val address = "/vrm-retention/vehicle-lookup-failure"
+  final val address = s"$applicationContext/vehicle-lookup-failure"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Look-up was unsuccessful"
   final val directToPaperTitle: String = "Direct to Paper Channel Error Message"

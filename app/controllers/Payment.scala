@@ -104,6 +104,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
           vrm = vrm,
+          purchaseAmount = 8000, // TODO where do we get this from?
           paymentCallback = referer.split("/vrm-retention")(0) + routes.Payment.callback().url
         )
         val trackingId = request.cookies.trackingId()

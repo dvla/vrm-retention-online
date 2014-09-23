@@ -4,12 +4,13 @@ import helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL,
 import views.vrm_retention.VehicleLookup
 import VehicleLookup.{BackId, DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
 import org.openqa.selenium.WebDriver
+import pages.ApplicationContext.applicationContext
 import services.fakes.BruteForcePreventionWebServiceConstants
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
-  final val address = "/vrm-retention/vehicle-lookup"
+  final val address = s"$applicationContext/vehicle-lookup"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Find the vehicle"
 

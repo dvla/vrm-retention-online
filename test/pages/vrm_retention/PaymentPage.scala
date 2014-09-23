@@ -4,10 +4,11 @@ import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import views.vrm_retention.Payment
 import Payment._
 import org.openqa.selenium.WebDriver
+import pages.ApplicationContext.applicationContext
 
 object PaymentPage extends Page with WebBrowserDSL {
 
-  final val address = "/vrm-retention/payment/begin"
+  final val address = s"$applicationContext/payment/begin"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Payment details"
 

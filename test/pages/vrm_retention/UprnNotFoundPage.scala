@@ -3,11 +3,12 @@ package pages.vrm_retention
 import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import views.vrm_retention.UprnNotFound
 import UprnNotFound._
+import pages.ApplicationContext.applicationContext
 import org.openqa.selenium.WebDriver
 
 object UprnNotFoundPage extends Page with WebBrowserDSL {
 
-  final val address = "/vrm-retention/uprn-not-found"
+  final val address = s"$applicationContext/uprn-not-found"
   override val url: String = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Error confirming post code"
 
