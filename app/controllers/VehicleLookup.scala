@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import controllers.VehicleLookupProcessBase.{LookupFailure, MicroServiceError, VehicleNotFoundError}
+import controllers.VehicleLookupProcessBase.{VehicleFound, LookupResult, MicroServiceError, VehicleNotFoundError}
 import models._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.{Form, FormError}
@@ -100,25 +100,26 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     override val microServiceError: Call = routes.MicroServiceError.present()
     override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
 
-    override protected def lookup(implicit request: Request[_]): Future[Either[LookupFailure, Result]] = {
+    override protected def lookup(implicit request: Request[_]): Future[LookupResult] = {
       val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest.from(validForm)
       val trackingId = request.cookies.trackingId()
       vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map { response =>
         response.responseCode match {
           case Some(responseCode) =>
-            Left(VehicleNotFoundError(responseCode)) // There is only a response code when there is a problem.
+            VehicleNotFoundError(responseCode) // There is only a response code when there is a problem.
           case None =>
             // Happy path when there is no response code therefore no problem.
             response.vehicleAndKeeperDetailsDto match {
               case Some(dto) if !formatPostcode(validForm.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
-                Left(VehicleNotFoundError("vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
+                VehicleNotFoundError("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
               case Some(dto) =>
-                Right(Redirect(routes.CheckEligibility.present()).
-                  withCookie(VehicleAndKeeperDetailsModel.from(dto)))
+                VehicleFound(
+                  Redirect(routes.CheckEligibility.present()).
+                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
 
               case _ =>
-                Left(MicroServiceError("No vehicleAndKeeperDetailsDto found"))
+                MicroServiceError("No vehicleAndKeeperDetailsDto found")
             }
         }
       }

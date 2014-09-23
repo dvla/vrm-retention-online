@@ -1,6 +1,6 @@
 package controllers
 
-import controllers.VehicleLookupProcessBase.{LookupFailure, MicroServiceError, VehicleNotFoundError}
+import controllers.VehicleLookupProcessBase.{VehicleFound, LookupResult, MicroServiceError, VehicleNotFoundError}
 import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -45,23 +45,23 @@ trait VehicleLookupProcessBase extends Results {
         Redirect(microServiceError)
     }
 
-  protected def lookup(implicit request: Request[_]): Future[Either[LookupFailure, Result]]
+  protected def lookup(implicit request: Request[_]): Future[LookupResult]
 
   private def lookupVehicle(registrationNumber: String,
                             referenceNumber: String,
                             bruteForcePreventionModel: BruteForcePreventionModel)
                            (implicit request: Request[_]): Future[Result] =
     lookup.map {
-      case Left(MicroServiceError(message)) =>
+      case MicroServiceError(message) =>
         microServiceErrorResult(message)
-      case Left(VehicleNotFoundError(responseCode)) =>
+      case VehicleNotFoundError(responseCode) =>
         Logger.debug(s"VehicleAndKeeperLookup encountered a problem with request" +
           s" ${LogFormats.anonymize(referenceNumber)}" +
           s" ${LogFormats.anonymize(registrationNumber)}," +
           s" redirect to VehicleAndKeeperLookupFailure")
         Redirect(vehicleLookupFailure).
           withCookie(VehicleAndKeeperLookupResponseCodeCacheKey, responseCode)
-      case Right(result) =>
+      case VehicleFound(result) =>
         result
     } recover {
       case NonFatal(e) =>
@@ -75,9 +75,11 @@ trait VehicleLookupProcessBase extends Results {
 }
 
 object VehicleLookupProcessBase {
-  sealed trait LookupFailure
+  sealed trait LookupResult
 
-  case class MicroServiceError(message: String) extends LookupFailure
+  case class MicroServiceError(message: String) extends LookupResult
 
-  case class VehicleNotFoundError(responseCode: String) extends LookupFailure
+  case class VehicleNotFoundError(responseCode: String) extends LookupResult
+  
+  case class VehicleFound(result: Result) extends LookupResult
 }
