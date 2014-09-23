@@ -3,9 +3,10 @@ package controllers
 import com.google.inject.Inject
 import models.VehicleAndKeeperLookupFormModel
 import play.api.http.HeaderNames.REFERER
-import play.api.http.HttpVerbs.GET
+import play.api.http.HttpVerbs.POST
 import play.api.Logger
 import play.api.mvc.{Action, Call, Controller, Request, Result}
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -92,7 +93,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     Redirect(routes.MicroServiceError.present())
   }
 
-  private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_]): Future[Result] = {
+  private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],
+                                                                             token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
     request.headers.get(REFERER) match {
       case Some(referer) =>
 
@@ -114,6 +116,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
             if ((response.response == VALIDATED_RESPONSE) && (response.status == CARD_DETAILS_STATUS)) {
               Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get)) // TODO need sad path for when redirectUrl is None
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
+                .withCookie(CsrfPreventionAction.TokenName, token.value) // TODO delete this cookie in the payment callback.
+                .withCookie(REFERER, routes.Payment.begin().url) // TODO delete this cookie in the payment callback.
             } else {
               Logger.error("The begin web request to Solve was not validated.")
               paymentBeginFailure
