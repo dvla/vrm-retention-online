@@ -2,9 +2,9 @@ package controllers
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.MockFeedbackPage
+import pages.vrm_retention.{PaymentCallbackPage, MockFeedbackPage}
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, defaultAwaitTimeout, status}
+import play.api.test.Helpers.{LOCATION, OK, contentAsString, _}
 
 final class PaymentUnitSpec extends UnitSpec {
 
@@ -33,6 +33,20 @@ final class PaymentUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
+    }
+  }
+
+  "callback" should {
+    "should return OK" in new WithApplication {
+      val result = payment.callback(FakeRequest())
+      whenReady(result) { r =>
+        r.header.status should equal(OK)
+      }
+    }
+
+    "has title" in new WithApplication {
+      val result = payment.callback(FakeRequest())
+      contentAsString(result) should include(PaymentCallbackPage.title)
     }
   }
 
