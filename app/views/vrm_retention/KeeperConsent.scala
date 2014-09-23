@@ -1,6 +1,6 @@
 package views.vrm_retention
 
-import play.api.data.Forms._
+import play.api.data.Forms.nonEmptyText
 import play.api.data.Mapping
 
 object KeeperConsent {
