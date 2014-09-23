@@ -353,6 +353,7 @@ vrm_retention_paymentnotauthorised.tryagainbutton = Try again
 vrm_retention_paymentnotauthorised.exitbutton = Exit
 
 # Payment callback interstitial
+vrm_retention_payment.callback.title = Payment processing
 vrm_retention_payment.callback.message-when-javascript-enabled = Redirecting, please do not click any buttons...
 vrm_retention_payment.callback.message-when-javascript-disabled = The payment process has ended. Please click the Continue button below.
 
