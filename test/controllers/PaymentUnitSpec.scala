@@ -6,7 +6,6 @@ import pages.vrm_retention.{MicroServiceErrorPage, MockFeedbackPage, PaymentCall
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.{FakeHeaders, FakeRequest}
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, _}
-import play.api.test.FakeHeaders
 
 final class PaymentUnitSpec extends UnitSpec {
 
@@ -41,7 +40,7 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Payment page when required cookies exist" in new WithApplication {
+    "redirect to Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val referer = Seq("somewhere-made-up")
       val refererHeader = (REFERER, referer)
       val headers = FakeHeaders(data = Seq(refererHeader))
@@ -54,6 +53,10 @@ final class PaymentUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
+  }
+
+  "getWebPayment" should {
+    "redirect to retain when payment service response is 'validated' and status is 'AUTHORISED'" in pending
   }
 
   "exit" should {
