@@ -1,13 +1,14 @@
 package controllers
 
 import com.google.inject.Inject
-import controllers.VehicleLookupBase.{DtoMissing, LookupResult, VehicleFound, VehicleNotFound}
 import models._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{DtoMissing, VehicleFound, LookupResult, VehicleNotFound}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -29,6 +30,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
   override val vrmLocked: Call = routes.VrmLocked.present()
   override val microServiceError: Call = routes.MicroServiceError.present()
   override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
+  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
 
   override type Form = VehicleAndKeeperLookupFormModel
 
