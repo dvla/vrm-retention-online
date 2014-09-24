@@ -1,13 +1,13 @@
 package controllers
 
 import com.google.inject.Inject
-import controllers.VehicleLookupProcessBase.{VehicleFound, LookupResult, MicroServiceError, VehicleNotFoundError}
+import controllers.VehicleLookupBase.{DtoMissing, LookupResult, VehicleFound, VehicleNotFound}
 import models._
 import org.joda.time.format.ISODateTimeFormat
-import play.api.data.{Form, FormError}
+import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -20,13 +20,19 @@ import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest,
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionService,
+final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
                                     dateService: DateService)
-                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                    config: Config) extends Controller {
+                                   (implicit val clientSideSessionFactory: ClientSideSessionFactory,
+                                    config: Config) extends VehicleLookupBase {
 
-  private[controllers] val form = Form(
+  override val vrmLocked: Call = routes.VrmLocked.present()
+  override val microServiceError: Call = routes.MicroServiceError.present()
+  override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
+
+  override type Form = VehicleAndKeeperLookupFormModel
+
+  private[controllers] val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
 
@@ -41,12 +47,14 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors(invalidForm)))
       },
       validForm => {
-        new VehicleLookupProcess(validForm)
-          .bruteForceAndLookup(validForm.registrationNumber, validForm.referenceNumber)
-          .map { standardResult =>
-            standardResult.
-              withCookie(TransactionIdCacheKey, transactionId(validForm)).
-              withCookie(validForm)
+        bruteForceAndLookup(
+          validForm.registrationNumber,
+          validForm.referenceNumber,
+          validForm)
+        .map { standardResult =>
+          standardResult.
+            withCookie(TransactionIdCacheKey, transactionId(validForm)).
+            withCookie(validForm)
         }
       }
     )
@@ -56,6 +64,27 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
     Redirect(routes.BeforeYouStart.present())
   }
 
+  override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] =
+    vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form), trackingId) map { response =>
+      response.responseCode match {
+        case Some(responseCode) =>
+          VehicleNotFound(responseCode)
+
+        case None =>
+          response.vehicleAndKeeperDetailsDto match {
+            case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
+              VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+
+            case Some(dto) =>
+              VehicleFound(Redirect(routes.CheckEligibility.present()).
+                withCookie(VehicleAndKeeperDetailsModel.from(dto)))
+
+            case None =>
+              DtoMissing()
+          }
+      }
+    }
+
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
     val transactionTimestamp = dateService.today.toDateTimeMillis.get
     val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
@@ -64,7 +93,7 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
       isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
   }
 
-  private def formWithReplacedErrors(form: Form[VehicleAndKeeperLookupFormModel])(implicit request: Request[_]) =
+  private def formWithReplacedErrors(form: PlayForm[VehicleAndKeeperLookupFormModel])(implicit request: Request[_]) =
     form.
       replaceError(
         VehicleRegistrationNumberId,
@@ -91,38 +120,4 @@ final class VehicleLookup @Inject()(bruteForceService: BruteForcePreventionServi
         )
       ).
       distinctErrors
-
-  private class VehicleLookupProcess(validForm: VehicleAndKeeperLookupFormModel) extends VehicleLookupProcessBase {
-
-    override implicit val clientSideSessionFactory: ClientSideSessionFactory = VehicleLookup.this.clientSideSessionFactory
-    override val bruteForceService: BruteForcePreventionService = VehicleLookup.this.bruteForceService
-    override val vrmLocked: Call = routes.VrmLocked.present()
-    override val microServiceError: Call = routes.MicroServiceError.present()
-    override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
-
-    override protected def lookup(implicit request: Request[_]): Future[LookupResult] = {
-      val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest.from(validForm)
-      val trackingId = request.cookies.trackingId()
-      vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map { response =>
-        response.responseCode match {
-          case Some(responseCode) =>
-            VehicleNotFoundError(responseCode) // There is only a response code when there is a problem.
-          case None =>
-            // Happy path when there is no response code therefore no problem.
-            response.vehicleAndKeeperDetailsDto match {
-              case Some(dto) if !formatPostcode(validForm.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
-                VehicleNotFoundError("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
-
-              case Some(dto) =>
-                VehicleFound(
-                  Redirect(routes.CheckEligibility.present()).
-                    withCookie(VehicleAndKeeperDetailsModel.from(dto)))
-
-              case _ =>
-                MicroServiceError("No vehicleAndKeeperDetailsDto found")
-            }
-        }
-      }
-    }
-  }
 }
