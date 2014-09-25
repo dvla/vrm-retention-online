@@ -114,7 +114,7 @@ crestId: String)(implicit lang: Lang)
                     <td style="border-collapse: collapse; font-size: 1.6em; padding: 20px 0;"><img src="@crownContentId"
                                                                                                    width="35"
                                                                                                    height="31" alt=""
-                                                                                                   style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans-serif, sans;"/>
+                                                                                                   style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans, sans-serif;"/>
                         GOV.UK
                     </td>
                 </tr>
@@ -165,70 +165,69 @@ crestId: String)(implicit lang: Lang)
                 </tr>
                 <tr>
                     <td class="successBanner"
-                        style="border-collapse: collapse; font-family: Helvetica, Arial, sans-serif, sans; text-align: center; color: #fff; background: #28A287; padding: 0 30px;"
+                        style="border-collapse: collapse; font-family: Helvetica, Arial, sans, sans-serif; text-align: center; color: #fff; background: #28A287; padding: 0 30px;"
                         align="center" bgcolor="#28A287">
-                        <h1 style="color: #fff !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <h1 style="color: #fff !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line6", vrm)</h1>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line7")</p>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line8")</p>
                     </td>
                 </tr>
                 <tr>
                     <td class="replacementInfo" style="border-collapse: collapse; text-align: center;" align="center">
-                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line9")</h1>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line10")<strong style="font-weight:bold;">@vrm</strong>@Messages("email.line11")</p>
 
                         <p style="line-height: 110%; margin: 1em 0;">
                         </p>
-                        @* TODO check IntelliJ warnings *@
                         @* TODO check where inline styles are defined *@
                         <p class="skeuPlate" style="line-height: 3em; font-size: 2em; margin: 1em 0;"><span
-                                style="border-radius: 6px; font-weight: bold; background: #FFD307; padding: 10px; font-family: Helvetica, Arial, sans-serif, sans;">@replacementVRM</span>
+                                style="border-radius: 6px; font-weight: bold; background: #FFD307; padding: 10px; font-family: Helvetica, Arial, sans, sans-serif;">@replacementVRM</span>
                         </p>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line12")</p>
                     </td>
                 </tr>
                 <tr>
                     <td class="actorDetails" style="border-collapse: collapse;">
                         <hr/>
-                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line13")</h1>
 
                         <div class="twoThirds" style="width: 66%; float: left;">
                             <div style="padding: 5px;">
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                                     @Messages("email.line14")</p>
 
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                                     <strong>@Messages("email.line15")</strong><br/>
                                     @Messages("email.line16")<br/>
                                     @Messages("email.line17")<br/>
                                     @Messages("email.line18")<br/>
                                     @Messages("email.line19")</p>
 
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                                     emailaddress@@isp.com</p>
                             </div>
                         </div>
                         <div class="oneThird" style="width: 33%; float: left;">
-                            <div style="border-left-style: solid; border-left-color: #ccc; border-left-width: 3px; display: block; height: 100%; padding: 5px 5px 5px 30px;">
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                            <div style="border-left : 3 px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                                     @Messages("email.line20")</p>
 
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                                     <strong>@keeperName</strong><br/>
                                     @keeperAddress</p>
 
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                                     emailaddress@@isp.com</p>
                             </div>
                         </div>
@@ -236,30 +235,30 @@ crestId: String)(implicit lang: Lang)
                     </td>
                 </tr>
                 <tr>
-                    <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans-serif, sans;">
-                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans-serif, sans;">
+                    <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, sans-serif;">
+                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line21")</h1>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line22")</p>
 
 
-                        <ul class="docList" style="border-left-style: solid; border-left-color: #ccc; border-left-width: 5px; display: block; height: 100%; padding: 5px 5px 5px 30px; list-style: none;">
-                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <ul class="docList" style="border-left : 5 px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px; list-style: none;">
+                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                 @Messages("email.line23")
                             </li>
-                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans-serif, sans;">
+                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                 @Messages("email.line24")
                             </li>
-                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans-serif, sans;">
+                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                 @Messages("email.line25")
                             </li>
                         </ul>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line26")</p>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans-serif, sans;">*
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">*
                             @Messages("email.line27")</p>
                     </td>
                 </tr>
@@ -273,7 +272,7 @@ crestId: String)(implicit lang: Lang)
     </tr>
     <tr>
         <td id="GovUkFooter" class="spacing" style="border-collapse: collapse; color: #000; background: #DEE0E2; padding: 0 30px;" bgcolor="#DEE0E2">
-            <table style="width:100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td style="border-collapse: collapse; font-size: 0.8em; text-align: left; padding: 20px 0; font-family: Helvetica, Arial, sans-serif, sans;" align="right"><img src="@openGovernmentLicenceContentId" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;" />@Messages("email.line28")</td>
+            <table style="width:100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td style="border-collapse: collapse; font-size: 0.8em; text-align: left; padding: 20px 0; font-family: Helvetica, Arial, sans, sans-serif;" align="right"><img src="@openGovernmentLicenceContentId" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;" />@Messages("email.line28")</td>
                 </td><td align="right" style="padding:20px 0;"><img src="@crestId"></td>
                 </tr></table></td>
     </tr></table><!-- End of wrapper table --></body>
