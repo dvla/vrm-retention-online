@@ -29,6 +29,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
                               config: Config) extends Controller {
 
   private val VALIDATED_RESPONSE = "validated"
+  private val FAILED_RESPONSE = "failed"
+
   private val CARD_DETAILS_STATUS = "CARD_DETAILS"
   private val AUTHORISED_STATUS = "AUTHORISED"
 
@@ -104,7 +106,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
           vrm = vrm,
-          purchaseAmount = 8000, // TODO where do we get this from?
+          purchaseAmount = config.purchaseAmount.toInt, // TODO where do we get this from longer term
           paymentCallback = referer.split("/vrm-retention")(0) + routes.Payment.callback().url
         )
         val trackingId = request.cookies.trackingId()
@@ -148,7 +150,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map {
       response =>
-        if (response.response == VALIDATED_RESPONSE) {
+        if (List(FAILED_RESPONSE, VALIDATED_RESPONSE) contains response.response) {
           // TODO store the auth code and masked pan
           if (response.status == AUTHORISED_STATUS) {
             Redirect(routes.Retain.retain())
@@ -179,7 +181,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map {
       response =>
         if (response.response == VALIDATED_RESPONSE) {
-          Logger.error("The get web request to Solve was not validated.")
+          Logger.error("The cancel web request to Solve was not validated.")
         }
         val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
         val cacheKeys = RelatedCacheKeys.RetainSet ++ {

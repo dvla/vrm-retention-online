@@ -50,4 +50,7 @@ class Config {
   val emailSmtpPassword: String = getProperty("smtp.password", "")
   val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
   val emailSenderAddress: String = getProperty("email.senderAddress", "")
+
+  // Payment Service
+  val purchaseAmount: String = getProperty("retention.purchaseAmountInPence", "NOT FOUND")
 }
