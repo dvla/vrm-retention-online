@@ -53,11 +53,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
           validForm.registrationNumber,
           validForm.referenceNumber,
           validForm)
-        .map { standardResult =>
-          standardResult.
-            withCookie(TransactionIdCacheKey, transactionId(validForm)).
-            withCookie(validForm)
-        }
+        .map(_.withCookie(TransactionIdCacheKey, transactionId(validForm)))
       }
     )
   }
