@@ -1,10 +1,10 @@
 package controllers
 
 import composition.paymentsolvewebservice.TestPaymentSolveWebService.beginWebPaymentUrl
-import composition.paymentsolvewebservice.{NotValidatedCardDetails, PaymentCallFails, ValidatedCardDetails, ValidatedNotCardDetails}
+import composition.paymentsolvewebservice._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{MicroServiceErrorPage, MockFeedbackPage, PaymentCallbackPage, PaymentFailurePage}
+import pages.vrm_retention._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
@@ -42,20 +42,6 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
-      val result = payment.begin(requestWithValidDefaults())
-      whenReady(result) { r =>
-        r.header.status should equal(OK)
-      }
-    }
-
-    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
-      val result = payment.begin(requestWithValidDefaults())
-      val content = contentAsString(result)
-      content should include("<iframe")
-      content should include( s"""src="$beginWebPaymentUrl"""")
-    }
-
     "redirect to PaymentFailure page when required cookies and referer exist and payment service response is not 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val payment = testInjector(new NotValidatedCardDetails).getInstance(classOf[Payment])
       val result = payment.begin(requestWithValidDefaults())
@@ -79,10 +65,73 @@ final class PaymentUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
+    
+    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+      val result = payment.begin(requestWithValidDefaults())
+      whenReady(result) { r =>
+        r.header.status should equal(OK)
+      }
+    }
+
+    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
+      val result = payment.begin(requestWithValidDefaults())
+      val content = contentAsString(result)
+      content should include("<iframe")
+      content should include( s"""src="$beginWebPaymentUrl"""")
+    }
   }
 
   "getWebPayment" should {
-    "redirect to retain when payment service response is 'validated' and status is 'AUTHORISED'" in pending
+
+    "redirect to MicroServiceError page when TransactionId cookie does not exist" in new WithApplication {
+      val request = FakeRequest()
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to MicroServiceError page when PaymentTransactionReference cookie does not exist" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId())
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to PaymentFailure page when payment service response is not 'validated'" in new WithApplication {
+      val payment = testInjector(new NotValidatedAuthorised).getInstance(classOf[Payment])
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
+
+    "redirect to PaymentNotAuthorised page when payment service response is 'validated' and status is not 'AUTHORISED'" in new WithApplication {
+      val payment = testInjector(new ValidatedNotAuthorised).getInstance(classOf[Payment])
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentNotAuthorisedPage.address))
+      }
+    }
+
+    "redirect to Success page when payment service response is 'validated' and status is 'AUTHORISED'" in new WithApplication {
+      val payment = testInjector(new ValidatedAuthorised).getInstance(classOf[Payment])
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(RetainPage.address))
+      }
+    }
   }
 
   "exit" should {
