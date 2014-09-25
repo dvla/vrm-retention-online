@@ -65,7 +65,7 @@ final class PaymentUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
-    
+
     "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
@@ -94,6 +94,17 @@ final class PaymentUnitSpec extends UnitSpec {
     "redirect to MicroServiceError page when PaymentTransactionReference cookie does not exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId())
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to MicroServiceError page when payment service call throws an exception" in new WithApplication {
+      val payment = testInjector(new PaymentCallFails).getInstance(classOf[Payment])
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
       val result = payment.getWebPayment(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))

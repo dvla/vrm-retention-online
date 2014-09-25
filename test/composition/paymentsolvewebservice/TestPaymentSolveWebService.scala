@@ -47,6 +47,8 @@ class PaymentCallFails extends ScalaModule with MockitoSugar {
     val webService = mock[PaymentSolveWebService]
     when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[String])).
       thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for PaymentSolveWebService")))
+    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[String])).
+      thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for PaymentSolveWebService")))
     bind[PaymentSolveWebService].toInstance(webService)
   }
 }
