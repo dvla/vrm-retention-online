@@ -103,6 +103,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           Redirect(routes.PaymentFailure.present())
         }
 
+        Logger.info(s"*** callBeginWebPaymentService referer: $referer") // for testing only - print what is in the referer... it should start https!
         val paymentCallback = referer.split(routes.Confirm.present().url)(0) + routes.Payment.callback().url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
