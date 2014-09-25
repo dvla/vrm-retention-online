@@ -115,8 +115,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
             if ((response.response == VALIDATED_RESPONSE) && (response.status == CARD_DETAILS_STATUS)) {
-//              Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get)) // TODO need sad path for when redirectUrl is None
-              Redirect(response.redirectUrl.get)
+              Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get)) // TODO need sad path for when redirectUrl is None
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
                 .withCookie(CsrfPreventionAction.TokenName, token.value) // TODO delete this cookie in the payment callback.
                 .withCookie(REFERER, routes.Payment.begin().url) // TODO delete this cookie in the payment callback.

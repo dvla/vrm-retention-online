@@ -32,5 +32,5 @@ class TestBruteForcePreventionWebService(permitted: Boolean = true) extends Scal
     bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
   }
 
-  private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a test"))
+  private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService"))
 }

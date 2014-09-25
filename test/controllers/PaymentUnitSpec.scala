@@ -1,10 +1,12 @@
 package controllers
 
+import composition.paymentsolvewebservice.TestPaymentSolveWebService.beginWebPaymentUrl
+import composition.paymentsolvewebservice.{NotValidatedCardDetails, PaymentCallFails, ValidatedCardDetails, ValidatedNotCardDetails}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{MicroServiceErrorPage, MockFeedbackPage, PaymentCallbackPage}
+import pages.vrm_retention.{MicroServiceErrorPage, MockFeedbackPage, PaymentCallbackPage, PaymentFailurePage}
 import play.api.mvc.AnyContentAsEmpty
-import play.api.test.Helpers.{LOCATION, OK, contentAsString, _}
+import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
 
 final class PaymentUnitSpec extends UnitSpec {
@@ -40,23 +42,43 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
-      val referer = Seq("somewhere-made-up")
-      val refererHeader = (REFERER, referer)
-      val headers = FakeHeaders(data = Seq(refererHeader))
-      val request = FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
-        withCookies(CookieFactoryForUnitSpecs.transactionId()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel())
+    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+      val result = payment.begin(requestWithValidDefaults())
+      whenReady(result) { r =>
+        r.header.status should equal(OK)
+      }
+    }
 
-      val result = payment.begin(request)
+    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
+      val result = payment.begin(requestWithValidDefaults())
+      val content = contentAsString(result)
+      content should include("<iframe")
+      content should include( s"""src="$beginWebPaymentUrl"""")
+    }
+
+    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is not 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+      val payment = testInjector(new NotValidatedCardDetails).getInstance(classOf[Payment])
+      val result = payment.begin(requestWithValidDefaults())
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
+
+    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is 'validated' and status is not 'CARD_DETAILS'" in new WithApplication {
+      val payment = testInjector(new ValidatedNotCardDetails).getInstance(classOf[Payment])
+      val result = payment.begin(requestWithValidDefaults())
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
+
+    "redirect to MicroServiceError page when payment service call throws an exception" in new WithApplication {
+      val payment = testInjector(new PaymentCallFails).getInstance(classOf[Payment])
+      val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
-
-    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is not 'validated' and status is 'CARD_DETAILS'" in pending
-    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is 'validated' and status is not 'CARD_DETAILS'" in pending
-    "redirect to MicroServiceError page when payment service call throws an exception" in pending
   }
 
   "getWebPayment" should {
@@ -105,5 +127,13 @@ final class PaymentUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val payment = testInjector().getInstance(classOf[Payment])
+  private def requestWithValidDefaults(referer: String = "somewhere-in-load-balancer-land"): FakeRequest[AnyContentAsEmpty.type] = {
+    val refererHeader = (REFERER, Seq(referer))
+    val headers = FakeHeaders(data = Seq(refererHeader))
+    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
+      withCookies(CookieFactoryForUnitSpecs.transactionId()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel())
+  }
+
+  private lazy val payment = testInjector(new ValidatedCardDetails).getInstance(classOf[Payment])
 }
