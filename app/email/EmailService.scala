@@ -10,13 +10,4 @@ trait EmailService {
                 eligibilityModel: EligibilityModel,
                 retainModel: RetainModel,
                 transactionId: String)
-
-  def populateEmailTemplate(emailAddress: String,
-                            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                            eligibilityModel: EligibilityModel,
-                            retainModel: RetainModel,
-                            transactionId: String,
-                            crownContentId: String,
-                            openGovernmentLicenceContentId: String,
-                            crestId: String): HtmlFormat.Appendable
 }

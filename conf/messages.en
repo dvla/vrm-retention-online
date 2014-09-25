@@ -466,6 +466,37 @@ micro_service_error.text=The service is temporarily unavailable. Please try agai
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
 
+email.withoutHtml = Your email client does not support HTML messages.
+email.title = Retention successful for {0}
+email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
+email.line2 = Your application to retain a vehicle registration number
+email.line3 = Retention Certificate Number
+email.line4 = Transaction Completed
+email.line5 = Your Transaction ID is:
+email.line6 = Retention successful for {0}
+email.line7 = A Certificate of Retention will be now be issued to the registered keeper.
+email.line8 = We have also sent to you details of the replacement registration number, which are detailed below, along with a PDF of the Letter of Authorisation (V948) which can be downloaded or printed using the link provided.
+email.line9 = Replacement Registration
+email.line10 = Now that the personal registration number ''
+email.line11 = '' has been retained, the vehicle has been assigned the following replacement registration:
+email.line12 = To make up the number plates for the replacement registration number assigned, you will need the Letter of Authorisation for a Replacement Registration (V948) which is attached.
+email.line13 = About this transaction
+email.line14 = This transaction was completed, with the consent of the registered keeper by:
+email.line15 = Contact Name
+email.line16 = Vehicle Dealer Name Street
+email.line17 = Town/City
+email.line18 = County
+email.line19 = Postcode
+email.line20 = Registered Keeper:
+email.line21 = New Documentation:
+email.line22 = The following documents will be sent to the registered keeper:
+email.line23 = A new Vehicle Registration Certificate (V5C) displaying the replacement registration number
+email.line24 = A new MOT Certificate displaying the replacement registration number*
+email.line25 = A Retention Certificate for the retained Registration Number
+email.line26 = If the keeper has not received a new V5C within 2-3 weeks please advise them to call the DVLA helpline on 0300 790 6802 with the transaction ID listed in the green box above and we will do our upmost to resolve their query promptly.
+email.line27 = A new MOT Certificate will only be sent if the vehicle has an existing MOT record.
+email.line28 = All content is available under the Open government License v2.0, except where otherwise stated
+
 #Retention failure page
 vrm_retention_failure.title = Transaction not successful
 vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.

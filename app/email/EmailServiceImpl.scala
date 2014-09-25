@@ -10,7 +10,7 @@ import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
-import views.html.vrm_retention.email_template
+import views.html.vrm_retention.{email_without_html, email_with_html}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
@@ -47,7 +47,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               description = "Replacement registration number letter of authorisation"
             )
 
-            val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
+            val plainTextMessage = populateEmailWithoutHtml(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId)
             def htmlMessage = {
               val crownContentId = {
                 val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
@@ -61,11 +61,12 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                 val openGovernmentLicence = Play.resource(name = "public/images/govuk-crest.png").get
                 "cid:" + htmlEmail.embed(openGovernmentLicence, "govuk-crest.png")
               }
-              populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId, openGovernmentLicenceContentId, crestId)
+              populateEmailWithHtml(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId, openGovernmentLicenceContentId, crestId)
             }
+            val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber // TODO fetch text from Messages file.
 
             htmlEmail.
-              setTextMsg("Your email client does not support HTML messages. Please open this email in another email client or view the attached pdf").
+              setTextMsg(plainTextMessage).
               setHtmlMsg(htmlMessage.toString()).
               attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description).
               setFrom(from.email, from.name).
@@ -85,7 +86,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     }
   }
 
-  override def populateEmailTemplate(emailAddress: String,
+  private def populateEmailWithHtml(emailAddress: String,
                                      vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                                      eligibilityModel: EligibilityModel,
                                      retainModel: RetainModel,
@@ -93,8 +94,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                                      crownContentId: String,
                                      openGovernmentLicenceContentId: String,
                                      crestId: String): HtmlFormat.Appendable = {
-    email_template(
-      vrm = vehicleAndKeeperDetailsModel.registrationNumber,
+    email_with_html(
+      vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = retainModel.certificateNumber,
       transactionId = transactionId,
       transactionTimestamp = retainModel.transactionTimestamp,
@@ -106,6 +107,23 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       openGovernmentLicenceContentId = openGovernmentLicenceContentId,
       crestId = crestId
     )
+  }
+
+  private def populateEmailWithoutHtml(emailAddress: String,
+                                     vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                                     eligibilityModel: EligibilityModel,
+                                     retainModel: RetainModel,
+                                     transactionId: String): String = {
+    email_without_html(
+      vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
+      retentionCertId = retainModel.certificateNumber,
+      transactionId = transactionId,
+      transactionTimestamp = retainModel.transactionTimestamp,
+      keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
+      keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
+      amount = amountDebited,
+      replacementVRM = eligibilityModel.replacementVRM
+    ).toString()
   }
 
   private def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
