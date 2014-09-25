@@ -8,7 +8,7 @@ import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{DtoMissing, VehicleFound, LookupResult, VehicleNotFound}
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{VehicleFound, LookupResult, VehicleNotFound}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -78,7 +78,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
                 withCookie(VehicleAndKeeperDetailsModel.from(dto)))
 
             case None =>
-              DtoMissing()
+              throw new RuntimeException("DTO missing.")
           }
       }
     }
