@@ -4,8 +4,8 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention.{MicroServiceErrorPage, MockFeedbackPage, PaymentCallbackPage}
 import play.api.mvc.AnyContentAsEmpty
-import play.api.test.{FakeHeaders, FakeRequest}
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, _}
+import play.api.test.{FakeHeaders, FakeRequest}
 
 final class PaymentUnitSpec extends UnitSpec {
 
@@ -53,6 +53,10 @@ final class PaymentUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
+
+    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is not 'validated' and status is 'CARD_DETAILS'" in pending
+    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is 'validated' and status is not 'CARD_DETAILS'" in pending
+    "redirect to MicroServiceError page when payment service call throws an exception" in pending
   }
 
   "getWebPayment" should {
