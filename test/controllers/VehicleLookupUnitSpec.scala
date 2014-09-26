@@ -1,11 +1,11 @@
 package controllers
 
 import composition._
+import composition.vehicleandkeeperlookup._
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import models.VehicleAndKeeperDetailsModel
 import pages.vrm_retention._
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
@@ -14,7 +14,6 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -188,25 +187,25 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-//    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupStubs(vehicleAndKeeperDetailsResponseDocRefNumberNotLatest).submit(request)
-//      whenReady(result) { r =>
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies.map(_.name) should contain allOf(
-//          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
-//      }
-//    }
-//
-//    "write cookie when vrm not found by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupStubs(vehicleAndKeeperDetailsResponseVRMNotFound).submit(request)
-//      whenReady(result) { r =>
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies.map(_.name) should contain allOf(
-//          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
-//      }
-//    }
+    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain allOf(
+          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+      }
+    }
+
+    //    "write cookie when vrm not found by the fake microservice" in new WithApplication {
+    //      val request = buildCorrectlyPopulatedRequest()
+    //      val result = vehicleLookupStubs(vehicleAndKeeperDetailsResponseVRMNotFound).submit(request)
+    //      whenReady(result) { r =>
+    //        val cookies = fetchCookiesFromHeaders(r)
+    //        cookies.map(_.name) should contain allOf(
+    //          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+    //      }
+    //    }
 
     //    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
     //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
@@ -332,7 +331,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleAndKeeperDetailsCallNoResponse(isPrototypeBannerVisible: Boolean = true,
-                                              permitted: Boolean = true) = {
+                                                    permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
@@ -347,6 +346,16 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallServerDown()
+    ).
+      getInstance(classOf[VehicleLookup])
+  }
+
+  private def vehicleAndKeeperDetailsCallDocRefNumberNotLatest(isPrototypeBannerVisible: Boolean = true,
+                                                               permitted: Boolean = true) = {
+    testInjector(
+      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest()
     ).
       getInstance(classOf[VehicleLookup])
   }

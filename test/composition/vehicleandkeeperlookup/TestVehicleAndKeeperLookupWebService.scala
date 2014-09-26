@@ -1,7 +1,6 @@
-package composition
+package composition.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestVehicleAndKeeperLookupWebService.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.mockito.invocation.InvocationOnMock
@@ -38,36 +37,6 @@ class TestVehicleAndKeeperLookupWebService extends ScalaModule with MockitoSugar
           }
         }
       )
-    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
-  }
-}
-
-class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
-
-  def configure() = {
-    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
-      thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")))
-    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
-  }
-}
-
-class VehicleAndKeeperLookupCallNoResponse extends ScalaModule with MockitoSugar {
-
-  def configure() = {
-    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
-      thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsNoResponse)))
-    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
-  }
-}
-
-class VehicleAndKeeperDetailsCallServerDown extends ScalaModule with MockitoSugar {
-
-  def configure() = {
-    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
-      thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsServerDown)))
     bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
   }
 }

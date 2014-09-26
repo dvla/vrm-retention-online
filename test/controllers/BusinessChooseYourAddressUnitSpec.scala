@@ -1,7 +1,8 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.{TestConfig, TestOrdnanceSurvey, TestVehicleAndKeeperLookupWebService}
+import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.{TestConfig, TestOrdnanceSurvey}
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
