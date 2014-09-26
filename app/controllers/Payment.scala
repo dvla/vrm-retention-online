@@ -104,7 +104,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           response =>
             if ((response.response == Payment.ValidatedResponse) && (response.status == Payment.CardDetailsStatus)) {
               // TODO need sad path for when redirectUrl is None
-              //Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               Redirect(response.redirectUrl.get)
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
                 .withCookie(CsrfPreventionAction.TokenName, token.value) // TODO delete this cookie in the payment callback.
