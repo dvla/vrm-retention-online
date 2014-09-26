@@ -68,14 +68,12 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
   def exit = Action {
     implicit request =>
-      if (request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)) {
-        Redirect(routes.MockFeedback.present())
-          .discardingCookies(RelatedCacheKeys.RetainSet)
-      } else {
-        Redirect(routes.MockFeedback.present())
-          .discardingCookies(RelatedCacheKeys.RetainSet)
-          .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val discardedCookies = RelatedCacheKeys.RetainSet ++ {
+        if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
       }
+
+      Redirect(routes.MockFeedback.present()).discardingCookies(discardedCookies)
   }
 
   private def microServiceErrorResult(message: String) = {
