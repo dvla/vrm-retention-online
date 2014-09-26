@@ -3,9 +3,6 @@ package helpers.vrm_retention
 import models._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
@@ -17,10 +14,13 @@ import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsCac
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants._
 
 object CookieFactoryForUISpecs {
 
@@ -162,7 +162,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleAndKeeperLookupResponseCode(responseCode: String)
                                         (implicit webDriver: WebDriver) = {
-    val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+    val key = VehicleAndKeeperLookupResponseCodeCacheKey
     val value = responseCode
     addCookie(key, value)
     this

@@ -1,6 +1,7 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
+import composition.TestVehicleAndKeeperLookupWebService.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.mockito.invocation.InvocationOnMock
@@ -10,7 +11,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -48,5 +49,34 @@ class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
     when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
       thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")))
     bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+  }
+}
+
+class VehicleAndKeeperLookupCallNoResponse extends ScalaModule with MockitoSugar {
+
+  def configure() = {
+    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
+      thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsNoResponse)))
+    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+  }
+}
+
+class VehicleAndKeeperDetailsCallServerDown extends ScalaModule with MockitoSugar {
+
+  def configure() = {
+    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
+      thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsServerDown)))
+    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+  }
+}
+
+object TestVehicleAndKeeperLookupWebService {
+
+  def createResponse(response: (Int, Option[VehicleAndKeeperDetailsResponse])) = {
+    val (status, dto) = response
+    val asJson = Json.toJson(dto)
+    new FakeResponse(status = status, fakeJson = Some(asJson))
   }
 }

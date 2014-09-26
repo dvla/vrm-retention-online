@@ -3,6 +3,7 @@ package controllers
 import com.google.inject.Inject
 import models._
 import org.joda.time.format.ISODateTimeFormat
+import play.api.Logger
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -77,7 +78,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
                 withCookie(VehicleAndKeeperDetailsModel.from(dto)))
 
             case None =>
-              throw new RuntimeException("DTO missing.")
+              throw new RuntimeException("No Dto in vehicleAndKeeperLookupService response")
           }
       }
     }
