@@ -95,7 +95,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
           vrm = vrm,
-          purchaseAmount = 8000, // TODO where do we get this from?
+          purchaseAmount = Payment.PaymentAmount,
           paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()
@@ -197,4 +197,5 @@ object Payment {
   private final val ValidatedResponse = "validated"
   private final val CardDetailsStatus = "CARD_DETAILS"
   private final val AuthorisedStatus = "AUTHORISED"
+  private final val PaymentAmount = 8000 // TODO where do we get this from?
 }
