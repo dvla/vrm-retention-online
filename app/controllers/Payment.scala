@@ -93,7 +93,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
         val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback().url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
-          transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+          transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
           vrm = vrm,
           purchaseAmount = Payment.PaymentAmount,
           paymentCallback = paymentCallback
@@ -135,7 +135,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
 
     val paymentSolveGetRequest = PaymentSolveGetRequest(
-      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+      transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()
@@ -165,7 +165,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
                                          (implicit request: Request[_]): Future[Result] = {
 
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
-      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+      transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()
@@ -190,6 +190,9 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
     }
   }
+
+  private def removeNonNumeric(value: String): String =
+    value.replaceAll("[^0-9]", "")
 }
 
 object Payment {
