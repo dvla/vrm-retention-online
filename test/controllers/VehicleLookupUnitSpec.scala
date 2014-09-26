@@ -188,16 +188,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest()
-      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain allOf(
-          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
-      }
-    }
-
     "write cookie when vrm not found by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
@@ -214,15 +204,23 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
     }
 
-    //    "redirect to VehicleAndKeeperLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberValid)
-    //      val result = vehicleLookupStubs(
-    //        vehicleDetailsResponseDocRefNumberNotLatest,
-    //        bruteForceService = bruteForceServiceImpl(permitted = true)
-    //      ).submit(request)
-    //
-    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
-    //    }
+    "redirect to VehicleAndKeeperLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+
+    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain allOf(
+          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+      }
+    }
+
     //
     //    "redirect to VehicleAndKeeperLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
     //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
