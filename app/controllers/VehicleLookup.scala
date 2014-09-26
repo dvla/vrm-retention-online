@@ -8,7 +8,7 @@ import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{VehicleFound, LookupResult, VehicleNotFound}
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -92,30 +92,14 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
   }
 
   private def formWithReplacedErrors(form: PlayForm[VehicleAndKeeperLookupFormModel])(implicit request: Request[_]) =
-    form.
-      replaceError(
-        VehicleRegistrationNumberId,
-        FormError(
-          key = VehicleRegistrationNumberId,
-          message = "error.restricted.validVrnOnly",
-          args = Seq.empty
-        )
-      ).
-      replaceError(
-        DocumentReferenceNumberId,
-        FormError(
-          key = DocumentReferenceNumberId,
-          message = "error.validDocumentReferenceNumber",
-          args = Seq.empty
-        )
-      ).
-      replaceError(
-        PostcodeId,
-        FormError(
-          key = PostcodeId,
-          message = "error.restricted.validPostcode",
-          args = Seq.empty
-        )
-      ).
-      distinctErrors
+    (form /: List(
+      (VehicleRegistrationNumberId, "error.restricted.validVrnOnly"),
+      (DocumentReferenceNumberId, "error.validDocumentReferenceNumber"),
+      (PostcodeId, "error.restricted.validPostcode"))) { (form, error) =>
+      form.replaceError(error._1, FormError(
+        key = error._1,
+        message = error._2,
+        args = Seq.empty
+      ))
+    }.distinctErrors
 }
