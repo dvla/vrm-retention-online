@@ -1,6 +1,5 @@
 package controllers
 
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.beginWebPaymentUrl
 import composition.paymentsolvewebservice._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
@@ -66,19 +65,19 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-//    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
-//      val result = payment.begin(requestWithValidDefaults())
-//      whenReady(result) { r =>
-//        r.header.status should equal(OK)
-//      }
-//    }
-//
-//    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
-//      val result = payment.begin(requestWithValidDefaults())
-//      val content = contentAsString(result)
-//      content should include("<iframe")
-//      content should include( s"""src="$beginWebPaymentUrl"""")
-//    }
+    //    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+    //      val result = payment.begin(requestWithValidDefaults())
+    //      whenReady(result) { r =>
+    //        r.header.status should equal(OK)
+    //      }
+    //    }
+    //
+    //    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
+    //      val result = payment.begin(requestWithValidDefaults())
+    //      val content = contentAsString(result)
+    //      content should include("<iframe")
+    //      content should include( s"""src="$beginWebPaymentUrl"""")
+    //    }
 
     "display the fullscreen Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val result = payment.begin(requestWithValidDefaults())
@@ -150,6 +149,53 @@ final class PaymentUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(RetainPage.address))
       }
     }
+  }
+
+  "cancel" should {
+
+    "redirect to MicroServiceError page when TransactionId cookie does not exist" in new WithApplication {
+      val result = payment.cancel(FakeRequest())
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to MicroServiceError page when PaymentTransactionReference cookie does not exist" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId())
+      val result = payment.cancel(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to MockFeedback page when payment service call throws an exception" in new WithApplication {
+      val payment = testInjector(new PaymentCallFails).getInstance(classOf[Payment])
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
+      val cancelThrows = payment.cancel(request)
+
+      whenReady(cancelThrows) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+      }
+    }
+
+    "discards cookies when payment service call throws an exception" in pending // Have to be browser test
+
+    "redirect to MockFeedback page when required cookies exist" in new WithApplication {
+      val payment = testInjector(new CancelValidated).getInstance(classOf[Payment])
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
+      val cancel = payment.cancel(request)
+
+      whenReady(cancel) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+      }
+    }
+
+    "discard cookies when required cookies exist" in pending // Have to be browser test
   }
 
   "exit" should {

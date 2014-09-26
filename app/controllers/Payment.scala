@@ -71,11 +71,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       }
   }
 
-  def submit = Action.async {
-    implicit request =>
-      ??? // TODO
-  }
-
   def exit = Action {
     implicit request =>
       if (request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)) {

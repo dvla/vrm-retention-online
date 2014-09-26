@@ -53,7 +53,6 @@ GET         /confirm/exit                         @controllers.Confirm.exit
 GET         /payment/begin                        @controllers.Payment.begin
 POST        /payment/callback                     @controllers.Payment.callback
 GET         /payment/get-web-payment              @controllers.Payment.getWebPayment
-# no form on payment page so is GET the right http verb for submit
 GET         /payment/cancel                       @controllers.Payment.cancel
 GET         /payment/exit                         @controllers.Payment.exit
 

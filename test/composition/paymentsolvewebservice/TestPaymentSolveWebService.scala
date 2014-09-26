@@ -1,7 +1,7 @@
 package composition.paymentsolvewebservice
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginResponseWithValidDefaults, getResponseWithValidDefaults, invalidResponse, invalidStatus}
+import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginResponseWithValidDefaults, cancelResponseWithValidDefaults, getResponseWithValidDefaults, invalidResponse, invalidStatus}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
@@ -49,6 +49,8 @@ class PaymentCallFails extends ScalaModule with MockitoSugar {
       thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for PaymentSolveWebService")))
     when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[String])).
       thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for PaymentSolveWebService")))
+    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[String])).
+      thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for PaymentSolveWebService")))
     bind[PaymentSolveWebService].toInstance(webService)
   }
 }
@@ -83,6 +85,16 @@ class ValidatedAuthorised extends ScalaModule with MockitoSugar {
   }
 }
 
+class CancelValidated extends ScalaModule with MockitoSugar {
+
+  def configure() = {
+    val webService = mock[PaymentSolveWebService]
+    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[String])).
+      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
+    bind[PaymentSolveWebService].toInstance(webService)
+  }
+}
+
 object TestPaymentSolveWebService {
 
   val beginWebPaymentUrl = "somewhere-in-payment-land"
@@ -112,6 +124,16 @@ object TestPaymentSolveWebService {
       maskedPAN = Some("TODO")
     )
     val asJson = Json.toJson(paymentSolveGetResponse)
+    Some(asJson)
+  }
+
+  private[paymentsolvewebservice] def cancelResponseWithValidDefaults(response: String = "validated",
+                                                                      status: String = "AUTHORISED") = {
+    val paymentSolveCancelResponse = PaymentSolveCancelResponse(
+      response = response,
+      status = status
+    )
+    val asJson = Json.toJson(paymentSolveCancelResponse)
     Some(asJson)
   }
 }
