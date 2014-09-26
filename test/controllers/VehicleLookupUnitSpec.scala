@@ -13,6 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
 final class VehicleLookupUnitSpec extends UnitSpec {
@@ -207,15 +208,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    //    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
-    //      val result = vehicleLookupStubs(
-    //        vehicleDetailsResponseDocRefNumberNotLatest,
-    //        bruteForceService = bruteForceServiceImpl(permitted = false)
-    //      ).submit(request)
-    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
-    //    }
-    //
+    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
+      val result = vehicleLookupStubs(permitted = false).submit(request)
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
+    }
+
     //    "redirect to VehicleAndKeeperLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
     //      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberValid)
     //      val result = vehicleLookupStubs(
@@ -361,7 +359,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleAndKeeperDetailsCallVRMNotFound(isPrototypeBannerVisible: Boolean = true,
-                                                               permitted: Boolean = true) = {
+                                                     permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
