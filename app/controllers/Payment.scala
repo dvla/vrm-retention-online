@@ -84,14 +84,14 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],
                                                                              token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
     request.headers.get(REFERER) match {
-      case Some(referer) =>
+      case Some(referrer) =>
 
         def paymentBeginFailure = {
           Logger.debug(s"Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
           Redirect(routes.PaymentFailure.present())
         }
 
-        val paymentCallback = referer.split(routes.Confirm.present().url)(0) + routes.Payment.callback().url
+        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback().url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
           vrm = vrm,
