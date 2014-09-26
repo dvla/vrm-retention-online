@@ -30,7 +30,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          storeBusinessDetailsConsent("true")
+          storeBusinessDetailsConsent()
         )
       val result = confirm.present(request)
       whenReady(result, timeout) { r =>

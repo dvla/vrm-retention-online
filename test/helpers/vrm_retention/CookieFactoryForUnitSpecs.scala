@@ -186,7 +186,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  def storeBusinessDetailsConsent(consent: String): Cookie = {
+  def storeBusinessDetailsConsent(consent: String = "true"): Cookie = {
     val key = StoreBusinessDetailsCacheKey
     createCookie(key, consent)
   }
