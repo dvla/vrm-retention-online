@@ -2,25 +2,24 @@ package controllers
 
 import com.google.inject.Inject
 import models.VehicleAndKeeperLookupFormModel
-import play.api.http.HeaderNames.REFERER
-import play.api.http.HttpVerbs.POST
 import play.api.Logger
-import play.api.mvc.{Action, Call, Controller, Request, Result}
-import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
+import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveBeginRequest, PaymentSolveGetRequest, PaymentSolveService}
+import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
@@ -28,10 +27,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
                               dateService: DateService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
-
-  private val VALIDATED_RESPONSE = "validated"
-  private val CARD_DETAILS_STATUS = "CARD_DETAILS"
-  private val AUTHORISED_STATUS = "AUTHORISED"
 
   def begin = Action.async {
     implicit request =>
@@ -109,7 +104,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
-            if ((response.response == VALIDATED_RESPONSE) && (response.status == CARD_DETAILS_STATUS)) {
+            if ((response.response == Payment.ValidatedResponse) && (response.status == Payment.CardDetailsStatus)) {
               // TODO need sad path for when redirectUrl is None
               //Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               Redirect(response.redirectUrl.get)
@@ -150,9 +145,9 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map {
       response =>
-        if (response.response == VALIDATED_RESPONSE) {
+        if (response.response == Payment.ValidatedResponse) {
           // TODO store the auth code and masked pan
-          if (response.status == AUTHORISED_STATUS) {
+          if (response.status == Payment.AuthorisedStatus) {
             Redirect(routes.Retain.retain())
           } else {
             Logger.debug("The payment was not authorised.")
@@ -180,7 +175,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map {
       response =>
-        if (response.response == VALIDATED_RESPONSE) {
+        if (response.response == Payment.ValidatedResponse) {
           Logger.error("The get web request to Solve was not validated.")
         }
         val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
@@ -198,4 +193,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
     }
   }
+}
+
+object Payment {
+  private final val ValidatedResponse = "validated"
+  private final val CardDetailsStatus = "CARD_DETAILS"
+  private final val AuthorisedStatus = "AUTHORISED"
 }
