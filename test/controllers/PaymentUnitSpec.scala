@@ -181,8 +181,6 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "discards cookies when payment service call throws an exception" in pending // Have to be browser test
-
     "redirect to MockFeedback page when required cookies exist" in new WithApplication {
       val payment = testInjector(new CancelValidated).getInstance(classOf[Payment])
       val request = FakeRequest().
@@ -194,8 +192,6 @@ final class PaymentUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
     }
-
-    "discard cookies when required cookies exist" in pending // Have to be browser test
   }
 
   "exit" should {
