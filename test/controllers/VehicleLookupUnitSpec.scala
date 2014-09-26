@@ -197,15 +197,15 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    //    "write cookie when vrm not found by the fake microservice" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val result = vehicleLookupStubs(vehicleAndKeeperDetailsResponseVRMNotFound).submit(request)
-    //      whenReady(result) { r =>
-    //        val cookies = fetchCookiesFromHeaders(r)
-    //        cookies.map(_.name) should contain allOf(
-    //          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
-    //      }
-    //    }
+    "write cookie when vrm not found by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain allOf(
+          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+      }
+    }
 
     //    "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
     //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
@@ -356,6 +356,16 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallDocRefNumberNotLatest()
+    ).
+      getInstance(classOf[VehicleLookup])
+  }
+
+  private def vehicleAndKeeperDetailsCallVRMNotFound(isPrototypeBannerVisible: Boolean = true,
+                                                               permitted: Boolean = true) = {
+    testInjector(
+      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new VehicleAndKeeperDetailsCallVRMNotFound()
     ).
       getInstance(classOf[VehicleLookup])
   }
