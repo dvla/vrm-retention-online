@@ -10,13 +10,13 @@ import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundP
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
-import services.fakes.AddressLookupWebServiceConstants
-import services.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
+import webserviceclients.fakes.AddressLookupWebServiceConstants
+import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 

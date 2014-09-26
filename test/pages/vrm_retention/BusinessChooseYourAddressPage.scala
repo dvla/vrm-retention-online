@@ -1,16 +1,17 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
-import views.vrm_retention.BusinessChooseYourAddress
-import BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
-import pages.ApplicationContext.applicationContext
 import org.openqa.selenium.WebDriver
-import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
+import pages.ApplicationContext.applicationContext
+import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, SelectId}
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 
 object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   final val address: String = s"$applicationContext/business-choose-your-address"
+
   def url = WebDriverFactory.testUrl + address.substring(1)
+
   final override val title = "Select your business address"
   final val titleCy = "Dewiswch eich cyfeiriad masnach"
 

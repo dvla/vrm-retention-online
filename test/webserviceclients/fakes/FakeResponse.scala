@@ -11,8 +11,10 @@ final class FakeResponse(override val status: Int,
                          fakeXml: Option[Elem] = None,
                          fakeJson: Option[JsValue] = None) extends WSResponse {
 
-  def allHeaders: Map[String, Seq[String]] = headers.map { case (k, v) => k -> Seq(v) }.toMap
+  def allHeaders: Map[String, Seq[String]] = headers.map { case (k, v) => k -> Seq(v)}.toMap
+
   def underlying[T]: T = ???
+
   def cookies: Seq[WSCookie] = Nil
 
   def cookie(name: String): Option[WSCookie] = None
@@ -25,6 +27,7 @@ final class FakeResponse(override val status: Int,
 }
 
 object FakeResponse {
+
   def apply(status: Int,
             statusText: String = "",
             headers: Map[String, String] = Map.empty,

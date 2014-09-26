@@ -1,17 +1,18 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL, WebDriverFactory}
-import views.vrm_retention.VehicleLookup
-import VehicleLookup.{BackId, DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
-import services.fakes.BruteForcePreventionWebServiceConstants
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
+import views.vrm_retention.VehicleLookup.{BackId, DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/vehicle-lookup"
+
   def url = WebDriverFactory.testUrl + address.substring(1)
+
   final override val title: String = "Find the vehicle"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))

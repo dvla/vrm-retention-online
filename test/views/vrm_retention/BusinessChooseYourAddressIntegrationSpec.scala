@@ -9,8 +9,8 @@ import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
 import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage}
-import services.fakes.AddressLookupServiceConstants
-import services.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 

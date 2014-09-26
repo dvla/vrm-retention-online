@@ -5,7 +5,7 @@ import views.vrm_retention.SetupBusinessDetails
 import SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
-import services.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid, TraderBusinessContactValid, TraderBusinessEmailValid, TraderBusinessNameValid}
+import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid, TraderBusinessContactValid, TraderBusinessEmailValid, TraderBusinessNameValid}
 
 object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
 

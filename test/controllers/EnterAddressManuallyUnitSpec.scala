@@ -12,7 +12,7 @@ import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
-import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey

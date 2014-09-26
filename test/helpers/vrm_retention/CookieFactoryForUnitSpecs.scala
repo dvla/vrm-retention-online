@@ -1,11 +1,9 @@
 package helpers.vrm_retention
 
 import composition.TestComposition
+import models._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import services.fakes.AddressLookupServiceConstants._
-import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
-import services.fakes.BruteForcePreventionWebServiceConstants._
 import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import services.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
@@ -13,7 +11,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
-import models._
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
@@ -23,6 +20,9 @@ import views.vrm_retention.Payment.PaymentTransactionReferenceCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
+import webserviceclients.fakes.AddressLookupServiceConstants._
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -191,7 +191,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, consent)
   }
 
-  def paymentTransactionReference(txRef: String =  "TODO"): Cookie = {
+  def paymentTransactionReference(txRef: String = "TODO"): Cookie = {
     val key = PaymentTransactionReferenceCacheKey
     createCookie(key, txRef)
   }

@@ -6,7 +6,7 @@ import EnterAddressManually.{BackId, NextId}
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
-import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {

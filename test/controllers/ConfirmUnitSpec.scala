@@ -7,7 +7,7 @@ import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK}
-import services.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import utils.helpers.CookieFlagsRetention
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId, StoreBusinessDetailsCacheKey, StoreDetailsConsentId}
