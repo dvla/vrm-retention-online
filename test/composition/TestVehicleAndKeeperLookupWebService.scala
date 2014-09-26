@@ -40,3 +40,13 @@ class TestVehicleAndKeeperLookupWebService extends ScalaModule with MockitoSugar
     bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
   }
 }
+
+class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
+
+  def configure() = {
+    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
+      thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")))
+    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+  }
+}

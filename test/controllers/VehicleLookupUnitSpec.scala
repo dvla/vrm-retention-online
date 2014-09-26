@@ -1,15 +1,16 @@
 package controllers
 
-import composition.{TestBruteForcePreventionWebService, TestConfig, TestVehicleAndKeeperLookupWebService}
+import composition.{TestBruteForcePreventionWebService, TestConfig, TestVehicleAndKeeperLookupWebService, VehicleAndKeeperLookupCallFails}
 import controllers.Common.PrototypeHtml
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention._
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
+import services.fakes.AddressLookupServiceConstants.PostcodeValid
+import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperConsentValid, ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
-import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, VehicleRegistrationNumberId}
+import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, VehicleRegistrationNumberId}
 import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
 
 final class VehicleLookupUnitSpec extends UnitSpec {
@@ -145,22 +146,15 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of the page and once above the field.
     }
 
-    "redirect to Before You Start page when back button is pressed" in new WithApplication {
-      val request = FakeRequest().withFormUrlEncodedBody()
-      val result = vehicleLookupStubs().back(request)
+    "redirect to MicroserviceError page when vehicleAndKeeperLookup throws an exception" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleAndKeeperLookupCallFails().submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
     }
 
-    //    "redirect to MicroserviceError when microservice throws" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val result = vehicleAndKeeperLookupError.submit(request)
-    //
-    //      whenReady(result, timeout) { r =>
-    //        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-    //      }
-    //    }
-    //
     //    "redirect to MicroServiceError after a submit if response status is Ok and no response payload" in new WithApplication {
     //      val request = buildCorrectlyPopulatedRequest()
     //      val result = vehicleLookupStubs(vehicleDetailsNoResponse).submit(request)
@@ -286,6 +280,17 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     //      }
     //    }
   }
+
+  "back" should {
+
+    "redirect to Before You Start page when back button is pressed" in new WithApplication {
+      val request = FakeRequest().withFormUrlEncodedBody()
+      val result = vehicleLookupStubs().back(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+    }
+  }
+
   private lazy val present = {
     val request = FakeRequest()
     vehicleLookupStubs(vehicleAndKeeperDetailsResponseSuccess).present(request)
@@ -303,9 +308,24 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
-                                             registrationNumber: String = RegistrationNumberValid) = {
+                                             registrationNumber: String = RegistrationNumberValid,
+                                             postcode: String = PostcodeValid,
+                                             KeeperConsent: String = KeeperConsentValid) = {
     FakeRequest().withFormUrlEncodedBody(
       DocumentReferenceNumberId -> referenceNumber,
-      VehicleRegistrationNumberId -> registrationNumber)
+      VehicleRegistrationNumberId -> registrationNumber,
+      PostcodeId -> postcode,
+      KeeperConsentId -> KeeperConsent)
+  }
+
+  private def vehicleAndKeeperLookupCallFails(fullResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess,
+                                              isPrototypeBannerVisible: Boolean = true,
+                                              permitted: Boolean = true) = {
+    testInjector(
+      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new VehicleAndKeeperLookupCallFails()
+    ).
+      getInstance(classOf[VehicleLookup])
   }
 }

@@ -17,7 +17,6 @@ import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -53,7 +52,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
           validForm.registrationNumber,
           validForm.referenceNumber,
           validForm)
-        .map(_.withCookie(TransactionIdCacheKey, transactionId(validForm)))
+          .map(_.withCookie(TransactionIdCacheKey, transactionId(validForm)))
       }
     )
   }
@@ -63,7 +62,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
   }
 
   override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] =
-    vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form), trackingId) map { response =>
+    vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form), trackingId).map { response =>
       response.responseCode match {
         case Some(responseCode) =>
           VehicleNotFound(responseCode)
