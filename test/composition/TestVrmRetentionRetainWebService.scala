@@ -9,9 +9,9 @@ import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import services.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
-import services.fakes._
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
+import webserviceclients.fakes._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainResponse, VRMRetentionRetainWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

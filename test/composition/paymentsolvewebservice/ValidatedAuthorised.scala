@@ -6,7 +6,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
-import services.fakes.FakeResponse
+import webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve._
 import scala.concurrent.Future
 

@@ -8,7 +8,7 @@ import pages.vrm_retention._
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperConsentValid, ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperConsentValid, ReferenceNumberValid, RegistrationNumberValid, vehicleAndKeeperDetailsResponseSuccess}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, VehicleRegistrationNumberId}
 import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse

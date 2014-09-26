@@ -3,9 +3,9 @@ package helpers.vrm_retention
 import models._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import services.fakes.VrmRetentionRetainWebServiceConstants._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}

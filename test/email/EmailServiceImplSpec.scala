@@ -4,9 +4,9 @@ import helpers.{WithApplication, UnitSpec}
 import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 
 final class EmailServiceImplSpec extends UnitSpec {

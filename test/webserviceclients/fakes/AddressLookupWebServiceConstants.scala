@@ -3,7 +3,6 @@ package webserviceclients.fakes
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import services.fakes.FakeResponse
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{PostcodeToAddressResponseDto, UprnAddressPairDto, UprnToAddressResponseDto}
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid

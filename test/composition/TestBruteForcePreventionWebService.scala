@@ -5,8 +5,8 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import services.fakes._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._

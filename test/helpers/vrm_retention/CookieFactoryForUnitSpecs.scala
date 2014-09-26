@@ -4,9 +4,9 @@ import composition.TestComposition
 import models._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import services.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
