@@ -175,20 +175,20 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         if (response.response == Payment.ValidatedResponse) {
           Logger.error("The get web request to Solve was not validated.")
         }
-        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-        val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-          if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-        }
-        Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+        redirectToMockFeedback
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
-        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-        val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-          if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-        }
-        Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+        redirectToMockFeedback
     }
+  }
+
+  private def redirectToMockFeedback(implicit request: Request[_]) = {
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+    val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+    }
+    Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 
   private def removeNonNumeric(value: String): String =
