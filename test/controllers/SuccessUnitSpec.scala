@@ -20,7 +20,8 @@ final class SuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.businessDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
         withCookies(CookieFactoryForUnitSpecs.retainModel()).
-        withCookies(CookieFactoryForUnitSpecs.transactionId())
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
       val result = success.present(request)
       status(result) should equal(OK)
     }
@@ -34,7 +35,8 @@ final class SuccessUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
         withCookies(CookieFactoryForUnitSpecs.retainModel()).
-        withCookies(CookieFactoryForUnitSpecs.transactionId())
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+      withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
       val result = success.present(request)
       status(result) should equal(OK)
     }

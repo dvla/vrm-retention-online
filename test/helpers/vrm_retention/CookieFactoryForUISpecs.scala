@@ -21,6 +21,8 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttemp
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants._
+import views.vrm_retention.Payment._
+import scala.Some
 
 object CookieFactoryForUISpecs {
 
@@ -97,6 +99,12 @@ object CookieFactoryForUISpecs {
   def transactionId(transactionId: String = TransactionIdValid)(implicit webDriver: WebDriver) = {
     val key = TransactionIdCacheKey
     addCookie(key, transactionId)
+    this
+  }
+
+  def paymentTransactionReference(trxRef: String = PaymentTransactionReferenceCacheKey)(implicit webDriver: WebDriver) = {
+    val key = PaymentTransactionReferenceCacheKey
+    addCookie(key, trxRef)
     this
   }
 
