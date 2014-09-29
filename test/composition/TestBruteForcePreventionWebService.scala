@@ -5,10 +5,11 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
-import services.fakes.BruteForcePreventionWebServiceConstants._
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import services.fakes._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
 import scala.concurrent.Future
 
 class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
@@ -32,5 +33,5 @@ class TestBruteForcePreventionWebService(permitted: Boolean = true) extends Scal
     bind[BruteForcePreventionWebService].toInstance(bruteForcePreventionWebService)
   }
 
-  private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a test"))
+  private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService"))
 }

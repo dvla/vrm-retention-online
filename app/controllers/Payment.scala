@@ -2,24 +2,24 @@ package controllers
 
 import com.google.inject.Inject
 import models.VehicleAndKeeperLookupFormModel
-import play.api.http.HeaderNames.REFERER
-import play.api.http.HttpVerbs.GET
 import play.api.Logger
-import play.api.mvc.{Action, Call, Controller, Request, Result}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
+import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveBeginRequest, PaymentSolveGetRequest, PaymentSolveService}
+import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
@@ -28,11 +28,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
-  private val VALIDATED_RESPONSE = "validated"
-  private val FAILED_RESPONSE = "failed"
-
-  private val CARD_DETAILS_STATUS = "CARD_DETAILS"
-  private val AUTHORISED_STATUS = "AUTHORISED"
 
   def begin = Action.async {
     implicit request =>
@@ -72,21 +67,14 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       }
   }
 
-  def submit = Action.async {
-    implicit request =>
-      ??? // TODO
-  }
-
   def exit = Action {
     implicit request =>
-      if (request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)) {
-        Redirect(routes.MockFeedback.present())
-          .discardingCookies(RelatedCacheKeys.RetainSet)
-      } else {
-        Redirect(routes.MockFeedback.present())
-          .discardingCookies(RelatedCacheKeys.RetainSet)
-          .discardingCookies(RelatedCacheKeys.BusinessDetailsSet)
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val discardedCookies = RelatedCacheKeys.RetainSet ++ {
+        if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
       }
+
+      Redirect(routes.MockFeedback.present()).discardingCookies(discardedCookies)
   }
 
   private def microServiceErrorResult(message: String) = {
@@ -94,28 +82,33 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     Redirect(routes.MicroServiceError.present())
   }
 
-  private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_]): Future[Result] = {
+  private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],
+                                                                             token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
     request.headers.get(REFERER) match {
-      case Some(referer) =>
+      case Some(referrer) =>
 
         def paymentBeginFailure = {
           Logger.debug(s"Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
           Redirect(routes.PaymentFailure.present())
         }
 
+        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback().url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
-          transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+          transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
           vrm = vrm,
-          purchaseAmount = config.purchaseAmount.toInt, // TODO where do we get this from longer term
-          paymentCallback = referer.split("/vrm-retention")(0) + routes.Payment.callback().url
+          purchaseAmount = Payment.PaymentAmount,
+          paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
-            if ((response.response == VALIDATED_RESPONSE) && (response.status == CARD_DETAILS_STATUS)) {
-              Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get)) // TODO need sad path for when redirectUrl is None
+            if ((response.response == Payment.ValidatedResponse) && (response.status == Payment.CardDetailsStatus)) {
+              // TODO need sad path for when redirectUrl is None
+              Redirect(response.redirectUrl.get)
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
+                .withCookie(CsrfPreventionAction.TokenName, token.value) // TODO delete this cookie in the payment callback.
+                .withCookie(REFERER, routes.Payment.begin().url) // TODO delete this cookie in the payment callback.
             } else {
               Logger.error("The begin web request to Solve was not validated.")
               paymentBeginFailure
@@ -143,16 +136,16 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
 
     val paymentSolveGetRequest = PaymentSolveGetRequest(
-      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+      transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map {
       response =>
-        if (List(FAILED_RESPONSE, VALIDATED_RESPONSE) contains response.response) {
+        if (List(Payment.FailedResponse, Payment.ValidatedResponse) contains response.response) {
           // TODO store the auth code and masked pan
-          if (response.status == AUTHORISED_STATUS) {
+          if (response.status == Payment.AuthorisedStatus) {
             Redirect(routes.Retain.retain())
           } else {
             Logger.debug("The payment was not authorised.")
@@ -173,29 +166,40 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
                                          (implicit request: Request[_]): Future[Result] = {
 
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
-      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+      transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map {
       response =>
-        if (response.response == VALIDATED_RESPONSE) {
-          Logger.error("The cancel web request to Solve was not validated.")
+        if (response.response == Payment.ValidatedResponse) {
+          Logger.error("The get web request to Solve was not validated.")
         }
-        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-        val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-          if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-        }
-        Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+        redirectToMockFeedback
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
-        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-        val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-          if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-        }
-        Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+        redirectToMockFeedback
     }
   }
+
+  private def redirectToMockFeedback(implicit request: Request[_]) = {
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+    val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+    }
+    Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+  }
+
+  private def removeNonNumeric(value: String): String =
+    value.replaceAll("[^0-9]", "")
+}
+
+object Payment {
+  private final val ValidatedResponse = "validated"
+  private final val FailedResponse = "failed"
+  private final val CardDetailsStatus = "CARD_DETAILS"
+  private final val AuthorisedStatus = "AUTHORISED"
+  private final val PaymentAmount = 8000 // TODO where do we get this from?
 }

@@ -24,5 +24,4 @@ object BusinessChooseYourAddressFormModel {
       AddressSelectId -> DropDown.addressDropDown
     )(BusinessChooseYourAddressFormModel.apply)(BusinessChooseYourAddressFormModel.unapply)
   }
-
 }

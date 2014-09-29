@@ -42,7 +42,7 @@ final class SuccessUnitSpec extends UnitSpec {
 
   "finish" should {
 
-    "redirect to MockFeedbackPage" in {
+    "redirect to MockFeedbackPage" in new WithApplication {
       val result = success.finish(FakeRequest())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))

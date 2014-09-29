@@ -18,29 +18,23 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
 
   def present = Action {
     implicit request =>
-      (request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getModel[BruteForcePreventionModel],
-        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
-        case (Some(transactionId), Some(bruteForcePreventionModel), _, Some(vehicleAndKeeperDetails)) =>
-          Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
-          val viewModel = {
-            val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
-            val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
-            VrmLockedViewModel(vehicleAndKeeperDetails, timeString, javascriptTimestamp)
-          }
-          Ok(views.html.vrm_retention.vrm_locked(transactionId, viewModel))
-        case (Some(transactionId), Some(bruteForcePreventionModel), Some(vehicleAndKeeperLookupForm), None) =>
-          Logger.debug(s"VrmLocked - Displaying the vrm locked error page")
-          val viewModel = {
-            val timeString: String = bruteForcePreventionModel.dateTimeISOChronology
-            val javascriptTimestamp: Long = DateTime.parse(timeString).getMillis
-            VrmLockedViewModel(vehicleAndKeeperLookupForm, timeString, javascriptTimestamp)
-          }
-          Ok(views.html.vrm_retention.vrm_locked(transactionId, viewModel))
-        case _ =>
-          Logger.debug("VrmLocked - Can't find cookies")
-          Redirect(routes.VehicleLookup.present()) // TODO need an error page with a message to explain that there is a cookie problem.
+      val happyPath = for {
+        transactionId <- request.cookies.getString(TransactionIdCacheKey)
+        bruteForcePreventionModel <- request.cookies.getModel[BruteForcePreventionModel]
+        viewModel <- List(
+          request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(m => VrmLockedViewModel(m, _: String, _: Long)),
+          request.cookies.getModel[VehicleAndKeeperDetailsModel].map(m => VrmLockedViewModel(m, _: String, _: Long))
+        ).flatten.headOption
+      } yield {
+        Logger.debug("VrmLocked - Displaying the vrm locked error page")
+        val timeString = bruteForcePreventionModel.dateTimeISOChronology
+        val javascriptTimestamp = DateTime.parse(timeString).getMillis
+        Ok(views.html.vrm_retention.vrm_locked(transactionId, viewModel(timeString, javascriptTimestamp)))
+      }
+
+      happyPath.getOrElse {
+        Logger.debug("VrmLocked - Can't find cookies")
+        Redirect(routes.VehicleLookup.present()) // TODO need an error page with a message to explain that there is a cookie problem.
       }
   }
 

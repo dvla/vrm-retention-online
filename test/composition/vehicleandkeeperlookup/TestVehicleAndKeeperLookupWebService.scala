@@ -1,4 +1,4 @@
-package composition
+package composition.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
@@ -8,9 +8,9 @@ import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import services.fakes._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes._
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -38,5 +38,14 @@ class TestVehicleAndKeeperLookupWebService extends ScalaModule with MockitoSugar
         }
       )
     bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+  }
+}
+
+object TestVehicleAndKeeperLookupWebService {
+
+  def createResponse(response: (Int, Option[VehicleAndKeeperDetailsResponse])) = {
+    val (status, dto) = response
+    val asJson = Json.toJson(dto)
+    new FakeResponse(status = status, fakeJson = Some(asJson))
   }
 }

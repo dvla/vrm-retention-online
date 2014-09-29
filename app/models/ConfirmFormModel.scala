@@ -4,7 +4,7 @@ import play.api.data.Forms.{boolean, mapping, optional}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
-import views.vrm_retention.Confirm._
+import views.vrm_retention.Confirm.{ConfirmCacheKey, KeeperEmailId, StoreDetailsConsentId}
 
 final case class ConfirmFormModel(keeperEmail: Option[String], storeBusinessDetails: Boolean)
 

@@ -4,9 +4,9 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import services.fakes.DateServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 
 class TestDateService extends ScalaModule with MockitoSugar {
 

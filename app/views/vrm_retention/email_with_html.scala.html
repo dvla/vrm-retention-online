@@ -1,0 +1,280 @@
+@(vrm: String,
+retentionCertId: String,
+transactionId: String,
+transactionTimestamp: String,
+keeperName: String,
+keeperAddress: String,
+amount: String,
+replacementVRM: String,
+crownContentId: String,
+openGovernmentLicenceContentId: String,
+crestId: String)(implicit lang: Lang)
+
+<!-- Inliner Build Version 4380b7741bb759d6cb997545f3add21ad48f010b -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@Messages("email.title", vrm)</title>
+    <!-- Targeting Windows Mobile -->
+    <!--[if IEMobile 7]>
+    <style type="text/css">
+
+    </style>
+    <![endif]-->
+    <!-- ***********************************************
+        ****************************************************
+        END MOBILE TARGETING
+        ****************************************************
+        ************************************************ -->
+    <!--[if gte mso 9]>
+    <style>
+        /* Target Outlook 2007 and 2010 */
+    </style>
+    <![endif]-->
+</head>
+<body style="width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; margin: 0; padding: 0;">
+<style type="text/css">
+    h1 a:active {
+    color: red !important;
+    }
+    h2 a:active {
+    color: red !important;
+    }
+    h3 a:active {
+    color: red !important;
+    }
+    h4 a:active {
+    color: red !important;
+    }
+    h5 a:active {
+    color: red !important;
+    }
+    h6 a:active {
+    color: red !important;
+    }
+    h1 a:visited {
+    color: purple !important;
+    }
+    h2 a:visited {
+    color: purple !important;
+    }
+    h3 a:visited {
+    color: purple !important;
+    }
+    h4 a:visited {
+    color: purple !important;
+    }
+    h5 a:visited {
+    color: purple !important;
+    }
+    h6 a:visited {
+    color: purple !important;
+    }
+    @@media only screen and (max-device-width: 480px) {
+    a[href^="tel"] {
+    text-decoration: none; color: blue; pointer-events: none; cursor: default;
+    }
+    a[href^="sms"] {
+    text-decoration: none; color: blue; pointer-events: none; cursor: default;
+    }
+    .mobile_link a[href^="tel"] {
+    text-decoration: default; color: orange !important; pointer-events: auto; cursor: default;
+    }
+    .mobile_link a[href^="sms"] {
+    text-decoration: default; color: orange !important; pointer-events: auto; cursor: default;
+    }
+    }
+    @@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    a[href^="tel"] {
+    text-decoration: none; color: blue; pointer-events: none; cursor: default;
+    }
+    a[href^="sms"] {
+    text-decoration: none; color: blue; pointer-events: none; cursor: default;
+    }
+    .mobile_link a[href^="tel"] {
+    text-decoration: default; color: orange !important; pointer-events: auto; cursor: default;
+    }
+    .mobile_link a[href^="sms"] {
+    text-decoration: default; color: orange !important; pointer-events: auto; cursor: default;
+    }
+    }
+</style>
+<!-- Wrapper/Container Table: Use a wrapper table to control the width and the background color consistently of your email. Use this approach instead of setting attributes on the body tag. -->
+
+<table cellpadding="0" cellspacing="0" border="0" id="backgroundTable"
+       style="width: 100% !important; line-height: 100% !important; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-family: Helvetica, Arial, sans, sans-serif; background: #fff; margin: 0; padding: 0;"
+       bgcolor="#fff">
+    <tr>
+        <td id="GovUkContainer" class="spacing"
+            style="border-collapse: collapse; color: #fff; background: #000; padding: 0 30px;" bgcolor="#000">
+            <table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+                <tr>
+                    <td style="border-collapse: collapse; font-size: 1.6em; padding: 20px 0;"><img src="@crownContentId"
+                                                                                                   width="35"
+                                                                                                   height="31" alt=""
+                                                                                                   style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans, sans-serif;"/>
+                        GOV.UK
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" class="spacing" style="border-collapse: collapse; padding: 0 30px;">
+            <!-- Tables are the most common way to format your email consistently. Set your table widths inside cells and in most cases reset cellpadding, cellspacing, and border to zero. Use nested tables as a way to space effectively in your message. -->
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" id="mainBody"
+                   style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                <tr>
+                    <td id="helpTop" valign="top"
+                        style="border-collapse: collapse; text-align: right; background: #DEE0E2; padding: 10px; font-family: Helvetica, Arial, sans, serif;"
+                        align="right" bgcolor="#DEE0E2">
+                        @Messages("email.line1")
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-collapse: collapse;">
+                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, serif;">
+                            @Messages("email.line2")</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-collapse: collapse;">
+                        <table class="transDetails"
+                               style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+                            <tr>
+                                <td style="border-collapse: collapse; width: 33%; text-align: center; padding: 30px 0; font-family: Helvetica, Arial, sans, serif;"
+                                    align="center">
+                                    @Messages("email.line3")
+                                    <br/><strong>@retentionCertId</strong>
+                                </td>
+                                <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, serif; width: 33%; text-align: center; padding: 30px 0;"
+                                    align="center">
+                                    @Messages("email.line4")
+                                    <br/><strong>@transactionTimestamp</strong>
+                                </td>
+                                <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, serif; width: 33%; text-align: center; padding: 30px 0;"
+                                    align="center">
+                                    @Messages("email.line5")
+                                    <br/><strong>@transactionId</strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="successBanner"
+                        style="border-collapse: collapse; font-family: Helvetica, Arial, sans, sans-serif; text-align: center; color: #fff; background: #28A287; padding: 0 30px;"
+                        align="center" bgcolor="#28A287">
+                        <h1 style="color: #fff !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line6", vrm)</h1>
+
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line7")</p>
+
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line8")</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="replacementInfo" style="border-collapse: collapse; text-align: center;" align="center">
+                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line9")</h1>
+
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line10")<strong style="font-weight:bold;">@vrm</strong>@Messages("email.line11")</p>
+
+                        <p style="line-height: 110%; margin: 1em 0;">
+                        </p>
+                        @* TODO check where inline styles are defined *@
+                        <p class="skeuPlate" style="line-height: 3em; font-size: 2em; margin: 1em 0;"><span
+                                style="border-radius: 6px; font-weight: bold; background: #FFD307; padding: 10px; font-family: Helvetica, Arial, sans, sans-serif;">@replacementVRM</span>
+                        </p>
+
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line12")</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="actorDetails" style="border-collapse: collapse;">
+                        <hr/>
+                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line13")</h1>
+
+                        <div class="twoThirds" style="width: 66%; float: left;">
+                            <div style="padding: 5px;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                    @Messages("email.line14")</p>
+
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                    <strong>@Messages("email.line15")</strong><br/>
+                                    @Messages("email.line16")<br/>
+                                    @Messages("email.line17")<br/>
+                                    @Messages("email.line18")<br/>
+                                    @Messages("email.line19")</p>
+
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                    emailaddress@@isp.com</p>
+                            </div>
+                        </div>
+                        <div class="oneThird" style="width: 33%; float: left;">
+                            <div style="border-left : 3px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px;">
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                    @Messages("email.line20")</p>
+
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                    <strong>@keeperName</strong><br/>
+                                    @keeperAddress</p>
+
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                    emailaddress@@isp.com</p>
+                            </div>
+                        </div>
+                        <div class="clearfix" style="clear: both;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, sans-serif;">
+                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line21")</h1>
+
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line22")</p>
+
+
+                        <ul class="docList" style="border-left : 5px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px; list-style: none;">
+                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
+                                @Messages("email.line23")
+                            </li>
+                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
+                                @Messages("email.line24")
+                            </li>
+                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
+                                @Messages("email.line25")
+                            </li>
+                        </ul>
+
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line26")</p>
+
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">*
+                            @Messages("email.line27")</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-collapse: collapse;">
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td id="GovUkFooter" class="spacing" style="border-collapse: collapse; color: #000; background: #DEE0E2; padding: 0 30px;" bgcolor="#DEE0E2">
+            <table style="width:100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td style="border-collapse: collapse; font-size: 0.8em; text-align: left; padding: 20px 0; font-family: Helvetica, Arial, sans, sans-serif;" align="right"><img src="@openGovernmentLicenceContentId" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;"  alt="@Messages("email.openGovernmentLicence.alt")"/>@Messages("email.line28")</td>
+                <td align="right" style="padding:20px 0;"><img src="@crestId" alt="@Messages("email.crest.alt")"></td>
+                </tr></table></td>
+    </tr></table><!-- End of wrapper table --></body>
+
+</html>
