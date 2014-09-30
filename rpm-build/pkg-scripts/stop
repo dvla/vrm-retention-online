@@ -1,4 +1,4 @@
 #!/bin/bash
 
-initctl stop vrm-retention-online
-exit
+initctl stop vrm-retention-online 2>/dev/null
+exit 0
