@@ -7,6 +7,7 @@ import pages.vrm_retention._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.Helpers._
 import play.api.test.{FakeHeaders, FakeRequest}
+import composition.paymentsolvewebservice.TestPaymentSolveWebService.beginWebPaymentUrl
 
 final class PaymentUnitSpec extends UnitSpec {
 
@@ -64,26 +65,26 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    //    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
-    //      val result = payment.begin(requestWithValidDefaults())
-    //      whenReady(result) { r =>
-    //        r.header.status should equal(OK)
-    //      }
-    //    }
-    //
-    //    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
-    //      val result = payment.begin(requestWithValidDefaults())
-    //      val content = contentAsString(result)
-    //      content should include("<iframe")
-    //      content should include( s"""src="$beginWebPaymentUrl"""")
-    //    }
-
-    "display the fullscreen Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
-        r.header.status should equal(SEE_OTHER)
+        r.header.status should equal(OK)
       }
     }
+
+    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
+      val result = payment.begin(requestWithValidDefaults())
+      val content = contentAsString(result)
+      content should include("<iframe")
+      content should include( s"""src="$beginWebPaymentUrl"""")
+    }
+
+//    "display the fullscreen Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+//      val result = payment.begin(requestWithValidDefaults())
+//      whenReady(result) { r =>
+//        r.header.status should equal(SEE_OTHER)
+//      }
+//    }
   }
 
   "getWebPayment" should {
