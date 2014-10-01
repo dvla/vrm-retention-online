@@ -51,7 +51,7 @@ POST        /confirm                              @controllers.Confirm.submit
 GET         /confirm/exit                         @controllers.Confirm.exit
 
 GET         /payment/begin                        @controllers.Payment.begin
-POST        /payment/callback                     @controllers.Payment.callback
+POST        /payment/callback/:token              @controllers.Payment.callback(token: String)
 GET         /payment/get-web-payment              @controllers.Payment.getWebPayment
 GET         /payment/cancel                       @controllers.Payment.cancel
 GET         /payment/exit                         @controllers.Payment.exit

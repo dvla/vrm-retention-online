@@ -40,7 +40,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       }
   }
 
-  def callback = Action {
+  // The token is checked in the common project, we do nothing with it here.
+  def callback(token: String) = Action {
     implicit request =>
       Ok(views.html.vrm_retention.payment_callback_interstitial())
   }
@@ -92,7 +93,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           Redirect(routes.PaymentFailure.present())
         }
 
-        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback().url
+
+        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(token.value).url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
           vrm = vrm,
@@ -108,8 +110,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
               Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               //Redirect(response.redirectUrl.get)
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
-                .withCookie(CsrfPreventionAction.TokenName, token.value) // TODO delete this cookie in the payment callback.
-                .withCookie(REFERER, routes.Payment.begin().url) // TODO delete this cookie in the payment callback.
             } else {
               Logger.error("The begin web request to Solve was not validated.")
               paymentBeginFailure
