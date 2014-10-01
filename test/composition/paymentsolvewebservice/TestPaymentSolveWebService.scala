@@ -5,7 +5,7 @@ import webserviceclients.paymentsolve._
 
 object TestPaymentSolveWebService {
 
-  private[paymentsolvewebservice] val beginWebPaymentUrl = "somewhere-in-payment-land"
+  val beginWebPaymentUrl = "somewhere-in-payment-land"
   // TODO replace with a realistic invalid response value.
   private[paymentsolvewebservice] val invalidStatus = "INVALID"
   // TODO replace with a realistic invalid status value.

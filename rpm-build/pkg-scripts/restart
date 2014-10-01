@@ -1,5 +1,5 @@
 #!/bin/bash
 
-initctl stop vrm-retention-online
-initctl start vrm-retention-online
+initctl stop vrm-retention-online 2>/dev/null
+initctl start vrm-retention-online 2>/dev/null
 exit 0
