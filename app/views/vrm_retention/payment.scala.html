@@ -12,14 +12,15 @@
 ) {
     <iframe
         src="@paymentRedirectUrl"
-        seamless="seamless"
+        @*seamless="seamless" Logic group recommends we do NOT use this field *@
         title="@Messages("vrm_retention_payment.iframe.title")"
         width="600"
         height="300"
-        frameborder="0"
-        @*sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation"*@
+        frameborder="0" @* Logic group recommends this field *@
+        <!--[if IE] allowTransparency="true" --> @* Logic group recommends this field. This IE-specific attribute, which has never been part of a recognised standard, is no longer present in HTML5. http://help.simplytestable.com/errors/html-validation/the-x-attribute-on-the-y-element-is-obsolete-use-css-instead/the-allowtransparency-attribute-on-the-iframe-element-is-obsolete-use-css-instead/ *@
+        @*sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation" Logic group recommends we do NOT use this field *@
     ></iframe>
-
+@* POST body could return trxRef that we can CSRF against, we need to ask them to enable it. Else we can have CSRF on the callback url *@
     <div class="form-steps">
         @csrfTokenHiddenField()
 
