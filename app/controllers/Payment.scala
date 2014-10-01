@@ -7,7 +7,6 @@ import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
@@ -16,18 +15,15 @@ import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               paymentSolveService: PaymentSolveService,
                               dateService: DateService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
-
 
   def begin = Action.async {
     implicit request =>
@@ -93,7 +89,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           Redirect(routes.PaymentFailure.present())
         }
 
-
         val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(token.value).url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
@@ -108,8 +103,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
             if (response.status == Payment.CardDetailsStatus) {
               // TODO need sad path for when redirectUrl is None
               Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
-              //Redirect(response.redirectUrl.get)
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
+                .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
             } else {
               Logger.error("The begin web request to Solve was not validated.")
               paymentBeginFailure
@@ -141,7 +136,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       response =>
         // TODO store the auth code and masked pan
         if (response.status == Payment.AuthorisedStatus) {
-          Redirect(routes.Retain.retain())
+          Redirect(routes.Retain.retain())//.
+//            discardingCookie(REFERER) // Not used again.
         } else {
           Logger.debug("The payment was not authorised.")
           paymentNotAuthorised
@@ -188,6 +184,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 }
 
 object Payment {
+
   private final val CardDetailsStatus = "CARD_DETAILS"
   private final val AuthorisedStatus = "AUTHORISED"
   private final val CancelledStatus = "CANCELLED"

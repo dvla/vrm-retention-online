@@ -226,14 +226,14 @@ final class PaymentUnitSpec extends UnitSpec {
 
   "callback" should {
     "should return OK" in new WithApplication {
-      val result = payment.callback(FakeRequest())
+      val result = payment.callback("stub token")(FakeRequest())
       whenReady(result) { r =>
         r.header.status should equal(OK)
       }
     }
 
     "has title" in new WithApplication {
-      val result = payment.callback(FakeRequest())
+      val result = payment.callback("stub token")(FakeRequest())
       contentAsString(result) should include(PaymentCallbackPage.title)
     }
   }
