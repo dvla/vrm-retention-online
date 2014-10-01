@@ -41,15 +41,7 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is not 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
-      val payment = testInjector(new NotValidatedCardDetails).getInstance(classOf[Payment])
-      val result = payment.begin(requestWithValidDefaults())
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-      }
-    }
-
-    "redirect to PaymentFailure page when required cookies and referer exist and payment service response is 'validated' and status is not 'CARD_DETAILS'" in new WithApplication {
+    "redirect to PaymentFailure page when required cookies and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
       val payment = testInjector(new ValidatedNotCardDetails).getInstance(classOf[Payment])
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
@@ -115,18 +107,7 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailure page when payment service response is not 'validated'" in new WithApplication {
-      val payment = testInjector(new NotValidatedAuthorised).getInstance(classOf[Payment])
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.transactionId()).
-        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
-      val result = payment.getWebPayment(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-      }
-    }
-
-    "redirect to PaymentNotAuthorised page when payment service response is 'validated' and status is not 'AUTHORISED'" in new WithApplication {
+    "redirect to PaymentNotAuthorised page when payment service status is not 'AUTHORISED'" in new WithApplication {
       val payment = testInjector(new ValidatedNotAuthorised).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
@@ -137,7 +118,7 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Success page when payment service response is 'validated' and status is 'AUTHORISED'" in new WithApplication {
+    "redirect to Success page when payment service response is status is 'AUTHORISED'" in new WithApplication {
       val payment = testInjector(new ValidatedAuthorised).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).

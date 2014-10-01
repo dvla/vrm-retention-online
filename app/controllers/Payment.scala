@@ -103,7 +103,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
-            if ((response.response == Payment.ValidatedResponse) && (response.status == Payment.CardDetailsStatus)) {
+            if (response.status == Payment.CardDetailsStatus) {
               // TODO need sad path for when redirectUrl is None
               Redirect(response.redirectUrl.get)
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
@@ -125,11 +125,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private def callGetWebPaymentService(transactionId: String, trxRef: String)
                                       (implicit request: Request[_]): Future[Result] = {
 
-    def paymentGetFailure = {
-      Logger.debug(s"Payment Solve encountered a problem with request ${LogFormats.anonymize(trxRef)}, redirect to PaymentFailure")
-      Redirect(routes.PaymentFailure.present())
-    }
-
     def paymentNotAuthorised = {
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
       Redirect(routes.PaymentNotAuthorised.present())
@@ -143,17 +138,12 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map {
       response =>
-        if (List(Payment.FailedResponse, Payment.ValidatedResponse) contains response.response) {
-          // TODO store the auth code and masked pan
-          if (response.status == Payment.AuthorisedStatus) {
-            Redirect(routes.Retain.retain())
-          } else {
-            Logger.debug("The payment was not authorised.")
-            paymentNotAuthorised
-          }
+        // TODO store the auth code and masked pan
+        if (response.status == Payment.AuthorisedStatus) {
+          Redirect(routes.Retain.retain())
         } else {
-          Logger.error("The get web request to Solve was not validated.")
-          paymentGetFailure
+          Logger.debug("The payment was not authorised.")
+          paymentNotAuthorised
         }
     }.recover {
       case NonFatal(e) =>
@@ -173,7 +163,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map {
       response =>
-        if (response.response == Payment.ValidatedResponse) {
+        if (response.response == Payment.CancelledStatus) {
           Logger.error("The get web request to Solve was not validated.")
         }
         redirectToMockFeedback
@@ -197,9 +187,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 }
 
 object Payment {
-  private final val ValidatedResponse = "validated"
-  private final val FailedResponse = "failed"
   private final val CardDetailsStatus = "CARD_DETAILS"
   private final val AuthorisedStatus = "AUTHORISED"
+  private final val CancelledStatus = "CANCELLED"
   private final val PaymentAmount = 8000 // TODO where do we get this from?
 }
