@@ -136,8 +136,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       response =>
         // TODO store the auth code and masked pan
         if (response.status == Payment.AuthorisedStatus) {
-          Redirect(routes.Retain.retain())//.
-//            discardingCookie(REFERER) // Not used again.
+          Redirect(routes.Retain.retain()).
+            discardingCookie(REFERER) // Not used again.
         } else {
           Logger.debug("The payment was not authorised.")
           paymentNotAuthorised
