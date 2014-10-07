@@ -152,8 +152,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     val request = FakeRequest().
       withCookies(
         vehicleAndKeeperLookupFormModel(),
-        vehicleAndKeeperDetailsModel(),
-        businessDetailsModel()
+        vehicleAndKeeperDetailsModel()
       )
     confirm.present(request)
   }
