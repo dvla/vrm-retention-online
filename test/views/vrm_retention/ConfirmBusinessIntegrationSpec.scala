@@ -24,14 +24,14 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "confirm button" should {
 
-    "redirect to Confirm keeper page" taggedAs UiTag in new WebBrowser {
+    "redirect to Confirm business page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage
 
       click on confirm
 
-      page.url should equal(ConfirmBusinessPage.url)
+      page.url should equal(ConfirmPage.url)
     }
   }
 
