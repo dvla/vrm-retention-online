@@ -31,7 +31,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(vehiclesLookupForm)) =>
           callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+          microServiceErrorResult("Payment begin missing TransactionIdCacheKey or VehicleAndKeeperLookupFormModel cookie") // TODO is this the correct redirect?
         }
       }
   }
@@ -48,7 +48,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(trxRef)) =>
           callGetWebPaymentService(transactionId, trxRef)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+          microServiceErrorResult("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
         }
       }
   }
@@ -59,7 +59,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(trxRef)) =>
           callCancelWebPaymentService(transactionId, trxRef)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+          microServiceErrorResult("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
         }
       }
   }
@@ -114,7 +114,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
             Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
             microServiceErrorResult(message = "Payment Solve web service call failed.")
         }
-      case _ => Future.successful(Redirect(routes.MicroServiceError.present()))
+      case _ => Future.successful(microServiceErrorResult(message = "Payment callBeginWebPaymentService no referer"))
     }
   }
 
