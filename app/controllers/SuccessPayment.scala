@@ -27,8 +27,6 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config) extends Controller {
 
-  private val SETTLE_AUTH_CODE = "Settle"
-
   def present = Action.async {
     implicit request =>
       (request.cookies.getString(TransactionIdCacheKey),
@@ -99,7 +97,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
     val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
       transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
       trxRef = trxRef,
-      authType = SETTLE_AUTH_CODE
+      authType = SuccessPayment.SETTLE_AUTH_CODE
     )
     val trackingId = request.cookies.trackingId()
 
@@ -112,4 +110,9 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         Ok(views.html.vrm_retention.success_payment(successViewModel))
     }
   }
+}
+
+object SuccessPayment {
+
+  private val SETTLE_AUTH_CODE = "Settle"
 }
