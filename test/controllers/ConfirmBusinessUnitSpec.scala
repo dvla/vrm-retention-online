@@ -2,7 +2,7 @@ package controllers
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.VehicleLookupPage
+import pages.vrm_retention.{MockFeedbackPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK}
 
@@ -21,6 +21,17 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val result = confirmBusiness.present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
+    }
+  }
+
+  "exit" should {
+    
+    "redirect to mock feedback page" in new WithApplication {
+      val request = FakeRequest()
+      val result = confirmBusiness.exit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
     }
   }

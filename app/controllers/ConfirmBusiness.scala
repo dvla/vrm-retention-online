@@ -4,8 +4,9 @@ import com.google.inject.Inject
 import models._
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
+import views.vrm_retention.RelatedCacheKeys
 
 final class ConfirmBusiness @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                       config: Config) extends Controller {
@@ -20,5 +21,10 @@ final class ConfirmBusiness @Inject()(implicit clientSideSessionFactory: ClientS
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
+  }
+
+  def exit = Action { implicit request =>
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(RelatedCacheKeys.RetainSet)
   }
 }
