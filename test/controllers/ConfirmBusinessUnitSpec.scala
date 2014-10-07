@@ -11,7 +11,14 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "present" should {
 
     "display the page when required cookies are cached" in new WithApplication {
-      whenReady(present, timeout) { r =>
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel()
+        )
+      val result = confirmBusiness.present(request)
+      whenReady(result, timeout) { r =>
         r.header.status should equal(OK)
       }
     }
@@ -26,7 +33,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "exit" should {
-    
+
     "redirect to mock feedback page" in new WithApplication {
       val request = FakeRequest()
       val result = confirmBusiness.exit(request)
@@ -34,16 +41,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
     }
-  }
-
-  private def present = {
-    val request = FakeRequest().
-      withCookies(
-        vehicleAndKeeperLookupFormModel(),
-        vehicleAndKeeperDetailsModel(),
-        businessDetailsModel()
-      )
-    confirmBusiness.present(request)
   }
 
   private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])

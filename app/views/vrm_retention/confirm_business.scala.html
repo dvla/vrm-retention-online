@@ -1,0 +1,16 @@
+@()(implicit lang: Lang,
+   token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+   config: utils.helpers.Config)
+
+@import views.html.vrm_retention.main
+@import views.vrm_retention.ConfirmBusiness.{ConfirmId, ExitId}
+
+@main(
+    title = Messages("vrm_retention_confirm_business.title"),
+    currentForm = None
+) {
+        <div class="form-steps">
+            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
+            <a class="button-secondary" id="@ExitId" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
+        </div>
+    }

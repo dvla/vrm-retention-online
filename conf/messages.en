@@ -378,6 +378,9 @@ paymentNotAuthorisedErrorMessage.p1 = Please contact your Card Issuer (the phone
 paymentNotAuthorisedErrorMessage.p2 =
 paymentNotAuthorisedErrorMessage.p3 =
 
+#Confirm business page
+vrm_retention_confirm_business.title = Check business details
+
 #Confirm page
 vrm_retention_confirm.title = Check details
 vrm_retention_confirm.intro = Please ensure these details are correct as documents will be sent to the keeper at the following address.

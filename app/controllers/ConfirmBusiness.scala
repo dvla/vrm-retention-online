@@ -17,7 +17,8 @@ final class ConfirmBusiness @Inject()(implicit clientSideSessionFactory: ClientS
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
       businessDetails <- request.cookies.getModel[BusinessDetailsModel]
     } yield {
-      Ok("Hello, world")
+
+      Ok(views.html.vrm_retention.confirm_business())
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)

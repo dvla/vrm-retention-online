@@ -47,6 +47,9 @@ POST        /business-choose-your-address         @controllers.BusinessChooseYou
 
 GET         /uprn-not-found                       @controllers.UprnNotFound.present
 
+GET         /confirm-business                     @controllers.ConfirmBusiness.present
+GET         /confirm-business/exit                @controllers.ConfirmBusiness.exit
+
 GET         /confirm                              @controllers.Confirm.present
 POST        /confirm                              @controllers.Confirm.submit
 GET         /confirm/exit                         @controllers.Confirm.exit
