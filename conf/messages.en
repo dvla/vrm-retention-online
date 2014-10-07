@@ -278,6 +278,9 @@ vrm_retention_beforeyoustart.button = Start now
 
 # before you start part 2
 vrm_retention_beforeyoustartpart2.title = Take a registration number off a vehicle part 2
+vrm_retention_beforeyoustartpart2.p1 = Before you start part 2:
+vrm_retention_beforeyoustartpart2.listitem1 = TODO
+vrm_retention_beforeyoustartpart2.button = Start now
 
 # set-up business details
 vrm_retention_setupbusinessdetails.title = Provide your business details
@@ -442,6 +445,32 @@ vrm_retention_enteraddressmanually.submitbutton = Next
 vrm_retention_enteraddressmanually.backbutton = Back
 address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
 addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
+
+#Success payment page
+vrm_retention_success_payment.title = Summary Payment
+vrm_retention_success_payment.subtitle = Retention complete for
+vrm_retention_success_payment.replacementRegNumberLabel = Registration number
+vrm_retention_success_payment.yourCert = Your Retention certificate number is
+vrm_retention_success_payment.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
+vrm_retention_success_payment.replacementTitle = Your replacement registration number
+vrm_retention_success_payment.retainConf-p1 = Your registration number
+vrm_retention_success_payment.retainConf-p2 = has now been retained. Put the following replacement registration number on the vehicle
+vrm_retention_success_payment.makingUp-p1 = Making up the number plate for the replacement registration number
+vrm_retention_success_payment.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
+vrm_retention_success_payment.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+
+vrm_retention_success_payment.newDocumentsTitle = About your new documents
+vrm_retention_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_retention_success_payment.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement registration number
+vrm_retention_success_payment.newDocumentsList-2 = A new MOT certificate showing the replacement registration number
+vrm_retention_success_payment.newDocumentsList-3 = A retention certificate for the retained registration number
+
+vrm_retention_success_payment.aboutTransactionTitle = About this transaction
+vrm_retention_success_payment.aboutTransactionDesc = This transaction was completed, with consent of the registered keeper, by
+vrm_retention_success_payment.aboutTransactionIdLabel = Transaction ID -
+vrm_retention_success_payment.aboutTransactionCompletedLabel = Transaction Completed -
+vrm_retention_success_payment.aboutTransactionEmployeeLabel = Employee name (optional)
+vrm_retention_success_payment.button = Next
 
 #Success page
 vrm_retention_success.title = Summary

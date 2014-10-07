@@ -69,6 +69,10 @@ POST        /payment-not-authorised               @controllers.PaymentNotAuthori
 # no form on payment page so is GET the right http verb for submit
 GET         /retain                               @controllers.Retain.retain
 
+GET         /success-payment                      @controllers.SuccessPayment.present
+GET         /success-payment/create-pdf           @controllers.SuccessPayment.createPdf
+GET         /success-payment/next               @controllers.SuccessPayment.next
+
 GET         /success                              @controllers.Success.present
 GET         /success/create-pdf                   @controllers.Success.createPdf
 GET         /success/finish                       @controllers.Success.finish
