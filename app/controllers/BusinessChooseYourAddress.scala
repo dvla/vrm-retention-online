@@ -92,7 +92,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */
-        Redirect(routes.Confirm.present()).
+        Redirect(routes.ConfirmBusiness.present()).
           discardingCookie(EnterAddressManuallyCacheKey).
           withCookie(model).
           withCookie(businessDetailsModel)

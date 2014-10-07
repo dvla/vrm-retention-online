@@ -43,7 +43,7 @@ final class EnterAddressManually @Inject()()
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
           case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
-            Redirect(routes.Confirm.present())
+            Redirect(routes.ConfirmBusiness.present())
               .withCookie(validForm)
               .withCookie(viewModel)
           case _ =>

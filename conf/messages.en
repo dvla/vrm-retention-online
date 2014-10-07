@@ -380,6 +380,7 @@ paymentNotAuthorisedErrorMessage.p3 =
 
 #Confirm business page
 vrm_retention_confirm_business.title = Check business details
+vrm_retention_confirm_business.button = Confirm
 
 #Confirm page
 vrm_retention_confirm.title = Check details

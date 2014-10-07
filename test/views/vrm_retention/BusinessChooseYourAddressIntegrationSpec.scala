@@ -4,11 +4,11 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import EnterAddressManually.EnterAddressManuallyCacheKey
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmBusinessPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
@@ -98,7 +98,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       cacheSetup()
       happyPath
 
-      page.url should equal(ConfirmPage.url)
+      page.url should equal(ConfirmBusinessPage.url)
     }
 
     "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
