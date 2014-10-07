@@ -2,8 +2,9 @@ package controllers
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
+import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.OK
+import play.api.test.Helpers.{LOCATION, OK}
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
 
@@ -12,6 +13,14 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     "display the page when required cookies are cached" in new WithApplication {
       whenReady(present, timeout) { r =>
         r.header.status should equal(OK)
+      }
+    }
+
+    "redirect to VehicleLookup when required cookies do not exist" in new WithApplication {
+      val request = FakeRequest()
+      val result = confirmBusiness.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
   }
