@@ -18,7 +18,8 @@
     @form(action = BusinessChooseYourAddress.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col">
-            <div id="vehicle-details" class="second-col trader-details related">
+            <div id="vehicle-details" class="second-col trader-details">
+              <div class="related">
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
@@ -32,6 +33,19 @@
                         <dd>@businessChooseYourAddressViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
+              </div>
+              <div class="related">
+                  <h2>Keeper Details</h2>
+                  <dl class="playback">
+                    <dt>Registered Keeper</dt>
+                    <dd>@businessChooseYourAddressViewModel.firstName @businessChooseYourAddressViewModel.lastName</dd>
+                    <dt>Address</dt>
+                    <dd>@for(addressLine <- businessChooseYourAddressViewModel.address.get.address.init) {
+                                @addressLine<br>
+                            }
+                              @businessChooseYourAddressViewModel.address.get.address.last</dd>
+                  </dl>
+              </div>
             </div>
             <div class="first-col">
 

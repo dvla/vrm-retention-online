@@ -21,8 +21,8 @@ a.pdf-link img {
 }
 
 @media only screen and (min-width:768px) {
+  .app.vrm-retention-online {
     .two-col {
-
         .first-col {
             float:left;
             width: 63%;
@@ -32,6 +32,7 @@ a.pdf-link img {
             width: 30%;
         }
     }
+  }
 }
 
 .info-notice {
@@ -78,7 +79,7 @@ label {
 
 .playback {
     dt, dd, p {
-        line-height: 2em;
+        margin-bottom: 0.5em;
     }
     .related {
         dt, dd, p {

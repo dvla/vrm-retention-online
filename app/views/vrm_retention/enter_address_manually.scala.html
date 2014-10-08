@@ -37,7 +37,8 @@
             </div>
         }
         </div>
-            <div id="vehicle-details" class="second-col trader-details related">
+            <div id="vehicle-details" class="second-col trader-details ">
+              <div class="related">
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
@@ -51,6 +52,20 @@
                         <dd>@enterAddressManuallyViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
+              </div>
+              <div class="related">
+                  <h2>Keeper Details</h2>
+                  <dl class="playback">
+                    <dt>Registered Keeper</dt>
+                    <dd>@enterAddressManuallyViewModel.firstName @enterAddressManuallyViewModel.lastName</dd>
+                    <dt>Address</dt>
+                    <dd>@for(addressLine <- enterAddressManuallyViewModel.address.get.address.init) {
+                                @addressLine<br>
+                            }
+                              @enterAddressManuallyViewModel.address.get.address.last</dd>
+                  </dl>
+              </div>
+
             </div>
     </div>
 }

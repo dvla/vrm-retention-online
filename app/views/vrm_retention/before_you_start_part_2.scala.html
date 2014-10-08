@@ -10,10 +10,23 @@
     title = Messages("vrm_retention_beforeyoustartpart2.title")
 ) {
     <p>@Messages("vrm_retention_beforeyoustartpart2.p1")</p>
-    <ol class="list-standard">
-        <li>@Messages("vrm_retention_beforeyoustartpart2.listitem1")</li>
-    </ol>
-
+    <div class="info-notice">
+      @Messages("vrm_retention_beforeyoustartpart2.p2")
+    </div>
+    <p>@Messages("vrm_retention_beforeyoustartpart2.p3")</p>
+    <ul class="list-standard">
+      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem1")</li>
+      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem2")</li>
+      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem3")</li>
+    </ul>
+    <div class="alert-warning">
+      @Messages("vrm_retention_beforeyoustartpart2.p4")
+    </div>
+    <p>@Messages("vrm_retention_beforeyoustartpart2.p5")</p>
+    <ul class="list-standard">
+      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem4")</li>
+      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem5")</li>
+    </ul>
     <div class="form-steps">
         @csrfTokenHiddenField()
         @* Note the reverse routing syntax for the hyperlink *@

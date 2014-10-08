@@ -51,6 +51,20 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="first-col">
+            @if(confirmViewModel.businessName.isDefined) {
+                <div class="info-notice">
+                    @Messages("vrm_retention_confirm.emailAddressTitleBusiness")
+                </div>
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    args = Map(
+                        '_label -> Messages("vrm_retention_confirm.emailAddressLabelBusiness"),
+                        'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
+                        '_showConstraints -> false,
+                        'typeEmail -> true,
+                        'maxLength -> KeeperEmailMaxLength
+                    )
+                )
+            } else {
                 <div class="info-notice">
                     @Messages("vrm_retention_confirm.emailAddressTitle")
                 </div>
@@ -63,64 +77,15 @@
                         'maxLength -> KeeperEmailMaxLength
                     )
                 )
+            }
+              <div class="alert-warning">
+                @Messages("vrm_retention_confirm.emailWarn")
+              </div>
             </div>
             <div class="second-col">
             </div>
         </div>
 
-        @if(confirmViewModel.businessName.isDefined) {
-
-        <hr>
-
-            <h1>@Messages("vrm_retention_confirm.isBusiness")</h1>
-            <div class="two-col">
-                <div class="first-col">
-
-                    <dl class="playback first-line">
-                        <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
-                        <dd>@confirmViewModel.businessContact</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessEmailLabel")</dt>
-                        <dd>@confirmViewModel.businessEmail</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
-                        <dd>@confirmViewModel.businessName</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-                        <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
-                            @businessAddressLine<br>
-                        }</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-                        <dd>@confirmViewModel.businessAddress.get.address.last</dd>
-                    </dl>
-
-                    <div class="form-declaration">
-                    @valtechOptionalDeclareCheck(confirmForm(StoreDetailsConsentId),
-                        args = Map(
-                            '_showConstraints -> false,
-                            'autofocus -> true,
-                            '_label -> Messages("vrm_retention_confirm.storeDetailsConsent")
-                        )
-                    )
-                    </div>
-
-                </div>
-                <div class="second-col">
-                    <div class="related">
-                        <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
-                        <dl class="playback">
-                            <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                            <dd>@confirmViewModel.registrationNumber</dd>
-                            @if(confirmViewModel.vehicleMake.isDefined) {
-                                <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                                <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
-                            }
-                            @if(confirmViewModel.vehicleModel.isDefined) {
-                                <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                                <dd>@confirmViewModel.vehicleModel.get.take(20)</dd>
-                            }
-                        </dl>
-                    </div>
-                </div>
-            </div>
-        }
 
         <div class="form-steps">
             @* Note the reverse routing syntax for the hyperlink *@
