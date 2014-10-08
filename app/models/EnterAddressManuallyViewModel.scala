@@ -1,5 +1,6 @@
 package models
 
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 
 final case class EnterAddressManuallyViewModel(registrationNumber: String,
@@ -8,7 +9,11 @@ final case class EnterAddressManuallyViewModel(registrationNumber: String,
                                                businessName: String,
                                                businessContact: String,
                                                businessEmail: String,
-                                               businessPostCode: String)
+                                               businessPostCode: String,
+                                               title: Option[String],
+                                               firstName: Option[String],
+                                               lastName: Option[String],
+                                               address: Option[AddressModel])
 
 object EnterAddressManuallyViewModel {
 
@@ -21,6 +26,10 @@ object EnterAddressManuallyViewModel {
       businessName = businessDetailsForm.name,
       businessContact = businessDetailsForm.contact,
       businessEmail = businessDetailsForm.email,
-      businessPostCode = formatPostcode(businessDetailsForm.postcode)
+      businessPostCode = formatPostcode(businessDetailsForm.postcode),
+      title = vehicleAndKeeperDetails.title,
+      firstName = vehicleAndKeeperDetails.firstName,
+      lastName = vehicleAndKeeperDetails.lastName,
+      address = (vehicleAndKeeperDetails.address)
     )
 }
