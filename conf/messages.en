@@ -290,7 +290,7 @@ error.validBusinessContact = Must be between 2 and 58 characters and only contai
 error.validEmail = Must be a valid email address
 
 # vehicle Lookup
-vrm_retention_vehiclelookup.title = Find the vehicle
+vrm_retention_vehiclelookup.title = Getting started
 vrm_retention_vehiclelookup.intro = Please provide the following details from the V5C
 vrm_retention_vehiclelookup.name = Dispose a vehicle into the motor trade
 vrm_retention_vehiclelookup.p1 = Vehicle being sold
@@ -298,7 +298,7 @@ vrm_retention_vehiclelookup.p2 = Vehicle will be sold to
 vrm_retention_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 vrm_retention_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 vrm_retention_vehiclelookup.refnumlabel = Latest V5C document reference number
-vrm_retention_vehiclelookup.refnumHint = An 11 digit number on the V5C, for example 2043 367 2964
+vrm_retention_vehiclelookup.refnumHint = An 11 digit number on the most recent V5C, as indicated on the image to the right.
 vrm_retention_vehiclelookup.vrninputlabel = Vehicle registration number
 vrm_retention_vehiclelookup.vrnHint = The registration number you want to keep
 vrm_retention_vehiclelookup.backbutton = Back
@@ -375,14 +375,14 @@ paymentNotAuthorisedErrorMessage.p2 =
 paymentNotAuthorisedErrorMessage.p3 =
 
 #Confirm page
-vrm_retention_confirm.title = Check details
-vrm_retention_confirm.intro = Please ensure these details are correct as documents will be sent to the keeper at the following address.
+vrm_retention_confirm.title = Confirm keeper details
+vrm_retention_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
 vrm_retention_confirm.warn = If any of these details are incorrect, please 'Exit' the service and update the details before returning to take a registration number off a vehicle
 vrm_retention_confirm.keeperTitle = Keeper details
 vrm_retention_confirm.keeperLabel = Name
 vrm_retention_confirm.keeperAddressLabel = Address
 vrm_retention_confirm.keeperPostcodeLabel = Postcode
-vrm_retention_confirm.isBusiness = The following business is acting on behalf of the keeper and with their consent
+vrm_retention_confirm.isBusiness = Confirm your business details
 vrm_retention_confirm.businessDetailsTitle = Business details
 vrm_retention_confirm.businessNameLabel = Name
 vrm_retention_confirm.businessContactLabel = Contact name
@@ -392,8 +392,8 @@ vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
 vrm_retention_confirm.button = Confirm
-vrm_retention_confirm.emailAddressTitle = Keeper e-mail address
-vrm_retention_confirm.emailAddressLabel = Please enter the keeper's address should you wish us to send to them a copy of the completed transaction
+vrm_retention_confirm.emailAddressLabel = Keeper e-mail address
+vrm_retention_confirm.emailAddressTitle = To ensure that we can send to you all the required information related to this transaction, which includes a number plate authorisation certificate for your replacement number plate, please provide us with your email address below:
 vrm_retention_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 vrm_retention_confirm.storeDetailsConsent = Remember my business details for later
 vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option

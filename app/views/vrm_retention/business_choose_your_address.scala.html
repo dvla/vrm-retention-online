@@ -18,7 +18,7 @@
     @form(action = BusinessChooseYourAddress.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col">
-            <div id="vehicle-details" class="first-col trader-details">
+            <div id="vehicle-details" class="second-col trader-details related">
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
@@ -33,17 +33,7 @@
                     }
                 </dl>
             </div>
-            <div class="second-col">
-                <dl class="playback">
-                    <dt>@Messages("vrm_retention_businessChooseYourAddress_businessName_label")</dt>
-                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessName", businessChooseYourAddressViewModel.name)</dd>
-                    <dt>@Messages("vrm_retention_businessChooseYourAddress_businessContact_label")</dt>
-                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessContact", businessChooseYourAddressViewModel.contact)</dd>
-                    <dt>@Messages("vrm_retention_businessChooseYourAddress_businessEmail_label")</dt>
-                    <dd>@Messages("vrm_retention_businessChooseYourAddress_businessEmail", businessChooseYourAddressViewModel.email)</dd>
-                    <dt>@Messages("vrm_retention_businessChooseYourAddress_postcode_label")</dt>
-                    <dd>@businessChooseYourAddressViewModel.postCode</dd>
-                </dl>
+            <div class="first-col">
 
                 @if(dropDownOptions.isEmpty) {
                     <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound")</h2>
@@ -54,7 +44,6 @@
                     )
                 }
 
-                <br/>
                 <a id="@EnterAddressManuallyButtonId" href="@controllers.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
 
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}

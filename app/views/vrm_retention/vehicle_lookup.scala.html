@@ -17,26 +17,29 @@
     @form(action = controllers.routes.VehicleLookup.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col clearfix vehicle-lookup">
-            <div class="first-col">
-                <div class="img-wrap img-wrap-desktop">
-                    <h2>Where to find your V5C document reference number</h2>
+            <div class="second-col">
+                <div class="img-wrap img-wrap-desktop related">
+                    <h2>You will need</h2>
+                    <p>Vehicle Registration Certificate (V5C)</p>
                     <img src="/vrm-retention/assets/images/document-reference-number.png" alt="V5C document reference number">
                 </div>
             </div>
 
-            <div class="uppercase-input second-col">
-                <p>@Messages("vrm_retention_vehiclelookup.intro")</p>
+            <div class="uppercase-input first-col">
+                <div class="info-notice "> 
+                    <p>Please note, you will require the document reference number from the latest V5C. Without this, you cannot use the online service.</p>
+                </div>
 
-                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
+                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_retention_vehiclelookup.vrnHint")),
                     args = Map(
                         '_label -> Messages("vrm_retention_vehiclelookup.vrninputlabel"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,
-                        'hint -> Messages("vrm_retention_vehiclelookup.vrnHint"),
+                        'hintText -> Messages("vrm_retention_vehiclelookup.vrnHint"),
                         '_showConstraints -> false
                     )
                 )
 
-                @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId),
+                @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId), hintText = Some(Messages("vrm_retention_vehiclelookup.refnumHint")),
                     args = Map(
                         '_label -> Messages("vrm_retention_vehiclelookup.refnumlabel"),
                         'hint -> Messages("vrm_retention_vehiclelookup.refnumHint"),
@@ -48,12 +51,11 @@
                     )
                 )
 
-                @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId),
+                @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId), hintText = Some(Messages("vrm_retention_vehiclelookup.postcodeHint")),
                     args = Map(
                         '_label -> Messages("vrm_retention_vehiclelookup.postcodelabel"),
                         '_showConstraints -> false,
-                        'maxLength -> Postcode.MaxLength,
-                        'hint -> Messages("vrm_retention_vehiclelookup.postcodeHint")
+                        'maxLength -> Postcode.MaxLength
                     )
                 )
 
@@ -71,8 +73,6 @@
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_vehiclelookup.button")</button>
-                    <a id="@BackId" href="@controllers.routes.VehicleLookup.back()" class="button-secondary">@Messages("vrm_retention_vehiclelookup.backbutton")</a>
-                    <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
         </div>
