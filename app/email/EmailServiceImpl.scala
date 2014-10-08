@@ -15,8 +15,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
-  // TODO amountDebited needs to be passed in from somewhere!
-  private final val amountDebited = "80.00"
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
   private val openGovernmentLicenceUrl = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png").get
@@ -89,7 +87,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       transactionTimestamp = retainModel.transactionTimestamp,
       keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
-      amount = amountDebited,
+      amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
       crownContentId = crownContentId,
       openGovernmentLicenceContentId = openGovernmentLicenceContentId,
@@ -108,7 +106,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       transactionTimestamp = retainModel.transactionTimestamp,
       keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
-      amount = amountDebited,
+      amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM
     ).toString()
   }
