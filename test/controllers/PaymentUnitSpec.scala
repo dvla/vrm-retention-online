@@ -18,7 +18,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel())
       val result = payment.begin(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -27,7 +27,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.transactionId())
       val result = payment.begin(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -38,7 +38,7 @@ final class PaymentUnitSpec extends UnitSpec {
 
       val result = payment.begin(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -53,7 +53,7 @@ final class PaymentUnitSpec extends UnitSpec {
     "redirect to MicroServiceError page when payment service call throws an exception" in new WithApplication {
       val result = paymentCallFails.begin(requestWithValidDefaults())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -85,7 +85,7 @@ final class PaymentUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = payment.getWebPayment(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -94,7 +94,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.transactionId())
       val result = payment.getWebPayment(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -104,7 +104,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference())
       val result = paymentCallFails.getWebPayment(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -136,7 +136,7 @@ final class PaymentUnitSpec extends UnitSpec {
     "redirect to MicroServiceError page when TransactionId cookie does not exist" in new WithApplication {
       val result = paymentCancelValidated.cancel(FakeRequest())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 
@@ -145,7 +145,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.transactionId())
       val result = paymentCancelValidated.cancel(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
       }
     }
 

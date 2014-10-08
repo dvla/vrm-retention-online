@@ -76,7 +76,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
   private def microServiceErrorResult(message: String) = {
     Logger.error(message)
-    Redirect(routes.MicroServiceError.present())
+//    Redirect(routes.MicroServiceError.present())
+    Redirect(routes.PaymentFailure.present())
   }
 
   private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],

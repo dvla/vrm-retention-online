@@ -53,4 +53,8 @@ class Config {
 
   // Payment Service
   val purchaseAmount: String = getProperty("retention.purchaseAmountInPence", "NOT FOUND")
+
+  // Audit Service
+  // TODO
+
 }

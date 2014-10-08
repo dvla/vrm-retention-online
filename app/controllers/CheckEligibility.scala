@@ -14,8 +14,10 @@ import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import audit.AuditService
 
-final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService)
+final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
+                                       auditService: AuditService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
 
@@ -45,7 +47,14 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val confirmWithUser = (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) || storeBusinessDetails
-      val redirectLocation = if (confirmWithUser) routes.Confirm.present() else routes.SetUpBusinessDetails.present()
+      val redirectLocation = {
+        if (confirmWithUser) {
+//          auditService.send(new AuditMessage)
+          routes.Confirm.present()
+        } else {
+          routes.SetUpBusinessDetails.present()
+        }
+      }
       Redirect(redirectLocation).withCookie(EligibilityModel.from(replacementVRM))
     }
 
