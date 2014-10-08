@@ -44,26 +44,15 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
   }
 
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =
-    form.
-      replaceError(BusinessNameId,
-        FormError(
-          key = BusinessNameId,
-          message = "error.validBusinessName",
-          args = Seq.empty)).
-      replaceError(BusinessContactId,
-        FormError(
-          key = BusinessContactId,
-          message = "error.validBusinessContact",
-          args = Seq.empty)).
-      replaceError(BusinessEmailId,
-        FormError(
-          key = BusinessEmailId,
-          message = "error.validEmail",
-          args = Seq.empty)).
-      replaceError(BusinessPostcodeId,
-        FormError(
-          key = BusinessPostcodeId,
-          message = "error.restricted.validPostcode",
-          args = Seq.empty)).
-      distinctErrors
+    (form /: List(
+      (BusinessNameId, "error.validBusinessName"),
+      (BusinessContactId, "error.validBusinessContact"),
+      (BusinessEmailId, "error.validEmail"),
+      (BusinessPostcodeId, "error.restricted.validPostcode"))) { (form, error) =>
+      form.replaceError(error._1, FormError(
+        key = error._1,
+        message = error._2,
+        args = Seq.empty
+      ))
+    }.distinctErrors
 }

@@ -276,6 +276,12 @@ vrm_retention_beforeyoustart.listitem3 = We will allocate a replacement registra
 vrm_retention_beforeyoustart.listitem4 = It is the responsibility of the registered keeper to ensure that their insurance company is informed of the change in registration number.
 vrm_retention_beforeyoustart.button = Start now
 
+# before you start part 2
+vrm_retention_beforeyoustartpart2.title = Take a registration number off a vehicle part 2
+vrm_retention_beforeyoustartpart2.p1 = Before you start part 2:
+vrm_retention_beforeyoustartpart2.listitem1 = TODO
+vrm_retention_beforeyoustartpart2.button = Start now
+
 # set-up business details
 vrm_retention_setupbusinessdetails.title = Provide your business details
 vrm_retention_setupbusinessdetails.p1 = Set-up business details
@@ -353,6 +359,7 @@ vrm_retention_paymentnotauthorised.tryagainbutton = Try again
 vrm_retention_paymentnotauthorised.exitbutton = Exit
 
 # Payment callback interstitial
+vrm_retention_payment.callback.title = Payment processing
 vrm_retention_payment.callback.message-when-javascript-enabled = Redirecting, please do not click any buttons...
 vrm_retention_payment.callback.message-when-javascript-disabled = The payment process has ended. Please click the Continue button below.
 
@@ -374,6 +381,10 @@ paymentNotAuthorisedErrorMessage.p1 = Please contact your Card Issuer (the phone
 paymentNotAuthorisedErrorMessage.p2 =
 paymentNotAuthorisedErrorMessage.p3 =
 
+#Confirm business page
+vrm_retention_confirm_business.title = Check business details
+vrm_retention_confirm_business.button = Confirm
+
 #Confirm page
 vrm_retention_confirm.title = Confirm keeper details
 vrm_retention_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
@@ -391,9 +402,15 @@ vrm_retention_confirm.businessAddressLabel = Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
+<<<<<<< HEAD
 vrm_retention_confirm.button = Confirm
 vrm_retention_confirm.emailAddressLabel = Keeper e-mail address
 vrm_retention_confirm.emailAddressTitle = To ensure that we can send to you all the required information related to this transaction, which includes a number plate authorisation certificate for your replacement number plate, please provide us with your email address below:
+=======
+vrm_retention_confirm.button = Confirm and Pay
+vrm_retention_confirm.emailAddressTitle = Keeper e-mail address
+vrm_retention_confirm.emailAddressLabel = Please enter the keeper's address should you wish us to send to them a copy of the completed transaction
+>>>>>>> 277d2a3d45db4e3c5c1fe7219814578eb331f4fd
 vrm_retention_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 vrm_retention_confirm.storeDetailsConsent = Remember my business details for later
 vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option
@@ -435,6 +452,32 @@ vrm_retention_enteraddressmanually.backbutton = Back
 address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
 addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 
+#Success payment page
+vrm_retention_success_payment.title = Summary Payment
+vrm_retention_success_payment.subtitle = Retention complete for
+vrm_retention_success_payment.replacementRegNumberLabel = Registration number
+vrm_retention_success_payment.yourCert = Your Retention certificate number is
+vrm_retention_success_payment.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
+vrm_retention_success_payment.replacementTitle = Your replacement registration number
+vrm_retention_success_payment.retainConf-p1 = Your registration number
+vrm_retention_success_payment.retainConf-p2 = has now been retained. Put the following replacement registration number on the vehicle
+vrm_retention_success_payment.makingUp-p1 = Making up the number plate for the replacement registration number
+vrm_retention_success_payment.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
+vrm_retention_success_payment.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+
+vrm_retention_success_payment.newDocumentsTitle = About your new documents
+vrm_retention_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_retention_success_payment.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement registration number
+vrm_retention_success_payment.newDocumentsList-2 = A new MOT certificate showing the replacement registration number
+vrm_retention_success_payment.newDocumentsList-3 = A retention certificate for the retained registration number
+
+vrm_retention_success_payment.aboutTransactionTitle = About this transaction
+vrm_retention_success_payment.aboutTransactionDesc = This transaction was completed, with consent of the registered keeper, by
+vrm_retention_success_payment.aboutTransactionIdLabel = Transaction ID -
+vrm_retention_success_payment.aboutTransactionCompletedLabel = Transaction Completed -
+vrm_retention_success_payment.aboutTransactionEmployeeLabel = Employee name (optional)
+vrm_retention_success_payment.button = Next
+
 #Success page
 vrm_retention_success.title = Summary
 vrm_retention_success.subtitle = Retention complete for
@@ -464,6 +507,39 @@ micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later.
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
+
+email.withoutHtml = Your email client does not support HTML messages.
+email.title = Retention successful for {0}
+email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
+email.line2 = Your application to retain a vehicle registration number
+email.line3 = Retention Certificate Number
+email.line4 = Transaction Completed
+email.line5 = Your Transaction ID is:
+email.line6 = Retention successful for {0}
+email.line7 = A Certificate of Retention will be now be issued to the registered keeper.
+email.line8 = We have also sent to you details of the replacement registration number, which are detailed below, along with a PDF of the Letter of Authorisation (V948) which can be downloaded or printed using the link provided.
+email.line9 = Replacement Registration
+email.line10 = Now that the personal registration number ''
+email.line11 = '' has been retained, the vehicle has been assigned the following replacement registration:
+email.line12 = To make up the number plates for the replacement registration number assigned, you will need the Letter of Authorisation for a Replacement Registration (V948) which is attached.
+email.line13 = About this transaction
+email.line14 = This transaction was completed, with the consent of the registered keeper by:
+email.line15 = Contact Name
+email.line16 = Vehicle Dealer Name Street
+email.line17 = Town/City
+email.line18 = County
+email.line19 = Postcode
+email.line20 = Registered Keeper:
+email.line21 = New Documentation:
+email.line22 = The following documents will be sent to the registered keeper:
+email.line23 = A new Vehicle Registration Certificate (V5C) displaying the replacement registration number
+email.line24 = A new MOT Certificate displaying the replacement registration number*
+email.line25 = A Retention Certificate for the retained Registration Number
+email.line26 = If the keeper has not received a new V5C within 2-3 weeks please advise them to call the DVLA helpline on 0300 790 6802 with the transaction ID listed in the green box above and we will do our upmost to resolve their query promptly.
+email.line27 = * A new MOT Certificate will only be sent if the vehicle has an existing MOT record.
+email.line28 = All content is available under the Open government License v2.0, except where otherwise stated
+email.openGovernmentLicence.alt = Open government licence
+email.crest.alt = Crest
 
 #Retention failure page
 vrm_retention_failure.title = Transaction not successful

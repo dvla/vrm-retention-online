@@ -8,11 +8,11 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import models.{BusinessDetailsModel, EnterAddressManuallyModel}
-import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage}
+import pages.vrm_retention.{ConfirmBusinessPage, ConfirmPage, SetupBusinessDetailsPage}
 import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
-import services.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
@@ -94,43 +94,15 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Confirm after a valid submission of all fields" in new WithApplication {
+    "redirect to ConfirmBusiness page after a valid submission of all fields" in new WithApplication {
       val request = requestWithValidDefaults()
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
-        val cookies = fetchCookiesFromHeaders(r)
-        val enterAddressManuallyCookieName = "enterAddressManually"
-        cookies.find(_.name == enterAddressManuallyCookieName) match {
-          case Some(cookie) =>
-            val json = cookie.value
-            val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
-
-            model.addressAndPostcodeViewModel.addressLinesModel.buildingNameOrNumber should equal(
-              BuildingNameOrNumberValid.toUpperCase)
-            model.addressAndPostcodeViewModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
-            model.addressAndPostcodeViewModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
-            model.addressAndPostcodeViewModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
-          case None => fail(s"$enterAddressManuallyCookieName cookie not found")
-        }
-
-        cookies.find(_.name == BusinessDetailsCacheKey) match {
-          case Some(cookie) =>
-            val json = cookie.value
-            val model = deserializeJsonToModel[BusinessDetailsModel](json)
-            val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
-              Line2Valid.toUpperCase,
-              Line3Valid.toUpperCase,
-              PostTownValid.toUpperCase,
-              formatPostcode(PostcodeValid.toUpperCase))
-            expectedData should equal(model.address.address)
-
-          case None => fail(s"$BusinessDetailsCacheKey cookie not found")
-        }
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
     }
 
-    "redirect to Confirm after a valid submission of mandatory fields" in new WithApplication {
+    "redirect to ConfirmBusiness after a valid submission of mandatory fields" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
@@ -139,7 +111,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
     }
 
@@ -232,15 +204,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       }
     }
 
-    "write cookie after a valid submission of all fields" in new WithApplication {
-      val request = requestWithValidDefaults()
-      val result = enterAddressManually.submit(request)
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(EnterAddressManuallyCacheKey)
-      }
-    }
-
     "collapse error messages for buildingNameOrNumber" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody(
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> "",
@@ -265,6 +228,40 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       val result = enterAddressManually.submit(request)
       val content = contentAsString(result)
       content should include("Post town - Requires a minimum length of three characters")
+    }
+
+    "write cookie after a valid submission of all fields" in new WithApplication {
+      val request = requestWithValidDefaults()
+      val result = enterAddressManually.submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.find(_.name == EnterAddressManuallyCacheKey) match {
+          case Some(cookie) =>
+            val json = cookie.value
+            val model = deserializeJsonToModel[EnterAddressManuallyModel](json)
+
+            model.addressAndPostcodeViewModel.addressLinesModel.buildingNameOrNumber should equal(
+              BuildingNameOrNumberValid.toUpperCase)
+            model.addressAndPostcodeViewModel.addressLinesModel.line2 should equal(Some(Line2Valid.toUpperCase))
+            model.addressAndPostcodeViewModel.addressLinesModel.line3 should equal(Some(Line3Valid.toUpperCase))
+            model.addressAndPostcodeViewModel.addressLinesModel.postTown should equal(PostTownValid.toUpperCase)
+          case None => fail(s"$EnterAddressManuallyCacheKey cookie not found")
+        }
+
+        cookies.find(_.name == BusinessDetailsCacheKey) match {
+          case Some(cookie) =>
+            val json = cookie.value
+            val model = deserializeJsonToModel[BusinessDetailsModel](json)
+            val expectedData = Seq(BuildingNameOrNumberValid.toUpperCase,
+              Line2Valid.toUpperCase,
+              Line3Valid.toUpperCase,
+              PostTownValid.toUpperCase,
+              formatPostcode(PostcodeValid.toUpperCase))
+            expectedData should equal(model.address.address)
+
+          case None => fail(s"$BusinessDetailsCacheKey cookie not found")
+        }
+      }
     }
   }
 

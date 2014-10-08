@@ -1,6 +1,6 @@
 package controllers
 
-import helpers.vrm_retention.CookieFactoryForUnitSpecs
+import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention.MockFeedbackPage
 import play.api.test.FakeRequest
@@ -12,29 +12,31 @@ final class SuccessUnitSpec extends UnitSpec {
 
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
-        withCookies(CookieFactoryForUnitSpecs.businessDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.retainModel()).
-        withCookies(CookieFactoryForUnitSpecs.transactionId())
+        withCookies(vehicleAndKeeperLookupFormModel(),
+          setupBusinessDetails(),
+          businessChooseYourAddress(),
+          vehicleAndKeeperDetailsModel(),
+          eligibilityModel(),
+          businessDetailsModel(),
+          keeperEmail(),
+          retainModel(),
+          transactionId(),
+          paymentTransactionReference())
       val result = success.present(request)
       status(result) should equal(OK)
     }
 
     "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
-        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
-        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.retainModel()).
-        withCookies(CookieFactoryForUnitSpecs.transactionId())
+        withCookies(vehicleAndKeeperLookupFormModel(),
+          setupBusinessDetails(),
+          businessChooseYourAddress(),
+          vehicleAndKeeperDetailsModel(),
+          eligibilityModel(),
+          keeperEmail(),
+          retainModel(),
+          transactionId(),
+          paymentTransactionReference())
       val result = success.present(request)
       status(result) should equal(OK)
     }
@@ -42,7 +44,7 @@ final class SuccessUnitSpec extends UnitSpec {
 
   "finish" should {
 
-    "redirect to MockFeedbackPage" in {
+    "redirect to MockFeedbackPage" in new WithApplication {
       val result = success.finish(FakeRequest())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
@@ -61,8 +63,8 @@ final class SuccessUnitSpec extends UnitSpec {
     //TODO commented out as when running sbt console it will pass all tests the first time but when you run test again ALL controller test complain. It is something to do with the chunked response as the problem does not happen if you call the service directly. I notice that a java icon stays in my Mac dock after the first test run finishes, so something is not closing.
     "return status OK when creation succeeded" in {
       val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.vehicleDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.retainModel())
+        withCookies(vehicleDetailsModel()).
+        withCookies(retainModel())
       val result = success.createPdf(request)
       status(result) should equal(OK)
     }*/

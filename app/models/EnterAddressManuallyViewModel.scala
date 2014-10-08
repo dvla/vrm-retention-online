@@ -24,5 +24,3 @@ object EnterAddressManuallyViewModel {
       businessPostCode = formatPostcode(businessDetailsForm.postcode)
     )
 }
-
-

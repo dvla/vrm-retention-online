@@ -2,6 +2,7 @@ package email
 
 import javax.activation.{CommandMap, MailcapCommandMap}
 import com.google.inject.Inject
+import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
 import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
 import play.api.Play.current
@@ -9,8 +10,7 @@ import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
-import views.html.vrm_retention.email_template
+import views.html.vrm_retention.{email_with_html, email_without_html}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
@@ -18,6 +18,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   // TODO amountDebited needs to be passed in from somewhere!
   private final val amountDebited = "80.00"
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
+  private val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
+  private val openGovernmentLicenceUrl = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png").get
+  private val crestUrl = Play.resource(name = "public/images/govuk-crest.png").get
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -46,27 +49,13 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               filename = "v948.pdf",
               description = "Replacement registration number letter of authorisation"
             )
-
-            val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber
-            def htmlMessage = {
-              val crownContentId = {
-                val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
-                "cid:" + htmlEmail.embed(crownUrl, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
-              }
-              val openGovernmentLicenceContentId = {
-                val openGovernmentLicence = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png").get
-                "cid:" + htmlEmail.embed(openGovernmentLicence, "open-government-licence.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
-              }
-              val crestId = {
-                val openGovernmentLicence = Play.resource(name = "public/images/govuk-crest.png").get
-                "cid:" + htmlEmail.embed(openGovernmentLicence, "govuk-crest.png")
-              }
-              populateEmailTemplate(emailAddress, vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, crownContentId, openGovernmentLicenceContentId, crestId)
-            }
+            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId)
+            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail).toString()
+            val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber // TODO fetch text from Messages file.
 
             htmlEmail.
-              setTextMsg("Your email client does not support HTML messages. Please open this email in another email client or view the attached pdf").
-              setHtmlMsg(htmlMessage.toString()).
+              setTextMsg(plainTextMessage).
+              setHtmlMsg(message).
               attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description).
               setFrom(from.email, from.name).
               setSubject(subject).
@@ -85,16 +74,16 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     }
   }
 
-  override def populateEmailTemplate(emailAddress: String,
-                                     vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                                     eligibilityModel: EligibilityModel,
-                                     retainModel: RetainModel,
-                                     transactionId: String,
-                                     crownContentId: String,
-                                     openGovernmentLicenceContentId: String,
-                                     crestId: String): HtmlFormat.Appendable = {
-    email_template(
-      vrm = vehicleAndKeeperDetailsModel.registrationNumber,
+  override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                  eligibilityModel: EligibilityModel,
+                  retainModel: RetainModel,
+                  transactionId: String,
+                  htmlEmail: HtmlEmail): HtmlFormat.Appendable = {
+    val crownContentId = "cid:" + htmlEmail.embed(crownUrl, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+    val openGovernmentLicenceContentId = "cid:" + htmlEmail.embed(openGovernmentLicenceUrl, "open-government-licence.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+    val crestId = "cid:" + htmlEmail.embed(crestUrl, "govuk-crest.png")
+    email_with_html(
+      vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = retainModel.certificateNumber,
       transactionId = transactionId,
       transactionTimestamp = retainModel.transactionTimestamp,
@@ -108,6 +97,22 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
     )
   }
 
+  private def populateEmailWithoutHtml(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                                       eligibilityModel: EligibilityModel,
+                                       retainModel: RetainModel,
+                                       transactionId: String): String = {
+    email_without_html(
+      vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
+      retentionCertId = retainModel.certificateNumber,
+      transactionId = transactionId,
+      transactionTimestamp = retainModel.transactionTimestamp,
+      keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
+      keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
+      amount = amountDebited,
+      replacementVRM = eligibilityModel.replacementVRM
+    ).toString()
+  }
+
   private def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
     Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
       flatten.
@@ -115,6 +120,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   }
 
   private def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-    vehicleAndKeeperDetailsModel.address.get.address.mkString(",")
+    vehicleAndKeeperDetailsModel.address match {
+      case Some(adressModel) => adressModel.address.mkString(", ")
+      case None => ""
+    }
   }
 }

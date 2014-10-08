@@ -1,17 +1,11 @@
 package helpers.vrm_retention
 
+import models._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
-import services.fakes.AddressLookupServiceConstants._
-import services.fakes.AddressLookupWebServiceConstants.traderUprnValid
-import services.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
-import services.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import services.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import services.fakes.VrmRetentionRetainWebServiceConstants._
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
-import models._
 import views.vrm_retention
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
@@ -20,7 +14,15 @@ import views.vrm_retention.Confirm.{KeeperEmailCacheKey, StoreBusinessDetailsCac
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import webserviceclients.fakes.AddressLookupServiceConstants._
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants._
+import views.vrm_retention.Payment._
+import scala.Some
 
 object CookieFactoryForUISpecs {
 
@@ -100,6 +102,12 @@ object CookieFactoryForUISpecs {
     this
   }
 
+  def paymentTransactionReference(trxRef: String = PaymentTransactionReferenceCacheKey)(implicit webDriver: WebDriver) = {
+    val key = PaymentTransactionReferenceCacheKey
+    addCookie(key, trxRef)
+    this
+  }
+
   def bruteForcePreventionViewModel(permitted: Boolean = true,
                                     attempts: Int = 0,
                                     maxAttempts: Int = MaxAttempts,
@@ -162,7 +170,7 @@ object CookieFactoryForUISpecs {
 
   def vehicleAndKeeperLookupResponseCode(responseCode: String)
                                         (implicit webDriver: WebDriver) = {
-    val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+    val key = VehicleAndKeeperLookupResponseCodeCacheKey
     val value = responseCode
     addCookie(key, value)
     this

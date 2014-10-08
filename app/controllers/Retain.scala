@@ -10,7 +10,9 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
+import views.vrm_retention.Payment._
 import views.vrm_retention.Retain._
+import views.vrm_retention.VehicleLookup._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -21,16 +23,20 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config) extends Controller {
 
-  def retain = Action.async { implicit request =>
-    request.cookies.getModel[VehicleAndKeeperLookupFormModel] match { // TODO check for existence of all the cookies created by the payment page
-      case Some(vehiclesLookupForm) => retainVrm(vehiclesLookupForm)
-      case None => Future.successful {
-        Redirect(routes.MicroServiceError.present()) // TODO need an error page for this scenario
+  def retain = Action.async {
+    implicit request =>
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getString(TransactionIdCacheKey),
+        request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
+        case (Some(vehiclesLookupForm), Some(transactionId), Some(trxRef)) => retainVrm(vehiclesLookupForm, transactionId, trxRef)
+        case _ => Future.successful {
+          Redirect(routes.MicroServiceError.present()) // TODO need an error page for this scenario
+        }
       }
-    }
   }
 
-  private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
+  private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                        transactionId: String, trxRef: String)
                        (implicit request: Request[_]): Future[Result] = {
 
     def retainSuccess(certificateNumber: String) = {
@@ -41,7 +47,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
       val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
 
-      Redirect(routes.Success.present()).
+      Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
     }
 
@@ -64,16 +70,17 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     )
     val trackingId = request.cookies.trackingId()
 
-    vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map { response =>
-      response.responseCode match {
-        case Some(responseCode) => retainFailure(responseCode) // There is only a response code when there is a problem.
-        case None =>
-          // Happy path when there is no response code therefore no problem.
-          response.certificateNumber match {
-            case Some(certificateNumber) => retainSuccess(certificateNumber)
-            case _ => microServiceErrorResult(message = "Certificate number not found in response")
-          }
-      }
+    vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
+      response =>
+        response.responseCode match {
+          case Some(responseCode) => retainFailure(responseCode) // There is only a response code when there is a problem.
+          case None =>
+            // Happy path when there is no response code therefore no problem.
+            response.certificateNumber match {
+              case Some(certificateNumber) => retainSuccess(certificateNumber)
+              case _ => microServiceErrorResult(message = "Certificate number not found in response")
+            }
+        }
     }.recover {
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Retention Retain web service call failed. Exception " + e.toString.take(45))

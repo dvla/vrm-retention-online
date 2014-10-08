@@ -8,7 +8,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.vrm_retention.EnterAddressManuallyPage.{happyPath, happyPathMandatoryFieldsOnly, sadPath}
-import pages.vrm_retention.{ConfirmPage, BeforeYouStartPage, EnterAddressManuallyPage, VehicleLookupPage}
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmBusinessPage, EnterAddressManuallyPage}
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
@@ -69,7 +69,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPath()
 
-      page.url should equal(ConfirmPage.url)
+      page.url should equal(ConfirmBusinessPage.url)
     }
 
     "accept when only mandatory fields only are input" taggedAs UiTag in new WebBrowser {
@@ -78,7 +78,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPathMandatoryFieldsOnly()
 
-      page.url should equal(ConfirmPage.url)
+      page.url should equal(ConfirmBusinessPage.url)
     }
 
     "display validation error messages when no details are entered" taggedAs UiTag in new WebBrowser {

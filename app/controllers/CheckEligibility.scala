@@ -25,7 +25,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)) match {
         case (Some(form), storeBusinessDetails) => checkVrmEligibility(form, storeBusinessDetails)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present())
+          Redirect(routes.Error.present("user went to CheckEligibility present without a required cookie"))
         }
       }
   }
@@ -37,6 +37,11 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
   private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                   storeBusinessDetails: Boolean)
                                  (implicit request: Request[_]): Future[Result] = {
+
+    def microServiceErrorResult(message: String) = {
+      Logger.error(message)
+      Redirect(routes.MicroServiceError.present())
+    }
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val confirmWithUser = (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) || storeBusinessDetails
@@ -52,11 +57,6 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
     }
 
-    def microServiceErrorResult(message: String) = {
-      Logger.error(message)
-      Redirect(routes.MicroServiceError.present())
-    }
-
     val eligibilityRequest = VRMRetentionEligibilityRequest(
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
     )
@@ -69,9 +69,9 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
           // Happy path when there is no response code therefore no problem.
           (response.currentVRM, response.replacementVRM) match {
             case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, replacementVRM)
-            case (Some(currentVRM), None) => microServiceErrorResult(message = "No replacement VRM found")
-            case (None, Some(replacementVRM)) => microServiceErrorResult(message = "No current VRM found")
-            case _ => microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
+            case (None, None) => microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
+            case (_, None) => microServiceErrorResult(message = "No replacement VRM found")
+            case (None, _) => microServiceErrorResult(message = "No current VRM found")
           }
       }
     }.recover {

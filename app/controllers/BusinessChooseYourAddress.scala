@@ -71,8 +71,10 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
 
   private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressFormModel])(implicit request: Request[_]) =
     form.replaceError(AddressSelectId, "error.required",
-      FormError(key = AddressSelectId,
-        message = "vrm_retention_businessChooseYourAddress.address.required", args = Seq.empty)).
+      FormError(
+        key = AddressSelectId,
+        message = "vrm_retention_businessChooseYourAddress.address.required",
+        args = Seq.empty)).
       distinctErrors
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel)(implicit session: ClientSideSession, lang: Lang) =
@@ -90,7 +92,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         /* The redirect is done as the final step within the map so that:
          1) we are not blocking threads
          2) the browser does not change page before the future has completed and written to the cache. */
-        Redirect(routes.Confirm.present()).
+        Redirect(routes.ConfirmBusiness.present()).
           discardingCookie(EnterAddressManuallyCacheKey).
           withCookie(model).
           withCookie(businessDetailsModel)

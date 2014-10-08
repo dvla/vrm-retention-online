@@ -52,7 +52,7 @@ object WebDriverFactory {
     }
     else {
       // Default if testing locally
-      new String("http://localhost:9001/")
+      new String("http://localhost:9003/")
     }
   }
 

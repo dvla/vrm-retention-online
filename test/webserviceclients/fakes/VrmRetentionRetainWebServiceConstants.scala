@@ -1,4 +1,4 @@
-package services.fakes
+package webserviceclients.fakes
 
 object VrmRetentionRetainWebServiceConstants {
 

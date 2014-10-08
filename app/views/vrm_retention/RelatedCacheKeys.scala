@@ -10,6 +10,7 @@ import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Retain.{RetainCacheKey, RetainResponseCodeCacheKey}
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import play.api.http.HeaderNames.REFERER
 
 object RelatedCacheKeys {
 
@@ -23,6 +24,7 @@ object RelatedCacheKeys {
     CheckEligibilityCacheKey,
     EnterAddressManuallyCacheKey,
     KeeperEmailCacheKey,
+    REFERER,
     RetainCacheKey,
     RetainResponseCodeCacheKey
   )

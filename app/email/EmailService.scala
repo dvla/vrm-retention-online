@@ -1,7 +1,8 @@
 package email
 
-import play.twirl.api.HtmlFormat
 import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+import org.apache.commons.mail.HtmlEmail
+import play.twirl.api.HtmlFormat
 
 trait EmailService {
 
@@ -11,12 +12,9 @@ trait EmailService {
                 retainModel: RetainModel,
                 transactionId: String)
 
-  def populateEmailTemplate(emailAddress: String,
-                            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                            eligibilityModel: EligibilityModel,
-                            retainModel: RetainModel,
-                            transactionId: String,
-                            crownContentId: String,
-                            openGovernmentLicenceContentId: String,
-                            crestId: String): HtmlFormat.Appendable
+  def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                  eligibilityModel: EligibilityModel,
+                  retainModel: RetainModel,
+                  transactionId: String,
+                  htmlEmail: HtmlEmail): HtmlFormat.Appendable
 }

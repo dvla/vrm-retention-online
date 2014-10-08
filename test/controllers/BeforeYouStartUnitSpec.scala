@@ -3,9 +3,9 @@ package controllers
 import composition.TestConfig
 import controllers.Common.PrototypeHtml
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.VehicleLookupPage
+import pages.vrm_retention.BeforeYouStartPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout, status}
+import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
 
 final class BeforeYouStartUnitSpec extends UnitSpec {
 
@@ -14,6 +14,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     "display the page" in new WithApplication {
       val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
+      contentAsString(result) should include(BeforeYouStartPage.title)
     }
 
     "display prototype message when config set to true" in new WithApplication {
@@ -25,16 +26,6 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = beforeYouStartPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
-    }
-  }
-
-  "submit" should {
-
-    "redirect to next page after the button is clicked" in new WithApplication {
-      val result = beforeYouStart.submit(FakeRequest())
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
-      }
     }
   }
 

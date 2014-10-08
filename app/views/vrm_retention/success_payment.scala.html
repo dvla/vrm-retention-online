@@ -1,0 +1,107 @@
+@(successViewModel: models.SuccessViewModel)(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config)
+
+@import controllers.routes.Success
+@import views.html.vrm_retention.main
+@import views.vrm_retention.SuccessPayment.NextId
+@import controllers.routes.SuccessPayment
+
+@main(
+    title = Messages("vrm_retention_success_payment.title")
+) {
+
+	<div class="alert-complete">
+	    <h2>@Messages("vrm_retention_success_payment.subtitle") @successViewModel.registrationNumber </h2>
+	    <p>@Messages("vrm_retention_success_payment.yourCert") @successViewModel.retentionCertificationNumber </p>
+	    <p>@Messages("vrm_retention_success_payment.infoMsg")</p>
+	</div>
+	<h2>@Messages("vrm_retention_success_payment.replacementTitle")</h2>
+	<p>@Messages("vrm_retention_success_payment.retainConf-p1") @successViewModel.registrationNumber @Messages("vrm_retention_success_payment.retainConf-p2")</p>
+	<div class="alert-passive success-playback">
+		<div class="two-col">
+			<div class="first-col">
+                <dl class="playback">
+                    <dt>@Messages("vrm_retention_success_payment.replacementRegNumberLabel")</dt>
+                    <dd>@successViewModel.replacementRegistrationNumber</dd>
+                    @if(successViewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@successViewModel.vehicleMake.get.take(20)</dd>
+                    }
+                    @if(successViewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@successViewModel.vehicleModel.get.take(20)</dd>
+                    }
+                </dl>
+			</div>
+			<div class="second-col">
+				<p><strong>@Messages("vrm_retention_success_payment.makingUp-p1")</strong></p>
+				<p>@Messages("vrm_retention_success_payment.makingUp-p2")</p>
+				<a class="pdf-link" href="@Success.createPdf()">
+					<img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+					@Messages("vrm_retention_success_payment.newPlateLink") @successViewModel.replacementRegistrationNumber
+				</a>
+			</div>
+		</div>
+	</div>
+	<h2>@Messages("vrm_retention_success_payment.newDocumentsTitle")</h2>
+		<p>@Messages("vrm_retention_success_payment.newDocumentsDesc")</p>
+		<div class="two-col">
+			<div class="first-col">
+				<div class="alert-indent">
+					<p>@Messages("vrm_retention_success_payment.newDocumentsList-1")</p>
+					<p>@Messages("vrm_retention_success_payment.newDocumentsList-2")</p>
+					<p>@Messages("vrm_retention_success_payment.newDocumentsList-3")</p>
+				</div>
+			</div>
+			<div class="second-col">
+				<p><strong>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName </strong></p>
+				<p>
+					@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+                    	@keeperAddressLine<br>
+                	}
+                    @successViewModel.keeperAddress.get.address.last
+                    @if(successViewModel.keeperEmail.isDefined) {
+                        <p>@successViewModel.keeperEmail</p>
+                    }
+                </p>
+			</div>
+		</div>
+		<h2>@Messages("vrm_retention_success_payment.aboutTransactionTitle")</h2>
+	@if(successViewModel.businessName.isDefined) {
+		<p>@Messages("vrm_retention_success_payment.aboutTransactionDesc")</p>
+		<div class="two-col">
+			<div class="first-col">
+                <h3>@successViewModel.businessName</h3>
+                <h3>@successViewModel.businessContact</h3>
+                <h3>@successViewModel.businessEmail</h3>
+				<p>
+					@for(businessAddressLine <- successViewModel.businessAddress.get.address.init) {
+                    	@businessAddressLine<br>
+                	}
+                    @successViewModel.businessAddress.get.address.last
+			</div>
+			<div class="second-col">
+				@*<label>@Messages("vrm_retention_success_payment.aboutTransactionEmployeeLabel")</label> *@
+				@*<input type="text">*@
+				<dl class="playback transaction-details">
+					<dt>@Messages("vrm_retention_success_payment.aboutTransactionIdLabel")</dt>
+					<dd> @successViewModel.transactionId</dd>
+					<dt>@Messages("vrm_retention_success_payment.aboutTransactionCompletedLabel")</dt>
+					<dd> @successViewModel.transactionTimestamp</dd>
+				</dl>
+			</div>
+		</div>
+	} else {
+				<dl class="playback transaction-details">
+					<dt>@Messages("vrm_retention_success_payment.aboutTransactionIdLabel")</dt>
+					<dd> @successViewModel.transactionId</dd>
+					<dt>@Messages("vrm_retention_success_payment.aboutTransactionCompletedLabel")</dt>
+					<dd> @successViewModel.transactionTimestamp</dd>
+				</dl>
+
+	}
+
+	<button id="printRetainSuccess" type="button" name="action" value="printRetainSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
+    <a class="button-secondary" id="@NextId" href="@SuccessPayment.next()">@Messages("vrm_retention_success_payment.button")</a>
+}

@@ -1,0 +1,45 @@
+@(vrm: String,
+retentionCertId: String,
+transactionId: String,
+transactionTimestamp: String,
+keeperName: String,
+keeperAddress: String,
+amount: String,
+replacementVRM: String)(implicit lang: Lang)
+
+@Messages("email.withoutHtml")
+@Messages("email.title", vrm)
+@Messages("email.line1")
+@Messages("email.line3")
+@retentionCertId
+@Messages("email.line4")
+@transactionTimestamp
+@Messages("email.line5")
+@transactionId
+@Messages("email.line6", vrm)
+@Messages("email.line7")
+@Messages("email.line8")
+@Messages("email.line9")
+@Html(Messages("email.line10") + vrm + Messages("email.line11"))
+@replacementVRM
+@Messages("email.line12")
+@Messages("email.line13")
+@Messages("email.line14")
+@Messages("email.line15")
+@Messages("email.line16")
+@Messages("email.line17")
+@Messages("email.line18")
+@Messages("email.line19")
+emailaddress@@isp.com
+@Messages("email.line20")
+@keeperName
+@keeperAddress
+emailaddress@@isp.com
+@Messages("email.line21")
+@Messages("email.line22")
+@Messages("email.line23")
+@Messages("email.line24")
+@Messages("email.line25")
+@Messages("email.line26")
+@Messages("email.line27")
+@Messages("email.line28")

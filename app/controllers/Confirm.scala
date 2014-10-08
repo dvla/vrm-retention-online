@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import models._
+import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
@@ -63,7 +64,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       val cookies = List(keeperEmail, storeBusinessDetails).flatten
       Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
     }
-    val sadPath = Redirect(routes.MicroServiceError.present())
+    val sadPath = Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)
   }
 
@@ -79,7 +80,7 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
     }
-    val sadPath = Redirect(routes.MicroServiceError.present())
+    val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)
   }
 

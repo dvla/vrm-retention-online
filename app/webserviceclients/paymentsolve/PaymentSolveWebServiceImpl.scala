@@ -20,6 +20,7 @@ final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends Payment
     Logger.debug(s"Calling payment solve micro-service with request ${request.transNo} and $vrm")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config.paymentSolveMsRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }
 
@@ -31,6 +32,7 @@ final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends Payment
     Logger.debug(s"Calling payment solve micro-service with request ${trxRef}")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config.paymentSolveMsRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }
 
@@ -42,6 +44,19 @@ final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends Payment
     Logger.debug(s"Calling payment solve micro-service with request ${trxRef}")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config.paymentSolveMsRequestTimeout). // Timeout is in milliseconds
+      post(Json.toJson(request))
+  }
+
+  override def invoke(request: PaymentSolveUpdateRequest, trackingId: String): Future[WSResponse] = {
+    val trxRef = LogFormats.anonymize(request.trxRef)
+    val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/updateWebPayment"
+
+    Logger.debug(endPoint)
+    Logger.debug(s"Calling payment solve micro-service with request ${trxRef}")
+    WS.url(endPoint).
+      withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config.paymentSolveMsRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }
 }

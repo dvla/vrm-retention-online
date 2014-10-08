@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 
-final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
+final class gitPaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callPaymentSolveService" should {
 

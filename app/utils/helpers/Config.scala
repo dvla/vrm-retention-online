@@ -51,6 +51,6 @@ class Config {
   val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
   val emailSenderAddress: String = getProperty("email.senderAddress", "")
 
-  // payment amount
-  val purchaseAmount: Int = getProperty("retention.purchaseamount", -1)
+  // Payment Service
+  val purchaseAmount: String = getProperty("retention.purchaseAmountInPence", "NOT FOUND")
 }

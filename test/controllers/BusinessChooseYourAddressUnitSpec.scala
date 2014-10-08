@@ -1,22 +1,23 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.{TestConfig, TestOrdnanceSurvey, TestVehicleAndKeeperLookupWebService}
+import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.{TestConfig, TestOrdnanceSurvey}
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{ConfirmPage, SetupBusinessDetailsPage, UprnNotFoundPage}
+import pages.vrm_retention.{ConfirmBusinessPage, SetupBusinessDetailsPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import services.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
-import services.fakes.AddressLookupWebServiceConstants
-import services.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
+import webserviceclients.fakes.AddressLookupWebServiceConstants
+import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -69,13 +70,13 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   "submit" should {
 
-    "redirect to VehicleLookup page after a valid submit" in new WithApplication {
+    "redirect to Confirm page after a valid submit" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
     }
 
@@ -89,7 +90,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to setupTradeDetails page when valid submit with no dealer name cached" in new WithApplication {
+    "redirect to SetupBusinessDetailsPage page when valid submit with no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.submit(request)
@@ -98,7 +99,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to setupTradeDetails page when bad form submitted and no dealer name cached" in new WithApplication {
+    "redirect to SetupBusinessDetailsPage page when bad form submitted and no dealer name cached" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(traderUprn = "")
       // Bad form because nothing was selected from the drop-down.
       val result = businessChooseYourAddress.submit(request)

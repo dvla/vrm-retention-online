@@ -11,7 +11,7 @@ import play.api.mvc.{RequestHeader, Result}
 import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
-import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, ClfEntryBuilder}
+import uk.gov.dvla.vehicles.presentation.common.filters.{ClfEntryBuilder}
 import scala.concurrent.{ExecutionContext, Future}
 
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
