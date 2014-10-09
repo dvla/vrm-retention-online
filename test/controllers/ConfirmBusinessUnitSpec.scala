@@ -35,7 +35,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       content should include(RegistrationNumberValid)
       content should include(VehicleMakeValid.get)
       content should include(VehicleModelValid.get)
-      content should include(KeeperTitleValid.get)
       content should include(KeeperFirstNameValid.get)
       content should include(KeeperLastNameValid.get)
     }

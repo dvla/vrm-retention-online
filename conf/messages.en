@@ -29,7 +29,7 @@ footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
-prototype.banner = This service is under development - 
+prototype.banner = This service is under development -
 prototype.link =  find out more
 prototype.link.source = https://www.gov.uk/help/alpha
 
@@ -269,22 +269,38 @@ main.banner = Take a registration number off a vehicle
 
 # before you start
 vrm_retention_beforeyoustart.title = Take a registration number off a vehicle
-vrm_retention_beforeyoustart.p1 = Before you start:
-vrm_retention_beforeyoustart.listitem1 = You will need the latest registration certificate (V5C) for the vehicle.
-vrm_retention_beforeyoustart.listitem2 = You will be charged a fee of £80 which can be paid for by credit or debit card (list of card types here) as part of this service.
+vrm_retention_beforeyoustart.p1 = You can apply to remove a registration number from a vehicle and hold it on a retention document (V778) for as long as required if you’re the registered keeper of the vehicle.
+vrm_retention_beforeyoustart.p2 = Once you have successfully retained your registration number you will be able to assign it to a new vehicle immediately or simply hold on to it until you wish to place it on another vehicle.
+vrm_retention_beforeyoustart.p3 = Using the new service
+vrm_retention_beforeyoustart.p4 = To apply online you will need:
+vrm_retention_beforeyoustart.p5 = This service is performed in real-time, as such any action taken is final and cannot be undone.
+vrm_retention_beforeyoustart.p6 = Upon a successful retention we will provide your with on screen confirmation as well as sending a copy via e-mail, should you choose to provide one, along with any relevant documentation. You will also receive physical documentation in the post within a few weeks of a successful outcome.
+vrm_retention_beforeyoustart.p7 = However, if you would prefer to use the traditional paper service you can download the form here.
+vrm_retention_beforeyoustart.p8 = This service is currently in a beta phase of development. This means that although it will still do everything it is designed to do, it is not quite finished and will in some cases run alongside the older, existing service. For more information please
+vrm_retention_beforeyoustart.p8link = click here
+vrm_retention_beforeyoustart.listitem1 = The 11 digit document reference number from the latest registration certificate (V5C) for the vehicle
+vrm_retention_beforeyoustart.listitem2 = A valid payment method to cover the £80 fee charged for this service
 vrm_retention_beforeyoustart.listitem3 = We will allocate a replacement registration number for the vehicle. It is the responsibility of the registered keeper to ensure that the new registration number is displayed on the vehicle.
 vrm_retention_beforeyoustart.listitem4 = It is the responsibility of the registered keeper to ensure that their insurance company is informed of the change in registration number.
 vrm_retention_beforeyoustart.button = Start now
 
 # before you start part 2
-vrm_retention_beforeyoustartpart2.title = Take a registration number off a vehicle part 2
-vrm_retention_beforeyoustartpart2.p1 = Before you start part 2:
-vrm_retention_beforeyoustartpart2.listitem1 = TODO
-vrm_retention_beforeyoustartpart2.button = Start now
+vrm_retention_beforeyoustartpart2.title = Before you start
+vrm_retention_beforeyoustartpart2.p1 = Conditions for retaining a registration number
+vrm_retention_beforeyoustartpart2.p2 = You can’t retain a registration number starting with ‘Q’ or ‘NIQ’ for Northern Ireland registered vehicles.
+vrm_retention_beforeyoustartpart2.p3 = To retain a valid registration number, the vehicle must be:
+vrm_retention_beforeyoustartpart2.listitem1 = registered with DVLA
+vrm_retention_beforeyoustartpart2.listitem2 = available for inspection
+vrm_retention_beforeyoustartpart2.listitem3 = of a type that needs an MOT or heavy goods vehicle (HGV) test certificate
+vrm_retention_beforeyoustartpart2.p4 = Pre-1960 vehicles need a valid MOT to retain a registration number.
+vrm_retention_beforeyoustartpart2.p5 = The vehicle should also be taxed, unless:
+vrm_retention_beforeyoustartpart2.listitem4 = there’s no break between the date the tax disc runs out and the start of the SORN
+vrm_retention_beforeyoustartpart2.listitem5 = the tax disc has run out in the last 12 months
+vrm_retention_beforeyoustartpart2.button = Let's begin
 
 # set-up business details
 vrm_retention_setupbusinessdetails.title = Provide your business details
-vrm_retention_setupbusinessdetails.p1 = Set-up business details
+vrm_retention_setupbusinessdetails.p1 = As you have indicated that you are acting on behalf of the keeper we require certain details from you to complete the transaction.
 vrm_retention_setupbusinessdetails.businessnamelabel = Business name
 vrm_retention_setupbusinessdetails.businesscontactlabel = Business contact name
 vrm_retention_setupbusinessdetails.businessemaillabel = Business email address
@@ -296,15 +312,17 @@ error.validBusinessContact = Must be between 2 and 58 characters and only contai
 error.validEmail = Must be a valid email address
 
 # vehicle Lookup
-vrm_retention_vehiclelookup.title = Find the vehicle
-vrm_retention_vehiclelookup.intro = Please provide the following details from the V5C
+vrm_retention_vehiclelookup.title = Getting started
+vrm_retention_vehiclelookup.intro = You will need
+vrm_retention_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
+vrm_retention_vehiclelookup.note = Please note, you will require the document reference number from the latest V5C. Without this, you cannot use the online service.
 vrm_retention_vehiclelookup.name = Dispose a vehicle into the motor trade
 vrm_retention_vehiclelookup.p1 = Vehicle being sold
 vrm_retention_vehiclelookup.p2 = Vehicle will be sold to
 vrm_retention_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 vrm_retention_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 vrm_retention_vehiclelookup.refnumlabel = Latest V5C document reference number
-vrm_retention_vehiclelookup.refnumHint = An 11 digit number on the V5C, for example 2043 367 2964
+vrm_retention_vehiclelookup.refnumHint = An 11 digit number on the most recent V5C, as indicated on the image to the right.
 vrm_retention_vehiclelookup.vrninputlabel = Vehicle registration number
 vrm_retention_vehiclelookup.vrnHint = The registration number you want to keep
 vrm_retention_vehiclelookup.backbutton = Back
@@ -347,7 +365,7 @@ vrm_retention_eligibility_failure.p1 = Our records show this registration number
 vrm_retention_eligibility_failure.p2 =
 vrm_retention_eligibility_failure.p3 =
 
-# Payment page 
+# Payment page
 vrm_retention_payment.title = Payment details
 vrm_retention_payment.iframe.title = Payment iframe
 vrm_retention_payment.javascript-disabled.message = You are seeing this additional message as we have detected that you have Javascript disabled. Please do not click the Continue button below until you are told that the payment process has ended.
@@ -382,18 +400,18 @@ paymentNotAuthorisedErrorMessage.p2 =
 paymentNotAuthorisedErrorMessage.p3 =
 
 #Confirm business page
-vrm_retention_confirm_business.title = Check business details
+vrm_retention_confirm_business.title = Confirm your business details
 vrm_retention_confirm_business.button = Confirm
 
 #Confirm page
-vrm_retention_confirm.title = Check details
-vrm_retention_confirm.intro = Please ensure these details are correct as documents will be sent to the keeper at the following address.
+vrm_retention_confirm.title = Confirm keeper details
+vrm_retention_confirm.intro = Please confirm that the following details we have for the registered keeper are correct before continuing this service.
 vrm_retention_confirm.warn = If any of these details are incorrect, please 'Exit' the service and update the details before returning to take a registration number off a vehicle
 vrm_retention_confirm.keeperTitle = Keeper details
 vrm_retention_confirm.keeperLabel = Name
 vrm_retention_confirm.keeperAddressLabel = Address
 vrm_retention_confirm.keeperPostcodeLabel = Postcode
-vrm_retention_confirm.isBusiness = The following business is acting on behalf of the keeper and with their consent
+vrm_retention_confirm.isBusiness = Confirm your business details
 vrm_retention_confirm.businessDetailsTitle = Business details
 vrm_retention_confirm.businessNameLabel = Name
 vrm_retention_confirm.businessContactLabel = Contact name
@@ -402,9 +420,12 @@ vrm_retention_confirm.businessAddressLabel = Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
-vrm_retention_confirm.button = Confirm and Pay
-vrm_retention_confirm.emailAddressTitle = Keeper e-mail address
-vrm_retention_confirm.emailAddressLabel = Please enter the keeper's address should you wish us to send to them a copy of the completed transaction
+vrm_retention_confirm.emailAddressLabel = E-mail
+vrm_retention_confirm.emailAddressTitle = To ensure that we can send to you all the required information related to this transaction, which includes a number plate authorisation certificate for your replacement number plate, please provide us with your email address below:
+vrm_retention_confirm.emailAddressLabelBusiness = Keeper e-mail address
+vrm_retention_confirm.emailAddressTitleBusiness = To ensure that we can send your customer all the required information related to this transaction, which includes a number plate authorisation certificate for their replacement number plate, please provide us with their email address below:
+vrm_retention_confirm.button = Next
+vrm_retention_confirm.emailWarn = If any of these details are incorrect, please ‘Exit’ the service and update the details before returning to retain a Registration Number.
 vrm_retention_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 vrm_retention_confirm.storeDetailsConsent = Remember my business details for later
 vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public computer we advise you to not select this option
@@ -447,17 +468,19 @@ address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
 addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 
 #Success payment page
-vrm_retention_success_payment.title = Summary Payment
-vrm_retention_success_payment.subtitle = Retention complete for
-vrm_retention_success_payment.replacementRegNumberLabel = Registration number
-vrm_retention_success_payment.yourCert = Your Retention certificate number is
-vrm_retention_success_payment.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
-vrm_retention_success_payment.replacementTitle = Your replacement registration number
-vrm_retention_success_payment.retainConf-p1 = Your registration number
-vrm_retention_success_payment.retainConf-p2 = has now been retained. Put the following replacement registration number on the vehicle
-vrm_retention_success_payment.makingUp-p1 = Making up the number plate for the replacement registration number
-vrm_retention_success_payment.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
-vrm_retention_success_payment.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+vrm_retention_success_payment.title = Payment Successful
+vrm_retention_success_payment.p1 = Keeper's replacement registration:
+vrm_retention_success_payment.p2 = Your registration number,
+vrm_retention_success_payment.p2_2 = , can now be taken off of your vehicle and you should arrange for new plates to be made for the replacement registration above through one of our registered number plate suppliers.
+vrm_retention_success_payment.p3 = What you need to do now
+vrm_retention_success_payment.listItem1 = Inform your insurance company of your new registration number
+vrm_retention_success_payment.listItem2 = Use the eV948 opposite to arrange new plates to be made via a registered number plate supplier
+vrm_retention_success_payment.listItem3 = Destroy your old V5C, MOT certificate as these are no longer valid
+vrm_retention_success_payment.listItem4 = If you are selling your vehicle you will need to wait for a new V5C displaying the new registration number
+vrm_retention_success_payment.p4 = Please keep your eV948 in a safe place, we recommend printing it immediately as once you exit this service your certificate cannot be re- issued.
+vrm_retention_success_payment.p5 = In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
+vrm_retention_success_payment.p6 = Making up your replacement plates
+vrm_retention_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
 
 vrm_retention_success_payment.newDocumentsTitle = About your new documents
 vrm_retention_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
@@ -480,10 +503,16 @@ vrm_retention_success.yourCert = Your Retention certificate number is
 vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
 vrm_retention_success.replacementTitle = Your replacement registration number
 vrm_retention_success.retainConf-p1 = Your registration number
-vrm_retention_success.retainConf-p2 = has now been retained. Put the following replacement registration number on the vehicle 
+vrm_retention_success.retainConf-p2 = has now been retained. Put the following replacement registration number on the vehicle
 vrm_retention_success.makingUp-p1 = Making up the number plate for the replacement registration number
 vrm_retention_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
 vrm_retention_success.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+
+vrm_retention_success.p1 = What happens next?
+vrm_retention_success.p2 = The following items will be sent separately to you at your registered address:
+vrm_retention_success.listItem1 = A new registration certificate (V5C) with the replacement registration number
+vrm_retention_success.listItem2 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
+vrm_retention_success.listItem3 = A V778 retention doument to showing you as the 'Grantee'
 
 vrm_retention_success.newDocumentsTitle = About your new documents
 vrm_retention_success.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
@@ -494,7 +523,7 @@ vrm_retention_success.newDocumentsList-3 = A retention certificate for the retai
 vrm_retention_success.aboutTransactionTitle = About this transaction
 vrm_retention_success.aboutTransactionDesc = This transaction was completed, with consent of the registered keeper, by
 vrm_retention_success.aboutTransactionIdLabel = Transaction ID -
-vrm_retention_success.aboutTransactionCompletedLabel = Transaction Completed - 
+vrm_retention_success.aboutTransactionCompletedLabel = Transaction Completed -
 vrm_retention_success.aboutTransactionEmployeeLabel = Employee name (optional)
 
 micro_service_error.title=We are sorry
@@ -549,4 +578,3 @@ vrm_retention_progress_6 = Step 6 of 6
 
 
 vrm_retention_vehiclelookupfailure.warnAboutLockout = After a third unsuccessful attempt the system prevents further attempts to access the vehicle''s records for 10 minutes. This is to safeguard vehicle records. Other vehicles can be processed using this service during this period.
-
