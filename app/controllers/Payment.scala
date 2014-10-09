@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import models.VehicleAndKeeperLookupFormModel
+import org.apache.commons.codec.binary.Base64
 import play.api.Logger
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -76,7 +77,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
   private def microServiceErrorResult(message: String) = {
     Logger.error(message)
-//    Redirect(routes.MicroServiceError.present())
+    //    Redirect(routes.MicroServiceError.present())
     Redirect(routes.PaymentFailure.present())
   }
 
@@ -90,7 +91,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           Redirect(routes.PaymentFailure.present())
         }
 
-        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(token.value).url
+        val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
+        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
           vrm = vrm,
