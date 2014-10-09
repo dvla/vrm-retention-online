@@ -16,14 +16,12 @@
 			    <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
 			    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
 			</div>
-			<h3>What happens next?</h3>
-			<p>The following items will be sent separately to you at your registered address:</p>
+			<h3>@Messages("vrm_retention_success.p1")</h3>
+			<p>@Messages("vrm_retention_success.p2")</p>
 			<ul class="list-standard">
-				<li>A new registration certificate (V5C) with the replacement registration
-				number '@successViewModel.replacementRegistrationNumber'</li>
-				<li>A replacement MOT certificate (for cars and motorcycles over 3 years old
-				and heavy goods vehicles over 1 year old)</li>
-				<li>A V778 retention doument to showing you as the 'Grantee'</li>
+				<li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
+				<li>@Messages("vrm_retention_success.listItem2")</li>
+				<li>@Messages("vrm_retention_success.listItem3")</li>
 			</ul>
 		</div>
 		<div class="second-col">

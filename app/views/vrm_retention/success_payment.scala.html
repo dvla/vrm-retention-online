@@ -14,31 +14,29 @@
 <div class="two-col">
   <div class="first-col">
       <dl class="summary-replacement-reg">
-        <dt>Keeper's replacement registration:</dt>
+        <dt>@Messages("vrm_retention_success_payment.p1")</dt>
         <dd><strong>@successViewModel.replacementRegistrationNumber</strong></dd>
       </dl>
-      <p>Your registration number, @successViewModel.registrationNumber, can now be taken off of your vehicle and you should arrange for new plates to be made for the replacement registration above through one of our registered number plate suppliers.</p>
-      <h2>What you need to do now</h2>
+      <p>@Messages("vrm_retention_success_payment.p2") @successViewModel.registrationNumber @Messages("vrm_retention_success_payment.p2_2")</p>
+      <h2>@Messages("vrm_retention_success_payment.p3")</h2>
       <ulv class="list-standard">
-      <li>Inform your insurance company of your new registration number</li>
-      <li>Use the eV948 opposite to arrange new plates to be made via a registered
-      number plate supplier</li>
-      <li>Destroy your old V5C, MOT certificate as these are no longer valid</li>
-      <li>If you are selling your vehicle you will need to wait for a new V5C displaying
-      the new registration number</li>
+      <li>@Messages("vrm_retention_success_payment.listItem1")</li>
+      <li>@Messages("vrm_retention_success_payment.listItem2")</li>
+      <li>@Messages("vrm_retention_success_payment.listItem3")</li>
+      <li>@Messages("vrm_retention_success_payment.listItem4")</li>
       </ul>
       <div class="info-notice">
         <p>
-          Please keep your eV948 in a safe place, we recommend printing it immediately as once you exit this service your certificate cannot be re- issued.
+          @Messages("vrm_retention_success_payment.p4")
         </p>
         <p>
-        In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
+        @Messages("vrm_retention_success_payment.p5")
         </p>
     </div>
   </div>
   <div class="second-col related">
-    <h2>Making up your replacement plates</h2>
-    <p>The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.</p>
+    <h2>@Messages("vrm_retention_success_payment.p6")</h2>
+    <p>@Messages("vrm_retention_success_payment.p7")</p>
 
   </div>
 </div>

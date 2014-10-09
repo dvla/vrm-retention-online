@@ -399,9 +399,6 @@ paymentNotAuthorisedErrorMessage.p1 = Please contact your Card Issuer (the phone
 paymentNotAuthorisedErrorMessage.p2 =
 paymentNotAuthorisedErrorMessage.p3 =
 
-#Confirm 2 part
-
-
 #Confirm business page
 vrm_retention_confirm_business.title = Confirm your business details
 vrm_retention_confirm_business.button = Confirm
@@ -472,16 +469,18 @@ addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 
 #Success payment page
 vrm_retention_success_payment.title = Payment Successful
-vrm_retention_success_payment.subtitle = Retention complete for
-vrm_retention_success_payment.replacementRegNumberLabel = Registration number
-vrm_retention_success_payment.yourCert = Your Retention certificate number is
-vrm_retention_success_payment.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
-vrm_retention_success_payment.replacementTitle = Your replacement registration number
-vrm_retention_success_payment.retainConf-p1 = Your registration number
-vrm_retention_success_payment.retainConf-p2 = has now been retained. Put the following replacement registration number on the vehicle
-vrm_retention_success_payment.makingUp-p1 = Making up the number plate for the replacement registration number
-vrm_retention_success_payment.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
-vrm_retention_success_payment.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+vrm_retention_success_payment.p1 = Keeper's replacement registration:
+vrm_retention_success_payment.p2 = Your registration number,
+vrm_retention_success_payment.p2_2 = , can now be taken off of your vehicle and you should arrange for new plates to be made for the replacement registration above through one of our registered number plate suppliers.
+vrm_retention_success_payment.p3 = What you need to do now
+vrm_retention_success_payment.listItem1 = Inform your insurance company of your new registration number
+vrm_retention_success_payment.listItem2 = Use the eV948 opposite to arrange new plates to be made via a registered number plate supplier
+vrm_retention_success_payment.listItem3 = Destroy your old V5C, MOT certificate as these are no longer valid
+vrm_retention_success_payment.listItem4 = If you are selling your vehicle you will need to wait for a new V5C displaying the new registration number
+vrm_retention_success_payment.p4 = Please keep your eV948 in a safe place, we recommend printing it immediately as once you exit this service your certificate cannot be re- issued.
+vrm_retention_success_payment.p5 = In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
+vrm_retention_success_payment.p6 = Making up your replacement plates
+vrm_retention_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
 
 vrm_retention_success_payment.newDocumentsTitle = About your new documents
 vrm_retention_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
@@ -508,6 +507,12 @@ vrm_retention_success.retainConf-p2 = has now been retained. Put the following r
 vrm_retention_success.makingUp-p1 = Making up the number plate for the replacement registration number
 vrm_retention_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
 vrm_retention_success.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
+
+vrm_retention_success.p1 = What happens next?
+vrm_retention_success.p2 = The following items will be sent separately to you at your registered address:
+vrm_retention_success.listItem1 = A new registration certificate (V5C) with the replacement registration number
+vrm_retention_success.listItem2 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
+vrm_retention_success.listItem3 = A V778 retention doument to showing you as the 'Grantee'
 
 vrm_retention_success.newDocumentsTitle = About your new documents
 vrm_retention_success.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
