@@ -11,20 +11,20 @@
 ) {
     <div class="two-col clearfix">
         <div class="first-col">
-            <p>You can apply to remove a registration number from a vehicle and hold it on a retention document (V778) for as long as required if you’re the registered keeper of the vehicle.</p>
-            <p>Once you have successfully retained your registration number you will be able to assign it to a new vehicle immediately or simply hold on to it until you wish to place it on another vehicle.</p>
-            <h2>Using the new service</h2>
-            <p>To apply online you will need:</p>
+            <p>@Messages("vrm_retention_beforeyoustart.p1")</p>
+            <p>@Messages("vrm_retention_beforeyoustart.p2")</p>
+            <h2>@Messages("vrm_retention_beforeyoustart.p3")</h2>
+            <p>@Messages("vrm_retention_beforeyoustart.p4")</p>
             <ol class="list-standard">
-                <li>The 11 digit document reference number from the latest registration certificate (V5C) for the vehicle</li>
-                <li>A valid payment method to cover the £80 fee charged for this service</li>
+                <li>@Messages("vrm_retention_beforeyoustart.listitem1")</li>
+                <li>@Messages("vrm_retention_beforeyoustart.listitem2")</li>
             </ol>
             <div class="info-notice">
-                This service is performed in real-time, as such any action taken is final and cannot be undone.
+                @Messages("vrm_retention_beforeyoustart.p5")
             </div>
             <hr>
-            <p>Upon a successful retention we will provide your with on screen confirmation as well as sending a copy via e-mail, should you choose to provide one, along with any relevant documentation. You will also receive physical documentation in the post within a few weeks of a successful outcome.</p>
-            <p>However, if you would prefer to use the traditional paper service you can download the form here.</p>
+            <p>@Messages("vrm_retention_beforeyoustart.p6")</p>
+            <p>@Messages("vrm_retention_beforeyoustart.p7")</p>
 
             <div class="form-steps">
                 @csrfTokenHiddenField()
@@ -32,7 +32,7 @@
                 <a class="button" id="@NextId" href="@BeforeYouStartPart2.present()">@Messages("vrm_retention_beforeyoustart.button")</a>
             </div>
 
-            <p class="beta-info">This service is currently in a beta phase of development. This means that although it will still do everything it is designed to do, it is not quite finished and will in some cases run alongside the older, existing service. For more information please <a href="#">click here</a>.</p>
+            <p class="beta-info">@Messages("vrm_retention_beforeyoustart.p8") <a href="#">@Messages("vrm_retention_beforeyoustart.p8link")</a>.</p>
 
         </div>
         <div class="second-col">

@@ -19,15 +19,15 @@
         <div class="two-col clearfix vehicle-lookup">
             <div class="second-col">
                 <div class="img-wrap img-wrap-desktop related">
-                    <h2>You will need</h2>
-                    <p>Vehicle Registration Certificate (V5C)</p>
+<h2>@Messages("vrm_retention_vehiclelookup.intro")</h2>
+<p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
                     <img src="@routes.Assets.at("images/document-reference-number.png")" alt="V5C document reference number">
                 </div>
             </div>
 
             <div class="uppercase-input first-col">
                 <div class="info-notice ">
-                    <p>Please note, you will require the document reference number from the latest V5C. Without this, you cannot use the online service.</p>
+                    <p>@Messages("vrm_retention_vehiclelookup.note")</p>
                 </div>
 
                 @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_retention_vehiclelookup.vrnHint")),
