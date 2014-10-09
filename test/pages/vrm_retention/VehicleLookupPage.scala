@@ -13,7 +13,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def url = WebDriverFactory.testUrl + address.substring(1)
 
-  final override val title: String = "Find the vehicle"
+  final override val title: String = "Getting started"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
 

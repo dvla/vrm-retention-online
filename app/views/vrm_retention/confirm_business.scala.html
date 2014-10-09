@@ -20,12 +20,18 @@
             <dd>@confirmViewModel.businessEmail</dd>
             <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
             <dd>@confirmViewModel.businessName</dd>
-            <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-            <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
-                @businessAddressLine<br>
-            }</dd>
-            <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-            <dd>@confirmViewModel.businessAddress.get.address.last</dd>
+            @confirmViewModel.businessAddress.map { businessAddress => @* only shows the following if there was a business address *@
+                <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
+                <dd>
+                    @for(
+                        businessAddressLine <- businessAddress.address.init
+                    ) {
+                        @businessAddressLine<br>
+                    }
+                </dd>
+                <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
+                <dd>@businessAddress.address.last</dd>
+            }
         </dl>
 
 <div class="form-steps">
