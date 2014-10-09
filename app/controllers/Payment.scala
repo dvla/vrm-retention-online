@@ -31,7 +31,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(vehiclesLookupForm)) =>
           callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+          microServiceErrorResult("Payment begin missing TransactionIdCacheKey or VehicleAndKeeperLookupFormModel cookie") // TODO is this the correct redirect?
         }
       }
   }
@@ -48,7 +48,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(trxRef)) =>
           callGetWebPaymentService(transactionId, trxRef)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+          microServiceErrorResult("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
         }
       }
   }
@@ -59,7 +59,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(trxRef)) =>
           callCancelWebPaymentService(transactionId, trxRef)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO is this the correct redirect?
+          microServiceErrorResult("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
         }
       }
   }
@@ -76,7 +76,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
   private def microServiceErrorResult(message: String) = {
     Logger.error(message)
-    Redirect(routes.MicroServiceError.present())
+//    Redirect(routes.MicroServiceError.present())
+    Redirect(routes.PaymentFailure.present())
   }
 
   private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],
@@ -111,10 +112,9 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
             }
         }.recover {
           case NonFatal(e) =>
-            Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
-            microServiceErrorResult(message = "Payment Solve web service call failed.")
+            microServiceErrorResult(message = s"Payment Solve web service call failed. Exception " + e.toString.take(45))
         }
-      case _ => Future.successful(Redirect(routes.MicroServiceError.present()))
+      case _ => Future.successful(microServiceErrorResult(message = "Payment callBeginWebPaymentService no referer"))
     }
   }
 

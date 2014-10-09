@@ -2,11 +2,11 @@ package controllers
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.MockFeedbackPage
+import pages.vrm_retention.SuccessPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, defaultAwaitTimeout, status}
+import play.api.test.Helpers._
 
-final class SuccessUnitSpec extends UnitSpec {
+final class SuccessPaymentUnitSpec extends UnitSpec {
 
   "present" should {
 
@@ -22,7 +22,7 @@ final class SuccessUnitSpec extends UnitSpec {
           retainModel(),
           transactionId(),
           paymentTransactionReference())
-      val result = success.present(request)
+      val result = successPayment.present(request)
       status(result) should equal(OK)
     }
 
@@ -37,27 +37,38 @@ final class SuccessUnitSpec extends UnitSpec {
           retainModel(),
           transactionId(),
           paymentTransactionReference())
-      val result = success.present(request)
+      val result = successPayment.present(request)
       status(result) should equal(OK)
     }
   }
 
-  "finish" should {
+  "next" should {
 
-    "redirect to MockFeedbackPage" in new WithApplication {
-      val result = success.finish(FakeRequest())
+    "redirect to Success Page" in new WithApplication {
+      val result = successPayment.next(FakeRequest())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
   }
 
   "create pdf" should {
 
-    "return bad request when required cookies are missing" in {
-      val result = success.createPdf(FakeRequest())
+    "return a bad request if cookie for EligibilityModel does no exist" in {
+      val request = FakeRequest().
+        withCookies(transactionId())
+      val result = successPayment.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
+
+    "return a bad request if cookie for TransactionId does no exist" in {
+      val request = FakeRequest().
+        withCookies(eligibilityModel())
+      val result = successPayment.createPdf(request)
+      status(result) should equal(BAD_REQUEST)
+    }
+
+    "return a pdf when the cookie exists" in pending
 
     /*
     //TODO commented out as when running sbt console it will pass all tests the first time but when you run test again ALL controller test complain. It is something to do with the chunked response as the problem does not happen if you call the service directly. I notice that a java icon stays in my Mac dock after the first test run finishes, so something is not closing.
@@ -70,5 +81,5 @@ final class SuccessUnitSpec extends UnitSpec {
     }*/
   }
 
-  private lazy val success = testInjector().getInstance(classOf[Success])
+  private lazy val successPayment = testInjector().getInstance(classOf[SuccessPayment])
 }

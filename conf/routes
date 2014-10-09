@@ -47,6 +47,9 @@ POST        /business-choose-your-address         @controllers.BusinessChooseYou
 
 GET         /uprn-not-found                       @controllers.UprnNotFound.present
 
+GET         /confirm-business                     @controllers.ConfirmBusiness.present
+GET         /confirm-business/exit                @controllers.ConfirmBusiness.exit
+
 GET         /confirm                              @controllers.Confirm.present
 POST        /confirm                              @controllers.Confirm.submit
 GET         /confirm/exit                         @controllers.Confirm.exit
@@ -65,6 +68,10 @@ POST        /payment-not-authorised               @controllers.PaymentNotAuthori
 
 # no form on payment page so is GET the right http verb for submit
 GET         /retain                               @controllers.Retain.retain
+
+GET         /success-payment                      @controllers.SuccessPayment.present
+GET         /success-payment/create-pdf           @controllers.SuccessPayment.createPdf
+GET         /success-payment/next               @controllers.SuccessPayment.next
 
 GET         /success                              @controllers.Success.present
 GET         /success/create-pdf                   @controllers.Success.createPdf

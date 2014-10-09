@@ -10,19 +10,13 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
+import views.vrm_retention.Payment._
 import views.vrm_retention.Retain._
+import views.vrm_retention.VehicleLookup._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import views.vrm_retention.VehicleLookup._
-import scala.Some
-import play.api.mvc.Result
-import views.vrm_retention.Payment._
-import scala.Some
-import play.api.mvc.Result
-import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveUpdateRequest}
-import views.vrm_retention.RelatedCacheKeys
 
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                              dateService: DateService)
@@ -53,9 +47,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
       val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
 
-      Redirect(routes.Success.present()).
+      Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
-
     }
 
     def retainFailure(responseCode: String) = {

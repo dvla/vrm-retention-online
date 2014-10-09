@@ -1,0 +1,77 @@
+@(viewModel: models.ConfirmBusinessViewModel)(implicit lang: Lang,
+   token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+   config: utils.helpers.Config)
+
+@import controllers.routes.{Confirm, ConfirmBusiness}
+@import views.vrm_retention.ConfirmBusiness.{ConfirmId, ExitId}
+@import views.html.vrm_retention.main
+
+@main(
+    title = Messages("vrm_retention_confirm_business.title"),
+    currentForm = None
+) {
+    @Messages("vrm_retention_confirm.intro")
+    <p></p>
+    <div class="two-col">
+        <div class="first-col">
+            <h2>@Messages("vrm_retention_confirm.keeperTitle")</h2>
+            <dl class="playback first-line">
+                <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
+                <dd>@viewModel.keeperTitle @viewModel.keeperFirstName @viewModel.keeperLastName </dd>
+                <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
+                <dd>@for(keeperAddressLine <- viewModel.keeperAddress.get.address.init) {
+                    @keeperAddressLine<br>
+                    }</dd>
+                <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
+                <dd>@viewModel.keeperAddress.get.address.last</dd>
+            </dl>
+        </div>
+        <div class="second-col">
+            <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+            <dl class="playback">
+                <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                <dd class="reg-number">@viewModel.registrationNumber</dd>
+                @if(viewModel.vehicleMake.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                    <dd>@viewModel.vehicleMake.get.take(20)</dd>
+                }
+                @if(viewModel.vehicleModel.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                    <dd>@viewModel.vehicleModel.get.take(20)</dd>
+                }
+            </dl>
+        </div>
+    </div>
+
+    @if(viewModel.businessName.isDefined) {
+        <p>@Messages("vrm_retention_confirm.isBusiness")</p>
+        <div class="two-col">
+            <div class="first-col">
+                <h2>@Messages("vrm_retention_confirm.businessDetailsTitle")</h2>
+
+                <dl class="playback first-line">
+                    <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
+                    <dd>@viewModel.businessName</dd>
+                    <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
+                    <dd>@viewModel.businessContact</dd>
+                    <dt>@Messages("vrm_retention_confirm.businessEmailLabel")</dt>
+                    <dd>@viewModel.businessEmail</dd>
+                    <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
+                    <dd>@for(businessAddressLine <- viewModel.businessAddress.get.address.init) {
+                        @businessAddressLine<br>
+                        }</dd>
+                    <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
+                    <dd>@viewModel.businessAddress.get.address.last</dd>
+                </dl>
+
+            </div>
+            <div class="second-col">
+            </div>
+        </div>
+    }
+
+    <div class="form-steps">
+        <a class="button" id="@ConfirmId" href="@Confirm.present()">@Messages("vrm_retention_confirm_business.button")</a>
+        <a class="button-secondary" id="@ExitId" href="@ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
+    </div>
+}
