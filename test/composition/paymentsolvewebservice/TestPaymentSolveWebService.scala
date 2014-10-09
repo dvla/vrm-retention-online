@@ -5,6 +5,7 @@ import webserviceclients.paymentsolve._
 
 object TestPaymentSolveWebService {
 
+  val loadBalancerUrl = "somewhere-in-load-balancer-land"
   val beginWebPaymentUrl = "somewhere-in-payment-land"
   // TODO replace with a realistic invalid response value.
   private[paymentsolvewebservice] val invalidStatus = "INVALID"
