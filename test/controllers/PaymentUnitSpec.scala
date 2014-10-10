@@ -62,42 +62,42 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
-      val result = payment.begin(requestWithValidDefaults())
-      whenReady(result) { r =>
-        r.header.status should equal(OK)
-      }
-    }
-
-    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
-      val result = payment.begin(requestWithValidDefaults())
-      val content = contentAsString(result)
-      content should include("<iframe")
-      content should include( s"""src="$beginWebPaymentUrl"""")
-    }
-
-    "call the web service with a base64 url safe callback" in new WithApplication {
-      val paymentSolveWebService = mock[PaymentSolveWebService]
-      val payment = testInjector(new ValidatedCardDetails(paymentSolveWebService)).getInstance(classOf[Payment])
-
-      val result = payment.begin(requestWithValidDefaults())
-
-      val content = contentAsString(result)
-      // The CSRF token is randomly generated, so extract this instance of the token from the hidden field in the html.
-      val patternHiddenField = """.*<input type="hidden" name="csrf_prevention_token" value="(.*)"/>.*""".r
-      val token: String = patternHiddenField findFirstIn content match {
-        case Some(patternHiddenField(tokenInHtml)) => tokenInHtml
-        case _ => "NOT FOUND"
-      }
-      val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.getBytes)
-      val expectedPaymentSolveBeginRequest = PaymentSolveBeginRequest(
-        transNo = TransactionIdValid.toString.replaceAll("[^0-9]", ""),
-        vrm = RegistrationNumberValid,
-        purchaseAmount = 8000,
-        paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
-      )
-      verify(paymentSolveWebService).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
-    }
+//    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+//      val result = payment.begin(requestWithValidDefaults())
+//      whenReady(result) { r =>
+//        r.header.status should equal(OK)
+//      }
+//    }
+//
+//    "display the Payment page with an iframe with src url returned by payment micro-service" in new WithApplication {
+//      val result = payment.begin(requestWithValidDefaults())
+//      val content = contentAsString(result)
+//      content should include("<iframe")
+//      content should include( s"""src="$beginWebPaymentUrl"""")
+//    }
+//
+//    "call the web service with a base64 url safe callback" in new WithApplication {
+//      val paymentSolveWebService = mock[PaymentSolveWebService]
+//      val payment = testInjector(new ValidatedCardDetails(paymentSolveWebService)).getInstance(classOf[Payment])
+//
+//      val result = payment.begin(requestWithValidDefaults())
+//
+//      val content = contentAsString(result)
+//      // The CSRF token is randomly generated, so extract this instance of the token from the hidden field in the html.
+//      val patternHiddenField = """.*<input type="hidden" name="csrf_prevention_token" value="(.*)"/>.*""".r
+//      val token: String = patternHiddenField findFirstIn content match {
+//        case Some(patternHiddenField(tokenInHtml)) => tokenInHtml
+//        case _ => "NOT FOUND"
+//      }
+//      val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.getBytes)
+//      val expectedPaymentSolveBeginRequest = PaymentSolveBeginRequest(
+//        transNo = TransactionIdValid.toString.replaceAll("[^0-9]", ""),
+//        vrm = RegistrationNumberValid,
+//        purchaseAmount = 8000,
+//        paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
+//      )
+//      verify(paymentSolveWebService).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
+//    }
   }
 
   "getWebPayment" should {
