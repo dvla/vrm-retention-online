@@ -1,9 +1,9 @@
 package controllers
 
-import composition.eligibility.EligibilityWebServiceCallFails
+import composition.eligibility.{EligibilityWebServiceCallFails, EligibilityWebServiceCallWithResponse}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{ErrorPage, MicroServiceErrorPage}
+import pages.vrm_retention.{ErrorPage, MicroServiceErrorPage, VehicleLookupFailurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
@@ -60,18 +60,39 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
           storeBusinessDetailsConsent(),
           transactionId()
         )
-      val result = checkEligibilityCallFails().present(request)
+      val result = checkEligibilityCallFails.present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to VehicleLookupFailure page when web service returns with a response code" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibilityWithResponse.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
   }
 
   private lazy val checkEligibility = testInjector().getInstance(classOf[CheckEligibility])
 
-  private def checkEligibilityCallFails() = {
+  private def checkEligibilityCallFails = {
     testInjector(
       new EligibilityWebServiceCallFails()
+    ).
+      getInstance(classOf[CheckEligibility])
+  }
+
+  private def checkEligibilityWithResponse = {
+    testInjector(
+      new EligibilityWebServiceCallWithResponse()
     ).
       getInstance(classOf[CheckEligibility])
   }
