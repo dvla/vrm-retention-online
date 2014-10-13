@@ -17,7 +17,9 @@
         <dt>@Messages("vrm_retention_success_payment.p1")</dt>
         <dd><strong>@successViewModel.replacementRegistrationNumber</strong></dd>
       </dl>
+
       <p>@Messages("vrm_retention_success_payment.p2") @successViewModel.registrationNumber @Messages("vrm_retention_success_payment.p2_2")</p>
+      <hr class="print-only">
       <h2>@Messages("vrm_retention_success_payment.p3")</h2>
       <ulv class="list-standard">
       <li>@Messages("vrm_retention_success_payment.listItem1")</li>
@@ -26,6 +28,7 @@
       <li>@Messages("vrm_retention_success_payment.listItem4")</li>
       </ul>
       <div class="info-notice">
+        <hr class="print-only">
         <p>
           @Messages("vrm_retention_success_payment.p4")
         </p>
@@ -35,10 +38,51 @@
     </div>
   </div>
   <div class="second-col related">
+    <hr class="print-only">
     <h2>@Messages("vrm_retention_success_payment.p6")</h2>
     <p>@Messages("vrm_retention_success_payment.p7")</p>
 
   </div>
+</div>
+
+
+<div class="print-only">
+  <hr class="print-only">
+  <h3>@Messages("vrm_retention_success.p1")</h3>
+  <p>@Messages("vrm_retention_success.p2")</p>
+  <ul class="list-standard">
+    <li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
+    <li>@Messages("vrm_retention_success.listItem2")</li>
+    <li>@Messages("vrm_retention_success.listItem3")</li>
+  </ul>
+  <hr class="print-only">
+<div class="related">
+  <h2>Transaction details</h2>
+  <p>Transaction ID:</p>
+  <p>@successViewModel.transactionId</p>
+</div>
+<hr class="print-only">
+<div class="related">
+  <h2>Keeper details</h2>
+  <p>Name:</p>
+  <p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
+  <p>Keeper Address</p>
+  <p>
+    @for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+                @keeperAddressLine<br>
+            }
+  </p>
+</div>
+<hr class="print-only">
+<div class="related">
+  <h3>DVLA Customer Service</h3>
+  <p>Telephone<br>
+  <strong>0300 790 6802</strong></p>
+  <p>Textphone<br>
+  <strong>18001 0300 123 1379</strong></p>
+  <p>Lines Open<br>
+  <strong>Monday to Friday, 8am to 7pm Saturday, 8am to 2pm</strong></p>
+</div>
 </div>
 
 	<button id="printRetainSuccess" type="button" name="action" value="printRetainSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
