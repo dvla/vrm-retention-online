@@ -43,9 +43,6 @@
 - name: move vehiclesOnline.conf
   command: mv /vagrant/conf/vrm-retention-online.conf /tmp/vrm-retention-online.conf
 
-- name: move google-analytics.conf
-  command: mv /vagrant/conf/google-analytics.conf /tmp/google-analytics.conf
-  
 - name: sbt dist
   command: sbt dist
     chdir=/vagrant
@@ -56,9 +53,6 @@
 
 - name: put vehiclesOnline.conf back
   command: mv /tmp/vrm-retention-online.conf /vagrant/conf/vrm-retention-online.conf
-
-- name: put google-analytics.conf back
-  command: mv /tmp/google-analytics.conf /vagrant/conf/google-analytics.conf
 
 - name: run jenkins_job_make_rpm
   shell: cd /vagrant/rpm-build && export WORKSPACE=/vagrant && bash jenkins_job_make_rpm
