@@ -11,9 +11,17 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys
-import views.vrm_retention.VehicleLookup.UserType_Business
+import views.vrm_retention.VehicleLookup._
+import audit.{ConfirmToPaymentAuditMessage, AuditService}
+import scala.Some
+import play.api.mvc.Result
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
+import views.vrm_retention.CheckEligibility._
+import scala.Some
+import play.api.mvc.Result
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 
-final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
@@ -62,6 +70,16 @@ final class Confirm @Inject()(implicit clientSideSessionFactory: ClientSideSessi
           None
 
       val cookies = List(keeperEmail, storeBusinessDetails).flatten
+
+      // retrieve audit values not already in scope
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+
+      auditService.send(ConfirmToPaymentAuditMessage.from(
+        vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, transactionId, vehicleAndKeeperDetailsModel.registrationNumber,
+        replacementVRM, model.keeperEmail))
+
       Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
