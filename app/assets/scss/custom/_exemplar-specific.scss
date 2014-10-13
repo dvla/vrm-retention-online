@@ -53,12 +53,6 @@ a.pdf-link img {
     margin: 1.2em 0 0 0;
     border-top: 10px solid $govuk-blue;
     padding-top: 1em;
-    dt {
-        font-weight: normal;
-    }
-    dd {
-        font-weight: bold;
-    }
 }
 .second-col.related {
     margin-top: 0;
@@ -83,17 +77,6 @@ a.pdf-link img {
 
 label {
     font-weight:bold;
-}
-
-.playback {
-    dt, dd, p {
-        margin-bottom: 0.5em;
-    }
-    .related {
-        dt, dd, p {
-            line-height: 1em;
-        }
-    }
 }
 
 .beta-info {
