@@ -54,7 +54,10 @@ final class ConfirmUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
-          businessDetailsModel()
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
         )
       val result = confirm.submit(request)
       whenReady(result) { r =>
@@ -67,7 +70,10 @@ final class ConfirmUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
-          businessDetailsModel()
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
         )
       val result = confirm.submit(request)
       whenReady(result) { r =>
@@ -80,7 +86,10 @@ final class ConfirmUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
-          businessDetailsModel()
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
         )
       val result = confirm.submit(request)
       whenReady(result) { r =>
@@ -95,7 +104,10 @@ final class ConfirmUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
-          businessDetailsModel()
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
         )
       val result = confirmWithCookieFlags.submit(request)
       whenReady(result) { r =>
@@ -110,7 +122,9 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail()
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
         )
       val result = confirm.submit(request)
       whenReady(result) { r =>
@@ -124,7 +138,9 @@ final class ConfirmUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
-          businessDetailsModel()
+          businessDetailsModel(),
+          transactionId(),
+          eligibilityModel()
         )
       val result = confirm.submit(request)
       whenReady(result) { r =>
@@ -138,7 +154,10 @@ final class ConfirmUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
-          businessDetailsModel()
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
         )
       val result = confirm.submit(request)
       whenReady(result) { r =>

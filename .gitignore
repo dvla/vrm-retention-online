@@ -52,6 +52,7 @@ test.sc
 /conf/vrm-retention-online.conf
 /conf/vehiclesOnline.confworkdir/
 /conf/vrm-retention-online.confworkdir/
+/conf/google-analytics.conf
 vagrant_ansible_inventory_default
 .vagrant
 workdir/

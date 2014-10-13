@@ -16,7 +16,7 @@
 GET         /assets/versioned/*file               controllers.Assets.versioned(path="/public", file: Asset)
 GET         /assets/*file                         controllers.Assets.at(path="/public", file)
 
-GET         /                                     controllers.Application.index
+GET         /                                     @controllers.Application.index
 GET         /before-you-start                     @controllers.BeforeYouStart.present
 GET         /before-you-start-part-2              @controllers.BeforeYouStartPart2.present
 
@@ -48,6 +48,7 @@ POST        /business-choose-your-address         @controllers.BusinessChooseYou
 GET         /uprn-not-found                       @controllers.UprnNotFound.present
 
 GET         /confirm-business                     @controllers.ConfirmBusiness.present
+GET         /confirm-business/submit              @controllers.ConfirmBusiness.submit
 GET         /confirm-business/exit                @controllers.ConfirmBusiness.exit
 
 GET         /confirm                              @controllers.Confirm.present
@@ -71,7 +72,7 @@ GET         /retain                               @controllers.Retain.retain
 
 GET         /success-payment                      @controllers.SuccessPayment.present
 GET         /success-payment/create-pdf           @controllers.SuccessPayment.createPdf
-GET         /success-payment/next               @controllers.SuccessPayment.next
+GET         /success-payment/next                 @controllers.SuccessPayment.next
 
 GET         /success                              @controllers.Success.present
 GET         /success/create-pdf                   @controllers.Success.createPdf

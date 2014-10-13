@@ -52,5 +52,8 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
     CookieFactoryForUISpecs.
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
-      businessDetails()
+      businessDetails().
+      eligibilityModel().
+      transactionId()
+
 }

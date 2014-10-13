@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{EligibilityModel, VehicleAndKeeperLookupFormModel}
+import models.{VehicleAndKeeperDetailsModel, EligibilityModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -9,25 +9,31 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
 import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
-import views.vrm_retention.VehicleLookup.{UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
+import views.vrm_retention.VehicleLookup.{UserType_Keeper, TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import audit.AuditService
+import audit._
+import scala.Some
+import play.api.mvc.Result
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
+                                       dateService: DateService,
                                        auditService: AuditService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
 
   def present = Action.async {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)) match {
-        case (Some(form), storeBusinessDetails) => checkVrmEligibility(form, storeBusinessDetails)
+      (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean),
+        request.cookies.getString(TransactionIdCacheKey)) match {
+        case (Some(form), Some(vehicleAndKeeperDetailsModel), storeBusinessDetails, Some(transactionId)) =>
+          checkVrmEligibility(form, vehicleAndKeeperDetailsModel, storeBusinessDetails, transactionId)
         case _ => Future.successful {
-          Redirect(routes.Error.present("user went to CheckEligibility present without a required cookie"))
+          Redirect(routes.Error.present("user went to CheckEligibility present without required cookies"))
         }
       }
   }
@@ -37,7 +43,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
    * be found.
    */
   private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                  storeBusinessDetails: Boolean)
+                                  vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                                  storeBusinessDetails: Boolean, transactionId: String)
                                  (implicit request: Request[_]): Future[Result] = {
 
     def microServiceErrorResult(message: String) = {
@@ -49,9 +56,12 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       val confirmWithUser = (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) || storeBusinessDetails
       val redirectLocation = {
         if (confirmWithUser) {
-//          auditService.send(new AuditMessage)
+          auditService.send(VehicleLookupToConfirmAuditMessage.from(
+            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
           routes.Confirm.present()
         } else {
+          auditService.send(VehicleLookupToSetUpBusinessDetailsAuditMessage.from(
+            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
           routes.SetUpBusinessDetails.present()
         }
       }
@@ -67,7 +77,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(
-      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
+      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
+      transactionTimestamp = dateService.today.toDateTimeMillis.get
     )
     val trackingId = request.cookies.trackingId()
 
