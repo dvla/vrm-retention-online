@@ -1,5 +1,6 @@
 package controllers
 
+import composition.TestAuditService
 import composition.eligibility.{EligibilityWebServiceCallFails, EligibilityWebServiceCallWithCurrentAndReplacement, EligibilityWebServiceCallWithResponse}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -131,6 +132,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
 
   private def checkEligibilityCallFails = {
     testInjector(
+      new TestAuditService(),
       new EligibilityWebServiceCallFails()
     ).
       getInstance(classOf[CheckEligibility])
@@ -138,6 +140,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
 
   private def checkEligibilityWithResponse = {
     testInjector(
+      new TestAuditService(),
       new EligibilityWebServiceCallWithResponse()
     ).
       getInstance(classOf[CheckEligibility])
@@ -145,6 +148,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
 
   private def checkEligibilityWithCurrentAndReplacement = {
     testInjector(
+      new TestAuditService(),
       new EligibilityWebServiceCallWithCurrentAndReplacement()
     ).
       getInstance(classOf[CheckEligibility])
