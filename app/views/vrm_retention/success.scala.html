@@ -10,97 +10,53 @@
     title = Messages("vrm_retention_success.title")
 ) {
 
-	<div class="alert-complete">
-	    <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
-	    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
-	    <p>@Messages("vrm_retention_success.infoMsg")</p>
-	</div>
-	<h2>@Messages("vrm_retention_success.replacementTitle")</h2>
-	<p>@Messages("vrm_retention_success.retainConf-p1") @successViewModel.registrationNumber @Messages("vrm_retention_success.retainConf-p2")</p>
-	<div class="alert-passive success-playback">
-		<div class="two-col">
-			<div class="first-col">
-                <dl class="playback">
-                    <dt>@Messages("vrm_retention_success.replacementRegNumberLabel")</dt>
-                    <dd>@successViewModel.replacementRegistrationNumber</dd>
-                    @if(successViewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@successViewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(successViewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@successViewModel.vehicleModel.get.take(20)</dd>
-                    }
-                </dl>
+	<div class="two-col">
+		<div class="first-col">
+		    <div class="alert-complete">
+			    <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
+			    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
 			</div>
-			<div class="second-col">
-				<p><strong>@Messages("vrm_retention_success.makingUp-p1")</strong></p>
-				<p>@Messages("vrm_retention_success.makingUp-p2")</p>
-				<a class="pdf-link" href="@Success.createPdf()">
-					<img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
-					@Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
-				</a>
-			</div>
+			<h3>@Messages("vrm_retention_success.p1")</h3>
+			<p>@Messages("vrm_retention_success.p2")</p>
+			<ul class="list-standard">
+				<li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
+				<li>@Messages("vrm_retention_success.listItem2")</li>
+				<li>@Messages("vrm_retention_success.listItem3")</li>
+			</ul>
 		</div>
-	</div>
-	<h2>@Messages("vrm_retention_success.newDocumentsTitle")</h2>
-		<p>@Messages("vrm_retention_success.newDocumentsDesc")</p>
-		<div class="two-col">
-			<div class="first-col">
-				<div class="alert-indent">
-					<p>@Messages("vrm_retention_success.newDocumentsList-1")</p>
-					<p>@Messages("vrm_retention_success.newDocumentsList-2")</p>
-					<p>@Messages("vrm_retention_success.newDocumentsList-3")</p>
-				</div>
+		<div class="second-col">
+			<div class="related">
+				<h2>Transaction details</h2>
+				<p>Transaction ID:</p>
+				<p>@successViewModel.transactionId</p>
 			</div>
-			<div class="second-col">
-				<p><strong>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName </strong></p>
+			<div class="related">
+				<h2>Keeper details</h2>
+				<p>Name:</p>
+				<p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
+				<p>Keeper Address</p>
 				<p>
 					@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
                     	@keeperAddressLine<br>
                 	}
-                    @successViewModel.keeperAddress.get.address.last
-                    @if(successViewModel.keeperEmail.isDefined) {
-                        <p>@successViewModel.keeperEmail</p>
-                    }
-                </p>
+				</p>
+			</div>
+			<div class="related">
+				<h3>DVLA Customer Service</h3>
+				<p>Telephone<br>
+				<strong>0300 790 6802</strong></p>
+				<p>Textphone<br>
+				<strong>18001 0300 123 1379</strong></p>
+				<p>Lines Open<br>
+				<strong>Monday to Friday, 8am to 7pm Saturday, 8am to 2pm</strong></p>
 			</div>
 		</div>
-		<h2>@Messages("vrm_retention_success.aboutTransactionTitle")</h2>
-	@if(successViewModel.businessName.isDefined) {
-		<p>@Messages("vrm_retention_success.aboutTransactionDesc")</p>
-		<div class="two-col">
-			<div class="first-col">
-                <h3>@successViewModel.businessName</h3>
-                <h3>@successViewModel.businessContact</h3>
-                <h3>@successViewModel.businessEmail</h3>
-				<p>
-					@for(businessAddressLine <- successViewModel.businessAddress.get.address.init) {
-                    	@businessAddressLine<br>
-                	}
-                    @successViewModel.businessAddress.get.address.last
-			</div>
-			<div class="second-col">
-				@*<label>@Messages("vrm_retention_success.aboutTransactionEmployeeLabel")</label> *@
-				@*<input type="text">*@
-				<dl class="playback transaction-details">
-					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
-					<dd> @successViewModel.transactionId</dd>
-					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>
-					<dd> @successViewModel.transactionTimestamp</dd>
-				</dl>
-			</div>
-		</div>
-	} else {
-				<dl class="playback transaction-details">
-					<dt>@Messages("vrm_retention_success.aboutTransactionIdLabel")</dt>
-					<dd> @successViewModel.transactionId</dd>
-					<dt>@Messages("vrm_retention_success.aboutTransactionCompletedLabel")</dt>
-					<dd> @successViewModel.transactionTimestamp</dd>
-				</dl>
+	</div>
+    <hr>
 
-	}
+    <hr>
+    <h1>Print</h1>
+    <hr>
 
-	<button id="printRetainSuccess" type="button" name="action" value="printRetainSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
     <a class="button-secondary" id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
 }

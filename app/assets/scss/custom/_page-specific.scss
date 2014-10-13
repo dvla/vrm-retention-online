@@ -1,0 +1,226 @@
+//Page specific
+
+#{$htmlNamespace} {
+
+    //enter address manually
+    .enter-address-manually {
+        .post-town label {
+            position:relative;
+            top:0;
+            left:0;
+            .ie7 & {
+                width:100%;
+            }
+        }
+    }
+
+    //vehicle lookup/enter vehicle details
+    .vehicle-lookup {
+        .ie6 & {
+            label.form-radio input {
+                left:10px;
+            }
+        }
+        .first-col {
+            @media screen and (max-width:$device-medium) {
+                margin:0;
+            }
+        }
+        .second-col p {
+            margin-top:0;
+
+            .button-secondary {
+              color:$black-2; //failsafe for ie6
+            }
+        }
+
+        .trader-details {
+            .playback {
+                margin-bottom:38px;
+                margin-bottom:3.75rem;
+                @media screen and (max-width:$device-medium) {
+                    margin-bottom:20px;
+                    margin-bottom:2rem;
+                }
+            }
+            dd {
+                .ie6 & {
+                    clear:both;
+                }
+            }
+        }
+        .img-wrap img {
+            .ie8 & {
+                max-height:200px; //failsafe to ensure that the correct height is rendered in ie8
+            }
+        }
+    }
+
+    //disposal
+    .disposal-date {
+        legend {
+            margin-top:20px;
+            padding-bottom:0.5em;
+        }
+        .todays-date {
+            margin-bottom:10px;
+            margin-bottom:1rem;
+
+            @media screen and (max-width:$device-medium) {
+                margin-bottom:12px;
+                margin-bottom:1.25rem;
+            }
+
+            button {
+                -webkit-appearance:none;
+                border:0 none;
+                padding:0;
+                font-size:0.9em;
+                background:none;
+                color:$govuk-blue;
+                cursor:pointer;
+                @include box-shadow(none);
+                &:hover,
+                &:active {
+                    background:none;
+                    color:$govuk-blue;
+                    text-decoration:underline;
+                }
+                
+                &:focus {
+                  overflow:hidden; //prevents overlapping bug in Firefox
+                }
+
+                .ie & {
+                  font-size:15px;
+                }
+                .ie8 &,
+                .ie7 & {
+                  padding-right:0;
+                  padding-left:0;
+                }
+                @media screen and (max-width:$device-medium) {
+                  padding:0.6em 0;
+                  margin-top:0;
+                }
+            }
+        }
+        .form-date {
+          clear:both;
+        }
+        .ie6 & {
+            .form-date .form-item {
+                float:left;
+            }
+        }
+    }
+
+
+    //disposal success
+    .disposal-sucesss {
+      .ie8 & .button-new-disposal {
+          min-width:180px;
+      }
+    }
+
+    ul.radio {
+        margin-left: 0;
+        padding: 0;
+        input, label {
+            display:inline;
+        }
+    }
+
+    dd.reg-number {
+        display:inline-block;
+        vertical-align:top;
+        width:272px;
+        text-align:center;
+        line-height:1.25;
+        font-weight:bold;
+        padding:0.4em 0.5em 0.3em 0.5em;
+        margin-bottom:10px;
+        background-color:$yellow-75;
+        border:1px solid $grey-9;
+        border-radius:5px;
+    }
+
+    a.pdf-link img {
+        float:left;
+        max-height:40px;
+        padding-right:10px;
+    }
+
+    @media only screen and (min-width:768px) { 
+        .two-col {
+
+            .first-col {
+                float:left;
+                width: 63%;
+            }
+            .second-col {
+                float:right;
+                width: 30%;
+            }
+        }
+    }
+
+    .info-notice {
+        background: none;
+        border-left: 10px solid $grey-2;
+        margin-bottom: 1em;
+        padding:0.5em 0 0.5em 1em;
+    }
+    .related {
+        margin: 1.2em 0 0 0;
+        border-top: 10px solid $govuk-blue;
+        padding-top: 1em;
+        dt {
+            font-weight: normal;
+        }
+        dd {
+            font-weight: bold;
+        }
+    }
+    .second-col.related {
+        margin-top: 0;
+    }
+    .summary-replacement-reg {
+        dt, dd {
+            display:inline;
+            font-size: 1.2em;
+        }
+    }
+
+    .inline-form{
+        label {
+            padding-right: 1em;
+            line-height: 2em;
+            float:left;
+            font-weight:normal;
+        }
+        input {float:right;}
+        .form-item {height: 2em;}
+    }
+
+    label {
+        font-weight:bold;
+    }
+
+    .playback {
+        dt, dd, p {
+            line-height: 2em;
+        }
+        .related {
+            dt, dd, p {
+                line-height: 1em;
+            }
+        }
+    }
+
+    .beta-info {
+        color: $grey-1;
+        font-size: 0.8em;
+    }
+
+}

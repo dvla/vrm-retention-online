@@ -38,7 +38,7 @@ class Config {
   // Google analytics
   val isGoogleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = true)
   val googleAnalyticsId: String = getProperty("googleAnalytics.id", "NOT FOUND")
-  val googleAnalyticsDomain: String = getProperty("googleAnalytics.domain", "NOT FOUND")
+  val googleAnalyticsDomain: String = getProperty("googleAnalytics.domain.retention", "NOT FOUND")
 
   // Progress step indicator
   val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)

@@ -20,7 +20,7 @@ final class ConfirmBusiness @Inject()(implicit clientSideSessionFactory: ClientS
     } yield {
       val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
       val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
-      val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
       Ok(views.html.vrm_retention.confirm_business(viewModel))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
