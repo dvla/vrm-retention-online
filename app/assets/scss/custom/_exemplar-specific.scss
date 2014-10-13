@@ -1,4 +1,12 @@
 //Exemplar specific
+.vehicle-lookup {
+    .first-col {
+        display:block;
+        @media screen and (max-width:$device-medium) {
+            display:none;
+        }
+    }
+}
 
 dd.reg-number {
     display:inline-block;
@@ -18,4 +26,77 @@ a.pdf-link img {
     float:left;
     max-height:40px;
     padding-right:10px;
+}
+
+@media only screen and (min-width:768px) {
+  .app.vrm-retention-online {
+    .two-col {
+        .first-col {
+            float:left;
+            width: 63%;
+        }
+        .second-col {
+            float:right;
+            width: 30%;
+        }
+    }
+  }
+}
+
+.info-notice {
+    background: none;
+    border-left: 10px solid $grey-2;
+    margin-bottom: 1em;
+    padding:0.5em 0 0.5em 1em;
+}
+.related {
+    margin: 1.2em 0 0 0;
+    border-top: 10px solid $govuk-blue;
+    padding-top: 1em;
+    dt {
+        font-weight: normal;
+    }
+    dd {
+        font-weight: bold;
+    }
+}
+.second-col.related {
+    margin-top: 0;
+}
+.summary-replacement-reg {
+    dt, dd {
+        display:inline;
+        font-size: 1.2em;
+    }
+}
+
+.inline-form{
+    label {
+        padding-right: 1em;
+        line-height: 2em;
+        float:left;
+        font-weight:normal;
+    }
+    input {float:right;}
+    .form-item {height: 2em;}
+}
+
+label {
+    font-weight:bold;
+}
+
+.playback {
+    dt, dd, p {
+        margin-bottom: 0.5em;
+    }
+    .related {
+        dt, dd, p {
+            line-height: 1em;
+        }
+    }
+}
+
+.beta-info {
+    color: $grey-1;
+    font-size: 0.8em;
 }

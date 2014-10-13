@@ -3,9 +3,9 @@ package pages.vrm_retention
 import helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL, WebDriverFactory}
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
-import views.vrm_retention.VehicleLookup.{BackId, DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
+import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
@@ -13,7 +13,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def url = WebDriverFactory.testUrl + address.substring(1)
 
-  final override val title: String = "Find the vehicle"
+  final override val title: String = "Getting started"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
 
@@ -24,8 +24,6 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   def currentKeeperYes(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_Keeper"))
 
   def currentKeeperNo(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_Business"))
-
-  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 

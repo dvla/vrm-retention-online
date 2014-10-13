@@ -13,10 +13,11 @@
     title = Messages("vrm_retention_confirm.title"),
     currentForm = Some(confirmForm)
 ) {
-    @Messages("vrm_retention_confirm.intro")
-    <p></p>
     <div class="two-col">
         <div class="first-col">
+            <div class="info-notice">
+                @Messages("vrm_retention_confirm.intro")
+            </div>
             <h2>@Messages("vrm_retention_confirm.keeperTitle")</h2>
             <dl class="playback first-line">
                 <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
@@ -29,11 +30,11 @@
                 <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
             </dl>
         </div>
-        <div class="second-col">
+        <div class="second-col related">
             <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
             <dl class="playback">
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
+                <dd>@confirmViewModel.registrationNumber</dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
                     <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                     <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
@@ -50,7 +51,23 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="first-col">
-                <h2>@Messages("vrm_retention_confirm.emailAddressTitle")</h2>
+            @if(confirmViewModel.businessName.isDefined) {
+                <div class="info-notice">
+                    @Messages("vrm_retention_confirm.emailAddressTitleBusiness")
+                </div>
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    args = Map(
+                        '_label -> Messages("vrm_retention_confirm.emailAddressLabelBusiness"),
+                        'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
+                        '_showConstraints -> false,
+                        'typeEmail -> true,
+                        'maxLength -> KeeperEmailMaxLength
+                    )
+                )
+            } else {
+                <div class="info-notice">
+                    @Messages("vrm_retention_confirm.emailAddressTitle")
+                </div>
                 @valtechInputText(confirmForm(KeeperEmailId),
                     args = Map(
                         '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
@@ -60,48 +77,15 @@
                         'maxLength -> KeeperEmailMaxLength
                     )
                 )
+            }
+              <div class="alert-warning">
+                @Messages("vrm_retention_confirm.emailWarn")
+              </div>
             </div>
             <div class="second-col">
             </div>
         </div>
 
-        @if(confirmViewModel.businessName.isDefined) {
-            <p>@Messages("vrm_retention_confirm.isBusiness")</p>
-            <div class="two-col">
-                <div class="first-col">
-                    <h2>@Messages("vrm_retention_confirm.businessDetailsTitle")</h2>
-
-                    <dl class="playback first-line">
-                        <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
-                        <dd>@confirmViewModel.businessName</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
-                        <dd>@confirmViewModel.businessContact</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessEmailLabel")</dt>
-                        <dd>@confirmViewModel.businessEmail</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-                        <dd>@for(businessAddressLine <- confirmViewModel.businessAddress.get.address.init) {
-                            @businessAddressLine<br>
-                        }</dd>
-                        <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-                        <dd>@confirmViewModel.businessAddress.get.address.last</dd>
-                    </dl>
-
-                    <div class="form-declaration">
-                    @valtechOptionalDeclareCheck(confirmForm(StoreDetailsConsentId),
-                        args = Map(
-                            '_showConstraints -> false,
-                            'autofocus -> true,
-                            '_label -> Messages("vrm_retention_confirm.storeDetailsConsent")
-                        )
-                    )
-                    </div>
-                    <dd>@Messages("vrm_retention_confirm.storeDetailsConsentWarning")</dd>
-
-                </div>
-                <div class="second-col">
-                </div>
-            </div>
-        }
 
         <div class="form-steps">
             @* Note the reverse routing syntax for the hyperlink *@
