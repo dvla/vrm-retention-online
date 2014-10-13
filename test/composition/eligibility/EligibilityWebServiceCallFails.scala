@@ -7,7 +7,7 @@ import org.scalatest.mock.MockitoSugar
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityWebService}
 import scala.concurrent.Future
 
-class EligibilityWebServiceCallFails extends ScalaModule with MockitoSugar {
+final class EligibilityWebServiceCallFails extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val webService = mock[VRMRetentionEligibilityWebService]

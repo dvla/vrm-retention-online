@@ -1,11 +1,14 @@
 package controllers
 
-import composition.eligibility.{EligibilityWebServiceCallFails, EligibilityWebServiceCallWithResponse}
+import composition.eligibility.{EligibilityWebServiceCallWithCurrentAndReplacement, EligibilityWebServiceCallFails, EligibilityWebServiceCallWithResponse}
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{ErrorPage, MicroServiceErrorPage, VehicleLookupFailurePage}
+import pages.vrm_retention.{ConfirmPage, ErrorPage, MicroServiceErrorPage, VehicleLookupFailurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
 
 final class CheckEligibilityUnitSpec extends UnitSpec {
 
@@ -79,6 +82,35 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
+
+    "write cookie when web service returns with a response code" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibilityWithResponse.present(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain(VehicleAndKeeperLookupResponseCodeCacheKey)
+      }
+    }
+
+    "redirect to Confirm page when response has current and replacement vrm, and user type is keeper" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = KeeperConsentValid),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibilityWithCurrentAndReplacement.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+      }
+    }
   }
 
   private lazy val checkEligibility = testInjector().getInstance(classOf[CheckEligibility])
@@ -93,6 +125,13 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
   private def checkEligibilityWithResponse = {
     testInjector(
       new EligibilityWebServiceCallWithResponse()
+    ).
+      getInstance(classOf[CheckEligibility])
+  }
+
+  private def checkEligibilityWithCurrentAndReplacement = {
+    testInjector(
+      new EligibilityWebServiceCallWithCurrentAndReplacement()
     ).
       getInstance(classOf[CheckEligibility])
   }
