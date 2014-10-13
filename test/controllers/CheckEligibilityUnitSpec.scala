@@ -1,6 +1,6 @@
 package controllers
 
-import composition.eligibility.{EligibilityWebServiceCallWithCurrentAndReplacement, EligibilityWebServiceCallFails, EligibilityWebServiceCallWithResponse}
+import composition.eligibility.{EligibilityWebServiceCallFails, EligibilityWebServiceCallWithCurrentAndReplacement, EligibilityWebServiceCallWithResponse}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
@@ -8,7 +8,7 @@ import pages.vrm_retention.{ConfirmPage, ErrorPage, MicroServiceErrorPage, Vehic
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid}
 
 final class CheckEligibilityUnitSpec extends UnitSpec {
 
@@ -98,10 +98,24 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Confirm page when response has current and replacement vrm, and user type is keeper" in new WithApplication {
+    "redirect to Confirm page when response has current and replacement vrm, and user type is Keeper" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = KeeperConsentValid),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibilityWithCurrentAndReplacement.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+      }
+    }
+
+    "redirect to SetUpBusinessDetails page when response has current and replacement vrm, and user type is Business" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent(),
           transactionId()
