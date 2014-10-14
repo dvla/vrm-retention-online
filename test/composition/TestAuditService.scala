@@ -10,8 +10,8 @@ import org.scalatest.mock.MockitoSugar
 class TestAuditService extends ScalaModule with MockitoSugar {
 
   def configure() = {
-    val dateService = mock[AuditService]
-    when(dateService.send(any[AuditMessage])).thenAnswer(new DoesNothing)
-    bind[AuditService].toInstance(dateService)
+    val auditService = mock[AuditService]
+    when(auditService.send(any[AuditMessage])).thenAnswer(new DoesNothing)
+    bind[AuditService].toInstance(auditService)
   }
 }
