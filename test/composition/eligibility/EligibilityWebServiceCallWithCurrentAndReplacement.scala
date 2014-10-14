@@ -12,7 +12,7 @@ import scala.concurrent.Future
 final class EligibilityWebServiceCallWithCurrentAndReplacement() extends ScalaModule with MockitoSugar {
 
   val withCurrentAndReplacement: (Int, VRMRetentionEligibilityResponse) = {
-    (OK, VRMRetentionEligibilityResponse(currentVRM = Some("stub-currentVRM"), replacementVRM = Some("stub-replacementVRM"), responseCode = None)) // TODO replace response content with realistic response code.
+    (OK, VRMRetentionEligibilityResponse(currentVRM = Some("stub-currentVRM"), replacementVRM = Some("stub-replacementVRM"), responseCode = None)) // TODO replace vrm content with realistic response code.
   }
 
   def configure() = {
@@ -22,5 +22,3 @@ final class EligibilityWebServiceCallWithCurrentAndReplacement() extends ScalaMo
     bind[VRMRetentionEligibilityWebService].toInstance(webService)
   }
 }
-
-

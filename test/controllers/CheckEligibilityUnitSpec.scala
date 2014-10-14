@@ -1,7 +1,7 @@
 package controllers
 
 import composition.TestAuditService
-import composition.eligibility.{EligibilityWebServiceCallFails, EligibilityWebServiceCallWithCurrentAndReplacement, EligibilityWebServiceCallWithResponse}
+import composition.eligibility._
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
@@ -99,7 +99,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Confirm page when response has current and replacement vrm, and user type is Keeper" in new WithApplication {
+    "redirect to Confirm page when response has empty response, current and replacement vrm, and user type is Keeper" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = KeeperConsentValid),
@@ -113,7 +113,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to SetUpBusinessDetails page when response has current and replacement vrm, and user type is Business" in new WithApplication {
+    "redirect to SetUpBusinessDetails page when response has empty response, current and replacement vrm, and user type is Business" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
@@ -124,6 +124,48 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
       val result = checkEligibilityWithCurrentAndReplacement.present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+      }
+    }
+
+    "redirect to MicroServiceError page when response has empty response, empty current and empty replacement vrm" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibilityWithEmptyCurrentAndEmptyReplacement.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to MicroServiceError page when response has empty response, current and empty replacement vrm" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibilityWithCurrentAndEmptyReplacement.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
+    }
+
+    "redirect to MicroServiceError page when response has empty response, empty current and replacement vrm" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibilityWithEmptyCurrentAndReplacement.present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
   }
@@ -150,6 +192,30 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
     testInjector(
       new TestAuditService(),
       new EligibilityWebServiceCallWithCurrentAndReplacement()
+    ).
+      getInstance(classOf[CheckEligibility])
+  }
+
+  private def checkEligibilityWithEmptyCurrentAndEmptyReplacement = {
+    testInjector(
+      new TestAuditService(),
+      new EligibilityWebServiceCallWithEmptyCurrentAndEmptyReplacement()
+    ).
+      getInstance(classOf[CheckEligibility])
+  }
+
+  private def checkEligibilityWithCurrentAndEmptyReplacement = {
+    testInjector(
+      new TestAuditService(),
+      new EligibilityWebServiceCallWithCurrentAndEmptyReplacement()
+    ).
+      getInstance(classOf[CheckEligibility])
+  }
+
+  private def checkEligibilityWithEmptyCurrentAndReplacement = {
+    testInjector(
+      new TestAuditService(),
+      new EligibilityWebServiceCallWithEmptyCurrentAndReplacement()
     ).
       getInstance(classOf[CheckEligibility])
   }

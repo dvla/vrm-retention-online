@@ -9,16 +9,16 @@ import play.api.http.Status.OK
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
 import scala.concurrent.Future
 
-final class EligibilityWebServiceCallWithResponse extends ScalaModule with MockitoSugar {
+final class EligibilityWebServiceCallWithEmptyCurrentAndEmptyReplacement() extends ScalaModule with MockitoSugar {
 
-  val withResponseCode: (Int, VRMRetentionEligibilityResponse) = {
-    (OK, VRMRetentionEligibilityResponse(None, None, responseCode = Some("stub-response"))) // TODO replace response content with realistic response code.
+  val withEmptyCurrentAndEmptyReplacement: (Int, VRMRetentionEligibilityResponse) = {
+    (OK, VRMRetentionEligibilityResponse(currentVRM = None, replacementVRM = None, responseCode = None))
   }
 
   def configure() = {
     val webService = mock[VRMRetentionEligibilityWebService]
     when(webService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
-      thenReturn(Future.successful(createResponse(withResponseCode)))
+      thenReturn(Future.successful(createResponse(withEmptyCurrentAndEmptyReplacement)))
     bind[VRMRetentionEligibilityWebService].toInstance(webService)
   }
 }
