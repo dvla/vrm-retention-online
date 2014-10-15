@@ -1,10 +1,12 @@
 @(progress: Option[String] = None,
     title: String,
-    currentForm: Option[Form[_]] = None)(content: Html)(implicit lang: Lang,
+    currentForm: Option[Form[_]] = None,
+    backNavigation: Option[Call] = None)(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
 @import views.html.common.{govMainDefault, progressBar, protoType}
+@import views.vrm_retention.Main.BackId
 
 @govMainDefault(title) {
     <div class="app vrm-retention-online">
@@ -14,6 +16,10 @@
             @progressBar(progress)
             
             <h1>@title</h1>
+
+            @backNavigation.map { call =>
+                <a id="@BackId" href="@call">Back</a>
+            }
 
             @errorsSummary(currentForm)
 

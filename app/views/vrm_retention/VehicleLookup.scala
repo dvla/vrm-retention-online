@@ -10,7 +10,6 @@ object VehicleLookup {
   final val VehicleAndKeeperLookupResponseCodeCacheKey = "vehicleAndKeeperLookupResponseCode"
   final val VehicleAndKeeperLookupFormModelCacheKey = "vehicleAndKeeperLookupFormModel"
   final val TransactionIdCacheKey = "transactionId"
-  final val BackId = "back"
   final val SubmitId = "submit"
   final val ExitId = "exit"
   final val UserType_Keeper = "Keeper"
