@@ -51,7 +51,8 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       contentStream = new PDPageContentStream(document, page) // Start a new content stream which will "hold" the to be created content
 
       writeVrn(eligibilityModel.replacementVRM)
-      writeDateOfRetentionAndTransactionId(transactionId)
+      writeTransactionId(transactionId)
+      writeDateOfRetention()
     } catch {
       case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
     } finally {
@@ -75,17 +76,19 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     contentStream.endText()
   }
 
-  private def writeDateOfRetentionAndTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream): Unit = {
+    contentStream.beginText()
+    setFont
+    contentStream.moveTextPositionByAmount(330, 390)
+    contentStream.drawString(s"$transactionId") // Transaction ID:
+    contentStream.endText()
+  }
+
+  private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
     setFont
     contentStream.moveTextPositionByAmount(45, 280)
-    contentStream.drawString(s"Date of retention: ${dateService.today.`dd/MM/yyyy`}")
-    contentStream.endText()
-
-    contentStream.beginText()
-    setFont
-    contentStream.moveTextPositionByAmount(45, 260)
-    contentStream.drawString(s"Transaction ID: $transactionId")
+    contentStream.drawString(s"${dateService.today.`dd/MM/yyyy`}") // Date of retention
     contentStream.endText()
   }
 
@@ -97,7 +100,8 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       case Some(blankFile) =>
         // Load document containing just the watermark image.
         val blankDoc = PDDocument.load(blankFile)
-        `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
+        // TODO uncomment validation below when we have an original pdf that is valid!
+//        `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
       val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
       case None => document // Other file was not found so cannot combine with it.
