@@ -27,7 +27,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          transactionId: String) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
-      pdfService.create(eligibilityModel, transactionId).map {
+      pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
@@ -72,10 +72,10 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   }
 
   override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                  eligibilityModel: EligibilityModel,
-                  retainModel: RetainModel,
-                  transactionId: String,
-                  htmlEmail: HtmlEmail): HtmlFormat.Appendable = {
+                           eligibilityModel: EligibilityModel,
+                           retainModel: RetainModel,
+                           transactionId: String,
+                           htmlEmail: HtmlEmail): HtmlFormat.Appendable = {
     val crownContentId = crownUrl match {
       case Some(url) => "cid:" + htmlEmail.embed(url, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
       case _ => ""

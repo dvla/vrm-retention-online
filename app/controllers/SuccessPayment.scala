@@ -65,9 +65,9 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
 
   def createPdf = Action.async {
     implicit request =>
-      (request.cookies.getModel[EligibilityModel], request.cookies.getString(TransactionIdCacheKey)) match {
-        case (Some(eligibilityModel), Some(transactionId)) =>
-          pdfService.create(eligibilityModel, transactionId).map {
+      (request.cookies.getModel[EligibilityModel], request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
+        case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
+          pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetails.firstName.getOrElse("") + " " + vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
             pdf =>
               val inputStream = new ByteArrayInputStream(pdf)
               val dataContent = Enumerator.fromStream(inputStream)
