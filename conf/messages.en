@@ -336,7 +336,9 @@ vrm_retention_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper's
 vrm_retention_vehiclelookup.postcodelabel = Registered keeper''s postcode
 vrm_retention_vehiclelookup.postcodeHint = For example, SA99 1AB
 vrm_retention_vehiclelookup.keeper = Yes
+vrm_retention_vehiclelookup.keeper.hint = I am the registered keeper
 vrm_retention_vehiclelookup.business = No
+vrm_retention_vehiclelookup.business.hint = I have consent to act on their behalf (e.g. Dealer, Trade Centre, Independent trader)
 vrm_retention_vehiclelookup.label = Are you the registered keeper?
 
 # vehicle lookup failure

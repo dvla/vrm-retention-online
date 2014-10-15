@@ -9,6 +9,7 @@
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.VehicleLookup._
+@import uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint
 
 @main(
     title = Messages("vrm_retention_vehiclelookup.title"),
@@ -61,9 +62,9 @@
 
                 @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
                     args = Map(
-                        'items -> Seq(
-                            UserType_Business -> Messages("vrm_retention_vehiclelookup.business"),
-                            UserType_Keeper -> Messages("vrm_retention_vehiclelookup.keeper")
+                        'itemsWithHints -> Seq(
+                            RadioWithHint(UserType_Business, Messages("vrm_retention_vehiclelookup.business"), Messages("vrm_retention_vehiclelookup.business.hint")),
+                            RadioWithHint(UserType_Keeper, Messages("vrm_retention_vehiclelookup.keeper"), Messages("vrm_retention_vehiclelookup.keeper.hint"))
                         ),
                         'value -> UserType_Business, // One radio button is checked when user arrives on the page.
                         '_label -> Messages("vrm_retention_vehiclelookup.label")
