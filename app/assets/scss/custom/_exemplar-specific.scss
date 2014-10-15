@@ -49,23 +49,26 @@
     }
 }
 
+#{$htmlNamespace} {
 
-.beta-info {
-    color: $grey-1;
-    font-size: 0.8em;
-}
-
-//radios common widget html need a parent wrapper class
-.form-item-radio {
-    > .form-item > label {
-        font-weight: bold;
+    .beta-info {
+        color: $grey-1;
+        font-size: 0.9em;
+        margin-top: 1.5em;
     }
-}
+
+    //radios common widget html need a parent wrapper class
+    .form-item-radio {
+        > .form-item > label {
+            font-weight: bold;
+        }
+    }
 
 
-.confirm-keeper-details {
-    .first-col .playback {
-        background:none;
-        padding:0;
+    .confirm-keeper-details {
+        .first-col .playback {
+            background:none;
+            padding:0;
+        }
     }
 }
