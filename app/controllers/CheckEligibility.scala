@@ -1,23 +1,21 @@
 package controllers
 
+import audit._
 import com.google.inject.Inject
-import models.{VehicleAndKeeperDetailsModel, EligibilityModel, VehicleAndKeeperLookupFormModel}
+import models.{EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
-import play.api.mvc._
+import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
-import views.vrm_retention.VehicleLookup.{UserType_Keeper, TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import audit._
-import scala.Some
-import play.api.mvc.Result
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
                                        dateService: DateService,

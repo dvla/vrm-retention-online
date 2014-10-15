@@ -17,7 +17,7 @@
         <dt>@Messages("vrm_retention_success_payment.p1")</dt>
         <dd><strong>@successViewModel.replacementRegistrationNumber</strong></dd>
       </dl>
-      <p>@Messages("vrm_retention_success_payment.p2") @successViewModel.registrationNumber @Messages("vrm_retention_success_payment.p2_2")</p>
+      <p>@Messages("vrm_retention_success_payment.p2") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.p2_2")</p>
       <h2>@Messages("vrm_retention_success_payment.p3")</h2>
       <ulv class="list-standard">
       <li>@Messages("vrm_retention_success_payment.listItem1")</li>
@@ -37,10 +37,16 @@
   <div class="second-col related">
     <h2>@Messages("vrm_retention_success_payment.p6")</h2>
     <p>@Messages("vrm_retention_success_payment.p7")</p>
+    <p>@Messages("vrm_retention_success.makingUp-p2")</p>
+    <a class="pdfLink" href="@Success.createPdf()">
+        <img src="/vrm-retention/assets/images/PDF_download.png" alt="Download PDF">
+        @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
+    </a>
 
   </div>
 </div>
 
-	<button id="printRetainSuccess" type="button" name="action" value="printRetainSuccess" class="button js-only print-button">@Messages("global.buttonnavprint")</button>
-    <a class="button-secondary" id="@NextId" href="@SuccessPayment.next()">@Messages("vrm_retention_success_payment.button")</a>
+    <a class="button" id="@NextId" href="@SuccessPayment.next()">@Messages("vrm_retention_success_payment.button")</a><br /><br />
+    <a id="printRetainSuccess" name="action" href="printRetainSuccess" class="js-only print-button">@Messages("vrm_retention_success_payment.print")</a>
+
 }

@@ -4,14 +4,15 @@
    config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechOptionalDeclareCheck, valtechInputText}
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
 
 @main(
     title = Messages("vrm_retention_confirm.title"),
-    currentForm = Some(confirmForm)
+    currentForm = Some(confirmForm),
+    backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
     <div class="two-col confirm-keeper-details">
         <div class="first-col">
