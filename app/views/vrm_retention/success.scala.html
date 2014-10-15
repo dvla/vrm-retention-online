@@ -10,7 +10,7 @@
     backNavigation = Some(controllers.routes.SuccessPayment.present())
 ) {
 
-	<div class="two-col">
+	<div class="two-col retention-success">
 		<div class="first-col">
         <h1>@Messages("vrm_retention_success.title")</h1>
 		    <div class="alert-complete">
@@ -26,21 +26,23 @@
 			</ul>
 		</div>
 		<div class="second-col">
-			<div class="related">
+			<div class="playback">
 				<h2>Transaction details</h2>
 				<p>Transaction ID:</p>
 				<p>@successViewModel.transactionId</p>
 			</div>
 			<div class="related">
 				<h2>Keeper details</h2>
-				<p>Name:</p>
-				<p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
-				<p>Keeper Address</p>
-				<p>
-					@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
-                    	@keeperAddressLine<br>
-                	}
-				</p>
+				<dl class="playback">
+					<dt>Name:</dt>
+					<dd>@successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
+					<dt>Keeper Address</dt>
+					<dd>
+						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+	                    	@keeperAddressLine<br>
+	                	}
+					</dd>
+				</dl>
 			</div>
 		</div>
 	</div>
