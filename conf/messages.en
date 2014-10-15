@@ -469,9 +469,9 @@ addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 
 #Success payment page
 vrm_retention_success_payment.title = Payment Successful
-vrm_retention_success_payment.p1 = Keeper's replacement registration:
+vrm_retention_success_payment.p1 = Your replacement registration:
 vrm_retention_success_payment.p2 = Your registration number,
-vrm_retention_success_payment.p2_2 = , can now be taken off of your vehicle and you should arrange for new plates to be made for the replacement registration above through one of our registered number plate suppliers.
+vrm_retention_success_payment.p2_2 = , can now be taken off your vehicle and you should arrange for new plates to be made for the replacement registration listed above through one of our registered number plate suppliers using the eV948 below. If you have provided an email address, this information will also be sent to the address provided.
 vrm_retention_success_payment.p3 = What you need to do now
 vrm_retention_success_payment.listItem1 = Inform your insurance company of your new registration number
 vrm_retention_success_payment.listItem2 = Use the eV948 opposite to arrange new plates to be made via a registered number plate supplier
@@ -481,6 +481,7 @@ vrm_retention_success_payment.p4 = Please keep your eV948 in a safe place, we re
 vrm_retention_success_payment.p5 = In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
 vrm_retention_success_payment.p6 = Making up your replacement plates
 vrm_retention_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
+vrm_retention_success_payment.print = Print full summary
 
 vrm_retention_success_payment.newDocumentsTitle = About your new documents
 vrm_retention_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
