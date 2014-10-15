@@ -2,12 +2,12 @@
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config)
 
-@import controllers.routes.Success
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Success.FinishId
 
 @main(
-    title = Messages("vrm_retention_success.title")
+    title = Messages("vrm_retention_success.title"),
+    backNavigation = Some(controllers.routes.SuccessPayment.present())
 ) {
 
 	<div class="two-col">

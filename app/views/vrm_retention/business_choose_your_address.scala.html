@@ -8,12 +8,13 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechSelect}
 @import views.html.helper.form
 @import views.html.vrm_retention.main
-@import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BackId, EnterAddressManuallyButtonId, ExitId, SelectId}
+@import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, ExitId, SelectId}
 
 @main(
     progress = Some(Messages("vrm_retention_progress_3")),
     title = Messages("vrm_retention_businessChooseYourAddress_title"),
-    currentForm = Some(businessChooseYourAddressForm)
+    currentForm = Some(businessChooseYourAddressForm),
+    backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
     @form(action = BusinessChooseYourAddress.submit()) {
         @csrfTokenHiddenField()
@@ -65,7 +66,6 @@
                     @if(dropDownOptions.nonEmpty) {
                     <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
-                    <a id="@BackId" href="@controllers.routes.SetUpBusinessDetails.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
                     <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>

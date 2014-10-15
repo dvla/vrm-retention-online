@@ -47,6 +47,9 @@ POST        /business-choose-your-address         @controllers.BusinessChooseYou
 
 GET         /uprn-not-found                       @controllers.UprnNotFound.present
 
+GET         /enter-address-manually               @controllers.EnterAddressManually.present
+POST        /enter-address-manually               @controllers.EnterAddressManually.submit
+
 GET         /confirm-business                     @controllers.ConfirmBusiness.present
 GET         /confirm-business/submit              @controllers.ConfirmBusiness.submit
 GET         /confirm-business/exit                @controllers.ConfirmBusiness.exit
@@ -81,9 +84,6 @@ GET         /success/finish                       @controllers.Success.finish
 GET         /retention-failure                    @controllers.RetainFailure.present
 
 GET         /healthcheck                          @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
-
-GET         /enter-address-manually               @controllers.EnterAddressManually.present
-POST        /enter-address-manually               @controllers.EnterAddressManually.submit
 
 GET         /help                                 @controllers.Help.present
 POST        /help                                 @controllers.Help.back
