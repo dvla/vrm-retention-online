@@ -53,8 +53,13 @@
 			</div>
 		</div>
 	</div>
-  
-    <h1>Print</h1>
 
-    <a class="button-secondary" id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
+  <div class="form-steps">
+	  <div class="step">
+	    <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
+	  </div>
+	  <div class="step">
+	    <a class="button-secondary" id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
+	   </div>
+	  </div>
 }
