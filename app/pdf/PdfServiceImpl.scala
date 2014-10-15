@@ -122,8 +122,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       case Some(blankFile) =>
         // Load document containing just the watermark image.
         val blankDoc = PDDocument.load(blankFile)
-        // TODO uncomment validation below when we have an original pdf that is valid!
-        //        `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
+        `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
         val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
       case None => document // Other file was not found so cannot combine with it.
