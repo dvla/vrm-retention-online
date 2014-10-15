@@ -17,9 +17,9 @@
 ) {
         <div class="enter-address-manually uppercase-input two-col">
         <div class="first-col ">
-                <p>
-                    Add my business address manually
-                </p>
+            <h1>@Messages("vrm_retention_setupbusinessdetails.title")</h1>
+
+            <p>Add my business address manually</p>
 
         @form(action = controllers.routes.EnterAddressManually.submit()) {
             @csrfTokenHiddenField()

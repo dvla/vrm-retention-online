@@ -12,6 +12,7 @@
 
 	<div class="two-col">
 		<div class="first-col">
+        <h1>@Messages("vrm_retention_success.title")</h1>
 		    <div class="alert-complete">
 			    <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
 			    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
@@ -52,11 +53,8 @@
 			</div>
 		</div>
 	</div>
-    <hr>
-
-    <hr>
+  
     <h1>Print</h1>
-    <hr>
 
     <a class="button-secondary" id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
 }

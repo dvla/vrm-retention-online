@@ -11,10 +11,12 @@
     currentForm = None,
     backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
-    @Messages("vrm_retention_confirm.intro")
-    <p></p>
+
     <div class="two-col">
         <div class="first-col">
+            <h1>@Messages("vrm_retention_confirm_business.title")</h1>
+            <p>@Messages("vrm_retention_confirm.intro")</p>
+
             <dl class="playback">
                 <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
                 <dd>@viewModel.businessName</dd>
