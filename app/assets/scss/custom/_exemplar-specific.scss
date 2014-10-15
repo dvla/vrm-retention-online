@@ -8,19 +8,6 @@
     }
 }
 
-dd.reg-number {
-    display:inline-block;
-    vertical-align:top;
-    width:272px;
-    text-align:center;
-    line-height:1.25;
-    font-weight:bold;
-    padding:0.4em 0.5em 0.3em 0.5em;
-    margin-bottom:10px;
-    background-color:$yellow-75;
-    border:1px solid $grey-9;
-    border-radius:5px;
-}
 
 a.pdf-link img {
     float:left;
@@ -64,22 +51,9 @@ a.pdf-link img {
     }
 }
 
-.inline-form{
-    label {
-        padding-right: 1em;
-        line-height: 2em;
-        float:left;
-        font-weight:normal;
-    }
-    input {float:right;}
-    .form-item {height: 2em;}
-}
-
-label {
-    font-weight:bold;
-}
 
 .beta-info {
     color: $grey-1;
     font-size: 0.8em;
 }
+
