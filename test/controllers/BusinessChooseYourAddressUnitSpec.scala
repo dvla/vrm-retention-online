@@ -36,19 +36,12 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.present(request)
       val content = contentAsString(result)
-      content should include(KeeperFirstNameValid.get)
       content should include( s"""<option value="$traderUprnValid" selected>""")
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
       val content = contentAsString(present)
-      content should include(KeeperFirstNameValid.get)
       content should not include "selected"
-    }
-
-    "display keeper first name in summary" in new WithApplication {
-      val content = contentAsString(present)
-      content should include(KeeperFirstNameValid.get)
     }
 
     "redirect to setupTradeDetails page when present with no business details cached" in new WithApplication {
