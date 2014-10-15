@@ -510,6 +510,14 @@ vrm_retention_success.makingUp-p1 = Making up the number plate for the replaceme
 vrm_retention_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
 vrm_retention_success.newPlateLink = Letter of Authorisation to get number plates made up for replacement registration number
 
+vrm_retention_success.notice1.h3 = New vehicles
+vrm_retention_success.notice1.p1 = Now that the retention has been completed, you are able to make use of the retention certificate number above to assign the registration number to a new vehicle in AFRL.
+
+vrm_retention_success.notice2.h3 = Used vehicles
+vrm_retention_success.notice2.p1 = In order to assign the retained registration to a used vehicle you will need to continue using the existing paper service. For additional information on that application please see
+vrm_retention_success.notice2.p1.link = 'Assigning a personalised number to a vehicle'
+
+
 vrm_retention_success.p1 = What happens next?
 vrm_retention_success.p2 = The following items will be sent separately to you at your registered address:
 vrm_retention_success.listItem1 = A new registration certificate (V5C) with the replacement registration number
