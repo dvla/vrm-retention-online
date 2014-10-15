@@ -18,7 +18,9 @@
             <h1>@title</h1>
 
             @backNavigation.map { call =>
-                <a id="@BackId" href="@call">Back</a>
+                <p>
+                    <a id="@BackId" href="@call">@Messages("main.back")</a>
+                </p>
             }
 
             @errorsSummary(currentForm)

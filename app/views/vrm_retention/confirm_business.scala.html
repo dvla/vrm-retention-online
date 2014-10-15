@@ -8,7 +8,8 @@
 
 @main(
     title = Messages("vrm_retention_confirm_business.title"),
-    currentForm = None
+    currentForm = None,
+    backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
     @Messages("vrm_retention_confirm.intro")
     <p></p>
