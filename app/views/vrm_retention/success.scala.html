@@ -12,9 +12,8 @@
 
 	<div class="two-col retention-success">
 		<div class="first-col">
-        <h1>@Messages("vrm_retention_success.title")</h1>
 		    <div class="alert-complete">
-			    <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
+			    <h2>@Messages("vrm_retention_success.subtitle") <span class="reg-number">@successViewModel.registrationNumber</span> </h2>
 			    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
 			</div>
 			<h3>@Messages("vrm_retention_success.p1")</h3>
