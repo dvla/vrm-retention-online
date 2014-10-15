@@ -36,18 +36,6 @@
                         }
                     </dl>
                 </div>
-                <div class="related">
-                    <h2>Keeper Details</h2>
-                    <dl class="playback">
-                      <dt>Registered Keeper</dt>
-                      <dd>@viewModel.firstName @viewModel.lastName</dd>
-                      <dt>Address</dt>
-                      <dd>@for(addressLine <- viewModel.address.get.address.init) {
-                                  @addressLine<br>
-                              }
-                                @viewModel.address.get.address.last</dd>
-                    </dl>
-                </div>
             </div>
 
             <div class="first-col inline-form">
