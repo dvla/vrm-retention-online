@@ -59,15 +59,18 @@
                     )
                 )
 
-                @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
-                    args = Map(
-                        'items -> Seq(
-                            UserType_Business -> Messages("vrm_retention_vehiclelookup.business"),
-                            UserType_Keeper -> Messages("vrm_retention_vehiclelookup.keeper")
-                        ),
-                        'value -> UserType_Business, // One radio button is checked when user arrives on the page.
-                        '_label -> Messages("vrm_retention_vehiclelookup.label")
-                    )
+                <br/>
+
+                <div class="form-item-radio">
+                    @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
+                        args = Map(
+                            'items -> Seq(
+                                UserType_Business -> Messages("vrm_retention_vehiclelookup.business"),
+                                UserType_Keeper -> Messages("vrm_retention_vehiclelookup.keeper")
+                            ),
+                            'value -> UserType_Business, // One radio button is checked when user arrives on the page.
+                            '_label -> Messages("vrm_retention_vehiclelookup.label")
+                        )
                 )
 
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}

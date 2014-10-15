@@ -9,11 +9,6 @@
 }
 
 
-a.pdf-link img {
-    float:left;
-    max-height:40px;
-    padding-right:10px;
-}
 
 @media only screen and (min-width:768px) {
   .app.vrm-retention-online {
@@ -56,4 +51,27 @@ a.pdf-link img {
     color: $grey-1;
     font-size: 0.8em;
 }
+
+
+
+
+
+
+
+//radios common widget html need a parent wrapper class
+.form-item-radio {
+    > .form-item > label {
+        font-weight: bold;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
