@@ -13,7 +13,8 @@
 ) {
 
     <div class="two-col">
-        <div class="first-col">
+
+        <div class="second-col">
             <h1>@Messages("vrm_retention_confirm_business.title")</h1>
             <p>@Messages("vrm_retention_confirm.intro")</p>
 
@@ -31,9 +32,14 @@
                 <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
                 <dd>@viewModel.businessAddress.get.address.last</dd>
             </dl>
+            <div class="form-steps">
+                <a class="button" id="@ConfirmId" href="@ConfirmBusiness.submit()">@Messages("vrm_retention_confirm_business.button")</a>
+                <a class="button-secondary" id="@ExitId" href="@ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
+            </div>
         </div>
 
-        <div class="second-col">
+
+        <div class="first-col">
             <dl class="playback">
                 <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
@@ -48,10 +54,5 @@
                 }
             </dl>
         </div>
-    </div>
-
-    <div class="form-steps">
-        <a class="button" id="@ConfirmId" href="@ConfirmBusiness.submit()">@Messages("vrm_retention_confirm_business.button")</a>
-        <a class="button-secondary" id="@ExitId" href="@ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }

@@ -15,7 +15,7 @@
     backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
     <div class="two-col confirm-keeper-details">
-        <div class="first-col">
+        <div class="second-col">
 
             <h1>@Messages("vrm_retention_confirm.title")</h1>
             <div class="info-notice">
@@ -33,7 +33,7 @@
                 <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
             </dl>
         </div>
-        <div class="second-col related">
+        <div class="first-col related">
             <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
             <dl class="playback">
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
@@ -53,7 +53,7 @@
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col">
-            <div class="first-col">
+            <div class="second-col">
             @if(confirmViewModel.businessName.isDefined) {
                 <div class="info-notice">
                     @Messages("vrm_retention_confirm.emailAddressTitleBusiness")
@@ -84,8 +84,6 @@
               <div class="alert-warning">
                 <p><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></p>
               </div>
-            </div>
-            <div class="second-col">
             </div>
         </div>
 
