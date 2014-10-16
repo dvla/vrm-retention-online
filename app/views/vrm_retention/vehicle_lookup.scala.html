@@ -55,30 +55,30 @@
                 )
 
                 <br/>
-
-                @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
-                    args = Map(
-                        'itemsWithHints -> Seq(
-                            RadioWithHint(UserType_Business, Messages("vrm_retention_vehiclelookup.business"), Messages("vrm_retention_vehiclelookup.business.hint")),
-                            RadioWithHint(UserType_Keeper, Messages("vrm_retention_vehiclelookup.keeper"), Messages("vrm_retention_vehiclelookup.keeper.hint"))
-                        ),
-                        'value -> UserType_Business, // One radio button is checked when user arrives on the page.
-                        '_label -> Messages("vrm_retention_vehiclelookup.label")
+                <div class="form-item-radio">
+                    @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
+                        args = Map(
+                            'itemsWithHints -> Seq(
+                                RadioWithHint(UserType_Business, Messages("vrm_retention_vehiclelookup.business"), Messages("vrm_retention_vehiclelookup.business.hint")),
+                                RadioWithHint(UserType_Keeper, Messages("vrm_retention_vehiclelookup.keeper"), Messages("vrm_retention_vehiclelookup.keeper.hint"))
+                            ),
+                            'value -> UserType_Business, // One radio button is checked when user arrives on the page.
+                            '_label -> Messages("vrm_retention_vehiclelookup.label")
+                        )
                     )
-                )
+                </div>
 
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_vehiclelookup.button")</button>
                 </div>
             </div>
-        </div>
-
-        <div class="first-col">
-            <div class="img-wrap img-wrap-desktop related">
-                <h2>@Messages("vrm_retention_vehiclelookup.intro")</h2>
-                <p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
-                <img src="@routes.Assets.at("images/document-reference-number.png")" alt="V5C document reference number">
+            <div class="first-col">
+                <div class="img-wrap img-wrap-desktop related">
+                    <h2>@Messages("vrm_retention_vehiclelookup.intro")</h2>
+                    <p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
+                    <img src="@routes.Assets.at("images/document-reference-number.png")" alt="V5C document reference number">
+                </div>
             </div>
         </div>
 
