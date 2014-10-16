@@ -59,12 +59,11 @@
 		</div>
 	</div>
 
-  <div class="form-steps">
+    <div class="form-steps">
 	  <div class="step">
 	    <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
+	    <br /><br />
+        <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
 	  </div>
-	  <div class="step">
-	    <a class="button-secondary" id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
-	   </div>
-	  </div>
+    </div>
 }
