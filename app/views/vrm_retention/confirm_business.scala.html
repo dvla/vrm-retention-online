@@ -11,12 +11,14 @@
     currentForm = None,
     backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
-    @Messages("vrm_retention_confirm.intro")
-    <p></p>
+
     <div class="two-col">
-        <div class="first-col">
-            <h2>@Messages("vrm_retention_confirm.businessDetailsTitle")</h2>
-            <dl class="playback first-line">
+
+        <div class="second-col">
+            <h1>@Messages("vrm_retention_confirm_business.title")</h1>
+            <p>@Messages("vrm_retention_confirm.intro")</p>
+
+            <dl class="playback">
                 <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
                 <dd>@viewModel.businessName</dd>
                 <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
@@ -30,10 +32,16 @@
                 <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
                 <dd>@viewModel.businessAddress.get.address.last</dd>
             </dl>
+            <div class="form-steps">
+                <a class="button" id="@ConfirmId" href="@ConfirmBusiness.submit()">@Messages("vrm_retention_confirm_business.button")</a>
+                <a class="button-secondary" id="@ExitId" href="@ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
+            </div>
         </div>
-        <div class="second-col">
-            <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+
+
+        <div class="first-col">
             <dl class="playback">
+                <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@viewModel.registrationNumber</dd>
                 @if(viewModel.vehicleMake.isDefined) {
@@ -46,10 +54,5 @@
                 }
             </dl>
         </div>
-    </div>
-
-    <div class="form-steps">
-        <a class="button" id="@ConfirmId" href="@ConfirmBusiness.submit()">@Messages("vrm_retention_confirm_business.button")</a>
-        <a class="button-secondary" id="@ExitId" href="@ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }

@@ -18,15 +18,9 @@
     @form(action = controllers.routes.VehicleLookup.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col clearfix vehicle-lookup">
-            <div class="second-col">
-                <div class="img-wrap img-wrap-desktop related">
-<h2>@Messages("vrm_retention_vehiclelookup.intro")</h2>
-<p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
-                    <img src="@routes.Assets.at("images/document-reference-number.png")" alt="V5C document reference number">
-                </div>
-            </div>
 
-            <div class="uppercase-input first-col">
+            <div class="second-col uppercase-input">
+                <h1>@Messages("vrm_retention_vehiclelookup.title")</h1>
                 <div class="info-notice ">
                     <p>@Messages("vrm_retention_vehiclelookup.note")</p>
                 </div>
@@ -60,6 +54,8 @@
                     )
                 )
 
+                <br/>
+
                 @listRadioGroup(field = vehicleAndKeeperLookupForm("keeperConsent"),
                     args = Map(
                         'itemsWithHints -> Seq(
@@ -77,5 +73,14 @@
                 </div>
             </div>
         </div>
+
+        <div class="first-col">
+            <div class="img-wrap img-wrap-desktop related">
+                <h2>@Messages("vrm_retention_vehiclelookup.intro")</h2>
+                <p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
+                <img src="@routes.Assets.at("images/document-reference-number.png")" alt="V5C document reference number">
+            </div>
+        </div>
+
     }
 }
