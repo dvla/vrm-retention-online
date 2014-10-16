@@ -115,7 +115,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
             }
         }.recover {
           case NonFatal(e) =>
-            microServiceErrorResult(message = s"Payment Solve web service call failed. Exception " + e.toString.take(45))
+            microServiceErrorResult(message = s"Payment Solve web service call failed. Exception " + e.toString)
         }
       case _ => Future.successful(microServiceErrorResult(message = "Payment callBeginWebPaymentService no referer"))
     }
@@ -147,7 +147,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         }
     }.recover {
       case NonFatal(e) =>
-        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(245))
+        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString)
         microServiceErrorResult(message = "Payment Solve web service call failed.")
     }
   }
@@ -169,7 +169,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         redirectToMockFeedback
     }.recover {
       case NonFatal(e) =>
-        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
+        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString)
         redirectToMockFeedback
     }
   }
