@@ -12,10 +12,10 @@
 ) {
 
 <div class="two-col">
-  <div class="first-col">
+  <div class="second-col">
       <dl class="summary-replacement-reg">
         <dt>@Messages("vrm_retention_success_payment.p1")</dt>
-        <dd><strong>@successViewModel.replacementRegistrationNumber</strong></dd>
+        <dd class="reg-number">@successViewModel.replacementRegistrationNumber</dd>
       </dl>
 
       <p>@Messages("vrm_retention_success_payment.p2") @successViewModel.registrationNumber @Messages("vrm_retention_success_payment.p2_2")</p>
@@ -37,7 +37,7 @@
         </p>
     </div>
   </div>
-  <div class="second-col related">
+  <div class="first-col related">
     <hr class="print-only">
     <h2>@Messages("vrm_retention_success_payment.p6")</h2>
     <p>@Messages("vrm_retention_success_payment.p7")</p>

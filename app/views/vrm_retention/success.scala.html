@@ -12,9 +12,9 @@
 
 
   <div class="two-col">
-    <div class="first-col">
+    <div class="second-col">
         <div class="alert-complete">
-          <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
+          <h2>@Messages("vrm_retention_success.subtitle") <span class="registration-number">@successViewModel.registrationNumber </span></h2>
           <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
       </div>
       <hr class="print-only">
@@ -27,7 +27,7 @@
       </ul>
       <hr class="print-only">
     </div>
-    <div class="second-col">
+    <div class="first-col">
       <div class="related">
         <h2>Transaction details</h2>
         <p>Transaction ID:</p>
