@@ -28,15 +28,12 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
 
     "display a summary of previously entered user data" in new WithApplication {
       val content = contentAsString(present)
-      content should include(KeeperFirstNameValid.get)
       content should include(BusinessAddressLine1Valid)
       content should include(BusinessAddressLine2Valid)
       content should include(BusinessAddressPostTownValid)
       content should include(RegistrationNumberValid)
       content should include(VehicleMakeValid.get)
       content should include(VehicleModelValid.get)
-      content should include(KeeperFirstNameValid.get)
-      content should include(KeeperLastNameValid.get)
     }
   }
 

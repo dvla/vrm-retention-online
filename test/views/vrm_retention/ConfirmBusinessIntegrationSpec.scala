@@ -10,6 +10,7 @@ import pages.vrm_retention._
 
 final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
+/*
   "go to page" should {
 
     "display the page" taggedAs UiTag in new WebBrowser {
@@ -47,6 +48,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       page.url should equal(MockFeedbackPage.url)
     }
   }
+*/ 
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.

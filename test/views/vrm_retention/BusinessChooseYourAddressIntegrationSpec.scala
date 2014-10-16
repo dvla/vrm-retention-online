@@ -60,14 +60,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       )
     }
 
-    "display 'No addresses found' message when address service returns no addresses" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-      CookieFactoryForUISpecs.vehicleAndKeeperDetailsModel()
-      SetupBusinessDetailsPage.submitInvalidPostcode
-
-      page.source should include("No addresses found for that postcode") // Does not contain the positive message
-    }
-
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -93,6 +85,8 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   "select button" should {
+    
+    /*
     "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -100,6 +94,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       page.url should equal(ConfirmBusinessPage.url)
     }
+    */
 
     "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
