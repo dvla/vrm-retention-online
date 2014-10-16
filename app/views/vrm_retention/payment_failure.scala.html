@@ -9,9 +9,8 @@
 ) {
     <div class="two-col">
     <div id="vehicle-details" class="first-col trader-details">
-                <h1>@Messages("paymentFailureErrorMessage.title")</h1>
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
+                    <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
                     @if(vehicleLookupFailureViewModel.make.isDefined) {
@@ -25,11 +24,11 @@
                 </dl>
         </div>
         <div class="second-col">
+            <h1>@Messages("paymentFailureErrorMessage.title")</h1>
             <p>Transaction Id @transactionId</p>
             <p>@Messages("paymentFailureErrorMessage.p1")</p>
             <p>@Messages("paymentFailureErrorMessage.p2")</p>
             <p>@Messages("paymentFailureErrorMessage.p3")</p>
-            <br>
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">

@@ -1,5 +1,10 @@
 //Exemplar specific
 .vehicle-lookup {
+
+    .form-item-radio .radio .form-item {
+        margin-bottom:1.5em;
+    }
+
     .first-col {
         display:block;
         @media screen and (max-width:$device-medium) {
@@ -7,23 +12,6 @@
         }
     }
 }
-
-/*
-@media only screen and (min-width:768px) {
-  .app.vrm-retention-online {
-    .two-col {
-        .first-col {
-            float:left;
-            width: 63%;
-        }
-        .second-col {
-            float:right;
-            width: 30%;
-        }
-    }
-  }
-}
-*/
 
 .info-notice {
     background: none;
@@ -69,9 +57,6 @@
             }
         }
     }
-
-
-
 
     .beta-info {
         color: $grey-1;

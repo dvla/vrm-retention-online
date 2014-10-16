@@ -13,9 +13,8 @@
 ) {
     <div class="two-col">
     <div id="vehicle-details" class="first-col trader-details">
-                <h1>@Messages("vehicle_and_keeper_lookup_vrm_not_found.title")</h1>
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
+                    <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
                     @if(vehicleLookupFailureViewModel.make.isDefined) {
@@ -29,11 +28,11 @@
                 </dl>
         </div>
         <div class="second-col">
+        <h1>@Messages("vehicle_and_keeper_lookup_vrm_not_found.title")</h1>
             <p>Transaction Id @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
-            <br>
             @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
                <p><a href="https://www.gov.uk/government/publications/application-to-transfer-or-retain-a-vehicle-registration-number">Download V317</a></p>
             }
