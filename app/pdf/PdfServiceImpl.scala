@@ -64,21 +64,28 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     page
   }
 
-  private def setFont(implicit contentStream: PDPageContentStream): PDFont = {
+  private def fontHelvetica(size: Int)(implicit contentStream: PDPageContentStream): PDFont = {
     // Create a new font object selecting one of the PDF base fonts
-    val font: PDFont = PDType1Font.HELVETICA_BOLD
-    contentStream.setFont(font, fontSize)
+    val font: PDFont = PDType1Font.HELVETICA
+    contentStream.setFont(font, size)
     font
   }
 
-  private def width(font: PDFont, content: String) = {
+  private def fontHelveticaBold(size: Int)(implicit contentStream: PDPageContentStream): PDFont = {
+    // Create a new font object selecting one of the PDF base fonts
+    val font: PDFont = PDType1Font.HELVETICA_BOLD
+    contentStream.setFont(font, size)
+    font
+  }
+
+  private def width(font: PDFont, content: String, fontSize: Int = fontSize) = {
     // Return the width of a bounding box that surrounds the string.
     font.getStringWidth(content) / 1000 * fontSize
   }
 
   private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
-    setFont
+    fontHelvetica(fontSize)
     contentStream.moveTextPositionByAmount(330, 580)
     contentStream.drawString(name)
     contentStream.endText()
@@ -87,7 +94,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       var positionY = 565
       for (line <- a.address.init) {
         contentStream.beginText()
-        setFont
+        fontHelvetica(fontSize)
         contentStream.moveTextPositionByAmount(330, positionY)
         contentStream.drawString(line)
         contentStream.endText()
@@ -96,28 +103,30 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     }
   }
 
-  private def writeVrn(registrationNumber: String)(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeVrn(registrationNumber: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
     contentStream.beginText()
-    val font = setFont
-    contentStream.moveTextPositionByAmount(45, 390)
-    contentStream.moveTextPositionByAmount((200 - width(font, registrationNumber)) / 2, 0) // Centre the text.
+    val size = 26
+    val font = fontHelveticaBold(size = size)
+    contentStream.moveTextPositionByAmount(45, 385)
+    contentStream.moveTextPositionByAmount((180 - width(font, registrationNumber, fontSize = size)) / 2, 0) // Centre the text.
     contentStream.drawString(registrationNumber)
     contentStream.endText()
   }
 
-  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
     contentStream.beginText()
-    val font = setFont
-    contentStream.moveTextPositionByAmount(330, 390)
-    contentStream.moveTextPositionByAmount((200 - width(font, transactionId)) / 2, 0) // Centre the text.
-    contentStream.drawString(s"$transactionId") // Transaction ID:
+    val size = 18
+    val font = fontHelveticaBold(size = 18)
+    contentStream.moveTextPositionByAmount(340, 390)
+    contentStream.moveTextPositionByAmount((200 - width(font, transactionId, fontSize = size)) / 2, 0) // Centre the text.
+    contentStream.drawString(transactionId) // Transaction ID
     contentStream.endText()
   }
 
   private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
     val dateStamp = dateService.today.`dd/MM/yyyy`
     contentStream.beginText()
-    val font = setFont
+    val font = fontHelvetica(size = fontSize)
     contentStream.moveTextPositionByAmount(45, 280)
     contentStream.moveTextPositionByAmount((75 - width(font, dateStamp)) / 2, 0) // Centre the text.
     contentStream.drawString(dateStamp) // Date of retention
