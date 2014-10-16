@@ -30,11 +30,11 @@
                 <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
             </dl>
         </div>
-        <div class="first-col related">
-            <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+        <div class="first-col">
             <dl class="playback">
+                <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                <dd>@confirmViewModel.registrationNumber</dd>
+                <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
                     <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                     <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
