@@ -2,6 +2,7 @@ package pdf
 
 import java.io.{ByteArrayOutputStream, File, OutputStream}
 import com.google.inject.Inject
+import models.EligibilityModel
 import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
@@ -11,25 +12,25 @@ import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
 import pdf.PdfServiceImpl.{blankPage, v948Blank}
 import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import models.EligibilityModel
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
-  def create(implicit eligibilityModel: EligibilityModel, transactionId: String): Future[Array[Byte]] = Future {
-    implicit val output = new ByteArrayOutputStream()
-    v948
+  def create(eligibilityModel: EligibilityModel, transactionId: String, name: String, address: Option[AddressModel]): Future[Array[Byte]] = Future {
+    val output = new ByteArrayOutputStream()
+    v948(eligibilityModel, transactionId, name, address, output)
     output.toByteArray
   }
 
-  private def v948(implicit eligibilityModel: EligibilityModel, transactionId: String, output: OutputStream) = {
+  private def v948(eligibilityModel: EligibilityModel, transactionId: String, name: String, address: Option[AddressModel], output: OutputStream) = {
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
-    document.addPage(page1)
+    document.addPage(page1(eligibilityModel, transactionId, name, address, document))
     document.addPage(blankPage)
     var documentWatermarked: PDDocument = null
     try {
@@ -44,14 +45,16 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     documentWatermarked
   }
 
-  private def page1(implicit eligibilityModel: EligibilityModel, transactionId: String, document: PDDocument): PDPage = {
+  private def page1(implicit eligibilityModel: EligibilityModel, transactionId: String, name: String, address: Option[AddressModel], document: PDDocument): PDPage = {
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
       contentStream = new PDPageContentStream(document, page) // Start a new content stream which will "hold" the to be created content
 
+      writeCustomerNameAndAddress(name, address)
       writeVrn(eligibilityModel.replacementVRM)
-      writeDateOfRetentionAndTransactionId(transactionId)
+      writeTransactionId(transactionId)
+      writeDateOfRetention()
     } catch {
       case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
     } finally {
@@ -67,6 +70,26 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     contentStream.setFont(font, 12)
   }
 
+  private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])(implicit contentStream: PDPageContentStream): Unit = {
+    contentStream.beginText()
+    setFont
+    contentStream.moveTextPositionByAmount(330, 580)
+    contentStream.drawString(name)
+    contentStream.endText()
+
+    address.map { a =>
+      var positionY = 565
+      for (line <- a.address.init) {
+        contentStream.beginText()
+        setFont
+        contentStream.moveTextPositionByAmount(330, positionY)
+        contentStream.drawString(line)
+        contentStream.endText()
+        positionY = positionY - 15
+      }
+    }
+  }
+
   private def writeVrn(registrationNumber: String)(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
     setFont
@@ -75,17 +98,19 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     contentStream.endText()
   }
 
-  private def writeDateOfRetentionAndTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream): Unit = {
+    contentStream.beginText()
+    setFont
+    contentStream.moveTextPositionByAmount(330, 390)
+    contentStream.drawString(s"$transactionId") // Transaction ID:
+    contentStream.endText()
+  }
+
+  private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
     setFont
     contentStream.moveTextPositionByAmount(45, 280)
-    contentStream.drawString(s"Date of retention: ${dateService.today.`dd/MM/yyyy`}")
-    contentStream.endText()
-
-    contentStream.beginText()
-    setFont
-    contentStream.moveTextPositionByAmount(45, 260)
-    contentStream.drawString(s"Transaction ID: $transactionId")
+    contentStream.drawString(s"${dateService.today.`dd/MM/yyyy`}") // Date of retention
     contentStream.endText()
   }
 
@@ -98,7 +123,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
         // Load document containing just the watermark image.
         val blankDoc = PDDocument.load(blankFile)
         `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
-      val overlay = new Overlay()
+        val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
       case None => document // Other file was not found so cannot combine with it.
     }

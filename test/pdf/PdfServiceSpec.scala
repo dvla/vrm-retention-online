@@ -21,7 +21,9 @@ final class PdfServiceSpec extends UnitSpec {
 
       val result = pdfService.create(
         eligibilityModel = eligibilityModel,
-        transactionId = TransactionIdValid
+        transactionId = TransactionIdValid,
+        name = "stub name",
+        address = None
       )
 
       whenReady(result, longTimeout) { r =>

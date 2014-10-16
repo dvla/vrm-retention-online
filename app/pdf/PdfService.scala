@@ -1,9 +1,10 @@
 package pdf
 
-import scala.concurrent.Future
 import models.EligibilityModel
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import scala.concurrent.Future
 
 trait PdfService {
 
-  def create(implicit eligibilityModel: EligibilityModel, transactionId: String): Future[Array[Byte]]
+  def create(eligibilityModel: EligibilityModel, transactionId: String, name: String, address: Option[AddressModel]): Future[Array[Byte]]
 }
