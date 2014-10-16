@@ -15,12 +15,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
-  // TODO amountDebited needs to be passed in from somewhere!
-  private final val amountDebited = "80.00"
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
-  private val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png").get
-  private val openGovernmentLicenceUrl = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png").get
-  private val crestUrl = Play.resource(name = "public/images/govuk-crest.png").get
+  private val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
+  private val openGovernmentLicenceUrl = Play.resource(name = "public/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png")
+  private val crestUrl = Play.resource(name = "public/images/govuk-crest.png")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -28,9 +26,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          retainModel: RetainModel,
                          transactionId: String) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
-
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
-      pdfService.create(eligibilityModel, transactionId).map {
+      pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
           val mc = new MailcapCommandMap()
@@ -75,13 +72,22 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   }
 
   override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                  eligibilityModel: EligibilityModel,
-                  retainModel: RetainModel,
-                  transactionId: String,
-                  htmlEmail: HtmlEmail): HtmlFormat.Appendable = {
-    val crownContentId = "cid:" + htmlEmail.embed(crownUrl, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
-    val openGovernmentLicenceContentId = "cid:" + htmlEmail.embed(openGovernmentLicenceUrl, "open-government-licence.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
-    val crestId = "cid:" + htmlEmail.embed(crestUrl, "govuk-crest.png")
+                           eligibilityModel: EligibilityModel,
+                           retainModel: RetainModel,
+                           transactionId: String,
+                           htmlEmail: HtmlEmail): HtmlFormat.Appendable = {
+    val crownContentId = crownUrl match {
+      case Some(url) => "cid:" + htmlEmail.embed(url, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+      case _ => ""
+    }
+    val openGovernmentLicenceContentId = openGovernmentLicenceUrl match {
+      case Some(url) => "cid:" + htmlEmail.embed(url, "open-government-licence.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+      case _ => ""
+    }
+    val crestId = crestUrl match {
+      case Some(url) => "cid:" + htmlEmail.embed(url, "govuk-crest.png")
+      case _ => ""
+    }
     email_with_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = retainModel.certificateNumber,
@@ -89,7 +95,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       transactionTimestamp = retainModel.transactionTimestamp,
       keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
-      amount = amountDebited,
+      amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
       crownContentId = crownContentId,
       openGovernmentLicenceContentId = openGovernmentLicenceContentId,
@@ -108,7 +114,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       transactionTimestamp = retainModel.transactionTimestamp,
       keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
-      amount = amountDebited,
+      amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM
     ).toString()
   }

@@ -2,59 +2,60 @@
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config)
 
-@import controllers.routes.Success
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Success.FinishId
 
 @main(
-    title = Messages("vrm_retention_success.title")
+    title = Messages("vrm_retention_success.title"),
+    backNavigation = Some(controllers.routes.SuccessPayment.present())
 ) {
 
-	<div class="two-col">
-		<div class="first-col">
-		    <div class="alert-complete">
-			    <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
-			    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
-			</div>
+
+  <div class="two-col">
+    <div class="first-col">
+        <div class="alert-complete">
+          <h2>@Messages("vrm_retention_success.subtitle") @successViewModel.registrationNumber </h2>
+          <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
+      </div>
       <hr class="print-only">
-			<h3>@Messages("vrm_retention_success.p1")</h3>
-			<p>@Messages("vrm_retention_success.p2")</p>
-			<ul class="list-standard">
-				<li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
-				<li>@Messages("vrm_retention_success.listItem2")</li>
-				<li>@Messages("vrm_retention_success.listItem3")</li>
-			</ul>
+      <h3>@Messages("vrm_retention_success.p1")</h3>
+      <p>@Messages("vrm_retention_success.p2")</p>
+      <ul class="list-standard">
+        <li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
+        <li>@Messages("vrm_retention_success.listItem2")</li>
+        <li>@Messages("vrm_retention_success.listItem3")</li>
+      </ul>
       <hr class="print-only">
-		</div>
-		<div class="second-col">
-			<div class="related">
-				<h2>Transaction details</h2>
-				<p>Transaction ID:</p>
-				<p>@successViewModel.transactionId</p>
-			</div>
+    </div>
+    <div class="second-col">
+      <div class="related">
+        <h2>Transaction details</h2>
+        <p>Transaction ID:</p>
+        <p>@successViewModel.transactionId</p>
+      </div>
       <hr class="print-only">
-			<div class="related">
-				<h2>Keeper details</h2>
-				<p>Name:</p>
-				<p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
-				<p>Keeper Address</p>
-				<p>
-					@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
-                    	@keeperAddressLine<br>
-                	}
-				</p>
-			</div>
+      <div class="related">
+        <h2>Keeper details</h2>
+        <p>Name:</p>
+        <p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
+        <p>Keeper Address</p>
+        <p>
+          @for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+                      @keeperAddressLine<br>
+                  }
+        </p>
+      </div>
       <hr class="print-only">
-			<div class="related">
-				<h3>DVLA Customer Service</h3>
-				<p>Telephone<br>
-				<strong>0300 790 6802</strong></p>
-				<p>Textphone<br>
-				<strong>18001 0300 123 1379</strong></p>
-				<p>Lines Open<br>
-				<strong>Monday to Friday, 8am to 7pm Saturday, 8am to 2pm</strong></p>
-			</div>
-		</div>
-	</div>
+      <div class="related">
+        <h3>DVLA Customer Service</h3>
+        <p>Telephone<br>
+        <strong>0300 790 6802</strong></p>
+        <p>Textphone<br>
+        <strong>18001 0300 123 1379</strong></p>
+        <p>Lines Open<br>
+        <strong>Monday to Friday, 8am to 7pm Saturday, 8am to 2pm</strong></p>
+      </div>
+    </div>
+  </div>
     <a class="button-secondary" id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
 }

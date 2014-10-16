@@ -7,18 +7,19 @@
 @import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 @import views.html.helper.form
 @import views.html.vrm_retention.main
-@import views.vrm_retention.EnterAddressManually.{BackId, ExitId, NextId}
+@import views.vrm_retention.EnterAddressManually.{ExitId, NextId}
 
 @main(
     progress = Some(Messages("vrm_retention_progress_3")),
     title = Messages("vrm_retention_enteraddressmanually.title"),
-    currentForm = Some(enterAddressManuallyForm)
+    currentForm = Some(enterAddressManuallyForm),
+    backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
     <div class="enter-address-manually uppercase-input two-col">
-        <div class="first-col ">
-                <p>
-                    Add my business address manually
-                </p>
+        <div class="second-col">
+            <h1>@Messages("vrm_retention_setupbusinessdetails.title")</h1>
+
+            <p>Add my business address manually</p>
 
         @form(action = controllers.routes.EnterAddressManually.submit()) {
             @csrfTokenHiddenField()
@@ -32,13 +33,12 @@
             <div class="read-only-input">@enterAddressManuallyViewModel.businessPostCode</div>
             <div class="form-steps">
                 <button id="@NextId" type="submit" name="action" class="button">@Messages("vrm_retention_enteraddressmanually.submitbutton")</button>
-                <a id="@BackId" class="button-secondary" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_enteraddressmanually.backbutton")</a>
                 <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
             </div>
         }
         </div>
-            <div id="vehicle-details" class="second-col trader-details ">
-              <div class="related">
+        <div id="vehicle-details" class="first-col trader-details">
+            <div class="related">
                 <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
@@ -52,20 +52,20 @@
                         <dd>@enterAddressManuallyViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
-              </div>
-              <div class="related">
-                  <h2>Keeper Details</h2>
-                  <dl class="playback">
-                    <dt>Registered Keeper</dt>
-                    <dd>@enterAddressManuallyViewModel.firstName @enterAddressManuallyViewModel.lastName</dd>
-                    <dt>Address</dt>
-                    <dd>@for(addressLine <- enterAddressManuallyViewModel.address.get.address.init) {
-                                @addressLine<br>
-                            }
-                              @enterAddressManuallyViewModel.address.get.address.last</dd>
-                  </dl>
-              </div>
-
             </div>
-    </div>
+            <div class="related">
+                <h2>Keeper Details</h2>
+                <dl class="playback">
+                  <dt>Registered Keeper</dt>
+                  <dd>@enterAddressManuallyViewModel.firstName @enterAddressManuallyViewModel.lastName</dd>
+                  <dt>Address</dt>
+                  <dd>@for(addressLine <- enterAddressManuallyViewModel.address.get.address.init) {
+                            @addressLine<br>
+                        }
+                          @enterAddressManuallyViewModel.address.get.address.last</dd>
+                </dl>
+            </div>
+        </div>
+
+</div>
 }

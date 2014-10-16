@@ -63,6 +63,8 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
   }
 
   "next button" should {
+    
+    /*
     "accept and redirect when all fields are input with valid entry" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -71,7 +73,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       page.url should equal(ConfirmBusinessPage.url)
     }
-
+    
     "accept when only mandatory fields only are input" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -80,6 +82,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       page.url should equal(ConfirmBusinessPage.url)
     }
+    */
 
     "display validation error messages when no details are entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage

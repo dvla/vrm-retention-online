@@ -4,20 +4,20 @@
    config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechOptionalDeclareCheck, valtechInputText}
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
 
 @main(
     title = Messages("vrm_retention_confirm.title"),
-    currentForm = Some(confirmForm)
+    currentForm = Some(confirmForm),
+    backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
-    <div class="two-col">
-        <div class="first-col">
-            <div class="info-notice">
-                @Messages("vrm_retention_confirm.intro")
-            </div>
+    <div class="two-col confirm-keeper-details">
+        <div class="second-col">
+
+            <h1>@Messages("vrm_retention_confirm.title")</h1>
             <h2>@Messages("vrm_retention_confirm.keeperTitle")</h2>
             <dl class="playback first-line">
                 <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
@@ -30,11 +30,11 @@
                 <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
             </dl>
         </div>
-        <div class="second-col related">
+        <div class="first-col related">
             <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
             <dl class="playback">
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                <dd>@confirmViewModel.registrationNumber</dd>
+                <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
                     <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                     <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
@@ -50,7 +50,7 @@
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col">
-            <div class="first-col">
+            <div class="second-col">
             @if(confirmViewModel.businessName.isDefined) {
                 <div class="info-notice">
                     @Messages("vrm_retention_confirm.emailAddressTitleBusiness")
@@ -79,10 +79,8 @@
                 )
             }
               <div class="alert-warning">
-                @Messages("vrm_retention_confirm.emailWarn")
+                <p><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></p>
               </div>
-            </div>
-            <div class="second-col">
             </div>
         </div>
 

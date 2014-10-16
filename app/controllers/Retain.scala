@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{RetainModel, VehicleAndKeeperLookupFormModel}
+import models.{VehicleAndKeeperDetailsModel, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
@@ -17,9 +17,15 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMReten
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import views.vrm_retention.CheckEligibility._
+import views.vrm_retention.Confirm.KeeperEmailCacheKey
+import scala.Some
+import play.api.mvc.Result
+import audit.{PaymentToSuccessAuditMessage, AuditService, ConfirmToPaymentAuditMessage}
 
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
-                             dateService: DateService)
+                             dateService: DateService,
+                             auditService: AuditService)
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config) extends Controller {
 
@@ -47,6 +53,16 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
       val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
 
+      // retrieve audit values not already in scope
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
+
+      auditService.send(PaymentToSuccessAuditMessage.from(
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, vehicleAndKeeperDetailsModel.registrationNumber,
+        replacementVRM, keeperEmail))
+
       Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
     }
@@ -66,7 +82,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     }
 
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
-      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber
+      currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
+      transactionTimestamp = dateService.today.toDateTimeMillis.get
     )
     val trackingId = request.cookies.trackingId()
 

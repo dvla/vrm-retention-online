@@ -1,60 +1,38 @@
 //Exemplar specific
+.vehicle-lookup {
 
-dd.reg-number {
-    display:inline-block;
-    vertical-align:top;
-    width:272px;
-    text-align:center;
-    line-height:1.25;
-    font-weight:bold;
-    padding:0.4em 0.5em 0.3em 0.5em;
-    margin-bottom:10px;
-    background-color:$yellow-75;
-    border:1px solid $grey-9;
-    border-radius:5px;
-}
+    .form-item-radio .radio .form-item {
+        margin-bottom:1.5em;
+    }
 
-a.pdf-link img {
-    float:left;
-    max-height:40px;
-    padding-right:10px;
-}
-
-@media only screen and (min-width:768px) {
-  .app.vrm-retention-online {
-    .two-col {
-        .first-col {
-            float:left;
-            width: 63%;
-        }
-        .second-col {
-            float:right;
-            width: 30%;
+    .first-col {
+        display:block;
+        @media screen and (max-width:$device-medium) {
+            display:none;
         }
     }
-  }
 }
 
 .info-notice {
     background: none;
     border-left: 10px solid $grey-2;
-    margin-bottom: 1em;
-    padding:0.5em 0 0.5em 1em;
+    margin-bottom: 2em;
+    padding: 0.5em 0 0.5em 1em;
+    p {
+        margin:0;
+    }
 }
+
 .related {
     margin: 1.2em 0 0 0;
     border-top: 10px solid $govuk-blue;
     padding-top: 1em;
-    dt {
-        font-weight: normal;
-    }
-    dd {
-        font-weight: bold;
-    }
 }
-.second-col.related {
+
+.second-col .related {
     margin-top: 0;
 }
+
 .summary-replacement-reg {
     dt, dd {
         display:inline;
@@ -62,33 +40,52 @@ a.pdf-link img {
     }
 }
 
-.inline-form{
-    label {
-        padding-right: 1em;
-        line-height: 2em;
-        float:left;
-        font-weight:normal;
-    }
-    input {float:right;}
-    .form-item {height: 2em;}
-}
+#{$htmlNamespace} {
 
-label {
-    font-weight:bold;
-}
-
-.playback {
-    dt, dd, p {
-        margin-bottom: 0.5em;
-    }
-    .related {
-        dt, dd, p {
-            line-height: 1em;
+    //temp until commonised
+    .two-col {
+        .first-col {
+            width: 30%;
+            @media screen and (max-width: $device-medium) {
+                width:100%;
+            }
+        }
+        .second-col {
+            width: 63%;
+            @media screen and (max-width: $device-medium) {
+                width:100%;
+            }
         }
     }
-}
 
-.beta-info {
-    color: $grey-1;
-    font-size: 0.8em;
+    .beta-info {
+        color: $grey-1;
+        font-size: 0.9em;
+        margin-top: 1.5em;
+    }
+
+    //radios common widget html need a parent wrapper class
+    .form-item-radio {
+        > .form-item > label {
+            font-weight: bold;
+        }
+    }
+
+    .confirm-keeper-details {
+        .first-col .playback {
+            background: none;
+            padding: 0;
+        }
+    }
+
+    .retention-success {
+        .first-col h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        .second-col .related .playback {
+            background: none;
+            padding: 0;
+        }
+    }
 }
