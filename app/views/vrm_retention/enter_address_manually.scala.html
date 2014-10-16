@@ -33,14 +33,15 @@
             <div class="read-only-input">@enterAddressManuallyViewModel.businessPostCode</div>
             <div class="form-steps">
                 <button id="@NextId" type="submit" name="action" class="button">@Messages("vrm_retention_enteraddressmanually.submitbutton")</button>
-                <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                <br /><br /> <a id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
             </div>
         }
         </div>
         <div id="vehicle-details" class="first-col trader-details">
-            <div class="related">
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+
+
                 <dl class="playback">
+                    <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@enterAddressManuallyViewModel.registrationNumber</dd>
                     @if(enterAddressManuallyViewModel.vehicleMake.isDefined) {
@@ -52,19 +53,7 @@
                         <dd>@enterAddressManuallyViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
-            </div>
-            <div class="related">
-                <h2>Keeper Details</h2>
-                <dl class="playback">
-                  <dt>Registered Keeper</dt>
-                  <dd>@enterAddressManuallyViewModel.firstName @enterAddressManuallyViewModel.lastName</dd>
-                  <dt>Address</dt>
-                  <dd>@for(addressLine <- enterAddressManuallyViewModel.address.get.address.init) {
-                            @addressLine<br>
-                        }
-                          @enterAddressManuallyViewModel.address.get.address.last</dd>
-                </dl>
-            </div>
+
         </div>
 
 </div>
