@@ -38,7 +38,7 @@
         <p>@Messages("vrm_retention_success_payment.p7")</p>
         <p>@Messages("vrm_retention_success.makingUp-p2")</p>
         <a class="pdfLink" href="@Success.createPdf()">
-            <img src="/vrm-retention/assets/images/PDF_download.png" alt="Download PDF">
+            <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
             @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
         </a>
     </div>
