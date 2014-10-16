@@ -49,9 +49,8 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                <div class="related">
-                    <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                     <dl class="playback">
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                         <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                         <dd class="reg-number">@viewModel.registrationNumber</dd>
                         @if(viewModel.vehicleMake.isDefined) {
@@ -63,7 +62,6 @@
                             <dd>@viewModel.vehicleModel.get.take(20)</dd>
                         }
                     </dl>
-                </div>
             </div>
 
         </div>
