@@ -43,7 +43,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
             val pdfAttachment = Attachment(
               bytes = pdf,
               contentType = "application/pdf",
-              filename = "v948.pdf",
+              filename = "eV948.pdf",
               description = "Replacement registration number letter of authorisation"
             )
             val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId)

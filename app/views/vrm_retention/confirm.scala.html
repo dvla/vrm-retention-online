@@ -14,7 +14,7 @@
     currentForm = Some(confirmForm),
     backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
-    <div class="two-col confirm-keeper-details">
+    <div class="two-col">
         <div class="second-col">
 
             <h1>@Messages("vrm_retention_confirm.title")</h1>
@@ -30,9 +30,9 @@
                 <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
             </dl>
         </div>
-        <div class="first-col related">
-            <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+        <div class="first-col">
             <dl class="playback">
+        <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
