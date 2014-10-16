@@ -44,7 +44,7 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
         Ok(views.html.vrm_retention.retention_failure())
     }.recover {
       case NonFatal(e) =>
-        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
+        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString)
         Ok(views.html.vrm_retention.retention_failure())
     }
   }

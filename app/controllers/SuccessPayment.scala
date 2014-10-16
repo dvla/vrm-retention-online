@@ -106,7 +106,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         Ok(views.html.vrm_retention.success_payment(successViewModel))
     }.recover {
       case NonFatal(e) =>
-        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString.take(45))
+        Logger.error(s"Payment Solve web service call failed. Exception " + e.toString)
         Ok(views.html.vrm_retention.success_payment(successViewModel))
     }
   }

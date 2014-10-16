@@ -94,7 +94,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"VRM Retention Eligibility web service call failed. Exception " + e.toString.take(45))
+        microServiceErrorResult(s"VRM Retention Eligibility web service call failed. Exception " + e.toString)
     }
   }
 }

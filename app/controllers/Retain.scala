@@ -100,7 +100,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"VRM Retention Retain web service call failed. Exception " + e.toString.take(45))
+        microServiceErrorResult(s"VRM Retention Retain web service call failed. Exception " + e.toString)
     }
   }
 }
