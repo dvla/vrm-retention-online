@@ -25,35 +25,34 @@
             <div class="second-col inline-form">
                 <h1>@Messages("vrm_retention_setupbusinessdetails.title")</h1>
                 <h2>Business Details</h2>
-            @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
-                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
-                        '_showConstraints -> false,
-                        'maxLength -> BusinessName.MaxLength))
-            @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), args =
-                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
-                        '_showConstraints -> false,
-                        'maxLength -> BusinessName.MaxLength))
-            @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), args =
-                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
-                        '_showConstraints -> false,
-                        'typeEmail -> true,
-                        'maxLength -> BusinessEmailMaxLength))
-            @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
-                    Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
-                        '_showConstraints -> false,
-                        'maxLength -> Postcode.MaxLength))
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
+                        Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> BusinessName.MaxLength))
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), args =
+                        Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> BusinessName.MaxLength))
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), args =
+                        Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
+                            '_showConstraints -> false,
+                            'typeEmail -> true,
+                            'maxLength -> BusinessEmailMaxLength))
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
+                        Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> Postcode.MaxLength))
 
                 <div class="form-steps">
-                <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
+                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
                     <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                <div class="related">
-                    <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                     <dl class="playback">
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                         <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                        <dd>@viewModel.registrationNumber</dd>
+                        <dd class="reg-number">@viewModel.registrationNumber</dd>
                         @if(viewModel.vehicleMake.isDefined) {
                             <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                             <dd>@viewModel.vehicleMake.get.take(20)</dd>
@@ -63,7 +62,6 @@
                             <dd>@viewModel.vehicleModel.get.take(20)</dd>
                         }
                     </dl>
-                </div>
             </div>
 
         </div>

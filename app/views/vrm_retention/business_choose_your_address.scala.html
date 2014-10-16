@@ -36,29 +36,27 @@
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
                     @if(dropDownOptions.nonEmpty) {
-                    <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
+                        <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
                     <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
 
             <div id="vehicle-details" class="first-col trader-details">
-              <div class="related">
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
                 <dl class="playback">
-                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="regNum">@businessChooseYourAddressViewModel.registrationNumber</dd>
-                    @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@businessChooseYourAddressViewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(businessChooseYourAddressViewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@businessChooseYourAddressViewModel.vehicleModel.get.take(20)</dd>
-                    }
-                </dl>
-              </div>
-            </div>
+                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                        <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                        <dd class="reg-number">@businessChooseYourAddressViewModel.registrationNumber</dd>
+                        @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {
+                            <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                            <dd>@businessChooseYourAddressViewModel.vehicleMake.get.take(20)</dd>
+                        }
+                        @if(businessChooseYourAddressViewModel.vehicleModel.isDefined) {
+                            <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                            <dd>@businessChooseYourAddressViewModel.vehicleModel.get.take(20)</dd>
+                        }
+                    </dl>
+                </div>
         </div>
     }
 }

@@ -10,7 +10,7 @@ import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
 import org.apache.pdfbox.preflight.PreflightDocument
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
-import pdf.PdfServiceImpl.{blankPage, v948Blank}
+import pdf.PdfServiceImpl.{blankPage, fontSize, v948Blank}
 import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -64,15 +64,28 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     page
   }
 
-  private def setFont(implicit contentStream: PDPageContentStream): Unit = {
+  private def fontHelvetica(size: Int)(implicit contentStream: PDPageContentStream): PDFont = {
+    // Create a new font object selecting one of the PDF base fonts
+    val font: PDFont = PDType1Font.HELVETICA
+    contentStream.setFont(font, size)
+    font
+  }
+
+  private def fontHelveticaBold(size: Int)(implicit contentStream: PDPageContentStream): PDFont = {
     // Create a new font object selecting one of the PDF base fonts
     val font: PDFont = PDType1Font.HELVETICA_BOLD
-    contentStream.setFont(font, 12)
+    contentStream.setFont(font, size)
+    font
+  }
+
+  private def width(font: PDFont, content: String, fontSize: Int = fontSize) = {
+    // Return the width of a bounding box that surrounds the string.
+    font.getStringWidth(content) / 1000 * fontSize
   }
 
   private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
-    setFont
+    fontHelvetica(fontSize)
     contentStream.moveTextPositionByAmount(330, 580)
     contentStream.drawString(name)
     contentStream.endText()
@@ -81,7 +94,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       var positionY = 565
       for (line <- a.address.init) {
         contentStream.beginText()
-        setFont
+        fontHelvetica(fontSize)
         contentStream.moveTextPositionByAmount(330, positionY)
         contentStream.drawString(line)
         contentStream.endText()
@@ -90,27 +103,33 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     }
   }
 
-  private def writeVrn(registrationNumber: String)(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeVrn(registrationNumber: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
     contentStream.beginText()
-    setFont
-    contentStream.moveTextPositionByAmount(45, 390)
+    val size = 26
+    val font = fontHelveticaBold(size = size)
+    contentStream.moveTextPositionByAmount(45, 385)
+    contentStream.moveTextPositionByAmount((180 - width(font, registrationNumber, fontSize = size)) / 2, 0) // Centre the text.
     contentStream.drawString(registrationNumber)
     contentStream.endText()
   }
 
-  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
     contentStream.beginText()
-    setFont
-    contentStream.moveTextPositionByAmount(330, 390)
-    contentStream.drawString(s"$transactionId") // Transaction ID:
+    val size = 18
+    val font = fontHelveticaBold(size = 18)
+    contentStream.moveTextPositionByAmount(340, 390)
+    contentStream.moveTextPositionByAmount((200 - width(font, transactionId, fontSize = size)) / 2, 0) // Centre the text.
+    contentStream.drawString(transactionId) // Transaction ID
     contentStream.endText()
   }
 
   private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
+    val dateStamp = dateService.today.`dd/MM/yyyy`
     contentStream.beginText()
-    setFont
+    val font = fontHelvetica(size = fontSize)
     contentStream.moveTextPositionByAmount(45, 280)
-    contentStream.drawString(s"${dateService.today.`dd/MM/yyyy`}") // Date of retention
+    contentStream.moveTextPositionByAmount((75 - width(font, dateStamp)) / 2, 0) // Centre the text.
+    contentStream.drawString(dateStamp) // Date of retention
     contentStream.endText()
   }
 
@@ -122,10 +141,27 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       case Some(blankFile) =>
         // Load document containing just the watermark image.
         val blankDoc = PDDocument.load(blankFile)
-        `PDF/A validation`(blankFile, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
         val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
       case None => document // Other file was not found so cannot combine with it.
+    }
+  }
+}
+
+object PdfServiceImpl {
+
+  private val fontSize = 12
+
+  private val v948Blank: Option[File] = {
+    val filename = "vrm-retention-online-v948-blank.pdf"
+    val file = new File(filename)
+    if (file.exists()) {
+      `PDF/A validation`(file, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
+      Some(file)
+    }
+    else {
+      Logger.error("PdfService could not find blank file for v948")
+      None // TODO When we move the service into a micro-service this should throw an error as the micro-service is in a bad state.
     }
   }
 
@@ -167,19 +203,6 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
         Logger.error(s"PDF/A validation SyntaxValidationException: ${e.getResult}")
     } finally {
       document.close() // Make sure that the document is closed.
-    }
-  }
-}
-
-object PdfServiceImpl {
-
-  private val v948Blank: Option[File] = {
-    val filename = "vrm-retention-online-v948-blank.pdf"
-    val file = new File(filename)
-    if (file.exists()) Some(file)
-    else {
-      Logger.error("PdfService could not find blank file for v948")
-      None // TODO When we move the service into a micro-service this should throw an error as the micro-service is in a bad state.
     }
   }
 
