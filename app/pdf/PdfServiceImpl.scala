@@ -10,7 +10,7 @@ import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
 import org.apache.pdfbox.preflight.PreflightDocument
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
-import pdf.PdfServiceImpl.{blankPage, fontSize, v948Blank}
+import pdf.PdfServiceImpl.{blankPage, fontDefaultSize, v948Blank}
 import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -78,14 +78,14 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     font
   }
 
-  private def width(font: PDFont, content: String, fontSize: Int = fontSize) = {
+  private def width(font: PDFont, content: String, fontSize: Int) = {
     // Return the width of a bounding box that surrounds the string.
     font.getStringWidth(content) / 1000 * fontSize
   }
 
   private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])(implicit contentStream: PDPageContentStream): Unit = {
     contentStream.beginText()
-    fontHelvetica(fontSize)
+    fontHelvetica(fontDefaultSize)
     contentStream.moveTextPositionByAmount(330, 580)
     contentStream.drawString(name)
     contentStream.endText()
@@ -94,7 +94,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       var positionY = 565
       for (line <- a.address.init) {
         contentStream.beginText()
-        fontHelvetica(fontSize)
+        fontHelvetica(fontDefaultSize)
         contentStream.moveTextPositionByAmount(330, positionY)
         contentStream.drawString(line)
         contentStream.endText()
@@ -124,12 +124,27 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
   }
 
   private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
-    val dateStamp = dateService.today.`dd/MM/yyyy`
+    val today = dateService.today
+    val dateStamp = today.`dd shortMonth yyyy`
+    val timeStamp = today.`HH:mm`
+    val font = fontHelvetica(size = fontDefaultSize)
+
     contentStream.beginText()
-    val font = fontHelvetica(size = fontSize)
-    contentStream.moveTextPositionByAmount(45, 280)
-    contentStream.moveTextPositionByAmount((75 - width(font, dateStamp)) / 2, 0) // Centre the text.
+    contentStream.moveTextPositionByAmount(50, 280)
+    contentStream.moveTextPositionByAmount((110 - width(font, dateStamp, fontDefaultSize)) / 2, 0) // Centre the text.
+    contentStream.drawString("DVLA")
+    contentStream.endText()
+
+    contentStream.beginText()
+    contentStream.moveTextPositionByAmount(45, 260)
+    contentStream.moveTextPositionByAmount((85 - width(font, dateStamp, fontDefaultSize)) / 2, 0) // Centre the text.
     contentStream.drawString(dateStamp) // Date of retention
+    contentStream.endText()
+
+    contentStream.beginText()
+    contentStream.moveTextPositionByAmount(50, 240)
+    contentStream.moveTextPositionByAmount((110 - width(font, dateStamp, fontDefaultSize)) / 2, 0) // Centre the text.
+    contentStream.drawString(timeStamp) // Time of retention
     contentStream.endText()
   }
 
@@ -150,7 +165,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
 
 object PdfServiceImpl {
 
-  private val fontSize = 12
+  private val fontDefaultSize = 12
 
   private val v948Blank: Option[File] = {
     val filename = "vrm-retention-online-v948-blank.pdf"
