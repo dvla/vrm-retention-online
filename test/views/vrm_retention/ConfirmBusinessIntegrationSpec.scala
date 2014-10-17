@@ -10,7 +10,7 @@ import pages.vrm_retention._
 
 final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
-/*
+
   "go to page" should {
 
     "display the page" taggedAs UiTag in new WebBrowser {
@@ -22,33 +22,33 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       page.url should equal(ConfirmBusinessPage.url)
     }
   }
+  /*
+    "confirm button" should {
 
-  "confirm button" should {
+      "redirect to Confirm business page" taggedAs UiTag in new WebBrowser {
+        go to BeforeYouStartPage
+        cacheSetup()
+        go to ConfirmBusinessPage
 
-    "redirect to Confirm business page" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to ConfirmBusinessPage
+        click on confirm
 
-      click on confirm
-
-      page.url should equal(ConfirmPage.url)
+        page.url should equal(ConfirmPage.url)
+      }
     }
-  }
 
-  "exit button" should {
+    "exit button" should {
 
-    "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to ConfirmBusinessPage
+      "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowser {
+        go to BeforeYouStartPage
+        cacheSetup()
+        go to ConfirmBusinessPage
 
-      click on exit
+        click on exit
 
-      page.url should equal(MockFeedbackPage.url)
+        page.url should equal(MockFeedbackPage.url)
+      }
     }
-  }
-*/ 
+  */
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
@@ -56,6 +56,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       vehicleAndKeeperDetailsModel().
       businessDetails().
       eligibilityModel().
-      transactionId()
+      transactionId().
+      setupBusinessDetails()
 
 }
