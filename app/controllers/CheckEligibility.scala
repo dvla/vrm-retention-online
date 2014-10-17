@@ -76,7 +76,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
-      transactionTimestamp = dateService.now.toDateTimeISO
+      transactionTimestamp = dateService.now.toDateTime
     )
     val trackingId = request.cookies.trackingId()
 
