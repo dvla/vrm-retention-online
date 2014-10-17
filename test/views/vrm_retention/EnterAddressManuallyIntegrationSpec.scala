@@ -64,7 +64,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
   }
 
   "next button" should {
-    
+
     "accept and redirect when all fields are input with valid entry" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
