@@ -7,8 +7,9 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
+import pages.common.MainPanel.back
 import pages.vrm_retention.EnterAddressManuallyPage.{happyPath, happyPathMandatoryFieldsOnly, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, ConfirmBusinessPage, EnterAddressManuallyPage}
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmBusinessPage, EnterAddressManuallyPage, SetupBusinessDetailsPage}
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
@@ -64,7 +65,6 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
   "next button" should {
     
-    /*
     "accept and redirect when all fields are input with valid entry" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -73,7 +73,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       page.url should equal(ConfirmBusinessPage.url)
     }
-    
+
     "accept when only mandatory fields only are input" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -82,7 +82,6 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       page.url should equal(ConfirmBusinessPage.url)
     }
-    */
 
     "display validation error messages when no details are entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
@@ -91,6 +90,19 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       sadPath
 
       ErrorPanel.numberOfErrors should equal(2)
+    }
+  }
+
+  "back button" should {
+
+    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to EnterAddressManuallyPage
+      click on back
+
+      page.url should equal(SetupBusinessDetailsPage.url)
     }
   }
 
