@@ -19,7 +19,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
       go to PaymentNotAuthorisedPage
 
-      page.title should equal(PaymentNotAuthorisedPage.title)
+      page.url should equal(PaymentNotAuthorisedPage.url)
     }
 
   }
@@ -34,7 +34,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 //
 //      click on tryAgain
 //
-//      page.title should equal(Success.title)
+//      page.url should equal(Success.url)
 //    }
 //  }
 

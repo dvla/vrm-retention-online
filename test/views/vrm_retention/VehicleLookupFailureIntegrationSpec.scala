@@ -54,7 +54,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on tryAgain
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
   }
 

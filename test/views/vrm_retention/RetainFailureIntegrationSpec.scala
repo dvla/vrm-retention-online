@@ -19,7 +19,7 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to RetainFailurePage
 
-      page.title should equal(RetainFailurePage.title)
+      page.url should equal(RetainFailurePage.url)
     }
   }
 
