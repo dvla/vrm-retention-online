@@ -11,7 +11,7 @@ object BeforeYouStartPart2Page extends Page with WebBrowserDSL {
 
   def url = WebDriverFactory.testUrl + address.substring(1)
 
-  final override val title: String = "Take a registration number off a vehicle"
+  final override val title: String = "Retain a personalised registration number"
   final val titleCy: String = "Cael gwared cerbyd i mewn i'r fasnach foduron"
 
   def startNow(implicit driver: WebDriver): Element = find(id(NextId)).get
