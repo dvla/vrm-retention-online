@@ -4,13 +4,10 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import org.openqa.selenium.{By, WebElement, WebDriver}
-import pages.vrm_retention._
-import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
 import org.openqa.selenium.{By, WebDriver, WebElement}
-import pages.vrm_retention.ConfirmPage.happyPath
-import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, PaymentPage, VehicleLookupPage}
-import views.common.Help
+import pages.common.MainPanel.back
+import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, PaymentPage, VehicleLookupPage, _}
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
@@ -60,9 +57,24 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
+  "back button" should {
+
+    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to ConfirmBusinessPage
+
+      click on back
+
+      page.url should equal(SetupBusinessDetailsPage.url)
+    }
+  }
+
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
-      businessDetails()
+      businessDetails().
+      transactionId().
+      eligibilityModel()
 }

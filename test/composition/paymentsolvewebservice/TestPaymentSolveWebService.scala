@@ -1,7 +1,37 @@
 package composition.paymentsolvewebservice
 
+import com.tzavellas.sse.guice.ScalaModule
+import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginResponseWithValidDefaults, cancelResponseWithValidDefaults, getResponseWithValidDefaults, updateResponseWithValidDefaults}
+import org.mockito.Matchers.any
+import org.mockito.Mockito.when
+import org.scalatest.mock.MockitoSugar
+import play.api.http.Status.OK
 import play.api.libs.json.Json
+import webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve._
+import scala.concurrent.Future
+
+class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
+
+  def configure() = {
+    val webService = mock[PaymentSolveWebService]
+
+    when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[String])).
+      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = beginResponseWithValidDefaults())))
+
+    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[String])).
+      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults())))
+
+    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[String])).
+      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
+
+    when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[String])).
+      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
+
+
+    bind[PaymentSolveWebService].toInstance(webService)
+  }
+}
 
 object TestPaymentSolveWebService {
 
@@ -43,6 +73,16 @@ object TestPaymentSolveWebService {
       status = status
     )
     val asJson = Json.toJson(paymentSolveCancelResponse)
+    Some(asJson)
+  }
+
+  private[paymentsolvewebservice] def updateResponseWithValidDefaults(response: String = "validated",
+                                                                      status: String = "CARD_DETAILS") = {
+    val update = PaymentSolveUpdateResponse(
+      response = response,
+      status = status
+    )
+    val asJson = Json.toJson(update)
     Some(asJson)
   }
 }
