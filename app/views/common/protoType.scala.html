@@ -1,7 +1,12 @@
 @()(implicit lang: Lang, config: utils.helpers.Config)
 
+@import mappings.common.Help.HelpId
+@import play.api.Play
+@import play.api.Play.current
+@import views.html.common.{alternateLanguages, feedback}
+
 @if(config.isPrototypeBannerVisible) {
     <div class="prototype">
-        <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner") <a href="@Messages("prototype.link.source")" target="_blank">@Messages("prototype.link")</a> </p>
+        <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner.part1") @feedback() @Messages("prototype.banner.part2")</p>
     </div>
 }

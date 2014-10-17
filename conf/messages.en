@@ -6,7 +6,7 @@
 #main.banner = Sell a vehicle into the motor trade
 main.back = Back
 main.banner.help = Help
-main.banner.feedback = Feedback
+main.banner.feedback = leave feedback
 main.banner.feedback.link = mailto:pr.feedback@dvla.gsi.gov.uk?Subject=Retain%20a%20Personalised%20Number%20Feedback
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
@@ -30,9 +30,8 @@ footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
-prototype.banner = This service is under development -
-prototype.link =  find out more
-prototype.link.source = https://www.gov.uk/help/alpha
+prototype.banner.part1 = This is a new service -
+prototype.banner.part2 = to help us improve it
 
 #page 2
 keeperstatus.title = Change of keeper address2
@@ -418,9 +417,9 @@ vrm_retention_confirm.keeperAddressLabel = Address
 vrm_retention_confirm.keeperPostcodeLabel = Postcode
 vrm_retention_confirm.isBusiness = Confirm your business details
 vrm_retention_confirm.businessDetailsTitle = Business details
-vrm_retention_confirm.businessNameLabel = Name
+vrm_retention_confirm.businessNameLabel = Business name
 vrm_retention_confirm.businessContactLabel = Contact name
-vrm_retention_confirm.businessEmailLabel = Email address
+vrm_retention_confirm.businessEmailLabel = Contact e-mail
 vrm_retention_confirm.businessAddressLabel = Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
