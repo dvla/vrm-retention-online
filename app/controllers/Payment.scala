@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import composition.RefererFromHeader
 import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
@@ -22,7 +23,8 @@ import scala.util.control.NonFatal
 
 final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                               paymentSolveService: PaymentSolveService,
-                              dateService: DateService)
+                              dateService: DateService,
+                              refererFromHeader: RefererFromHeader)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
@@ -83,7 +85,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
   private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],
                                                                              token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
-    request.headers.get(REFERER) match {
+    refererFromHeader.fetch match {
       case Some(referrer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
         val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
