@@ -1,18 +1,18 @@
 package controllers
 
+import audit.{AuditService, ConfirmBusinessToConfirmAuditMessage}
 import com.google.inject.Inject
 import models._
-import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
+import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import audit.{ConfirmBusinessToConfirmAuditMessage, AuditService}
 
 final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                      config: Config) extends Controller {
+                                                                  config: Config) extends Controller {
 
   def present = Action { implicit request =>
     val happyPath = for {
