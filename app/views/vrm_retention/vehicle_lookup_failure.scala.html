@@ -28,7 +28,13 @@
                 </dl>
         </div>
         <div class="second-col">
-        <h1>@Messages("vehicle_and_keeper_lookup_vrm_not_found.title")</h1>
+            @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
+                <h1>@Messages("vrm_retention_eligibility_direct_to_paper.title")</h1>
+            }
+            @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
+            <h1>@Messages("vrm_retention_eligibility_failure.title")</h1>
+            }
+
             <p>Transaction Id @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
@@ -39,12 +45,12 @@
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
+                <a id="@ExitId" href="@controllers.routes.MockFeedback.present()" class="button">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
                 @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
-                    <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
+                <br/><br/>
+                <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
                 }
-                <a id="@BackId" href="@controllers.routes.VehicleLookup.present()" class="button-secondary">@Messages("vrm_retention_businessChooseYourAddress.backbutton")</a>
-                <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
             </div>
         </div>
     </div>

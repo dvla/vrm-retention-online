@@ -1,12 +1,12 @@
 package views.vrm_retention
 
 import helpers.UiSpec
-import helpers.webbrowser.TestHarness
-import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
-import pages.vrm_retention.{MockFeedbackPage, VehicleLookupPage, VehicleLookupFailurePage, BeforeYouStartPage}
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
+import pages.vrm_retention.{BeforeYouStartPage, MockFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -41,7 +41,6 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       page.title should equal(VehicleLookupFailurePage.failureTitle)
     }
-
   }
 
   "try again button" should {
@@ -54,7 +53,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on tryAgain
 
-      page.title should equal(VehicleLookupPage.title)
+      page.url should equal(VehicleLookupPage.url)
     }
   }
 

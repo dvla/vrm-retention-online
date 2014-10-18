@@ -33,8 +33,8 @@
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
-                <a id="@TryAgainId" href="@controllers.routes.Confirm.present()" class="button-secondary">@Messages("vrm_retention_paymentfailure.tryagainbutton")</a>
-                <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
+                <a id="@TryAgainId" href="@controllers.routes.Confirm.present()" class="button">@Messages("vrm_retention_paymentfailure.tryagainbutton")</a><br /><br />
+                <a id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
             </div>
         </div>
     </div>

@@ -5,8 +5,9 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.common.MainPanel.back
 import pages.vrm_retention.SuccessPage.finish
-import pages.vrm_retention.{BeforeYouStartPage, MockFeedbackPage, SuccessPage}
+import pages.vrm_retention.{BeforeYouStartPage, MockFeedbackPage, SuccessPage, SuccessPaymentPage}
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
 
@@ -40,6 +41,19 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+  }
+
+  "back button" should {
+
+    "redirect to the SuccessPayment page" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to SuccessPage
+
+      click on back
+
+      page.url should equal(SuccessPaymentPage.url)
     }
   }
 

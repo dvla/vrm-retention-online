@@ -1,76 +1,85 @@
-@(viewModel: models.ConfirmBusinessViewModel,
+@(confirmBusinessViewModel: models.ConfirmBusinessViewModel,
         confirmBusinessForm: Form[models.ConfirmBusinessFormModel])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import controllers.routes.ConfirmBusiness
-@import views.vrm_retention.ConfirmBusiness._
+@import views.html.helper.form
 @import views.html.vrm_retention.main
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechOptionalDeclareCheck
+@import views.vrm_retention.ConfirmBusiness._
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechOptionalDeclareCheck}
 
 @main(
     title = Messages("vrm_retention_confirm_business.title"),
     currentForm = Some(confirmBusinessForm),
     backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
-
     <div class="two-col">
-
         <div class="second-col">
             <h1>@Messages("vrm_retention_confirm_business.title")</h1>
-            <p>@Messages("vrm_retention_confirm.intro")</p>
 
             <dl class="playback">
                 <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
-                <dd>@viewModel.businessName</dd>
+                <dd>@confirmBusinessViewModel.businessName</dd>
                 <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
-                <dd>@viewModel.businessContact</dd>
+                <dd>@confirmBusinessViewModel.businessContact</dd>
                 <dt>@Messages("vrm_retention_confirm.businessEmailLabel")</dt>
-                <dd>@viewModel.businessEmail</dd>
+                <dd>@confirmBusinessViewModel.businessEmail</dd>
                 <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-                <dd>@for(businessAddressLine <- viewModel.businessAddress.get.address.init) {
-                    @businessAddressLine<br>
-                    }</dd>
-                <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-                <dd>@viewModel.businessAddress.get.address.last</dd>
-            </dl>
-
-            <div class="form-declaration">
-            @valtechOptionalDeclareCheck(confirmBusinessForm(StoreDetailsConsentId),
-                args = Map(
-                    '_showConstraints -> false,
-                    'autofocus -> true ,
-                    '_label -> Messages("vrm_retention_confirm.storeDetailsConsent")
-                )
-            )
-            </div>
-            <dd>@Messages("vrm_retention_confirm.storeDetailsConsentWarning")</dd>
-
-
-            <div class="form-steps">
-                @if(viewModel.businessName.isDefined && confirmBusinessForm.get.storeBusinessDetails) {
-                    <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_changedetails.button")</a>
+                <dd>
+                @confirmBusinessViewModel.businessAddress.map { addressModel =>
+                    @for(businessAddressLine <- addressModel.address.init) {
+                        @businessAddressLine <br>
+                        }
                 }
-                <a class="button" id="@ConfirmId" href="@ConfirmBusiness.submit()">@Messages("vrm_retention_confirm_business.button")</a>
-                <a class="button-secondary" id="@ExitId" href="@ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
-            </div>
+                </dd>
+                <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
+                <dd>
+                @confirmBusinessViewModel.businessAddress.map { addressModel =>
+                    @addressModel.address.last
+                }
+                </dd>
+            </dl>
         </div>
-
-
         <div class="first-col">
             <dl class="playback">
                 <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                <dd class="reg-number">@viewModel.registrationNumber</dd>
-                @if(viewModel.vehicleMake.isDefined) {
+                <dd class="reg-number">@confirmBusinessViewModel.registrationNumber</dd>
+                @if(confirmBusinessViewModel.vehicleMake.isDefined) {
                     <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                    <dd>@viewModel.vehicleMake.get.take(20)</dd>
+                    <dd>@confirmBusinessViewModel.vehicleMake.get.take(20)</dd>
                 }
-                @if(viewModel.vehicleModel.isDefined) {
+                @if(confirmBusinessViewModel.vehicleModel.isDefined) {
                     <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                    <dd>@viewModel.vehicleModel.get.take(20)</dd>
+                    <dd>@confirmBusinessViewModel.vehicleModel.get.take(20)</dd>
                 }
             </dl>
         </div>
     </div>
+
+    @form(action = controllers.routes.ConfirmBusiness.submit()) {
+        @csrfTokenHiddenField()
+        <div class="two-col">
+            <div class="second-col">
+
+                    <div class="form-declaration">
+                    @valtechOptionalDeclareCheck(confirmBusinessForm(StoreDetailsConsentId),
+                        args = Map(
+                            '_showConstraints -> false,
+                            'autofocus -> true,
+                            '_label -> Messages("vrm_retention_confirm.storeDetailsConsent")
+                        )
+                    )
+                    </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-steps">
+            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button><br /><br />
+            <a id="@ExitId" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
+        </div>
+    }
+
 }

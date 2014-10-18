@@ -6,7 +6,7 @@
 #main.banner = Sell a vehicle into the motor trade
 main.back = Back
 main.banner.help = Help
-main.banner.feedback = Feedback
+main.banner.feedback = leave feedback
 main.banner.feedback.link = mailto:pr.feedback@dvla.gsi.gov.uk?Subject=Retain%20a%20Personalised%20Number%20Feedback
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
@@ -30,9 +30,8 @@ footer.builtbyintro = Built by
 footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
-prototype.banner = This service is under development -
-prototype.link =  find out more
-prototype.link.source = https://www.gov.uk/help/alpha
+prototype.banner.part1 = This is a new service -
+prototype.banner.part2 = to help us improve it
 
 #page 2
 keeperstatus.title = Change of keeper address2
@@ -266,7 +265,7 @@ mandatory = Fields not labelled (optional) are mandatory
 #
 
 # main
-main.banner = Take a registration number off a vehicle
+main.banner = Retain a personalised registration number
 
 # before you start
 vrm_retention_beforeyoustart.title = Take a registration number off a vehicle
@@ -303,11 +302,11 @@ vrm_retention_beforeyoustartpart2.button = Let''s begin
 vrm_retention_setupbusinessdetails.title = Provide your business details
 vrm_retention_setupbusinessdetails.p1 = As you have indicated that you are acting on behalf of the keeper we require certain details from you to complete the transaction.
 vrm_retention_setupbusinessdetails.businessnamelabel = Business name
-vrm_retention_setupbusinessdetails.businesscontactlabel = Business contact name
-vrm_retention_setupbusinessdetails.businessemaillabel = Business email address
-vrm_retention_setupbusinessdetails.businesspostcodelabel = Postcode
+vrm_retention_setupbusinessdetails.businesscontactlabel = Contact name
+vrm_retention_setupbusinessdetails.businessemaillabel = Contact e-mail
+vrm_retention_setupbusinessdetails.businesspostcodelabel = Business postcode
 vrm_retention_setupbusinessdetails.businesspostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. SA1 2FA or SA12FA
-vrm_retention_setupbusinessdetails.button = Find address
+vrm_retention_setupbusinessdetails.button = Next
 error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 error.validBusinessContact = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, +, -, ‘, &, @, () and ,)
 error.validEmail = Must be a valid email address
@@ -361,9 +360,11 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle regi
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C and try again.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
+vrm_retention_eligibility_direct_to_paper.title = This registration number can not be retained online
 vrm_retention_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line please submit a V317. You must send both application pages and the appropriate documents to DVLA Personalised Registrations, Swansea SA99 1DS.  All documents must be originals, not photocopies or faxed copies.
 vrm_retention_eligibility_direct_to_paper.p2 =
 vrm_retention_eligibility_direct_to_paper.p3 =
+vrm_retention_eligibility_failure.title = This registration number can not be retained
 vrm_retention_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.  If you need further assistance please ring our Contact Centre on 0300 790 6801.
 vrm_retention_eligibility_failure.p2 =
 vrm_retention_eligibility_failure.p3 =
@@ -416,9 +417,9 @@ vrm_retention_confirm.keeperAddressLabel = Address
 vrm_retention_confirm.keeperPostcodeLabel = Postcode
 vrm_retention_confirm.isBusiness = Confirm your business details
 vrm_retention_confirm.businessDetailsTitle = Business details
-vrm_retention_confirm.businessNameLabel = Name
+vrm_retention_confirm.businessNameLabel = Business name
 vrm_retention_confirm.businessContactLabel = Contact name
-vrm_retention_confirm.businessEmailLabel = Email address
+vrm_retention_confirm.businessEmailLabel = Contact e-mail
 vrm_retention_confirm.businessAddressLabel = Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm

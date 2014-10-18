@@ -32,7 +32,7 @@
             <p>@Messages("vrm_retention_payment.javascript-disabled.message")</p>
             <a class="button" id="@GetWebPaymentlId" href="@Payment.getWebPayment">@Messages("vrm_retention_payment.javascript-disabled.button")</a>
         </noscript>
-        <a class="button" id="@CancelId" href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a>
-        <a class="button-secondary" id="@ExitId" href="@Payment.exit()">@Messages("vrm_retention_exit.button")</a>
+        <a class="button" id="@CancelId" href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a><br /><br />
+        <a id="@ExitId" href="@Payment.exit()">@Messages("vrm_retention_exit.button")</a>
     </div>
 }
