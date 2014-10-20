@@ -101,8 +101,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           response =>
             if (response.status == Payment.CardDetailsStatus) {
               // TODO need sad path for when redirectUrl is None
-//              Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
-              Redirect(response.redirectUrl.get)
+              Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
+//              Redirect(response.redirectUrl.get)
                 .withCookie(PaymentTransactionReferenceCacheKey, response.trxRef.get)
                 .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
             } else {

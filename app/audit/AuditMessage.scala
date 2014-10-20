@@ -28,11 +28,30 @@ object VehicleLookupToConfirmAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           currentVRM: String, replacementVRM: String) = {
+           replacementVRM: String) = {
 
     VehicleLookupToConfirmAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(currentVRM), Some(replacementVRM)),
+      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      transactionId)
+  }
+
+}
+
+final case class VehicleLookupToConfirmBusinessAuditMessage(vehicleAuditDetails: VehicleAuditDetails,
+                                                    vrmAuditDetails: VrmAuditDetails,
+                                                    transactionId: String) extends AuditMessage {
+}
+
+object VehicleLookupToConfirmBusinessAuditMessage {
+
+  def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
+           replacementVRM: String) = {
+
+    VehicleLookupToConfirmBusinessAuditMessage(
+      VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
+      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
       transactionId)
   }
 
@@ -48,17 +67,33 @@ object VehicleLookupToSetUpBusinessDetailsAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           currentVRM: String, replacementVRM: String) = {
+           replacementVRM: String) = {
 
     VehicleLookupToSetUpBusinessDetailsAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(currentVRM), Some(replacementVRM)),
+      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
       transactionId)
   }
 
 }
 
+final case class VehicleLookupToVehicleLookupFailureAuditMessage(vehicleAuditDetails: VehicleAuditDetails,
+                                                                 vrmAuditDetails: VrmAuditDetails,
+                                                                 transactionId: String) extends AuditMessage {
+}
 
+object VehicleLookupToVehicleLookupFailureAuditMessage {
+
+  def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String) = {
+
+    VehicleLookupToVehicleLookupFailureAuditMessage(
+      VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
+      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), None),
+      transactionId)
+  }
+
+}
 
 final case class ConfirmBusinessToConfirmAuditMessage(vehicleAuditDetails: VehicleAuditDetails,
                                                                  vrmAuditDetails: VrmAuditDetails,
