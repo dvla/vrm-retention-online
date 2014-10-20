@@ -5,11 +5,15 @@ transactionTimestamp: String,
 keeperName: String,
 keeperAddress: String,
 amount: String,
-replacementVRM: String)(implicit lang: Lang)
+replacementVRM: String,
+keeperEmail: Option[String],
+businessDetailsModel: Option[BusinessDetailsModel],
+businessAddress: String)(implicit lang: Lang)
 
 @Messages("email.withoutHtml")
 @Messages("email.title", vrm)
 @Messages("email.line1")
+@Messages("email.line2")
 @Messages("email.line3")
 @retentionCertId
 @Messages("email.line4")
@@ -24,17 +28,16 @@ replacementVRM: String)(implicit lang: Lang)
 @replacementVRM
 @Messages("email.line12")
 @Messages("email.line13")
-@Messages("email.line14")
-@Messages("email.line15")
-@Messages("email.line16")
-@Messages("email.line17")
-@Messages("email.line18")
-@Messages("email.line19")
-emailaddress@@isp.com
+@businessDetailsModel.map { businessDetails =>
+    @Messages("email.line14")
+    @businessDetails.name
+    @businessAddress
+    @businessDetails.email
+}
 @Messages("email.line20")
 @keeperName
 @keeperAddress
-emailaddress@@isp.com
+@keeperEmail.getOrElse("")
 @Messages("email.line21")
 @Messages("email.line22")
 @Messages("email.line23")
