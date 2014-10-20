@@ -53,15 +53,17 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
+          auditService.send(VehicleLookupToConfirmAuditMessage.from(
+            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM))
           routes.Confirm.present()
         } else {
           if (storeBusinessDetails) {
-            auditService.send(VehicleLookupToConfirmAuditMessage.from(
-              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
+            auditService.send(VehicleLookupToConfirmBusinessAuditMessage.from(
+              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM))
             routes.ConfirmBusiness.present()
           } else {
             auditService.send(VehicleLookupToSetUpBusinessDetailsAuditMessage.from(
-              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
+              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM))
             routes.SetUpBusinessDetails.present()
           }
         }
@@ -73,6 +75,10 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       Logger.debug(s"VRMRetentionEligibility encountered a problem with request" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+
+      auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId))
+
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
     }

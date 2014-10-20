@@ -90,6 +90,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
       )
   }
 
+  // TODO need to remove this as it's a copy and paste from Confirm
   private def replaceErrorMsg(form: Form[ConfirmBusinessFormModel], id: String, msgId: String) =
     form.replaceError(
       KeeperEmailId,
@@ -117,9 +118,9 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
         val transactionId = request.cookies.getString(TransactionIdCacheKey).get
         val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
 
-        //      auditService.send(ConfirmToPaymentAuditMessage.from(
-        //        vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, transactionId, vehicleAndKeeperDetailsModel.registrationNumber,
-        //        replacementVRM, model.keeperEmail))
+        auditService.send(ConfirmBusinessToConfirmAuditMessage.from(
+          vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, transactionId, vehicleAndKeeperDetailsModel.registrationNumber,
+          replacementVRM))
 
         Redirect(routes.Confirm.present()).withCookiesEx(cookies: _*)
     }

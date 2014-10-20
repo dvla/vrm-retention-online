@@ -32,10 +32,8 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
+      val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business // TODO do we need this and the next line after splitting confirm up?
       val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
-//      val showStoreDetails = storeBusinessDetails && isBusinessUser
       val formModel = ConfirmFormModel(None)
       val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))

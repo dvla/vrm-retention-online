@@ -1,12 +1,9 @@
 package email
 
-import com.tzavellas.sse.guice.ScalaModule
-import composition.{TestConfig, TestDateService}
 import helpers.{UnitSpec, WithApplication}
-import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+import models._
 import org.apache.commons.mail.HtmlEmail
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{NoCookieFlags, CookieFlags}
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.TransactionTimestampValid
@@ -46,14 +43,16 @@ final class EmailServiceImplSpec extends UnitSpec {
 
   "htmlMessage" should {
 
-    "return expected html" in new WithApplication {
+    "return html with business details when user type business" in new WithApplication {
       val htmlEmail = new HtmlEmail()
       val result = emailService.htmlMessage(
         vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
         eligibilityModel = eligibility,
         retainModel = retain,
         transactionId = transactionId,
-        htmlEmail = htmlEmail
+        htmlEmail = htmlEmail,
+        confirmFormModel = confirmFormModel,
+        businessDetailsModel = businessDetailsModel
       )
 
       result.toString should include(vehicleAndKeeperDetails.registrationNumber)
@@ -61,6 +60,29 @@ final class EmailServiceImplSpec extends UnitSpec {
       result.toString should include(retain.certificateNumber)
       result.toString should include(retain.transactionTimestamp)
       result.toString should include(transactionId)
+      result.toString should include(TraderBusinessNameValid)
+      result.toString should include(TraderBusinessEmailValid)
+    }
+
+    "return expected without business details html when user type keeper" in new WithApplication {
+      val htmlEmail = new HtmlEmail()
+      val result = emailService.htmlMessage(
+        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
+        eligibilityModel = eligibility,
+        retainModel = retain,
+        transactionId = transactionId,
+        htmlEmail = htmlEmail,
+        confirmFormModel = confirmFormModel,
+        businessDetailsModel = None
+      )
+
+      result.toString should include(vehicleAndKeeperDetails.registrationNumber)
+      result.toString should include(eligibility.replacementVRM)
+      result.toString should include(retain.certificateNumber)
+      result.toString should include(retain.transactionTimestamp)
+      result.toString should include(transactionId)
+      result.toString should not include TraderBusinessNameValid
+      result.toString should not include TraderBusinessEmailValid
     }
   }
 
@@ -79,4 +101,6 @@ final class EmailServiceImplSpec extends UnitSpec {
     transactionTimestamp = TransactionTimestampValid
   )
   private val transactionId = "stubTransactionId"
+  private val confirmFormModel = Some(ConfirmFormModel(keeperEmail = KeeperEmailValid))
+  private val businessDetailsModel = Some(BusinessDetailsModel(name = TraderBusinessNameValid, contact = TraderBusinessContactValid, email = TraderBusinessEmailValid, address = addressWithUprn))
 }

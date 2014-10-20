@@ -4,12 +4,14 @@ import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import email.EmailService
 import models._
+import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
@@ -34,7 +36,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel],
         request.cookies.getModel[RetainModel],
-        request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
+        request.cookies.getString(TransactionReferenceCacheKey)) match {
 
         case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
         Some(eligibilityModel), Some(retainModel), Some(trxRef)) =>
@@ -45,15 +47,17 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
           val successViewModel =
             SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
               keeperEmailOpt, retainModel, transactionId)
+          val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+          val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
           businessDetailsOpt.foreach {
             businessDetails =>
-              emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
+              emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
           }
 
           keeperEmailOpt.foreach {
             keeperEmail =>
-              emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId)
+              emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
           }
 
           callUpdateWebPaymentService(transactionId, trxRef, retainModel.certificateNumber, successViewModel)
@@ -88,6 +92,26 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
   def next = Action {
     implicit request =>
       Redirect(routes.Success.present())
+  }
+
+  def emailStub = Action {
+    implicit request =>
+      Ok(emailService.htmlMessage(
+        vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
+          registrationNumber = "stub-registrationNumber",
+          make = Some("stub-make"),
+          model = Some("stub-model"),
+          title = Some("stub-title"),
+          firstName = Some("stub-firstName"),
+          lastName = Some("stub-lastName"),
+          address = Some(AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
+        eligibilityModel = EligibilityModel(replacementVRM = "stub-replacementVRM"),
+        retainModel = RetainModel(certificateNumber = "stub-certificateNumber", transactionTimestamp = "stub-transactionTimestamp"),
+        transactionId = "stub-transactionId",
+        htmlEmail = new HtmlEmail(),
+        confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),
+        businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode"))))
+      ))
   }
 
   private def callUpdateWebPaymentService(transactionId: String, trxRef: String, certificateNumber: String,

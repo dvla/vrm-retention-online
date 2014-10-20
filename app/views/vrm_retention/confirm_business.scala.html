@@ -62,15 +62,16 @@
         <div class="two-col">
             <div class="second-col">
 
-                <div class="form-declaration">
+                @*<div class="form-declaration">*@
                 @valtechOptionalDeclareCheck(confirmBusinessForm(StoreDetailsConsentId),
                     args = Map(
+                        '_name -> "",
                         '_showConstraints -> false,
                         'autofocus -> true,
                         '_label -> Messages("vrm_retention_confirm.storeDetailsConsent")
                     )
                 )
-                </div>
+                @*</div>*@
 
             </div>
         </div>

@@ -14,8 +14,8 @@
         src="@paymentRedirectUrl"
         @*seamless="seamless" Logic group recommends we do NOT use this field *@
         title="@Messages("vrm_retention_payment.iframe.title")"
-        width="600"
-        height="300"
+        width="100%"
+        height="830"
         frameborder="0" @* Logic group recommends this field *@
         <!--[if IE] allowTransparency="true" --> @* Logic group recommends this field. This IE-specific attribute, which has never been part of a recognised standard, is no longer present in HTML5. http://help.simplytestable.com/errors/html-validation/the-x-attribute-on-the-y-element-is-obsolete-use-css-instead/the-allowtransparency-attribute-on-the-iframe-element-is-obsolete-use-css-instead/ *@
         @*sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation" Logic group recommends we do NOT use this field *@
@@ -32,7 +32,6 @@
             <p>@Messages("vrm_retention_payment.javascript-disabled.message")</p>
             <a class="button" id="@GetWebPaymentlId" href="@Payment.getWebPayment">@Messages("vrm_retention_payment.javascript-disabled.button")</a>
         </noscript>
-        <a class="button" id="@CancelId" href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a><br /><br />
-        <a id="@ExitId" href="@Payment.exit()">@Messages("vrm_retention_exit.button")</a>
+        <a id="@CancelId" href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a>
     </div>
 }

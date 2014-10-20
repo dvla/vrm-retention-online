@@ -103,8 +103,8 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def paymentTransactionReference(trxRef: String = PaymentTransactionReferenceCacheKey)(implicit webDriver: WebDriver) = {
-    val key = PaymentTransactionReferenceCacheKey
+  def paymentTransactionReference(trxRef: String = TransactionReferenceCacheKey)(implicit webDriver: WebDriver) = {
+    val key = TransactionReferenceCacheKey
     addCookie(key, trxRef)
     this
   }

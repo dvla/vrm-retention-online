@@ -33,7 +33,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
         request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
+        request.cookies.getString(TransactionReferenceCacheKey)) match {
         case (Some(vehiclesLookupForm), Some(transactionId), Some(trxRef)) => retainVrm(vehiclesLookupForm, transactionId, trxRef)
         case _ => Future.successful {
           Redirect(routes.MicroServiceError.present()) // TODO need an error page for this scenario
@@ -58,10 +58,11 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
       val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
+      val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey).get
 
       auditService.send(PaymentToSuccessAuditMessage.from(
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, vehicleAndKeeperDetailsModel.registrationNumber,
-        replacementVRM, keeperEmail))
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId,
+        replacementVRM, keeperEmail, paymentTrxRef))
 
       Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))

@@ -5,5 +5,7 @@ object Payment {
   final val GetWebPaymentlId = "getWebPayment"
   final val CancelId = "cancel"
   final val ExitId = "exit"
-  final val PaymentTransactionReferenceCacheKey = "paymentTransactionReference"
+  final val TransactionReferenceCacheKey = "TransactionReference"
+  final val AuthCodeCacheKey = "authCodeCacheKey"
+  final val MaskedPanCacheKey = "maskedPanCacheKey"
 }
