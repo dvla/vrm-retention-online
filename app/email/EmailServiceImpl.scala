@@ -2,7 +2,7 @@ package email
 
 import javax.activation.{CommandMap, MailcapCommandMap}
 import com.google.inject.Inject
-import models.{EligibilityModel, RetainModel, VehicleAndKeeperDetailsModel}
+import models._
 import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
 import play.api.Play.current
@@ -24,7 +24,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                          eligibilityModel: EligibilityModel,
                          retainModel: RetainModel,
-                         transactionId: String) {
+                         transactionId: String,
+                         confirmFormModel: Option[ConfirmFormModel],
+                         businessDetailsModel: Option[BusinessDetailsModel]) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
       pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
@@ -47,7 +49,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               description = "Replacement registration number letter of authorisation"
             )
             val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId)
-            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail).toString()
+            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel).toString()
             val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber // TODO fetch text from Messages file.
 
             htmlEmail.
@@ -75,7 +77,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                            eligibilityModel: EligibilityModel,
                            retainModel: RetainModel,
                            transactionId: String,
-                           htmlEmail: HtmlEmail): HtmlFormat.Appendable = {
+                           htmlEmail: HtmlEmail,
+                           confirmFormModel: Option[ConfirmFormModel],
+                           businessDetailsModel: Option[BusinessDetailsModel]): HtmlFormat.Appendable = {
     val crownContentId = crownUrl match {
       case Some(url) => "cid:" + htmlEmail.embed(url, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
       case _ => ""
@@ -93,13 +97,16 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       retentionCertId = retainModel.certificateNumber,
       transactionId = transactionId,
       transactionTimestamp = retainModel.transactionTimestamp,
-      keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
-      keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
+      keeperName = formatName(vehicleAndKeeperDetailsModel),
+      keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
       crownContentId = crownContentId,
       openGovernmentLicenceContentId = openGovernmentLicenceContentId,
-      crestId = crestId
+      crestId = crestId,
+      keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
+      businessDetailsModel = businessDetailsModel,
+      businessAddress = formatAddress(businessDetailsModel)
     )
   }
 
@@ -112,22 +119,29 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       retentionCertId = retainModel.certificateNumber,
       transactionId = transactionId,
       transactionTimestamp = retainModel.transactionTimestamp,
-      keeperName = formatKeeperName(vehicleAndKeeperDetailsModel),
-      keeperAddress = formatKeeperAddress(vehicleAndKeeperDetailsModel),
+      keeperName = formatName(vehicleAndKeeperDetailsModel),
+      keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM
     ).toString()
   }
 
-  private def formatKeeperName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+  private def formatName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
     Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
       flatten.
       mkString(" ")
   }
 
-  private def formatKeeperAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
+  private def formatAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
     vehicleAndKeeperDetailsModel.address match {
       case Some(adressModel) => adressModel.address.mkString(", ")
+      case None => ""
+    }
+  }
+
+  private def formatAddress(businessDetailsModel: Option[BusinessDetailsModel]): String = {
+    businessDetailsModel match {
+      case Some(details) => details.address.address.mkString(", ")
       case None => ""
     }
   }
