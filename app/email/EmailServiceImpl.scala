@@ -48,7 +48,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               filename = "eV948.pdf",
               description = "Replacement registration number letter of authorisation"
             )
-            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId)
+            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
             val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel).toString()
             val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber // TODO fetch text from Messages file.
 
@@ -113,7 +113,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
   private def populateEmailWithoutHtml(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                                        eligibilityModel: EligibilityModel,
                                        retainModel: RetainModel,
-                                       transactionId: String): String = {
+                                       transactionId: String,
+                                       confirmFormModel: Option[ConfirmFormModel],
+                                       businessDetailsModel: Option[BusinessDetailsModel]): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = retainModel.certificateNumber,
@@ -122,7 +124,10 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmount.toDouble / 100.0).toString,
-      replacementVRM = eligibilityModel.replacementVRM
+      replacementVRM = eligibilityModel.replacementVRM,
+      keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
+      businessDetailsModel = businessDetailsModel,
+      businessAddress = formatAddress(businessDetailsModel)
     ).toString()
   }
 
