@@ -19,7 +19,7 @@ config: utils.helpers.Config)
         <div class="form-steps">
             @csrfTokenHiddenField()
             @* Note the reverse routing syntax for the hyperlink *@
-            <button id="@BackId" type="submit" name="action" class="button">@Messages("vrm_retention.help.back_button")</button>
+            <button class="back" id="@BackId" type="submit" name="action">@Messages("vrm_retention.help.back_button")</button>
             <a class="exit" id="@ExitId" href="@controllers.routes.BeforeYouStart.present()">@Messages("vrm_retention.help.exit_button")</a>
         </div>
     }
