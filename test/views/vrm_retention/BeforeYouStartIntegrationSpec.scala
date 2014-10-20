@@ -6,7 +6,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_retention.BeforeYouStartPage.startNow
-import pages.vrm_retention.{BeforeYouStartPage, BeforeYouStartPart2Page}
+import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage, BeforeYouStartPart2Page}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
@@ -42,7 +42,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       click on startNow
 
-      page.url should equal(BeforeYouStartPart2Page.url)
+      page.url should equal(VehicleLookupPage.url)
     }
   }
 }
