@@ -16,9 +16,9 @@
             @progressBar(progress)
 
             @backNavigation.map { call =>
-                <p>
-                    <a id="@BackId" href="@call">@Messages("main.back")</a>
-                </p>
+                <div class="form-steps">
+                    <a class="back" id="@BackId" href="@call">@Messages("main.back")</a>
+                </div>
             }
 
             @errorsSummary(currentForm)
