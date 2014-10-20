@@ -1,6 +1,5 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
@@ -8,8 +7,6 @@ import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK}
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
-import utils.helpers.CookieFlagsRetention
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
 
@@ -79,8 +76,6 @@ final class ConfirmUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
       }
     }
-
-
 
     "not write cookies when user type is Keeper and has not provided a keeperEmail" in new WithApplication {
       val request = buildRequest(keeperEmail = "").
