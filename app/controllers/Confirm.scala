@@ -10,6 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSes
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
+import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import audit.{ConfirmToPaymentAuditMessage, AuditService}
@@ -34,8 +35,8 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
       val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
-      val showStoreDetails = storeBusinessDetails && isBusinessUser
-      val formModel = ConfirmFormModel(None, showStoreDetails)
+//      val showStoreDetails = storeBusinessDetails && isBusinessUser
+      val formModel = ConfirmFormModel(None)
       val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
@@ -63,13 +64,8 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
       val keeperEmail = model.keeperEmail.map(CookieKeyValue(KeeperEmailCacheKey, _))
-      val storeBusinessDetails =
-        if (vehicleAndKeeperLookup.userType == UserType_Business)
-          Some(CookieKeyValue(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString))
-        else
-          None
 
-      val cookies = List(keeperEmail, storeBusinessDetails).flatten
+      val cookies = List(keeperEmail).flatten
 
       // retrieve audit values not already in scope
       val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get

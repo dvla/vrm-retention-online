@@ -51,7 +51,7 @@ GET         /enter-address-manually               @controllers.EnterAddressManua
 POST        /enter-address-manually               @controllers.EnterAddressManually.submit
 
 GET         /confirm-business                     @controllers.ConfirmBusiness.present
-GET         /confirm-business/submit              @controllers.ConfirmBusiness.submit
+POST        /confirm-business                     @controllers.ConfirmBusiness.submit
 GET         /confirm-business/exit                @controllers.ConfirmBusiness.exit
 
 GET         /confirm                              @controllers.Confirm.present

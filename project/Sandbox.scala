@@ -23,7 +23,7 @@ object Sandbox extends Plugin {
   final val VersionVehicleAndKeeperLookup = "0.1-SNAPSHOT"
   final val VersionVrmRetentionEligibility = "0.1-SNAPSHOT"
   final val VersionVrmRetentionRetain = "0.1-SNAPSHOT"
-  final val VersionPaymentSolve= "0.1-SNAPSHOT"
+  final val VersionPaymentSolve= "0.2-SNAPSHOT"
   final val VersionLegacyStubs = "1.0-SNAPSHOT"
   final val VersionJetty = "9.2.1.v20140609"
   final val VersionSpringWeb = "3.0.7.RELEASE"

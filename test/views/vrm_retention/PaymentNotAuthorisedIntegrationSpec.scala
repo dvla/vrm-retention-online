@@ -1,12 +1,12 @@
 package views.vrm_retention
 
 import helpers.UiSpec
-import helpers.webbrowser.TestHarness
-import pages.vrm_retention.PaymentNotAuthorisedPage.exit
-import pages.vrm_retention.{MockFeedbackPage, PaymentNotAuthorisedPage, BeforeYouStartPage}
 import helpers.tags.UiTag
-import org.openqa.selenium.WebDriver
 import helpers.vrm_retention.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
+import org.openqa.selenium.WebDriver
+import pages.vrm_retention.PaymentNotAuthorisedPage.{exit, tryAgain}
+import pages.vrm_retention._
 
 final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
 
@@ -19,11 +19,11 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
       go to PaymentNotAuthorisedPage
 
-      page.title should equal(PaymentNotAuthorisedPage.title)
+      page.url should equal(PaymentNotAuthorisedPage.url)
     }
-
   }
 
+  // TODO restore when payment iframe is back
 //  "try again button" should {
 //    "redirect to success page when button clicked" taggedAs UiTag in new WebBrowser {
 //      go to BeforeYouStartPage
@@ -34,7 +34,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 //
 //      click on tryAgain
 //
-//      page.title should equal(Success.title)
+//      page.url should equal(PaymentPage.url)
 //    }
 //  }
 
@@ -57,5 +57,4 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
       transactionId().
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel()
-
 }

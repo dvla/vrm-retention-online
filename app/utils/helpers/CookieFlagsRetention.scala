@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
-import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import scala.concurrent.duration.DurationInt
 
 final class CookieFlagsRetention @Inject()() extends CookieFlags {

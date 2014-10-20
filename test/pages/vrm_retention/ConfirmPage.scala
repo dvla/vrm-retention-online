@@ -8,8 +8,10 @@ import views.vrm_retention.Confirm.{ConfirmId, ExitId}
 object ConfirmPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/confirm"
+
   def url = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Check details"
+
+  final override val title: String = "Confirm keeper details"
 
   def confirm(implicit driver: WebDriver): Element = find(id(ConfirmId)).get
 

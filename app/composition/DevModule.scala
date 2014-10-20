@@ -1,5 +1,6 @@
 package composition
 
+import audit.{AuditService, AuditServiceImpl}
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailService, EmailServiceImpl}
@@ -18,7 +19,6 @@ import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceI
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
-import audit.{AuditServiceImpl, AuditService}
 
 /**
  * Provides real implementations of traits
@@ -60,5 +60,6 @@ class DevModule extends ScalaModule {
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[AuditService].to[AuditServiceImpl].asEagerSingleton()
+    bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
   }
 }

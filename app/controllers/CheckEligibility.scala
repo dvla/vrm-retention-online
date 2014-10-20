@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -51,16 +51,19 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
-      val confirmWithUser = (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) || storeBusinessDetails
       val redirectLocation = {
-        if (confirmWithUser) {
-          auditService.send(VehicleLookupToConfirmAuditMessage.from(
-            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
+        if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
           routes.Confirm.present()
         } else {
-          auditService.send(VehicleLookupToSetUpBusinessDetailsAuditMessage.from(
-            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
-          routes.SetUpBusinessDetails.present()
+          if (storeBusinessDetails) {
+            auditService.send(VehicleLookupToConfirmAuditMessage.from(
+              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
+            routes.ConfirmBusiness.present()
+          } else {
+            auditService.send(VehicleLookupToSetUpBusinessDetailsAuditMessage.from(
+              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, currentVRM, replacementVRM))
+            routes.SetUpBusinessDetails.present()
+          }
         }
       }
       Redirect(redirectLocation).withCookie(EligibilityModel.from(replacementVRM))
@@ -76,7 +79,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
-      transactionTimestamp = dateService.today.toDateTimeMillis.get
+      transactionTimestamp = dateService.now.toDateTime
     )
     val trackingId = request.cookies.trackingId()
 
@@ -94,7 +97,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       }
     }.recover {
       case NonFatal(e) =>
-        microServiceErrorResult(s"VRM Retention Eligibility web service call failed. Exception " + e.toString.take(45))
+        microServiceErrorResult(s"VRM Retention Eligibility web service call failed. Exception " + e.toString)
     }
   }
 }

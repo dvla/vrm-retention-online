@@ -5,7 +5,7 @@ import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCa
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
-import views.vrm_retention.Confirm.StoreBusinessDetailsCacheKey
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Retain.{RetainCacheKey, RetainResponseCodeCacheKey}
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey

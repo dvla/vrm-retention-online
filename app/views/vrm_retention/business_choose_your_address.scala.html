@@ -1,4 +1,5 @@
-@(businessChooseYourAddressViewModel: models.BusinessChooseYourAddressViewModel, businessChooseYourAddressForm: Form[models.BusinessChooseYourAddressFormModel],
+@(businessChooseYourAddressViewModel: models.BusinessChooseYourAddressViewModel,
+        businessChooseYourAddressForm: Form[models.BusinessChooseYourAddressFormModel],
         dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
@@ -38,7 +39,7 @@
                     @if(dropDownOptions.nonEmpty) {
                         <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
-                    <a class="button-secondary" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                    <br /><br /><a id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
 

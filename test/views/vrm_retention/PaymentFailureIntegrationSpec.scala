@@ -1,12 +1,12 @@
 package views.vrm_retention
 
 import helpers.UiSpec
-import helpers.webbrowser.TestHarness
-import pages.vrm_retention.PaymentFailurePage.exit
-import pages.vrm_retention.{MockFeedbackPage, PaymentFailurePage, BeforeYouStartPage}
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.vrm_retention.PaymentFailurePage.{exit, tryAgain}
+import pages.vrm_retention._
 
 final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -19,24 +19,23 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to PaymentFailurePage
 
-      page.title should equal(PaymentFailurePage.title)
+      page.url should equal(PaymentFailurePage.url)
     }
-
   }
 
-//  "try again button" should {
-//    "redirect to success page when button clicked" taggedAs UiTag in new WebBrowser {
-//      go to BeforeYouStartPage
-//
-//      cacheInvalidBeginRequestSetup()
-//
-//      go to PaymentFailurePage
-//
-//      click on tryAgain
-//
-//      page.title should equal(Success.title)
-//    }
-//  }
+  "try again button" should {
+    "redirect to confirm page when button clicked" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      cacheInvalidBeginRequestSetup()
+
+      go to PaymentFailurePage
+
+      click on tryAgain
+
+      page.url should equal(ConfirmPage.url)
+    }
+  }
 
   "exit button" should {
     "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowser {
@@ -57,5 +56,4 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
       transactionId().
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel()
-
 }
