@@ -8,6 +8,7 @@ import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
@@ -79,5 +80,28 @@ final class Success @Inject()(pdfService: PdfService,
         if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
       }
       Redirect(routes.MockFeedback.present()).discardingCookies(cookies)
+  }
+
+  def successStub = Action {
+    implicit request =>
+      val successViewModel = SuccessViewModel(
+        registrationNumber = "stub-registrationNumber",
+        vehicleMake = Some("stub-vehicleMake"),
+        vehicleModel = Some("stub-vehicleModel"),
+        keeperTitle = Some("stub-keeperTitle"),
+        keeperFirstName = Some("stub-keeperFirstName"),
+        keeperLastName = Some("stub-keeperLastName"),
+        keeperAddress = Some(AddressModel(address = Seq("stub-keeperAddress-line1", "stub-keeperAddress-line2"))),
+        keeperEmail = Some("stub-keeperEmail"),
+        businessName = Some("stub-businessName"),
+        businessContact = Some("stub-"),
+        businessEmail = Some("stub-businessContact"),
+        businessAddress = Some(AddressModel(address = Seq("stub-businessAddress-line1", "stub-businessAddress-line2"))),
+        replacementRegistrationNumber = "stub-replacementRegistrationNumber",
+        retentionCertificationNumber = "stub-retentionCertificationNumber",
+        transactionId = "stub-transactionId",
+        transactionTimestamp = "stub-transactionTimestamp"
+      )
+      Ok(views.html.vrm_retention.success(successViewModel))
   }
 }
