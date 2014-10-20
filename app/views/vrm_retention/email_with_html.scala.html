@@ -8,7 +8,10 @@ amount: String,
 replacementVRM: String,
 crownContentId: String,
 openGovernmentLicenceContentId: String,
-crestId: String)(implicit lang: Lang)
+crestId: String,
+keeperEmail: Option[String],
+businessDetailsModel: Option[BusinessDetailsModel],
+businessAddress: String)(implicit lang: Lang)
 
 <!-- Inliner Build Version 4380b7741bb759d6cb997545f3add21ad48f010b -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -202,22 +205,23 @@ crestId: String)(implicit lang: Lang)
                         <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line13")</h1>
 
-                        <div class="twoThirds" style="width: 66%; float: left;">
-                            <div style="padding: 5px;">
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                        @businessDetailsModel.map { businessDetails =>
+                            <div class="twoThirds" style="width : 66 % ; float : left ;">
+                                <div style="padding : 5 px ;">
+                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                     @Messages("email.line14")</p>
 
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                                    <strong>@Messages("email.line15")</strong><br/>
-                                    @Messages("email.line16")<br/>
-                                    @Messages("email.line17")<br/>
-                                    @Messages("email.line18")<br/>
-                                    @Messages("email.line19")</p>
+                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                        <strong>@businessDetails.name</strong><br/>
+                                        @businessAddress <br>
+                                    </p>
 
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                                    emailaddress@@isp.com</p>
+                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@businessDetails.email</p>
+                                </div>
                             </div>
-                        </div>
+                        }
+
+
                         <div class="oneThird" style="width: 33%; float: left;">
                             <div style="border-left : 3px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px;">
                                 <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
@@ -227,8 +231,9 @@ crestId: String)(implicit lang: Lang)
                                     <strong>@keeperName</strong><br/>
                                     @keeperAddress</p>
 
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                                    emailaddress@@isp.com</p>
+                                @keeperEmail.map { email =>
+                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@email</p>
+                                }
                             </div>
                         </div>
                         <div class="clearfix" style="clear: both;"></div>

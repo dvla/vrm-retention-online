@@ -2,7 +2,6 @@ package controllers
 
 import java.io.ByteArrayInputStream
 import com.google.inject.Inject
-import email.EmailService
 import models._
 import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
@@ -21,7 +20,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 final class Success @Inject()(pdfService: PdfService,
-                              emailService: EmailService,
                               dateService: DateService,
                               paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
