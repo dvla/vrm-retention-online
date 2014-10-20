@@ -39,7 +39,7 @@
                     @if(dropDownOptions.nonEmpty) {
                         <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
-                    <br /><br /><a id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                    <a id="@ExitId" class="exit" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>
 
