@@ -87,7 +87,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     Logger.error(message)
 
     val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-    val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey).get
+    val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey)
     val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
     val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
     val transactionId = request.cookies.getString(TransactionIdCacheKey).get
@@ -140,7 +140,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey).get
+      val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey)
       val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
       val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get

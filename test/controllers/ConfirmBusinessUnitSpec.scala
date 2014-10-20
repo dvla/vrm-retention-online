@@ -64,22 +64,24 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       }
     }
 
-//    "write StoreBusinessDetails cookie with maxAge 7 days" in new WithApplication {
-//      val expected = 7.days.toSeconds.toInt
-//      val request = buildRequest(storeDetailsConsent = true).
-//        withCookies(
-//          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-//          vehicleAndKeeperDetailsModel(),
-//          businessDetailsModel(),
-//          transactionId(),
-//          eligibilityModel()
-//        )
-//      val result = confirmWithCookieFlags.submit(request)
-//      whenReady(result) { r =>
-//        val cookies = fetchCookiesFromHeaders(r)
-//        cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
-//      }
-//    }
+    "write StoreBusinessDetails cookie with maxAge 7 days" in new WithApplication {
+      val expected = 7.days.toSeconds.toInt
+      val request = buildRequest(storeDetailsConsent = true).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          transactionId(),
+          eligibilityModel(),
+          storeBusinessDetailsConsent()
+        )
+      val result = confirmWithCookieFlags.submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain (StoreBusinessDetailsCacheKey)
+        cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
+      }
+    }
 
     "write StoreBusinessDetails cookie when user type is Business and consent is false" in new WithApplication {
       val request = buildRequest(storeDetailsConsent = false).
@@ -135,6 +137,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       override def configure(): Unit = {
         bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
       }
-    }).getInstance(classOf[Confirm])
+    }).getInstance(classOf[ConfirmBusiness])
   }
 }

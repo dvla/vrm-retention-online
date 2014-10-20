@@ -136,20 +136,6 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     session.newCookie(cookieName, value)
   }
 
-  //  def keeperDetailsModel(title: String = "title",
-  //                         firstName: String = "firstName",
-  //                         lastName: String = "lastName",
-  //                         address: AddressViewModel = addressWithUprn): Cookie = {
-  //    val key = KeeperLookupDetailsCacheKey
-  //    val value = KeeperDetailsModel(
-  //      title = title,
-  //      firstName = firstName,
-  //      lastName = lastName,
-  //      address = address
-  //    )
-  //    createCookie(key, value)
-  //  }
-
   def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid): Cookie = {
     val key = CheckEligibilityCacheKey
     val value = EligibilityModel(replacementVRM = replacementVRM)

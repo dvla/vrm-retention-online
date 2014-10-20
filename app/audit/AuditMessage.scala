@@ -13,7 +13,7 @@ case class KeeperAuditDetails(email: Option[String])
 
 case class BusinessAuditDetails(contact: String, email: String)
 
-case class PaymentAuditDetails(trxRef: String, maskedPAN: Option[String] = None, authCode: Option[String] = None,
+case class PaymentAuditDetails(trxRef: Option[String], maskedPAN: Option[String] = None, authCode: Option[String] = None,
                                merchantId: Option[String] = None, paymentType: Option[String] = None,
                                cardType: Option[String] = None,
                                totalAmountPaid: Option[Double] = None)
@@ -147,7 +147,7 @@ object PaymentToSuccessAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: String) = {
+           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: Option[String]) = {
 
     PaymentToSuccessAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
@@ -170,7 +170,7 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: String) = {
+           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: Option[String]) = {
 
     PaymentToPaymentNotAuthorisedAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
@@ -192,7 +192,7 @@ object PaymentToPaymentFailureAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: String) = {
+           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: Option[String]) = {
 
     PaymentToPaymentFailureAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),

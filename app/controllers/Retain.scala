@@ -58,7 +58,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
       val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey).get
+      val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey)
 
       auditService.send(PaymentToSuccessAuditMessage.from(
         vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId,
