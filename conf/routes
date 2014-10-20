@@ -81,6 +81,7 @@ GET         /email-stub                           @controllers.SuccessPayment.em
 GET         /success                              @controllers.Success.present
 GET         /success/create-pdf                   @controllers.Success.createPdf
 GET         /success/finish                       @controllers.Success.finish
+GET         /success-stub                         @controllers.Success.successStub
 
 GET         /retention-failure                    @controllers.RetainFailure.present
 
