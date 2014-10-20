@@ -34,7 +34,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel],
         request.cookies.getModel[RetainModel],
-        request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
+        request.cookies.getString(TransactionReferenceCacheKey)) match {
 
         case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
         Some(eligibilityModel), Some(retainModel), Some(trxRef)) =>

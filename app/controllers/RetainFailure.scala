@@ -20,7 +20,7 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
   def present = Action.async {
     implicit request =>
       (request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getString(PaymentTransactionReferenceCacheKey)) match {
+        request.cookies.getString(TransactionReferenceCacheKey)) match {
 
         case (Some(transactionId), Some(trxRef)) =>
           callCancelWebPaymentService(transactionId, trxRef)
