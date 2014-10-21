@@ -1,12 +1,12 @@
 package controllers
 
 import com.google.inject.Inject
+import models.PaymentModel
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config
-import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveService}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,10 +20,10 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
   def present = Action.async {
     implicit request =>
       (request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getString(TransactionReferenceCacheKey)) match {
+        request.cookies.getModel[PaymentModel]) match {
 
-        case (Some(transactionId), Some(trxRef)) =>
-          callCancelWebPaymentService(transactionId, trxRef)
+        case (Some(transactionId), Some(paymentModel)) =>
+          callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
         case _ =>
           Future.successful(Redirect(routes.MicroServiceError.present()))
       }

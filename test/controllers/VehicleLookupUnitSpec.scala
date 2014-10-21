@@ -1,5 +1,6 @@
 package controllers
 
+import helpers.JsonUtils.deserializeJsonToModel
 import composition._
 import composition.vehicleandkeeperlookup._
 import controllers.Common.PrototypeHtml
@@ -15,6 +16,10 @@ import views.vrm_retention.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import models.VehicleAndKeeperLookupFormModel
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
+import scala.concurrent.Future
+import webserviceclients.fakes.FakeResponse
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -52,64 +57,65 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
-  // TODO Why is this commented out?
   "submit" should {
-    //    "redirect to Confirm after a valid submit and true message returned from the fake microservice" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val result = vehicleLookupStubs().submit(request)
-    //
-    //      whenReady(result, timeout) { r =>
-    //        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
-    //        val cookies = fetchCookiesFromHeaders(r)
-    //        val cookieName = "vehicleAndKeeperLookupFormModel"
-    //        cookies.find(_.name == cookieName) match {
-    //          case Some(cookie) =>
-    //            val json = cookie.value
-    //            val model = deserializeJsonToModel[VehicleAndKeeperLookupFormModel](json)
-    //            model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
-    //          case None => fail(s"$cookieName cookie not found")
-    //        }
-    //      }
-    //    }
-    //
-    //    "submit removes spaces from registrationNumber" in new WithApplication {
-    //      // DE7 Spaces should be stripped
-    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
-    //      val result = vehicleLookupStubs().submit(request)
-    //
-    //      whenReady(result) { r =>
-    //        val cookies = fetchCookiesFromHeaders(r)
-    //        cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
-    //      }
-    //    }
-    //
-    //    "redirect to MicroServiceError after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val result = vehicleLookupStubs(vehicleDetailsResponseNotFoundResponseCode).submit(request)
-    //
-    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-    //    }
-    //
-    //    "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val result = vehicleLookupStubs(vehicleDetailsResponseVRMNotFound).submit(request)
-    //
-    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
-    //    }
-    //
-    //    "redirect to VehicleAndKeeperLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val result = vehicleLookupStubs(vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
-    //
-    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
-    //    }
-    //
-    //    "redirect to VehicleAndKeeperLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val result = vehicleLookupStubs(vehicleDetailsServerDown).submit(request)
-    //
-    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-    //    }
+//    "redirect to Confirm after a valid submit and true message returned from the fake microservice" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest()
+//      val result = vehicleLookupStubs().submit(request)
+//
+//      whenReady(result, timeout) {
+//        r =>
+//          r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
+//          val cookies = fetchCookiesFromHeaders(r)
+//          val cookieName = "vehicleAndKeeperLookupFormModel"
+//          cookies.find(_.name == cookieName) match {
+//            case Some(cookie) =>
+//              val json = cookie.value
+//              val model = deserializeJsonToModel[VehicleAndKeeperLookupFormModel](json)
+//              model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
+//            case None => fail(s"$cookieName cookie not found")
+//          }
+//      }
+//    }
+
+    "submit removes spaces from registrationNumber" in new WithApplication {
+      // DE7 Spaces should be stripped
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
+      val result = vehicleLookupStubs().submit(request)
+
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
+      }
+    }
+
+//    "redirect to MicroServiceError after a submit and no response code and no vehicledetailsdto returned from the fake microservice" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest()
+//      val result = vehicleLookupStubs(vehicleDetailsResponseNotFoundResponseCode).submit(request)
+//
+//      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+//    }
+//
+//    "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest()
+//      val result = vehicleLookupStubs(vehicleDetailsResponseVRMNotFound).submit(request)
+//
+//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
+//    }
+//
+//    "redirect to VehicleAndKeeperLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest()
+//      val result = vehicleLookupStubs(vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
+//
+//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
+//    }
+//
+//    "redirect to VehicleAndKeeperLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest()
+//      val result = vehicleLookupStubs(vehicleDetailsServerDown).submit(request)
+//
+//      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+//    }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (DocumentReferenceNumber.MaxLength + 1))
@@ -153,8 +159,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails().submit(request)
 
-      whenReady(result, timeout) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      whenReady(result, timeout) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 
@@ -162,10 +169,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails().submit(request)
 
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should not contain VehicleAndKeeperLookupDetailsCacheKey
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should not contain VehicleAndKeeperLookupDetailsCacheKey
       }
     }
 
@@ -173,8 +181,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallNoResponse().submit(request)
 
-      whenReady(result, timeout) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      whenReady(result, timeout) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 
@@ -182,19 +191,21 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallServerDown().submit(request)
 
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
 
     "write cookie when vrm not found by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain allOf(
-          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain allOf(
+            BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
 
@@ -214,70 +225,72 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain allOf(
-          BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain allOf(
+            BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
 
-    //
-    //    "redirect to VehicleAndKeeperLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
-    //      val result = vehicleLookupStubs(
-    //        vehicleDetailsResponseDocRefNumberNotLatest,
-    //        bruteForceService = bruteForceServiceImpl(permitted = true)
-    //      ).submit(request)
-    //
-    //      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
-    //    }
-    //
-    //    "Send a request and a trackingId" in new WithApplication {
-    //      val trackingId = "x" * 20
-    //      val request = buildCorrectlyPopulatedRequest().
-    //        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
-    //      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
-    //      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).
-    //        thenReturn(Future {
-    //          new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-    //        })
-    //      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
-    //      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    //      implicit val config: Config = mock[Config]
-    //
-    //      val vehiclesLookup = new vrm_retention.VehicleAndKeeperLookup(
-    //        bruteForceServiceImpl(permitted = true),
-    //        vehicleAndKeeperLookupServiceImpl
-    //      )
-    //      val result = vehiclesLookup.submit(request)
-    //
-    //      whenReady(result) { r =>
-    //        val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-    //        verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-    //        trackingIdCaptor.getValue should be(trackingId)
-    //      }
-    //    }
-    //
-    //    "Send the request and no trackingId if session is not present" in new WithApplication {
-    //      val request = buildCorrectlyPopulatedRequest()
-    //      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
-    //      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
-    //        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-    //      })
-    //      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
-    //      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-    //      implicit val config: Config = mock[Config]
-    //      val vehiclesLookup = new vrm_retention.VehicleAndKeeperLookup(
-    //        bruteForceServiceImpl(permitted = true),
-    //        vehicleAndKeeperLookupServiceImpl)
-    //      val result = vehiclesLookup.submit(request)
-    //
-    //      whenReady(result) { r =>
-    //        val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-    //        verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-    //        trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
-    //      }
-    //    }
+//    "redirect to VehicleAndKeeperLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
+//      val result = vehicleLookupStubs(
+//        vehicleDetailsResponseDocRefNumberNotLatest,
+//        bruteForceService = bruteForceServiceImpl(permitted = true)
+//      ).submit(request)
+//
+//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
+//    }
+//
+//    "Send a request and a trackingId" in new WithApplication {
+//      val trackingId = "x" * 20
+//      val request = buildCorrectlyPopulatedRequest().
+//        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
+//      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
+//      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).
+//        thenReturn(Future {
+//        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
+//      })
+//      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
+//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+//      implicit val config: Config = mock[Config]
+//
+//      val vehiclesLookup = new vrm_retention.VehicleAndKeeperLookup(
+//        bruteForceServiceImpl(permitted = true),
+//        vehicleAndKeeperLookupServiceImpl
+//      )
+//      val result = vehiclesLookup.submit(request)
+//
+//      whenReady(result) {
+//        r =>
+//          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
+//          verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
+//          trackingIdCaptor.getValue should be(trackingId)
+//      }
+//    }
+//
+//    "Send the request and no trackingId if session is not present" in new WithApplication {
+//      val request = buildCorrectlyPopulatedRequest()
+//      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
+//      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
+//        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
+//      })
+//      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
+//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
+//      implicit val config: Config = mock[Config]
+//      val vehiclesLookup = new vrm_retention.VehicleAndKeeperLookup(
+//        bruteForceServiceImpl(permitted = true),
+//        vehicleAndKeeperLookupServiceImpl)
+//      val result = vehiclesLookup.submit(request)
+//
+//      whenReady(result) {
+//        r =>
+//          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
+//          verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
+//          trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
+//      }
+//    }
   }
 
   "back" should {

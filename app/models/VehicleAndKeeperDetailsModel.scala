@@ -3,13 +3,18 @@ package models
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
-import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
 import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import scala.Some
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import scala.Some
+import views.vrm_retention.VehicleLookup._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
+import scala.Some
 
-// TODO possibly rename this to remove Model and add suffix ...Dto depending on what naming scheme we agree on.
 final case class VehicleAndKeeperDetailsModel(registrationNumber: String,
                                               make: Option[String],
                                               model: Option[String],

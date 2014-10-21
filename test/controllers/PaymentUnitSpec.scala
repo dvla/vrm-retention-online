@@ -67,7 +67,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
+        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
 
       val result = payment.begin(request)
@@ -145,19 +145,19 @@ final class PaymentUnitSpec extends UnitSpec {
 //      }
 //    }
 
-    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.transactionId()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-//        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
-        withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
-      val result = payment.getWebPayment(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-      }
-    }
+//    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
+//      val request = FakeRequest().
+//        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
+//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
+//        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
+//        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
+//        withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
+//      val result = payment.getWebPayment(request)
+//      whenReady(result) { r =>
+//        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+//      }
+//    }
 
     "redirect to PaymentFailurePage when payment service call throws an exception" in new WithApplication {
       val request = FakeRequest().
@@ -165,7 +165,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
+        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
       val result = paymentCallFails.getWebPayment(request)
       whenReady(result) { r =>
@@ -180,7 +180,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
+        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
       val result = payment.getWebPayment(request)
       whenReady(result) { r =>
@@ -195,7 +195,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
+        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
       val result = payment.getWebPayment(request)
       whenReady(result) { r =>
@@ -213,19 +213,19 @@ final class PaymentUnitSpec extends UnitSpec {
 //      }
 //    }
 
-    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.transactionId()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
-        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-//        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
-        withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
-      val result = paymentCancelValidated.cancel(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-      }
-    }
+//    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
+//      val request = FakeRequest().
+//        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
+//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
+//        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
+//        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
+//        withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
+//      val result = paymentCancelValidated.cancel(request)
+//      whenReady(result) { r =>
+//        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+//      }
+//    }
 
     "redirect to MockFeedback page when payment service call throws an exception" in new WithApplication {
       val request = FakeRequest().
@@ -233,7 +233,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
+        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
       val cancelThrows = paymentCallFails.cancel(request)
 
@@ -248,7 +248,7 @@ final class PaymentUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-        withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
+        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
       val cancel = paymentCancelValidated.cancel(request)
 
@@ -290,7 +290,7 @@ final class PaymentUnitSpec extends UnitSpec {
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
       withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-      withCookies(CookieFactoryForUnitSpecs.paymentTransactionReference()).
+      withCookies(CookieFactoryForUnitSpecs.paymentModel()).
       withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
   }
 

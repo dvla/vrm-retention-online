@@ -17,13 +17,18 @@ import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey}
 import views.vrm_retention.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import views.vrm_retention.Payment.TransactionReferenceCacheKey
+import views.vrm_retention.Payment.PaymentDetailsCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
+import webserviceclients.fakes.PaymentSolveWebServiceConstants._
+import scala.Some
+import play.api.mvc.Cookie
+import org.openqa.selenium.WebDriver
+import views.vrm_retention
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
@@ -178,8 +183,26 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, consent)
   }
 
-  def paymentTransactionReference(txRef: String = "TODO"): Cookie = {
-    val key = TransactionReferenceCacheKey
-    createCookie(key, txRef)
+  def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
+                   paymentStatus: Option[String] =  None,
+                   maskedPAN: Option[String] =  MaskedPANValid,
+                   authCode: Option[String] =  AuthCodeValid,
+                   merchantId: Option[String] =  MerchantIdValid,
+                   paymentType: Option[String] =  PaymentTypeValid,
+                   cardType: Option[String] =  CardTypeValid,
+                   totalAmountPaid: Option[Long] =  TotalAmountPaidValid,
+                   rejectionCode: Option[String] =  None): Cookie = {
+    val key = PaymentDetailsCacheKey
+    val value = PaymentModel(trxRef = trxRef,
+      paymentStatus = paymentStatus,
+      maskedPAN = maskedPAN,
+      authCode = authCode,
+      merchantId = merchantId,
+      paymentType = paymentType,
+      cardType = cardType,
+      totalAmountPaid = totalAmountPaid,
+      rejectionCode = rejectionCode
+    )
+    createCookie(key, value)
   }
 }

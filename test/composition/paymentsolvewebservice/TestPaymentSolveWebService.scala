@@ -60,7 +60,11 @@ object TestPaymentSolveWebService {
       response = response,
       status = status,
       authcode = Some("TODO"),
-      maskedPAN = Some("TODO")
+      maskedPAN = Some("TODO"),
+      merchantTransactionId = Some("TODO"),
+      paymentType = Some("TODO"),
+      cardType = Some("TODO"),
+      purchaseAmount = Some(8000)
     )
     val asJson = Json.toJson(paymentSolveGetResponse)
     Some(asJson)

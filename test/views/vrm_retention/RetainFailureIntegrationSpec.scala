@@ -42,6 +42,6 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
       transactionId().
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
-      paymentTransactionReference()
+      paymentModel()
 
 }
