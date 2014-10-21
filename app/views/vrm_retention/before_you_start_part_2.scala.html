@@ -13,26 +13,25 @@
     <h1>@Messages("vrm_retention_beforeyoustartpart2.title")</h1>
     <p>@Messages("vrm_retention_beforeyoustartpart2.p1")</p>
     <div class="info-notice">
-      @Messages("vrm_retention_beforeyoustartpart2.p2")
+        @Messages("vrm_retention_beforeyoustartpart2.p2")
     </div>
     <p>@Messages("vrm_retention_beforeyoustartpart2.p3")</p>
-    <ul class="list-standard">
-      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem1")</li>
-      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem2")</li>
-      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem3")</li>
-    </ul>
+    <ol>
+        <li>@Messages("vrm_retention_beforeyoustartpart2.listitem1")</li>
+        <li>@Messages("vrm_retention_beforeyoustartpart2.listitem2")</li>
+        <li>@Messages("vrm_retention_beforeyoustartpart2.listitem3")</li>
+    </ol>
     <div class="alert-warning">
-      <p><strong>@Messages("vrm_retention_beforeyoustartpart2.p4")</strong></p>
+        <p><strong>@Messages("vrm_retention_beforeyoustartpart2.p4")</strong></p>
     </div>
     <p>@Messages("vrm_retention_beforeyoustartpart2.p5")</p>
-    <ul class="list-standard">
-      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem4")</li>
-      <li>@Messages("vrm_retention_beforeyoustartpart2.listitem5")</li>
-    </ul>
+    <ol>
+        <li>@Messages("vrm_retention_beforeyoustartpart2.listitem4")</li>
+        <li>@Messages("vrm_retention_beforeyoustartpart2.listitem5")</li>
+    </ol>
     <div class="form-steps">
         @csrfTokenHiddenField()
         @* Note the reverse routing syntax for the hyperlink *@
         <a class="button" id="@NextId" href="@VehicleLookup.present()">@Messages("vrm_retention_beforeyoustartpart2.button")</a>
     </div>
-
 }
