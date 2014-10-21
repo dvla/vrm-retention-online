@@ -7,6 +7,7 @@ import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import utils.helpers.Config
@@ -28,8 +29,9 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>
-          Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(),
-            addresses))
+          // HACK until Ordnance Survey returns UPRNs for Northern Ireland
+          //Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
+          Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), index(addresses)))
         }
       case _ => Future.successful {
         Redirect(routes.SetUpBusinessDetails.present())
@@ -58,15 +60,32 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         request.cookies.getModel[SetupBusinessDetailsFormModel] match {
           case Some(setupBusinessDetailsForm) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
-            lookupUprn(validForm,
-              setupBusinessDetailsForm.name,
-              setupBusinessDetailsForm.contact,
-              setupBusinessDetailsForm.email)
+            // HACK until Ordnance Survey returns UPRNs for Northern Ireland
+            //            lookupUprn(validForm,
+            //              setupBusinessDetailsForm.name,
+            //              setupBusinessDetailsForm.contact,
+            //              setupBusinessDetailsForm.email)
+            fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>
+              val indexSelected = validForm.uprnSelected.toInt
+              val lookedUpAddresses = index(addresses)
+              val lookedUpAddress = lookedUpAddresses(indexSelected) match {
+                case (index, address) => address
+              }
+              val addressModel = AddressModel(uprn = None, address = lookedUpAddress.split(","))
+              nextPage(validForm, setupBusinessDetailsForm.name, setupBusinessDetailsForm.contact, setupBusinessDetailsForm.email, addressModel)
+            }
           case None => Future.successful {
             Redirect(routes.SetUpBusinessDetails.present())
           }
         }
     )
+  }
+
+  private def index(addresses: Seq[(String, String)]) = {
+    // HACK until Ordnance Survey returns UPRNs for Northern Ireland
+    addresses.map { case (uprn, address) => address}. // Extract the address.
+      zipWithIndex. // Add an index for each address
+      map { case (address, index) => (index.toString, address)} // Flip them around so index comes first.
   }
 
   private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressFormModel])(implicit request: Request[_]) =
@@ -85,18 +104,23 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
       case Some(addressViewModel) =>
-        val businessDetailsModel = BusinessDetailsModel(name = businessName,
-          contact = businessContact,
-          email = businessEmail,
-          address = addressViewModel.formatPostcode)
-        /* The redirect is done as the final step within the map so that:
-         1) we are not blocking threads
-         2) the browser does not change page before the future has completed and written to the cache. */
-        Redirect(routes.ConfirmBusiness.present()).
-          discardingCookie(EnterAddressManuallyCacheKey).
-          withCookie(model).
-          withCookie(businessDetailsModel)
+        nextPage(model, businessName, businessContact, businessEmail, addressViewModel)
       case None => Redirect(routes.UprnNotFound.present())
     }
+  }
+
+  private def nextPage(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String, addressModel: AddressModel)
+                      (implicit request: Request[_], session: ClientSideSession) = {
+    val businessDetailsModel = BusinessDetailsModel(name = businessName,
+      contact = businessContact,
+      email = businessEmail,
+      address = addressModel.formatPostcode)
+    /* The redirect is done as the final step within the map so that:
+     1) we are not blocking threads
+     2) the browser does not change page before the future has completed and written to the cache. */
+    Redirect(routes.ConfirmBusiness.present()).
+      discardingCookie(EnterAddressManuallyCacheKey).
+      withCookie(model).
+      withCookie(businessDetailsModel)
   }
 }
