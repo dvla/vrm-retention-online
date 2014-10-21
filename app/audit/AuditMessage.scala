@@ -154,8 +154,12 @@ object PaymentToSuccessAuditMessage {
       VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId,
       KeeperAuditDetails(keeperEmail),
-      PaymentAuditDetails(trxRef = paymentModel.trxRef, maskedPAN = paymentModel.maskedPAN,
-        authCode = paymentModel.authCode))
+      PaymentAuditDetails(trxRef = paymentModel.trxRef,
+        maskedPAN = paymentModel.maskedPAN,
+        authCode = paymentModel.authCode,
+        paymentType = paymentModel.paymentType,
+        cardType = paymentModel.cardType,
+        totalAmountPaid = Some((paymentModel.totalAmountPaid.get / 100.0))))
   }
 
 }
