@@ -29,9 +29,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>
-          // HACK until Ordnance Survey returns UPRNs for Northern Ireland
-          //Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
-          Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), index(addresses)))
+          if (config.ordnanceSurveyUseUprn) Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
+          else Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), index(addresses)))
         }
       case _ => Future.successful {
         Redirect(routes.SetUpBusinessDetails.present())
@@ -60,25 +59,13 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
         request.cookies.getModel[SetupBusinessDetailsFormModel] match {
           case Some(setupBusinessDetailsForm) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
-            // HACK until Ordnance Survey returns UPRNs for Northern Ireland
-            //            lookupUprn(validForm,
-            //              setupBusinessDetailsForm.name,
-            //              setupBusinessDetailsForm.contact,
-            //              setupBusinessDetailsForm.email)
-            fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>
-              val indexSelected = validForm.uprnSelected.toInt
-              if (indexSelected < addresses.length) {
-                val lookedUpAddresses = index(addresses)
-                val lookedUpAddress = lookedUpAddresses(indexSelected) match {
-                  case (index, address) => address
-                }
-                val addressModel = AddressModel(uprn = None, address = lookedUpAddress.split(","))
-                nextPage(validForm, setupBusinessDetailsForm.name, setupBusinessDetailsForm.contact, setupBusinessDetailsForm.email, addressModel)
-              }
-              else {
-                // Guard against IndexOutOfBoundsException
-                Redirect(routes.UprnNotFound.present())
-              }
+            if (config.ordnanceSurveyUseUprn) {
+              lookupUprn(validForm,
+                setupBusinessDetailsForm.name,
+                setupBusinessDetailsForm.contact,
+                setupBusinessDetailsForm.email)
+            } else {
+              lookupAddressByPostcodeThenIndex(validForm, setupBusinessDetailsForm)
             }
           case None => Future.successful {
             Redirect(routes.SetUpBusinessDetails.present())
@@ -88,7 +75,6 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   }
 
   private def index(addresses: Seq[(String, String)]) = {
-    // HACK until Ordnance Survey returns UPRNs for Northern Ireland
     addresses.map { case (uprn, address) => address}. // Extract the address.
       zipWithIndex. // Add an index for each address
       map { case (address, index) => (index.toString, address)} // Flip them around so index comes first.
@@ -112,6 +98,25 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       case Some(addressViewModel) =>
         nextPage(model, businessName, businessContact, businessEmail, addressViewModel)
       case None => Redirect(routes.UprnNotFound.present())
+    }
+  }
+
+  private def lookupAddressByPostcodeThenIndex(model: BusinessChooseYourAddressFormModel, setupBusinessDetailsForm: SetupBusinessDetailsFormModel)
+                                              (implicit request: Request[_], session: ClientSideSession) = {
+    fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>
+      val indexSelected = model.uprnSelected.toInt
+      if (indexSelected < addresses.length) {
+        val lookedUpAddresses = index(addresses)
+        val lookedUpAddress = lookedUpAddresses(indexSelected) match {
+          case (index, address) => address
+        }
+        val addressModel = AddressModel(uprn = None, address = lookedUpAddress.split(","))
+        nextPage(model, setupBusinessDetailsForm.name, setupBusinessDetailsForm.contact, setupBusinessDetailsForm.email, addressModel)
+      }
+      else {
+        // Guard against IndexOutOfBoundsException
+        Redirect(routes.UprnNotFound.present())
+      }
     }
   }
 
