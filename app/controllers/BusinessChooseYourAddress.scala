@@ -67,12 +67,18 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
             //              setupBusinessDetailsForm.email)
             fetchAddresses(setupBusinessDetailsForm)(session, request2lang).map { addresses =>
               val indexSelected = validForm.uprnSelected.toInt
-              val lookedUpAddresses = index(addresses)
-              val lookedUpAddress = lookedUpAddresses(indexSelected) match {
-                case (index, address) => address
+              if (indexSelected < addresses.length) {
+                val lookedUpAddresses = index(addresses)
+                val lookedUpAddress = lookedUpAddresses(indexSelected) match {
+                  case (index, address) => address
+                }
+                val addressModel = AddressModel(uprn = None, address = lookedUpAddress.split(","))
+                nextPage(validForm, setupBusinessDetailsForm.name, setupBusinessDetailsForm.contact, setupBusinessDetailsForm.email, addressModel)
               }
-              val addressModel = AddressModel(uprn = None, address = lookedUpAddress.split(","))
-              nextPage(validForm, setupBusinessDetailsForm.name, setupBusinessDetailsForm.contact, setupBusinessDetailsForm.email, addressModel)
+              else {
+                // Guard against IndexOutOfBoundsException
+                Redirect(routes.UprnNotFound.present())
+              }
             }
           case None => Future.successful {
             Redirect(routes.SetUpBusinessDetails.present())

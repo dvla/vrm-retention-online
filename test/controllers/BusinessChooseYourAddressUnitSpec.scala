@@ -36,7 +36,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress.present(request)
       val content = contentAsString(result)
-      content should include( s"""<option value="$traderUprnValid" selected>""")
+      // HACK for Northern Ireland
+//      content should include( s"""<option value="$traderUprnValid" selected>""")
+      content should include( s"""<option value="0" selected>""")
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
@@ -162,7 +164,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       getInstance(classOf[BusinessChooseYourAddress])
   }
 
-  private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
+  // HACK for Norther Ireland
+//  private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
+  private def buildCorrectlyPopulatedRequest(traderUprn: String = "0") = {
     FakeRequest().withFormUrlEncodedBody(
       AddressSelectId -> traderUprn)
   }
