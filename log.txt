@@ -1,0 +1,48 @@
+[0m[[0minfo[0m] [0mLoading project definition from /Users/geraint/Work/valtech/vmpr/vrm-retention-online/project[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mInitial source changes: [0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
+[0m[[0mdebug[0m] [0m	added: Set()[0m
+[0m[[0mdebug[0m] [0m	modified: Set()[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
+[0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set()[0m
+[0m[[0mdebug[0m] [0m[0m
+[0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
+[0m[[0mdebug[0m] [0m	binary dep: Set()[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set()[0m
+[0m[[0mdebug[0m] [0mCopy resource mappings: [0m
+[0m[[0mdebug[0m] [0m	(/Users/geraint/Work/valtech/vmpr/vrm-retention-online/project/target/scala-2.10/sbt-0.13/resource_managed/main/sbt/sbt.plugins,/Users/geraint/Work/valtech/vmpr/vrm-retention-online/project/target/scala-2.10/sbt-0.13/classes/sbt/sbt.plugins)[0m
+[0m[[0minfo[0m] [0mSet current project to vrm-retention-online (in build file:/Users/geraint/Work/valtech/vmpr/vrm-retention-online/)[0m
+[33mVerifying git is installed...[0mgit version 1.9.3 (Apple Git-50)
+[33mVerifying SANDBOX_SECRET_REPO_GIT_URL is passed ...[0m[31mFAILED.[0m
+[31m"SANDBOX_SECRET_REPO_GIT_URL" not set. Please set it either as jvm arg of sbt  "-DSANDBOX_SECRET_REPO_GIT_URL='git@git-host:theSecretRepoProjectName'" or export it in the environment with export SANDBOX_SECRET_REPO_GIT_URL='git@git-host:theSecretRepoProjectName' [0m
+java.lang.Exception:  There is no "SANDBOX_SECRET_REPO_GIT_URL" set neither as env variable nor as JVM property 
+	at Sandbox$$anonfun$validatePrerequisites$2.apply(Sandbox.scala:283)
+	at Sandbox$$anonfun$validatePrerequisites$2.apply(Sandbox.scala:277)
+	at scala.Option.orElse(Option.scala:257)
+	at Sandbox$.validatePrerequisites(Sandbox.scala:277)
+	at Sandbox$$anonfun$runMicroServicesTask$14.apply(Sandbox.scala:100)
+	at Sandbox$$anonfun$runMicroServicesTask$14.apply(Sandbox.scala:99)
+	at scala.Function1$$anonfun$compose$1.apply(Function1.scala:47)
+	at sbt.$tilde$greater$$anonfun$$u2219$1.apply(TypeFunctions.scala:42)
+	at sbt.std.Transform$$anon$4.work(System.scala:64)
+	at sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:237)
+	at sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:237)
+	at sbt.ErrorHandling$.wideConvert(ErrorHandling.scala:18)
+	at sbt.Execute.work(Execute.scala:244)
+	at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:237)
+	at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:237)
+	at sbt.ConcurrentRestrictions$$anon$4$$anonfun$1.apply(ConcurrentRestrictions.scala:160)
+	at sbt.CompletionService$$anon$2.call(CompletionService.scala:30)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:262)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:744)
+[0m[[31merror[0m] [0m(root/*:[31mrunMicroServices[0m) java.lang.Exception:  There is no "SANDBOX_SECRET_REPO_GIT_URL" set neither as env variable nor as JVM property [0m
+[0m[[31merror[0m] [0mTotal time: 1 s, completed 21-Oct-2014 08:40:49[0m

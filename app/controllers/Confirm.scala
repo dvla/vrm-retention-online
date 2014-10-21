@@ -17,7 +17,6 @@ import audit.{ConfirmToPaymentAuditMessage, AuditService}
 import scala.Some
 import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
-import views.vrm_retention.CheckEligibility._
 import scala.Some
 import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
@@ -68,7 +67,7 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
       // retrieve audit values not already in scope
       val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
 
       auditService.send(ConfirmToPaymentAuditMessage.from(
         vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, transactionId, vehicleAndKeeperDetailsModel.registrationNumber,

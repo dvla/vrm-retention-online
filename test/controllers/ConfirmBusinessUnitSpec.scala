@@ -7,6 +7,14 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import views.vrm_retention.ConfirmBusiness._
+import views.vrm_retention.VehicleLookup._
+import helpers.common.CookieHelper._
+import scala.Some
+import com.tzavellas.sse.guice.ScalaModule
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
+import utils.helpers.CookieFlagsRetention
+import scala.concurrent.duration.DurationInt
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
 
@@ -37,6 +45,63 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     }
   }
 
+  "submit" should {
+
+    "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
+      val request = buildRequest(storeDetailsConsent = true).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
+        )
+      val result = confirmBusiness.submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
+      }
+    }
+
+    "write StoreBusinessDetails cookie with maxAge 7 days" in new WithApplication {
+      val expected = 7.days.toSeconds.toInt
+      val request = buildRequest(storeDetailsConsent = true).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          transactionId(),
+          eligibilityModel(),
+          storeBusinessDetailsConsent()
+        )
+      val result = confirmWithCookieFlags.submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain (StoreBusinessDetailsCacheKey)
+        cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
+      }
+    }
+
+    "write StoreBusinessDetails cookie when user type is Business and consent is false" in new WithApplication {
+      val request = buildRequest(storeDetailsConsent = false).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
+        )
+      val result = confirmBusiness.submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain (StoreBusinessDetailsCacheKey)
+      }
+    }
+  }
+
+
   "exit" should {
 
     "redirect to mock feedback page" in new WithApplication {
@@ -46,6 +111,13 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }
     }
+  }
+
+
+  private def buildRequest(storeDetailsConsent: Boolean = false) = {
+    FakeRequest().withFormUrlEncodedBody(
+      StoreDetailsConsentId -> storeDetailsConsent.toString
+    )
   }
 
   private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])
@@ -58,5 +130,13 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         businessDetailsModel()
       )
     confirmBusiness.present(request)
+  }
+
+  private def confirmWithCookieFlags = {
+    testInjector(new ScalaModule() {
+      override def configure(): Unit = {
+        bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
+      }
+    }).getInstance(classOf[ConfirmBusiness])
   }
 }

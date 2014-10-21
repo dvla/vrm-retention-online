@@ -1,27 +1,25 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleAndKeeperDetailsModel, RetainModel, VehicleAndKeeperLookupFormModel}
+import models.{PaymentModel, EligibilityModel, VehicleAndKeeperDetailsModel, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
-import play.api.mvc.{Result, _}
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_retention.Payment._
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import views.vrm_retention.CheckEligibility._
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import scala.Some
 import play.api.mvc.Result
-import audit.{PaymentToSuccessAuditMessage, AuditService, ConfirmToPaymentAuditMessage}
+import audit.{PaymentToSuccessAuditMessage, AuditService}
 
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                              dateService: DateService,
@@ -33,8 +31,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
         request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getString(TransactionReferenceCacheKey)) match {
-        case (Some(vehiclesLookupForm), Some(transactionId), Some(trxRef)) => retainVrm(vehiclesLookupForm, transactionId, trxRef)
+        request.cookies.getModel[PaymentModel]) match {
+        case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
+          retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
         case _ => Future.successful {
           Redirect(routes.MicroServiceError.present()) // TODO need an error page for this scenario
         }
@@ -56,13 +55,13 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       // retrieve audit values not already in scope
       val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentTrxRef = request.cookies.getString(TransactionReferenceCacheKey).get
+      val paymentModel = request.cookies.getModel[PaymentModel].get
 
       auditService.send(PaymentToSuccessAuditMessage.from(
         vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId,
-        replacementVRM, keeperEmail, paymentTrxRef))
+        replacementVRM, keeperEmail, paymentModel))
 
       Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))

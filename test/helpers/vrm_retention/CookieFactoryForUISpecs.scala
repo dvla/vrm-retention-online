@@ -19,6 +19,7 @@ import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeepe
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
+import webserviceclients.fakes.PaymentSolveWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants._
@@ -103,9 +104,27 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def paymentTransactionReference(trxRef: String = TransactionReferenceCacheKey)(implicit webDriver: WebDriver) = {
-    val key = TransactionReferenceCacheKey
-    addCookie(key, trxRef)
+  def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
+                   paymentStatus: Option[String] =  None,
+                   maskedPAN: Option[String] =  MaskedPANValid,
+                   authCode: Option[String] =  AuthCodeValid,
+                   merchantId: Option[String] =  MerchantIdValid,
+                   paymentType: Option[String] =  PaymentTypeValid,
+                   cardType: Option[String] =  CardTypeValid,
+                   totalAmountPaid: Option[Long] =  TotalAmountPaidValid,
+                   rejectionCode: Option[String] =  None)(implicit webDriver: WebDriver) = {
+    val key = vrm_retention.Payment.PaymentDetailsCacheKey
+    val value = PaymentModel(trxRef = trxRef,
+      paymentStatus = paymentStatus,
+      maskedPAN = maskedPAN,
+      authCode = authCode,
+      merchantId = merchantId,
+      paymentType = paymentType,
+      cardType = cardType,
+      totalAmountPaid = totalAmountPaid,
+      rejectionCode = rejectionCode
+    )
+    addCookie(key, value)
     this
   }
 

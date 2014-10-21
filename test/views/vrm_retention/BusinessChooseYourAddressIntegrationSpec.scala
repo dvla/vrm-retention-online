@@ -86,7 +86,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
   "select button" should {
     
-    /*
     "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
@@ -94,7 +93,6 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       page.url should equal(ConfirmBusinessPage.url)
     }
-    */
 
     "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage

@@ -69,5 +69,5 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       keeperEmail().
       retainModel().
       transactionId().
-      paymentTransactionReference()
+      paymentModel()
 }

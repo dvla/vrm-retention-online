@@ -1,23 +1,23 @@
 package audit
 
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models.{PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 
 trait AuditMessage {
 }
 
 case class VehicleAuditDetails(make: Option[String], model: Option[String])
 
-case class VrmAuditDetails(retained: Option[String], replacement: Option[String])
+case class VrmAuditDetails(retained: String, replacement: Option[String])
 
 case class KeeperAuditDetails(email: Option[String])
 
 case class BusinessAuditDetails(contact: String, email: String)
 
-case class PaymentAuditDetails(trxRef: String, maskedPAN: Option[String] = None, authCode: Option[String] = None,
+case class PaymentAuditDetails(trxRef: Option[String], paymentStatus: Option[String] = None,
+                               maskedPAN: Option[String] = None, authCode: Option[String] = None,
                                merchantId: Option[String] = None, paymentType: Option[String] = None,
-                               cardType: Option[String] = None,
-                               totalAmountPaid: Option[Double] = None)
-
+                               cardType: Option[String] = None, totalAmountPaid: Option[Double] = None,
+                               rejectionCode: Option[String] = None)
 
 
 final case class VehicleLookupToConfirmAuditMessage(vehicleAuditDetails: VehicleAuditDetails,
@@ -33,7 +33,7 @@ object VehicleLookupToConfirmAuditMessage {
 
     VehicleLookupToConfirmAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId)
   }
 
@@ -52,7 +52,7 @@ object VehicleLookupToConfirmBusinessAuditMessage {
 
     VehicleLookupToConfirmBusinessAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId)
   }
 
@@ -72,7 +72,7 @@ object VehicleLookupToSetUpBusinessDetailsAuditMessage {
 
     VehicleLookupToSetUpBusinessDetailsAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId)
   }
 
@@ -90,7 +90,7 @@ object VehicleLookupToVehicleLookupFailureAuditMessage {
 
     VehicleLookupToVehicleLookupFailureAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), None),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, None),
       transactionId)
   }
 
@@ -109,7 +109,7 @@ object ConfirmBusinessToConfirmAuditMessage {
 
     ConfirmBusinessToConfirmAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId)
   }
 
@@ -129,7 +129,7 @@ object ConfirmToPaymentAuditMessage {
 
     ConfirmToPaymentAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId,
       KeeperAuditDetails(keeperEmail))
   }
@@ -147,14 +147,19 @@ object PaymentToSuccessAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: String) = {
+           replacementVRM: String, keeperEmail: Option[String], paymentModel: PaymentModel) = {
 
     PaymentToSuccessAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId,
       KeeperAuditDetails(keeperEmail),
-      PaymentAuditDetails(paymentTrxRef))
+      PaymentAuditDetails(trxRef = paymentModel.trxRef,
+        maskedPAN = paymentModel.maskedPAN,
+        authCode = paymentModel.authCode,
+        paymentType = paymentModel.paymentType,
+        cardType = paymentModel.cardType,
+        totalAmountPaid = Some((paymentModel.totalAmountPaid.get / 100.0))))
   }
 
 }
@@ -170,13 +175,13 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: String) = {
+           replacementVRM: String, keeperEmail: Option[String],  paymentModel: PaymentModel) = {
 
     PaymentToPaymentNotAuthorisedAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId,  KeeperAuditDetails(keeperEmail),
-      PaymentAuditDetails(paymentTrxRef))
+      PaymentAuditDetails(trxRef = paymentModel.trxRef))
   }
 
 }
@@ -192,13 +197,13 @@ object PaymentToPaymentFailureAuditMessage {
 
   def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel, transactionId: String,
-           replacementVRM: String, keeperEmail: Option[String], paymentTrxRef: String) = {
+           replacementVRM: String, keeperEmail: Option[String], paymentModel: PaymentModel) = {
 
     PaymentToPaymentFailureAuditMessage(
       VehicleAuditDetails(vehicleAndKeeperDetailsModel.make, vehicleAndKeeperDetailsModel.model),
-      VrmAuditDetails(Some(vehicleAndKeeperLookupFormModel.registrationNumber), Some(replacementVRM)),
+      VrmAuditDetails(vehicleAndKeeperLookupFormModel.registrationNumber, Some(replacementVRM)),
       transactionId,  KeeperAuditDetails(keeperEmail),
-      PaymentAuditDetails(paymentTrxRef))
+      PaymentAuditDetails(trxRef = paymentModel.trxRef))
   }
 
 }
