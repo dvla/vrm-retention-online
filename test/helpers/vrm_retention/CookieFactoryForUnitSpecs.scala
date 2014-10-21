@@ -97,8 +97,12 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  // HACK for Northern Ireland
-//  def businessChooseYourAddress(uprnSelected: String = traderUprnValid.toString): Cookie = {
+  def businessChooseYourAddressUseUprn(uprnSelected: String = traderUprnValid.toString): Cookie = {
+    val key = BusinessChooseYourAddressCacheKey
+    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
+    createCookie(key, value)
+  }
+
   def businessChooseYourAddress(uprnSelected: String = "0"): Cookie = {
     val key = BusinessChooseYourAddressCacheKey
     val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
