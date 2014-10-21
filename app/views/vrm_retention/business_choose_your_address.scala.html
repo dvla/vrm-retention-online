@@ -36,8 +36,10 @@
                     <a class="button" id="@EnterAddressManuallyButtonId" href="@controllers.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
 
                     @if(dropDownOptions.nonEmpty) {
+                        <br/>
                         <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
+                    <br/>
                     <a id="@ExitId" class="exit" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
                 </div>
             </div>

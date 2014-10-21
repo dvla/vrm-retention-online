@@ -33,6 +33,7 @@
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
                 <a id="@TryAgainId" href="@controllers.routes.Payment.begin()" class="button-secondary">@Messages("vrm_retention_paymentnotauthorised.tryagainbutton")</a>
+                <br/>
                 <a class="exit" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_paymentnotauthorised.exitbutton")</a>
             </div>
         </div>
