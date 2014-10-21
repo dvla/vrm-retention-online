@@ -3,11 +3,11 @@ require.config({
         'jquery': 'lib/jquery/jquery-1.9.1',
         'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min',
         'header-footer-only': 'header-footer-only',
-        'radio-input': 'radio-input'
+        'form-checked-selection': 'form-checked-selection'
     }
 });
 
-require(["jquery", "jquery-migrate", "header-footer-only", "radio-input"],function($) {
+require(["jquery", "jquery-migrate", "header-footer-only", "form-checked-selection"],function($) {
 
     var IE10 = (navigator.userAgent.match(/(MSIE 10.0)/g) ? true : false);
     if (IE10) {
