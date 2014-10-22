@@ -13,26 +13,6 @@
     }
 }
 
-.info-notice {
-    background: none;
-    border-left: 10px solid $grey-2;
-    margin-bottom: 2em;
-    padding: 0.5em 0 0.5em 1em;
-    p {
-        margin:0;
-    }
-}
-
-.related {
-    margin: 1.2em 0 0 0;
-    border-top: 10px solid $govuk-blue;
-    padding-top: 1em;
-}
-
-.second-col .related {
-    margin-top: 0;
-}
-
 .summary-replacement-reg {
     dt, dd {
         display:inline;
@@ -41,22 +21,6 @@
 }
 
 #{$htmlNamespace} {
-
-    //temp until commonised
-    .two-col {
-        .first-col {
-            width: 30%;
-            @media screen and (max-width: $device-medium) {
-                width:100%;
-            }
-        }
-        .second-col {
-            width: 63%;
-            @media screen and (max-width: $device-medium) {
-                width:100%;
-            }
-        }
-    }
 
     .beta-info {
         color: $grey-1;
