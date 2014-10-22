@@ -2,6 +2,6 @@ package audit
 
 trait AuditService {
 
-  def send(auditMessage: AuditMessage)
+  def send(auditMessage: Message)
 
 }
