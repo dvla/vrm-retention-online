@@ -22,22 +22,6 @@
 
 #{$htmlNamespace} {
 
-    //temp until commonised
-    .two-col {
-        .first-col {
-            width: 30%;
-            @media screen and (max-width: $device-medium) {
-                width:100%;
-            }
-        }
-        .second-col {
-            width: 63%;
-            @media screen and (max-width: $device-medium) {
-                width:100%;
-            }
-        }
-    }
-
     .beta-info {
         color: $grey-1;
         font-size: 0.9em;
