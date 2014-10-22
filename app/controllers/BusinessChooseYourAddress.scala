@@ -17,7 +17,7 @@ import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditService, SetUpBusinessDetailsToConfirmBusinessAuditMessage}
+import audit.{AuditService, CaptureActorToConfirmBusinessAuditMessage}
 import views.vrm_retention.VehicleLookup._
 import views.vrm_retention.CheckEligibility._
 import scala.Some
@@ -136,13 +136,13 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
      1) we are not blocking threads
      2) the browser does not change page before the future has completed and written to the cache. */
 
-    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-    val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
-    val vehicleAndKeeperLookupForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-    val vehicleAndKeeperLookupModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-
-    auditService.send(SetUpBusinessDetailsToConfirmBusinessAuditMessage.from(transactionId,
-      vehicleAndKeeperLookupForm, vehicleAndKeeperLookupModel, replacementVRM))
+//    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+//    val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+//    val vehicleAndKeeperLookupForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+//    val vehicleAndKeeperLookupModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+//
+//    auditService.send(SetUpBusinessDetailsToConfirmBusinessAuditMessage.from(transactionId,
+//      vehicleAndKeeperLookupForm, vehicleAndKeeperLookupModel, replacementVRM))
 
     Redirect(routes.ConfirmBusiness.present()).
       discardingCookie(EnterAddressManuallyCacheKey).

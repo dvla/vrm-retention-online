@@ -8,9 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 // base classes
 //
 case class Message(name: String, serviceType: String, data: (String, Any)*) {
-  /**
-   * Unique message identifier.
-   */
+
   var messageId = UUID.randomUUID
 
   def getDataAsJava = {
@@ -22,6 +20,27 @@ case class Message(name: String, serviceType: String, data: (String, Any)*) {
 //
 // concrete classes
 //
+
+object NameOptsToOptionString {
+
+  def from(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel) = {
+
+    // flatten and then iterate
+    val keeperNameList = List(vehicleAndKeeperDetailsModel.title, 
+      vehicleAndKeeperDetailsModel.firstName, 
+      vehicleAndKeeperDetailsModel.lastName).flatten
+
+    if (keeperNameList.size > 0) {
+      var nameString = keeperNameList(0)
+      for (nameItem <- keeperNameList.drop(1)) {
+        nameString += (" " + nameItem)
+      }
+      Some(nameString)
+    } else {
+      None
+    }
+  }
+}
 
 object AddressSeqToOptionString {
 
@@ -55,9 +74,7 @@ object VehicleLookupToConfirmAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
       val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
@@ -66,9 +83,7 @@ object VehicleLookupToConfirmAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
         keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt
@@ -91,10 +106,8 @@ object VehicleLookupToConfirmBusinessAuditMessage {
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
       // TODO business details
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
-      // TODO keeper address
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
 
@@ -102,9 +115,8 @@ object VehicleLookupToConfirmBusinessAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt
       ).flatten // Remove empty values from list
@@ -115,7 +127,7 @@ object VehicleLookupToConfirmBusinessAuditMessage {
 
 }
 
-object VehicleLookupToSetUpBusinessDetailsAuditMessage {
+object VehicleLookupToCaptureActorAuditMessage {
 
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -125,10 +137,8 @@ object VehicleLookupToSetUpBusinessDetailsAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
-      // TODO keeper address
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
 
@@ -136,14 +146,13 @@ object VehicleLookupToSetUpBusinessDetailsAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt
       ).flatten // Remove empty values from list
     }
-    Message("VehicleLookupToSetUpBusinessDetails", "PR Retention", data: _*)
+    Message("VehicleLookupToCaptureActor", "PR Retention", data: _*)
 
   }
 
@@ -168,7 +177,7 @@ object VehicleLookupToVehicleLookupFailureAuditMessage {
 
 }
 
-object SetUpBusinessDetailsToConfirmBusinessAuditMessage {
+object CaptureActorToConfirmBusinessAuditMessage {
 
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -178,10 +187,8 @@ object SetUpBusinessDetailsToConfirmBusinessAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
-      // TODO keeper address
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
 
@@ -189,14 +196,13 @@ object SetUpBusinessDetailsToConfirmBusinessAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt
       ).flatten // Remove empty values from list
     }
-    Message("SetUpBusinessDetailsToConfirmBusiness", "PR Retention", data: _*)
+    Message("CaptureActorToConfirmBusiness", "PR Retention", data: _*)
 
   }
 
@@ -212,10 +218,8 @@ object ConfirmBusinessToConfirmAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
-      // TODO keeper address
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
 
@@ -223,9 +227,8 @@ object ConfirmBusinessToConfirmAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt
       ).flatten // Remove empty values from list
@@ -246,11 +249,9 @@ object ConfirmToPaymentAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
-      // TODO keeper address
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
 
@@ -258,9 +259,9 @@ object ConfirmToPaymentAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
+        currentVrmOpt,
         currentVrmOpt,
         replacementVRMOpt,
         keeperEmailOpt
@@ -282,15 +283,13 @@ object PaymentToSuccessAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
-      // TODO keeper address
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
       val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-      val paymentStatusOpt = Some("paymentStatus", "Settled")
+      val paymentStatusOpt = Some(("paymentStatus", "Settled"))
       val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
       val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
       val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
@@ -302,9 +301,8 @@ object PaymentToSuccessAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt,
         keeperEmailOpt,
@@ -334,11 +332,9 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
-      // TODO keeper address
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
       val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
@@ -353,9 +349,8 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt,
         keeperEmailOpt,
@@ -383,15 +378,13 @@ object PaymentToPaymentFailureAuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
       val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
-      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
-      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
-      // TODO keeper address
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
       val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-      val paymentStatusOpt = Some("paymentStatus", "Cancelled")
+      val paymentStatusOpt = Some(("paymentStatus", "Cancelled"))
       val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
       val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
       val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
@@ -403,9 +396,8 @@ object PaymentToPaymentFailureAuditMessage {
         transactionIdOpt,
         makeOpt,
         modelOpt,
-        keeperTitleOpt,
-        keeperFirstNameOpt,
-        keeperLastNameOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt,
         keeperEmailOpt,
