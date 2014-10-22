@@ -173,7 +173,7 @@ traderPostcode = Postcode
 
 
 addressAndPostcode_addressLines = Address
-address.lines.label = Building and street
+address.lines.label = Building/number and street
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
