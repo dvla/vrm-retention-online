@@ -232,13 +232,13 @@ object PaymentToSuccessAuditMessage {
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
       val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-      val paymentStatusOpt = Some("paymentStatus", "Settled")
+      val paymentStatusOpt = Some(("paymentStatus", "Settled"))
       val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
       val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
       val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
       val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
       val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
-      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", (totalAmountPaid / 100.0)))
+      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
 
       Seq(
         transactionIdOpt,
@@ -333,13 +333,13 @@ object PaymentToPaymentFailureAuditMessage {
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
       val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-      val paymentStatusOpt = Some("paymentStatus", "Cancelled")
+      val paymentStatusOpt = Some(("paymentStatus", "Cancelled"))
       val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
       val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
       val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
       val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
       val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
-      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", (totalAmountPaid / 100.0)))
+      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
 
       Seq(
         transactionIdOpt,
