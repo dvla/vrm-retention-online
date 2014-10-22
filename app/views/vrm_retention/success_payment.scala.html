@@ -18,6 +18,15 @@
                 <dd class="reg-number">@successViewModel.replacementRegistrationNumber</dd>
             </dl>
             <p>@Messages("vrm_retention_success_payment.p2") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.p2_2")</p>
+            <div class="info-highlight">
+                <h2>@Messages("vrm_retention_success_payment.p6")</h2>
+                <p>@Messages("vrm_retention_success_payment.p7")</p>
+                <p>@Messages("vrm_retention_success.makingUp-p2")</p>
+                <a class="pdf-link" href="@Success.createPdf()">
+                    <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+                    @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
+                </a>
+            </div>
             <h2>@Messages("vrm_retention_success_payment.p3")</h2>
             <ol>
                 <li>@Messages("vrm_retention_success_payment.listItem1")</li>
@@ -32,14 +41,25 @@
             <a class="button" id="@NextId" href="@SuccessPayment.next()">@Messages("vrm_retention_success_payment.button")</a><br /><br />
             <a id="printRetainSuccess" name="action" href="printRetainSuccess" class="js-only print-button">@Messages("vrm_retention_success_payment.print")</a>
         </div>
-        <div class="first-col related">
-            <h2>@Messages("vrm_retention_success_payment.p6")</h2>
-            <p>@Messages("vrm_retention_success_payment.p7")</p>
-            <p>@Messages("vrm_retention_success.makingUp-p2")</p>
-            <a class="pdfLink" href="@Success.createPdf()">
-                <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
-                @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
-            </a>
+        <div class="first-col">
+            <div class="playback">
+              <h2>Transaction details</h2>
+              <p>Transaction ID:</p>
+              <p>@successViewModel.transactionId</p>
+            </div>
+            <div class="related">
+              <h2>Keeper details</h2>
+              <dl class="playback bg-plain">
+                <dt>Name:</dt>
+                <dd>@successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
+                <dt>Keeper Address</dt>
+                <dd>
+                  @for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+                    @keeperAddressLine<br>
+                  }
+                </dd>
+              </dl>
+            </div>
         </div>
     </div>
 

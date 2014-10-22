@@ -4,7 +4,7 @@
     .form-item-radio .radio .form-item {
         margin-bottom:1.5em;
     }
-
+//
     .first-col {
         display:block;
         @media screen and (max-width:$device-medium) {
@@ -23,6 +23,7 @@
 #{$htmlNamespace} {
 
     .beta-info {
+        clear: both;
         color: $grey-1;
         font-size: 0.9em;
         margin-top: 1.5em;

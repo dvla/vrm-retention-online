@@ -15,26 +15,26 @@
     currentForm = Some(enterAddressManuallyForm),
     backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
 ) {
-    <div class="enter-address-manually uppercase-input two-col">
+    <div class="enter-address-manually uppercase-input sr-only-labels two-col">
         <div class="second-col">
             <h1>@Messages("vrm_retention_setupbusinessdetails.title")</h1>
-
-            <p>Add my business address manually</p>
 
         @form(action = controllers.routes.EnterAddressManually.submit()) {
             @csrfTokenHiddenField()
 
             @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 
-            @{
-                /* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */
-            }
             <legend>@Messages("address.postcode.label")</legend>
             <div class="read-only-input">@enterAddressManuallyViewModel.businessPostCode</div>
             <div class="form-steps">
-                <button id="@NextId" type="submit" name="action" class="button">@Messages("vrm_retention_enteraddressmanually.submitbutton")</button>
+                @* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons *@
+                <button id="@NextId" type="submit" name="action" class="button">
+                    @Messages("vrm_retention_enteraddressmanually.submitbutton")
+                </button>
                 <br/>
-                <a id="@ExitId" class="exit" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                <a id="@ExitId" class="exit" href="@controllers.routes.MockFeedback.present()">
+                    @Messages("vrm_retention_exit.button")
+                </a>
             </div>
         }
         </div>

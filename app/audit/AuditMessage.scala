@@ -295,7 +295,7 @@ object PaymentToSuccessAuditMessage {
       val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
       val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
       val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
-      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", (totalAmountPaid / 100.0)))
+      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
 
       Seq(
         transactionIdOpt,
@@ -390,7 +390,7 @@ object PaymentToPaymentFailureAuditMessage {
       val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
       val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
       val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
-      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", (totalAmountPaid / 100.0)))
+      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
 
       Seq(
         transactionIdOpt,

@@ -49,7 +49,8 @@ libraryDependencies ++= Seq(
   "com.sun.mail" % "javax.mail" % "1.5.2", // TODO we should upgrade to 1.5.2 only after we have an email test suite inplace
   "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
   "dvla" %% "vehicles-presentation-common" % "2.4-SNAPSHOT" withSources() withJavadoc(),
-  "org.webjars" % "requirejs" % "2.1.14-1"
+  "org.webjars" % "requirejs" % "2.1.14-1",
+  "com.rabbitmq" % "amqp-client" % "3.3.5"
 )
 
 CucumberPlugin.cucumberSettings ++
