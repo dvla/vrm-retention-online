@@ -91,8 +91,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     val transactionId = request.cookies.getString(TransactionIdCacheKey).get
     val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
 
-    auditService.send(PaymentToPaymentFailureAuditMessage.from(
-      vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM, keeperEmail,
+    auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,
+      vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
       paymentModel))
 
     Redirect(routes.PaymentFailure.present())
@@ -144,8 +144,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
       val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
 
-      auditService.send(PaymentToPaymentNotAuthorisedAuditMessage.from(
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM, keeperEmail,
+      auditService.send(PaymentToPaymentNotAuthorisedAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
         paymentModel))
 
       Redirect(routes.PaymentNotAuthorised.present())
