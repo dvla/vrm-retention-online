@@ -53,17 +53,17 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
-          auditService.send(VehicleLookupToConfirmAuditMessage.from(
-            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM))
+          auditService.send(VehicleLookupToConfirmAuditMessage.from(transactionId,
+            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
           routes.Confirm.present()
         } else {
           if (storeBusinessDetails) {
-            auditService.send(VehicleLookupToConfirmBusinessAuditMessage.from(
-              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM))
+            auditService.send(VehicleLookupToConfirmBusinessAuditMessage.from(transactionId,
+              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
             routes.ConfirmBusiness.present()
           } else {
-            auditService.send(VehicleLookupToSetUpBusinessDetailsAuditMessage.from(
-              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId, replacementVRM))
+            auditService.send(VehicleLookupToSetUpBusinessDetailsAuditMessage.from(transactionId,
+              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
             routes.SetUpBusinessDetails.present()
           }
         }
@@ -76,8 +76,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
-      auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, transactionId))
+      auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, Some(vehicleAndKeeperDetailsModel)))
 
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)

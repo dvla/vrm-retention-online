@@ -7,7 +7,7 @@ import play.api.Logger
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -20,10 +20,11 @@ import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import audit.{AuditService, VehicleLookupToVehicleLookupFailureAuditMessage}
 
 final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
-                                    dateService: DateService)
+                                    dateService: DateService, auditService: AuditService)
                                    (implicit val clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase {
 
@@ -66,11 +67,22 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
     vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form), trackingId).map { response =>
       response.responseCode match {
         case Some(responseCode) =>
+
+//          val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+
+//          auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form))
+
           VehicleNotFound(responseCode)
 
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
+
+//              val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+
+//              auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form,
+//                Some(VehicleAndKeeperDetailsModel.from(dto))))
+
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>

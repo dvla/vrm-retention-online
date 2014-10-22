@@ -69,8 +69,8 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
       val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
 
-      auditService.send(ConfirmToPaymentAuditMessage.from(
-        vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, transactionId, vehicleAndKeeperDetailsModel.registrationNumber,
+      auditService.send(ConfirmToPaymentAuditMessage.from(transactionId,
+        vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, vehicleAndKeeperDetailsModel.registrationNumber,
         replacementVRM, model.keeperEmail))
 
       Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
