@@ -1,7 +1,8 @@
 package audit
 
-import models.{PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import java.util.UUID
+import models.{PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 //
 // base classes
@@ -21,6 +22,28 @@ case class Message(name: String, serviceType: String, data: (String, Any)*) {
 //
 // concrete classes
 //
+
+object AddressSeqToOptionString {
+
+  def from(addressModel: Option[AddressModel]) = {
+
+    addressModel match {
+      case Some(address) =>
+        if (address.address.size > 0) {
+          var addressString = address.address(0)
+          for (addressLine <- address.address.drop(1)) {
+            addressString += (", " + addressLine)
+          }
+          Some(addressString)
+        } else {
+          None
+        }
+      case _ =>
+        None
+    }
+  }
+}
+
 object VehicleLookupToConfirmAuditMessage {
 
   def from(transactionId: String,
@@ -35,8 +58,7 @@ object VehicleLookupToConfirmAuditMessage {
       val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
       val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
       val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
-      // TODO keeper address
-
+      val keeperAddressOpt = AddressSeqToOptionString.from(vehicleAndKeeperDetailsModel.address).map(keeperAddress => ("keeperAddress", keeperAddress))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
 
@@ -47,9 +69,11 @@ object VehicleLookupToConfirmAuditMessage {
         keeperTitleOpt,
         keeperFirstNameOpt,
         keeperLastNameOpt,
+        keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt
       ).flatten // Remove empty values from list
+
     }
     Message("VehicleLookupToConfirm", "PR Retention", data: _*)
   }
@@ -139,6 +163,40 @@ object VehicleLookupToVehicleLookupFailureAuditMessage {
       ).flatten // Remove empty values from list
     }
     Message("VehicleLookupToVehicleLookupFailure", "PR Retention", data: _*)
+
+  }
+
+}
+
+object SetUpBusinessDetailsToConfirmBusinessAuditMessage {
+
+  def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+           replacementVRM: String) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
+      val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
+      val keeperTitleOpt = vehicleAndKeeperDetailsModel.title.map(keeperTitle => ("keeperTitle", keeperTitle))
+      val keeperFirstNameOpt = vehicleAndKeeperDetailsModel.firstName.map(keeperFirstName => ("keeperFirstName", keeperFirstName))
+      val keeperLastNameOpt = vehicleAndKeeperDetailsModel.lastName.map(keeperLastName => ("keeperLastName", keeperLastName))
+      // TODO keeper address
+      val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
+      val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
+
+      Seq(
+        transactionIdOpt,
+        makeOpt,
+        modelOpt,
+        keeperTitleOpt,
+        keeperFirstNameOpt,
+        keeperLastNameOpt,
+        currentVrmOpt,
+        replacementVRMOpt
+      ).flatten // Remove empty values from list
+    }
+    Message("SetUpBusinessDetailsToConfirmBusiness", "PR Retention", data: _*)
 
   }
 
