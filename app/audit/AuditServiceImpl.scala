@@ -8,7 +8,7 @@ import play.api.Logger
 
 final class AuditServiceImpl @Inject()(dateService: DateService, config: Config) extends AuditService {
 
-  override def send(auditMessage: AuditMessage) {
+  override def send(auditMessage: Message) {
 
     Logger.debug("Audit message received - " + auditMessage)
 

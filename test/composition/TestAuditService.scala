@@ -1,6 +1,6 @@
 package composition
 
-import audit.{AuditMessage, AuditService}
+import audit.{Message, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -11,7 +11,7 @@ class TestAuditService extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val auditService = mock[AuditService]
-    when(auditService.send(any[AuditMessage])).thenAnswer(new DoesNothing)
+    when(auditService.send(any[Message])).thenAnswer(new DoesNothing)
     bind[AuditService].toInstance(auditService)
   }
 }
