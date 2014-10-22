@@ -10,79 +10,75 @@
 @main(
     title = Messages("vrm_retention_success_payment.title")
 ) {
-
-<div class="two-col">
-    <div class="second-col">
-        <h1>@Messages("vrm_retention_success_payment.title")</h1>
-        <dl class="summary-replacement-reg">
-          <dt>@Messages("vrm_retention_success_payment.p1")</dt>
-          <dd class="reg-number">@successViewModel.replacementRegistrationNumber</dd>
-        </dl>
-        <p>@Messages("vrm_retention_success_payment.p2") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.p2_2")</p>
-        <h2>@Messages("vrm_retention_success_payment.p3")</h2>
-        <ul class="list-standard">
-          <li>@Messages("vrm_retention_success_payment.listItem1")</li>
-          <li>@Messages("vrm_retention_success_payment.listItem2")</li>
-          <li>@Messages("vrm_retention_success_payment.listItem3")</li>
-          <li>@Messages("vrm_retention_success_payment.listItem4")</li>
-        </ul>
-        <div class="info-notice">
-          <p>@Messages("vrm_retention_success_payment.p4")</p>
-          <p>@Messages("vrm_retention_success_payment.p5")</p>
+    <div class="two-col">
+        <div class="second-col">
+            <h1>@Messages("vrm_retention_success_payment.title")</h1>
+            <dl class="summary-replacement-reg">
+                <dt>@Messages("vrm_retention_success_payment.p1")</dt>
+                <dd class="reg-number">@successViewModel.replacementRegistrationNumber</dd>
+            </dl>
+            <p>@Messages("vrm_retention_success_payment.p2") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.p2_2")</p>
+            <h2>@Messages("vrm_retention_success_payment.p3")</h2>
+            <ol>
+                <li>@Messages("vrm_retention_success_payment.listItem1")</li>
+                <li>@Messages("vrm_retention_success_payment.listItem2")</li>
+                <li>@Messages("vrm_retention_success_payment.listItem3")</li>
+                <li>@Messages("vrm_retention_success_payment.listItem4")</li>
+            </ol>
+            <div class="info-notice">
+                <p>@Messages("vrm_retention_success_payment.p4")</p>
+                <p>@Messages("vrm_retention_success_payment.p5")</p>
+            </div>
+            <a class="button" id="@NextId" href="@SuccessPayment.next()">@Messages("vrm_retention_success_payment.button")</a><br /><br />
+            <a id="printRetainSuccess" name="action" href="printRetainSuccess" class="js-only print-button">@Messages("vrm_retention_success_payment.print")</a>
         </div>
-        <a class="button" id="@NextId" href="@SuccessPayment.next()">@Messages("vrm_retention_success_payment.button")</a><br /><br />
-        <a id="printRetainSuccess" name="action" href="printRetainSuccess" class="js-only print-button">@Messages("vrm_retention_success_payment.print")</a>
+        <div class="first-col related">
+            <h2>@Messages("vrm_retention_success_payment.p6")</h2>
+            <p>@Messages("vrm_retention_success_payment.p7")</p>
+            <p>@Messages("vrm_retention_success.makingUp-p2")</p>
+            <a class="pdfLink" href="@Success.createPdf()">
+                <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+                @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
+            </a>
+        </div>
     </div>
-    <div class="first-col related">
-        <h2>@Messages("vrm_retention_success_payment.p6")</h2>
-        <p>@Messages("vrm_retention_success_payment.p7")</p>
-        <p>@Messages("vrm_retention_success.makingUp-p2")</p>
-        <a class="pdfLink" href="@Success.createPdf()">
-            <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
-            @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
-        </a>
+
+    <div class="print-only">
+        <hr class="print-only">
+        <h3>@Messages("vrm_retention_success.p1")</h3>
+        <p>@Messages("vrm_retention_success.p2")</p>
+        <ol>
+            <li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
+            <li>@Messages("vrm_retention_success.listItem2")</li>
+            <li>@Messages("vrm_retention_success.listItem3")</li>
+        </ol>
+        <hr class="print-only">
+        <div class="related">
+            <h2>Transaction details</h2>
+            <p>Transaction ID:</p>
+            <p>@successViewModel.transactionId</p>
+        </div>
+        <hr class="print-only">
+        <div class="related">
+            <h2>Keeper details</h2>
+            <p>Name:</p>
+            <p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
+            <p>Keeper Address</p>
+            <p>
+              @for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+                  @keeperAddressLine<br/>
+              }
+            </p>
+        </div>
+        <hr class="print-only">
+        <div class="related">
+            <h3>DVLA Customer Service</h3>
+            <p>Telephone<br>
+            <strong>0300 790 6802</strong></p>
+            <p>Textphone<br>
+            <strong>18001 0300 123 1379</strong></p>
+            <p>Lines Open<br>
+            <strong>Monday to Friday, 8am to 7pm Saturday, 8am to 2pm</strong></p>
+        </div>
     </div>
-  </div>
-
-</div>
-
-
-<div class="print-only">
-  <hr class="print-only">
-  <h3>@Messages("vrm_retention_success.p1")</h3>
-  <p>@Messages("vrm_retention_success.p2")</p>
-  <ul class="list-standard">
-    <li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
-    <li>@Messages("vrm_retention_success.listItem2")</li>
-    <li>@Messages("vrm_retention_success.listItem3")</li>
-  </ul>
-  <hr class="print-only">
-<div class="related">
-  <h2>Transaction details</h2>
-  <p>Transaction ID:</p>
-  <p>@successViewModel.transactionId</p>
-</div>
-<hr class="print-only">
-<div class="related">
-  <h2>Keeper details</h2>
-  <p>Name:</p>
-  <p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
-  <p>Keeper Address</p>
-  <p>
-    @for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
-                @keeperAddressLine<br>
-            }
-  </p>
-</div>
-<hr class="print-only">
-<div class="related">
-  <h3>DVLA Customer Service</h3>
-  <p>Telephone<br>
-  <strong>0300 790 6802</strong></p>
-  <p>Textphone<br>
-  <strong>18001 0300 123 1379</strong></p>
-  <p>Lines Open<br>
-  <strong>Monday to Friday, 8am to 7pm Saturday, 8am to 2pm</strong></p>
-</div>
-</div>
 }

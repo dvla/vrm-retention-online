@@ -33,7 +33,8 @@
             <div class="read-only-input">@enterAddressManuallyViewModel.businessPostCode</div>
             <div class="form-steps">
                 <button id="@NextId" type="submit" name="action" class="button">@Messages("vrm_retention_enteraddressmanually.submitbutton")</button>
-                <br /><br /> <a id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                <br/>
+                <a id="@ExitId" class="exit" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
             </div>
         }
         </div>

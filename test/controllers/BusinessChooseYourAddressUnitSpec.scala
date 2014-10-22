@@ -17,14 +17,58 @@ import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperFirstNameValid
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
-  "present" should {
+  "present (use UPRN enabled)" should {
 
     "display the page if dealer details cached" in new WithApplication {
-      whenReady(present, timeout) { r =>
+      whenReady(present(ordnanceSurveyUseUprn = true), timeout) { r =>
+        r.header.status should equal(OK)
+      }
+    }
+
+    "display selected field when cookie exists" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddressUseUprn()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).present(request)
+      val content = contentAsString(result)
+      content should include( s"""<option value="$traderUprnValid" selected>""")
+    }
+
+    "display unselected field when cookie does not exist" in new WithApplication {
+      val content = contentAsString(present(ordnanceSurveyUseUprn = true))
+      content should not include "selected"
+    }
+
+    "redirect to setupTradeDetails page when present with no business details cached" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).present(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
+      }
+    }
+
+    "display prototype message when config set to true" in new WithApplication {
+      contentAsString(present(ordnanceSurveyUseUprn = true)) should include(PrototypeHtml)
+    }
+
+    "not display prototype message when config set to false" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(isPrototypeBannerVisible = false, ordnanceSurveyUseUprn = true).present(request)
+      contentAsString(result) should not include PrototypeHtml
+    }
+  }
+
+  "present (use UPRN not enabled for Northern Ireland)" should {
+
+    "display the page if dealer details cached" in new WithApplication {
+      whenReady(present(ordnanceSurveyUseUprn = false), timeout) { r =>
         r.header.status should equal(OK)
       }
     }
@@ -34,94 +78,92 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.businessChooseYourAddress()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress.present(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).present(request)
       val content = contentAsString(result)
-      // HACK for Northern Ireland
-//      content should include( s"""<option value="$traderUprnValid" selected>""")
       content should include( s"""<option value="0" selected>""")
     }
 
     "display unselected field when cookie does not exist" in new WithApplication {
-      val content = contentAsString(present)
+      val content = contentAsString(present(ordnanceSurveyUseUprn = false))
       content should not include "selected"
     }
 
     "redirect to setupTradeDetails page when present with no business details cached" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress.present(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
     "display prototype message when config set to true" in new WithApplication {
-      contentAsString(present) should include(PrototypeHtml)
+      contentAsString(present(ordnanceSurveyUseUprn = false)) should include(PrototypeHtml)
     }
 
     "not display prototype message when config set to false" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddressWithPrototypeBannerNotVisible.present(request)
+      val result = businessChooseYourAddress(isPrototypeBannerVisible = false, ordnanceSurveyUseUprn = false).present(request)
       contentAsString(result) should not include PrototypeHtml
     }
   }
 
-  "submit" should {
+  "submit (use UPRN enabled)" should {
 
     "redirect to Confirm page after a valid submit" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest().
+      val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress.submit(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
     }
 
     "return a bad request if not address selected" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(traderUprn = "").
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress.submit(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
       }
     }
 
     "redirect to SetupBusinessDetailsPage page when valid submit with no dealer name cached" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest().
+      val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress.submit(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
     "redirect to SetupBusinessDetailsPage page when bad form submitted and no dealer name cached" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(traderUprn = "")
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "")
       // Bad form because nothing was selected from the drop-down.
-      val result = businessChooseYourAddress.submit(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 
     "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(traderUprn = traderUprnInvalid.toString).
+      val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnInvalid.toString).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
-      val result = businessChooseYourAddress.submit(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
       }
     }
 
     "write cookie when uprn found" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest().
+      val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-      val result = businessChooseYourAddress.submit(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey,
@@ -131,9 +173,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
 
     "does not write cookie when uprn not found" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(traderUprn = AddressLookupWebServiceConstants.traderUprnInvalid.toString).
+      val request = buildCorrectlyPopulatedRequest(addressSelected = AddressLookupWebServiceConstants.traderUprnInvalid.toString).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
-      val result = businessChooseYourAddress.submit(request)
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
         val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
         cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey)
@@ -141,14 +183,87 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val present = {
+  "submit (use UPRN not enabled for Northern Ireland)" should {
+
+    "redirect to Confirm page after a valid submit" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
+      }
+    }
+
+    "return a bad request if not address selected" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
+      }
+    }
+
+    "redirect to SetupBusinessDetailsPage page when valid submit with no dealer name cached" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
+      }
+    }
+
+    "redirect to SetupBusinessDetailsPage page when bad form submitted and no dealer name cached" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "")
+      // Bad form because nothing was selected from the drop-down.
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
+      }
+    }
+
+    "redirect to UprnNotFound page when submit with but uprn not found by the webservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnInvalid.toString).
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(UprnNotFoundPage.address))
+      }
+    }
+
+    "write cookie when uprn found" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest().
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain allOf(BusinessChooseYourAddressCacheKey,
+          BusinessDetailsCacheKey,
+          EnterAddressManuallyCacheKey)
+      }
+    }
+
+    "does not write cookie when uprn not found" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = AddressLookupWebServiceConstants.traderUprnInvalid.toString).
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      whenReady(result) { r =>
+        val cookies = r.header.headers.get(SET_COOKIE).toSeq.flatMap(Cookies.decode)
+        cookies.map(_.name) should contain noneOf(BusinessChooseYourAddressCacheKey, BusinessDetailsCacheKey)
+      }
+    }
+  }
+
+  private def present(ordnanceSurveyUseUprn: Boolean) = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
-    businessChooseYourAddress.present(request)
+    businessChooseYourAddress(ordnanceSurveyUseUprn = ordnanceSurveyUseUprn).present(request)
   }
 
-  private def businessChooseYourAddress = {
+  private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
       new TestOrdnanceSurvey,
       new TestVehicleAndKeeperLookupWebService,
@@ -156,18 +271,13 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         override def configure(): Unit = {
           bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
         }
-      }).getInstance(classOf[BusinessChooseYourAddress])
+      },
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn)
+    ).getInstance(classOf[BusinessChooseYourAddress])
   }
 
-  private def businessChooseYourAddressWithPrototypeBannerNotVisible = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
-      getInstance(classOf[BusinessChooseYourAddress])
-  }
-
-  // HACK for Norther Ireland
-//  private def buildCorrectlyPopulatedRequest(traderUprn: String = traderUprnValid.toString) = {
-  private def buildCorrectlyPopulatedRequest(traderUprn: String = "0") = {
+  private def buildCorrectlyPopulatedRequest(addressSelected: String = "0") = {
     FakeRequest().withFormUrlEncodedBody(
-      AddressSelectId -> traderUprn)
+      AddressSelectId -> addressSelected)
   }
 }
