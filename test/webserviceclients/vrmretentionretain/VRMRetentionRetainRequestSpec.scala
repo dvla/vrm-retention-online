@@ -14,7 +14,7 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
     }
 
     "write json with ISO formatted data" in {
-      toJson.toString() should include("1970-11-25T00:00:00.000+01:00")
+      toJson.toString() should include("1970-11-25T00:00:00.000")
     }
   }
 
