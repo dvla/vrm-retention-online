@@ -5,6 +5,8 @@
         config: utils.helpers.Config)
 
 @import controllers.routes.BusinessChooseYourAddress
+@import controllers.routes.EnterAddressManually
+@import controllers.routes.MockFeedback
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechSelect}
 @import views.html.helper.form
@@ -24,7 +26,8 @@
                 <h1>@Messages("vrm_retention_businessChooseYourAddress_title")</h1>
 
                 @if(dropDownOptions.isEmpty) {
-                    <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound")</h2>
+                    <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound.h2.1")</h2>
+                    <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound.h2.2")</h2>
                 } else {
                     @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
                         options = dropDownOptions.toSeq,
@@ -32,14 +35,26 @@
                     )
                 }
 
+                @if(dropDownOptions.nonEmpty) {
+                    <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()">
+                        @Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")
+                    </a>
+                }
                 <div class="form-steps">
-                    <a class="button" id="@EnterAddressManuallyButtonId" href="@controllers.routes.EnterAddressManually.present()">@Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")</a>
-
+                    @if(dropDownOptions.isEmpty) {
+                        <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()" class="button">
+                            @Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry.enterManuallyButton")
+                        </a>
+                    }
                     @if(dropDownOptions.nonEmpty) {
-                        <button id="@SelectId" type="submit" name="action" class="button">@Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
+                        <button id="@SelectId" type="submit" name="action" class="button">
+                            @Messages("vrm_retention_businessChooseYourAddress.submitbutton")
+                        </button>
                     }
                     <br/>
-                    <a id="@ExitId" class="exit" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_exit.button")</a>
+                    <a id="@ExitId" class="exit" href="@MockFeedback.present()">
+                        @Messages("vrm_retention_exit.button")
+                    </a>
                 </div>
             </div>
 

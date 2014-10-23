@@ -1,7 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
+import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperLookupFormModel}
+import models.{VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
@@ -16,8 +17,13 @@ import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import audit.{AuditService, CaptureActorToConfirmBusinessAuditMessage}
+import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.CheckEligibility._
+import scala.Some
 
-final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService)
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
+                                                 auditService: AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config) extends Controller {
 
@@ -129,6 +135,15 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     /* The redirect is done as the final step within the map so that:
      1) we are not blocking threads
      2) the browser does not change page before the future has completed and written to the cache. */
+
+//    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+//    val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+//    val vehicleAndKeeperLookupForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+//    val vehicleAndKeeperLookupModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+//
+//    auditService.send(SetUpBusinessDetailsToConfirmBusinessAuditMessage.from(transactionId,
+//      vehicleAndKeeperLookupForm, vehicleAndKeeperLookupModel, replacementVRM))
+
     Redirect(routes.ConfirmBusiness.present()).
       discardingCookie(EnterAddressManuallyCacheKey).
       withCookie(model).

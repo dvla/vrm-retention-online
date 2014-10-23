@@ -173,7 +173,7 @@ traderPostcode = Postcode
 
 
 addressAndPostcode_addressLines = Address
-address.lines.label = Building and street
+address.lines.label = Building/number and street
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
@@ -456,9 +456,11 @@ vrm_retention_businessChooseYourAddress_addressSelect = Choose your address
 vrm_retention_businessChooseYourAddress_addressSelect_label = Choose your address
 vrm_retention_businessChooseYourAddress.backbutton = Back
 vrm_retention_businessChooseYourAddress.submitbutton = Next
-vrm_retention_businessChooseYourAddress.manualAddressEntry = Enter my address
+vrm_retention_businessChooseYourAddress.manualAddressEntry = My address is not in the list
+vrm_retention_businessChooseYourAddress.manualAddressEntry.enterManuallyButton = Enter address
 error.dropDownInvalid = Please select a value from the drop down list.
-vrm_retention_businessChooseYourAddress_noaddressesfound = No addresses found for that postcode. Click the link below to enter an address manually.
+vrm_retention_businessChooseYourAddress_noaddressesfound.h2.1 = No addresses found for that postcode.
+vrm_retention_businessChooseYourAddress_noaddressesfound.h2.2 = Please either ''Enter address'' or click ''Back'' to try again.
 vrm_retention_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
 
 #page 3 - uprn not found

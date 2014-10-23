@@ -10,8 +10,13 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.html.vrm_retention.enter_address_manually
+import audit.{CaptureActorToConfirmBusinessAuditMessage, AuditService, ConfirmBusinessToConfirmAuditMessage}
+import views.vrm_retention.VehicleLookup._
+import scala.Some
+import views.vrm_retention.CheckEligibility._
+import scala.Some
 
-final class EnterAddressManually @Inject()()
+final class EnterAddressManually @Inject()(auditService: AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                            config: Config) extends Controller {
 
@@ -42,7 +47,16 @@ final class EnterAddressManually @Inject()()
       validForm =>
         (request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
           case (Some(setupBusinessDetailsForm), Some(vehicleAndKeeperDetails)) =>
+
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
+
+//            val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+//            val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+//            val vehicleAndKeeperLookup = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+//
+//            auditService.send(SetUpBusinessDetailsToConfirmBusinessAuditMessage.from(transactionId,
+//            vehicleAndKeeperLookup, vehicleAndKeeperDetails, replacementVRM))
+
             Redirect(routes.ConfirmBusiness.present())
               .withCookie(validForm)
               .withCookie(viewModel)

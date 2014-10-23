@@ -62,7 +62,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
               vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
             routes.ConfirmBusiness.present()
           } else {
-            auditService.send(VehicleLookupToSetUpBusinessDetailsAuditMessage.from(transactionId,
+            auditService.send(VehicleLookupToCaptureActorAuditMessage.from(transactionId,
               vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
             routes.SetUpBusinessDetails.present()
           }

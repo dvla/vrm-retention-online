@@ -60,4 +60,8 @@ class Config {
   // Audit Service
   // TODO
 
+  // Rabbit-MQ
+  val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")
+  val rabbitmqQueue = getProperty("rabbitmq.queue", "NOT FOUND")
+  val rabbitmqExchange = getProperty("rabbitmq.exchange", "NOT FOUND")
 }
