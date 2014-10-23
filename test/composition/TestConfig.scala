@@ -5,12 +5,23 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import utils.helpers.Config
 
-class TestConfig(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean = false) extends ScalaModule with MockitoSugar {
+class TestConfig(
+                  isPrototypeBannerVisible: Boolean = true,
+                  ordnanceSurveyUseUprn: Boolean = false,
+                  auditServiceUseRabbit: Boolean = false,
+                  rabbitmqHost: String = "NOT FOUND",
+                  rabbitmqQueue: String = "NOT FOUND",
+                  rabbitmqExchange: String = "NOT FOUND"
+                  ) extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val config: Config = mock[Config]
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
-    when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn) // Stub this config value.
+    when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
+    when(config.auditServiceUseRabbit).thenReturn(auditServiceUseRabbit)
+    when(config.rabbitmqHost).thenReturn(rabbitmqHost)
+    when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
+    when(config.rabbitmqExchange).thenReturn(rabbitmqExchange)
     bind[Config].toInstance(config)
   }
 }
