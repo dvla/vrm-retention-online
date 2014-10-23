@@ -107,6 +107,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
         val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
+          transactionId = transactionId,
           transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
           vrm = vrm,
           purchaseAmount = config.purchaseAmount.toInt,

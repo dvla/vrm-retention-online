@@ -120,6 +120,7 @@ final class PaymentUnitSpec extends UnitSpec {
       }
       val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.getBytes)
       val expectedPaymentSolveBeginRequest = PaymentSolveBeginRequest(
+        transactionId = CookieFactoryForUnitSpecs.transactionId().value,
         transNo = TransactionIdValid.toString.replaceAll("[^0-9]", ""),
         vrm = RegistrationNumberValid,
         purchaseAmount = 8000,

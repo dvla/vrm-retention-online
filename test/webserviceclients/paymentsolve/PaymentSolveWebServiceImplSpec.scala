@@ -28,7 +28,8 @@ final class gitPaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixt
   private final val trackingId = "track-id-test"
 
   private val request = PaymentSolveBeginRequest(
-    transNo = "ref number",
+    transactionId = "transaction id",
+    transNo = "trans no",
     vrm = "reg number",
     purchaseAmount = 9999,
     paymentCallback = "callback url"

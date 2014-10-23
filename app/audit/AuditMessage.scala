@@ -10,6 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 //
 // base classes
 //
+// TODO remove this class and use IEP's version when jar becomes available
 case class Message(name: String, serviceType: String, data: (String, Any)*) {
 
   var messageId = UUID.randomUUID
