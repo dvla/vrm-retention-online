@@ -53,6 +53,7 @@ POST        /enter-address-manually               @controllers.EnterAddressManua
 GET         /confirm-business                     @controllers.ConfirmBusiness.present
 POST        /confirm-business                     @controllers.ConfirmBusiness.submit
 GET         /confirm-business/exit                @controllers.ConfirmBusiness.exit
+GET         /confirm-business/back                @controllers.ConfirmBusiness.back
 
 GET         /confirm                              @controllers.Confirm.present
 POST        /confirm                              @controllers.Confirm.submit
