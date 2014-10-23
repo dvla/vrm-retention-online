@@ -10,22 +10,23 @@ import utils.helpers.Config
 final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
 
   override def send(auditMessage: Message): Unit = {
-    val factory = new ConnectionFactory()
-    factory.setHost(config.rabbitmqHost)
-    val connection = factory.newConnection() // TESTS NEED TO BE USING STUB SERVICE
-    try {
-      val channel = connection.createChannel()
-      try {
-        channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
-        val message = messageToSend(auditMessage).getBytes
-        channel.basicPublish("", config.rabbitmqQueue, null, message)
-        Logger.debug(s"Sent Audit message: $message")
-      } finally {
-        channel.close()
-      }
-    } finally {
-      connection.close()
-    }
+//    val factory = new ConnectionFactory()
+//    factory.setHost(config.rabbitmqHost)
+//    val connection = factory.newConnection() // TESTS NEED TO BE USING STUB SERVICE
+//    try {
+//      val channel = connection.createChannel()
+//      try {
+//        channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
+//        val message = messageToSend(auditMessage).getBytes
+//        channel.basicPublish("", config.rabbitmqQueue, null, message)
+//        Logger.debug(s"Sent Audit message: $message")
+//      } finally {
+//        channel.close()
+//      }
+//    } finally {
+//      connection.close()
+//    }
+    Logger.debug(s"Sent Audit message" + auditMessage)
   }
 
   private def messageToSend(auditMessage: Message) = {
