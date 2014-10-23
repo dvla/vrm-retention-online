@@ -52,12 +52,12 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
 
           businessDetailsOpt.foreach {
             businessDetails =>
-              emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
+              emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, vehicleAndKeeperLookupForm)
           }
 
           keeperEmailOpt.foreach {
             keeperEmail =>
-              emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
+              emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, vehicleAndKeeperLookupForm)
           }
 
           callUpdateWebPaymentService(transactionId, paymentModel.trxRef.get, retainModel.certificateNumber, successViewModel)

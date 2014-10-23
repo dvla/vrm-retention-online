@@ -12,7 +12,8 @@ trait EmailService {
                 retainModel: RetainModel,
                 transactionId: String,
                 confirmFormModel: Option[ConfirmFormModel],
-                businessDetailsModel: Option[BusinessDetailsModel])
+                businessDetailsModel: Option[BusinessDetailsModel],
+                vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,
