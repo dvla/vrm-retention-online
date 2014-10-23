@@ -63,7 +63,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
       auditService.send(PaymentToSuccessAuditMessage.from(transactionId,
         vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel,
-        replacementVRM, keeperEmail, businessDetailsModel, paymentModel))
+        replacementVRM, keeperEmail, businessDetailsModel, paymentModel, certificateNumber))
 
       Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
