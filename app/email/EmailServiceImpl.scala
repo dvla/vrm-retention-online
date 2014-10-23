@@ -11,7 +11,6 @@ import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.html.vrm_retention.{email_with_html, email_without_html}
-import views.vrm_retention.VehicleLookup.UserType_Keeper
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
@@ -50,8 +49,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               filename = "eV948.pdf",
               description = "Replacement registration number letter of authorisation"
             )
-            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
-            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel).toString()
+            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, attachPdf)
+            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel, attachPdf).toString()
             val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber // TODO fetch text from Messages file.
 
             htmlEmail.
@@ -83,7 +82,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                            transactionId: String,
                            htmlEmail: HtmlEmail,
                            confirmFormModel: Option[ConfirmFormModel],
-                           businessDetailsModel: Option[BusinessDetailsModel]): HtmlFormat.Appendable = {
+                           businessDetailsModel: Option[BusinessDetailsModel],
+                           attachPdf: Boolean): HtmlFormat.Appendable = {
     val crownContentId = crownUrl match {
       case Some(url) => "cid:" + htmlEmail.embed(url, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
       case _ => ""
@@ -110,7 +110,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       crestId = crestId,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
-      businessAddress = formatAddress(businessDetailsModel)
+      businessAddress = formatAddress(businessDetailsModel),
+      attachPdf
     )
   }
 
@@ -119,7 +120,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                                        retainModel: RetainModel,
                                        transactionId: String,
                                        confirmFormModel: Option[ConfirmFormModel],
-                                       businessDetailsModel: Option[BusinessDetailsModel]): String = {
+                                       businessDetailsModel: Option[BusinessDetailsModel],
+                                       attachPdf: Boolean): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = retainModel.certificateNumber,
@@ -131,7 +133,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       replacementVRM = eligibilityModel.replacementVRM,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
-      businessAddress = formatAddress(businessDetailsModel)
+      businessAddress = formatAddress(businessDetailsModel),
+      attachPdf
     ).toString()
   }
 

@@ -11,7 +11,8 @@ openGovernmentLicenceContentId: String,
 crestId: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
-businessAddress: String)(implicit lang: Lang)
+businessAddress: String,
+attachPdf: Boolean)(implicit lang: Lang)
 
 <!-- Inliner Build Version 4380b7741bb759d6cb997545f3add21ad48f010b -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -176,8 +177,11 @@ businessAddress: String)(implicit lang: Lang)
                         <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line7")</p>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                            @Messages("email.line8")</p>
+                            @if(attachPdf) {
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8.with-pdf")</p>
+                            } else {
+                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8")</p>
+                            }
                     </td>
                 </tr>
                 <tr>

@@ -8,7 +8,8 @@ amount: String,
 replacementVRM: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
-businessAddress: String)(implicit lang: Lang)
+businessAddress: String,
+attachPdf: Boolean)(implicit lang: Lang)
 
 @Messages("email.withoutHtml")
 @Messages("email.title", vrm)
@@ -22,6 +23,11 @@ businessAddress: String)(implicit lang: Lang)
 @transactionId
 @Messages("email.line6", vrm)
 @Messages("email.line7")
+@if(attachPdf) {
+    @Messages("email.line8.with-pdf")
+} else {
+    @Messages("email.line8")
+}
 @Messages("email.line8")
 @Messages("email.line9")
 @Html(Messages("email.line10") + vrm + Messages("email.line11"))
