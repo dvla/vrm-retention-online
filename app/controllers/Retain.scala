@@ -88,7 +88,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         replacementVRM, keeperEmail, businessDetailsModel, paymentModel, responseCode))
 
       Redirect(routes.RetainFailure.present()).
-        withCookie(key = RetainResponseCodeCacheKey, value = responseCode)
+        withCookie(key = RetainResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }
 
     def microServiceErrorResult(message: String) = {

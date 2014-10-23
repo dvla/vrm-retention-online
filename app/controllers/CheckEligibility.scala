@@ -81,7 +81,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         vehicleAndKeeperLookupFormModel, responseCode))
 
       Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(
