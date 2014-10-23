@@ -52,16 +52,33 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
 
           businessDetailsOpt.foreach {
             businessDetails =>
-              emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, vehicleAndKeeperLookupForm)
+              emailService.sendEmail(
+                businessDetails.email,
+                vehicleAndKeeperDetails,
+                eligibilityModel,
+                retainModel,
+                transactionId,
+                confirmFormModel,
+                businessDetailsModel,
+                attachPdf = true
+              )
           }
 
           keeperEmailOpt.foreach {
             keeperEmail =>
-              emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, vehicleAndKeeperLookupForm)
+              emailService.sendEmail(
+                keeperEmail,
+                vehicleAndKeeperDetails,
+                eligibilityModel,
+                retainModel,
+                transactionId,
+                confirmFormModel,
+                businessDetailsModel,
+                attachPdf = false // US1589: Do not send keeper a pdf
+              )
           }
 
           callUpdateWebPaymentService(transactionId, paymentModel.trxRef.get, retainModel.certificateNumber, successViewModel)
-
         case _ =>
           Future.successful(Redirect(routes.MicroServiceError.present()))
       }

@@ -13,7 +13,7 @@ trait EmailService {
                 transactionId: String,
                 confirmFormModel: Option[ConfirmFormModel],
                 businessDetailsModel: Option[BusinessDetailsModel],
-                vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel)
+                attachPdf: Boolean)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,

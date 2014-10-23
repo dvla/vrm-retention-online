@@ -28,7 +28,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
                          businessDetailsModel: Option[BusinessDetailsModel],
-                         vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel) {
+                         attachPdf: Boolean) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
       pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
@@ -58,10 +58,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               setTextMsg(plainTextMessage).
               setHtmlMsg(message)
 
-            if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
-              /* US1589: Do not send keeper a pdf */
-            }
-            else htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description)
+            if (attachPdf) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
 
             htmlEmail.setFrom(from.email, from.name).
               setSubject(subject).
