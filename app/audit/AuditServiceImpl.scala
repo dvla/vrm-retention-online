@@ -1,17 +1,35 @@
 package audit
 
+import audit.Message.JsonWrites
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.rabbitmq.client.ConnectionFactory
 import play.api.Logger
-import org.joda.time.format.ISODateTimeFormat
+import play.api.libs.json.Json.{stringify, toJson}
+import utils.helpers.Config
 
-final class AuditServiceImpl @Inject()() extends AuditService {
+final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
 
   override def send(auditMessage: Message) {
+    val factory = new ConnectionFactory()
+    factory.setHost(config.rabbitmqHost)
+    val connection = factory.newConnection()
+    try {
+      val channel = connection.createChannel()
+      try {
+        channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
+        val message = messageToSend(auditMessage).getBytes
+        channel.basicPublish("", config.rabbitmqQueue, null, message)
+        Logger.debug(s"Sent Audit message: $message")
+      } finally {
+        channel.close()
+      }
+    } finally {
+      connection.close()
+    }
+  }
 
-    Logger.debug("Audit message received - " + auditMessage)
-
+  private def messageToSend(auditMessage: Message) = {
+    val asJson = toJson(auditMessage)
+    stringify(asJson)
   }
 }

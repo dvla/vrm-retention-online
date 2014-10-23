@@ -3,9 +3,10 @@ package audit
 import java.util.UUID
 import models.{BusinessDetailsModel, PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
+import play.api.libs.json.Json.toJson
+import play.api.libs.json._
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
-
 
 //
 // base classes
@@ -15,17 +16,35 @@ case class Message(name: String, serviceType: String, data: (String, Any)*) {
 
   var messageId = UUID.randomUUID
 
-  def getDataAsJava = {
+  def getDataAsJava: java.util.Map[String, Any] = {
     import scala.collection.JavaConverters._
     data.toMap.asJava
   }
 }
 
+object Message {
+
+  private implicit val dataJsonWrites = new Writes[Seq[(String, Any)]] {
+    def writes(data: Seq[(String, Any)]): JsValue = {
+      val mapOfStrings: Map[String, String] = data.map(x => (x._1, x._2.toString)).toMap
+      toJson(mapOfStrings)
+    }
+  }
+
+  implicit val JsonWrites = new Writes[Message] {
+    def writes(cache: Message): JsValue = {
+      Json.obj(
+        "name" -> toJson(cache.name),
+        "serviceType" -> toJson(cache.serviceType),
+        "data" -> toJson(cache.data)
+      )
+    }
+  }
+}
 
 //
 // audit helpers
 //
-
 
 object Timestamp {
 
@@ -44,8 +63,8 @@ object NameOptsToOptionString {
   def from(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel) = {
 
     // flatten and then iterate
-    val keeperNameList = List(vehicleAndKeeperDetailsModel.title, 
-      vehicleAndKeeperDetailsModel.firstName, 
+    val keeperNameList = List(vehicleAndKeeperDetailsModel.title,
+      vehicleAndKeeperDetailsModel.firstName,
       vehicleAndKeeperDetailsModel.lastName).flatten
 
     if (keeperNameList.size > 0) {
@@ -100,7 +119,6 @@ object BusinessAddressToOptionString {
 // concrete classes
 //
 
-
 object VehicleLookupToConfirmAuditMessage {
 
   def from(transactionId: String,
@@ -142,11 +160,9 @@ object VehicleLookupToConfirmAuditMessage {
         currentVrmOpt,
         replacementVRMOpt
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
-
     }
     Message("VehicleLookupToConfirm", "PR Retention", data: _*)
   }
-
 }
 
 object VehicleLookupToConfirmBusinessAuditMessage {
@@ -186,9 +202,7 @@ object VehicleLookupToConfirmBusinessAuditMessage {
       ).flatten // Remove empty values from list
     }
     Message("VehicleLookupToConfirmBusiness", "PR Retention", data: _*)
-
   }
-
 }
 
 object VehicleLookupToCaptureActorAuditMessage {
@@ -221,9 +235,7 @@ object VehicleLookupToCaptureActorAuditMessage {
       ).flatten // Remove empty values from list
     }
     Message("VehicleLookupToCaptureActor", "PR Retention", data: _*)
-
   }
-
 }
 
 object VehicleLookupToVehicleLookupFailureAuditMessage {
@@ -242,9 +254,7 @@ object VehicleLookupToVehicleLookupFailureAuditMessage {
       ).flatten // Remove empty values from list
     }
     Message("VehicleLookupToVehicleLookupFailure", "PR Retention", data: _*)
-
   }
-
 }
 
 object CaptureActorToConfirmBusinessAuditMessage {
@@ -284,9 +294,7 @@ object CaptureActorToConfirmBusinessAuditMessage {
       ).flatten // Remove empty values from list
     }
     Message("CaptureActorToConfirmBusiness", "PR Retention", data: _*)
-
   }
-
 }
 
 object ConfirmBusinessToConfirmAuditMessage {
@@ -326,9 +334,7 @@ object ConfirmBusinessToConfirmAuditMessage {
       ).flatten // Remove empty values from list
     }
     Message("ConfirmBusinessToConfirm", "PR Retention", data: _*)
-
   }
-
 }
 
 object ConfirmToPaymentAuditMessage {
@@ -377,9 +383,7 @@ object ConfirmToPaymentAuditMessage {
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("ConfirmToPayment", "PR Retention", data: _*)
-
   }
-
 }
 
 object PaymentToSuccessAuditMessage {
@@ -447,9 +451,7 @@ object PaymentToSuccessAuditMessage {
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToSuccess", "PR Retention", data: _*)
-
   }
-
 }
 
 object PaymentToPaymentNotAuthorisedAuditMessage {
@@ -512,7 +514,6 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToPaymentNotAuthorised", "PR Retention", data: _*)
-
   }
 }
 
@@ -578,7 +579,5 @@ object PaymentToPaymentFailureAuditMessage {
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToPaymentFailure", "PR Retention", data: _*)
-
   }
-
 }
