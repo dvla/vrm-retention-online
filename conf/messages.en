@@ -370,11 +370,14 @@ vrm_retention_eligibility_failure.p2 =
 vrm_retention_eligibility_failure.p3 =
 
 # Payment page
-vrm_retention_payment.title = Payment details
+vrm_retention_payment.title = Payment
 vrm_retention_payment.iframe.title = Payment iframe
 vrm_retention_payment.javascript-disabled.message = You are seeing this additional message as we have detected that you have Javascript disabled. Please do not click the Continue button below until you are told that the payment process has ended.
 vrm_retention_payment.javascript-disabled.button = Continue
 vrm_retention_payment.cancel.button = Cancel
+vrm_retention_payment.p1 = If you do not have a credit or debit card to complete this transaction you will need to use the paper service in order to retain your personalised registration where alternative payment options are available.
+vrm_retention_payment.title2 = Pay by credit or debit card
+vrm_retention_payment.p2 = Only Maestro, Visa Debit, Mastercard Debit, Electron debit cards, VISA, and Mastercard credit cards are accepted.
 vrm_retention_paymentfailure.tryagainbutton = Try again
 vrm_retention_paymentfailure.exitbutton = Exit
 vrm_retention_paymentnotauthorised.tryagainbutton = Try again
