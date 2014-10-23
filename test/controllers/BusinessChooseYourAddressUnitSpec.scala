@@ -2,7 +2,7 @@ package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestConfig, TestOrdnanceSurvey}
+import composition.{TestAuditService, TestConfig, TestOrdnanceSurvey}
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -284,7 +284,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
           bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
         }
       },
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn)
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
+      new TestAuditService
     ).getInstance(classOf[BusinessChooseYourAddress])
   }
 

@@ -7,7 +7,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.common.MainPanel.back
 import pages.vrm_retention.ConfirmBusinessPage.{confirm, exit}
-import pages.vrm_retention.{BeforeYouStartPage, ConfirmBusinessPage, ConfirmPage, MockFeedbackPage, SetupBusinessDetailsPage}
+import pages.vrm_retention._
 
 final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
@@ -51,14 +51,26 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "back button" should {
 
-    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowser {
+    "redirect to BusinessChooseYourAddress page when we didn't enter address manually" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
-      cacheSetup()
+      cacheSetup().
+        businessChooseYourAddress() // EnterAddressManually cookie does not exist therefore we did not come via the EnterAddressManually Page
       go to ConfirmBusinessPage
 
       click on back
 
-      page.url should equal(SetupBusinessDetailsPage.url)
+      page.url should equal(BusinessChooseYourAddressPage.url)
+    }
+
+    "redirect to EnterAddressManually page when we didn't enter address manually" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup().
+        enterAddressManually() // EnterAddressManually cookie exists therefore we came via the EnterAddressManually Page
+      go to ConfirmBusinessPage
+
+      click on back
+
+      page.url should equal(EnterAddressManuallyPage.url)
     }
   }
 

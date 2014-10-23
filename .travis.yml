@@ -16,3 +16,6 @@ matrix:
  
 notifications:
   email: false
+
+services:
+  - rabbitmq
