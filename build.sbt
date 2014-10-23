@@ -52,6 +52,7 @@ libraryDependencies ++= {
     "dvla" %% "vehicles-presentation-common" % "2.4-SNAPSHOT" withSources() withJavadoc(),
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
+    // TODO update dependencies below
     "com.rabbitmq" % "amqp-client" % "3.3.5",
     "com.typesafe.akka" %% "akka-stream-experimental" % "0.4",
     "com.rabbitmq" % "amqp-client" % "3.3.4",

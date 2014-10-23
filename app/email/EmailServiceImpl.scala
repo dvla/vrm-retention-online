@@ -11,6 +11,7 @@ import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.html.vrm_retention.{email_with_html, email_without_html}
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
@@ -26,7 +27,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          retainModel: RetainModel,
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
-                         businessDetailsModel: Option[BusinessDetailsModel]) {
+                         businessDetailsModel: Option[BusinessDetailsModel],
+                         attachPdf: Boolean) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
       pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
@@ -54,9 +56,11 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
 
             htmlEmail.
               setTextMsg(plainTextMessage).
-              setHtmlMsg(message).
-              attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description).
-              setFrom(from.email, from.name).
+              setHtmlMsg(message)
+
+            if (attachPdf) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
+
+            htmlEmail.setFrom(from.email, from.name).
               setSubject(subject).
               setStartTLSEnabled(config.emailSmtpTls).
               addTo(emailAddress)
