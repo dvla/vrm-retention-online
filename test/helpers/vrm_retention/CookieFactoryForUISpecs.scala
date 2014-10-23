@@ -104,6 +104,12 @@ object CookieFactoryForUISpecs {
     this
   }
 
+  def paymentTransNo(paymentTransNo: String = PaymentTransNoValid)(implicit webDriver: WebDriver) = {
+    val key = PaymentTransNoCacheKey
+    addCookie(key, paymentTransNo)
+    this
+  }
+
   def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
                    paymentStatus: Option[String] =  None,
                    maskedPAN: Option[String] =  MaskedPANValid,

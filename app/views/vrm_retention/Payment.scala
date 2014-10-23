@@ -6,5 +6,6 @@ object Payment {
   final val CancelId = "cancel"
   final val ExitId = "exit"
   final val PaymentDetailsCacheKey = "paymentDetails"
+  final val PaymentTransNoCacheKey = "paymentTransNo"
 
 }

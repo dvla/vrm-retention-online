@@ -64,6 +64,7 @@ final class PaymentUnitSpec extends UnitSpec {
     "redirect to PaymentFailurePage when no referer in request" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
@@ -121,7 +122,7 @@ final class PaymentUnitSpec extends UnitSpec {
       val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.getBytes)
       val expectedPaymentSolveBeginRequest = PaymentSolveBeginRequest(
         transactionId = CookieFactoryForUnitSpecs.transactionId().value,
-        transNo = TransactionIdValid.toString.replaceAll("[^0-9]", ""),
+        transNo = CookieFactoryForUnitSpecs.paymentTransNo().value,
         vrm = RegistrationNumberValid,
         purchaseAmount = 8000,
         paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
@@ -163,6 +164,7 @@ final class PaymentUnitSpec extends UnitSpec {
     "redirect to PaymentFailurePage when payment service call throws an exception" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
@@ -178,6 +180,7 @@ final class PaymentUnitSpec extends UnitSpec {
       val payment = testInjector(new ValidatedNotAuthorised).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
@@ -193,6 +196,7 @@ final class PaymentUnitSpec extends UnitSpec {
       val payment = testInjector(new ValidatedAuthorised).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
@@ -231,6 +235,7 @@ final class PaymentUnitSpec extends UnitSpec {
     "redirect to MockFeedback page when payment service call throws an exception" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
@@ -246,6 +251,7 @@ final class PaymentUnitSpec extends UnitSpec {
     "redirect to MockFeedback page when required cookies exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
         withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
@@ -288,6 +294,7 @@ final class PaymentUnitSpec extends UnitSpec {
     val headers = FakeHeaders(data = Seq(refererHeader))
     FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
       withCookies(CookieFactoryForUnitSpecs.transactionId()).
+      withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
       withCookies(CookieFactoryForUnitSpecs.keeperEmail()).

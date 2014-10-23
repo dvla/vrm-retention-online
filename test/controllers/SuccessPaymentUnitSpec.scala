@@ -21,6 +21,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           keeperEmail(),
           retainModel(),
           transactionId(),
+          paymentTransNo(),
           paymentModel())
       val result = successPayment.present(request)
       status(result) should equal(OK)
@@ -36,6 +37,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           keeperEmail(),
           retainModel(),
           transactionId(),
+          paymentTransNo(),
           paymentModel())
       val result = successPayment.present(request)
       status(result) should equal(OK)

@@ -16,6 +16,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -55,6 +56,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
           validForm.referenceNumber,
           validForm)
           .map(_.withCookie(TransactionIdCacheKey, transactionId(validForm)))
+          .map(_.withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo))
       }
     )
   }
@@ -114,4 +116,14 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
         args = Seq.empty
       ))
     }.distinctErrors
+
+
+  // payment solve requires (for each day) a unique six digit number
+  // use time from midnight in tenths of a second units
+  private def calculatePaymentTransNo = {
+    val milliSecondsFromMidnight = dateService.today.toDateTime.get.millisOfDay().get()
+    val tenthSecondsFromMidnight = (milliSecondsFromMidnight / 100.0).toInt
+    // prepend with zeros
+    "%06d".format(tenthSecondsFromMidnight)
+  }
 }

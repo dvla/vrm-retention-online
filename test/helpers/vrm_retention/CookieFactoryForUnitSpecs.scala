@@ -17,7 +17,7 @@ import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey}
 import views.vrm_retention.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import views.vrm_retention.Payment.PaymentDetailsCacheKey
+import views.vrm_retention.Payment._
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
@@ -173,6 +173,11 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def transactionId(transactionId: String = TransactionIdValid): Cookie = {
     val key = TransactionIdCacheKey
     createCookie(key, transactionId)
+  }
+
+  def paymentTransNo(paymentTransNo: String = PaymentTransNoValid): Cookie = {
+    val key = PaymentTransNoCacheKey
+    createCookie(key, paymentTransNo)
   }
 
   def retainModel(certificateNumber: String = CertificateNumberValid,

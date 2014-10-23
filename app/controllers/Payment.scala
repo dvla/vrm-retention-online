@@ -22,6 +22,7 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 import audit.{PaymentToPaymentNotAuthorisedAuditMessage, PaymentToPaymentFailureAuditMessage, AuditService}
 import views.vrm_retention.Confirm._
+import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import scala.Some
 import play.api.mvc.Result
 
@@ -106,9 +107,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       case Some(referrer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
         val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
+        val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transactionId = transactionId,
-          transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
+          transNo = transNo,
           vrm = vrm,
           purchaseAmount = config.purchaseAmount.toInt,
           paymentCallback = paymentCallback
@@ -155,8 +157,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       Redirect(routes.PaymentNotAuthorised.present())
     }
 
+    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
+
     val paymentSolveGetRequest = PaymentSolveGetRequest(
-      transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
+      transNo = transNo,
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()
@@ -190,8 +194,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private def callCancelWebPaymentService(transactionId: String, trxRef: String)
                                          (implicit request: Request[_]): Future[Result] = {
 
+    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
+
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
-      transNo = removeNonNumeric(transactionId), // TODO find a suitable trans no
+      transNo = transNo,
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()

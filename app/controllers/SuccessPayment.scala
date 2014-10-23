@@ -118,8 +118,10 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
                                           successViewModel: SuccessViewModel)
                                          (implicit request: Request[_]): Future[Result] = {
 
+    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
+
     val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
-      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+      transNo = transNo,
       trxRef = trxRef,
       authType = SuccessPayment.SETTLE_AUTH_CODE
     )
