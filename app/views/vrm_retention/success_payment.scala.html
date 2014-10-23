@@ -65,32 +65,6 @@
 
     <div class="print-only">
         <hr class="print-only">
-        <h3>@Messages("vrm_retention_success.p1")</h3>
-        <p>@Messages("vrm_retention_success.p2")</p>
-        <ol>
-            <li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
-            <li>@Messages("vrm_retention_success.listItem2")</li>
-            <li>@Messages("vrm_retention_success.listItem3")</li>
-        </ol>
-        <hr class="print-only">
-        <div class="related">
-            <h2>Transaction details</h2>
-            <p>Transaction ID:</p>
-            <p>@successViewModel.transactionId</p>
-        </div>
-        <hr class="print-only">
-        <div class="related">
-            <h2>Keeper details</h2>
-            <p>Name:</p>
-            <p>@successViewModel.keeperFirstName @successViewModel.keeperLastName</p>
-            <p>Keeper Address</p>
-            <p>
-              @for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
-                  @keeperAddressLine<br/>
-              }
-            </p>
-        </div>
-        <hr class="print-only">
         <div class="related">
             <h3>DVLA Customer Service</h3>
             <p>Telephone<br>
