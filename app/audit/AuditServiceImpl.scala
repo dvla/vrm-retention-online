@@ -26,7 +26,7 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
 //    } finally {
 //      connection.close()
 //    }
-    Logger.debug(s"Sent Audit message" + auditMessage)
+    Logger.debug(s"Sent Audit message " + auditMessage)
   }
 
   private def messageToSend(auditMessage: Message) = {

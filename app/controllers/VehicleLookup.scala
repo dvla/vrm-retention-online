@@ -70,21 +70,17 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
       response.responseCode match {
         case Some(responseCode) =>
 
-//          val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-
-//          auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form))
-
+          val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+          auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form, responseCode))
           VehicleNotFound(responseCode)
 
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
 
-//              val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-
-//              auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form,
-//                Some(VehicleAndKeeperDetailsModel.from(dto))))
-
+              val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+              auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form,
+                "vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>

@@ -240,17 +240,20 @@ object VehicleLookupToCaptureActorAuditMessage {
 
 object VehicleLookupToVehicleLookupFailureAuditMessage {
 
-  def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel) = {
+  def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+            rejectionCode: String) = {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", Timestamp.getTimestamp))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
+      val rejectionCodeOpt = Some(("rejectionCode", rejectionCode))
 
       Seq(
         transactionIdOpt,
         timestampOpt,
-        currentVrmOpt
+        currentVrmOpt,
+        rejectionCodeOpt
       ).flatten // Remove empty values from list
     }
     Message("VehicleLookupToVehicleLookupFailure", "PR Retention", data: _*)
@@ -522,7 +525,7 @@ object PaymentToPaymentFailureAuditMessage {
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
            replacementVRM: String, keeperEmail: Option[String], businessDetailsModelOpt: Option[BusinessDetailsModel] = None,
-           paymentModel: PaymentModel) = {
+           paymentModel: PaymentModel, rejectionCode: String) = {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
@@ -545,6 +548,7 @@ object PaymentToPaymentFailureAuditMessage {
       val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
       val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(
         totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
+      val rejectionCodeOpt = Some(("rejectionCode", rejectionCode))
 
       // may have got to the confirm screen down the keeper route hence no business details
       val businessDetailsModelOptSeq = businessDetailsModelOpt match {
@@ -575,7 +579,8 @@ object PaymentToPaymentFailureAuditMessage {
         paymentMerchantIdOpt,
         paymentTypeOpt,
         paymentCardTypeOpt,
-        paymentTotalAmountPaidOpt
+        paymentTotalAmountPaidOpt,
+        rejectionCodeOpt
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToPaymentFailure", "PR Retention", data: _*)

@@ -20,7 +20,7 @@ import scala.util.control.NonFatal
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import scala.Some
 import play.api.mvc.Result
-import audit.{PaymentToSuccessAuditMessage, AuditService}
+import audit.{PaymentToPaymentFailureAuditMessage, PaymentToSuccessAuditMessage, AuditService}
 
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                              dateService: DateService,
@@ -74,6 +74,19 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
         s" redirect to VehicleLookupFailure")
+
+      // retrieve audit values not already in scope
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
+      val paymentModel = request.cookies.getModel[PaymentModel].get
+      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+      auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel,
+        replacementVRM, keeperEmail, businessDetailsModel, paymentModel, responseCode))
+
       Redirect(routes.RetainFailure.present()).
         withCookie(key = RetainResponseCodeCacheKey, value = responseCode)
     }
