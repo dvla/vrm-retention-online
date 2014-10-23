@@ -2,7 +2,7 @@ package controllers
 
 import audit._
 import com.google.inject.Inject
-import models.{EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -58,8 +58,9 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
           routes.Confirm.present()
         } else {
           if (storeBusinessDetails) {
+            val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel].get
             auditService.send(VehicleLookupToConfirmBusinessAuditMessage.from(transactionId,
-              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, businessDetailsModel))
             routes.ConfirmBusiness.present()
           } else {
             auditService.send(VehicleLookupToCaptureActorAuditMessage.from(transactionId,

@@ -136,13 +136,13 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
      1) we are not blocking threads
      2) the browser does not change page before the future has completed and written to the cache. */
 
-//    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-//    val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
-//    val vehicleAndKeeperLookupForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-//    val vehicleAndKeeperLookupModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-//
-//    auditService.send(SetUpBusinessDetailsToConfirmBusinessAuditMessage.from(transactionId,
-//      vehicleAndKeeperLookupForm, vehicleAndKeeperLookupModel, replacementVRM))
+    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+    val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+    val vehicleAndKeeperLookupForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+    val vehicleAndKeeperLookupModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+
+    auditService.send(CaptureActorToConfirmBusinessAuditMessage.from(transactionId,
+      vehicleAndKeeperLookupForm, vehicleAndKeeperLookupModel, replacementVRM, businessDetailsModel))
 
     Redirect(routes.ConfirmBusiness.present()).
       discardingCookie(EnterAddressManuallyCacheKey).

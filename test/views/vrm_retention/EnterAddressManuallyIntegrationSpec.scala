@@ -111,5 +111,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       vehicleAndKeeperLookupFormModel().
       setupBusinessDetails().
       businessChooseYourAddress().
+      transactionId().
+      eligibilityModel().
       vehicleAndKeeperDetailsModel()
 }

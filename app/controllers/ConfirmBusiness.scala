@@ -117,10 +117,10 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
         val transactionId = request.cookies.getString(TransactionIdCacheKey).get
         val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel].get
 
         auditService.send(ConfirmBusinessToConfirmAuditMessage.from(transactionId,
-          vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, vehicleAndKeeperDetailsModel.registrationNumber,
-          replacementVRM))
+          vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, replacementVRM, businessDetailsModel))
 
         Redirect(routes.Confirm.present()).withCookiesEx(cookies: _*)
     }

@@ -107,7 +107,10 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
         s"$AddressAndPostcodeId.$AddressLinesId.$BuildingNameOrNumberId" -> BuildingNameOrNumberValid,
         s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> PostTownValid,
         s"$AddressAndPostcodeId.$PostcodeId" -> PostcodeValid).
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = enterAddressManually.submit(request)
       whenReady(result) { r =>
@@ -311,6 +314,9 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
       s"$AddressAndPostcodeId.$AddressLinesId.$Line3Id" -> line3,
       s"$AddressAndPostcodeId.$AddressLinesId.$PostTownId" -> postTown,
       s"$AddressAndPostcodeId.$PostcodeId" -> postCode).
+      withCookies(CookieFactoryForUnitSpecs.transactionId()).
+      withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+      withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
 }

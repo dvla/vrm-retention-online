@@ -114,7 +114,10 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
     "redirect to Confirm page after a valid submit" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
@@ -162,6 +165,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "write cookie when uprn found" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
       whenReady(result) { r =>
@@ -188,6 +194,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to Confirm page after a valid submit" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
       whenReady(result) { r =>
@@ -235,6 +244,9 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "write cookie when uprn found" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
       val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
       whenReady(result) { r =>

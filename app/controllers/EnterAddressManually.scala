@@ -50,12 +50,12 @@ final class EnterAddressManually @Inject()(auditService: AuditService)
 
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
 
-//            val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-//            val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
-//            val vehicleAndKeeperLookup = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-//
-//            auditService.send(SetUpBusinessDetailsToConfirmBusinessAuditMessage.from(transactionId,
-//            vehicleAndKeeperLookup, vehicleAndKeeperDetails, replacementVRM))
+            val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+            val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+            val vehicleAndKeeperLookup = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+
+            auditService.send(CaptureActorToConfirmBusinessAuditMessage.from(transactionId,
+            vehicleAndKeeperLookup, vehicleAndKeeperDetails, replacementVRM, viewModel))
 
             Redirect(routes.ConfirmBusiness.present())
               .withCookie(validForm)

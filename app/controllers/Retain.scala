@@ -1,7 +1,8 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{PaymentModel, EligibilityModel, VehicleAndKeeperDetailsModel, RetainModel, VehicleAndKeeperLookupFormModel}
+import models.{BusinessDetailsModel, EligibilityModel}
+import models.{PaymentModel, VehicleAndKeeperDetailsModel, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc._
@@ -58,10 +59,11 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
       val paymentModel = request.cookies.getModel[PaymentModel].get
+      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
       auditService.send(PaymentToSuccessAuditMessage.from(transactionId,
         vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel,
-        replacementVRM, keeperEmail, paymentModel))
+        replacementVRM, keeperEmail, businessDetailsModel, paymentModel))
 
       Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))

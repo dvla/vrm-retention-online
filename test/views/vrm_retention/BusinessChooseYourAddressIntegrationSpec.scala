@@ -116,5 +116,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
     CookieFactoryForUISpecs.
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
+      transactionId().
+      eligibilityModel().
       setupBusinessDetails()
 }

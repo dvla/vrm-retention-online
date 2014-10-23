@@ -2,6 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import composition.RefererFromHeader
+import models.BusinessDetailsModel
 import models.{PaymentModel, EligibilityModel, VehicleAndKeeperLookupFormModel, VehicleAndKeeperDetailsModel}
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
@@ -90,9 +91,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
     val transactionId = request.cookies.getString(TransactionIdCacheKey).get
     val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
     auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,
-      vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
+      vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail, businessDetailsModel,
       paymentModel))
 
     Redirect(routes.PaymentFailure.present())
@@ -143,9 +145,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
       val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
       auditService.send(PaymentToPaymentNotAuthorisedAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail, businessDetailsModel,
         paymentModel))
 
       Redirect(routes.PaymentNotAuthorised.present())
