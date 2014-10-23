@@ -9,10 +9,10 @@ import utils.helpers.Config
 
 final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
 
-  override def send(auditMessage: Message) {
+  override def send(auditMessage: Message): Unit = {
     val factory = new ConnectionFactory()
     factory.setHost(config.rabbitmqHost)
-    val connection = factory.newConnection()
+    val connection = factory.newConnection() // TESTS NEED TO BE USING STUB SERVICE
     try {
       val channel = connection.createChannel()
       try {
