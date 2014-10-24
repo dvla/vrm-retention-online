@@ -64,6 +64,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
       val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
 
+      var paymentModel = request.cookies.getModel[PaymentModel].get
+      paymentModel.paymentStatus = Some(Payment.SettledStatus)
+
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToSuccess,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
@@ -71,10 +74,11 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = request.cookies.getModel[PaymentModel],
+        paymentModel = Some(paymentModel),
         retentionCertId = Some(certificateNumber)))
 
       Redirect(routes.SuccessPayment.present()).
+        withCookie(paymentModel).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
     }
 
@@ -84,6 +88,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
         s" redirect to VehicleLookupFailure")
 
+      var paymentModel = request.cookies.getModel[PaymentModel].get
+      paymentModel.paymentStatus = Some(Payment.CancelledStatus)
+
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
@@ -91,10 +98,11 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = request.cookies.getModel[PaymentModel],
+        paymentModel = Some(paymentModel),
         rejectionCode = Some(responseCode)))
 
       Redirect(routes.RetainFailure.present()).
+        withCookie(paymentModel).
         withCookie(key = RetainResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }
 

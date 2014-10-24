@@ -132,8 +132,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
             if (response.status == Payment.CardDetailsStatus) {
               Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
                 //              Redirect(response.redirectUrl.get)
-              .withCookie(PaymentModel.from(response.trxRef.get))
-              .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
+                .withCookie(PaymentModel.from(response.trxRef.get))
+                .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
             } else {
               paymentFailure(s"The begin web request to Solve was not validated. Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
             }
@@ -151,6 +151,9 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     def paymentNotAuthorised = {
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
+      var paymentModel = request.cookies.getModel[PaymentModel].get
+      paymentModel.paymentStatus = Some(Payment.AuthorisedStatus)
+
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
@@ -158,9 +161,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = request.cookies.getModel[PaymentModel]))
+        paymentModel = Some(paymentModel)))
 
       Redirect(routes.PaymentNotAuthorised.present())
+        .withCookie(paymentModel)
     }
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
@@ -183,6 +187,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           paymentModel.merchantId = response.merchantTransactionId
           paymentModel.paymentType = response.paymentType
           paymentModel.totalAmountPaid = response.purchaseAmount
+          paymentModel.paymentStatus = Some(Payment.AuthorisedStatus)
 
           Redirect(routes.Retain.retain())
             .discardingCookie(REFERER) // Not used again.

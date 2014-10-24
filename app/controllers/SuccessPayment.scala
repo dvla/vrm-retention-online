@@ -78,7 +78,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               )
           }
 
-          callUpdateWebPaymentService(transactionId, paymentModel.trxRef.get, retainModel.certificateNumber, successViewModel)
+          callUpdateWebPaymentService(paymentModel.trxRef.get, successViewModel)
         case _ =>
           Future.successful(Redirect(routes.MicroServiceError.present()))
       }
@@ -132,8 +132,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       ))
   }
 
-  private def callUpdateWebPaymentService(transactionId: String, trxRef: String, certificateNumber: String,
-                                          successViewModel: SuccessViewModel)
+  private def callUpdateWebPaymentService(trxRef: String, successViewModel: SuccessViewModel)
                                          (implicit request: Request[_]): Future[Result] = {
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get

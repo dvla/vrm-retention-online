@@ -1,13 +1,12 @@
 package audit
 
 import java.util.UUID
-import models.{BusinessDetailsModel, PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models.{BusinessDetailsModel, PaymentModel, VehicleAndKeeperDetailsModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.Json.toJson
 import play.api.libs.json._
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
-import controllers.Payment
 
 //
 // base classes
@@ -149,11 +148,11 @@ object VehicleAndKeeperDetailsModelOptSeq {
 
 object PaymentModelOptSeq {
 
-  def from(paymentModelOpt: Option[PaymentModel], paymentStatus: Option[String]) = {
+  def from(paymentModelOpt: Option[PaymentModel]) = {
     paymentModelOpt match {
       case Some(paymentModel) => {
         val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-        val paymentStatusOpt = paymentStatus.map(paymentStatus => ("paymentStatus", paymentStatus))
+        val paymentStatusOpt = paymentModel.paymentStatus.map(paymentStatus => ("paymentStatus", paymentStatus))
         val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
         val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
         val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
@@ -211,7 +210,7 @@ object AuditMessage {
       val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVRM", replacementVrm))
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
-      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel, Some(Payment.SettledStatus))
+      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel)
       val retentionCertIdOpt = retentionCertId.map(retentionCertId => ("retentionCertId", retentionCertId))
       val rejectionCodeOpt = rejectionCode.map(rejectionCode => ("rejectionCode", rejectionCode))
 
