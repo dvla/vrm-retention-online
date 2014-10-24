@@ -78,10 +78,10 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
       auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel))
+        vehicleAndKeeperLookupFormModel, responseCode))
 
       Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode)
+        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(

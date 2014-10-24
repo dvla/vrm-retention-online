@@ -96,7 +96,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,
       vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail, businessDetailsModel,
-      paymentModel))
+      paymentModel, message)) // TODO use this message?
 
     Redirect(routes.PaymentFailure.present())
   }

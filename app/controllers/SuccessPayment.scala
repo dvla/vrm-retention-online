@@ -52,16 +52,33 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
 
           businessDetailsOpt.foreach {
             businessDetails =>
-              emailService.sendEmail(businessDetails.email, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
+              emailService.sendEmail(
+                businessDetails.email,
+                vehicleAndKeeperDetails,
+                eligibilityModel,
+                retainModel,
+                transactionId,
+                confirmFormModel,
+                businessDetailsModel,
+                attachPdf = true
+              )
           }
 
           keeperEmailOpt.foreach {
             keeperEmail =>
-              emailService.sendEmail(keeperEmail, vehicleAndKeeperDetails, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel)
+              emailService.sendEmail(
+                keeperEmail,
+                vehicleAndKeeperDetails,
+                eligibilityModel,
+                retainModel,
+                transactionId,
+                confirmFormModel,
+                businessDetailsModel,
+                attachPdf = false // US1589: Do not send keeper a pdf
+              )
           }
 
           callUpdateWebPaymentService(transactionId, paymentModel.trxRef.get, retainModel.certificateNumber, successViewModel)
-
         case _ =>
           Future.successful(Redirect(routes.MicroServiceError.present()))
       }
@@ -110,7 +127,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         transactionId = "stub-transactionId",
         htmlEmail = new HtmlEmail(),
         confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),
-        businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode"))))
+        businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
+        attachPdf = true
       ))
   }
 

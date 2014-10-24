@@ -52,7 +52,8 @@ final class EmailServiceImplSpec extends UnitSpec {
         transactionId = transactionId,
         htmlEmail = htmlEmail,
         confirmFormModel = confirmFormModel,
-        businessDetailsModel = businessDetailsModel
+        businessDetailsModel = businessDetailsModel,
+        attachPdf = true
       )
 
       result.toString should include(vehicleAndKeeperDetails.registrationNumber)
@@ -73,7 +74,8 @@ final class EmailServiceImplSpec extends UnitSpec {
         transactionId = transactionId,
         htmlEmail = htmlEmail,
         confirmFormModel = confirmFormModel,
-        businessDetailsModel = None
+        businessDetailsModel = None,
+        attachPdf = false
       )
 
       result.toString should include(vehicleAndKeeperDetails.registrationNumber)

@@ -47,8 +47,8 @@ class Config {
   // Email Service
   val emailSmtpHost: String = getProperty("smtp.host", "")
   val emailSmtpPort: Int = getProperty("smtp.port", 25)
-  val emailSmtpSsl: Boolean = getProperty("smtp.ssl", false)
-  val emailSmtpTls: Boolean = getProperty("smtp.tls", true)
+  val emailSmtpSsl: Boolean = getProperty("smtp.ssl", default = false)
+  val emailSmtpTls: Boolean = getProperty("smtp.tls", default = true)
   val emailSmtpUser: String = getProperty("smtp.user", "")
   val emailSmtpPassword: String = getProperty("smtp.password", "")
   val emailWhitelist: Array[String] = getProperty("email.whitelist", "").split(",")
@@ -58,7 +58,7 @@ class Config {
   val purchaseAmount: String = getProperty("retention.purchaseAmountInPence", "NOT FOUND")
 
   // Audit Service
-  // TODO
+  val auditServiceUseRabbit = getProperty("auditService.useRabbit", default = false)
 
   // Rabbit-MQ
   val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")

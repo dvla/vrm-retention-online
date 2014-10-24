@@ -12,7 +12,8 @@ trait EmailService {
                 retainModel: RetainModel,
                 transactionId: String,
                 confirmFormModel: Option[ConfirmFormModel],
-                businessDetailsModel: Option[BusinessDetailsModel])
+                businessDetailsModel: Option[BusinessDetailsModel],
+                attachPdf: Boolean)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,
@@ -20,5 +21,6 @@ trait EmailService {
                   transactionId: String,
                   htmlEmail: HtmlEmail,
                   confirmFormModel: Option[ConfirmFormModel],
-                  businessDetailsModel: Option[BusinessDetailsModel]): HtmlFormat.Appendable
+                  businessDetailsModel: Option[BusinessDetailsModel],
+                  attachPdf: Boolean): HtmlFormat.Appendable
 }
