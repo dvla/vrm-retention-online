@@ -9,7 +9,9 @@ class TestConfig(
                   isPrototypeBannerVisible: Boolean = true,
                   ordnanceSurveyUseUprn: Boolean = false,
                   auditServiceUseRabbit: Boolean = false,
+                  rabbitmqActorSytemName: String = "NOT FOUND",
                   rabbitmqHost: String = "NOT FOUND",
+                  rabbitmqPort: Int = 0,
                   rabbitmqQueue: String = "NOT FOUND",
                   rabbitmqExchange: String = "NOT FOUND"
                   ) extends ScalaModule with MockitoSugar {
@@ -19,7 +21,9 @@ class TestConfig(
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
     when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
     when(config.auditServiceUseRabbit).thenReturn(auditServiceUseRabbit)
+    when(config.rabbitmqActorSytemName).thenReturn(rabbitmqActorSytemName)
     when(config.rabbitmqHost).thenReturn(rabbitmqHost)
+    when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
     when(config.rabbitmqExchange).thenReturn(rabbitmqExchange)
     bind[Config].toInstance(config)
