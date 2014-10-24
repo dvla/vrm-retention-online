@@ -153,7 +153,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
-    "display expected drop-down values when not address selected" in new WithApplication {
+    "display expected drop-down values when no address selected" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(addressSelected = "").
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
         withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
