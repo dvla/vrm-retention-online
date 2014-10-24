@@ -61,7 +61,9 @@ class Config {
   val auditServiceUseRabbit = getProperty("auditService.useRabbit", default = false)
 
   // Rabbit-MQ
-  val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")
-  val rabbitmqQueue = getProperty("rabbitmq.queue", "NOT FOUND")
-  val rabbitmqExchange = getProperty("rabbitmq.exchange", "NOT FOUND")
+  val rabbitmqActorSytemName: String = getProperty("rabbitmq.actorSytemName", "NOT FOUND")
+  val rabbitmqHost: String = getProperty("rabbitmq.host", "NOT FOUND")
+  val rabbitmqPort: Int = getProperty("rabbitmq.port", 0)
+  val rabbitmqQueue: String = getProperty("rabbitmq.queue", "NOT FOUND")
+  val rabbitmqExchange: String = getProperty("rabbitmq.exchange", "NOT FOUND")
 }

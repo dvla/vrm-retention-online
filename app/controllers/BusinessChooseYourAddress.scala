@@ -54,10 +54,16 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
             val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel).map { addresses =>
-              BadRequest(business_choose_your_address(viewModel,
-                formWithReplacedErrors(invalidForm),
-                addresses)
-              )
+              if (config.ordnanceSurveyUseUprn)
+                BadRequest(business_choose_your_address(viewModel,
+                  formWithReplacedErrors(invalidForm),
+                  addresses)
+                )
+              else
+                BadRequest(business_choose_your_address(viewModel,
+                  formWithReplacedErrors(invalidForm),
+                  index(addresses))
+                )
             }
           case _ => Future.successful {
             Redirect(routes.SetUpBusinessDetails.present())
