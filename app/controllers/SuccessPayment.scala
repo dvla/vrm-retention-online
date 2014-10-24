@@ -127,7 +127,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         transactionId = "stub-transactionId",
         htmlEmail = new HtmlEmail(),
         confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),
-        businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode"))))
+        businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
+        attachPdf = true
       ))
   }
 

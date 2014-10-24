@@ -36,7 +36,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
           retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
         case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present()) // TODO need an error page for this scenario
+          Redirect(routes.MicroServiceError.present())
         }
       }
   }

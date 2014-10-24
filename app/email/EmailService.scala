@@ -21,5 +21,6 @@ trait EmailService {
                   transactionId: String,
                   htmlEmail: HtmlEmail,
                   confirmFormModel: Option[ConfirmFormModel],
-                  businessDetailsModel: Option[BusinessDetailsModel]): HtmlFormat.Appendable
+                  businessDetailsModel: Option[BusinessDetailsModel],
+                  attachPdf: Boolean): HtmlFormat.Appendable
 }
