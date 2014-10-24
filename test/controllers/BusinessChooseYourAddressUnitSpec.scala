@@ -28,6 +28,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       }
     }
 
+    "display expected drop-down values" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
+      val content = contentAsString(result)
+      content should include( s"""<option value="$traderUprnValid" >""")
+    }
+
     "display selected field when cookie exists" in new WithApplication {
       val request = FakeRequest().
         withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
@@ -71,6 +80,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(present(ordnanceSurveyUseUprn = false), timeout) { r =>
         r.header.status should equal(OK)
       }
+    }
+
+    "display expected drop-down values" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      val content = contentAsString(result)
+      content should include( s"""<option value="0" >""")
     }
 
     "display selected field when cookie exists" in new WithApplication {
@@ -133,6 +151,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
       }
+    }
+
+    "display expected drop-down values when not address selected" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = true).submit(request)
+      val content = contentAsString(result)
+      content should include( s"""<option value="$traderUprnValid" >""")
     }
 
     "redirect to SetupBusinessDetailsPage page when valid submit with no dealer name cached" in new WithApplication {
@@ -212,6 +239,15 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
       }
+    }
+
+    "display expected drop-down values when no address selected" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(addressSelected = "").
+        withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())
+      val result = businessChooseYourAddress(ordnanceSurveyUseUprn = false).submit(request)
+      val content = contentAsString(result)
+      content should include( s"""<option value="0" >""")
     }
 
     "redirect to SetupBusinessDetailsPage page when valid submit with no dealer name cached" in new WithApplication {
