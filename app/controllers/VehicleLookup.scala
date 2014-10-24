@@ -34,6 +34,9 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
   override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
   override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
 
+  private val MicroServiceErrorCode = "PR001"
+  private val PostcodeMismatchErrorCode = "PR002"
+
   override type Form = VehicleAndKeeperLookupFormModel
 
   private[controllers] val form = PlayForm(
@@ -72,7 +75,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
           val transactionId = request.cookies.getString(TransactionIdCacheKey).get
           auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form, responseCode))
-          VehicleNotFound(responseCode)
+          VehicleNotFound(responseCode.split(" - ")(1))
 
         case None =>
           response.vehicleAndKeeperDetailsDto match {
@@ -80,7 +83,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
               val transactionId = request.cookies.getString(TransactionIdCacheKey).get
               auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form,
-                "vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
+                PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>

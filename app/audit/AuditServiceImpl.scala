@@ -11,6 +11,8 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
 
   override def send(auditMessage: Message): Unit = {
 
+    Logger.debug(s"Audit message: $auditMessage")
+
     if (config.auditServiceUseRabbit) {
       val factory = new ConnectionFactory()
       factory.setHost(config.rabbitmqHost)
@@ -21,7 +23,6 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
           channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
           val message = messageToSend(auditMessage).getBytes
           channel.basicPublish("", config.rabbitmqQueue, null, message)
-          Logger.debug(s"Sent Audit message: $auditMessage")
         } finally {
           channel.close()
         }
