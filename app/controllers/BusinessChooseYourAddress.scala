@@ -19,7 +19,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import audit.{CaptureActorToExitAuditMessage, AuditService, CaptureActorToConfirmBusinessAuditMessage}
 import views.vrm_retention.VehicleLookup._
-import views.vrm_retention.CheckEligibility._
 import views.vrm_retention.ConfirmBusiness._
 import scala.Some
 import views.vrm_retention.RelatedCacheKeys
@@ -163,7 +162,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
      2) the browser does not change page before the future has completed and written to the cache. */
 
     val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-    val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+    val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
     val vehicleAndKeeperLookupForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
     val vehicleAndKeeperLookupModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
 

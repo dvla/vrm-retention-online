@@ -78,7 +78,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
         // retrieve audit values not already in scope
         val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
         val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-        val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
+        val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel].get
 
         auditService.send(ConfirmBusinessToConfirmAuditMessage.from(transactionId,
