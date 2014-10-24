@@ -13,7 +13,7 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import audit.{ConfirmToPaymentAuditMessage, AuditService}
+import audit.{ConfirmToExitAuditMessage, PaymentToExitAuditMessage, ConfirmToPaymentAuditMessage, AuditService}
 import scala.Some
 import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
@@ -101,6 +101,18 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
     val cacheKeys = RelatedCacheKeys.RetainSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }
+
+    val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
+    val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+    val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+    val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+    auditService.send(ConfirmToExitAuditMessage.from(transactionId,
+      vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
+      businessDetailsModel))
+
     Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 }

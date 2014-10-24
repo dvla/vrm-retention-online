@@ -268,7 +268,15 @@ final class PaymentUnitSpec extends UnitSpec {
   "exit" should {
 
     "redirect to feedback page" in new WithApplication {
-      val result = payment.exit(FakeRequest())
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
+        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
+      val result = payment.exit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
       }

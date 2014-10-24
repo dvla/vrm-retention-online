@@ -10,10 +10,16 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.html.vrm_retention.enter_address_manually
-import audit.{CaptureActorToConfirmBusinessAuditMessage, AuditService, ConfirmBusinessToConfirmAuditMessage}
+import audit._
 import views.vrm_retention.VehicleLookup._
 import scala.Some
 import views.vrm_retention.CheckEligibility._
+import scala.Some
+import views.vrm_retention.ConfirmBusiness._
+import scala.Some
+import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.Confirm._
+import scala.Some
 import scala.Some
 
 final class EnterAddressManually @Inject()(auditService: AuditService)
@@ -65,6 +71,24 @@ final class EnterAddressManually @Inject()(auditService: AuditService)
             Redirect(routes.SetUpBusinessDetails.present())
         }
     )
+  }
+
+  def exit = Action {
+    implicit request =>
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+      }
+
+      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+
+      auditService.send(CaptureActorToExitAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+
+      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 
   private def formWithReplacedErrors(form: Form[EnterAddressManuallyModel])(implicit request: Request[_]) =

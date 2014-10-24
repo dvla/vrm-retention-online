@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditService, ConfirmBusinessToConfirmAuditMessage}
+import audit.{ConfirmBusinessToExitAuditMessage, ConfirmToExitAuditMessage, AuditService, ConfirmBusinessToConfirmAuditMessage}
 import com.google.inject.Inject
 import models._
 import play.api.data.{Form, FormError}
@@ -112,6 +112,18 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
       val cacheKeys = RelatedCacheKeys.RetainSet ++ {
         if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
       }
+
+      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
+      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+      auditService.send(ConfirmBusinessToExitAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
+        businessDetailsModel))
+
       Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 }

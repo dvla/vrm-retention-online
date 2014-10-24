@@ -3,7 +3,6 @@ package controllers
 import com.google.inject.Inject
 import models._
 import org.joda.time.format.ISODateTimeFormat
-import play.api.Logger
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -22,6 +21,10 @@ import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest,
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import audit.{AuditService, VehicleLookupToVehicleLookupFailureAuditMessage}
+import scala.Some
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
+import play.api.mvc.Call
 
 final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,

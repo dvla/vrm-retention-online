@@ -1,7 +1,8 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
+import models.{EligibilityModel, VehicleAndKeeperLookupFormModel, SetupBusinessDetailsFormModel}
+import models.{SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -9,8 +10,14 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.SetupBusinessDetails._
+import views.vrm_retention.Confirm._
+import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.ConfirmBusiness._
+import scala.Some
+import views.vrm_retention.RelatedCacheKeys
+import audit.{AuditService, CaptureActorToExitAuditMessage}
 
-final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class SetUpBusinessDetails @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
 
   private[controllers] val form = Form(
@@ -41,6 +48,24 @@ final class SetUpBusinessDetails @Inject()()(implicit clientSideSessionFactory: 
       },
       validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
     )
+  }
+
+  def exit = Action {
+    implicit request =>
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+      }
+
+      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+
+      auditService.send(CaptureActorToExitAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+
+      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =

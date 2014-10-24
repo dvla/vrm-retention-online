@@ -20,7 +20,7 @@ import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import audit.{PaymentToPaymentNotAuthorisedAuditMessage, PaymentToPaymentFailureAuditMessage, AuditService}
+import audit.{PaymentToExitAuditMessage, PaymentToPaymentNotAuthorisedAuditMessage, PaymentToPaymentFailureAuditMessage, AuditService}
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import scala.Some
@@ -40,7 +40,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(vehiclesLookupForm)) =>
           callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
         case _ => Future.successful {
-          paymentFailure("Payment begin missing TransactionIdCacheKey or VehicleAndKeeperLookupFormModel cookie") // TODO is this the correct redirect?
+          paymentFailure("Payment begin missing TransactionIdCacheKey or VehicleAndKeeperLookupFormModel cookie")
         }
       }
   }
@@ -57,7 +57,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(paymentDetails)) =>
           callGetWebPaymentService(transactionId, paymentDetails.trxRef.get)
         case _ => Future.successful {
-          paymentFailure("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
+          paymentFailure("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
         }
       }
   }
@@ -68,17 +68,29 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(paymentDetails)) =>
           callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get)
         case _ => Future.successful {
-          paymentFailure("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
+          paymentFailure("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
         }
       }
   }
 
   def exit = Action {
     implicit request =>
+
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val discardedCookies = RelatedCacheKeys.RetainSet ++ {
         if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
       }
+
+      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
+      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+      auditService.send(PaymentToExitAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
+        businessDetailsModel))
 
       Redirect(routes.MockFeedback.present()).discardingCookies(discardedCookies)
   }
@@ -96,7 +108,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
     auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,
       vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail, businessDetailsModel,
-      paymentModel, message)) // TODO use this message?
+      paymentModel, message))
 
     Redirect(routes.PaymentFailure.present())
   }
@@ -120,7 +132,6 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
             if (response.status == Payment.CardDetailsStatus) {
-              // TODO need sad path for when redirectUrl is None
               Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
                 //              Redirect(response.redirectUrl.get)
               .withCookie(PaymentModel.from(response.trxRef.get))

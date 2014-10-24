@@ -119,6 +119,8 @@ object BusinessAddressToOptionString {
 // concrete classes
 //
 
+// TODO massive amount of duplication in all the below objects, needs refactoring
+
 object VehicleLookupToConfirmAuditMessage {
 
   def from(transactionId: String,
@@ -260,6 +262,21 @@ object VehicleLookupToVehicleLookupFailureAuditMessage {
   }
 }
 
+object VehicleLookupToExitAuditMessage {
+
+  def from(transactionId: String) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+
+      Seq(
+        transactionIdOpt
+      ).flatten // Remove empty values from list
+    }
+    Message("VehicleLookupToExit", "PR Retention", data: _*)
+  }
+}
+
 object CaptureActorToConfirmBusinessAuditMessage {
 
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
@@ -300,6 +317,39 @@ object CaptureActorToConfirmBusinessAuditMessage {
   }
 }
 
+object CaptureActorToExitAuditMessage {
+
+  def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+           replacementVRM: String) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val timestampOpt = Some(("timestamp", Timestamp.getTimestamp))
+      val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
+      val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(
+        keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = KeeperAddressToOptionString.from(vehicleAndKeeperDetailsModel.address).map(
+        keeperAddress => ("keeperAddress", keeperAddress))
+      val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
+      val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
+
+      Seq(
+        transactionIdOpt,
+        timestampOpt,
+        makeOpt,
+        modelOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
+        currentVrmOpt,
+        replacementVRMOpt
+      ).flatten // Remove empty values from list
+    }
+    Message("CaptureActorToExit", "PR Retention", data: _*)
+  }
+}
+
 object ConfirmBusinessToConfirmAuditMessage {
 
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
@@ -337,6 +387,53 @@ object ConfirmBusinessToConfirmAuditMessage {
       ).flatten // Remove empty values from list
     }
     Message("ConfirmBusinessToConfirm", "PR Retention", data: _*)
+  }
+}
+
+object ConfirmBusinessToExitAuditMessage {
+
+  def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+           replacementVRM: String, keeperEmail: Option[String], businessDetailsModelOpt: Option[BusinessDetailsModel] = None) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val timestampOpt = Some(("timestamp", Timestamp.getTimestamp))
+      val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
+      val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(
+        keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = KeeperAddressToOptionString.from(vehicleAndKeeperDetailsModel.address).map(
+        keeperAddress => ("keeperAddress", keeperAddress))
+      val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
+      val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
+      val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
+
+      // may have got to the confirm screen down the keeper route hence no business details
+      val businessDetailsModelOptSeq = businessDetailsModelOpt match {
+        case Some(businessDetailsModel) => {
+          val businessNameOpt = Some(("businessName", businessDetailsModel.contact))
+          val businessAddressOpt = BusinessAddressToOptionString.from(businessDetailsModel).map(
+            businessAddress => ("businessAddress", businessAddress))
+          val businessEmailOpt = Some(("businessEmail", businessDetailsModel.email))
+          Seq(businessNameOpt, businessAddressOpt, businessEmailOpt)
+        }
+        case _ => Seq.empty
+      }
+
+      (Seq(
+        transactionIdOpt,
+        timestampOpt,
+        makeOpt,
+        modelOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
+        currentVrmOpt,
+        replacementVRMOpt,
+        keeperEmailOpt
+      ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
+    }
+    Message("ConfirmToExit", "PR Retention", data: _*)
   }
 }
 
@@ -386,6 +483,53 @@ object ConfirmToPaymentAuditMessage {
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("ConfirmToPayment", "PR Retention", data: _*)
+  }
+}
+
+object ConfirmToExitAuditMessage {
+
+  def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+           replacementVRM: String, keeperEmail: Option[String], businessDetailsModelOpt: Option[BusinessDetailsModel] = None) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val timestampOpt = Some(("timestamp", Timestamp.getTimestamp))
+      val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
+      val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(
+        keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = KeeperAddressToOptionString.from(vehicleAndKeeperDetailsModel.address).map(
+        keeperAddress => ("keeperAddress", keeperAddress))
+      val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
+      val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
+      val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
+
+      // may have got to the confirm screen down the keeper route hence no business details
+      val businessDetailsModelOptSeq = businessDetailsModelOpt match {
+        case Some(businessDetailsModel) => {
+          val businessNameOpt = Some(("businessName", businessDetailsModel.contact))
+          val businessAddressOpt = BusinessAddressToOptionString.from(businessDetailsModel).map(
+            businessAddress => ("businessAddress", businessAddress))
+          val businessEmailOpt = Some(("businessEmail", businessDetailsModel.email))
+          Seq(businessNameOpt, businessAddressOpt, businessEmailOpt)
+        }
+        case _ => Seq.empty
+      }
+
+      (Seq(
+        transactionIdOpt,
+        timestampOpt,
+        makeOpt,
+        modelOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
+        currentVrmOpt,
+        replacementVRMOpt,
+        keeperEmailOpt
+      ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
+    }
+    Message("ConfirmToExit", "PR Retention", data: _*)
   }
 }
 
@@ -584,5 +728,52 @@ object PaymentToPaymentFailureAuditMessage {
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToPaymentFailure", "PR Retention", data: _*)
+  }
+}
+
+object PaymentToExitAuditMessage {
+
+  def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+           replacementVRM: String, keeperEmail: Option[String], businessDetailsModelOpt: Option[BusinessDetailsModel] = None) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val timestampOpt = Some(("timestamp", Timestamp.getTimestamp))
+      val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
+      val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
+      val keeperNameOpt = NameOptsToOptionString.from(vehicleAndKeeperDetailsModel).map(
+        keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = KeeperAddressToOptionString.from(vehicleAndKeeperDetailsModel.address).map(
+        keeperAddress => ("keeperAddress", keeperAddress))
+      val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
+      val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
+      val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
+
+      // may have got to the confirm screen down the keeper route hence no business details
+      val businessDetailsModelOptSeq = businessDetailsModelOpt match {
+        case Some(businessDetailsModel) => {
+          val businessNameOpt = Some(("businessName", businessDetailsModel.contact))
+          val businessAddressOpt = BusinessAddressToOptionString.from(businessDetailsModel).map(
+            businessAddress => ("businessAddress", businessAddress))
+          val businessEmailOpt = Some(("businessEmail", businessDetailsModel.email))
+          Seq(businessNameOpt, businessAddressOpt, businessEmailOpt)
+        }
+        case _ => Seq.empty
+      }
+
+      (Seq(
+        transactionIdOpt,
+        timestampOpt,
+        makeOpt,
+        modelOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
+        currentVrmOpt,
+        replacementVRMOpt,
+        keeperEmailOpt
+      ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
+    }
+    Message("PaymentToExit", "PR Retention", data: _*)
   }
 }

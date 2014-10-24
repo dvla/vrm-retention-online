@@ -1,8 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperLookupFormModel}
-import models.{VehicleAndKeeperDetailsModel}
+import models.{VehicleAndKeeperDetailsModel, BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, EligibilityModel}
+import models.{BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperLookupFormModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
@@ -17,10 +17,12 @@ import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditService, CaptureActorToConfirmBusinessAuditMessage}
+import audit.{CaptureActorToExitAuditMessage, AuditService, CaptureActorToConfirmBusinessAuditMessage}
 import views.vrm_retention.VehicleLookup._
 import views.vrm_retention.CheckEligibility._
+import views.vrm_retention.ConfirmBusiness._
 import scala.Some
+import views.vrm_retention.RelatedCacheKeys
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
                                                  auditService: AuditService)
@@ -78,6 +80,24 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           }
         }
     )
+  }
+
+    def exit = Action {
+    implicit request =>
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+      }
+
+      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
+      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
+
+      auditService.send(CaptureActorToExitAuditMessage.from(transactionId,
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+
+      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 
   private def index(addresses: Seq[(String, String)]) = {

@@ -105,7 +105,15 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "exit" should {
 
     "redirect to mock feedback page" in new WithApplication {
-      val request = FakeRequest()
+      val request = buildRequest(storeDetailsConsent = false).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
+        )
       val result = confirmBusiness.exit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
