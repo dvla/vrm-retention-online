@@ -62,6 +62,6 @@ class Config {
 
   // Rabbit-MQ
   val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")
+  val rabbitmqPort = getProperty("rabbitmq.port", 0)
   val rabbitmqQueue = getProperty("rabbitmq.queue", "NOT FOUND")
-  val rabbitmqExchange = getProperty("rabbitmq.exchange", "NOT FOUND")
 }
