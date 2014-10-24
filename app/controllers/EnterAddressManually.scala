@@ -56,12 +56,12 @@ final class EnterAddressManually @Inject()(auditService: AuditService)
 
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
 
-            val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-            val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
-            val vehicleAndKeeperLookup = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-
-            auditService.send(CaptureActorToConfirmBusinessAuditMessage.from(transactionId,
-            vehicleAndKeeperLookup, vehicleAndKeeperDetails, replacementVRM, viewModel))
+            auditService.send(AuditMessage.from(
+              pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+              transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+              vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+              replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+              businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
             Redirect(routes.ConfirmBusiness.present())
               .withCookie(validForm)
@@ -80,13 +80,12 @@ final class EnterAddressManually @Inject()(auditService: AuditService)
         if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
       }
 
-      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-
-      auditService.send(CaptureActorToExitAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureActorToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
       Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }

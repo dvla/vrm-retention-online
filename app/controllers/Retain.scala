@@ -20,7 +20,9 @@ import scala.util.control.NonFatal
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import scala.Some
 import play.api.mvc.Result
-import audit.{PaymentToMicroServiceErrorAuditMessage, PaymentToPaymentFailureAuditMessage, PaymentToSuccessAuditMessage, AuditService}
+import audit._
+import scala.Some
+import play.api.mvc.Result
 
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                              dateService: DateService,
@@ -36,7 +38,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
           retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
         case (_, Some(transactionId), _) => {
-          auditService.send(PaymentToMicroServiceErrorAuditMessage.from(transactionId))
+          auditService.send(AuditMessage.from(
+            pageMovement = AuditMessage.PaymentToMicroServiceError,
+            transactionId = transactionId))
           Future.successful {
             Redirect(routes.MicroServiceError.present())
           }
@@ -60,17 +64,15 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
       val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
 
-      // retrieve audit values not already in scope
-      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentModel = request.cookies.getModel[PaymentModel]
-      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-
-      auditService.send(PaymentToSuccessAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel,
-        replacementVRM, keeperEmail, businessDetailsModel, paymentModel, certificateNumber))
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToSuccess,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = request.cookies.getModel[PaymentModel],
+        retentionCertId = Some(certificateNumber)))
 
       Redirect(routes.SuccessPayment.present()).
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
@@ -82,17 +84,15 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
         s" redirect to VehicleLookupFailure")
 
-      // retrieve audit values not already in scope
-      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentModel = request.cookies.getModel[PaymentModel]
-      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-
-      auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel,
-        replacementVRM, keeperEmail, businessDetailsModel, paymentModel, responseCode))
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToPaymentFailure,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = request.cookies.getModel[PaymentModel],
+        rejectionCode = Some(responseCode)))
 
       Redirect(routes.RetainFailure.present()).
         withCookie(key = RetainResponseCodeCacheKey, value = responseCode.split(" - ")(1))

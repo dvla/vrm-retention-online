@@ -20,7 +20,7 @@ import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditService, VehicleLookupToVehicleLookupFailureAuditMessage}
+import audit.{AuditMessage, AuditService}
 import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
@@ -74,17 +74,24 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
       response.responseCode match {
         case Some(responseCode) =>
 
-          val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-          auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form, responseCode))
+          auditService.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+            rejectionCode = Some(responseCode)))
+
           VehicleNotFound(responseCode.split(" - ")(1))
 
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
 
-              val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-              auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form,
-                ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
+              auditService.send(AuditMessage.from(
+                pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+                transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+                vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>

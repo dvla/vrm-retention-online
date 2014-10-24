@@ -1,8 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{EligibilityModel, VehicleAndKeeperLookupFormModel, SetupBusinessDetailsFormModel}
-import models.{SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
+import models.{SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -10,12 +9,11 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.SetupBusinessDetails._
-import views.vrm_retention.Confirm._
 import views.vrm_retention.VehicleLookup._
 import views.vrm_retention.ConfirmBusiness._
 import scala.Some
 import views.vrm_retention.RelatedCacheKeys
-import audit.{AuditService, CaptureActorToExitAuditMessage}
+import audit.{AuditMessage, AuditService}
 
 final class SetUpBusinessDetails @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
@@ -57,13 +55,11 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService)(implicit 
         if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
       }
 
-      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-
-      auditService.send(CaptureActorToExitAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureActorToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
 
       Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }

@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{ConfirmBusinessToExitAuditMessage, ConfirmToExitAuditMessage, AuditService, ConfirmBusinessToConfirmAuditMessage}
+import audit._
 import com.google.inject.Inject
 import models._
 import play.api.data.{Form, FormError}
@@ -14,6 +14,9 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
+import scala.Some
+import play.api.mvc.Result
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 
 final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                                   config: Config) extends Controller {
@@ -75,14 +78,12 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
 
         val cookies = List(storeBusinessDetails).flatten
 
-        // retrieve audit values not already in scope
-        val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-        val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-        val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel].get
-
-        auditService.send(ConfirmBusinessToConfirmAuditMessage.from(transactionId,
-          vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel, replacementVRM, businessDetailsModel))
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.ConfirmBusinessToConfirm,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
         Redirect(routes.Confirm.present()).withCookiesEx(cookies: _*)
     }
@@ -113,16 +114,12 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
         if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
       }
 
-      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-
-      auditService.send(ConfirmBusinessToExitAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
-        businessDetailsModel))
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.ConfirmBusinessToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
       Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
