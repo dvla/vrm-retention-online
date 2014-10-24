@@ -74,7 +74,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
       response.responseCode match {
         case Some(responseCode) =>
 
-          val transactionId = request.cookies.getString(TransactionIdCacheKey).get
+          val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("transactionId-cookie-not-found")
           auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form, responseCode))
           VehicleNotFound(responseCode.split(" - ")(1))
 
