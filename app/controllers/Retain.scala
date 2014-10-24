@@ -65,7 +65,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
       val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentModel = request.cookies.getModel[PaymentModel].get
+      val paymentModel = request.cookies.getModel[PaymentModel]
       val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
       auditService.send(PaymentToSuccessAuditMessage.from(transactionId,
@@ -87,7 +87,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
       val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentModel = request.cookies.getModel[PaymentModel].get
+      val paymentModel = request.cookies.getModel[PaymentModel]
       val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
       auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,

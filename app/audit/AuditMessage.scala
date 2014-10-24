@@ -8,6 +8,7 @@ import play.api.libs.json._
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
 import mappings.common.ErrorCodes
+import controllers.Payment
 
 //
 // base classes
@@ -132,10 +133,86 @@ object BusinessDetailsModelOptSeq {
   }
 }
 
+object PaymentModelOptSeq {
+
+  def from(paymentModelOpt: Option[PaymentModel], paymentStatus: Option[String]) = {
+    paymentModelOpt match {
+      case Some(paymentModel) => {
+        val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
+        val paymentStatusOpt = paymentStatus.map(paymentStatus => ("paymentStatus", paymentStatus))
+        val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
+        val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
+        val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
+        val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
+        val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
+        val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(
+          totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
+        Seq(paymentTrxRefOpt, paymentStatusOpt, paymentMaskedPanOpt, paymentAuthCodeOpt, paymentMerchantIdOpt,
+          paymentTypeOpt, paymentCardTypeOpt, paymentTotalAmountPaidOpt)
+      }
+      case _ => Seq.empty
+    }
+  }
+}
+
 
 //
 // concrete classes
 //
+
+object AuditMessage { // TODO work in progress to refactoring audting
+
+  // service types
+  private final val PersonalisedRegServiceType = "PR Retention"
+
+  // page movement names
+  private final val PayemntToSuccess = "PaymentToSuccess"
+
+
+  def from(name: String, transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+           vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+           replacementVRM: String, keeperEmail: Option[String],
+           businessDetailsModelOpt: Option[BusinessDetailsModel] = None, paymentModelOpt: Option[PaymentModel],
+           retentionCertId: String) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val timestampOpt = Some(("timestamp", Timestamp.getTimestamp))
+      val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
+      val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
+      val keeperNameOpt = KeeperNameOptString.from(vehicleAndKeeperDetailsModel).map(
+        keeperName => ("keeperName", keeperName))
+      val keeperAddressOpt = KeeperAddressOptString.from(vehicleAndKeeperDetailsModel.address).map(
+        keeperAddress => ("keeperAddress", keeperAddress))
+      val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
+      val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
+      val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
+      val retentionCertIdOpt = Some(("retentionCertId", retentionCertId))
+
+      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModelOpt, Some(Payment.SettledStatus))
+
+      // may have got to the confirm screen down the keeper route hence no business details
+      val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModelOpt)
+
+      (Seq(
+        transactionIdOpt,
+        timestampOpt,
+        makeOpt,
+        modelOpt,
+        keeperNameOpt,
+        keeperAddressOpt,
+        currentVrmOpt,
+        replacementVRMOpt,
+        keeperEmailOpt,
+        retentionCertIdOpt
+      ) ++ paymentModelOptSeq ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
+    }
+    Message(name, PersonalisedRegServiceType, data: _*)
+  }
+}
+
+
+
 
 // TODO massive amount of duplication in all the below objects, needs refactoring
 
@@ -247,7 +324,7 @@ object VehicleLookupToCaptureActorAuditMessage {
 object VehicleLookupToVehicleLookupFailureAuditMessage {
 
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-            rejectionCode: String) = {
+           rejectionCode: String) = {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
@@ -521,7 +598,7 @@ object PaymentToSuccessAuditMessage {
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
            replacementVRM: String, keeperEmail: Option[String],
-           businessDetailsModelOpt: Option[BusinessDetailsModel] = None, paymentModel: PaymentModel,
+           businessDetailsModelOpt: Option[BusinessDetailsModel] = None, paymentModelOpt: Option[PaymentModel],
            retentionCertId: String) = {
 
     val data: Seq[(String, Any)] = {
@@ -536,16 +613,9 @@ object PaymentToSuccessAuditMessage {
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
-      val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-      val paymentStatusOpt = Some(("paymentStatus", "Settled"))
-      val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
-      val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
-      val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
-      val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
-      val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
-      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(
-        totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
       val retentionCertIdOpt = Some(("retentionCertId", retentionCertId))
+
+      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModelOpt, Some(Payment.SettledStatus))
 
       // may have got to the confirm screen down the keeper route hence no business details
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModelOpt)
@@ -560,16 +630,8 @@ object PaymentToSuccessAuditMessage {
         currentVrmOpt,
         replacementVRMOpt,
         keeperEmailOpt,
-        paymentTrxRefOpt,
-        paymentStatusOpt,
-        paymentMaskedPanOpt,
-        paymentAuthCodeOpt,
-        paymentMerchantIdOpt,
-        paymentTypeOpt,
-        paymentCardTypeOpt,
-        paymentTotalAmountPaidOpt,
         retentionCertIdOpt
-      ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
+      ) ++ paymentModelOptSeq ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToSuccess", "PR Retention", data: _*)
   }
@@ -580,7 +642,7 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
            replacementVRM: String, keeperEmail: Option[String], businessDetailsModelOpt: Option[BusinessDetailsModel] = None,
-           paymentModel: PaymentModel) = {
+           paymentModelOpt: Option[PaymentModel]) = {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
@@ -594,14 +656,8 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
-      val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-      val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
-      val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
-      val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
-      val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
-      val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
-      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(
-        totalAmountPaid => ("paymentTotalAmountPaid", (totalAmountPaid / 100.0)))
+
+      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModelOpt, None)
 
       // may have got to the confirm screen down the keeper route hence no business details
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModelOpt)
@@ -615,15 +671,8 @@ object PaymentToPaymentNotAuthorisedAuditMessage {
         keeperAddressOpt,
         currentVrmOpt,
         replacementVRMOpt,
-        keeperEmailOpt,
-        paymentTrxRefOpt,
-        paymentMaskedPanOpt,
-        paymentAuthCodeOpt,
-        paymentMerchantIdOpt,
-        paymentTypeOpt,
-        paymentCardTypeOpt,
-        paymentTotalAmountPaidOpt
-      ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
+        keeperEmailOpt
+      ) ++ paymentModelOptSeq ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToPaymentNotAuthorised", "PR Retention", data: _*)
   }
@@ -634,7 +683,7 @@ object PaymentToPaymentFailureAuditMessage {
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
            vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
            replacementVRM: String, keeperEmail: Option[String], businessDetailsModelOpt: Option[BusinessDetailsModel] = None,
-           paymentModel: PaymentModel, rejectionCode: String) = {
+           paymentModelOpt: Option[PaymentModel], rejectionCode: String) = {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
@@ -648,16 +697,10 @@ object PaymentToPaymentFailureAuditMessage {
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
       val currentVrmOpt = Some(("currentVRM", vehicleAndKeeperLookupFormModel.registrationNumber))
       val replacementVRMOpt = Some(("replacementVRM", replacementVRM))
-      val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
-      val paymentStatusOpt = Some(("paymentStatus", "Cancelled"))
-      val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
-      val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
-      val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
-      val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
-      val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))
-      val paymentTotalAmountPaidOpt = paymentModel.totalAmountPaid.map(
-        totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
+
       val rejectionCodeOpt = Some(("rejectionCode", rejectionCode))
+
+      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModelOpt, None)
 
       // may have got to the confirm screen down the keeper route hence no business details
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModelOpt)
@@ -672,16 +715,8 @@ object PaymentToPaymentFailureAuditMessage {
         currentVrmOpt,
         replacementVRMOpt,
         keeperEmailOpt,
-        paymentTrxRefOpt,
-        paymentStatusOpt,
-        paymentMaskedPanOpt,
-        paymentAuthCodeOpt,
-        paymentMerchantIdOpt,
-        paymentTypeOpt,
-        paymentCardTypeOpt,
-        paymentTotalAmountPaidOpt,
         rejectionCodeOpt
-      ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
+      ) ++ paymentModelOptSeq ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToPaymentFailure", "PR Retention", data: _*)
   }

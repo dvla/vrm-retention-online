@@ -99,7 +99,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     Logger.error(message)
 
     val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-    val paymentModel = request.cookies.getModel[PaymentModel].get
+    val paymentModel = request.cookies.getModel[PaymentModel]
     val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
     val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
     val transactionId = request.cookies.getString(TransactionIdCacheKey).get
@@ -154,7 +154,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
       val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentModel = request.cookies.getModel[PaymentModel].get
+      val paymentModel = request.cookies.getModel[PaymentModel]
       val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
       val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
       val transactionId = request.cookies.getString(TransactionIdCacheKey).get
@@ -162,8 +162,8 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
       val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
       auditService.send(PaymentToPaymentNotAuthorisedAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail, businessDetailsModel,
-        paymentModel))
+        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail,
+        businessDetailsModel, paymentModel))
 
       Redirect(routes.PaymentNotAuthorised.present())
     }
@@ -240,7 +240,9 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
 
 object Payment {
 
-  private final val CardDetailsStatus = "CARD_DETAILS"
-  private final val AuthorisedStatus = "AUTHORISED"
-  private final val CancelledStatus = "CANCELLED"
+  final val CardDetailsStatus = "CARD_DETAILS"
+  final val AuthorisedStatus = "AUTHORISED"
+  final val CancelledStatus = "CANCELLED"
+  final val SettledStatus = "SETTLED"
+
 }
