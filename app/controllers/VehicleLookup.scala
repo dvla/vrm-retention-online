@@ -25,6 +25,7 @@ import scala.Some
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
 import play.api.mvc.Call
+import mappings.common.ErrorCodes
 
 final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -36,9 +37,6 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
   override val microServiceError: Call = routes.MicroServiceError.present()
   override val vehicleLookupFailure: Call = routes.VehicleLookupFailure.present()
   override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
-
-  private val MicroServiceErrorCode = "PR001"
-  private val PostcodeMismatchErrorCode = "PR002"
 
   override type Form = VehicleAndKeeperLookupFormModel
 
@@ -86,7 +84,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
               val transactionId = request.cookies.getString(TransactionIdCacheKey).get
               auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form,
-                PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
+                ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>

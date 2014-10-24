@@ -7,6 +7,7 @@ import play.api.libs.json.Json.toJson
 import play.api.libs.json._
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateServiceImpl
+import mappings.common.ErrorCodes
 
 //
 // base classes
@@ -280,6 +281,23 @@ object VehicleLookupToExitAuditMessage {
   }
 }
 
+object VehicleLookupToMicroServiceErrorAuditMessage {
+
+  def from(transactionId: String) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val rejectionCodeOpt = Some(("rejectionCode", ErrorCodes.MicroServiceErrorCode + " - microservice_error"))
+
+      Seq(
+        transactionIdOpt,
+        rejectionCodeOpt
+      ).flatten // Remove empty values from list
+    }
+    Message("VehicleLookupToMicroServiceError", "PR Retention", data: _*)
+  }
+}
+
 object CaptureActorToConfirmBusinessAuditMessage {
 
   def from(transactionId: String, vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
@@ -417,7 +435,7 @@ object ConfirmBusinessToExitAuditMessage {
         keeperEmailOpt
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
-    Message("ConfirmToExit", "PR Retention", data: _*)
+    Message("ConfirmBusinessToExit", "PR Retention", data: _*)
   }
 }
 
@@ -704,5 +722,22 @@ object PaymentToExitAuditMessage {
       ) ++ businessDetailsModelOptSeq).flatten // Remove empty values from list
     }
     Message("PaymentToExit", "PR Retention", data: _*)
+  }
+}
+
+object PaymentToMicroServiceErrorAuditMessage {
+
+  def from(transactionId: String) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val rejectionCodeOpt = Some(("rejectionCode", ErrorCodes.MicroServiceErrorCode + " - microservice_error"))
+
+      Seq(
+        transactionIdOpt,
+        rejectionCodeOpt
+      ).flatten // Remove empty values from list
+    }
+    Message("PaymentToMicroServiceError", "PR Retention", data: _*)
   }
 }

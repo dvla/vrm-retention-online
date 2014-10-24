@@ -20,7 +20,7 @@ import scala.util.control.NonFatal
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import scala.Some
 import play.api.mvc.Result
-import audit.{PaymentToPaymentFailureAuditMessage, PaymentToSuccessAuditMessage, AuditService}
+import audit.{PaymentToMicroServiceErrorAuditMessage, PaymentToPaymentFailureAuditMessage, PaymentToSuccessAuditMessage, AuditService}
 
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                              dateService: DateService,
@@ -35,10 +35,17 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         request.cookies.getModel[PaymentModel]) match {
         case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
           retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
-        case _ => Future.successful {
-          Redirect(routes.MicroServiceError.present())
+        case (_, Some(transactionId), _) => {
+          auditService.send(PaymentToMicroServiceErrorAuditMessage.from(transactionId))
+          Future.successful {
+            Redirect(routes.MicroServiceError.present())
+          }
         }
-      }
+        case _ =>
+          Future.successful {
+            Redirect(routes.Error.present("user went to Retain retainMark without correct cookies"))
+          }
+        }
   }
 
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,

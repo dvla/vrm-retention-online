@@ -16,6 +16,7 @@ import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
                                        dateService: DateService,
@@ -47,6 +48,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
+      auditService.send(VehicleLookupToMicroServiceErrorAuditMessage.from(transactionId))
       Redirect(routes.MicroServiceError.present())
     }
 
@@ -96,7 +98,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         case None =>
           // Happy path when there is no response code therefore no problem.
           (response.currentVRM, response.replacementVRM) match {
-            case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, replacementVRM)
+            case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, formatVrm(replacementVRM))
             case (None, None) => microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
             case (_, None) => microServiceErrorResult(message = "No replacement VRM found")
             case (None, _) => microServiceErrorResult(message = "No current VRM found")
