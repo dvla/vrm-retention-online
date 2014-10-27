@@ -9,7 +9,7 @@ import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.common.ErrorPanel
 import pages.common.MainPanel.back
 import pages.vrm_retention.EnterAddressManuallyPage.{happyPath, happyPathMandatoryFieldsOnly, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, ConfirmBusinessPage, EnterAddressManuallyPage, SetupBusinessDetailsPage}
+import pages.vrm_retention._
 
 final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness {
 
@@ -102,7 +102,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       go to EnterAddressManuallyPage
       click on back
 
-      page.url should equal(SetupBusinessDetailsPage.url)
+      page.url should equal(BusinessChooseYourAddressPage.url)
     }
   }
 
