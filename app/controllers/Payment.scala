@@ -145,7 +145,6 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
       var paymentModel = request.cookies.getModel[PaymentModel].get
-      paymentModel.paymentStatus = Some(Payment.AuthorisedStatus)
 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
