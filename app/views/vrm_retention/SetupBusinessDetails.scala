@@ -8,7 +8,7 @@ object SetupBusinessDetails {
   final val BusinessContactId = "contact-name" // TODO remove spaces from IDs
   final val BusinessEmailId = "contact-email"
   final val BusinessPostcodeId = "business-postcode"
-  final val SetupBusinessDetailsCacheKey = "setupBusinessDetails"
+  final val SetupBusinessDetailsCacheKey = "setup-business-details"
   final val SubmitId = "submit"
   final val ExitId = "exit"
 }

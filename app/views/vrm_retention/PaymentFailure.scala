@@ -2,6 +2,6 @@ package views.vrm_retention
 
 object PaymentFailure {
 
-  final val TryAgainId = "tryAgain"
+  final val TryAgainId = "try-again"
   final val ExitId = "exit"
 }

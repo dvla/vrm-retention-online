@@ -3,7 +3,7 @@
         config: utils.helpers.Config)
 
 @import views.html.vrm_retention.main
-@import views.vrm_retention.UprnNotFound.{ManualAddressButtonId, SetupBusinessDetailsButtonId}
+@import views.vrm_retention.UprnNotFound.{ManualAddressId, SetupBusinessDetailsId}
 
 @main(
     title = Messages("vrm_retention_uprnnotfound.title")
@@ -13,8 +13,8 @@
 
     <div class="form-steps">
         @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@ManualAddressButtonId" href="@controllers.routes.EnterAddressManually.present()">@Messages("vrm_retention_uprnnotfound.setuptradedetailsbutton")</a>
+        <a class="button" id="@ManualAddressId" href="@controllers.routes.EnterAddressManually.present()">@Messages("vrm_retention_uprnnotfound.setuptradedetailsbutton")</a>
         <br /><br />
-        <a id="@SetupBusinessDetailsButtonId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_uprnnotfound.manualaddressbutton")</a>
+        <a id="@SetupBusinessDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_uprnnotfound.manualaddressbutton")</a>
     </div>
 }
