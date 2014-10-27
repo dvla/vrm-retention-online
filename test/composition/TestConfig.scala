@@ -10,8 +10,8 @@ class TestConfig(
                   ordnanceSurveyUseUprn: Boolean = false,
                   auditServiceUseRabbit: Boolean = false,
                   rabbitmqHost: String = "NOT FOUND",
-                  rabbitmqQueue: String = "NOT FOUND",
-                  rabbitmqExchange: String = "NOT FOUND"
+                  rabbitmqPort: Int = 0,
+                  rabbitmqQueue: String = "NOT FOUND"
                   ) extends ScalaModule with MockitoSugar {
 
   def configure() = {
@@ -20,8 +20,8 @@ class TestConfig(
     when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
     when(config.auditServiceUseRabbit).thenReturn(auditServiceUseRabbit)
     when(config.rabbitmqHost).thenReturn(rabbitmqHost)
+    when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
-    when(config.rabbitmqExchange).thenReturn(rabbitmqExchange)
     bind[Config].toInstance(config)
   }
 }

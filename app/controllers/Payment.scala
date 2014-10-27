@@ -20,9 +20,11 @@ import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import audit.{PaymentToPaymentNotAuthorisedAuditMessage, PaymentToPaymentFailureAuditMessage, AuditService}
+import audit._
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
+import scala.Some
+import play.api.mvc.Result
 import scala.Some
 import play.api.mvc.Result
 
@@ -40,7 +42,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(vehiclesLookupForm)) =>
           callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
         case _ => Future.successful {
-          paymentFailure("Payment begin missing TransactionIdCacheKey or VehicleAndKeeperLookupFormModel cookie") // TODO is this the correct redirect?
+          paymentFailure("Payment begin missing TransactionIdCacheKey or VehicleAndKeeperLookupFormModel cookie")
         }
       }
   }
@@ -57,7 +59,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(paymentDetails)) =>
           callGetWebPaymentService(transactionId, paymentDetails.trxRef.get)
         case _ => Future.successful {
-          paymentFailure("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
+          paymentFailure("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
         }
       }
   }
@@ -68,17 +70,27 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         case (Some(transactionId), Some(paymentDetails)) =>
           callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get)
         case _ => Future.successful {
-          paymentFailure("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie") // TODO is this the correct redirect?
+          paymentFailure("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
         }
       }
   }
 
   def exit = Action {
     implicit request =>
+
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val discardedCookies = RelatedCacheKeys.RetainSet ++ {
         if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
       }
+
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = request.cookies.getModel[PaymentModel]))
 
       Redirect(routes.MockFeedback.present()).discardingCookies(discardedCookies)
   }
@@ -86,17 +98,15 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
     Logger.error(message)
 
-    val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-    val paymentModel = request.cookies.getModel[PaymentModel].get
-    val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-    val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-    val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-
-    auditService.send(PaymentToPaymentFailureAuditMessage.from(transactionId,
-      vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail, businessDetailsModel,
-      paymentModel, message)) // TODO use this message?
+    auditService.send(AuditMessage.from(
+      pageMovement = AuditMessage.PaymentToPaymentFailure,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+      paymentModel = request.cookies.getModel[PaymentModel],
+      rejectionCode = Some(message)))
 
     Redirect(routes.PaymentFailure.present())
   }
@@ -120,11 +130,10 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           response =>
             if (response.status == Payment.CardDetailsStatus) {
-              // TODO need sad path for when redirectUrl is None
               Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
                 //              Redirect(response.redirectUrl.get)
-              .withCookie(PaymentModel.from(response.trxRef.get))
-              .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
+                .withCookie(PaymentModel.from(response.trxRef.get))
+                .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
             } else {
               paymentFailure(s"The begin web request to Solve was not validated. Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
             }
@@ -142,19 +151,20 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     def paymentNotAuthorised = {
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
-      val keeperEmail = request.cookies.getString(KeeperEmailCacheKey)
-      val paymentModel = request.cookies.getModel[PaymentModel].get
-      val vehicleAndKeeperLookupFormModel = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+      var paymentModel = request.cookies.getModel[PaymentModel].get
+      paymentModel.paymentStatus = Some(Payment.AuthorisedStatus)
 
-      auditService.send(PaymentToPaymentNotAuthorisedAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, keeperEmail, businessDetailsModel,
-        paymentModel))
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = Some(paymentModel)))
 
       Redirect(routes.PaymentNotAuthorised.present())
+        .withCookie(paymentModel)
     }
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
@@ -177,6 +187,7 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
           paymentModel.merchantId = response.merchantTransactionId
           paymentModel.paymentType = response.paymentType
           paymentModel.totalAmountPaid = response.purchaseAmount
+          paymentModel.paymentStatus = Some(Payment.AuthorisedStatus)
 
           Redirect(routes.Retain.retain())
             .discardingCookie(REFERER) // Not used again.
@@ -222,14 +233,13 @@ final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainServi
     }
     Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
-
-  private def removeNonNumeric(value: String): String =
-    value.replaceAll("[^0-9]", "")
 }
 
 object Payment {
 
-  private final val CardDetailsStatus = "CARD_DETAILS"
-  private final val AuthorisedStatus = "AUTHORISED"
-  private final val CancelledStatus = "CANCELLED"
+  final val CardDetailsStatus = "CARD_DETAILS"
+  final val AuthorisedStatus = "AUTHORISED"
+  final val CancelledStatus = "CANCELLED"
+  final val SettledStatus = "SETTLED"
+
 }

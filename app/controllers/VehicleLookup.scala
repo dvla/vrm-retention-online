@@ -3,7 +3,6 @@ package controllers
 import com.google.inject.Inject
 import models._
 import org.joda.time.format.ISODateTimeFormat
-import play.api.Logger
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -21,7 +20,12 @@ import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditService, VehicleLookupToVehicleLookupFailureAuditMessage}
+import audit.{AuditMessage, AuditService}
+import scala.Some
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
+import play.api.mvc.Call
+import mappings.common.ErrorCodes
 
 final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -70,17 +74,24 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
       response.responseCode match {
         case Some(responseCode) =>
 
-          val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-          auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form, responseCode))
-          VehicleNotFound(responseCode)
+          auditService.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+            rejectionCode = Some(responseCode)))
+
+          VehicleNotFound(responseCode.split(" - ")(1))
 
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
 
-              val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-              auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId, form,
-                "vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
+              auditService.send(AuditMessage.from(
+                pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+                transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+                vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
             case Some(dto) =>

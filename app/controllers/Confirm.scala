@@ -2,21 +2,17 @@ package controllers
 
 import com.google.inject.Inject
 import models._
-import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import audit.{ConfirmToPaymentAuditMessage, AuditService}
-import scala.Some
-import play.api.mvc.Result
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
+import audit._
 import scala.Some
 import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
@@ -64,15 +60,13 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
 
       val cookies = List(keeperEmail).flatten
 
-      // retrieve audit values not already in scope
-      val vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-      val replacementVRM = request.cookies.getModel[EligibilityModel].get.replacementVRM
-      val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-
-      auditService.send(ConfirmToPaymentAuditMessage.from(transactionId,
-        vehicleAndKeeperLookup, vehicleAndKeeperDetailsModel,
-        replacementVRM, model.keeperEmail, businessDetailsModel))
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.ConfirmToPayment,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = model.keeperEmail,
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
       Redirect(routes.Payment.begin()).withCookiesEx(cookies: _*)
     }
@@ -101,6 +95,15 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
     val cacheKeys = RelatedCacheKeys.RetainSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }
+
+    auditService.send(AuditMessage.from(
+      pageMovement = AuditMessage.ConfirmToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+
     Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 }

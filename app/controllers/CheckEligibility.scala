@@ -16,6 +16,7 @@ import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
                                        dateService: DateService,
@@ -47,24 +48,37 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
+        transactionId = transactionId))
       Redirect(routes.MicroServiceError.present())
     }
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
-          auditService.send(VehicleLookupToConfirmAuditMessage.from(transactionId,
-            vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+          auditService.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToConfirm,
+            transactionId = transactionId,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            replacementVrm = Some(replacementVRM)))
           routes.Confirm.present()
         } else {
           if (storeBusinessDetails) {
-            val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel].get
-            auditService.send(VehicleLookupToConfirmBusinessAuditMessage.from(transactionId,
-              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM, businessDetailsModel))
+            val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+            auditService.send(AuditMessage.from(
+              pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+              transactionId = transactionId,
+              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              replacementVrm = Some(replacementVRM),
+              businessDetailsModel = businessDetailsModel))
             routes.ConfirmBusiness.present()
           } else {
-            auditService.send(VehicleLookupToCaptureActorAuditMessage.from(transactionId,
-              vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModel, replacementVRM))
+            auditService.send(AuditMessage.from(
+              pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+              transactionId = transactionId,
+              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              replacementVrm = Some(replacementVRM)))
             routes.SetUpBusinessDetails.present()
           }
         }
@@ -77,9 +91,11 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
-      auditService.send(VehicleLookupToVehicleLookupFailureAuditMessage.from(transactionId,
-        vehicleAndKeeperLookupFormModel, responseCode))
-
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = transactionId,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(responseCode)))
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }
@@ -96,7 +112,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         case None =>
           // Happy path when there is no response code therefore no problem.
           (response.currentVRM, response.replacementVRM) match {
-            case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, replacementVRM)
+            case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, formatVrm(replacementVRM))
             case (None, None) => microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
             case (_, None) => microServiceErrorResult(message = "No replacement VRM found")
             case (None, _) => microServiceErrorResult(message = "No current VRM found")

@@ -1,5 +1,6 @@
 package controllers
 
+import composition.TestAuditService
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention.{MockFeedbackPage, VehicleLookupPage}
@@ -105,7 +106,15 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "exit" should {
 
     "redirect to mock feedback page" in new WithApplication {
-      val request = FakeRequest()
+      val request = buildRequest(storeDetailsConsent = false).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
+        )
       val result = confirmBusiness.exit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
@@ -120,7 +129,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().
@@ -133,7 +142,8 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   private def confirmWithCookieFlags = {
-    testInjector(new ScalaModule() {
+    testInjector(new TestAuditService,
+      new ScalaModule() {
       override def configure(): Unit = {
         bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
       }

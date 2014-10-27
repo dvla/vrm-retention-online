@@ -1,8 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperLookupFormModel}
-import models.{VehicleAndKeeperDetailsModel}
+import models.{VehicleAndKeeperDetailsModel, BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, EligibilityModel}
+import models.{BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperLookupFormModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
@@ -17,10 +17,11 @@ import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditService, CaptureActorToConfirmBusinessAuditMessage}
+import audit.{AuditMessage, AuditService}
 import views.vrm_retention.VehicleLookup._
-import views.vrm_retention.CheckEligibility._
+import views.vrm_retention.ConfirmBusiness._
 import scala.Some
+import views.vrm_retention.RelatedCacheKeys
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
                                                  auditService: AuditService)
@@ -52,10 +53,16 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
             val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel).map { addresses =>
-              BadRequest(business_choose_your_address(viewModel,
-                formWithReplacedErrors(invalidForm),
-                addresses)
-              )
+              if (config.ordnanceSurveyUseUprn)
+                BadRequest(business_choose_your_address(viewModel,
+                  formWithReplacedErrors(invalidForm),
+                  addresses)
+                )
+              else
+                BadRequest(business_choose_your_address(viewModel,
+                  formWithReplacedErrors(invalidForm),
+                  index(addresses))
+                )
             }
           case _ => Future.successful {
             Redirect(routes.SetUpBusinessDetails.present())
@@ -78,6 +85,23 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
           }
         }
     )
+  }
+
+    def exit = Action {
+    implicit request =>
+      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
+        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+      }
+
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+
+      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
 
   private def index(addresses: Seq[(String, String)]) = {
@@ -136,13 +160,12 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
      1) we are not blocking threads
      2) the browser does not change page before the future has completed and written to the cache. */
 
-    val transactionId = request.cookies.getString(TransactionIdCacheKey).get
-    val replacementVRM = request.cookies.getString(CheckEligibilityCacheKey).get
-    val vehicleAndKeeperLookupForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel].get
-    val vehicleAndKeeperLookupModel = request.cookies.getModel[VehicleAndKeeperDetailsModel].get
-
-    auditService.send(CaptureActorToConfirmBusinessAuditMessage.from(transactionId,
-      vehicleAndKeeperLookupForm, vehicleAndKeeperLookupModel, replacementVRM, businessDetailsModel))
+    auditService.send(AuditMessage.from(
+      pageMovement = AuditMessage.CaptureActorToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
     Redirect(routes.ConfirmBusiness.present()).
       discardingCookie(EnterAddressManuallyCacheKey).
