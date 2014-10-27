@@ -501,6 +501,10 @@ vrm_retention_success_payment.p4 = Please keep your eV948 in a safe place, we re
 vrm_retention_success_payment.p5 = In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
 vrm_retention_success_payment.p6 = Making up your replacement plates
 vrm_retention_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
+success-payment-keeper-p1 = You will now be issued new paperwork for your vehicle to display the replacement number plate above
+success-payment-keeper-p2a = Take your existing registration number,
+success-payment-keeper-p2b = , off your vehicle
+success-payment-keeper-p3 = You can use your newly issued V5C to get your replacement registration made up through a registered number plate supplier
 vrm_retention_success_payment.print = Print full summary
 
 vrm_retention_success_payment.newDocumentsTitle = About your new documents
