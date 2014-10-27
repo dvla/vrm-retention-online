@@ -95,7 +95,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       }
 
       auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+        pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
@@ -161,7 +161,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
      2) the browser does not change page before the future has completed and written to the cache. */
 
     auditService.send(AuditMessage.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
+      pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
       transactionId = request.cookies.getString(TransactionIdCacheKey).get,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
