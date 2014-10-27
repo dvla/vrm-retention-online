@@ -76,7 +76,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
           auditService.send(AuditMessage.from(
             pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie"),
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             rejectionCode = Some(responseCode)))
 
