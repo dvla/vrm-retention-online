@@ -187,9 +187,10 @@ addressAndPostcode.addressLines.postTown = Town or city
 error.address.characterInvalid = Address contains invalid characters
 error.postTown.characterInvalid = Post town contains invalid characters
 
-vehicleRegistrationNumber = Vehicle registration number
-documentReferenceNumber = Document reference number
+vehicle-registration-number = Vehicle registration number
+document-reference-number = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
+keeperConsent = Are you the registered keeper
 
 vehicle_lookup_vrm_not_found.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
@@ -347,6 +348,8 @@ vrm_retention_vehiclelookup.keeper.hint = I am the registered keeper
 vrm_retention_vehiclelookup.business = No
 vrm_retention_vehiclelookup.business.hint = I have consent to act on their behalf (e.g. Dealer, Trade Centre, Independent trader)
 vrm_retention_vehiclelookup.label = Are you the registered keeper?
+keeper-consent = Keeper consent
+postcode = Postcode
 
 # vehicle lookup failure
 vehicle_and_keeper_lookup_vrm_not_found.title = Look-up was unsuccessful
@@ -592,7 +595,7 @@ email.line27 = * A new MOT Certificate will only be sent if the vehicle has an e
 email.line28 = All content is available under the Open government License v2.0, except where otherwise stated
 email.openGovernmentLicence.alt = Open government licence
 email.crest.alt = Crest
-
+email.email_service_impl.subject = Your Retention of Registration Number
 #Retention failure page
 vrm_retention_failure.title = Transaction not successful
 vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.

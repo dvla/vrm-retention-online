@@ -2,8 +2,8 @@ package views.vrm_retention
 
 object VrmLocked {
 
-  final val NewRetentionId = "newRetention"
-  final val ExitRetentionId = "exitRetention"
-  final val NewRetentionAction = "newRetention"
+  final val NewRetentionId = "new-retention"
+  final val ExitRetentionId = "exit-retention"
+  final val NewRetentionAction = "new-retention"
   final val ExitAction = "exit"
 }

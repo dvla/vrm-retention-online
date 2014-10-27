@@ -6,6 +6,7 @@ import models._
 import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
 import play.api.Play.current
+import play.api.i18n.Messages
 import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -51,7 +52,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
             )
             val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, attachPdf)
             val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel, attachPdf).toString()
-            val subject = "Your Retention of Registration Number " + vehicleAndKeeperDetailsModel.registrationNumber // TODO fetch text from Messages file.
+            val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
 
             htmlEmail.
               setTextMsg(plainTextMessage).
