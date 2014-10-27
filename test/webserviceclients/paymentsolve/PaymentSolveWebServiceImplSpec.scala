@@ -6,9 +6,9 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 
-final class gitPaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
+final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
-  "callPaymentSolveService" should {
+  "invoke Begin" should {
 
     "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.invoke(request, trackingId)
@@ -25,7 +25,7 @@ final class gitPaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixt
     override val paymentSolveMicroServiceUrlBase = s"http://localhost:$wireMockPort"
   })
 
-  private final val trackingId = "track-id-test"
+  private val trackingId = "track-id-test"
 
   private val request = PaymentSolveBeginRequest(
     transactionId = "transaction id",
