@@ -33,7 +33,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       click on tryAgain
 
-      page.url should equal(ConfirmPage.url)
+      page.url should equal(VehicleLookupPage.url)
     }
   }
 

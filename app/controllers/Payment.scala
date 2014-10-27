@@ -3,7 +3,7 @@ package controllers
 import audit._
 import com.google.inject.Inject
 import composition.RefererFromHeader
-import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models._
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
 import play.api.mvc.{Action, Controller, Request, Result}
@@ -31,11 +31,23 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
   def begin = Action.async {
     implicit request =>
-      (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel]) match {
-        case (Some(transactionId), Some(vehiclesLookupForm)) =>
+      (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[RetainModel]) match {
+        case (_, _, Some(retainModel)) =>
+          Future.successful {
+            paymentFailure("RetainModel cookie exists so they have already paid and maybe hit the browser back button")
+          }
+        case (None, _, None) =>
+          Future.successful {
+            paymentFailure("missing TransactionIdCacheKey cookie")
+          }
+        case (_, None, None) =>
+          Future.successful {
+            paymentFailure("missing VehicleAndKeeperLookupFormModel cookie")
+          }
+        case (Some(transactionId), Some(vehiclesLookupForm), None) =>
           callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
         case _ => Future.successful {
-          paymentFailure("Payment begin missing TransactionIdCacheKey or VehicleAndKeeperLookupFormModel cookie")
+          paymentFailure("Payment failed matching cookies")
         }
       }
   }
