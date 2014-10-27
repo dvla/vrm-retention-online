@@ -592,7 +592,7 @@ email.line27 = * A new MOT Certificate will only be sent if the vehicle has an e
 email.line28 = All content is available under the Open government License v2.0, except where otherwise stated
 email.openGovernmentLicence.alt = Open government licence
 email.crest.alt = Crest
-
+email.email_service_impl.subject = Your Retention of Registration Number
 #Retention failure page
 vrm_retention_failure.title = Transaction not successful
 vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.
