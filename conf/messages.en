@@ -438,6 +438,7 @@ vrm_retention_confirm.businessAddressLabel = Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
+keeper-email = E-mail
 vrm_retention_confirm.emailAddressLabel = E-mail
 vrm_retention_confirm.emailAddressTitle = To ensure that we can send to you all the required information related to this transaction, which includes a number plate authorisation certificate for your replacement number plate, please provide us with your email address below:
 vrm_retention_confirm.emailAddressLabelBusiness = Keeper e-mail address
@@ -450,7 +451,6 @@ vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public com
 vrm_retention_exit.button = Exit
 vrm_retention_finish.button = Finish
 vrm_retention_changedetails.button = Change Details
-
 
 # choose business address
 vrm_retention_businessChooseYourAddress_title = Select your business address
