@@ -307,6 +307,7 @@ vrm_retention_setupbusinessdetails.businessnamehelper = Name of the contact comp
 contact-name = Contact name
 vrm_retention_setupbusinessdetails.businesscontactlabel = Contact name
 vrm_retention_setupbusinessdetails.businesscontacthelper =
+contact-email = Contact e-mail
 vrm_retention_setupbusinessdetails.businessemaillabel = Contact e-mail
 vrm_retention_setupbusinessdetails.businessemailhelper =
 vrm_retention_setupbusinessdetails.businesspostcodelabel = Business postcode
