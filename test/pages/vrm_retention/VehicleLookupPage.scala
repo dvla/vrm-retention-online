@@ -3,7 +3,7 @@ package pages.vrm_retention
 import helpers.webbrowser.{Element, Page, RadioButton, TextField, WebBrowserDSL, WebDriverFactory}
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
-import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, VehicleRegistrationNumberId}
+import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, UserType_Business, UserType_Keeper, VehicleRegistrationNumberId}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
 
@@ -21,9 +21,9 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def keeperPostcode(implicit driver: WebDriver): TextField = textField(id(PostcodeId))
 
-  def currentKeeperYes(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_Keeper"))
+  def currentKeeperYes(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_" + UserType_Keeper))
 
-  def currentKeeperNo(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_Business"))
+  def currentKeeperNo(implicit driver: WebDriver): RadioButton = radioButton(id(KeeperConsentId + "_" + UserType_Business))
 
   def findVehicleDetails(implicit driver: WebDriver): Element = find(id(SubmitId)).get
 

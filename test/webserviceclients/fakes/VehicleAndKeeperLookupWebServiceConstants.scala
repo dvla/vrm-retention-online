@@ -1,6 +1,7 @@
 package webserviceclients.fakes
 
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 
 object VehicleAndKeeperLookupWebServiceConstants {
@@ -15,7 +16,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val KeeperNameValid = "Keeper Name"
   final val KeeperUprnValid = 10123456789L
   final val ConsentValid = "true"
-  final val KeeperConsentValid = "Keeper"
+  final val KeeperConsentValid = UserType_Keeper
   final val BusinessConsentValid = "Business"
   final val KeeperPostcodeValid = "SA11AA"
   final val KeeperTitleValid = Some("Mr")
