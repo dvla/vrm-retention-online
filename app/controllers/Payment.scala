@@ -211,6 +211,15 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         if (response.response == Payment.CancelledStatus) {
           Logger.error("The get web request to Solve was not validated.")
         }
+
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToExit,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+          keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+
         redirectToMockFeedback
     }.recover {
       case NonFatal(e) =>
