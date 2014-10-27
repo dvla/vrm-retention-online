@@ -7,7 +7,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{setupBusinessDetails, vehicleAndKeeperDetailsModel}
 import helpers.{UnitSpec, WithApplication}
 import models.SetupBusinessDetailsFormModel
-import pages.vrm_retention.{VehicleLookupPage, BusinessChooseYourAddressPage}
+import pages.vrm_retention.{BusinessChooseYourAddressPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout, _}
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
@@ -71,7 +71,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
           val cookies = fetchCookiesFromHeaders(r)
-          val cookieName = "setupBusinessDetails"
+          val cookieName = SetupBusinessDetailsCacheKey
           cookies.find(_.name == cookieName) match {
             case Some(cookie) =>
               val json = cookie.value
@@ -97,7 +97,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails.submit(request)
       val content = contentAsString(result)
-      val count = "Must be between 2 and 58 characters and only contain valid characters".
+      val count = "Must be between two and 58 characters and only contain valid characters".
         r.findAllIn(content).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
@@ -108,7 +108,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails.submit(request)
       val content = contentAsString(result)
-      val count = "Must be between 2 and 58 characters and only contain valid characters".
+      val count = "Must be between two and 58 characters and only contain valid characters".
         r.findAllIn(content).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.

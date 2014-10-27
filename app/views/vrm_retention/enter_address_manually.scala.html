@@ -8,18 +8,20 @@
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.EnterAddressManually.{ExitId, NextId}
+@import controllers.routes.BusinessChooseYourAddress
+@import controllers.routes.EnterAddressManually
 
 @main(
     progress = Some(Messages("vrm_retention_progress_3")),
     title = Messages("vrm_retention_enteraddressmanually.title"),
     currentForm = Some(enterAddressManuallyForm),
-    backNavigation = Some(controllers.routes.SetUpBusinessDetails.present())
+    backNavigation = Some(BusinessChooseYourAddress.present())
 ) {
     <div class="enter-address-manually uppercase-input sr-only-labels two-col">
         <div class="second-col">
             <h1>@Messages("vrm_retention_setupbusinessdetails.title")</h1>
 
-        @form(action = controllers.routes.EnterAddressManually.submit()) {
+        @form(action = EnterAddressManually.submit()) {
             @csrfTokenHiddenField()
 
             @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
@@ -32,7 +34,7 @@
                     @Messages("vrm_retention_enteraddressmanually.submitbutton")
                 </button>
                 <br/>
-                <a id="@ExitId" class="exit" href="@controllers.routes.EnterAddressManually.exit()">@Messages("vrm_retention_exit.button")</a>
+                <a id="@ExitId" class="exit" href="@EnterAddressManually.exit()">@Messages("vrm_retention_exit.button")</a>
             </div>
         }
         </div>

@@ -30,6 +30,6 @@ object BusinessChooseYourAddressViewModel {
       title = vehicleAndKeeperDetails.title,
       firstName = vehicleAndKeeperDetails.firstName,
       lastName = vehicleAndKeeperDetails.lastName,
-      address = (vehicleAndKeeperDetails.address)
+      address = vehicleAndKeeperDetails.address
     )
 }

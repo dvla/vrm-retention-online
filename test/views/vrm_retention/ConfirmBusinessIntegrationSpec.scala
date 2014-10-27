@@ -62,7 +62,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       page.url should equal(BusinessChooseYourAddressPage.url)
     }
 
-    "redirect to EnterAddressManually page when we didn't enter address manually" taggedAs UiTag in new WebBrowser {
+    "redirect to EnterAddressManually page when we did enter address manually" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup().
         enterAddressManually() // EnterAddressManually cookie exists therefore we came via the EnterAddressManually Page

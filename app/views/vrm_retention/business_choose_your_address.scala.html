@@ -37,13 +37,13 @@
 
                 @if(dropDownOptions.nonEmpty) {
                     <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()">
-                        @Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry")
+                        @Messages("manual-address-entry")
                     </a>
                 }
                 <div class="form-steps">
                     @if(dropDownOptions.isEmpty) {
                         <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()" class="button">
-                            @Messages("vrm_retention_businessChooseYourAddress.manualAddressEntry.enterManuallyButton")
+                            @Messages("manual-address-entry-2")
                         </a>
                     }
                     @if(dropDownOptions.nonEmpty) {

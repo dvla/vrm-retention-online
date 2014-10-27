@@ -12,7 +12,7 @@ object UprnNotFoundPage extends Page with WebBrowserDSL {
   def url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Error confirming post code"
 
-  def setupTradeDetails(implicit driver: WebDriver): Element = find(id(SetupBusinessDetailsButtonId)).get
+  def setupTradeDetails(implicit driver: WebDriver): Element = find(id(SetupBusinessDetailsId)).get
 
-  def manualAddress(implicit driver: WebDriver): Element = find(id(ManualAddressButtonId)).get
+  def manualAddress(implicit driver: WebDriver): Element = find(id(ManualAddressId)).get
 }

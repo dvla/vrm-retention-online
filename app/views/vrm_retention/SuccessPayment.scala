@@ -3,5 +3,5 @@ package views.vrm_retention
 object SuccessPayment {
 
   final val NextId = "next"
-  final val PreviewEmailId = "previewEmail"
+  final val PreviewEmailId = "preview-email"
 }
