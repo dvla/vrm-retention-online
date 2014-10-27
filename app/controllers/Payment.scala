@@ -1,35 +1,28 @@
 package controllers
 
+import audit._
 import com.google.inject.Inject
 import composition.RefererFromHeader
-import models.BusinessDetailsModel
-import models.{PaymentModel, EligibilityModel, VehicleAndKeeperLookupFormModel, VehicleAndKeeperDetailsModel}
+import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
-import play.api.mvc.{Action, Controller, Request}
+import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
+import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
+import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
-import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import audit._
-import views.vrm_retention.Confirm._
-import views.vrm_retention.Payment.PaymentTransNoCacheKey
-import scala.Some
-import play.api.mvc.Result
-import scala.Some
-import play.api.mvc.Result
 
-final class Payment @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
-                              paymentSolveService: PaymentSolveService,
+final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                               dateService: DateService,
                               refererFromHeader: RefererFromHeader,
                               auditService: AuditService)
@@ -241,5 +234,4 @@ object Payment {
   final val AuthorisedStatus = "AUTHORISED"
   final val CancelledStatus = "CANCELLED"
   final val SettledStatus = "SETTLED"
-
 }

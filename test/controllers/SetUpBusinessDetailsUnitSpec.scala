@@ -97,7 +97,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails.submit(request)
       val content = contentAsString(result)
-      val count = "Must be between 2 and 58 characters and only contain valid characters".
+      val count = "Must be between two and 58 characters and only contain valid characters".
         r.findAllIn(content).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.
@@ -108,7 +108,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails.submit(request)
       val content = contentAsString(result)
-      val count = "Must be between 2 and 58 characters and only contain valid characters".
+      val count = "Must be between two and 58 characters and only contain valid characters".
         r.findAllIn(content).length
       count should equal(2) // The same message is displayed in 2 places - once in the validation-summary at the top of
       // the page and once above the field.

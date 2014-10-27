@@ -4,7 +4,7 @@ object SetupBusinessDetails {
 
   final val BusinessEmailMaxLength = 254
   final val BusinessEmailMinLength = 2
-  final val BusinessNameId = "name"
+  final val BusinessNameId = "business-name"
   final val BusinessContactId = "Business Contact" // TODO remove spaces from IDs
   final val BusinessEmailId = "Business Email"
   final val BusinessPostcodeId = "Postcode"
