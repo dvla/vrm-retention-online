@@ -304,6 +304,7 @@ vrm_retention_setupbusinessdetails.p1 = As you have indicated that you are actin
 business-name = Business name
 vrm_retention_setupbusinessdetails.businessnamelabel = Business name
 vrm_retention_setupbusinessdetails.businessnamehelper = Name of the contact completing this transaction
+contact-name = Contact name
 vrm_retention_setupbusinessdetails.businesscontactlabel = Contact name
 vrm_retention_setupbusinessdetails.businesscontacthelper =
 vrm_retention_setupbusinessdetails.businessemaillabel = Contact e-mail
