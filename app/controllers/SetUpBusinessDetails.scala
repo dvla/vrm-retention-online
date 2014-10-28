@@ -8,6 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
 import views.vrm_retention.ConfirmBusiness._
@@ -51,11 +52,6 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
 
   def exit = Action {
     implicit request =>
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-      }
-
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
@@ -63,7 +59,8 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
 
-      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+      Redirect(routes.MockFeedback.present()).
+        discardingCookies(removeCookiesOnExit)
   }
 
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =

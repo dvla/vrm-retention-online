@@ -16,6 +16,7 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -82,12 +83,6 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
   def exit = Action {
     implicit request =>
-
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val discardedCookies = RelatedCacheKeys.RetainSet ++ {
-        if (!storeBusinessDetails) RelatedCacheKeys.BusinessDetailsSet else Set.empty
-      }
-
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
@@ -98,7 +93,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = request.cookies.getModel[PaymentModel]))
 
-      Redirect(routes.MockFeedback.present()).discardingCookies(discardedCookies)
+      Redirect(routes.MockFeedback.present()).discardingCookies(removeCookiesOnExit)
   }
 
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
@@ -244,11 +239,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   }
 
   private def redirectToMockFeedback(implicit request: Request[_]) = {
-    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-    val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-    }
-    Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 }
 

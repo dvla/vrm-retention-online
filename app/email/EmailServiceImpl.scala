@@ -28,7 +28,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
                          businessDetailsModel: Option[BusinessDetailsModel],
-                         attachPdf: Boolean) {
+                         isKeeper: Boolean) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
     if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
       pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
@@ -50,15 +50,15 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               filename = "eV948.pdf",
               description = "Replacement registration number letter of authorisation"
             )
-            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, attachPdf)
-            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel, attachPdf).toString()
+            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
+            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel, isKeeper).toString()
             val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
 
             htmlEmail.
               setTextMsg(plainTextMessage).
               setHtmlMsg(message)
 
-            if (attachPdf) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
+            if (isKeeper) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
 
             htmlEmail.setFrom(from.email, from.name).
               setSubject(subject).
@@ -84,7 +84,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                            htmlEmail: HtmlEmail,
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
-                           attachPdf: Boolean): HtmlFormat.Appendable = {
+                           isKeeper: Boolean): HtmlFormat.Appendable = {
     val crownContentId = crownUrl match {
       case Some(url) => "cid:" + htmlEmail.embed(url, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
       case _ => ""
@@ -112,7 +112,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
-      attachPdf
+      isKeeper
     )
   }
 
@@ -122,7 +122,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                                        transactionId: String,
                                        confirmFormModel: Option[ConfirmFormModel],
                                        businessDetailsModel: Option[BusinessDetailsModel],
-                                       attachPdf: Boolean): String = {
+                                       isKeeper: Boolean): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = retainModel.certificateNumber,
@@ -135,7 +135,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
-      attachPdf
+      isKeeper
     ).toString()
   }
 

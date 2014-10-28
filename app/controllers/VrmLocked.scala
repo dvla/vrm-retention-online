@@ -9,8 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import utils.helpers.Config
-import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -38,12 +37,8 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
       }
   }
 
-  def exit = Action {
-    implicit request =>
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-      }
-      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+  def exit = Action { implicit request =>
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 }
