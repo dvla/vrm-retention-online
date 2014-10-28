@@ -153,7 +153,8 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     }
   }
 
-  private def nextPage(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String, addressModel: AddressModel)
+  private def nextPage(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String,
+                       businessEmail: String, addressModel: AddressModel)
                       (implicit request: Request[_], session: ClientSideSession) = {
     val businessDetailsModel = BusinessDetailsModel(name = businessName,
       contact = businessContact,

@@ -57,7 +57,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       val confirm = testInjector(new TestAuditService(mockAuditService), new TestDateService).getInstance(classOf[Confirm])
       val data = Seq(("transactionId", "ABC123123123123"),
         ("timestamp", "1970-11-25T00:00:00.000+01:00"),
-        ("replacementVRM", "SA11AA"),
+        ("replacementVrm", "SA11AA"),
         ("keeperEmail", "example@email.com"),
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),

@@ -196,7 +196,7 @@ object AuditMessage {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", timestamp))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
-      val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVRM", replacementVrm))
+      val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVrm", replacementVrm))
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
       val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
       val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel)
