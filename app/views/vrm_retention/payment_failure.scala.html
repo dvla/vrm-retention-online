@@ -3,6 +3,7 @@
 
 @import views.html.vrm_retention.main
 @import views.vrm_retention.PaymentFailure.{TryAgainId, ExitId}
+@import controllers.routes.PaymentFailure
 
 @main(
     title =  Messages("paymentFailureErrorMessage.title")
@@ -33,7 +34,7 @@
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
-                <a id="@TryAgainId" href="@controllers.routes.Confirm.present()" class="button">@Messages("vrm_retention_paymentfailure.tryagainbutton")</a>
+                <a id="@TryAgainId" href="@PaymentFailure.submit()" class="button">@Messages("vrm_retention_paymentfailure.tryagainbutton")</a>
                 <br/>
                 <a class="exit" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
             </div>

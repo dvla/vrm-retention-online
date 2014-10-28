@@ -69,7 +69,7 @@ GET         /payment/cancel                       @controllers.Payment.cancel
 GET         /payment/exit                         @controllers.Payment.exit
 
 GET         /payment-failure                      @controllers.PaymentFailure.present
-POST        /payment-failure                      @controllers.PaymentFailure.submit
+GET         /payment-failure/try-again            @controllers.PaymentFailure.submit
 
 GET         /payment-not-authorised               @controllers.PaymentNotAuthorised.present
 POST        /payment-not-authorised               @controllers.PaymentNotAuthorised.submit

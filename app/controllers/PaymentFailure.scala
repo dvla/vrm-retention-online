@@ -4,8 +4,9 @@ import com.google.inject.Inject
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import utils.helpers.Config
+import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -24,8 +25,10 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
   def submit = Action { implicit request =>
     request.cookies.getModel[VehicleAndKeeperLookupFormModel] match {
       case (Some(vehicleAndKeeperLookupFormModel)) =>
-        Redirect(routes.VehicleLookup.present())
-      case _ => Redirect(routes.BeforeYouStart.present())
+        Redirect(routes.VehicleLookup.present()).
+          discardingCookie(RetainCacheKey)
+      case _ =>
+        Redirect(routes.BeforeYouStart.present())
     }
   }
 

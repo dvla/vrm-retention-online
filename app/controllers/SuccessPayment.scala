@@ -16,7 +16,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.{UserType_Keeper, _}
 import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveUpdateRequest}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -78,7 +78,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               )
           }
 
-          callUpdateWebPaymentService(paymentModel.trxRef.get, successViewModel)
+          callUpdateWebPaymentService(paymentModel.trxRef.get, successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
         case _ =>
           Future.successful(Redirect(routes.MicroServiceError.present()))
       }
@@ -94,10 +94,12 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               val dataContent = Enumerator.fromStream(inputStream)
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
+              val newVRM = eligibilityModel.replacementVRM.replace(" ", "")
+              val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",
-                  CONTENT_DISPOSITION -> "attachment;filename=v948.pdf" // TODO ask BAs do we want a custom filename for each transaction?
+                  CONTENT_DISPOSITION -> contentDisposition
                 )
           }
         case _ => Future.successful {
@@ -132,7 +134,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       ))
   }
 
-  private def callUpdateWebPaymentService(trxRef: String, successViewModel: SuccessViewModel)
+  private def callUpdateWebPaymentService(trxRef: String, successViewModel: SuccessViewModel, isKeeper: Boolean)
                                          (implicit request: Request[_]): Future[Result] = {
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
@@ -146,11 +148,11 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
 
     paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map {
       response =>
-        Ok(views.html.vrm_retention.success_payment(successViewModel))
+        Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
-        Ok(views.html.vrm_retention.success_payment(successViewModel))
+        Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
     }
   }
 }

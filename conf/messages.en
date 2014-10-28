@@ -297,7 +297,7 @@ vrm_retention_beforeyoustartpart2.p4 = Pre-1960 vehicles need a valid MOT to ret
 vrm_retention_beforeyoustartpart2.p5 = The vehicle should also be taxed, unless:
 vrm_retention_beforeyoustartpart2.listitem4 = there’s no break between the date the tax disc runs out and the start of the SORN
 vrm_retention_beforeyoustartpart2.listitem5 = the tax disc has run out in the last 12 months
-vrm_retention_beforeyoustartpart2.button = Let''s begin
+vrm_retention_beforeyoustartpart2.button = Start now
 
 # set-up business details
 vrm_retention_setupbusinessdetails.title = Provide your business details
@@ -438,6 +438,7 @@ vrm_retention_confirm.businessAddressLabel = Address
 vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
+keeper-email = E-mail
 vrm_retention_confirm.emailAddressLabel = E-mail
 vrm_retention_confirm.emailAddressTitle = To ensure that we can send to you all the required information related to this transaction, which includes a number plate authorisation certificate for your replacement number plate, please provide us with your email address below:
 vrm_retention_confirm.emailAddressLabelBusiness = Keeper e-mail address
@@ -450,7 +451,6 @@ vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public com
 vrm_retention_exit.button = Exit
 vrm_retention_finish.button = Finish
 vrm_retention_changedetails.button = Change Details
-
 
 # choose business address
 vrm_retention_businessChooseYourAddress_title = Select your business address
@@ -501,6 +501,10 @@ vrm_retention_success_payment.p4 = Please keep your eV948 in a safe place, we re
 vrm_retention_success_payment.p5 = In the event of such an occurrence you will have to wait for a new registration certificate (V5C) for your vehicle. This should arrive within 2 - 4 weeks by post.
 vrm_retention_success_payment.p6 = Making up your replacement plates
 vrm_retention_success_payment.p7 = The document below is your number plate authorisation certificate (eV948), which you will need to have your plates made up.
+success-payment-keeper-p1 = You will now be issued new paperwork for your vehicle to display the replacement number plate above
+success-payment-keeper-p2a = Take your existing registration number,
+success-payment-keeper-p2b = , off your vehicle
+success-payment-keeper-p3 = You can use your newly issued V5C to get your replacement registration made up through a registered number plate supplier
 vrm_retention_success_payment.print = Print full summary
 
 vrm_retention_success_payment.newDocumentsTitle = About your new documents

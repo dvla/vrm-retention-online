@@ -32,11 +32,10 @@ final class Success @Inject()(pdfService: PdfService,
         request.cookies.getModel[VehicleAndKeeperLookupFormModel],
         request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[EligibilityModel],
-        request.cookies.getModel[RetainModel],
-        request.cookies.getModel[PaymentModel]) match {
+        request.cookies.getModel[RetainModel]) match {
 
         case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-        Some(eligibilityModel), Some(retainModel), Some(paymentModel)) =>
+        Some(eligibilityModel), Some(retainModel)) =>
 
           val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
             filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
@@ -61,10 +60,12 @@ final class Success @Inject()(pdfService: PdfService,
               val dataContent = Enumerator.fromStream(inputStream)
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
+              val newVRM = eligibilityModel.replacementVRM.replace(" ", "")
+              val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",
-                  CONTENT_DISPOSITION -> "attachment;filename=v948.pdf" // TODO ask BAs do we want a custom filename for each transaction?
+                  CONTENT_DISPOSITION -> contentDisposition
                 )
           }
         case _ => Future.successful {
