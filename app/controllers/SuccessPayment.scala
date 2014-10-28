@@ -99,7 +99,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",
-                  CONTENT_DISPOSITION -> contentDisposition // TODO ask BAs do we want a custom filename for each transaction?
+                  CONTENT_DISPOSITION -> contentDisposition
                 )
           }
         case _ => Future.successful {
