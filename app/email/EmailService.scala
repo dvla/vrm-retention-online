@@ -13,7 +13,7 @@ trait EmailService {
                 transactionId: String,
                 confirmFormModel: Option[ConfirmFormModel],
                 businessDetailsModel: Option[BusinessDetailsModel],
-                attachPdf: Boolean)
+                isKeeper: Boolean)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,
@@ -22,5 +22,5 @@ trait EmailService {
                   htmlEmail: HtmlEmail,
                   confirmFormModel: Option[ConfirmFormModel],
                   businessDetailsModel: Option[BusinessDetailsModel],
-                  attachPdf: Boolean): HtmlFormat.Appendable
+                  isKeeper: Boolean): HtmlFormat.Appendable
 }

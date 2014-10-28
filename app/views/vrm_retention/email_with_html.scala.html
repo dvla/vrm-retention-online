@@ -12,7 +12,7 @@ crestId: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
-attachPdf: Boolean)(implicit lang: Lang)
+isKeeper: Boolean)(implicit lang: Lang)
 
 <!-- Inliner Build Version 4380b7741bb759d6cb997545f3add21ad48f010b -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -177,7 +177,7 @@ attachPdf: Boolean)(implicit lang: Lang)
                         <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line7")</p>
 
-                            @if(attachPdf) {
+                            @if(isKeeper) {
                                 <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8.with-pdf")</p>
                             } else {
                                 <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8")</p>
@@ -198,7 +198,7 @@ attachPdf: Boolean)(implicit lang: Lang)
                                 style="border-radius: 6px; font-weight: bold; background: #FFD307; padding: 10px; font-family: Helvetica, Arial, sans, sans-serif;">@replacementVRM</span>
                         </p>
 
-                        @if(attachPdf) {
+                        @if(!isKeeper) {
                             <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
                                 @Messages("email.line12")
                             </p>
