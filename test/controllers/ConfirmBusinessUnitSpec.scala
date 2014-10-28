@@ -19,6 +19,7 @@ import audit.{AuditMessage, AuditService}
 import org.mockito.Mockito._
 import scala.Some
 import uk.gov.dvla.auditing.Message
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
@@ -54,9 +55,16 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
 
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
       val mockAuditService = mock[AuditService]
-      val confirmBusiness = testInjector(new TestAuditService(mockAuditService), new TestDateService).getInstance(classOf[ConfirmBusiness])
+
+      val injector = testInjector(
+        new TestAuditService(mockAuditService),
+        new TestDateService)
+
+      val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
+      val dateService = injector.getInstance(classOf[DateService])
+
       val data = Seq(("transactionId", "ABC123123123123"),
-        ("timestamp", "1970-11-25T00:00:00.000+01:00"),
+        ("timestamp", dateService.dateTimeISOChronology),
         ("replacementVrm", "SA11AA"),
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),

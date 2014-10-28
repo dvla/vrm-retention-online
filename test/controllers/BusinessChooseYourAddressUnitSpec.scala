@@ -21,6 +21,7 @@ import audit.{AuditMessage, AuditService}
 import org.mockito.Mockito._
 import scala.Some
 import uk.gov.dvla.auditing.Message
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -137,7 +138,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
       val mockAuditService = mock[AuditService]
 
-      val businessChooseYourAddress = testInjector(
+      val injector = testInjector(
         new TestOrdnanceSurvey,
         new TestVehicleAndKeeperLookupWebService,
         new ScalaModule() {
@@ -147,10 +148,13 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
         new TestAuditService(mockAuditService),
-        new TestDateService).getInstance(classOf[BusinessChooseYourAddress])
+        new TestDateService)
+
+      val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
+      val dateService = injector.getInstance(classOf[DateService])
 
       val data = Seq(("transactionId", "ABC123123123123"),
-        ("timestamp", "1970-11-25T00:00:00.000+01:00"),
+        ("timestamp", dateService.dateTimeISOChronology),
         ("replacementVrm", "SA11AA"),
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),

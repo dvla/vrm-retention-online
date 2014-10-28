@@ -15,6 +15,7 @@ import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
 import audit.{AuditMessage, AuditService}
 import uk.gov.dvla.auditing.Message
 import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class ConfirmUnitSpec extends UnitSpec {
 
@@ -56,9 +57,16 @@ final class ConfirmUnitSpec extends UnitSpec {
 
     "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
       val mockAuditService = mock[AuditService]
-      val confirm = testInjector(new TestAuditService(mockAuditService), new TestDateService).getInstance(classOf[Confirm])
+
+      val injector = testInjector(
+        new TestAuditService(mockAuditService),
+        new TestDateService)
+
+      val confirm = injector.getInstance(classOf[Confirm])
+      val dateService = injector.getInstance(classOf[DateService])
+
       val data = Seq(("transactionId", "ABC123123123123"),
-        ("timestamp", "1970-11-25T00:00:00.000+01:00"),
+        ("timestamp", dateService.dateTimeISOChronology),
         ("replacementVrm", "SA11AA"),
         ("keeperEmail", "example@email.com"),
         ("currentVrm", "AB12AWR"),
