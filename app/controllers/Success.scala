@@ -60,10 +60,12 @@ final class Success @Inject()(pdfService: PdfService,
               val dataContent = Enumerator.fromStream(inputStream)
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
+              val newVRN = eligibilityModel.replacementVRM.replace(" ", "")
+              val contentDisposition = "attachment;filename=" + newVRN + "-v948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",
-                  CONTENT_DISPOSITION -> "attachment;filename=v948.pdf" // TODO ask BAs do we want a custom filename for each transaction?
+                  CONTENT_DISPOSITION -> contentDisposition // TODO ask BAs do we want a custom filename for each transaction?
                 )
           }
         case _ => Future.successful {
