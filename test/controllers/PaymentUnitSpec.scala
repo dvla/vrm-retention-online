@@ -212,26 +212,26 @@ final class PaymentUnitSpec extends UnitSpec {
 
   "cancel" should {
 
-//    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
-//      val result = paymentCancelValidated.cancel(FakeRequest())
-//      whenReady(result) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-//      }
-//    }
+    "redirect to MockFeedbackPage when TransactionId cookie does not exist" in new WithApplication {
+      val result = paymentCancelValidated.cancel(requestWithValidDefaults())
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+      }
+    }
 
-//    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
-//      val request = FakeRequest().
-//        withCookies(CookieFactoryForUnitSpecs.transactionId()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
-//        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
-//        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
-//        withCookies(CookieFactoryForUnitSpecs.paymentModel()).
-//        withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
-//      val result = paymentCancelValidated.cancel(request)
-//      whenReady(result) { r =>
-//        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-//      }
-//    }
+    "redirect to PaymentFailurePage when paymentModel cookie does not exist" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(CookieFactoryForUnitSpecs.transactionId()).
+        withCookies(CookieFactoryForUnitSpecs.paymentTransNo()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel()).
+        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel()).
+        withCookies(CookieFactoryForUnitSpecs.keeperEmail()).
+        withCookies(CookieFactoryForUnitSpecs.eligibilityModel())
+      val result = paymentCancelValidated.cancel(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
 
     "redirect to MockFeedback page when payment service call throws an exception" in new WithApplication {
       val request = FakeRequest().
