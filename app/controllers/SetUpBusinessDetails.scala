@@ -14,8 +14,9 @@ import views.vrm_retention.ConfirmBusiness._
 import scala.Some
 import views.vrm_retention.RelatedCacheKeys
 import audit.{AuditMessage, AuditService}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
-final class SetUpBusinessDetails @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
 
   private[controllers] val form = Form(
@@ -58,6 +59,7 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService)(implicit 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
 

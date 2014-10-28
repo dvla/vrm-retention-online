@@ -13,8 +13,9 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
-final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                                   config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
@@ -77,6 +78,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
         auditService.send(AuditMessage.from(
           pageMovement = AuditMessage.ConfirmBusinessToConfirm,
           transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
           replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
@@ -113,6 +115,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService)(implicit clien
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.ConfirmBusinessToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))

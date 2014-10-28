@@ -22,9 +22,11 @@ import views.vrm_retention.VehicleLookup._
 import views.vrm_retention.ConfirmBusiness._
 import scala.Some
 import views.vrm_retention.RelatedCacheKeys
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
-                                                 auditService: AuditService)
+                                                auditService: AuditService,
+                                                dateService: DateService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config) extends Controller {
 
@@ -97,6 +99,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
@@ -163,6 +166,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
       transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))

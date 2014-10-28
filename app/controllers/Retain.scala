@@ -40,7 +40,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         case (_, Some(transactionId), _) => {
           auditService.send(AuditMessage.from(
             pageMovement = AuditMessage.PaymentToMicroServiceError,
-            transactionId = transactionId))
+            transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology
+          ))
           Future.successful {
             Redirect(routes.MicroServiceError.present())
           }
@@ -70,6 +72,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToSuccess,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
@@ -94,6 +97,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),

@@ -1,23 +1,27 @@
 package controllers
 
-import composition.TestAuditService
+import composition.{TestDateService, TestAuditService}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
+import org.mockito.Mockito.verify
+import org.mockito.Matchers.any
 import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK}
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
+import audit.{AuditMessage, Message, AuditService}
 
 final class ConfirmUnitSpec extends UnitSpec {
 
   "present" should {
 
     "display the page when required cookies are cached" in new WithApplication {
-      whenReady(present, timeout) { r =>
-        r.header.status should equal(OK)
+      whenReady(present, timeout) {
+        r =>
+          r.header.status should equal(OK)
       }
     }
 
@@ -30,16 +34,18 @@ final class ConfirmUnitSpec extends UnitSpec {
           storeBusinessDetailsConsent()
         )
       val result = confirm.present(request)
-      whenReady(result, timeout) { r =>
-        r.header.status should equal(OK)
+      whenReady(result, timeout) {
+        r =>
+          r.header.status should equal(OK)
       }
     }
 
     "redirect to VehicleLookup when required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val result = confirm.present(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
   }
@@ -47,6 +53,22 @@ final class ConfirmUnitSpec extends UnitSpec {
   "submit" should {
 
     "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
+      val mockAuditService = mock[AuditService]
+      val confirm = testInjector(new TestAuditService(mockAuditService), new TestDateService).getInstance(classOf[Confirm])
+      val data = Seq(("transactionId", "ABC123123123123"),
+        ("timestamp", "1970-11-25T00:00:00.000+01:00"),
+        ("replacementVRM", "SA11AA"),
+        ("keeperEmail", "example@email.com"),
+        ("currentVrm", "AB12AWR"),
+        ("make", "Alfa Romeo"),
+        ("model", "Alfasud ti"),
+        ("keeperName","Mr David Jones"),
+        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
+        ("businessName", "example trader contact"),
+        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
+        ("businessEmail", "business.example@email.com"))
+      val auditMessage = new Message(AuditMessage.ConfirmToPayment, AuditMessage.PersonalisedRegServiceType, data: _*)
+
       val request = buildRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -57,8 +79,10 @@ final class ConfirmUnitSpec extends UnitSpec {
           eligibilityModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
+          verify(mockAuditService).send(auditMessage)
       }
     }
 
@@ -73,8 +97,9 @@ final class ConfirmUnitSpec extends UnitSpec {
           eligibilityModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
+      whenReady(result) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
       }
     }
 
@@ -88,9 +113,10 @@ final class ConfirmUnitSpec extends UnitSpec {
           eligibilityModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should be(empty)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should be(empty)
       }
     }
 
@@ -105,9 +131,10 @@ final class ConfirmUnitSpec extends UnitSpec {
           eligibilityModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(KeeperEmailCacheKey)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain(KeeperEmailCacheKey)
       }
     }
   }

@@ -21,8 +21,10 @@ import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.Confirm._
 import scala.Some
 import scala.Some
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
-final class EnterAddressManually @Inject()(auditService: AuditService)
+final class EnterAddressManually @Inject()(auditService: AuditService,
+                                            dateService: DateService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                            config: Config) extends Controller {
 
@@ -59,6 +61,7 @@ final class EnterAddressManually @Inject()(auditService: AuditService)
             auditService.send(AuditMessage.from(
               pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
               transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+              timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
               replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
               businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
@@ -83,6 +86,7 @@ final class EnterAddressManually @Inject()(auditService: AuditService)
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))

@@ -42,18 +42,6 @@ object Message {
   }
 }
 
-object Timestamp {
-
-  private val dateService = new DateServiceImpl
-
-  def getTimestamp = {
-    val timestamp = dateService.today.toDateTimeMillis.get
-    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(timestamp) + " " +
-      ISODateTimeFormat.hourMinuteSecondMillis().print(timestamp)
-    s"$isoDateTimeString:${timestamp.getZone}"
-  }
-}
-
 object KeeperNameOptString {
 
   def from(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel) = {
@@ -171,7 +159,7 @@ object PaymentModelOptSeq {
 object AuditMessage {
 
   // service types
-  private final val PersonalisedRegServiceType = "PR Retention"
+  final val PersonalisedRegServiceType = "PR Retention"
 
   // page movement names
   final val VehicleLookupToConfirm = "VehicleLookupToConfirm"
@@ -195,6 +183,7 @@ object AuditMessage {
 
   def from(pageMovement: String,
            transactionId: String,
+           timestamp: String,
            vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
            replacementVrm: Option[String] = None,
            keeperEmail: Option[String] = None,
@@ -205,7 +194,7 @@ object AuditMessage {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
-      val timestampOpt = Some(("timestamp", Timestamp.getTimestamp))
+      val timestampOpt = Some(("timestamp", timestamp))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
       val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVRM", replacementVrm))
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)

@@ -16,8 +16,10 @@ import audit._
 import scala.Some
 import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import org.joda.time.format.ISODateTimeFormat
 
-final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Confirm @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
@@ -62,6 +64,7 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.ConfirmToPayment,
+        timestamp = dateService.dateTimeISOChronology,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
@@ -98,6 +101,7 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
 
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.ConfirmToExit,
+      timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey).get,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
@@ -106,4 +110,5 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
 
     Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
   }
+
 }

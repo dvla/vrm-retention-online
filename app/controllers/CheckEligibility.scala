@@ -50,7 +50,9 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       Logger.error(message)
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
-        transactionId = transactionId))
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology
+      ))
       Redirect(routes.MicroServiceError.present())
     }
 
@@ -60,6 +62,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
           auditService.send(AuditMessage.from(
             pageMovement = AuditMessage.VehicleLookupToConfirm,
             transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
             replacementVrm = Some(replacementVRM)))
           routes.Confirm.present()
@@ -69,6 +72,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
             auditService.send(AuditMessage.from(
               pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
               replacementVrm = Some(replacementVRM),
               businessDetailsModel = businessDetailsModel))
@@ -77,6 +81,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
             auditService.send(AuditMessage.from(
               pageMovement = AuditMessage.VehicleLookupToCaptureActor,
               transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
               replacementVrm = Some(replacementVRM)))
             routes.SetUpBusinessDetails.present()
@@ -94,6 +99,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
         rejectionCode = Some(responseCode)))
       Redirect(routes.VehicleLookupFailure.present()).
