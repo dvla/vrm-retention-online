@@ -5,14 +5,16 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.verify
-import org.mockito.Matchers.any
+import org.mockito.Matchers._
 import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK}
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
-import audit.{AuditMessage, Message, AuditService}
+import audit.{AuditMessage, AuditService}
+import uk.gov.dvla.auditing.Message
+import org.scalatest.mock.MockitoSugar
 
 final class ConfirmUnitSpec extends UnitSpec {
 
@@ -67,7 +69,7 @@ final class ConfirmUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@email.com"))
-      val auditMessage = new Message(AuditMessage.ConfirmToPayment, AuditMessage.PersonalisedRegServiceType, data: _*)
+      val auditMessage = new AuditMessage(AuditMessage.ConfirmToPayment, AuditMessage.PersonalisedRegServiceType, data: _*)
 
       val request = buildRequest().
         withCookies(

@@ -11,14 +11,15 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
 import helpers.common.CookieHelper._
-import scala.Some
 import com.tzavellas.sse.guice.ScalaModule
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import utils.helpers.CookieFlagsRetention
 import scala.concurrent.duration.DurationInt
-import audit.{AuditMessage, Message, AuditService}
+import audit.{AuditMessage, AuditService}
 import org.mockito.Mockito._
 import scala.Some
+import uk.gov.dvla.auditing.Message
+
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
 
@@ -65,7 +66,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@email.com"))
-      val auditMessage = new Message(AuditMessage.ConfirmBusinessToConfirm, AuditMessage.PersonalisedRegServiceType, data: _*)
+      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToConfirm, AuditMessage.PersonalisedRegServiceType, data: _*)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),

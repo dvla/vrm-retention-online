@@ -10,6 +10,7 @@ import play.api.libs.concurrent.Akka
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration
+import uk.gov.dvla.auditing.Message
 
 final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
 

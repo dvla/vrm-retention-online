@@ -2,6 +2,7 @@ package audit
 
 import composition.TestConfig
 import helpers.{UnitSpec, WithApplication}
+import uk.gov.dvla.auditing.Message
 
 class AuditServiceImplSpec extends UnitSpec {
 
