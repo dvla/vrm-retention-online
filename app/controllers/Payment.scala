@@ -81,21 +81,6 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       }
   }
 
-  def exit = Action {
-    implicit request =>
-      auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.PaymentToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = request.cookies.getModel[PaymentModel]))
-
-      Redirect(routes.MockFeedback.present()).discardingCookies(removeCookiesOnExit)
-  }
-
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
     Logger.error(message)
 

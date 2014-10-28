@@ -276,26 +276,6 @@ final class PaymentUnitSpec extends UnitSpec {
     }
   }
 
-  "exit" should {
-
-    "redirect to feedback page" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
-          transactionId(),
-          paymentTransNo(),
-          vehicleAndKeeperLookupFormModel(),
-          vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
-          paymentModel(),
-          eligibilityModel()
-        )
-      val result = payment.exit(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
-      }
-    }
-  }
-
   "callback" should {
     "should return OK" in new WithApplication {
       val result = payment.callback("stub token")(FakeRequest())
