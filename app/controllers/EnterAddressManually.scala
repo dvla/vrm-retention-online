@@ -1,5 +1,6 @@
 package controllers
 
+import audit._
 import com.google.inject.Inject
 import models._
 import play.api.Logger
@@ -7,24 +8,15 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.html.vrm_retention.enter_address_manually
-import audit._
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
-import scala.Some
-import views.vrm_retention.CheckEligibility._
-import scala.Some
-import views.vrm_retention.ConfirmBusiness._
-import scala.Some
-import views.vrm_retention.RelatedCacheKeys
-import views.vrm_retention.Confirm._
-import scala.Some
-import scala.Some
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class EnterAddressManually @Inject()(auditService: AuditService,
-                                            dateService: DateService)
+                                           dateService: DateService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                            config: Config) extends Controller {
 
@@ -76,22 +68,17 @@ final class EnterAddressManually @Inject()(auditService: AuditService,
     )
   }
 
-  def exit = Action {
-    implicit request =>
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-      }
+  def exit = Action { implicit request =>
+    auditService.send(AuditMessage.from(
+      pageMovement = AuditMessage.CaptureActorToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-      auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureActorToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 
   private def formWithReplacedErrors(form: Form[EnterAddressManuallyModel])(implicit request: Request[_]) =

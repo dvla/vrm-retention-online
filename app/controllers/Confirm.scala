@@ -1,26 +1,22 @@
 package controllers
 
+import audit._
 import com.google.inject.Inject
 import models._
 import play.api.data.{Form, FormError}
-import play.api.mvc._
+import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
-import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
-import audit._
-import scala.Some
-import play.api.mvc.Result
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import org.joda.time.format.ISODateTimeFormat
 
 final class Confirm @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                                                                                    config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
@@ -94,11 +90,6 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
   }
 
   def exit = Action { implicit request =>
-    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-    val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-    }
-
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
@@ -108,7 +99,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-    Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
-
 }

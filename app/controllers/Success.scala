@@ -12,9 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
-import views.vrm_retention.ConfirmBusiness._
-import views.vrm_retention.Payment._
-import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.PaymentSolveService
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -74,13 +72,9 @@ final class Success @Inject()(pdfService: PdfService,
       }
   }
 
-  def finish = Action {
-    implicit request =>
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val cookies = RelatedCacheKeys.RetainSet ++ {
-        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-      }
-      Redirect(routes.MockFeedback.present()).discardingCookies(cookies)
+  def finish = Action { implicit request =>
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 
   def successStub = Action {

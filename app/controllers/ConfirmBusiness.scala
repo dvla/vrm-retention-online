@@ -7,16 +7,16 @@ import play.api.data.{Form, FormError}
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
-import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                                  config: Config) extends Controller {
+                                                                                            config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 
@@ -105,21 +105,16 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
     happyPath.getOrElse(sadPath)
   }
 
-  def exit = Action {
-    implicit request =>
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-      }
+  def exit = Action { implicit request =>
+    auditService.send(AuditMessage.from(
+      pageMovement = AuditMessage.ConfirmBusinessToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-      auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.ConfirmBusinessToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 }

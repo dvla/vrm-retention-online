@@ -1,28 +1,25 @@
 package controllers
 
 import javax.inject.Inject
-import models.{VehicleAndKeeperDetailsModel, BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, EligibilityModel}
-import models.{BusinessDetailsModel, SetupBusinessDetailsFormModel, VehicleAndKeeperLookupFormModel}
+import audit.{AuditMessage, AuditService}
+import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSession, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
 import utils.helpers.Config
 import views.html.vrm_retention.business_choose_your_address
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
+import views.vrm_retention.VehicleLookup._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditMessage, AuditService}
-import views.vrm_retention.VehicleLookup._
-import views.vrm_retention.ConfirmBusiness._
-import scala.Some
-import views.vrm_retention.RelatedCacheKeys
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
                                                 auditService: AuditService,
@@ -89,22 +86,17 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
     )
   }
 
-    def exit = Action {
-    implicit request =>
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-      }
+  def exit = Action { implicit request =>
+    auditService.send(AuditMessage.from(
+      pageMovement = AuditMessage.CaptureActorToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-      auditService.send(AuditMessage.from(
-        pageMovement = AuditMessage.CaptureActorToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+    Redirect(routes.MockFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 
   private def index(addresses: Seq[(String, String)]) = {
