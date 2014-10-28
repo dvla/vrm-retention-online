@@ -94,8 +94,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               val dataContent = Enumerator.fromStream(inputStream)
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
-              val newVRN = eligibilityModel.replacementVRM.replace(" ", "")
-              val contentDisposition = "attachment;filename=" + newVRN + "-v948.pdf"
+              val newVRM = eligibilityModel.replacementVRM.replace(" ", "")
+              val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",
