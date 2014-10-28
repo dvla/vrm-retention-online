@@ -20,21 +20,25 @@
             @if(!isKeeper) {
                 <p>@Messages("vrm_retention_success_payment.p2") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.p2_2")</p>
             }
-            <div class="info-highlight">
-            <h2>@Messages("vrm_retention_success_payment.p6")</h2>
+
             @if(isKeeper) {
-                <ul>
-                    <li>@Messages("success-payment-keeper-p1")</li>
-                    <li>@Messages("success-payment-keeper-p2a") <strong>@successViewModel.replacementRegistrationNumber</strong>@Messages("success-payment-keeper-p2b")</li>
-                    <li>@Messages("success-payment-keeper-p3")</li>
-                </ul>
+                <div class="info-highlight">
+                    <h2>@Messages("vrm_retention_success_payment.p6")</h2>
+                    <ul>
+                        <li>@Messages("success-payment-keeper-p1")</li>
+                        <li>@Messages("success-payment-keeper-p2a") <strong>@successViewModel.replacementRegistrationNumber</strong>@Messages("success-payment-keeper-p2b")</li>
+                        <li>@Messages("success-payment-keeper-p3")</li>
+                    </ul>
+                </div>
             } else {
-                <p>@Messages("vrm_retention_success_payment.p7")</p>
-                <p>@Messages("vrm_retention_success.makingUp-p2")</p>
-                <a class="pdf-link" href="@Success.createPdf()">
-                    <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
-                        @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
-                </a>
+                <div class="info-highlight">
+                    <h2>@Messages("vrm_retention_success_payment.p6")</h2>
+                    <p>@Messages("vrm_retention_success_payment.p7")</p>
+                    <p>@Messages("vrm_retention_success.makingUp-p2")</p>
+                    <a class="pdf-link" href="@Success.createPdf()">
+                        <img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+                            @Messages("vrm_retention_success.newPlateLink") @successViewModel.replacementRegistrationNumber
+                    </a>
                 </div>
                 <h2>@Messages("vrm_retention_success_payment.p3")</h2>
                 <ol>
