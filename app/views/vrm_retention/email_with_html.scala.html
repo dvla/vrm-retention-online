@@ -194,13 +194,15 @@ attachPdf: Boolean)(implicit lang: Lang)
 
                         <p style="line-height: 110%; margin: 1em 0;">
                         </p>
-                        @* TODO check where inline styles are defined *@
                         <p class="skeuPlate" style="line-height: 3em; font-size: 2em; margin: 1em 0;"><span
                                 style="border-radius: 6px; font-weight: bold; background: #FFD307; padding: 10px; font-family: Helvetica, Arial, sans, sans-serif;">@replacementVRM</span>
                         </p>
 
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                            @Messages("email.line12")</p>
+                        @if(attachPdf) {
+                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                @Messages("email.line12")
+                            </p>
+                        }
                     </td>
                 </tr>
                 <tr>
