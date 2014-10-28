@@ -20,35 +20,39 @@ final class PaymentUnitSpec extends UnitSpec {
 
   "begin" should {
 
-    //    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
-    //      val request = FakeRequest().
-    ////        withCookies(CookieFactoryForUnitSpecs.transactionId(),
-    //        vehicleAndKeeperLookupFormModel(),
-    //        vehicleAndKeeperDetailsModel(),
-    //        keeperEmail(),
-    //        paymentTransactionReference(),
-    //        eligibilityModel())
-    //
-    //      val result = payment.begin(request)
-    //      whenReady(result) { r =>
-    //        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-    //      }
-    //    }
-    //
-    //    "redirect to PaymentFailurePage when VehicleAndKeeperLookupFormModel cookie does not exist" in new WithApplication {
-    //      val request = FakeRequest().
-    //        withCookies(CookieFactoryForUnitSpecs.transactionId(),
-    ////        vehicleAndKeeperLookupFormModel(),
-    //        vehicleAndKeeperDetailsModel(),
-    //        keeperEmail(),
-    //        paymentTransactionReference(),
-    //        eligibilityModel())
-    //
-    //      val result = payment.begin(request)
-    //      whenReady(result) { r =>
-    //        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-    //      }
-    //    }
+    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          paymentTransNo(),
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          keeperEmail(),
+          paymentModel(),
+          eligibilityModel()
+        )
+
+      val result = payment.begin(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
+
+    "redirect to PaymentFailurePage when VehicleAndKeeperLookupFormModel cookie does not exist" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          transactionId(),
+          paymentTransNo(),
+          vehicleAndKeeperDetailsModel(),
+          keeperEmail(),
+          paymentModel(),
+          eligibilityModel()
+        )
+
+      val result = payment.begin(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
 
     "redirect to PaymentFailurePage when no referer in request" in new WithApplication {
       val request = FakeRequest().
@@ -124,33 +128,37 @@ final class PaymentUnitSpec extends UnitSpec {
 
   "getWebPayment" should {
 
-    //    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
-    //      val request = FakeRequest().
-    ////        withCookies(transactionId(),
-    //        vehicleAndKeeperLookupFormModel(),
-    //        vehicleAndKeeperDetailsModel(),
-    //        keeperEmail(),
-    //        paymentTransactionReference(),
-    //        eligibilityModel())
-    //      val result = payment.getWebPayment(request)
-    //      whenReady(result) { r =>
-    //        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-    //      }
-    //    }
+    "redirect to PaymentFailurePage when TransactionId cookie does not exist" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          paymentTransNo(),
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          keeperEmail(),
+          paymentModel(),
+          eligibilityModel()
+        )
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
 
-    //    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
-    //      val request = FakeRequest().
-    //        withCookies(transactionId(),
-    //        vehicleAndKeeperLookupFormModel(),
-    //        vehicleAndKeeperDetailsModel(),
-    //        keeperEmail(),
-    //        paymentModel(),
-    //        eligibilityModel())
-    //      val result = payment.getWebPayment(request)
-    //      whenReady(result) { r =>
-    //        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
-    //      }
-    //    }
+    "redirect to PaymentFailurePage when PaymentTransactionReference cookie does not exist" in new WithApplication {
+      val request = FakeRequest().
+        withCookies(
+          transactionId(),
+          paymentTransNo(),
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          keeperEmail(),
+          eligibilityModel()
+        )
+      val result = payment.getWebPayment(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+      }
+    }
 
     "redirect to PaymentFailurePage when payment service call throws an exception" in new WithApplication {
       val request = FakeRequest().

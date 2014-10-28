@@ -101,7 +101,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(""),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
