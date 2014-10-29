@@ -19,14 +19,12 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
     val channel = connection.createChannel()
     // Uncomment the queueDeclare to create a queue if one does not exist at the address.
     // If one does already exist it connects to it without erasing any messages already in the queue.
-    //channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
+    channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
     channel
   }
 
   override def send(auditMessage: Message): Unit = {
     if (config.auditServiceUseRabbit) {
-      sendingChannel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
-
       Akka.system.scheduler.scheduleOnce(
         delay = FiniteDuration(0, TimeUnit.SECONDS),
         receiver = Akka.system.actorOf(
