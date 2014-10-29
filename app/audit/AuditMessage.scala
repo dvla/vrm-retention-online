@@ -1,12 +1,11 @@
 package audit
 
 import models.{BusinessDetailsModel, PaymentModel, VehicleAndKeeperDetailsModel}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.auditing.Message
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 case class AuditMessage(override val name: String, override val serviceType: String, override val data: (String, Any)*)
-  extends Message(name, serviceType, data :_*)
-
+  extends Message(name, serviceType, data: _*)
 
 object KeeperNameOptString {
 
@@ -142,7 +141,6 @@ object AuditMessage {
   final val PaymentToPaymentFailure = "PaymentToPaymentFailure"
   final val PaymentToExit = "PaymentToExit"
   final val PaymentToMicroServiceError = "PaymentToMicroServiceError"
-
 
   def from(pageMovement: String,
            transactionId: String,

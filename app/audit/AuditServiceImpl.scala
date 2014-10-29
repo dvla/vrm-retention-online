@@ -7,10 +7,10 @@ import com.rabbitmq.client.Channel
 import play.api.Logger
 import play.api.Play.current
 import play.api.libs.concurrent.Akka
+import uk.gov.dvla.auditing.Message
 import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration
-import uk.gov.dvla.auditing.Message
 
 final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
 
