@@ -27,6 +27,15 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
+
+    "redirect to PaymentPreventBack page when retain cookie is present" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+      cacheSetup().retainModel()
+
+      go to PaymentPage
+
+      page.url should equal(PaymentPreventBackPage.url)
+    }
   }
 
 //  Cannot test without mocking up the html of the Solve payment iframe
