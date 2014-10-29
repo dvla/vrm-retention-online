@@ -4,40 +4,6 @@ import models.{BusinessDetailsModel, PaymentModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.auditing.Message
 
-////
-//// base classes
-////
-//// TODO remove this class and use IEP's version when jar becomes available
-//case class Message(name: String, serviceType: String, data: (String, Any)*) {
-//
-//  var messageId = UUID.randomUUID
-//
-//  def getDataAsJava: java.util.Map[String, Any] = {
-//    import scala.collection.JavaConverters._
-//    data.toMap.asJava
-//  }
-//}
-//
-//object Message {
-//
-//  private implicit val dataJsonWrites = new Writes[Seq[(String, Any)]] {
-//    def writes(data: Seq[(String, Any)]): JsValue = {
-//      val mapOfStrings: Map[String, String] = data.map(x => (x._1, x._2.toString)).toMap
-//      toJson(mapOfStrings)
-//    }
-//  }
-//
-//  implicit val JsonWrites = new Writes[Message] {
-//    def writes(cache: Message): JsValue = {
-//      Json.obj(
-//        "name" -> toJson(cache.name),
-//        "serviceType" -> toJson(cache.serviceType),
-//        "data" -> toJson(cache.data)
-//      )
-//    }
-//  }
-//}
-
 case class AuditMessage(override val name: String, override val serviceType: String, override val data: (String, Any)*)
   extends Message(name, serviceType, data :_*)
 

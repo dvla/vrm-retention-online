@@ -25,10 +25,8 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
-      val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business // TODO do we need this and the next line after splitting confirm up?
-      val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
       val formModel = ConfirmFormModel(None)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
@@ -79,9 +77,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     }
     yield {
-      val businessDetails = request.cookies.getModel[BusinessDetailsModel]
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetails.filter(details => storeBusinessDetails))
+      val viewModel = ConfirmViewModel(vehicleAndKeeper)
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
     }
