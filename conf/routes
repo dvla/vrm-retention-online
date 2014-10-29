@@ -18,7 +18,6 @@ GET         /assets/*file                                  controllers.Assets.at
 
 GET         /                                              @controllers.Application.index
 GET         /before-you-start                              @controllers.BeforeYouStart.present
-GET         /before-you-start-part-2                       @controllers.BeforeYouStartPart2.present
 
 GET         /vehicle-lookup                                @controllers.VehicleLookup.present
 POST        /vehicle-lookup                                @controllers.VehicleLookup.submit

@@ -28,7 +28,6 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
       val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
-      //      val showStoreDetails = storeBusinessDetails && isBusinessUser
       val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
       val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
       Ok(views.html.vrm_retention.confirm_business(viewModel, form.fill(formModel)))
@@ -51,17 +50,6 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
       case None => Redirect(routes.BusinessChooseYourAddress.present())
     }
   }
-
-  // TODO need to remove this as it's a copy and paste from Confirm
-  private def replaceErrorMsg(form: Form[ConfirmBusinessFormModel], id: String, msgId: String) =
-    form.replaceError(
-      KeeperEmailId,
-      FormError(
-        key = id,
-        message = msgId,
-        args = Seq.empty
-      )
-    )
 
   private def handleValid(model: ConfirmBusinessFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map {
@@ -98,8 +86,8 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
       val businessDetails = request.cookies.getModel[BusinessDetailsModel]
       val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
       val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, businessDetails.filter(details => storeBusinessDetails))
-      val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
-      BadRequest(views.html.vrm_retention.confirm_business(viewModel, updatedForm))
+      val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
+      BadRequest(views.html.vrm_retention.confirm_business(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)
