@@ -35,7 +35,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[RetainModel]) match {
         case (_, _, Some(retainModel)) =>
           Future.successful {
-            paymentFailure("RetainModel cookie exists so they have already paid and maybe hit the browser back button")
+            Redirect(routes.PaymentPreventBack.present())
           }
         case (None, _, None) =>
           Future.successful {

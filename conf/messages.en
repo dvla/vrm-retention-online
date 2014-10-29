@@ -423,9 +423,15 @@ paymentNotAuthorisedErrorMessage.p1 = Please contact your Card Issuer (the phone
 paymentNotAuthorisedErrorMessage.p2 =
 paymentNotAuthorisedErrorMessage.p3 =
 
+# Payment prevent back page
+payment-prevent-back-title = Back button prevented
+payment-prevent-back-text = You cannot use your browser back button after making a payment. No new payments have been taken.
+payment-prevent-back-return-to-success = Return to Success page
+
 #Confirm business page
 vrm_retention_confirm_business.title = Confirm your business details
 vrm_retention_confirm_business.button = Confirm
+
 
 #Confirm page
 vrm_retention_confirm.title = Confirm keeper details
