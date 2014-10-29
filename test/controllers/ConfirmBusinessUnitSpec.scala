@@ -3,7 +3,7 @@ package controllers
 import composition.{TestDateService, TestAuditService}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{MockFeedbackPage, VehicleLookupPage}
+import pages.vrm_retention.{LeaveFeedbackPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import webserviceclients.fakes.AddressLookupServiceConstants._
@@ -144,7 +144,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         )
       val result = confirmBusiness.exit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
   }

@@ -572,6 +572,10 @@ micro_service_error.text=The service is temporarily unavailable. Please try agai
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
 
+vrm_retention_leave_feedback.title=Thank You
+vrm_retention_leave_feedback.feedback = leaving feedback
+vrm_retention_leave_feedback.p1=Please help us to improve this service by
+
 email.withoutHtml = Your email client does not support HTML messages.
 email.title = Retention successful for {0}
 email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802

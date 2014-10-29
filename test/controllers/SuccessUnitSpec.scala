@@ -2,7 +2,7 @@ package controllers
 
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.MockFeedbackPage
+import pages.vrm_retention.LeaveFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, defaultAwaitTimeout, status}
 
@@ -44,10 +44,10 @@ final class SuccessUnitSpec extends UnitSpec {
 
   "finish" should {
 
-    "redirect to MockFeedbackPage" in new WithApplication {
+    "redirect to LeaveFeedbackPage" in new WithApplication {
       val result = success.finish(FakeRequest())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
   }

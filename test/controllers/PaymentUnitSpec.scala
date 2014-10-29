@@ -216,10 +216,10 @@ final class PaymentUnitSpec extends UnitSpec {
 
   "cancel" should {
 
-    "redirect to MockFeedbackPage when TransactionId cookie does not exist" in new WithApplication {
+    "redirect to LeaveFeedbackPage when TransactionId cookie does not exist" in new WithApplication {
       val result = paymentCancelValidated.cancel(requestWithValidDefaults())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
 
@@ -239,7 +239,7 @@ final class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to MockFeedback page when payment service call throws an exception" in new WithApplication {
+    "redirect to LeaveFeedback page when payment service call throws an exception" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -253,11 +253,11 @@ final class PaymentUnitSpec extends UnitSpec {
       val cancelThrows = paymentCallFails.cancel(request)
 
       whenReady(cancelThrows) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
 
-    "redirect to MockFeedback page when required cookies exist" in new WithApplication {
+    "redirect to LeaveFeedback page when required cookies exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -271,7 +271,7 @@ final class PaymentUnitSpec extends UnitSpec {
       val cancel = paymentCancelValidated.cancel(request)
 
       whenReady(cancel) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
   }

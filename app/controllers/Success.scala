@@ -73,7 +73,7 @@ final class Success @Inject()(pdfService: PdfService,
   }
 
   def finish = Action { implicit request =>
-    Redirect(routes.MockFeedback.present()).
+    Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)
   }
 

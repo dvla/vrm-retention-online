@@ -95,7 +95,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-    Redirect(routes.MockFeedback.present()).
+    Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)
   }
 

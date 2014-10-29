@@ -59,7 +59,7 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
 
-      Redirect(routes.MockFeedback.present()).
+      Redirect(routes.LeaveFeedback.present()).
         discardingCookies(removeCookiesOnExit)
   }
 

@@ -93,6 +93,6 @@ GET         /healthcheck                          @uk.gov.dvla.vehicles.presenta
 GET         /help                                 @controllers.Help.present
 POST        /help                                 @controllers.Help.back
 
-GET         /mock-gov-uk-feedback                 @controllers.MockFeedback.present
+GET         /leave-feedback                 @controllers.LeaveFeedback.present
 
 GET         /with-language/:chosenLanguage        uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.withLanguage(chosenLanguage: String)

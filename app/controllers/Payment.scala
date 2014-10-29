@@ -215,16 +215,16 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-        redirectToMockFeedback
+        redirectToLeaveFeedback
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString)
-        redirectToMockFeedback
+        redirectToLeaveFeedback
     }
   }
 
-  private def redirectToMockFeedback(implicit request: Request[_]) = {
-    Redirect(routes.MockFeedback.present()).
+  private def redirectToLeaveFeedback(implicit request: Request[_]) = {
+    Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)
   }
 }

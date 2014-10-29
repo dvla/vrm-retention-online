@@ -7,7 +7,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.common.MainPanel.back
 import pages.vrm_retention.SuccessPage.finish
-import pages.vrm_retention.{BeforeYouStartPage, MockFeedbackPage, SuccessPage, SuccessPaymentPage}
+import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, SuccessPage, SuccessPaymentPage}
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
 
@@ -30,7 +30,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       go to SuccessPage
       click on finish
 
-      page.url should equal(MockFeedbackPage.url)
+      page.url should equal(LeaveFeedbackPage.url)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {

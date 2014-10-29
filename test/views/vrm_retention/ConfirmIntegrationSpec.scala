@@ -53,7 +53,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       exitPath
 
-      page.url should equal(MockFeedbackPage.url)
+      page.url should equal(LeaveFeedbackPage.url)
     }
   }
 

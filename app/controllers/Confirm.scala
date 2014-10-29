@@ -99,7 +99,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-    Redirect(routes.MockFeedback.present()).
+    Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)
   }
 }

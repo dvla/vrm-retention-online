@@ -40,7 +40,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
       click on PaymentPage.cancel
 
-      page.url should equal(MockFeedbackPage.url)
+      page.url should equal(LeaveFeedbackPage.url)
     }
 
     "remove RetainSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowser {

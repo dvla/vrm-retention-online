@@ -6,7 +6,7 @@ import controllers.Common.PrototypeHtml
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{bruteForcePreventionViewModel, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.when
-import pages.vrm_retention.MockFeedbackPage
+import pages.vrm_retention.LeaveFeedbackPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
@@ -44,7 +44,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = vrmLocked.exit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
   }
