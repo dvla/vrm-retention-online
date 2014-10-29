@@ -17,16 +17,15 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends Controller {
 
-  def present = Action.async {
-    implicit request =>
-      (request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getModel[PaymentModel]) match {
+  def present = Action.async { implicit request =>
+    (request.cookies.getString(TransactionIdCacheKey),
+      request.cookies.getModel[PaymentModel]) match {
 
-        case (Some(transactionId), Some(paymentModel)) =>
-          callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
-        case _ =>
-          Future.successful(Redirect(routes.MicroServiceError.present()))
-      }
+      case (Some(transactionId), Some(paymentModel)) =>
+        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get)
+      case _ =>
+        Future.successful(Redirect(routes.MicroServiceError.present()))
+    }
   }
 
   private def callCancelWebPaymentService(transactionId: String, trxRef: String)

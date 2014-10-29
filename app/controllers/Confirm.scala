@@ -19,7 +19,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
-  def present = Action(implicit request => {
+  def present = Action { implicit request =>
     val happyPath = for {
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
@@ -30,7 +30,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
-  })
+  }
 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(

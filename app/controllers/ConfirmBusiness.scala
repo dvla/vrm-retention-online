@@ -3,12 +3,11 @@ package controllers
 import audit._
 import com.google.inject.Inject
 import models._
-import play.api.data.{Form, FormError}
+import play.api.data.Form
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
@@ -19,7 +18,7 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 
-  def present = Action(implicit request => {
+  def present = Action { implicit request => {
     val happyPath = for {
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
@@ -33,14 +32,14 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
-  })
+  }
+  }
 
-  def submit = Action {
-    implicit request =>
-      form.bindFromRequest.fold(
-        invalidForm => handleInvalid(invalidForm),
-        model => handleValid(model)
-      )
+  def submit = Action { implicit request =>
+    form.bindFromRequest.fold(
+      invalidForm => handleInvalid(invalidForm),
+      model => handleValid(model)
+    )
   }
 
   def back = Action { implicit request =>
@@ -51,26 +50,24 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
   }
 
   private def handleValid(model: ConfirmBusinessFormModel)(implicit request: Request[_]): Result = {
-    val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map {
-      vehicleAndKeeperLookup =>
+    val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
+      val storeBusinessDetails =
+        if (vehicleAndKeeperLookup.userType == UserType_Business)
+          Some(CookieKeyValue(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString))
+        else
+          None
 
-        val storeBusinessDetails =
-          if (vehicleAndKeeperLookup.userType == UserType_Business)
-            Some(CookieKeyValue(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString))
-          else
-            None
+      val cookies = List(storeBusinessDetails).flatten
 
-        val cookies = List(storeBusinessDetails).flatten
+      auditService.send(AuditMessage.from(
+        pageMovement = AuditMessage.ConfirmBusinessToConfirm,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-        auditService.send(AuditMessage.from(
-          pageMovement = AuditMessage.ConfirmBusinessToConfirm,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-        Redirect(routes.Confirm.present()).withCookiesEx(cookies: _*)
+      Redirect(routes.Confirm.present()).withCookiesEx(cookies: _*)
     }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)
