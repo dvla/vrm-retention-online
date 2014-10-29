@@ -4,13 +4,12 @@ import audit._
 import com.google.inject.Inject
 import models._
 import play.api.data.{Form, FormError}
-import play.api.mvc.{Result, _}
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
-import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._

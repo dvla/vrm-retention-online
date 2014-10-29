@@ -17,7 +17,8 @@ import views.vrm_retention.RelatedCacheKeys
 import audit.{AuditMessage, AuditService}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
-final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)
+                                          (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config) extends Controller {
 
   private[controllers] val form = Form(

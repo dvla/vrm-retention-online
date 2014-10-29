@@ -13,9 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
-import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
-import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
@@ -32,7 +30,9 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
   def begin = Action.async {
     implicit request =>
-      (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[RetainModel]) match {
+      (request.cookies.getString(TransactionIdCacheKey),
+        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[RetainModel]) match {
         case (_, _, Some(retainModel)) =>
           Future.successful {
             Redirect(routes.PaymentPreventBack.present())

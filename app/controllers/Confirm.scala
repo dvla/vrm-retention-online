@@ -11,7 +11,6 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
-import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 

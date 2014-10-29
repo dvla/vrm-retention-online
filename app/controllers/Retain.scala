@@ -18,8 +18,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
-import scala.Some
-import play.api.mvc.Result
 import audit._
 import scala.Some
 import play.api.mvc.Result
