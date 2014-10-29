@@ -1,6 +1,6 @@
 package models
 
-import play.api.data.Forms.{boolean, mapping, optional}
+import play.api.data.Forms.{mapping, optional}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
@@ -19,4 +19,5 @@ object ConfirmFormModel {
       KeeperEmailId -> optional(email)
     )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   }
+
 }
