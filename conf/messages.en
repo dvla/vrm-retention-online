@@ -8,6 +8,11 @@ main.back = Back
 main.banner.help = Help
 main.banner.feedback = leave feedback
 main.banner.feedback.link = mailto:pr.feedback@dvla.gsi.gov.uk?Subject=Retain%20a%20Personalised%20Number%20Feedback
+crown-copyright = Crown Copyright
+open-government-licence = Open Government Licence v2.0
+open-government-licence-p1 = All content is available under the
+open-government-licence-p2 = , except where otherwise stated
+gov-uk = GOV.UK
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
 global.cookiefindoutmore = Find out more about cookies
@@ -350,6 +355,7 @@ vrm_retention_vehiclelookup.business.hint = I have consent to act on their behal
 vrm_retention_vehiclelookup.label = Are you the registered keeper?
 keeper-consent = Keeper consent
 postcode = Postcode
+document-reference-number-alt = Location of the document reference number on the V5C form
 
 # vehicle lookup failure
 vehicle_and_keeper_lookup_vrm_not_found.title = Look-up was unsuccessful

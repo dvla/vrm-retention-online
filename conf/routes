@@ -66,7 +66,6 @@ GET         /payment/begin                        @controllers.Payment.begin
 POST        /payment/callback/:token              @controllers.Payment.callback(token: String)
 GET         /payment/get-web-payment              @controllers.Payment.getWebPayment
 GET         /payment/cancel                       @controllers.Payment.cancel
-GET         /payment/exit                         @controllers.Payment.exit
 
 GET         /payment-failure                      @controllers.PaymentFailure.present
 GET         /payment-failure/try-again            @controllers.PaymentFailure.submit
