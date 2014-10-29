@@ -29,7 +29,7 @@ final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends Payment
     val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/getWebPayment"
 
     Logger.debug(endPoint)
-    Logger.debug(s"Calling payment solve micro-service with request ${trxRef}")
+    Logger.debug(s"Calling payment solve micro-service with request $trxRef")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(config.paymentSolveMsRequestTimeout). // Timeout is in milliseconds
@@ -41,7 +41,7 @@ final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends Payment
     val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/cancelWebPayment"
 
     Logger.debug(endPoint)
-    Logger.debug(s"Calling payment solve micro-service with request ${trxRef}")
+    Logger.debug(s"Calling payment solve micro-service with request $trxRef")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(config.paymentSolveMsRequestTimeout). // Timeout is in milliseconds
@@ -53,7 +53,7 @@ final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends Payment
     val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/updateWebPayment"
 
     Logger.debug(endPoint)
-    Logger.debug(s"Calling payment solve micro-service with request ${trxRef}")
+    Logger.debug(s"Calling payment solve micro-service with request $trxRef")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
       withRequestTimeout(config.paymentSolveMsRequestTimeout). // Timeout is in milliseconds

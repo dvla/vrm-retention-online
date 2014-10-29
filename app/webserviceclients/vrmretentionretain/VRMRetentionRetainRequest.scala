@@ -1,8 +1,8 @@
 package webserviceclients.vrmretentionretain
 
-import org.joda.time.format.ISODateTimeFormat
-import play.api.libs.json.{JsString, JsValue, Writes, Json}
 import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
+import play.api.libs.json.{JsString, JsValue, Json, Writes}
 
 case class VRMRetentionRetainRequest(currentVRM: String, transactionTimestamp: DateTime)
 

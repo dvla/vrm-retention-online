@@ -1,7 +1,7 @@
 package webserviceclients.vehicleandkeeperlookup
 
-import play.api.libs.json.Json
 import models.VehicleAndKeeperLookupFormModel
+import play.api.libs.json.Json
 
 final case class VehicleAndKeeperDetailsRequest(referenceNumber: String,
                                                 registrationNumber: String)
