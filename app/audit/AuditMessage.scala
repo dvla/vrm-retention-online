@@ -69,13 +69,12 @@ object BusinessDetailsModelOptSeq {
 
   def from(businessDetailsModel: Option[BusinessDetailsModel]) = {
     businessDetailsModel match {
-      case Some(businessDetailsModel) => {
-        val businessNameOpt = Some(("businessName", businessDetailsModel.contact))
-        val businessAddressOpt = BusinessAddressOptString.from(businessDetailsModel).map(
+      case Some(businessDetails) =>
+        val businessNameOpt = Some(("businessName", businessDetails.contact))
+        val businessAddressOpt = BusinessAddressOptString.from(businessDetails).map(
           businessAddress => ("businessAddress", businessAddress))
-        val businessEmailOpt = Some(("businessEmail", businessDetailsModel.email))
+        val businessEmailOpt = Some(("businessEmail", businessDetails.email))
         Seq(businessNameOpt, businessAddressOpt, businessEmailOpt)
-      }
       case _ => Seq.empty
     }
   }
@@ -85,16 +84,15 @@ object VehicleAndKeeperDetailsModelOptSeq {
 
   def from(vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel]) = {
     vehicleAndKeeperDetailsModel match {
-      case Some(vehicleAndKeeperDetailsModel) => {
-        val currentVrmOpt = Some(("currentVrm", vehicleAndKeeperDetailsModel.registrationNumber))
-        val makeOpt = vehicleAndKeeperDetailsModel.make.map(make => ("make", make))
-        val modelOpt = vehicleAndKeeperDetailsModel.model.map(model => ("model", model))
-        val keeperNameOpt = KeeperNameOptString.from(vehicleAndKeeperDetailsModel).map(
+      case Some(vehicleAndKeeperDetails) =>
+        val currentVrmOpt = Some(("currentVrm", vehicleAndKeeperDetails.registrationNumber))
+        val makeOpt = vehicleAndKeeperDetails.make.map(make => ("make", make))
+        val modelOpt = vehicleAndKeeperDetails.model.map(model => ("model", model))
+        val keeperNameOpt = KeeperNameOptString.from(vehicleAndKeeperDetails).map(
           keeperName => ("keeperName", keeperName))
-        val keeperAddressOpt = KeeperAddressOptString.from(vehicleAndKeeperDetailsModel.address).map(
+        val keeperAddressOpt = KeeperAddressOptString.from(vehicleAndKeeperDetails.address).map(
           keeperAddress => ("keeperAddress", keeperAddress))
         Seq(currentVrmOpt, makeOpt, modelOpt, keeperNameOpt, keeperAddressOpt)
-      }
       case _ => Seq.empty
     }
   }
@@ -104,7 +102,7 @@ object PaymentModelOptSeq {
 
   def from(paymentModelOpt: Option[PaymentModel]) = {
     paymentModelOpt match {
-      case Some(paymentModel) => {
+      case Some(paymentModel) =>
         val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
         val paymentStatusOpt = paymentModel.paymentStatus.map(paymentStatus => ("paymentStatus", paymentStatus))
         val paymentMaskedPanOpt = paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
@@ -116,7 +114,6 @@ object PaymentModelOptSeq {
           totalAmountPaid => ("paymentTotalAmountPaid", totalAmountPaid / 100.0))
         Seq(paymentTrxRefOpt, paymentStatusOpt, paymentMaskedPanOpt, paymentAuthCodeOpt, paymentMerchantIdOpt,
           paymentTypeOpt, paymentCardTypeOpt, paymentTotalAmountPaidOpt)
-      }
       case _ => Seq.empty
     }
   }
