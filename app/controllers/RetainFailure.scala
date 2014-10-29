@@ -33,7 +33,7 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
                                          (implicit request: Request[_]): Future[Result] = {
 
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
-      transNo = transactionId.replaceAll("[^0-9]", ""), // TODO find a suitable trans no
+      transNo = transactionId.replaceAll("[^0-9]", ""),
       trxRef = trxRef
     )
     val trackingId = request.cookies.trackingId()

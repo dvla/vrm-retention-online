@@ -33,7 +33,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
 
       happyPath.getOrElse {
         Logger.debug("VrmLocked - Can't find cookies")
-        Redirect(routes.VehicleLookup.present()) // TODO need an error page with a message to explain that there is a cookie problem.
+        Redirect(routes.VehicleLookup.present())
       }
   }
 
