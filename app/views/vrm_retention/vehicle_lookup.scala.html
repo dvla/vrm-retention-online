@@ -25,7 +25,7 @@
                     <p>@Messages("vrm_retention_vehiclelookup.note")</p>
                 </div>
 
-                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_retention_vehiclelookup.vrnHint")),
+                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
                     args = Map(
                         '_label -> Messages("vrm_retention_vehiclelookup.vrninputlabel"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,

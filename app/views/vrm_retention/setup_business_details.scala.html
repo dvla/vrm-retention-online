@@ -30,7 +30,7 @@
                             '_showConstraints -> false,
                             'maxLength -> BusinessName.MaxLength))
                 </div>
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), args =
+                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessemailhelper")), args =
                         Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
                             '_showConstraints -> false,
                             'maxLength -> BusinessEmailMaxLength))

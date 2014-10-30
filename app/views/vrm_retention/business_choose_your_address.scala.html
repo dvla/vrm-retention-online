@@ -30,8 +30,7 @@
                     <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound.h2.2")</h2>
                 } else {
                     @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
-                        options = dropDownOptions.toSeq,
-                        args = Map('_label -> Messages("vrm_retention_businessChooseYourAddress_addressSelect_label"))
+                        options = dropDownOptions.toSeq
                     )
                 }
 

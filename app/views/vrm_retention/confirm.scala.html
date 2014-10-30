@@ -63,12 +63,17 @@
                         )
                     )
                 } else {
-                    <div class="info-notice">
-                    @Messages("vrm_retention_confirm.emailAddressTitle")
-                    </div>
+                    <h2>@Messages("vrm_retention_confirm.emailAddressLabel")</h2>
+                    <p>
+                    @Messages("vrm_retention_confirm.emailAddressDesc")
+                    </p>
+                    <ul>
+                      <li>@Messages("vrm_retention_confirm.emailAddressList1")</li>
+                      <li>@Messages("vrm_retention_confirm.emailAddressList2")</li>
+                    </ul>
                     @valtechInputText(confirmForm(KeeperEmailId),
                         args = Map(
-                            '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+
                             'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
                             '_showConstraints -> false,
                             'maxLength -> KeeperEmailMaxLength
