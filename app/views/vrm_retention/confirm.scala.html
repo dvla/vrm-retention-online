@@ -50,35 +50,15 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-                @if(confirmViewModel.businessName.isDefined) {
-                    <div class="info-notice">
-                    @Messages("vrm_retention_confirm.emailAddressTitleBusiness")
-                    </div>
-                    @valtechInputText(confirmForm(KeeperEmailId),
-                        args = Map(
-                            '_label -> Messages("vrm_retention_confirm.emailAddressLabelBusiness"),
-                            'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
-                            '_showConstraints -> false,
-                            'maxLength -> KeeperEmailMaxLength
-                        )
-                    )
-                } else {
-                    <h2>@Messages("vrm_retention_confirm.emailAddressLabel")</h2>
-                    <p>
-                    @Messages("vrm_retention_confirm.emailAddressDesc")
-                    </p>
-                    <ul>
-                      <li>@Messages("vrm_retention_confirm.emailAddressList1")</li>
-                      <li>@Messages("vrm_retention_confirm.emailAddressList2")</li>
-                    </ul>
-                    @valtechInputText(confirmForm(KeeperEmailId),
-                        args = Map(
-
-                            'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
-                            '_showConstraints -> false,
-                            'maxLength -> KeeperEmailMaxLength
-                        )
-
+                <div class="info-notice">
+                @Messages("vrm_retention_confirm.emailAddressTitle")
+                </div>
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    args = Map(
+                        '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+                        'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
+                        '_showConstraints -> false,
+                        'maxLength -> KeeperEmailMaxLength
                     )
                 )
             <div class="alert-warning">
