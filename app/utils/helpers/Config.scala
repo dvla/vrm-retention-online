@@ -63,4 +63,7 @@ class Config {
   val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")
   val rabbitmqPort = getProperty("rabbitmq.port", 0)
   val rabbitmqQueue = getProperty("rabbitmq.queue", "NOT FOUND")
+  val rabbitmqUsername = getProperty("rabbitmq.username", "NOT FOUND")
+  val rabbitmqPassword = getProperty("rabbitmq.password", "NOT FOUND")
+  val rabbitmqVirtualHost = getProperty("rabbitmq.virtualHost", "NOT FOUND")
 }

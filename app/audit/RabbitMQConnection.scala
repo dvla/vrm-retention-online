@@ -14,6 +14,9 @@ final class RabbitMQConnection @Inject()(config: Config) {
         val factory = new ConnectionFactory()
         factory.setHost(config.rabbitmqHost)
         factory.setPort(config.rabbitmqPort)
+        factory.setUsername(config.rabbitmqUsername)
+        factory.setPassword(config.rabbitmqPassword)
+        factory.setVirtualHost(config.rabbitmqVirtualHost)
         factory.newConnection()
       case _ => connection
     }
