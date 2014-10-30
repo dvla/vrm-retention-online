@@ -32,8 +32,7 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
         ),
         message = auditMessage
       )
-    } else {
-      Logger.debug(s"Audit message: $auditMessage")
     }
+    Logger.info(s"Audit message: $auditMessage")
   }
 }
