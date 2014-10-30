@@ -63,3 +63,6 @@ conf/generated.keystore
 .*.swp
 tags
 *.pdf
+cacert_cert
+client_ssl_cert
+client_ssl_key
