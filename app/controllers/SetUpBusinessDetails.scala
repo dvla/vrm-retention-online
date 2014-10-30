@@ -1,35 +1,34 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import com.google.inject.Inject
-import models.{SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel}
+import models.{EligibilityModel, SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
-import views.vrm_retention.ConfirmBusiness._
-import scala.Some
-import views.vrm_retention.RelatedCacheKeys
-import audit.{AuditMessage, AuditService}
 
-final class SetUpBusinessDetails @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                             config: Config) extends Controller {
+final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)
+                                          (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                           config: Config) extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
   )
 
-  def present = Action {
-    implicit request =>
-      request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
-        case Some(vehicleAndKeeperDetails) =>
-          val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
-          Ok(views.html.vrm_retention.setup_business_details(form.fill(), viewModel))
-        case _ => Redirect(routes.VehicleLookup.present())
-      }
+  def present = Action { implicit request =>
+    request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+      case Some(vehicleAndKeeperDetails) =>
+        val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
+        Ok(views.html.vrm_retention.setup_business_details(form.fill(), viewModel))
+      case _ => Redirect(routes.VehicleLookup.present())
+    }
   }
 
   def submit = Action { implicit request =>
@@ -50,18 +49,15 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService)(implicit 
 
   def exit = Action {
     implicit request =>
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-        if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-      }
-
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
 
-      Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+      Redirect(routes.LeaveFeedback.present()).
+        discardingCookies(removeCookiesOnExit)
   }
 
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =

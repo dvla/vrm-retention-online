@@ -6,7 +6,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import pages.vrm_retention.VrmLockedPage.exit
-import pages.vrm_retention.{MockFeedbackPage, BeforeYouStartPage, VrmLockedPage}
+import pages.vrm_retention.{LeaveFeedbackPage, BeforeYouStartPage, VrmLockedPage}
 
 final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
@@ -38,7 +38,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
       click on exit
 
-      page.url should equal(MockFeedbackPage.url)
+      page.url should equal(LeaveFeedbackPage.url)
     }
 
     "remove redundant cookies" taggedAs UiTag in new WebBrowser {

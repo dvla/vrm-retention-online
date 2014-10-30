@@ -1,41 +1,36 @@
 package controllers
 
+import audit._
 import com.google.inject.Inject
 import models._
 import play.api.data.{Form, FormError}
-import play.api.mvc._
+import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
-import views.vrm_retention.ConfirmBusiness._
-import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
-import audit._
-import scala.Some
-import play.api.mvc.Result
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieKeyValue
 
-final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+final class Confirm @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                                                                    config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
-  def present = Action(implicit request => {
+  def present = Action { implicit request =>
     val happyPath = for {
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
-      val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business // TODO do we need this and the next line after splitting confirm up?
-      val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
       val formModel = ConfirmFormModel(None)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, verifiedBusinessDetails)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
-  })
+  }
 
   def submit = Action { implicit request =>
     form.bindFromRequest.fold(
@@ -62,6 +57,7 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.ConfirmToPayment,
+        timestamp = dateService.dateTimeISOChronology,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
@@ -80,9 +76,7 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     }
     yield {
-      val businessDetails = request.cookies.getModel[BusinessDetailsModel]
-      val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, businessDetails.filter(details => storeBusinessDetails))
+      val viewModel = ConfirmViewModel(vehicleAndKeeper)
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
     }
@@ -91,19 +85,16 @@ final class Confirm @Inject()(auditService: AuditService)(implicit clientSideSes
   }
 
   def exit = Action { implicit request =>
-    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-    val cacheKeys = RelatedCacheKeys.RetainSet ++ {
-      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-    }
-
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.ConfirmToExit,
+      timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey).get,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-    Redirect(routes.MockFeedback.present()).discardingCookies(cacheKeys)
+    Redirect(routes.LeaveFeedback.present()).
+      discardingCookies(removeCookiesOnExit)
   }
 }

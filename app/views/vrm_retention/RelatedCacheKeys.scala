@@ -1,5 +1,9 @@
 package views.vrm_retention
 
+import play.api.http.HeaderNames.REFERER
+import play.api.mvc.Request
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
@@ -11,7 +15,6 @@ import views.vrm_retention.Payment.PaymentDetailsCacheKey
 import views.vrm_retention.Retain.{RetainCacheKey, RetainResponseCodeCacheKey}
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
-import play.api.http.HeaderNames.REFERER
 
 object RelatedCacheKeys {
 
@@ -43,4 +46,11 @@ object RelatedCacheKeys {
     SetupBusinessDetailsCacheKey,
     StoreBusinessDetailsCacheKey
   )
+
+  def removeCookiesOnExit(implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory) = {
+    val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+    RelatedCacheKeys.RetainSet ++ {
+      if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
+    }
+  }
 }

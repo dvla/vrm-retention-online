@@ -45,7 +45,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
       click on exit
 
-      page.url should equal(MockFeedbackPage.url)
+      page.url should equal(LeaveFeedbackPage.url)
     }
   }
 

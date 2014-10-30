@@ -1,28 +1,23 @@
 package controllers
 
+import audit._
 import com.google.inject.Inject
-import models.{BusinessDetailsModel, EligibilityModel}
-import models.{PaymentModel, VehicleAndKeeperDetailsModel, RetainModel, VehicleAndKeeperLookupFormModel}
+import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
-import play.api.mvc._
+import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
+import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import views.vrm_retention.Confirm.KeeperEmailCacheKey
-import scala.Some
-import play.api.mvc.Result
-import audit._
-import scala.Some
-import play.api.mvc.Result
 
 final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
                              dateService: DateService,
@@ -30,26 +25,27 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config) extends Controller {
 
-  def retain = Action.async {
-    implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getString(TransactionIdCacheKey),
-        request.cookies.getModel[PaymentModel]) match {
-        case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
-          retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
-        case (_, Some(transactionId), _) => {
-          auditService.send(AuditMessage.from(
-            pageMovement = AuditMessage.PaymentToMicroServiceError,
-            transactionId = transactionId))
-          Future.successful {
-            Redirect(routes.MicroServiceError.present())
-          }
+  def retain = Action.async { implicit request =>
+    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+      request.cookies.getString(TransactionIdCacheKey),
+      request.cookies.getModel[PaymentModel]) match {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
+        retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
+      case (_, Some(transactionId), _) => {
+        auditService.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToMicroServiceError,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology
+        ))
+        Future.successful {
+          Redirect(routes.MicroServiceError.present())
         }
-        case _ =>
-          Future.successful {
-            Redirect(routes.Error.present("user went to Retain retainMark without correct cookies"))
-          }
+      }
+      case _ =>
+        Future.successful {
+          Redirect(routes.Error.present("user went to Retain retainMark without correct cookies"))
         }
+    }
   }
 
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
@@ -70,6 +66,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToSuccess,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
@@ -94,6 +91,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = request.cookies.getString(KeeperEmailCacheKey),

@@ -1,10 +1,12 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import com.google.inject.Inject
+import mappings.common.ErrorCodes
 import models._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.{FormError, Form => PlayForm}
-import play.api.mvc._
+import play.api.mvc.{Call, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
@@ -14,18 +16,12 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.forma
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import utils.helpers.Config
-import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.Payment._
+import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import audit.{AuditMessage, AuditService}
-import scala.Some
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
-import play.api.mvc.Call
-import mappings.common.ErrorCodes
 
 final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -77,6 +73,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
           auditService.send(AuditMessage.from(
             pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
             transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie"),
+            timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             rejectionCode = Some(responseCode)))
 
@@ -89,6 +86,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
               auditService.send(AuditMessage.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
                 transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+                timestamp = dateService.dateTimeISOChronology,
                 vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
                 rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
 
@@ -123,7 +121,6 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
         args = Seq.empty
       ))
     }.distinctErrors
-
 
   // payment solve requires (for each day) a unique six digit number
   // use time from midnight in tenths of a second units

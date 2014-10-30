@@ -1,9 +1,9 @@
 package controllers
 
-import composition.TestAuditService
+import composition.{TestDateService, TestAuditService}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{MockFeedbackPage, VehicleLookupPage}
+import pages.vrm_retention.{LeaveFeedbackPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
 import webserviceclients.fakes.AddressLookupServiceConstants._
@@ -11,11 +11,16 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
 import helpers.common.CookieHelper._
-import scala.Some
 import com.tzavellas.sse.guice.ScalaModule
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import utils.helpers.CookieFlagsRetention
 import scala.concurrent.duration.DurationInt
+import audit.{AuditMessage, AuditService}
+import org.mockito.Mockito._
+import scala.Some
+import uk.gov.dvla.auditing.Message
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
 
@@ -49,6 +54,27 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "submit" should {
 
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
+      val mockAuditService = mock[AuditService]
+
+      val injector = testInjector(
+        new TestAuditService(mockAuditService),
+        new TestDateService)
+
+      val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
+      val dateService = injector.getInstance(classOf[DateService])
+
+      val data = Seq(("transactionId", "ABC123123123123"),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("replacementVrm", "SA11AA"),
+        ("currentVrm", "AB12AWR"),
+        ("make", "Alfa Romeo"),
+        ("model", "Alfasud ti"),
+        ("keeperName","Mr David Jones"),
+        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
+        ("businessName", "example trader contact"),
+        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
+        ("businessEmail", "business.example@email.com"))
+      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToConfirm, AuditMessage.PersonalisedRegServiceType, data: _*)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -62,6 +88,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
+        verify(mockAuditService).send(auditMessage)
       }
     }
 
@@ -117,7 +144,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         )
       val result = confirmBusiness.exit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MockFeedbackPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(LeaveFeedbackPage.address))
       }
     }
   }

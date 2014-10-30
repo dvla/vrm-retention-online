@@ -9,6 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
@@ -16,7 +17,6 @@ import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
                                        dateService: DateService,
@@ -24,17 +24,16 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config) extends Controller {
 
-  def present = Action.async {
-    implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean),
-        request.cookies.getString(TransactionIdCacheKey)) match {
-        case (Some(form), Some(vehicleAndKeeperDetailsModel), storeBusinessDetails, Some(transactionId)) =>
-          checkVrmEligibility(form, vehicleAndKeeperDetailsModel, storeBusinessDetails, transactionId)
-        case _ => Future.successful {
-          Redirect(routes.Error.present("user went to CheckEligibility present without required cookies"))
-        }
+  def present = Action.async { implicit request =>
+    (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean),
+      request.cookies.getString(TransactionIdCacheKey)) match {
+      case (Some(form), Some(vehicleAndKeeperDetailsModel), storeBusinessDetails, Some(transactionId)) =>
+        checkVrmEligibility(form, vehicleAndKeeperDetailsModel, storeBusinessDetails, transactionId)
+      case _ => Future.successful {
+        Redirect(routes.Error.present("user went to CheckEligibility present without required cookies"))
       }
+    }
   }
 
   /**
@@ -50,7 +49,9 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       Logger.error(message)
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
-        transactionId = transactionId))
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology
+      ))
       Redirect(routes.MicroServiceError.present())
     }
 
@@ -60,6 +61,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
           auditService.send(AuditMessage.from(
             pageMovement = AuditMessage.VehicleLookupToConfirm,
             transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
             replacementVrm = Some(replacementVRM)))
           routes.Confirm.present()
@@ -69,6 +71,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
             auditService.send(AuditMessage.from(
               pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
               replacementVrm = Some(replacementVRM),
               businessDetailsModel = businessDetailsModel))
@@ -77,6 +80,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
             auditService.send(AuditMessage.from(
               pageMovement = AuditMessage.VehicleLookupToCaptureActor,
               transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
               replacementVrm = Some(replacementVRM)))
             routes.SetUpBusinessDetails.present()
@@ -94,6 +98,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
         rejectionCode = Some(responseCode)))
       Redirect(routes.VehicleLookupFailure.present()).

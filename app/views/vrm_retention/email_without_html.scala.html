@@ -9,7 +9,7 @@ replacementVRM: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
-attachPdf: Boolean)(implicit lang: Lang)
+isKeeper: Boolean)(implicit lang: Lang)
 
 @Messages("email.withoutHtml")
 @Messages("email.title", vrm)
@@ -23,7 +23,7 @@ attachPdf: Boolean)(implicit lang: Lang)
 @transactionId
 @Messages("email.line6", vrm)
 @Messages("email.line7")
-@if(attachPdf) {
+@if(isKeeper) {
     @Messages("email.line8.with-pdf")
 } else {
     @Messages("email.line8")
@@ -32,7 +32,9 @@ attachPdf: Boolean)(implicit lang: Lang)
 @Messages("email.line9")
 @Html(Messages("email.line10") + vrm + Messages("email.line11"))
 @replacementVRM
-@Messages("email.line12")
+@if(!isKeeper) {
+    @Messages("email.line12")
+}
 @Messages("email.line13")
 @businessDetailsModel.map { businessDetails =>
     @Messages("email.line14")

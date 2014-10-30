@@ -19,7 +19,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       request.cookies.getString(VehicleAndKeeperLookupResponseCodeCacheKey)) match {
       case (Some(transactionId), Some(bruteForcePreventionResponse), Some(vehicleAndKeeperLookupForm), Some(vehicleLookupResponseCode)) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-        displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse, vehicleAndKeeperDetails, vehicleLookupResponseCode)
+        displayVehicleLookupFailure(transactionId, vehicleAndKeeperLookupForm, bruteForcePreventionResponse,
+          vehicleAndKeeperDetails, vehicleLookupResponseCode)
       case _ => Redirect(routes.BeforeYouStart.present())
     }
   }

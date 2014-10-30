@@ -3,7 +3,7 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.webbrowser.TestHarness
 import pages.vrm_retention.PaymentFailurePage.exit
-import pages.vrm_retention.{MockFeedbackPage, RetainFailurePage, BeforeYouStartPage}
+import pages.vrm_retention.{LeaveFeedbackPage, RetainFailurePage, BeforeYouStartPage}
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
@@ -33,7 +33,7 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
 
       click on exit
 
-      page.url should equal(MockFeedbackPage.url)
+      page.url should equal(LeaveFeedbackPage.url)
     }
   }
 

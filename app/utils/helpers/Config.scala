@@ -7,7 +7,7 @@ class Config {
 
   val isCsrfPreventionEnabled = getProperty("csrf.prevention", default = true)
 
-  // Micro-service config // TODO take defaults off the timeouts
+  // Micro-service config
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionEligibilityMicroServiceUrlBase: String = getProperty("vrmRetentionEligibilityMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionEligibilityMsRequestTimeout: Int = getProperty("vrmRetentionEligibility.ms.requesttimeout", 5.seconds.toMillis.toInt)
@@ -37,9 +37,8 @@ class Config {
   val prototypeSurveyPrepositionInterval: Long = getDurationProperty("survey.interval", 7.days.toMillis)
 
   // Google analytics
-  val isGoogleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = true)
-  val googleAnalyticsTrackingId: String = getProperty("googleAnalytics.id", "NOT FOUND")
-  val googleAnalyticsDomain: String = getProperty("googleAnalytics.domain.retention", "NOT FOUND")
+  val isGoogleAnalyticsEnabled: Boolean = getProperty("googleAnalytics.enabled", default = false)
+  val googleAnalyticsTrackingId: String = getProperty("googleAnalytics.id.retention", "NOT FOUND")
 
   // Progress step indicator
   val isProgressBarEnabled: Boolean = getProperty("progressBar.enabled", default = true)

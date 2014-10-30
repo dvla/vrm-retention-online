@@ -15,7 +15,7 @@
     <div class="form-steps">
         @csrfTokenHiddenField()
         @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@ExitId" href="@controllers.routes.MockFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
+        <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
     </div>
 
 }

@@ -6,13 +6,15 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
 import scala.concurrent.Future
 
 final class EligibilityWebServiceCallWithCurrentAndReplacement() extends ScalaModule with MockitoSugar {
 
   val withCurrentAndReplacement: (Int, VRMRetentionEligibilityResponse) = {
-    (OK, VRMRetentionEligibilityResponse(currentVRM = Some("stub-currentVRM"), replacementVRM = Some("stub-replacementVRM"), responseCode = None)) // TODO replace vrm content with realistic response code.
+    (OK, VRMRetentionEligibilityResponse(currentVRM = Some(RegistrationNumberValid), replacementVRM = Some(ReplacementRegistrationNumberValid), responseCode = None))
   }
 
   def configure() = {

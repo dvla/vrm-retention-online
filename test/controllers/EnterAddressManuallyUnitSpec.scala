@@ -63,7 +63,6 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     }
 
     "not display prototype message when config set to false" in new WithApplication {
-      // TODO use testInjectory to override config
       val request = FakeRequest()
       val result = enterAddressManuallyPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml

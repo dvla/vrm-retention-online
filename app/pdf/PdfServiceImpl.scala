@@ -38,7 +38,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       // Save the results and ensure that the document is properly closed:
       documentWatermarked.save(output)
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
+      case e: Exception => Logger.error(s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTraceString}")
     } finally {
       documentWatermarked.close()
     }
@@ -56,7 +56,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       writeTransactionId(transactionId)
       writeDateOfRetention()
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
+      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}")
     } finally {
       // Make sure that the content stream is closed:
       contentStream.close()
@@ -176,7 +176,7 @@ object PdfServiceImpl {
     }
     else {
       Logger.error("PdfService could not find blank file for v948")
-      None // TODO When we move the service into a micro-service this should throw an error as the micro-service is in a bad state.
+      None // If we move the service into a micro-service this should throw an error as the micro-service is in a bad state.
     }
   }
 
@@ -228,7 +228,7 @@ object PdfServiceImpl {
     try {
       contentStream = new PDPageContentStream(document, page)
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}") // TODO do we need to anonymise this stacktrace?
+      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTraceString}")
     } finally {
       contentStream.close() // Make sure that the content stream is closed.
     }

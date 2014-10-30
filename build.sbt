@@ -30,29 +30,29 @@ libraryDependencies ++= {
   Seq(
     cache,
     filters,
-    "org.seleniumhq.selenium" % "selenium-java" % "2.42.2" % "test" withSources() withJavadoc(),
+    "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" %% "cucumber-scala" % "1.1.7" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-java" % "1.1.7" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-picocontainer" % "1.1.7" % "test" withSources() withJavadoc(),
-    "org.specs2" %% "specs2" % "2.4" % "test" withSources() withJavadoc(),
-    "org.mockito" % "mockito-all" % "1.9.5" % "test" withSources() withJavadoc(),
-    "com.github.tomakehurst" % "wiremock" % "1.46" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
+    "info.cukes" %% "cucumber-scala" % "1.1.8" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-picocontainer" % "1.1.8" % "test" withSources() withJavadoc(),
+    "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
+    "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
-    "org.scalatest" %% "scalatest" % "2.2.1" % "test" withSources() withJavadoc(),
-    "com.google.inject" % "guice" % "4.0-beta4" withSources() withJavadoc(),
-    "com.google.guava" % "guava" % "15.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test" withSources() withJavadoc(),
+    "com.google.inject" % "guice" % "4.0-beta5" withSources() withJavadoc(),
+    "com.google.guava" % "guava" % "18.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
     "org.apache.httpcomponents" % "httpclient" % "4.3.5" withSources() withJavadoc(),
     "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
-    "com.sun.mail" % "javax.mail" % "1.5.2", // TODO we should upgrade to 1.5.2 only after we have an email test suite inplace
+    "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
     "dvla" %% "vehicles-presentation-common" % "2.4-SNAPSHOT" withSources() withJavadoc(),
+    "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
-    // TODO update dependencies below
+    // TODO update dependencies below after we are able to test with a real queue, some of them are not required now.
     "com.rabbitmq" % "amqp-client" % "3.3.5",
     "com.typesafe.akka" %% "akka-stream-experimental" % "0.4",
     "com.rabbitmq" % "amqp-client" % "3.3.4",

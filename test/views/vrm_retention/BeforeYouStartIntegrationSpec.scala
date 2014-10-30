@@ -6,7 +6,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_retention.BeforeYouStartPage.startNow
-import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage, BeforeYouStartPart2Page}
+import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
