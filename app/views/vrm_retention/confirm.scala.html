@@ -50,14 +50,17 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-<p>@Messages("vrm_retention_confirm.emailHint1")</p>
+                <br/>
+                <p>@Messages("vrm_retention_confirm.emailAddressLabel")</p>
+                <p>@Messages("vrm_retention_confirm.emailHint1")</p>
                 <ul>
                     <li>@Messages("vrm_retention_confirm.emailHint2")</li>
                     <li>@Messages("vrm_retention_confirm.emailHint3")</li>
                 </ul>
                 @valtechInputText(confirmForm(KeeperEmailId),
                     args = Map(
-                        '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+                        'NO_OPTIONAL_LABEL -> true,
+                        '_label -> "",
                         'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
                         '_showConstraints -> false,
                         'maxLength -> KeeperEmailMaxLength
