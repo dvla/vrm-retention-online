@@ -14,7 +14,6 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
     "display the page" in new WithApplication {
       val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)
-      contentAsString(result) should include(BeforeYouStartPage.title)
     }
 
     "display prototype message when config set to true" in new WithApplication {
