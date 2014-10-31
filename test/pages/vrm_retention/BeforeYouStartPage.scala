@@ -10,7 +10,7 @@ object BeforeYouStartPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/before-you-start"
   def url = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Take a registration number off a vehicle"
+  final override val title: String = "Retain a personalised registration"
   final val titleCy: String = "Cael gwared cerbyd i mewn i'r fasnach foduron"
 
   def startNow(implicit driver: WebDriver): Element = find(id(NextId)).get
