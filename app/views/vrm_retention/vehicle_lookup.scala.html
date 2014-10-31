@@ -21,9 +21,6 @@
 
             <div class="second-col uppercase-input">
                 <h1>@Messages("vrm_retention_vehiclelookup.title")</h1>
-                <div class="info-notice ">
-                    <p>@Messages("vrm_retention_vehiclelookup.note")</p>
-                </div>
 
                 @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
                     args = Map(
@@ -56,6 +53,7 @@
 
                 <br/>
                 <div class="form-item-radio">
+                    <strong>
                     @listRadioGroup(field = vehicleAndKeeperLookupForm(KeeperConsentId),
                         args = Map(
                             'itemsWithHints -> Seq(
@@ -65,14 +63,13 @@
                             '_label -> Messages("vrm_retention_vehiclelookup.label")
                         )
                     )
+                    </strong>
                 </div>
 
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_vehiclelookup.button")</button>
-                    <br/>
-                    <a id="@ExitId" class="exit" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_retention_exit.button")</a>
-                </div>
+                    </div>
             </div>
             <div class="first-col">
                 <div class="img-wrap img-wrap-desktop related">

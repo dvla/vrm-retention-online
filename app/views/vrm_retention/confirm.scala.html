@@ -50,9 +50,11 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-                <div class="info-notice">
-                @Messages("vrm_retention_confirm.emailAddressTitle")
-                </div>
+<p>@Messages("vrm_retention_confirm.emailHint1")</p>
+                <ul>
+                    <li>@Messages("vrm_retention_confirm.emailHint2")</li>
+                    <li>@Messages("vrm_retention_confirm.emailHint3")</li>
+                </ul>
                 @valtechInputText(confirmForm(KeeperEmailId),
                     args = Map(
                         '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
@@ -62,7 +64,8 @@
                     )
                 )
             <div class="alert-warning">
-                    <p><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></p>
+                    <p><strong>@Messages("vrm_retention_confirm.emailWarn") <u><a href="http://www.gov.uk/change-vehicle-details-registration-certificate">@Messages("vrm_retention_confirm.emailWarnLinkText").</a>
+                    </u></strong></p>
                 </div>
             </div>
         </div>

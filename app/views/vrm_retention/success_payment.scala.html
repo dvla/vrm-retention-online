@@ -19,17 +19,14 @@
               }
                 <dd class="reg-number">@successViewModel.replacementRegistrationNumber</dd>
             </dl>
-            @if(isKeeper) {
-                <p>@Messages("vrm_retention_success_payment.p2") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.p2_2")</p>
-            }
+           
 
             @if(isKeeper) {
                 <h2>@Messages("vrm_retention_success_payment.p3")</h2>
                 <ul>
-                  <li>@Messages("vrm_retention_success_payment.listItem1")</li>
+                  <li>@Messages("vrm_retention_success_payment.listItem1") <strong>@successViewModel.replacementRegistrationNumber</strong></li>
                   <li>@Messages("vrm_retention_success_payment.listItem2")</li>
-                  <li>@Messages("vrm_retention_success_payment.listItem3")</li>
-                  <li>@Messages("vrm_retention_success_payment.listItem4")</li>
+
                 </ul>
 
             } else {
@@ -51,7 +48,7 @@
                 </div>
                 <h2>@Messages("vrm_retention_success_payment.p3business")</h2>
                 <ul>
-                    <li>@Messages("vrm_retention_success_payment.listItem1business")</li>
+                    <li>@Messages("vrm_retention_success_payment.listItem1business") <strong>@successViewModel.replacementRegistrationNumber</strong></li>
                     <li>@Messages("vrm_retention_success_payment.listItem2business")</li>
                 </ul>
             }

@@ -14,7 +14,7 @@
 		<div class="second-col">
 		    <div class="alert-complete">
 			    <h2>@Messages("vrm_retention_success.subtitle") <span class="reg-number">@successViewModel.registrationNumber</span> </h2>
-			    <p>@Messages("vrm_retention_success.yourCert") @successViewModel.retentionCertificationNumber </p>
+			    <p><strong>@Messages("vrm_retention_success.yourCert")</strong> <br /> @successViewModel.retentionCertificationNumber </p>
 			</div>
 
 			<h3>@Messages("vrm_retention_success.notice1.h3")</h3>
@@ -25,21 +25,21 @@
 			<h3>@Messages("vrm_retention_success.notice2.h3")</h3>
 			<div class="info-notice">
 				<p>@Messages("vrm_retention_success.notice2.p1")
-					<a href="#" target="_blank">@Messages("vrm_retention_success.notice2.p1.link")</a>
+					<a href="https://www.gov.uk/personalised-vehicle-registration-numbers/retaining-a-registration-number" target="_blank">@Messages("vrm_retention_success.notice2.p1.link")</a> @Messages("vrm_retention_success.notice2.p2")
 				</p>
 			</div>
 
 			<h3>@Messages("vrm_retention_success.p1")</h3>
 			<p>@Messages("vrm_retention_success.p2")</p>
-			<ol>
-				<li>@Messages("vrm_retention_success.listItem1") '@successViewModel.replacementRegistrationNumber'</li>
+			<ul>
+				<li>@Messages("vrm_retention_success.listItem1") <strong>@successViewModel.replacementRegistrationNumber</strong></li>
 				<li>@Messages("vrm_retention_success.listItem2")</li>
 				<li>@Messages("vrm_retention_success.listItem3")</li>
-			</ol>
+			</ul>
 		</div>
 		<div class="first-col">
 			<div class="playback">
-				<h2>Transaction details</h2>
+				<h2>Application details</h2>
 				<p>Transaction ID:</p>
 				<p>@successViewModel.transactionId</p>
 			</div>
