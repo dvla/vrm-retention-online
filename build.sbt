@@ -54,11 +54,7 @@ libraryDependencies ++= {
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
     // TODO update dependencies below after we are able to test with a real queue, some of them are not required now.
-    "com.rabbitmq" % "amqp-client" % "3.3.5",
-    "com.typesafe.akka" %% "akka-stream-experimental" % "0.4",
-    "com.rabbitmq" % "amqp-client" % "3.3.4",
-    "com.typesafe.akka" %% "akka-actor" % akkaVersion,
-    "com.typesafe.akka" %% "akka-testkit" % akkaVersion % "test"
+    "com.rabbitmq" % "amqp-client" % "3.3.5"
   )
 }
 
