@@ -48,8 +48,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.5-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "common-test" % "2.5-SNAPSHOT" % "test" withSources() withJavadoc(),
+    "dvla" %% "vehicles-presentation-common" % "2.5" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "common-test" % "2.5" % "test" withSources() withJavadoc(),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
