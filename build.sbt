@@ -54,7 +54,7 @@ libraryDependencies ++= {
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
     // TODO update dependencies below after we are able to test with a real queue, some of them are not required now.
-    "com.rabbitmq" % "amqp-client" % "3.3.5"
+    "com.rabbitmq" % "amqp-client" % "3.4.1"
   )
 }
 

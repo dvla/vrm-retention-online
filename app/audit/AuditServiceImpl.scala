@@ -17,7 +17,7 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
   private lazy val sendingChannel: Channel = {
     val connection = new RabbitMQConnection(config).getConnection
     val channel = connection.createChannel()
-    // Uncomment the queueDeclare to create a queue if one does not exist at the address.
+    // QueueDeclare is idempotent - it creates a queue if one does not exist.
     // If one does already exist it connects to it without erasing any messages already in the queue.
     channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
     channel
