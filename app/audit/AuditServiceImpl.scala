@@ -19,7 +19,9 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
     val channel = connection.createChannel()
     // QueueDeclare is idempotent - it creates a queue if one does not exist.
     // If one does already exist it connects to it without erasing any messages already in the queue.
-    channel.queueDeclare(config.rabbitmqQueue, false, false, false, null)
+    // Parameters are:
+    // (java.lang.String queue, boolean durable, boolean exclusive, boolean autoDelete, java.util.Map<java.lang.String,java.lang.Object> arguments)
+    channel.queueDeclare(config.rabbitmqQueue, true, false, false, null)
     channel
   }
 

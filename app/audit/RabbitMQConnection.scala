@@ -12,11 +12,18 @@ final class RabbitMQConnection @Inject()(config: Config) {
     connection match {
       case null =>
         val factory = new ConnectionFactory()
+
         factory.setHost(config.rabbitmqHost)
         factory.setPort(config.rabbitmqPort)
-        if(config.rabbitmqUsername.length > 0) factory.setUsername(config.rabbitmqUsername)
-        if(config.rabbitmqPassword.length > 0) factory.setPassword(config.rabbitmqPassword)
-        if(config.rabbitmqVirtualHost.length > 0) factory.setVirtualHost(config.rabbitmqVirtualHost)
+
+        if (config.rabbitmqUsername.length > 0) factory.setUsername(config.rabbitmqUsername)
+        if (config.rabbitmqPassword.length > 0) factory.setPassword(config.rabbitmqPassword)
+        if (config.rabbitmqVirtualHost.length > 0) factory.setVirtualHost(config.rabbitmqVirtualHost)
+
+        // Tells the library to setup the default Key and Trust managers for you which do not do any form of remote
+        // server trust verification
+        factory.useSslProtocol()
+
         factory.newConnection()
       case _ => connection
     }
