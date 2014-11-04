@@ -2,20 +2,20 @@
 .vehicle-lookup {
 
     .form-item-radio .radio .form-item {
-        margin-bottom:1.5em;
+        margin-bottom: 1.5em;
     }
 //
     .first-col {
-        display:block;
+        display: block;
         @media screen and (max-width:$device-medium) {
-            display:none;
+            display: none;
         }
     }
 }
 
 .summary-replacement-reg {
     dt, dd {
-        display:inline;
+        display: inline;
         font-size: 1.2em;
     }
 }
