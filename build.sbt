@@ -1,7 +1,9 @@
 import CommonResolvers._
+import com.typesafe.sbt.web.SbtWeb
 import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
+import play.PlayScala
 import templemore.sbt.cucumber.CucumberPlugin
 
 publishTo <<= version { v: String =>
@@ -24,6 +26,11 @@ scalaVersion := "2.10.3"
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtWeb)
+
+lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
+  .dependsOn(root % "test->test")
+  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings:_*)
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
