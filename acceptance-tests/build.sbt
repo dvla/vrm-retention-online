@@ -1,6 +1,6 @@
 import Common._
 
-name := "vehicles-acquire-acceptance-tests"
+name := "vrm-retention-acceptance-tests"
 
 version := versionString
 
