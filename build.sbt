@@ -1,10 +1,9 @@
 import CommonResolvers._
 import com.typesafe.sbt.web.SbtWeb
-import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
-import templemore.sbt.cucumber.CucumberPlugin
+//import templemore.sbt.cucumber.CucumberPlugin
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -24,6 +23,8 @@ organizationName := "Driver & Vehicle Licensing Agency"
 scalaVersion := "2.10.3"
 
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
+
+crossScalaVersions := Seq("2.10.3", "2.11.4")
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtWeb)
 
@@ -55,8 +56,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.5" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "common-test" % "2.5" % "test" withSources() withJavadoc(),
+    "dvla" %% "vehicles-presentation-common" % "2.6-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "common-test" % "2.6-SNAPSHOT" % "test" withSources() withJavadoc(),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -64,17 +65,17 @@ libraryDependencies ++= {
   )
 }
 
-CucumberPlugin.cucumberSettings ++
-  Seq(
-    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-retention/",
-    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
-    CucumberPlugin.cucumberJunitReport := false,
-    CucumberPlugin.cucumberHtmlReport := false,
-    CucumberPlugin.cucumberPrettyReport := false,
-    CucumberPlugin.cucumberJsonReport := false,
-    CucumberPlugin.cucumberStrict := true,
-    CucumberPlugin.cucumberMonochrome := false
-  )
+//CucumberPlugin.cucumberSettings ++
+//  Seq(
+//    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-retention/",
+//    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
+//    CucumberPlugin.cucumberJunitReport := false,
+//    CucumberPlugin.cucumberHtmlReport := false,
+//    CucumberPlugin.cucumberPrettyReport := false,
+//    CucumberPlugin.cucumberJsonReport := false,
+//    CucumberPlugin.cucumberStrict := true,
+//    CucumberPlugin.cucumberMonochrome := false
+//  )
 
 val myTestOptions =
   if (System.getProperty("include") != null) {
@@ -94,10 +95,6 @@ concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags
 
 sbt.Keys.fork in Test := false
 
-jacoco.settings
-
-parallelExecution in jacoco.Config := false
-
 // Using node to do the javascript optimisation cuts the time down dramatically
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 
@@ -110,9 +107,9 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-ScoverageSbtPlugin.instrumentSettings
+instrumentSettings
 
-ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
+ScoverageKeys.excludedPackages := "<empty>;Reverse.*"
 
 CoverallsPlugin.coverallsSettings
 
