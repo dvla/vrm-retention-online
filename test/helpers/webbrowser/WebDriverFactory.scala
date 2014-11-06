@@ -64,8 +64,7 @@ object WebDriverFactory {
   }
 
   private def htmlUnitDriver(javascriptEnabled: Boolean) = {
-    val driver = new HtmlUnitDriver()
-    driver.setJavascriptEnabled(javascriptEnabled) // TODO HTMLUnit blows up when navigating live site due to JavaScript errors!
+    val driver = new HtmlUnitDriver(javascriptEnabled)
     driver
   }
 
