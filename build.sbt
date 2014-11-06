@@ -3,7 +3,7 @@ import com.typesafe.sbt.web.SbtWeb
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
-//import templemore.sbt.cucumber.CucumberPlugin
+import templemore.sbt.cucumber.CucumberPlugin
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -65,17 +65,17 @@ libraryDependencies ++= {
   )
 }
 
-//CucumberPlugin.cucumberSettings ++
-//  Seq(
-//    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-retention/",
-//    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
-//    CucumberPlugin.cucumberJunitReport := false,
-//    CucumberPlugin.cucumberHtmlReport := false,
-//    CucumberPlugin.cucumberPrettyReport := false,
-//    CucumberPlugin.cucumberJsonReport := false,
-//    CucumberPlugin.cucumberStrict := true,
-//    CucumberPlugin.cucumberMonochrome := false
-//  )
+CucumberPlugin.cucumberSettings ++
+  Seq(
+    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-retention/",
+    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
+    CucumberPlugin.cucumberJunitReport := false,
+    CucumberPlugin.cucumberHtmlReport := false,
+    CucumberPlugin.cucumberPrettyReport := false,
+    CucumberPlugin.cucumberJsonReport := false,
+    CucumberPlugin.cucumberStrict := true,
+    CucumberPlugin.cucumberMonochrome := false
+  )
 
 val myTestOptions =
   if (System.getProperty("include") != null) {
