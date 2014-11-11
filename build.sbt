@@ -31,7 +31,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtW
 lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
   .dependsOn(root % "test->test")
   .disablePlugins(PlayScala, SassPlugin, SbtWeb)
-  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings:_*)
+  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
@@ -40,9 +40,7 @@ libraryDependencies ++= {
     filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" %% "cucumber-scala" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-picocontainer" % "1.2.0" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
@@ -61,7 +59,9 @@ libraryDependencies ++= {
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
-    "com.rabbitmq" % "amqp-client" % "3.4.1"
+    "com.rabbitmq" % "amqp-client" % "3.4.1",
+    "junit" % "junit" % "4.11",
+    "junit" % "junit-dep" % "4.11"
   )
 }
 
