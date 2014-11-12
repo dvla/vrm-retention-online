@@ -37,7 +37,12 @@ object VehicleAndKeeperDetailsModel {
     VehicleAndKeeperDetailsModel(registrationNumber = formatVrm(vehicleAndKeeperDetailsDto.registrationNumber),
       make = vehicleAndKeeperDetailsDto.vehicleMake,
       model = vehicleAndKeeperDetailsDto.vehicleModel,
-      title = vehicleAndKeeperDetailsDto.keeperTitle,
+      title = {
+        vehicleAndKeeperDetailsDto.keeperTitle match {
+          case Some(keeperTitle) => if (keeperTitle.toUpperCase().startsWith("M")) Some(keeperTitle) else None
+          case None => None
+        }
+      },
       firstName = vehicleAndKeeperDetailsDto.keeperFirstName,
       lastName = vehicleAndKeeperDetailsDto.keeperLastName,
       address = Some(addressViewModel))
