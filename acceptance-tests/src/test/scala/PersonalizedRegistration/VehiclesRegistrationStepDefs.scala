@@ -10,6 +10,7 @@ import org.scalatest.Matchers
 final class VehiclesRegistrationStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
+
   lazy val User = new commonStepDefs(webBrowserDriver)
 
   @Given("^that I have started the PR Retention Service$")

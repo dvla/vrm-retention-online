@@ -12,6 +12,6 @@ class RunTest {
 }
 
 object FeaturePath {
-  final val Path = getClass.getClassLoader.getResource("/gherkin/").toURI.getPath
+  final val Path = getClass.getClassLoader.getResource("/PersonalizedRegistration/").toURI.getPath
 }
 
