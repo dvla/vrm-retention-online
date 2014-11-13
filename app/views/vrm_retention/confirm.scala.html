@@ -51,13 +51,10 @@
         <div class="two-col">
             <div class="second-col">
                 <br/>
-                <p>@Messages("vrm_retention_confirm.emailAddressLabel")</p>
-                <p>@Messages("vrm_retention_confirm.emailHint1")</p>
-                <ul>
-                    <li>@Messages("vrm_retention_confirm.emailHint2")</li>
-                    <li>@Messages("vrm_retention_confirm.emailHint3")</li>
-                </ul>
-                @valtechInputText(confirmForm(KeeperEmailId),
+                <p><strong>@Messages("vrm_retention_confirm.emailAddressLabel")</strong>
+                    <br />
+                    @Messages("vrm_retention_confirm.emailHint1")</p>
+                    @valtechInputText(confirmForm(KeeperEmailId),
                     args = Map(
                         'NO_OPTIONAL_LABEL -> true,
                         '_label -> "",
