@@ -92,7 +92,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
 
     address.map { a =>
       var positionY = 565
-      for (line <- a.address.init) {
+      for (line <- a.address) {
         contentStream.beginText()
         fontHelvetica(fontDefaultSize)
         contentStream.moveTextPositionByAmount(330, positionY)
