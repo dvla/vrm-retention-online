@@ -271,10 +271,10 @@ mandatory = Fields not labelled (optional) are mandatory
 #
 
 # main
-main.banner = Retain a personalised registration number
+main.banner = Take a Registration Number off a Vehicle
 
 # before you start
-vrm_retention_beforeyoustart.title = Retain a personalised registration
+vrm_retention_beforeyoustart.title = Take a Registration Number off a Vehicle
 vrm_retention_beforeyoustart.p1 = You can apply to remove a registration number from a vehicle and hold it on a retention document (V778) for as long as required if you’re the registered keeper of the vehicle.
 vrm_retention_beforeyoustart.p2 = Once you have successfully retained your registration number you will be able to assign it to a new vehicle immediately or simply hold on to it until you wish to place it on another vehicle.
 vrm_retention_beforeyoustart.p3 = To apply online you will need:
@@ -346,11 +346,11 @@ vrm_retention_vehiclelookup.businessaddresslabel = Business address
 vrm_retention_vehiclelookup.keeperCheckBoxlabeI = I am the current keeper as listed on the V5C
 vrm_retention_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper's behalf and have their consent
 vrm_retention_vehiclelookup.postcodelabel = Keeper postcode
+
 vrm_retention_vehiclelookup.postcodeHint = Example: SA12FA
-vrm_retention_vehiclelookup.keeper = Yes
-vrm_retention_vehiclelookup.keeper.hint = I am the registered keeper
-vrm_retention_vehiclelookup.business = No
-vrm_retention_vehiclelookup.business.hint = I am a business and I have consent to act for them
+vrm_retention_vehiclelookup.keeper = Yes, I am the registered keeper
+vrm_retention_vehiclelookup.business = No, I am a business and I have consent to act for them
+
 vrm_retention_vehiclelookup.label = Are you the keeper?
 keeper-consent = Keeper consent
 postcode = Postcode

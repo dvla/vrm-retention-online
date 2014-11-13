@@ -104,8 +104,8 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
     val transactionTimestamp = dateService.today.toDateTimeMillis.get
-    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-      ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp).drop(2) + " " +
+      ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
     validForm.registrationNumber +
       isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
   }

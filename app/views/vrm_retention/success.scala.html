@@ -50,7 +50,7 @@
 					<dd>@successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
 					<dt>Keeper Address</dt>
 					<dd>
-						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address.init) {
+						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
 							@keeperAddressLine<br>
 					  }
 					</dd>
