@@ -151,7 +151,7 @@ widget.optional = (optional)
 #customer validation messages
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVrnOnly = Must be valid format
-error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
+error.restricted.validPostcode = Must be between five and eight characters and in a valid format
 
 datePlaceholder.day=Day
 datePlaceholder.month=Month
@@ -271,10 +271,10 @@ mandatory = Fields not labelled (optional) are mandatory
 #
 
 # main
-main.banner = Retain a personalised registration number
+main.banner = Take a Registration Number off a Vehicle
 
 # before you start
-vrm_retention_beforeyoustart.title = Retain a personalised registration
+vrm_retention_beforeyoustart.title = Take a Registration Number off a Vehicle
 vrm_retention_beforeyoustart.p1 = You can apply to remove a registration number from a vehicle and hold it on a retention document (V778) for as long as required if you’re the registered keeper of the vehicle.
 vrm_retention_beforeyoustart.p2 = Once you have successfully retained your registration number you will be able to assign it to a new vehicle immediately or simply hold on to it until you wish to place it on another vehicle.
 vrm_retention_beforeyoustart.p3 = To apply online you will need:
@@ -346,11 +346,11 @@ vrm_retention_vehiclelookup.businessaddresslabel = Business address
 vrm_retention_vehiclelookup.keeperCheckBoxlabeI = I am the current keeper as listed on the V5C
 vrm_retention_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper's behalf and have their consent
 vrm_retention_vehiclelookup.postcodelabel = Keeper postcode
-vrm_retention_vehiclelookup.postcodeHint = Example: SA991AB
-vrm_retention_vehiclelookup.keeper = Yes
-vrm_retention_vehiclelookup.keeper.hint = I am the registered keeper
-vrm_retention_vehiclelookup.business = No
-vrm_retention_vehiclelookup.business.hint = I am a business and I have consent to act for them
+
+vrm_retention_vehiclelookup.postcodeHint = Example: SA12FA
+vrm_retention_vehiclelookup.keeper = Yes, I am the registered keeper
+vrm_retention_vehiclelookup.business = No, I have consent to act for them
+
 vrm_retention_vehiclelookup.label = Are you the keeper?
 keeper-consent = Keeper consent
 postcode = Postcode
@@ -384,6 +384,9 @@ vrm_retention_eligibility_failure.title = This registration number cannot be ret
 vrm_retention_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.  If you need further assistance please ring our Contact Centre on 0300 790 6801.
 vrm_retention_eligibility_failure.p2 =
 vrm_retention_eligibility_failure.p3 =
+vrm_retention_eligibility_unknown_error_code.p1 = Unfortunately, our records won''t let you retain this registration number.
+vrm_retention_eligibility_unknown_error_code.p2 = For further information you can telephone a member of our contact centre using the details opposite.
+vrm_retention_eligibility_unknown_error_code.p3 = Some information may be sensitive and we wont be able to discuss this on the phone. We will however continue to try and sort out the issue preventing you from retaining your registration number.
 
 # Payment page
 vrm_retention_payment.title = Payment
@@ -450,17 +453,20 @@ vrm_retention_confirm.businessPostcodeLabel = Postcode
 vrm_retention_confirm.positiveAction = Confirm
 vrm_retention_confirm.back = Back
 keeper-email = E-mail
-vrm_retention_confirm.emailAddressLabel = Keeper E-mail
+vrm_retention_confirm.emailAddressLabel = Keeper e-mail
 vrm_retention_confirm.emailAddressDesc = We require your email to send you:
-vrm_retention_confirm.emailAddressList1 = your payment receipt
-vrm_retention_confirm.emailAddressList2 = a summary of this transaction
 vrm_retention_confirm.emailAddressLabelBusiness = Keeper e-mail address
 vrm_retention_confirm.emailAddressTitleBusiness = To ensure that we can send your customer all the required information related to this transaction, which includes a number plate authorisation certificate for their replacement number plate, please provide us with their email address below:
-vrm_retention_confirm.emailHint1 = We require your email to send you:
+vrm_retention_confirm.emailHint1 = Supply your email address to receive a payment receipt and a summary of the transaction
 vrm_retention_confirm.emailHint2 = your payment receipt
 vrm_retention_confirm.emailHint3 = a summary of this transaction
 vrm_retention_confirm.button = Next
-vrm_retention_confirm.emailWarn = If any details are wrong, ‘Exit’ the service and
+vrm_retention_confirm.emailWarn = Incorrect Details?
+vrm_retention_confirm.emailWarnp1 = You must update your registration certificate (V5C) if there are any mistakes on it, or if you make a number of changes to your vehicle.
+vrm_retention_confirm.emailWarnp2 = You'll need to send your updated certificate to DVLA with any necessary evidence.
+vrm_retention_confirm.emailWarnp3 = Depending on the changes, your vehicle may have to be inspected, but DVLA will tell you if your vehicle needs inspection.
+vrm_retention_confirm.emailWarnp4 = For more information
+vrm_retention_confirm.emailWarnp4link = click here
 vrm_retention_confirm.emailWarnLinkText = update your details
 vrm_retention_confirm.emailHint = The email address you want to have a copy of the completed transaction sent to
 vrm_retention_confirm.storeDetailsConsent = Remember these details
@@ -518,7 +524,7 @@ vrm_retention_success_payment.listItem1business = They must tell their insurance
 vrm_retention_success_payment.listItem2business = A summary of the transaction will be sent to them if they provided their email address
 vrm_retention_success_payment.p4 = We recommend that you print or download the eV948 immediately. It is only valid for 3 working days and if you lose it we can't re-issue it.
 vrm_retention_success_payment.p5 = However, If you do lose it you will have to wait for a new registration certificate (V5C) for the vehicle which requires the replacement registration. You should get this within 3-5 days by post.
-vrm_retention_success_payment.p6 = You'll need this to make up the replacement plates
+vrm_retention_success_payment.p6 = You''ll need this to make up the replacement plates
 vrm_retention_success_payment.p7 = You will need the updated V5C or a number plate authorisation certificate (eV948) which you can download or print via one of the links on the right.
 success-payment-keeper-p1 = You will now be issued new paperwork for your vehicle to display the replacement number plate above
 success-payment-keeper-p2a = Take your existing registration number,

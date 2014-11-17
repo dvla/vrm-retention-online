@@ -85,7 +85,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
               auditService.send(AuditMessage.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-                transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse("no-transaction-id-cookie"),
                 timestamp = dateService.dateTimeISOChronology,
                 vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
                 rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
@@ -104,8 +104,8 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
     val transactionTimestamp = dateService.today.toDateTimeMillis.get
-    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-      ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp).drop(2) + " " +
+      ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
     validForm.registrationNumber +
       isoDateTimeString.replace(" ", "").replace("-", "").replace(":", "").replace(".", "")
   }

@@ -55,9 +55,6 @@ class Config {
   // Payment Service
   val purchaseAmount: String = getProperty("retention.purchaseAmountInPence", "NOT FOUND")
 
-  // Audit Service
-  val auditServiceUseRabbit = getProperty("auditService.useRabbit", default = false)
-
   // Rabbit-MQ
   val rabbitmqHost = getProperty("rabbitmq.host", "NOT FOUND")
   val rabbitmqPort = getProperty("rabbitmq.port", 0)

@@ -1,6 +1,7 @@
 package helpers.webbrowser
 
 import java.util.concurrent.TimeUnit
+
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.{FirefoxDriver, FirefoxProfile}
@@ -43,16 +44,23 @@ object WebDriverFactory {
   }
 
   def testRemote: Boolean = {
-    getProperty("test.remote", default = false)
+    getProperty("test.remote", default = true)
   }
 
   def testUrl: String = {
     if (testRemote) {
       getProperty("test.url", "http://localhost:9000/")
+//      val testUrlEnvVar = sys.env.get("test.url") getOrElse
+//        sys.props.get("test.url").getOrElse("http://localhost:9000/")
+//      val testUrl = getProperty("test.url", testUrlEnvVar)
+//      Logger.info(s"WebDriver remote testUrl: $testUrl")
+//      testUrl
     }
     else {
       // Default if testing locally
       new String("http://localhost:9003/")
+//      Logger.info(s"WebDriver local testUrl: http://localhost:9000")
+//      new String("http://localhost:9000/")
     }
   }
 
@@ -64,8 +72,7 @@ object WebDriverFactory {
   }
 
   private def htmlUnitDriver(javascriptEnabled: Boolean) = {
-    val driver = new HtmlUnitDriver()
-    driver.setJavascriptEnabled(javascriptEnabled) // TODO HTMLUnit blows up when navigating live site due to JavaScript errors!
+    val driver = new HtmlUnitDriver(javascriptEnabled)
     driver
   }
 

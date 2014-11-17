@@ -1,6 +1,5 @@
 import CommonResolvers._
 import com.typesafe.sbt.web.SbtWeb
-import de.johoop.jacoco4sbt.JacocoPlugin._
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
@@ -15,7 +14,7 @@ publishTo <<= version { v: String =>
 
 name := "vrm-retention-online"
 
-version := "1.0"
+version := "1.1-SNAPSHOT"
 
 organization := "dvla"
 
@@ -25,12 +24,14 @@ scalaVersion := "2.10.3"
 
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
+crossScalaVersions := Seq("2.10.3", "2.11.4")
+
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
   .dependsOn(root % "test->test")
   .disablePlugins(PlayScala, SassPlugin, SbtWeb)
-  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings:_*)
+  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
@@ -39,9 +40,7 @@ libraryDependencies ++= {
     filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" %% "cucumber-scala" % "1.1.8" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-picocontainer" % "1.1.8" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
@@ -55,13 +54,14 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.5" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "common-test" % "2.5" % "test" withSources() withJavadoc(),
+    "dvla" %% "vehicles-presentation-common" % "2.6-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "common-test" % "2.6-SNAPSHOT" % "test" withSources() withJavadoc(),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
-    // TODO update dependencies below after we are able to test with a real queue, some of them are not required now.
-    "com.rabbitmq" % "amqp-client" % "3.4.1"
+    "com.rabbitmq" % "amqp-client" % "3.4.1",
+    "junit" % "junit" % "4.11",
+    "junit" % "junit-dep" % "4.11"
   )
 }
 
@@ -95,10 +95,6 @@ concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags
 
 sbt.Keys.fork in Test := false
 
-jacoco.settings
-
-parallelExecution in jacoco.Config := false
-
 // Using node to do the javascript optimisation cuts the time down dramatically
 JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 
@@ -111,9 +107,9 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-ScoverageSbtPlugin.instrumentSettings
+instrumentSettings
 
-ScoverageSbtPlugin.ScoverageKeys.excludedPackages in ScoverageSbtPlugin.scoverage := "<empty>;Reverse.*"
+ScoverageKeys.excludedPackages := "<empty>;Reverse.*"
 
 CoverallsPlugin.coverallsSettings
 

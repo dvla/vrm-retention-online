@@ -18,7 +18,6 @@ class TestConfig(
     val config: Config = mock[Config]
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
     when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
-    when(config.auditServiceUseRabbit).thenReturn(auditServiceUseRabbit)
     when(config.rabbitmqHost).thenReturn(rabbitmqHost)
     when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)

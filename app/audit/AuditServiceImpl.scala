@@ -26,7 +26,7 @@ final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
   }
 
   override def send(auditMessage: Message): Unit = {
-    if (config.auditServiceUseRabbit) {
+    if (config.rabbitmqHost != "NOT FOUND") {
       Akka.system.scheduler.scheduleOnce(
         delay = FiniteDuration(0, TimeUnit.SECONDS),
         receiver = Akka.system.actorOf(
