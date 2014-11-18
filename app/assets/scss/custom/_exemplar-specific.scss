@@ -53,16 +53,41 @@
 /*Custom styles requested by Clifton for PR
 but may want to be moved to common*/
 
+.global-header .header-proposition h1.page-title {
+    font-size:24px;
+    float:right;
+    margin-right:70px;
+    font-weight:normal;
+}
+
 .app h1 {
     margin:0px;
+}
+
+.vrm-retention-online legend {
+    font-weight:bold;
+    font-size:24px;
+    padding-bottom:0px;
+}
+
+.list-title {
+     font-size:19px;
 }
 
 .app ol li, .app ul li {
     margin-bottom: .1em;
 }
 
-.list-title {
-    font-size:19px;
+.app ol, .app ul {
+    padding-left: 15px;
+}
+
+.vrm-retention-online .form-item {
+    margin: 0px 0px 0.5em;
+}
+
+.vrm-retention-online label.form-radio, .vrm-retention-online label.form-checkbox {
+    margin:0px;
 }
 
 .vrm-retention-online .info-notice {
@@ -71,5 +96,11 @@ but may want to be moved to common*/
 }
 
 .vrm-retention-online .button {
-margin:0px;
+/*margin:0px;*/
+}
+
+.vrm-retention-online .prototype {
+
+border-bottom:1px solid #DCDCDC;
+
 }

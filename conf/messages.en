@@ -6,7 +6,7 @@
 #main.banner = Sell a vehicle into the motor trade
 main.back = Back
 main.banner.help = Help
-main.banner.feedback = leave feedback
+main.banner.feedback = your feedback
 main.banner.feedback.link = mailto:pr.feedback@dvla.gsi.gov.uk?Subject=Retain%20a%20Personalised%20Number%20Feedback
 crown-copyright = Crown Copyright
 open-government-licence = Open Government Licence v2.0
@@ -36,7 +36,7 @@ footer.builtby = Driver & Vehicle Licensing Agency
 
 #prototype
 prototype.banner.part1 = This is a new service -
-prototype.banner.part2 = to help us improve it
+prototype.banner.part2 = will help us to improve it
 
 #page 2
 keeperstatus.title = Change of keeper address2
@@ -336,7 +336,7 @@ error.validBusinessContact = Must be between two and 58 characters and only cont
 error.validEmail = Must be a valid email address
 
 # vehicle Lookup
-vrm_retention_vehiclelookup.title = Getting started
+vrm_retention_vehiclelookup.title = Registration details
 vrm_retention_vehiclelookup.intro = You will need
 vrm_retention_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
 vrm_retention_vehiclelookup.name = Dispose a vehicle into the motor trade
@@ -344,7 +344,7 @@ vrm_retention_vehiclelookup.p1 = Vehicle being sold
 vrm_retention_vehiclelookup.p2 = Vehicle will be sold to
 vrm_retention_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 vrm_retention_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
-vrm_retention_vehiclelookup.refnumlabel = Latest document reference number
+vrm_retention_vehiclelookup.refnumlabel = Latest V5C document reference number
 vrm_retention_vehiclelookup.refnumHint = The 11 digit number found on the V5C (see opposite)
 vrm_retention_vehiclelookup.vrninputlabel = Vehicle registration number
 vrm_retention_vehiclelookup.vrnHint = The registration number you want to keep
