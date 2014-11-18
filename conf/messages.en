@@ -279,26 +279,36 @@ vrm_retention_beforeyoustart.p1 = You can apply to remove a registration number 
 vrm_retention_beforeyoustart.p2 = Once you have successfully retained your registration number you will be able to assign it to a new vehicle immediately or simply hold on to it until you wish to place it on another vehicle.
 vrm_retention_beforeyoustart.p3 = To apply online you will need:
 
-vrm_retention_beforeyoustart.p5 = This service is performed in real-time, as such any action taken is final and cannot be undone.
-vrm_retention_beforeyoustart.p6 = Upon a successful retention we will provide you with a screen confirmation as well as sending a copy via e-mail, should you choose to provide one, along with any relevant documentation. You will also receive physical documentation in the post within a few weeks of a successful outcome.
-vrm_retention_beforeyoustart.p7 = However, if you would prefer to use the traditional paper service you can download the form here.
+vrm_retention_beforeyoustart.p5 = Please note: this service updates our records immediately.
+vrm_retention_beforeyoustart.p6 = After you have retained your registration number you can either:
+vrm_retention_beforeyoustart.p6.listitem1 = assign (put it on) a new or used vehicle, or
+vrm_retention_beforeyoustart.p6.listitem2 = hold it on a certificate until you want to put it on another vehicle.
+
+vrm_retention_beforeyoustart.p7 = After you have retained your registration number we will:
+vrm_retention_beforeyoustart.p7.listitem1 = allocate an age appropriate mark for the vehicle
+vrm_retention_beforeyoustart.p7.listitem2 = issue new documentation displaying new registration details.
 vrm_retention_beforeyoustart.p8 = This service is currently in a beta phase of development. This means that although it will still do everything it is designed to do, it is not quite finished and will in some cases run alongside the older, existing service. For more information please
 vrm_retention_beforeyoustart.p8link = click here
-vrm_retention_beforeyoustart.listitem1 = The 11 digit document reference number from the latest registration certificate (V5C) for the vehicle
+vrm_retention_beforeyoustart.listitem1 = the 11 digit document reference number from the latest registration certificate (V5C) for the vehicle
 vrm_retention_beforeyoustart.listitem2 = a valid credit or debit card to cover the £80 fee charged for this service.
 vrm_retention_beforeyoustart.listitem3 = We will allocate a replacement registration number for the vehicle. It is the responsibility of the registered keeper to ensure that the new registration number is displayed on the vehicle.
 vrm_retention_beforeyoustart.listitem4 = It is the responsibility of the registered keeper to ensure that their insurance company is informed of the change in registration number.
 vrm_retention_beforeyoustart.button = Start now
 
 # before you start part 2
-vrm_retention_beforeyoustartpart2.title = Before you start
-vrm_retention_beforeyoustartpart2.p1 = Conditions for retaining a registration number
-vrm_retention_beforeyoustartpart2.p2 = You can’t retain a registration number starting with ‘Q’ or ‘NIQ’ for Northern Ireland registered vehicles.
+vrm_retention_beforeyoustartpart2.title = Conditions for retaining a registration number
+vrm_retention_beforeyoustartpart2.title = Conditions for retaining a registration number
+vrm_retention_beforeyoustartpart2.p1 = The vehicle must be:
+vrm_retention_beforeyoustartpart2.p1.listitem1 = registered with DVLA
+vrm_retention_beforeyoustartpart2.p1.listitem2 = available for inspection
+vrm_retention_beforeyoustartpart2.p1.listitem3 = of a type that needs an MOT or heavy goods vehicle (HGV) test certificate
+vrm_retention_beforeyoustartpart2.p1.listitem4 = taxed or taxed within the last 5 years.
+vrm_retention_beforeyoustartpart2.p2 = You can only retain a personalised registration using our online service from the ''R'' prefix onwards.
 vrm_retention_beforeyoustartpart2.p3 = To retain a valid registration number, the vehicle must be:
 vrm_retention_beforeyoustartpart2.listitem1 = registered with DVLA
 vrm_retention_beforeyoustartpart2.listitem2 = available for inspection
 vrm_retention_beforeyoustartpart2.listitem3 = of a type that needs an MOT or heavy goods vehicle (HGV) test certificate
-vrm_retention_beforeyoustartpart2.p4 = Pre-1960 vehicles need a valid MOT to retain a registration number.
+vrm_retention_beforeyoustartpart2.p4 = If untaxed, SORN must be declared continuously from the date of expiry.
 vrm_retention_beforeyoustartpart2.p5 = The vehicle should also be taxed, unless:
 vrm_retention_beforeyoustartpart2.listitem4 = there’s no break between the date the tax disc runs out and the start of the SORN
 vrm_retention_beforeyoustartpart2.listitem5 = the tax disc has run out in the last 12 months

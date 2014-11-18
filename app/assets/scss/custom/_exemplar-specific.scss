@@ -48,3 +48,28 @@
   margin-top: 1em;
   margin-left: 1em;
 }
+
+
+/*Custom styles requested by Clifton for PR
+but may want to be moved to common*/
+
+.app h1 {
+    margin:0px;
+}
+
+.app ol li, .app ul li {
+    margin-bottom: .1em;
+}
+
+.list-title {
+    font-size:19px;
+}
+
+.vrm-retention-online .info-notice {
+    padding: 0.6em 0px 0.6em 1em;
+    font-size:20px;
+}
+
+.vrm-retention-online .button {
+margin:0px;
+}
