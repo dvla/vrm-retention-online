@@ -25,7 +25,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
       val formModel = ConfirmFormModel(None)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper,vehicleAndKeeperLookupForm.userType)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
@@ -76,7 +76,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     }
     yield {
-      val viewModel = ConfirmViewModel(vehicleAndKeeper)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper,vehicleAndKeeperLookupForm.userType)
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
     }

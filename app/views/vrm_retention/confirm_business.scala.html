@@ -16,7 +16,7 @@
 ) {
     <div class="two-col">
         <div class="second-col">
-            <h1>@Messages("vrm_retention_confirm_business.title")</h1>
+            <h2>@Messages("vrm_retention_confirm_business.title")</h2>
 
             <dl class="playback">
                 <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
@@ -43,7 +43,7 @@
         </div>
         <div class="first-col">
             <dl class="playback">
-                <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
+                <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@confirmBusinessViewModel.registrationNumber</dd>
                 @if(confirmBusinessViewModel.vehicleMake.isDefined) {
@@ -61,7 +61,6 @@
     @form(action = controllers.routes.ConfirmBusiness.submit()) {
         @csrfTokenHiddenField()
         <div class="two-col">
-            <div class="second-col">
 
                 @*<div class="form-declaration">*@
                 @valtechOptionalDeclareCheck(confirmBusinessForm(StoreDetailsConsentId),
@@ -74,7 +73,6 @@
                 )
                 @*</div>*@
 
-            </div>
         </div>
 
 
@@ -82,7 +80,7 @@
             @if(confirmBusinessViewModel.businessName.isDefined && confirmBusinessForm.get.storeBusinessDetails) {
                 <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_changedetails.button")</a>
             }
-            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
+            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm_business.button")</button>
             <br/>
             <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>

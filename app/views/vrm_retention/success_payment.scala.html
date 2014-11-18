@@ -10,7 +10,7 @@
 @main(
     title = Messages("vrm_retention_success_payment.title")
 ) {
-            <h1>@Messages("vrm_retention_success_payment.title")</h1>
+            <h2>@Messages("vrm_retention_success_payment.h1")</h2>
             <dl class="summary-replacement-reg">
               @if(!isKeeper) {
                 <dt>@Messages("vrm_retention_success_payment.p1business")</dt>
@@ -22,7 +22,7 @@
 
 
             @if(isKeeper) {
-                <h2>@Messages("vrm_retention_success_payment.p3")</h2>
+                <h3>@Messages("vrm_retention_success_payment.p3")</h3>
                 <ul>
                   <li>@Messages("vrm_retention_success_payment.listItem1") <strong>@successViewModel.replacementRegistrationNumber</strong></li>
                   <li>@Messages("vrm_retention_success_payment.listItem2")</li>
@@ -32,7 +32,7 @@
             } else {
                 <div class="info-highlight two-col">
                   <div class="second-col">
-                    <h2>@Messages("vrm_retention_success_payment.p6")</h2>
+                    <h3>@Messages("vrm_retention_success_payment.p6")</h3>
                     <p>@Messages("vrm_retention_success_payment.p7")</p>
                   </div>
                   <div class="first-col">
@@ -46,7 +46,7 @@
                     <p>@Messages("vrm_retention_success_payment.p4")</p>
                     <p>@Messages("vrm_retention_success_payment.p5")</p>
                 </div>
-                <h2>@Messages("vrm_retention_success_payment.p3business")</h2>
+                <h3>@Messages("vrm_retention_success_payment.p3business")</h3>
                 <ul>
                     <li>@Messages("vrm_retention_success_payment.listItem1business") <strong>@successViewModel.replacementRegistrationNumber</strong></li>
                     <li>@Messages("vrm_retention_success_payment.listItem2business")</li>

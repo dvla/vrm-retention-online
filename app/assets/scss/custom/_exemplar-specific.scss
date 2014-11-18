@@ -53,6 +53,10 @@
 /*Custom styles requested by Clifton for PR
 but may want to be moved to common*/
 
+.vrm-retention-online .prototype {
+    padding-bottom:0px;
+}
+
 .global-header .header-proposition h1.page-title {
     font-size:24px;
     float:right;
@@ -60,14 +64,30 @@ but may want to be moved to common*/
     font-weight:normal;
 }
 
-.app h1 {
-    margin:0px;
+.back-navigation {
+    margin-bottom:0px;
 }
 
-.vrm-retention-online legend {
+.app h1 {
+    margin:0px;
+    font-size:48px;
+}
+
+.app h2 {
+    font-size:36px;
+}
+
+.app h3 {
+    font-size:27px;
     font-weight:bold;
-    font-size:24px;
-    padding-bottom:0px;
+    padding-bottom:10px;
+}
+
+
+.vrm-retention-online legend {
+   /* font-weight:bold;
+    font-size:24px;*/
+    padding-bottom:5px;
 }
 
 .list-title {
@@ -83,11 +103,11 @@ but may want to be moved to common*/
 }
 
 .vrm-retention-online .form-item {
-    margin: 0px 0px 0.5em;
+    margin: 0px 0px 1.5em;
 }
 
 .vrm-retention-online label.form-radio, .vrm-retention-online label.form-checkbox {
-    margin:0px;
+   /* margin:0px;*/
 }
 
 .vrm-retention-online .info-notice {
@@ -100,7 +120,9 @@ but may want to be moved to common*/
 }
 
 .vrm-retention-online .prototype {
+    border-bottom:1px solid #DCDCDC;
+}
 
-border-bottom:1px solid #DCDCDC;
-
+.vrm-retention-online .first-col .playback dt, .vrm-retention-online .first-col .playback dd, .vrm-retention-online .first-col .playback p {
+    font-size: 19px;
 }

@@ -16,22 +16,25 @@
 ) {
     <div class="two-col">
         <div class="second-col">
-
-            <h1>@Messages("vrm_retention_confirm.title")</h1>
+            <h2>@Messages("vrm_retention_confirm.title")</h2>
             <dl class="playback first-line">
-                <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
-                <dd>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dd>
-                <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
-                <dd>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
+                <dt><strong>@Messages("vrm_retention_confirm.keeperLabel")</strong></dt>
+                <dt>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dt>
+            </dl>
+            <dl>
+                <dt><strong>@Messages("vrm_retention_confirm.keeperAddressLabel")</strong></dt>
+                <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
                     @keeperAddressLine<br>
-                    }</dd>
-                <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
-                <dd>@confirmViewModel.keeperAddress.get.address.last</dd>
+                    }</dt>
+            </dl>
+            <dl>
+                <dt><strong>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</strong></dt>
+                <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
             </dl>
         </div>
         <div class="first-col">
             <dl class="playback">
-                <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
+                <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                 <dd class="reg-number">@confirmViewModel.registrationNumber</dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
@@ -62,7 +65,13 @@
                 <br/>
                 <p><strong>@Messages("vrm_retention_confirm.emailAddressLabel")</strong>
                     <br />
-                    @Messages("vrm_retention_confirm.emailHint1")</p>
+                    @if(confirmViewModel.userType.equals("Keeper")) {
+                        <span class="form-hint form-hint-email">@Messages("vrm_retention_confirm.emailKeeper")</span>
+                    }
+                    @if(!confirmViewModel.userType.equals("Keeper")) {
+                        <span class="form-hint form-hint-email">@Messages("vrm_retention_confirm.emailTrade")</span>
+                    }
+                   </p>
                     @valtechInputText(confirmForm(KeeperEmailId),
                     args = Map(
                         'NO_OPTIONAL_LABEL -> true,

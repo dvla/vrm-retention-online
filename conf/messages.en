@@ -293,7 +293,7 @@ vrm_retention_beforeyoustart.listitem1 = the 11 digit document reference number 
 vrm_retention_beforeyoustart.listitem2 = a valid credit or debit card to cover the £80 fee charged for this service.
 vrm_retention_beforeyoustart.listitem3 = We will allocate a replacement registration number for the vehicle. It is the responsibility of the registered keeper to ensure that the new registration number is displayed on the vehicle.
 vrm_retention_beforeyoustart.listitem4 = It is the responsibility of the registered keeper to ensure that their insurance company is informed of the change in registration number.
-vrm_retention_beforeyoustart.button = Start now
+vrm_retention_beforeyoustart.button = Start Now
 
 # before you start part 2
 vrm_retention_beforeyoustartpart2.title = Conditions for retaining a registration number
@@ -336,7 +336,7 @@ error.validBusinessContact = Must be between two and 58 characters and only cont
 error.validEmail = Must be a valid email address
 
 # vehicle Lookup
-vrm_retention_vehiclelookup.title = Registration details
+vrm_retention_vehiclelookup.title = Enter details
 vrm_retention_vehiclelookup.intro = You will need
 vrm_retention_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
 vrm_retention_vehiclelookup.name = Dispose a vehicle into the motor trade
@@ -359,9 +359,9 @@ vrm_retention_vehiclelookup.postcodelabel = Keeper postcode
 
 vrm_retention_vehiclelookup.postcodeHint = Example: SA12FA
 vrm_retention_vehiclelookup.keeper = Yes, I am the registered keeper
-vrm_retention_vehiclelookup.business = No, I have consent to act for them
-
+vrm_retention_vehiclelookup.business = No, I am a business and have consent to act on their behalf
 vrm_retention_vehiclelookup.label = Are you the keeper?
+vrm_retention_vehiclelookup.hintlabel =
 keeper-consent = Keeper consent
 postcode = Postcode
 document-reference-number-alt = Location of the document reference number on the V5C form
@@ -420,8 +420,8 @@ vrm_retention_payment.callback.message-when-javascript-disabled = The payment pr
 # Vehicle details partial view
 vrm_retention_vehicle_callback.title = Vehicle details
 vrm_retention_vehicle_callback.regNumLabel = Registration number
-vrm_retention_vehicle_callback.makeLabel = Make
-vrm_retention_vehicle_callback.modelLabel = Model
+vrm_retention_vehicle_callback.makeLabel = Make:
+vrm_retention_vehicle_callback.modelLabel = Model:
 
 # Payment failure page
 paymentFailureErrorMessage.title = Payment Failure
@@ -467,10 +467,12 @@ vrm_retention_confirm.emailAddressLabel = Keeper e-mail
 vrm_retention_confirm.emailAddressDesc = We require your email to send you:
 vrm_retention_confirm.emailAddressLabelBusiness = Keeper e-mail address
 vrm_retention_confirm.emailAddressTitleBusiness = To ensure that we can send your customer all the required information related to this transaction, which includes a number plate authorisation certificate for their replacement number plate, please provide us with their email address below:
-vrm_retention_confirm.emailHint1 = Supply your email address to receive a payment receipt and a summary of the transaction
+vrm_retention_confirm.emailKeeper = Supply an email address to receive a payment receipt and a summary of the transaction
+vrm_retention_confirm.emailTrade = Supply your customers email address to receive a summary of the transaction
 vrm_retention_confirm.emailHint2 = your payment receipt
 vrm_retention_confirm.emailHint3 = a summary of this transaction
 vrm_retention_confirm.button = Next
+vrm_retention_confirm_business.button = Confirm
 vrm_retention_confirm.emailWarn = Incorrect Details?
 vrm_retention_confirm.emailWarnp1 = You must update your registration certificate (V5C) if there are any mistakes on it, or if you make a number of changes to your vehicle.
 vrm_retention_confirm.emailWarnp2 = You'll need to send your updated certificate to DVLA with any necessary evidence.
@@ -522,6 +524,7 @@ addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 
 #Success payment page
 vrm_retention_success_payment.title = Payment Successful
+vrm_retention_success_payment.h1 = Thank you for your payment, your Registration Number can now be taken off your vehicle
 vrm_retention_success_payment.p1 = Your replacement registration:
 vrm_retention_success_payment.p1business = Keeper''s replacement registration:
 vrm_retention_success_payment.p2 = You will receive a new V5C within 2 weeks. When this arrives, your registration number,

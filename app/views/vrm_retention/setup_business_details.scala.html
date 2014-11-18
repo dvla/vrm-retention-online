@@ -23,7 +23,7 @@
         <div class="two-col">
 
             <div class="second-col inline-form">
-                <h1>@Messages("vrm_retention_setupbusinessdetails.title")</h1>
+                <h2>@Messages("vrm_retention_setupbusinessdetails.title")</h2>
                 <div class="uppercase-input">
                 @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessnamehelper")), args =
                         Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
@@ -52,7 +52,7 @@
             </div>
             <div id="vehicle-details" class="first-col trader-details">
                     <dl class="playback">
-                <h2>@Messages("vrm_retention_vehicle_callback.title")</h2>
+                <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
                         <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                         <dd class="reg-number">@viewModel.registrationNumber</dd>
                         @if(viewModel.vehicleMake.isDefined) {
