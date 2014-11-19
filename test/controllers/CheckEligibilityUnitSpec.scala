@@ -172,7 +172,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "calls audit service with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
+    "calls audit service with expected values when transaction id cookie exists" in new WithApplication {
       val (checkEligibility, dateService, auditService) = checkEligibilityAndAudit()
       val expected = new AuditMessage(
         name = "VehicleLookupToConfirm",
