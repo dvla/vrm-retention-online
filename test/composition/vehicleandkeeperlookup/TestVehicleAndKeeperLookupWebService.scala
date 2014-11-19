@@ -1,8 +1,6 @@
 package composition.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
-import org.mockito.Matchers.any
-import org.mockito.Mockito.when
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
@@ -13,11 +11,15 @@ import webserviceclients.fakes._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{mock, when}
 
-class TestVehicleAndKeeperLookupWebService(statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) extends ScalaModule with MockitoSugar {
+class TestVehicleAndKeeperLookupWebService(
+                                            vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]),
+                                            statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
+                                            ) extends ScalaModule with MockitoSugar {
 
   def configure() = {
-    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
     when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
       thenAnswer(
         new Answer[Future[WSResponse]] {

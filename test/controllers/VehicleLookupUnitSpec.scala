@@ -21,7 +21,9 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import helpers.JsonUtils.deserializeJsonToModel
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService, VehicleAndKeeperDetailsResponse}
+import org.mockito.Mockito._
+import org.mockito.Matchers.any
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -61,7 +63,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   "submit" should {
     "redirect to CheckEligibility controller after a valid submit and true message returned from the fake microservice" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(postcode = "SA11AA")
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookupStubs().submit(request)
 
       whenReady(result, timeout) {
@@ -82,7 +84,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           cookies.find(_.name == cookie2Name) match {
             case Some(cookie) =>
               val json = cookie.value
-              val model = deserializeJsonToModel[VehicleAndKeeperDetailsModel](json)
+              deserializeJsonToModel[VehicleAndKeeperDetailsModel](json)
             case None => fail(s"$cookie2Name cookie not found")
           }
       }
@@ -254,6 +256,20 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
+    "Send a request and a trackingId" in new WithApplication {
+      val trackingId = "x" * 20
+      val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
+        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService).submit(request)
+
+      whenReady(result, timeout) {
+        r =>
+          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid, registrationNumber = RegistrationNumberValid)
+          verify(vehicleAndKeeperLookupWebService).invoke(expectedRequest, trackingId)
+      }
+    }
+
 //    "Send a request and a trackingId" in new WithApplication {
 //      val trackingId = "x" * 20
 //      val request = buildCorrectlyPopulatedRequest().
@@ -326,6 +342,18 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
+      new TestAuditService(),
+      new TestDateService(),
+      new EligibilityWebServiceCallWithResponse()
+    ).
+      getInstance(classOf[VehicleLookup])
+  }
+
+  private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
+    testInjector(
+      new TestBruteForcePreventionWebService(permitted = true),
+      new TestConfig(isPrototypeBannerVisible = true),
+      new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
       new TestAuditService(),
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
