@@ -1,11 +1,13 @@
 package controllers
 
 import composition._
+import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
 import controllers.Common.PrototypeHtml
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
+import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import pages.vrm_retention._
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
@@ -16,6 +18,7 @@ import views.vrm_retention.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import helpers.JsonUtils.deserializeJsonToModel
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -54,24 +57,33 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-//    "redirect to Confirm after a valid submit and true message returned from the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupStubs().submit(request)
-//
-//      whenReady(result, timeout) {
-//        r =>
-//          r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
-//          val cookies = fetchCookiesFromHeaders(r)
-//          val cookieName = "vehicleAndKeeperLookupFormModel"
-//          cookies.find(_.name == cookieName) match {
-//            case Some(cookie) =>
-//              val json = cookie.value
-//              val model = deserializeJsonToModel[VehicleAndKeeperLookupFormModel](json)
-//              model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
-//            case None => fail(s"$cookieName cookie not found")
-//          }
-//      }
-//    }
+    "redirect to CheckEligibility controller after a valid submit and true message returned from the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(postcode = "SA11AA")
+      val result = vehicleLookupStubs().submit(request)
+
+      whenReady(result, timeout) {
+        r =>
+          r.header.headers.get(LOCATION) should equal(Some(CheckEligibilityPage.address))
+          val cookies = fetchCookiesFromHeaders(r)
+
+          val cookieName = VehicleAndKeeperLookupFormModelCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[VehicleAndKeeperLookupFormModel](json)
+              model.registrationNumber should equal(RegistrationNumberValid.toUpperCase)
+            case None => fail(s"$cookieName cookie not found")
+          }
+
+          val cookie2Name = VehicleAndKeeperLookupDetailsCacheKey
+          cookies.find(_.name == cookie2Name) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[VehicleAndKeeperDetailsModel](json)
+            case None => fail(s"$cookie2Name cookie not found")
+          }
+      }
+    }
 
     "submit removes spaces from registrationNumber" in new WithApplication {
       // DE7 Spaces should be stripped
@@ -313,7 +325,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new TestVehicleAndKeeperLookupWebService()
+      new TestVehicleAndKeeperLookupWebService(),
+      new TestAuditService(),
+      new TestDateService(),
+      new EligibilityWebServiceCallWithResponse()
     ).
       getInstance(classOf[VehicleLookup])
   }
