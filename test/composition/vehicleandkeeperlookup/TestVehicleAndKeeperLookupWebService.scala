@@ -14,7 +14,7 @@ import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest,
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class TestVehicleAndKeeperLookupWebService extends ScalaModule with MockitoSugar {
+class TestVehicleAndKeeperLookupWebService(statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
@@ -24,16 +24,16 @@ class TestVehicleAndKeeperLookupWebService extends ScalaModule with MockitoSugar
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VehicleAndKeeperDetailsRequest] // Cast first argument.
-            val (responseStatus, response) = {
+            val (status, response) = {
               request.referenceNumber match {
                 case "99999999991" => vehicleAndKeeperDetailsResponseVRMNotFound
                 case "99999999992" => vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
                 case "99999999999" => vehicleAndKeeperDetailsResponseNotFoundResponseCode
-                case _ => vehicleAndKeeperDetailsResponseSuccess
+                case _ => statusAndResponse
               }
             }
             val responseAsJson = Json.toJson(response)
-            new FakeResponse(status = responseStatus, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
+            new FakeResponse(status = status, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
           }
         }
       )
