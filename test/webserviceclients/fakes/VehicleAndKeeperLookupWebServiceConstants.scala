@@ -50,12 +50,12 @@ object VehicleAndKeeperLookupWebServiceConstants {
   }
 
   val vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
-    (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"), vehicleAndKeeperDetailsDto = None)))
+    (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found - 200"), vehicleAndKeeperDetailsDto = None)))
   }
 
   val vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, Some(VehicleAndKeeperDetailsResponse(
-      responseCode = Some("vehicle_and_keeper_lookup_document_record_mismatch"),
+      responseCode = Some("vehicle_and_keeper_lookup_document_record_mismatch - 200"),
       vehicleAndKeeperDetailsDto = None
     )))
   }

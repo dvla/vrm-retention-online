@@ -106,13 +106,13 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
     }
 
-//    "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupStubs(vehicleDetailsResponseVRMNotFound).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
-//    }
-//
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseVRMNotFound).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+
 //    "redirect to VehicleAndKeeperLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
 //      val request = buildCorrectlyPopulatedRequest()
 //      val result = vehicleLookupStubs(vehicleDetailsResponseDocRefNumberNotLatest).submit(request)
