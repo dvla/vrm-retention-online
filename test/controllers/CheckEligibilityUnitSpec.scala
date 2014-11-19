@@ -1,23 +1,27 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.TestAuditService
 import composition.eligibility._
+import composition.{TestAuditService, TestDateService}
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import helpers.{UnitSpec, WithApplication}
+import org.mockito.Mockito._
 import pages.vrm_retention.{ConfirmPage, ErrorPage, MicroServiceErrorPage, SetupBusinessDetailsPage, VehicleLookupFailurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants._
 
 final class CheckEligibilityUnitSpec extends UnitSpec {
 
   "present" should {
 
     "redirect to error page when VehicleAndKeeperLookupFormModel cookie does not exist" in new WithApplication {
-      val result = checkEligibility(new EligibilityWebServiceCallWithCurrentAndReplacement()).present(FakeRequest())
+      val result = checkEligibility().present(FakeRequest())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION).get.startsWith(ErrorPage.address)
       }
@@ -26,7 +30,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
     "redirect to error page when VehicleAndKeeperDetailsModel cookie does not exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel())
-      val result = checkEligibility(new EligibilityWebServiceCallWithCurrentAndReplacement()).present(request)
+      val result = checkEligibility().present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION).get.startsWith(ErrorPage.address)
       }
@@ -38,7 +42,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel()
         )
-      val result = checkEligibility(new EligibilityWebServiceCallWithCurrentAndReplacement()).present(request)
+      val result = checkEligibility().present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION).get.startsWith(ErrorPage.address)
       }
@@ -51,7 +55,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent()
         )
-      val result = checkEligibility(new EligibilityWebServiceCallWithCurrentAndReplacement()).present(request)
+      val result = checkEligibility().present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION).get.startsWith(ErrorPage.address)
       }
@@ -107,7 +111,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel(),
           transactionId()
         )
-      val result = checkEligibility(new EligibilityWebServiceCallWithCurrentAndReplacement()).present(request)
+      val result = checkEligibility().present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
@@ -120,7 +124,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel(),
           transactionId()
         )
-      val result = checkEligibility(new EligibilityWebServiceCallWithCurrentAndReplacement()).present(request)
+      val result = checkEligibility().present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
@@ -167,13 +171,50 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
+
+    "calls audit service with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
+      val (checkEligibility, dateService, auditService) = checkEligibilityAndAudit()
+      val expected = new AuditMessage(
+        name = "VehicleLookupToConfirm",
+        serviceType = "PR Retention",
+        ("transactionId", TransactionIdValid),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("replacementVrm", ReplacementRegistrationNumberValid),
+        ("currentVrm", RegistrationNumberValid),
+        ("make", VehicleMakeValid.get),
+        ("model", VehicleModelValid.get),
+        ("keeperName", "Mr David Jones"),
+        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
+      )
+      val request = FakeRequest().
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = KeeperConsentValid),
+          vehicleAndKeeperDetailsModel(),
+          transactionId()
+        )
+      val result = checkEligibility.present(request)
+
+      whenReady(result, timeout) { r =>
+        verify(auditService, times(1)).send(expected)
+      }
+    }
   }
 
-  private def checkEligibility(eligibilityWebService: ScalaModule) = {
+  private def checkEligibility(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
     testInjector(
       new TestAuditService(),
       eligibilityWebService
     ).
       getInstance(classOf[CheckEligibility])
+  }
+
+  private def checkEligibilityAndAudit(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
+    val auditService = mock[AuditService]
+    val ioc = testInjector(
+      new TestAuditService(auditService = auditService),
+      new TestDateService(),
+      eligibilityWebService
+    )
+    (ioc.getInstance(classOf[CheckEligibility]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 }

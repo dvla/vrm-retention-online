@@ -283,7 +283,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "call audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and no transaction id cookie exists" in new WithApplication {
+    "calls audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and no transaction id cookie exists" in new WithApplication {
       val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest)
       val expected = new AuditMessage(
         name = "VehicleLookupToVehicleLookupFailure",
@@ -300,7 +300,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-    "call audit service with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
+    "calls audit service with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
       val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
       val expected = new AuditMessage(
         name = "VehicleLookupToVehicleLookupFailure",
@@ -367,7 +367,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditService(auditService),
+      new TestAuditService(auditService = auditService),
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     )
