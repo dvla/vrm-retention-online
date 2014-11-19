@@ -233,17 +233,16 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    // TODO need to revisit this, can't work out why it fails after audit work
-//    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
-//      whenReady(result) {
-//        r =>
-//          val cookies = fetchCookiesFromHeaders(r)
-//          cookies.map(_.name) should contain allOf(
-//            BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
-//      }
-//    }
+    "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain allOf(
+            BruteForcePreventionViewModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+      }
+    }
 
 //    "redirect to VehicleAndKeeperLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
 //      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
