@@ -120,12 +120,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-//    "redirect to VehicleAndKeeperLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleLookupStubs(vehicleDetailsServerDown).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-//    }
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsServerDown).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+    }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(referenceNumber = "1" * (DocumentReferenceNumber.MaxLength + 1))
