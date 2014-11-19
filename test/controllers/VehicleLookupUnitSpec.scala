@@ -16,6 +16,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import helpers.JsonUtils.deserializeJsonToModel
@@ -244,16 +245,15 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-//    "redirect to VehicleAndKeeperLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmAttempt2)
-//      val result = vehicleLookupStubs(
-//        vehicleDetailsResponseDocRefNumberNotLatest,
-//        bruteForceService = bruteForceServiceImpl(permitted = true)
-//      ).submit(request)
-//
-//      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleAndKeeperLookupFailurePage.address))
-//    }
-//
+    "redirect to VehicleAndKeeperLookupFailure and display 2nd attempt message when document reference number not found and security service returns 2nd attempt" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(registrationNumber = BruteForcePreventionWebServiceConstants.VrmAttempt2)
+      val result = vehicleLookupStubs(
+        vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+      ).submit(request)
+
+      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+    }
+
 //    "Send a request and a trackingId" in new WithApplication {
 //      val trackingId = "x" * 20
 //      val request = buildCorrectlyPopulatedRequest().
