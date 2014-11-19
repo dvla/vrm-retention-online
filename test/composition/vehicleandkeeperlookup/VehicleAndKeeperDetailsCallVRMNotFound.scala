@@ -7,6 +7,7 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
+
 import scala.concurrent.Future
 
 class VehicleAndKeeperDetailsCallVRMNotFound extends ScalaModule with MockitoSugar {

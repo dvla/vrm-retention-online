@@ -1,6 +1,8 @@
 package composition.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
+import org.mockito.Matchers.any
+import org.mockito.Mockito.{mock, when}
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
@@ -9,10 +11,9 @@ import play.api.libs.ws.WSResponse
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import org.mockito.Matchers.any
-import org.mockito.Mockito.{mock, when}
 
 class TestVehicleAndKeeperLookupWebService(
                                             vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]),

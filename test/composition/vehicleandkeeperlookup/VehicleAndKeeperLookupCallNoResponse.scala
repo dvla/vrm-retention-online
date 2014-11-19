@@ -7,6 +7,7 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsNoResponse
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
+
 import scala.concurrent.Future
 
 class VehicleAndKeeperLookupCallNoResponse extends ScalaModule with MockitoSugar {

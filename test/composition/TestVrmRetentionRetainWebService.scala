@@ -13,6 +13,7 @@ import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.Replac
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
 import webserviceclients.fakes._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainResponse, VRMRetentionRetainWebService}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

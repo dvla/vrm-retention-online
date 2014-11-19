@@ -1,29 +1,28 @@
 package controllers
 
-import composition._
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
+import composition.{TestAuditService, TestBruteForcePreventionWebService, TestConfig, TestDateService}
 import controllers.Common.PrototypeHtml
+import helpers.JsonUtils.deserializeJsonToModel
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
-import pages.vrm_retention._
+import org.mockito.Mockito._
+import pages.vrm_retention.{BeforeYouStartPage, CheckEligibilityPage, MicroServiceErrorPage, VehicleLookupFailurePage, VrmLockedPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import views.vrm_retention.Payment._
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.Payment.PaymentTransNoCacheKey
+import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import helpers.JsonUtils.deserializeJsonToModel
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService, VehicleAndKeeperDetailsResponse}
-import org.mockito.Mockito._
-import org.mockito.Matchers.any
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -256,7 +255,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
     }
 
-    "Send a request and a trackingId" in new WithApplication {
+    "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
       val trackingId = "x" * 20
       val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
@@ -266,58 +265,21 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       whenReady(result, timeout) {
         r =>
           val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid, registrationNumber = RegistrationNumberValid)
-          verify(vehicleAndKeeperLookupWebService).invoke(expectedRequest, trackingId)
+          verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = trackingId)
       }
     }
 
-//    "Send a request and a trackingId" in new WithApplication {
-//      val trackingId = "x" * 20
-//      val request = buildCorrectlyPopulatedRequest().
-//        withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
-//      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
-//      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).
-//        thenReturn(Future {
-//        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-//      })
-//      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
-//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      implicit val config: Config = mock[Config]
-//
-//      val vehiclesLookup = new vrm_retention.VehicleAndKeeperLookup(
-//        bruteForceServiceImpl(permitted = true),
-//        vehicleAndKeeperLookupServiceImpl
-//      )
-//      val result = vehiclesLookup.submit(request)
-//
-//      whenReady(result) {
-//        r =>
-//          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-//          verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-//          trackingIdCaptor.getValue should be(trackingId)
-//      }
-//    }
-//
-//    "Send the request and no trackingId if session is not present" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val mockVehiclesLookupService = mock[VehicleAndKeeperLookupWebService]
-//      when(mockVehiclesLookupService.callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], any[String])).thenReturn(Future {
-//        new FakeResponse(status = 200, fakeJson = Some(Json.toJson(vehicleDetailsResponseSuccess._2.get)))
-//      })
-//      val vehicleAndKeeperLookupServiceImpl = new VehicleAndKeeperLookupServiceImpl(mockVehiclesLookupService)
-//      implicit val clientSideSessionFactory = injector.getInstance(classOf[ClientSideSessionFactory])
-//      implicit val config: Config = mock[Config]
-//      val vehiclesLookup = new vrm_retention.VehicleAndKeeperLookup(
-//        bruteForceServiceImpl(permitted = true),
-//        vehicleAndKeeperLookupServiceImpl)
-//      val result = vehiclesLookup.submit(request)
-//
-//      whenReady(result) {
-//        r =>
-//          val trackingIdCaptor = ArgumentCaptor.forClass(classOf[String])
-//          verify(mockVehiclesLookupService).callVehicleAndKeeperLookupService(any[VehicleDetailsRequest], trackingIdCaptor.capture())
-//          trackingIdCaptor.getValue should be(ClearTextClientSideSessionFactory.DefaultTrackingId)
-//      }
-//    }
+    "send a request and default trackingId to the vehicleAndKeeperLookupWebService when cookie does not exist" in new WithApplication {
+      val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService).submit(request)
+
+      whenReady(result, timeout) {
+        r =>
+          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid, registrationNumber = RegistrationNumberValid)
+          verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = ClearTextClientSideSessionFactory.DefaultTrackingId)
+      }
+    }
   }
 
   "back" should {
