@@ -30,6 +30,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val KeeperAddressLine4Valid = None
   final val KeeperPostTownValid = Some("Swansea")
   final val KeeperPostCodeValid = Some("SA11AA")
+  final val RecordMismatch = "vehicle_and_keeper_lookup_document_record_mismatch - 200"
 
   private val vehicleAndKeeperDetails = VehicleAndKeeperDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,
@@ -55,7 +56,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   val vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, Some(VehicleAndKeeperDetailsResponse(
-      responseCode = Some("vehicle_and_keeper_lookup_document_record_mismatch - 200"),
+      responseCode = Some(RecordMismatch),
       vehicleAndKeeperDetailsDto = None
     )))
   }

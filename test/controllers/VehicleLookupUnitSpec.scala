@@ -1,5 +1,6 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
 import composition.{TestAuditService, TestBruteForcePreventionWebService, TestConfig, TestDateService}
@@ -16,9 +17,10 @@ import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
-import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
@@ -280,6 +282,40 @@ final class VehicleLookupUnitSpec extends UnitSpec {
           verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = ClearTextClientSideSessionFactory.DefaultTrackingId)
       }
     }
+
+    "call audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and no transaction id cookie exists" in new WithApplication {
+      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest)
+      val expected = new AuditMessage(
+        name = "VehicleLookupToVehicleLookupFailure",
+        serviceType = "PR Retention",
+        ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("rejectionCode", RecordMismatch)
+      )
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
+      val result = vehicleLookup.submit(request)
+
+      whenReady(result, timeout) { r =>
+        verify(auditService, times(1)).send(expected)
+      }
+    }
+
+    "call audit service with 'default_test_tracking_id' when Postcodes don't match and no transaction id cookie exists" in new WithApplication {
+      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
+      val expected = new AuditMessage(
+        name = "VehicleLookupToVehicleLookupFailure",
+        serviceType = "PR Retention",
+        ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("rejectionCode", "PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+      )
+      val request = buildCorrectlyPopulatedRequest(postcode = PostcodeInvalid)
+      val result = vehicleLookup.submit(request)
+
+      whenReady(result, timeout) { r =>
+        verify(auditService, times(1)).send(expected)
+      }
+    }
   }
 
   "back" should {
@@ -321,6 +357,21 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new EligibilityWebServiceCallWithResponse()
     ).
       getInstance(classOf[VehicleLookup])
+  }
+
+  private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
+                                         permitted: Boolean = true,
+                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
+    val auditService = mock[AuditService]
+    val ioc = testInjector(
+      new TestBruteForcePreventionWebService(permitted = permitted),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
+      new TestAuditService(auditService),
+      new TestDateService(),
+      new EligibilityWebServiceCallWithResponse()
+    )
+    (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }
 
   private def buildCorrectlyPopulatedRequest(referenceNumber: String = ReferenceNumberValid,
