@@ -1,45 +1,24 @@
 package composition.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
+import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{mock, when}
-import org.mockito.invocation.InvocationOnMock
-import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
-import play.api.libs.ws.WSResponse
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.fakes._
+import webserviceclients.fakes.FakeResponse
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class TestVehicleAndKeeperLookupWebService(
-                                            vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]),
+                                            vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]), // This can be passed in so the calls to the mock can be verified
                                             statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
                                             ) extends ScalaModule with MockitoSugar {
 
   def configure() = {
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
-      thenAnswer(
-        new Answer[Future[WSResponse]] {
-          override def answer(invocation: InvocationOnMock) = Future {
-            val args: Array[AnyRef] = invocation.getArguments
-            val request = args(0).asInstanceOf[VehicleAndKeeperDetailsRequest] // Cast first argument.
-            val (status, response) = {
-              request.referenceNumber match {
-                case "99999999991" => vehicleAndKeeperDetailsResponseVRMNotFound
-                case "99999999992" => vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
-                case "99999999999" => vehicleAndKeeperDetailsResponseNotFoundResponseCode
-                case _ => statusAndResponse
-              }
-            }
-            val responseAsJson = Json.toJson(response)
-            new FakeResponse(status = status, fakeJson = Some(responseAsJson)) // Any call to a webservice will always return this successful response.
-          }
-        }
-      )
+    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
     bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
   }
 }
