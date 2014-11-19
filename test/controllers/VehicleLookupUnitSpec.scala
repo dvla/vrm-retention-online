@@ -209,17 +209,17 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     // TODO need to revisit this, can't work out why it fails after audit work
-//    "write cookie when vrm not found by the fake microservice" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest()
-//      val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
-//      whenReady(result) {
-//        r =>
-//          val cookies = fetchCookiesFromHeaders(r)
-//          cookies.map(_.name) should contain allOf(
-//            PaymentTransNoCacheKey, TransactionIdCacheKey, BruteForcePreventionViewModelCacheKey,
-//            VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
-//      }
-//    }
+    "write cookie when vrm not found by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
+      whenReady(result) {
+        r =>
+          val cookies = fetchCookiesFromHeaders(r)
+          cookies.map(_.name) should contain allOf(
+            PaymentTransNoCacheKey, TransactionIdCacheKey, BruteForcePreventionViewModelCacheKey,
+            VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+      }
+    }
 
     "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
