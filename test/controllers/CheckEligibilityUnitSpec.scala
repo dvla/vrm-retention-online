@@ -172,7 +172,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "calls audit service with expected values when transaction id cookie exists" in new WithApplication {
+    "calls audit service with expected values when the required cookies exist" in new WithApplication {
       val (checkEligibility, dateService, auditService) = checkEligibilityAndAudit()
       val expected = new AuditMessage(
         name = "VehicleLookupToConfirm",
