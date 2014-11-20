@@ -200,9 +200,6 @@ keeperConsent = Are you the registered keeper
 vehicle_lookup_vrm_not_found.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
 vehicle_lookup_vrm_not_found.p3 = For each vehicle registration number, only three attempts can be made to retrieve the vehicle details.
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
-vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, only 3 attempts can be made to retrieve the vehicle details.
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.characterinvalid = Invalid characters are not allowed
@@ -297,7 +294,6 @@ vrm_retention_beforeyoustart.button = Start Now
 
 # before you start part 2
 vrm_retention_beforeyoustartpart2.title = Conditions for retaining a registration number
-vrm_retention_beforeyoustartpart2.title = Conditions for retaining a registration number
 vrm_retention_beforeyoustartpart2.p1 = The vehicle must be:
 vrm_retention_beforeyoustartpart2.p1.listitem1 = registered with DVLA
 vrm_retention_beforeyoustartpart2.p1.listitem2 = available for inspection
@@ -370,8 +366,6 @@ document-reference-number-alt = Location of the document reference number on the
 vehicle_and_keeper_lookup_vrm_not_found.title = Look-up was unsuccessful
 vehicle_and_keeper_lookup_document_reference_mismatch.title = Look-up was unsuccessful
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Look-up was unsuccessful
-vrm_retention_eligibility_direct_to_paper.title = Direct to Paper Channel Error Message
-vrm_retention_eligibility_failure.title = Not Eligible to Transact Error Message
 vrm_retention_vehiclelookupfailure.title.greaterThanOneAttempt = ({0} of {1})
 vrm_retention_vehiclelookupfailure.name = Failure
 vrm_retention_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
@@ -380,9 +374,8 @@ vrm_retention_vehiclelookupfailure.button2 = Exit
 vehicle_and_keeper_lookup_vrm_not_found.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
 vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be three attempts to retrieve the vehicle details.
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The Document Reference Number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
-vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be three attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C document reference number and/or the vehicle registration number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
+vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper''s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper''s postcode as on the most recent V5C and try again.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
@@ -442,8 +435,6 @@ payment-prevent-back-return-to-success = Return to Success page
 
 #Confirm business page
 vrm_retention_confirm_business.title = Confirm your business details
-vrm_retention_confirm_business.button = Confirm
-
 
 #Confirm page
 vrm_retention_confirm.title = Confirm keeper details
