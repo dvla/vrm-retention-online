@@ -6,7 +6,7 @@ import models._
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
@@ -52,7 +52,7 @@ final class EnterAddressManually @Inject()(auditService: AuditService,
 
             auditService.send(AuditMessage.from(
               pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
-              transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+              transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
               replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
@@ -71,7 +71,7 @@ final class EnterAddressManually @Inject()(auditService: AuditService,
   def exit = Action { implicit request =>
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.CaptureActorToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),

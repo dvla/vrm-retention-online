@@ -44,6 +44,7 @@
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
             ga('create', '@{config.googleAnalyticsTrackingId}', 'auto');
+            ga('set', 'anonymizeIp', true);
             ga('send', 'pageview');
             </script>
             <!-- End Google Analytics -->
@@ -74,7 +75,7 @@
                     <div class="header-proposition">
                         <div class="content">
                             <div class="proposition-menu">
-
+                                <h1 class="page-title"><strong>@{Messages("main.banner")}</strong></h1>
                             </div>
                         </div>
                     </div>

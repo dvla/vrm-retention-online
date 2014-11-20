@@ -2,6 +2,7 @@ package webserviceclients.fakes
 
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import views.vrm_retention.VehicleLookup.UserType_Keeper
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 
 object VehicleAndKeeperLookupWebServiceConstants {
@@ -18,7 +19,8 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val ConsentValid = "true"
   final val KeeperConsentValid = UserType_Keeper
   final val BusinessConsentValid = "Business"
-  final val KeeperPostcodeValid = "SA11AA"
+  final val KeeperPostcodeValid = PostcodeValid
+  final val KeeperPostcodeValidForMicroService = "SA11AA"
   final val KeeperTitleValid = Some("Mr")
   final val KeeperLastNameValid = Some("Jones")
   final val KeeperFirstNameValid = Some("David")
@@ -28,6 +30,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val KeeperAddressLine4Valid = None
   final val KeeperPostTownValid = Some("Swansea")
   final val KeeperPostCodeValid = Some("SA11AA")
+  final val RecordMismatch = "vehicle_and_keeper_lookup_document_record_mismatch - 200"
 
   private val vehicleAndKeeperDetails = VehicleAndKeeperDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,
@@ -48,12 +51,12 @@ object VehicleAndKeeperLookupWebServiceConstants {
   }
 
   val vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
-    (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found"), vehicleAndKeeperDetailsDto = None)))
+    (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found - 200"), vehicleAndKeeperDetailsDto = None)))
   }
 
   val vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, Some(VehicleAndKeeperDetailsResponse(
-      responseCode = Some("vehicle_and_keeper_lookup_document_record_mismatch"),
+      responseCode = Some(RecordMismatch),
       vehicleAndKeeperDetailsDto = None
     )))
   }

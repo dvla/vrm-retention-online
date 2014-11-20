@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, UserType_Business, UserType_Keeper, VehicleRegistrationNumberId}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid, ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid,KeeperPostcodeValidForMicroService, ReferenceNumberValid, RegistrationNumberValid}
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
@@ -29,7 +29,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def happyPath(referenceNumber: String = ReferenceNumberValid,
                 registrationNumber: String = RegistrationNumberValid,
-                postcode: String = KeeperPostcodeValid,
+                postcode: String = KeeperPostcodeValidForMicroService,
                 isCurrentKeeper: Boolean = true)
                (implicit driver: WebDriver) = {
     go to VehicleLookupPage
@@ -42,11 +42,6 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
   }
 
   def tryLockedVrm()(implicit driver: WebDriver) = {
-    go to VehicleLookupPage
-    documentReferenceNumber.value = ReferenceNumberValid
-    vehicleRegistrationNumber.value = BruteForcePreventionWebServiceConstants.VrmLocked
-    keeperPostcode.value = KeeperPostcodeValid
-    click on currentKeeperYes
-    click on findVehicleDetails
+    happyPath(registrationNumber = BruteForcePreventionWebServiceConstants.VrmLocked)
   }
 }

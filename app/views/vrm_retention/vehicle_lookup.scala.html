@@ -20,7 +20,7 @@
         <div class="two-col clearfix vehicle-lookup">
 
             <div class="second-col uppercase-input">
-                <h1>@Messages("vrm_retention_vehiclelookup.title")</h1>
+                <h2>@Messages("vrm_retention_vehiclelookup.title")</h2>
 
                 @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
                     args = Map(
@@ -52,19 +52,17 @@
                 )
 
                 <br/>
-                <div class="form-item-radio">
-                    <strong>
-                    @listRadioGroup(field = vehicleAndKeeperLookupForm(KeeperConsentId),
-                        args = Map(
-                            'itemsWithHints -> Seq(
-                                RadioWithHint(UserType_Business, Messages("vrm_retention_vehiclelookup.business"), ""),
-                                RadioWithHint(UserType_Keeper, Messages("vrm_retention_vehiclelookup.keeper"), "")
-                            ),
-                            '_label -> Messages("vrm_retention_vehiclelookup.label")
-                        )
+
+                <h3>@Messages("vrm_retention_vehiclelookup.label")</h3>
+                @listRadioGroup(field = vehicleAndKeeperLookupForm(KeeperConsentId),
+                    args = Map(
+                        'itemsWithHints -> Seq(
+                            RadioWithHint(UserType_Business, Messages("vrm_retention_vehiclelookup.business"), ""),
+                            RadioWithHint(UserType_Keeper, Messages("vrm_retention_vehiclelookup.keeper"), "")
+                        ),
+                        '_label -> Messages("vrm_retention_vehiclelookup.hintlabel")
                     )
-                    </strong>
-                </div>
+                )
 
                 @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
                 <div class="form-steps">
@@ -73,7 +71,7 @@
             </div>
             <div class="first-col">
                 <div class="img-wrap img-wrap-desktop related">
-                    <h2>@Messages("vrm_retention_vehiclelookup.intro")</h2>
+                    <h3>@Messages("vrm_retention_vehiclelookup.intro")</h3>
                     <p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
                     <img src="@routes.Assets.at("images/document-reference-number.png")" alt="@Messages("document-reference-number-alt")">
                 </div>

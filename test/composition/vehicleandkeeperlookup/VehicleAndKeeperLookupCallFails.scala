@@ -5,6 +5,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
+
 import scala.concurrent.Future
 
 class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {

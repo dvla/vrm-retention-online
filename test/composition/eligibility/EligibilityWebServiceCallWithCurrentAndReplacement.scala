@@ -9,6 +9,7 @@ import play.api.http.Status.OK
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
+
 import scala.concurrent.Future
 
 final class EligibilityWebServiceCallWithCurrentAndReplacement() extends ScalaModule with MockitoSugar {

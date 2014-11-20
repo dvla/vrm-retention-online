@@ -171,7 +171,7 @@ object PdfServiceImpl {
     val filename = "vrm-retention-online-v948-blank.pdf"
     val file = new File(filename)
     if (file.exists()) {
-      `PDF/A validation`(file, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
+      //`PDF/A validation`(file, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
       Some(file)
     }
     else {
