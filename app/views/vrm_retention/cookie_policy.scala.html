@@ -1,0 +1,141 @@
+@()(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config)
+
+@import views.html.vrm_retention.main
+
+@main(
+    title = Messages("cookie-policy-title")
+) {
+
+    <div class="two-col clearfix">
+        <div class="second-col">
+
+        <h1>@Messages("cookie-policy-title")</h1>
+        <p>@Messages("cookie-policy-p1")</p>
+        <p>@Messages("cookie-policy-p2")</p>
+        <ul>
+            <li>@Messages("cookie-policy-p3")</li>
+            <li>@Messages("cookie-policy-p4")</li>
+        </ul>
+        <div>
+            <p>@Messages("cookie-policy-p5")</p>
+        </div>
+        <p>@Messages("cookie-policy-p6")</p>
+        <p>@Messages("cookie-policy-p7") <a href="http://www.aboutcookies.org/" target="_blank" data-sso="false">@Messages("cookie-policy-p8")</a>.</p>
+
+        <h2>@Messages("cookie-policy-p9")</h2>
+        <h3>@Messages("cookie-policy-p10")</h3>
+        <p>@Messages("cookie-policy-p11")</p>
+        <p>@Messages("cookie-policy-p12")</p>
+        <ul>
+            <li>@Messages("cookie-policy-p13")</li>
+            <li>@Messages("cookie-policy-p14")</li>
+            <li>@Messages("cookie-policy-p15")</li>
+        </ul>
+        <p>@Messages("cookie-policy-p16")</p>
+        <div>
+            <p>@Messages("cookie-policy-p17")</p>
+        </div>
+        <p>@Messages("cookie-policy-p18")</p>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">@Messages("cookie-policy-p19")</th>
+                    <th scope="col">@Messages("cookie-policy-p20")</th>
+                    <th scope="col">@Messages("cookie-policy-p21")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>_utma</td>
+                    <td>@Messages("cookie-policy-p22")</td>
+                    <td>@Messages("cookie-policy-p23")</td>
+                </tr>
+                <tr>
+                    <td>_utmb</td>
+                    <td>@Messages("cookie-policy-p24")</td>
+                    <td>@Messages("cookie-policy-p25")</td>
+                </tr>
+                <tr>
+                    <td>_utmc</td>
+                    <td>@Messages("cookie-policy-p26")</td>
+                    <td>@Messages("cookie-policy-p27")</td>
+                </tr>
+                <tr>
+                    <td>_utmz</td>
+                    <td>@Messages("cookie-policy-p28")</td>
+                    <td>@Messages("cookie-policy-p29")</td>
+                </tr>
+                <tr>
+                    <td>ga_nextpage_params</td>
+                    <td>@Messages("cookie-policy-p30")</td>
+                    <td>@Messages("cookie-policy-p31")</td>
+                </tr>
+                <tr>
+                    <td>@Messages("cookie-policy-p32")</td>
+                    <td>@Messages("cookie-policy-p33")</td>
+                    <td>@Messages("cookie-policy-p34")</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>@Messages("cookie-policy-p35") <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" data-sso="false">@Messages("cookie-policy-p36")</a>.</p>
+
+        <h3>@Messages("cookie-policy-p37")</h3>
+        <p>@Messages("cookie-policy-p38")</p>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">@Messages("cookie-policy-p19")</th>
+                    <th scope="col">@Messages("cookie-policy-p20")</th>
+                    <th scope="col">@Messages("cookie-policy-p21")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>mdtp</td>
+                    <td>@Messages("cookie-policy-p42")</td>
+                    <td>@Messages("cookie-policy-p43")</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>@Messages("cookie-policy-p44")</h3>
+        <p>@Messages("cookie-policy-p45")</p>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">@Messages("cookie-policy-p19")</th>
+                    <th scope="col">@Messages("cookie-policy-p20")</th>
+                    <th scope="col">@Messages("cookie-policy-p21")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>seen_cookie_message</td>
+                    <td>@Messages("cookie-policy-p46")</td>
+                    <td>@Messages("cookie-policy-p47")</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>@Messages("cookie-policy-p48")</h3>
+        <p>@Messages("cookie-policy-p49")</p>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">@Messages("cookie-policy-p19")</th>
+                    <th scope="col">@Messages("cookie-policy-p20")</th>
+                    <th scope="col">@Messages("cookie-policy-p21")</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>PLAY_LANG</td>
+                    <td>@Messages("cookie-policy-p50")</td>
+                    <td>@Messages("cookie-policy-p51")</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+}
