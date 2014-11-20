@@ -133,11 +133,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
     def paymentNotAuthorised = {
       Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
-      var paymentModel = request.cookies.getModel[PaymentModel].get
+      val paymentModel = request.cookies.getModel[PaymentModel].get
 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
@@ -201,7 +201,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
