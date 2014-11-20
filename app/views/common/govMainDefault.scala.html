@@ -57,7 +57,7 @@
 
         <div id="global-cookie-message">
             <div class="cookie-message-wrapper">
-                <p>@{Messages("global.cookiemessage")}&nbsp;<a href="http://www.gov.uk/support/cookies">@{Messages("global.cookiefindoutmore")}</a></p>
+                <p>@{Messages("global.cookiemessage")}&nbsp;<a href="@routes.CookiePolicy.present()">@{Messages("global.cookiefindoutmore")}</a></p>
             </div>
         </div>
 
