@@ -1,11 +1,12 @@
 package views.vrm_retention
 
+import controllers.routes
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import org.openqa.selenium.WebDriver
-import pages.vrm_retention.BeforeYouStartPage.startNow
+import org.openqa.selenium.{By, WebDriver}
+import pages.vrm_retention.BeforeYouStartPage.{footerItem, startNow}
 import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
@@ -32,6 +33,18 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+
+    "display the global cookie message when cookie 'seen_cookie_message' does not exist" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      page.source should include("Find out more about cookies")
+    }
+
+    "display a link to the cookie policy" taggedAs UiTag in new WebBrowser {
+      go to BeforeYouStartPage
+
+      footerItem(index = 0).findElement(By.tagName("a")).getAttribute("href") should include(routes.CookiePolicy.present().toString())
     }
   }
 
