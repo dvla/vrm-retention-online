@@ -1,9 +1,6 @@
 @()(implicit lang: Lang, config: utils.helpers.Config)
 
-@import mappings.common.Help.HelpId
-@import play.api.Play
-@import play.api.Play.current
-@import views.html.common.{alternateLanguages, feedback}
+@import views.html.common.feedback
 
 @if(config.isPrototypeBannerVisible) {
     <div class="prototype">

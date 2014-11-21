@@ -6,13 +6,12 @@
 @import views.vrm_retention.MicroserviceError.ExitId
 
 @main(
-title = Messages("vrm_retention_leave_feedback.title")
+    title = Messages("vrm_retention_leave_feedback.title")
 ) {
-<h2>@Messages("vrm_retention_leave_feedback.title")</h2>
-<p>@Messages("vrm_retention_leave_feedback.p1") <a id="@FeedbackId" href="@Messages("main.banner.feedback.link")">@Messages("vrm_retention_leave_feedback.feedback")</a></p>
+    <h2>@Messages("vrm_retention_leave_feedback.title")</h2>
+    <p>@Messages("vrm_retention_leave_feedback.p1") <a id="@FeedbackId" href="@Messages("main.banner.feedback.link")">@Messages("vrm_retention_leave_feedback.feedback")</a></p>
 
-<div class="form-steps">
-    <a class="button" id="@ExitId" href="@controllers.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
-</div>
-
+    <div class="form-steps">
+        <a class="button" id="@ExitId" href="@controllers.routes.BeforeYouStart.present()">@Messages("micro_service_error.exit.button")</a>
+    </div>
 }
