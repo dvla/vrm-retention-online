@@ -1,10 +1,7 @@
 @(title: String)(content: Html)(implicit lang: Lang,
         config: utils.helpers.Config)
 
-@import mappings.common.Help.HelpId
-@import play.api.Play
-@import play.api.Play.current
-@import views.html.common.{alternateLanguages, feedback}
+@import views.html.common.footer
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -88,36 +85,7 @@
             @content
         </div>
 
-        <div class="footer" id="footer" role="contentinfo">
-            <div class="footer-wrapper vehicles-online-footer">
-                <div class="footer-meta">
-                    <div class="footer-meta-inner">
-                        <ul>
-                            <li>@{Messages("footer.builtbyintro")}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")}</a></li>
-                        </ul>
-                        <div class="open-government-licence">
-                            <h2>
-                                <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">
-                                    <img src="@routes.Assets.at("lib/vehicles-presentation-common/images/open-government-licence_2x.png")" alt="@Messages("open-government-licence")">
-                                </a>
-                            </h2>
-                            <p>@Messages("open-government-licence-p1") <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">@Messages("open-government-licence")</a>@Messages("open-government-licence-p2")</p>
-                        </div>
-                    </div>
-                    @if(!Play.isTest) {
-                        @* Do not fetch external assets when testing. Ideally we should have asset local and in version control *@
-                        <div class="copyright print-only">
-                            <img src="@routes.Assets.at("lib/vehicles-presentation-common/images/govuk-crest.png")" alt="@Messages("crown-copyright")">
-                        </div>
-                        <div class="copyright">
-                            <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy;
-                                @Messages("crown-copyright")</a>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-        <!--end footer-->
+        @footer()
 
         <div id="global-app-error" class="app-error hidden"></div>
 
