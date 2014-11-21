@@ -10,7 +10,7 @@
     title = Messages("vrm_locked.title")
 ) {
     <div class="two-col">
-        <div class="first-col">
+        <div class="second-col">
             <h2>@Messages("vrm_locked.title")</h2>
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_locked.text1")</p>
@@ -25,8 +25,7 @@
                 </div>
             </div>
         </div>
-        <div id="vehicle-details" class="second-col trader-details">
-            @if(vrmLockedViewModel.vehicleMake.isDefined) {
+        <div id="vehicle-details" class="first-col trader-details">
                 <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
@@ -40,7 +39,6 @@
                         <dd>@vrmLockedViewModel.vehicleModel.get.take(20)</dd>
                     }
                 </dl>
-            }
         </div>
     </div>
 }
