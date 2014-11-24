@@ -1,0 +1,34 @@
+@()(implicit lang: Lang,
+        config: utils.helpers.Config)
+
+<!--start footer-->
+<div class="footer" id="footer" role="contentinfo">
+    <div class="footer-wrapper vehicles-online-footer">
+        <div class="footer-meta">
+            <div class="footer-meta-inner">
+                <ul>
+                    <li><a href="@routes.CookiePolicy.present()">@Messages("footer.cookies")</a></li>
+                    <li>@{Messages("footer.builtbyintro")}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")}</a></li>
+                </ul>
+                <div class="open-government-licence">
+                    <h2>
+                        <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">
+                            <img src="@routes.Assets.at("lib/vehicles-presentation-common/images/open-government-licence_2x.png")" alt="@Messages("open-government-licence")">
+                        </a>
+                    </h2>
+                    <p>@Messages("open-government-licence-p1") <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">@Messages("open-government-licence")</a>@Messages("open-government-licence-p2")</p>
+                </div>
+            </div>
+            <!--start copyright-->
+            <div class="copyright print-only">
+                <img src="@routes.Assets.at("lib/vehicles-presentation-common/images/govuk-crest.png")" alt="@Messages("crown-copyright")">
+            </div>
+            <div class="copyright">
+                <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy;
+                    @Messages("crown-copyright")</a>
+            </div>
+            <!--end copyright-->
+        </div>
+    </div>
+</div>
+<!--end footer-->

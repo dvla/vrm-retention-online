@@ -21,7 +21,7 @@ isKeeper: Boolean)(implicit lang: Lang)
 @transactionTimestamp
 @Messages("email.line5")
 @transactionId
-@Messages("email.line6", vrm)
+@vrm
 @Messages("email.line7")
 @if(isKeeper) {
     @Messages("email.line8.with-pdf")
@@ -30,7 +30,7 @@ isKeeper: Boolean)(implicit lang: Lang)
 }
 @Messages("email.line8")
 @Messages("email.line9")
-@Html(Messages("email.line10") + vrm + Messages("email.line11"))
+@Messages("email.line10")
 @replacementVRM
 @if(!isKeeper) {
     @Messages("email.line12")

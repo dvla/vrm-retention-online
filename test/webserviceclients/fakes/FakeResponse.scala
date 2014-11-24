@@ -2,6 +2,7 @@ package webserviceclients.fakes
 
 import play.api.libs.json.JsValue
 import play.api.libs.ws.{WSCookie, WSResponse}
+
 import scala.xml.Elem
 
 final class FakeResponse(override val status: Int,

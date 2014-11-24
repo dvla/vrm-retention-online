@@ -6,7 +6,6 @@
 
 @import controllers.routes.BusinessChooseYourAddress
 @import controllers.routes.EnterAddressManually
-@import controllers.routes.LeaveFeedback
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechSelect}
 @import views.html.helper.form
@@ -23,11 +22,11 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-                <h1>@Messages("vrm_retention_businessChooseYourAddress_title")</h1>
+                <h2>@Messages("vrm_retention_businessChooseYourAddress_title")</h2>
 
                 @if(dropDownOptions.isEmpty) {
-                    <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound.h2.1")</h2>
-                    <h2>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound.h2.2")</h2>
+                    <h3>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound.h2.1")</h3>
+                    <h3>@Messages("vrm_retention_businessChooseYourAddress_noaddressesfound.h2.2")</h3>
                 } else {
                     @valtechSelect(businessChooseYourAddressForm(AddressSelectId),
                         options = dropDownOptions.toSeq
@@ -57,7 +56,7 @@
 
             <div id="vehicle-details" class="first-col trader-details">
                 <dl class="playback">
-                        <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
+                        <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
                         <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                         <dd class="reg-number">@businessChooseYourAddressViewModel.registrationNumber</dd>
                         @if(businessChooseYourAddressViewModel.vehicleMake.isDefined) {

@@ -19,7 +19,7 @@
 ) {
     <div class="enter-address-manually uppercase-input sr-only-labels two-col">
         <div class="second-col">
-            <h1>@Messages("vrm_retention_setupbusinessdetails.title")</h1>
+            <h2>@Messages("vrm_retention_setupbusinessdetails.title")</h2>
 
         @form(action = EnterAddressManually.submit()) {
             @csrfTokenHiddenField()
@@ -42,7 +42,7 @@
 
 
                 <dl class="playback">
-                    <dt><h2>@Messages("vrm_retention_vehicle_callback.title")</h2></dt>
+                    <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
                     <dd class="reg-number">@enterAddressManuallyViewModel.registrationNumber</dd>
                     @if(enterAddressManuallyViewModel.vehicleMake.isDefined) {

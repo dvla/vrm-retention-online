@@ -34,5 +34,5 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
       getInstance(classOf[BeforeYouStart])
   }
 
-  private lazy val beforeYouStart = testInjector().getInstance(classOf[BeforeYouStart])
+  private def beforeYouStart = testInjector().getInstance(classOf[BeforeYouStart])
 }

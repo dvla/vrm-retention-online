@@ -6,7 +6,7 @@ import models._
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, CookieKeyValue}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
@@ -25,7 +25,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
       val formModel = ConfirmFormModel(None)
-      val viewModel = ConfirmViewModel(vehicleAndKeeper)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper,vehicleAndKeeperLookupForm.userType)
       Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
@@ -58,7 +58,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       auditService.send(AuditMessage.from(
         pageMovement = AuditMessage.ConfirmToPayment,
         timestamp = dateService.dateTimeISOChronology,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = model.keeperEmail,
@@ -76,7 +76,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     }
     yield {
-      val viewModel = ConfirmViewModel(vehicleAndKeeper)
+      val viewModel = ConfirmViewModel(vehicleAndKeeper,vehicleAndKeeperLookupForm.userType)
       val updatedForm = replaceErrorMsg(form, KeeperEmailId, "error.validEmail").distinctErrors
       BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
     }
@@ -88,7 +88,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
     auditService.send(AuditMessage.from(
       pageMovement = AuditMessage.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       keeperEmail = request.cookies.getString(KeeperEmailCacheKey),

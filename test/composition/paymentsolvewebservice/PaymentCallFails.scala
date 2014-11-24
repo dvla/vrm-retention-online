@@ -5,6 +5,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import webserviceclients.paymentsolve._
+
 import scala.concurrent.Future
 
 class PaymentCallFails extends ScalaModule with MockitoSugar {

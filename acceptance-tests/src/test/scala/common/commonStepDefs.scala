@@ -12,9 +12,8 @@ class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
 
   def goToRetainAPersonalisedRegistrationPage() = {
     go to BeforeYouStartPage
-    println("Tester Tester" + BeforeYouStartPage.title)
+    println("The Staring Page" + BeforeYouStartPage.title)
     page.title should equal(BeforeYouStartPage.title)
-
     click on BeforeYouStartPage.startNow
     page.title should equal(VehicleLookupPage.title)
   }
@@ -35,6 +34,14 @@ class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
     click on VehicleLookupPage.findVehicleDetails
   }
 
+
+  //Vehicle registration number - Must be valid format
+  //Document reference number - Document reference number must be an 11-digit number
+
+  def GetsInvalidMessages() = {
+    page.source contains ("Vehicle registration number - Must be valid format\nDocument reference number - Document reference number must be an 11-digit number")
+  }
+
   def ConfirmDetails() = {
     page.title should equal(ConfirmPage.title)
     click on ConfirmPage.confirm
@@ -43,7 +50,6 @@ class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
   def MakesAPayment() = {
 
   }
-
 
   def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
     VehicleLookupPage.findVehicleDetails enter RegistrationNumber

@@ -1,6 +1,13 @@
 // Comment to get more information during initialization
 logLevel := Level.Debug
 
+// Our plugin resolvers
+resolvers += "Nexus snapshots" at "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories/snapshots"
+
+resolvers += "Nexus releases" at "http://rep002-01.skyscape.preview-dvla.co.uk:8081/nexus/content/repositories/releases"
+
+addSbtPlugin("dvla" % "build-details-generator" % "1.0.0-SNAPSHOT")
+
 // The Typesafe repository 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
 

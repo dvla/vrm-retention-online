@@ -30,4 +30,3 @@ Feature: Vehicles Personalized Registration
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "C1"                      | "11111111111" | "SA11AA" |
-

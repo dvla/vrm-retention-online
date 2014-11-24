@@ -7,6 +7,7 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
+
 import scala.concurrent.Future
 
 final class EligibilityWebServiceCallWithResponse extends ScalaModule with MockitoSugar {

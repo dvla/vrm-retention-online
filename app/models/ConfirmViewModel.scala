@@ -8,11 +8,12 @@ final case class ConfirmViewModel(registrationNumber: String,
                                   keeperTitle: Option[String],
                                   keeperFirstName: Option[String],
                                   keeperLastName: Option[String],
-                                  keeperAddress: Option[AddressModel])
+                                  keeperAddress: Option[AddressModel],
+                                  userType: String)
 
 object ConfirmViewModel {
 
-  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): ConfirmViewModel =
+  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel, userType: String): ConfirmViewModel =
     ConfirmViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,
       vehicleMake = vehicleAndKeeperDetails.make,
@@ -20,6 +21,7 @@ object ConfirmViewModel {
       keeperTitle = vehicleAndKeeperDetails.title,
       keeperFirstName = vehicleAndKeeperDetails.firstName,
       keeperLastName = vehicleAndKeeperDetails.lastName,
-      keeperAddress = vehicleAndKeeperDetails.address
+      keeperAddress = vehicleAndKeeperDetails.address,
+      userType = userType
     )
 }

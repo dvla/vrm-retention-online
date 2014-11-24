@@ -8,6 +8,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve._
+
 import scala.concurrent.Future
 
 class ValidatedCardDetails(webService: PaymentSolveWebService = mock(classOf[PaymentSolveWebService])) extends ScalaModule with MockitoSugar {

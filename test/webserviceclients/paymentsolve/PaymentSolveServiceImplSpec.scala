@@ -4,6 +4,7 @@ import composition.TestConfig
 import composition.paymentsolvewebservice.PaymentCallFails
 import helpers.{UnitSpec, WithApplication}
 import org.scalatest.mock.MockitoSugar
+
 import scala.concurrent.Await
 import scala.concurrent.duration.{Duration, SECONDS}
 
