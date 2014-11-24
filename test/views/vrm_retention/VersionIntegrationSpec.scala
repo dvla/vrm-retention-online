@@ -3,7 +3,7 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.webbrowser.{WebDriverFactory, TestHarness}
 import pages.ApplicationContext.applicationContext
-import scala.io.Source._
+import scala.io.Source.fromInputStream
 
 class VersionIntegrationSpec extends UiSpec with TestHarness {
   "Version endpoint" should {
