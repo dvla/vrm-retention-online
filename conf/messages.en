@@ -226,12 +226,6 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 #micro_service_error.back.button=Try again
 #micro_service_error.exit.button=Exit
 
-#duplicate-disposal error page
-duplicate_disposal_error.title=We are sorry
-duplicate_disposal_error.text=This vehicle has already been notified as sold. If you think this an error then please call DVLA Customer Enquiries on 0300 790 6802
-duplicate_disposal_error.back.button=Try again
-duplicate_disposal_error.exit.button=Exit
-
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
 soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
@@ -240,7 +234,7 @@ soap_endpoint_error.exit.button=Exit
 
 #vrm locked
 vrm_locked.title=Registration number is locked
-vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. Other vehicles can be processed during this time by selecting ‘Sell another vehicle’ below
+vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
 vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V5C/3 to DVLA, Swansea, SA99 1BD
 
