@@ -18,12 +18,12 @@ object CommonResolvers {
 }
 
 object Sandbox extends Plugin {
-  final val VersionOsAddressLookup = "0.6-SNAPSHOT"
-  final val VersionVehiclesLookup = "0.4-SNAPSHOT"
-  final val VersionVehicleAndKeeperLookup = "0.2"
-  final val VersionVrmRetentionEligibility = "0.4-SNAPSHOT"
-  final val VersionVrmRetentionRetain = "0.3-SNAPSHOT"
-  final val VersionPaymentSolve= "0.3-SNAPSHOT"
+  final val VersionOsAddressLookup = "0.7-SNAPSHOT"
+  final val VersionVehiclesLookup = "0.6-SNAPSHOT"
+  final val VersionVehicleAndKeeperLookup = "0.3-SNAPSHOT"
+  final val VersionVrmRetentionEligibility = "0.5-SNAPSHOT"
+  final val VersionVrmRetentionRetain = "0.4-SNAPSHOT"
+  final val VersionPaymentSolve= "0.4-SNAPSHOT"
   final val VersionLegacyStubs = "1.0-SNAPSHOT"
   final val VersionJetty = "9.2.1.v20140609"
   final val VersionSpringWeb = "3.0.7.RELEASE"
