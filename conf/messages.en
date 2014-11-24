@@ -627,7 +627,7 @@ email.crest.alt = Crest
 email.email_service_impl.subject = Registration Number
 #Retention failure page
 vrm_retention_failure.title = Transaction not successful
-vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.
+vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.
 
 # progress messages
 vrm_retention_progress_1 = Step 1 of 6
