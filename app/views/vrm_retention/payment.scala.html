@@ -1,4 +1,5 @@
-@(paymentRedirectUrl: String)(implicit lang: Lang,
+@(paymentRedirectUrl: String,
+        debug: String = "")(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
@@ -25,6 +26,7 @@
         <!--[if IE] allowTransparency="true" --> @* Logic group recommends this field. This IE-specific attribute, which has never been part of a recognised standard, is no longer present in HTML5. http://help.simplytestable.com/errors/html-validation/the-x-attribute-on-the-y-element-is-obsolete-use-css-instead/the-allowtransparency-attribute-on-the-iframe-element-is-obsolete-use-css-instead/ *@
         @*sandbox="allow-forms allow-same-origin allow-scripts allow-top-navigation" Logic group recommends we do NOT use this field *@
     ></iframe>
+    <!-- @debug -->
 @* POST body could return trxRef that we can CSRF against, we need to ask them to enable it. Else we can have CSRF on the callback url *@
     <div class="form-steps">
         @csrfTokenHiddenField()

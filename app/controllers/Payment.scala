@@ -101,10 +101,13 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       case Some(referrer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
         val pattern = "(http|https):\\/\\/[\\w-]+:\\d+".r
-        val paymentCallback: String = pattern.findFirstIn(referrer) match {
+        val paymentCallbackFromRegex: String = pattern.findFirstIn(referrer) match {
           case Some(url) => url + routes.Payment.callback(tokenBase64URLSafe).url
           case _ => routes.Payment.callback(tokenBase64URLSafe).url
         }
+        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
+        val debug: String = s"paymentCallbackFromRegex: $paymentCallbackFromRegex, paymentCallback $paymentCallback"
+
         val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transactionId = transactionId,
@@ -117,8 +120,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
           if (response.status == Payment.CardDetailsStatus) {
-            Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
-              //              Redirect(response.redirectUrl.get)
+            Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get, debug = debug))
               .withCookie(PaymentModel.from(response.trxRef.get))
               .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
           } else {
