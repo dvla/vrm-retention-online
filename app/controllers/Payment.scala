@@ -98,16 +98,9 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],
                                                                              token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
     refererFromHeader.fetch match {
-      case Some(referrer) =>
+      case Some(referer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
-        val pattern = "(http|https):\\/\\/[\\w-]+:\\d+".r
-        val paymentCallbackFromRegex: String = pattern.findFirstIn(referrer) match {
-          case Some(url) => url + routes.Payment.callback(tokenBase64URLSafe).url
-          case _ => routes.Payment.callback(tokenBase64URLSafe).url
-        }
-        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
-        val debug: String = s"paymentCallbackFromRegex: $paymentCallbackFromRegex, paymentCallback $paymentCallback"
-
+        val paymentCallback = refererFromHeader.paymentCallbackUrl(referer = referer, tokenBase64URLSafe = tokenBase64URLSafe)
         val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transactionId = transactionId,
@@ -120,7 +113,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
           if (response.status == Payment.CardDetailsStatus) {
-            Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get, debug = debug))
+            Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               .withCookie(PaymentModel.from(response.trxRef.get))
               .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
           } else {
