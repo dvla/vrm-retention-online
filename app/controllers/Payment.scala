@@ -8,8 +8,8 @@ import org.apache.commons.codec.binary.Base64
 import play.api.Logger
 import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
@@ -17,6 +17,7 @@ import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -97,9 +98,9 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   private def callBeginWebPaymentService(transactionId: String, vrm: String)(implicit request: Request[_],
                                                                              token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
     refererFromHeader.fetch match {
-      case Some(referrer) =>
+      case Some(referer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
-        val paymentCallback = referrer.split(routes.Confirm.present().url)(0) + routes.Payment.callback(tokenBase64URLSafe).url
+        val paymentCallback = refererFromHeader.paymentCallbackUrl(referer = referer, tokenBase64URLSafe = tokenBase64URLSafe)
         val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transactionId = transactionId,
@@ -113,7 +114,6 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
           if (response.status == Payment.CardDetailsStatus) {
             Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
-              //              Redirect(response.redirectUrl.get)
               .withCookie(PaymentModel.from(response.trxRef.get))
               .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
           } else {

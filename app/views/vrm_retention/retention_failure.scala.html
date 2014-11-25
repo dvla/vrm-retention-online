@@ -1,4 +1,4 @@
-@()(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+@(transactionId: String, vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
@@ -6,16 +6,35 @@
 @import views.vrm_retention.PaymentFailure.ExitId
 
 @main(
-    title = Messages("vrm_retention_failure.title")
+    title =  Messages("vrm_retention_failure.title")
 ) {
+    <div class="two-col">
+        <div id="vehicle-details" class="first-col trader-details">
+            <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
+            <dl class="playback">
+                <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
+                @if(vehicleLookupFailureViewModel.make.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                    <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
+                }
+                @if(vehicleLookupFailureViewModel.model.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                    <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
+                }
+            </dl>
+        </div>
+        <div class="second-col">
+            <h2>@Messages("vrm_retention_failure.title")</h2>
+            <p>Transaction Id @transactionId</p>
+            <p>@Messages("vrm_retention_failure.text")</p>
 
-    <h2>@Messages("vrm_retention_failure.title")</h2>
-    <p>@Messages("vrm_retention_failure.text")</p>
-
-    <div class="form-steps">
-        @csrfTokenHiddenField()
-        @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
+            <div class="form-steps">
+                @csrfTokenHiddenField()
+                @* Note the reverse routing syntax for the hyperlink *@
+                <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
+            </div>
+        </div>
     </div>
 
 }

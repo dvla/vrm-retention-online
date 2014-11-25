@@ -226,12 +226,6 @@ ms.vehiclesService.response.unableToProcessApplication-address = DVLA, Longview 
 #micro_service_error.back.button=Try again
 #micro_service_error.exit.button=Exit
 
-#duplicate-disposal error page
-duplicate_disposal_error.title=We are sorry
-duplicate_disposal_error.text=This vehicle has already been notified as sold. If you think this an error then please call DVLA Customer Enquiries on 0300 790 6802
-duplicate_disposal_error.back.button=Try again
-duplicate_disposal_error.exit.button=Exit
-
 #soap endpoint error page
 soap_endpoint_error.title=We are sorry
 soap_endpoint_error.text=The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
@@ -240,7 +234,7 @@ soap_endpoint_error.exit.button=Exit
 
 #vrm locked
 vrm_locked.title=Registration number is locked
-vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. Other vehicles can be processed during this time by selecting ‘Sell another vehicle’ below
+vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
 vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V5C/3 to DVLA, Swansea, SA99 1BD
 
@@ -373,15 +367,18 @@ vrm_retention_vehiclelookupfailure.button = Try again
 vrm_retention_vehiclelookupfailure.button2 = Exit
 vehicle_and_keeper_lookup_vrm_not_found.p1 = The V5C document reference number and/or the vehicle registration number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_vrm_not_found.p2 = Please make sure you have the most recent V5C and try again.
-vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be three attempts to retrieve the vehicle details.
+vehicle_and_keeper_lookup_vrm_not_found.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper’s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper’s postcode as on the most recent V5C and try again.
+vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
 vrm_retention_eligibility_direct_to_paper.title = This registration number cannot be retained online
 vrm_retention_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line please submit a V317. You must send both application pages and the appropriate documents to DVLA Personalised Registrations, Swansea SA99 1DS.  All documents must be originals, not photocopies or faxed copies.
+vrm_retention_eligibility_direct_to_paper.p3 =
 vrm_retention_eligibility_failure.title = This registration number cannot be retained
-vrm_retention_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.  If you need further assistance please ring our Contact Centre on 0300 790 6801.
+vrm_retention_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.
+vrm_retention_eligibility_failure.p3 =
 vrm_retention_eligibility_unknown_error_code.p1 = Unfortunately, our records won’t let you retain this registration number.
 vrm_retention_eligibility_unknown_error_code.p2 = For further information you can telephone a member of our contact centre using the details opposite.
 vrm_retention_eligibility_unknown_error_code.p3 = Some information may be sensitive and we wont be able to discuss this on the phone. We will however continue to try and sort out the issue preventing you from retaining your registration number.
@@ -624,7 +621,7 @@ email.crest.alt = Crest
 email.email_service_impl.subject = Registration Number
 #Retention failure page
 vrm_retention_failure.title = Transaction not successful
-vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.  If you need further assistance please contact our call centre on 0300 790 6801.
+vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.
 
 # progress messages
 vrm_retention_progress_1 = Step 1 of 6

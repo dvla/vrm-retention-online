@@ -36,7 +36,7 @@ class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
 
 object TestPaymentSolveWebService {
 
-  val loadBalancerUrl = "somewhere-in-load-balancer-land"
+  val loadBalancerUrl = "http://somewhere-in-load-balancer-land:443"
   val beginWebPaymentUrl = "somewhere-in-payment-land"
   private[paymentsolvewebservice] val invalidStatus = "INVALID"
   private[paymentsolvewebservice] val invalidResponse = "INVALID"

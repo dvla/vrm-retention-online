@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, UserType_Business, UserType_Keeper, VehicleRegistrationNumberId}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValid,KeeperPostcodeValidForMicroService, ReferenceNumberValid, RegistrationNumberValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValidForMicroService, ReferenceNumberValid, RegistrationNumberValid}
 
 object VehicleLookupPage extends Page with WebBrowserDSL {
 
@@ -13,7 +13,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def url = WebDriverFactory.testUrl + address.substring(1)
 
-  final override val title: String = "Getting started"
+  final override val title: String = "Enter details"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
 
