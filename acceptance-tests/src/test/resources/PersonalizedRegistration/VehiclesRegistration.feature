@@ -16,7 +16,7 @@ Feature: Vehicles Personalized Registration
   @HappyPath
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and Postcode
     Given that I have started the PR Retention Service
-    When I enter invalid data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> fields
+    When I enter invalid data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> fields
     Then the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode  |

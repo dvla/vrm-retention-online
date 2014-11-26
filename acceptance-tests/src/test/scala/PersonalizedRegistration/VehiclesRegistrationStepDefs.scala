@@ -1,6 +1,7 @@
 package PersonalizedRegistration
 
 import common.commonStepDefs
+import cucumber.api.PendingException
 import cucumber.api.java.en.{Then, When, Given}
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
@@ -18,7 +19,7 @@ final class VehiclesRegistrationStepDefs(webBrowserDriver: WebBrowserDriver) ext
     User.goToRetainAPersonalisedRegistrationPage()
   }
 
-  @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention$")
+  @When("""^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is eligible for retention$""")
   def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is eligible for retention`(RegistrationNumber: String, DocRef: String, PostCode: String) {
     User.EnterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber, DocRef, PostCode)
   }
@@ -34,7 +35,7 @@ final class VehiclesRegistrationStepDefs(webBrowserDriver: WebBrowserDriver) ext
   }
 
   //Scenario 2 -
-  @When("^I enter invalid data in the \"(.*?)\" \"(.*?)\" and \"(.*?)\" fields$")
+  @When("""^I enter invalid data in the "(.*?)" "(.*?)" and "(.*?)" fields$""")
   def `I enter invalid data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> fields`(RegistrationNumber: String, DocRef: String, PostCode: String) {
     User.EnterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber, DocRef, PostCode)
     User.IndicateKeeperIsNotActing()
@@ -45,9 +46,9 @@ final class VehiclesRegistrationStepDefs(webBrowserDriver: WebBrowserDriver) ext
     User.GetsInvalidMessages()
   }
 
-  @When("^I enter data in the \"(.*?)\" \"(.*?)\" and \"(.*?)\" that does not match a valid vehicle record three times in a row$")
-  def `I enter data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> that does not match a valid vehicle record three times in a row`(RegistrationNumber: String, DocRef: String, PostCode: String) {
-
+  @When("""^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
+  def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> that does not match a valid vehicle record three times in a row`(RegistrationNumber: String, DocRef: String, PostCode: String) {
+    throw new PendingException()
   }
 
   @When("""^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
