@@ -105,15 +105,15 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     // TODO need to revisit after store business consent check box change
-//        "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
-//          go to BeforeYouStartPage
-//
-//          cacheSetup
-//
-//          VehicleLookupPage.tryLockedVrm()
-//
-//          page.url should equal(VrmLockedPage.url)
-//        }
+        "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
+          go to BeforeYouStartPage
+
+          cacheSetup
+
+          VehicleLookupPage.tryLockedVrm()
+
+          page.url should equal(VrmLockedPage.url)
+        }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =

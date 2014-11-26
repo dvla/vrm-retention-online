@@ -22,7 +22,7 @@ Feature: Vehicles Personalized Registration
     | VehicleRegistrationNumber | DocRefID      | Postcode  |
     | "1XCG456"                 | "abgdrt12345" | "SA000AS" |
 
-  @UnHappyPath-InProgress
+  @UnHappyPath
   Scenario Outline: Vehicle Not Found
     Given that I have started the PR Retention Service
     When I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> that does not match a valid vehicle record
@@ -31,7 +31,6 @@ Feature: Vehicles Personalized Registration
     | Vehicle-Registration-Number | Doc-Ref-ID    | Postcode |
     | "C1"                        | "11111111111" | "SA11AA" |
 
-
   @UnHappyPath-InProgress
   Scenario Outline:Brute Force Lockout
     Given that I have started the PR Retention Service
@@ -39,4 +38,4 @@ Feature: Vehicles Personalized Registration
     Then the brute force lock out page is displayed
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
-    | "C1"                      | "11111111111" | "SA11AA" |
+    | "ST05YYC"                 | "11111111111" | "SA11AA" |

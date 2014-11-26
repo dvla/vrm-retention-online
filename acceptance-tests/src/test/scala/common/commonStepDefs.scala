@@ -13,7 +13,6 @@ class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
 
   def goToRetainAPersonalisedRegistrationPage() = {
     go to BeforeYouStartPage
-    println("The Staring Page" + BeforeYouStartPage.title)
     page.title should equal(BeforeYouStartPage.title)
     click on BeforeYouStartPage.startNow
     page.title should equal(VehicleLookupPage.title)
@@ -62,7 +61,7 @@ class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
 
   }
 
-  def isVehicleNotFoundPage = {
+  def isVehicleNotFoundPage() = {
     page.title should equal(VehicleLookupFailurePage.title)
   }
 }

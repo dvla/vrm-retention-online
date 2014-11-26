@@ -26,7 +26,7 @@ class TestBruteForcePreventionWebService(permitted: Boolean = true) extends Scal
       thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseSecondAttempt)))
 
     when(bruteForcePreventionWebService.callBruteForce(BruteForcePreventionWebServiceConstants.VrmLocked)).
-      thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus)))
+      thenReturn(Future.successful(new FakeResponse(status = FORBIDDEN)))
 
     when(bruteForcePreventionWebService.callBruteForce(VrmThrows)).
       thenReturn(responseThrows)
