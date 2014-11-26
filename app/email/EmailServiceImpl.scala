@@ -30,7 +30,9 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                          businessDetailsModel: Option[BusinessDetailsModel],
                          isKeeper: Boolean) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
-    if (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase) {
+    if ((config.emailWhitelist(0) == "") || (config.emailWhitelist contains inputEmailAddressDomain.toLowerCase)) {
+      Logger.debug("About to send email")
+
       pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
         pdf =>
           // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
