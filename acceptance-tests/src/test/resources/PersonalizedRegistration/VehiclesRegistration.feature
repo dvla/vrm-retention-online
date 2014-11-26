@@ -6,7 +6,7 @@ Feature: Vehicles Personalized Registration
   @HappyPath
   Scenario Outline: Happy Path - Keeper Acting
     Given that I have started the PR Retention Service
-    When I enter data in the <VehicleRegistrationNumber>,<DocRefID> and <Postcode> for a vehicle that is eligible for retention
+    When I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is eligible for retention
     And I indicate that the keeper is acting
     Then the confirm keeper details page is displayed
   Examples:
