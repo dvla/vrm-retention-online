@@ -23,6 +23,16 @@ Feature: Vehicles Personalized Registration
     | "1XCG456"                 | "abgdrt12345" | "SA000AS" |
 
   @UnHappyPath-InProgress
+  Scenario Outline: Vehicle Not Found
+    Given that I have started the PR Retention Service
+    When I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> that does not match a valid vehicle record
+    Then the vehicle not found page is displayed
+  Examples:
+    | Vehicle-Registration-Number | Doc-Ref-ID    | Postcode |
+    | "C1"                        | "11111111111" | "SA11AA" |
+
+
+  @UnHappyPath-InProgress
   Scenario Outline:Brute Force Lockout
     Given that I have started the PR Retention Service
     When I enter data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> that does not match a valid vehicle record three times in a row

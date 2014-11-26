@@ -50,6 +50,17 @@ final class VehiclesRegistrationStepDefs(webBrowserDriver: WebBrowserDriver) ext
 
   }
 
+  @When("""^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
+  def `I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> that does not match a valid vehicle record`(registrationNumber: String, docRef: String, postcode: String) = {
+    User.EnterRegistrationNumberDocRefNumberAndPostcode(registrationNumber, docRef, postcode)
+    User.IndicateKeeperIsNotActing()
+  }
+
+  @Then("""^the vehicle not found page is displayed$""")
+  def `the vehicle not found page is displayed`() = {
+    User.isVehicleNotFoundPage
+  }
+
   @Then("^the brute force lock out page is displayed$")
   def the_brute_force_lock_out_page_is_displayed() {
 

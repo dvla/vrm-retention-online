@@ -4,7 +4,8 @@ import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
-import pages.vrm_retention.{ConfirmPage, BeforeYouStartPage, VehicleLookupPage}
+import pages.vrm_retention.{VehicleLookupFailurePage, ConfirmPage, BeforeYouStartPage, VehicleLookupPage}
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
 
 class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
@@ -61,5 +62,7 @@ class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
 
   }
 
-
+  def isVehicleNotFoundPage = {
+    page.title should equal(VehicleLookupFailurePage.title)
+  }
 }
