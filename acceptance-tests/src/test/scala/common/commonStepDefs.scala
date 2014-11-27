@@ -7,39 +7,47 @@ import pages.vrm_retention._
 
 class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
-  def goToRetainAPersonalisedRegistrationPage() = {
-    go to BeforeYouStartPage
-    page.title should equal(BeforeYouStartPage.title)
-    click on BeforeYouStartPage.startNow
-    page.title should equal(VehicleLookupPage.title)
+  def `start the PR service`() = {
+    `go to BeforeYouStart page`()
+    `go to VehicleLookup page`()
   }
 
-  def EnterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
+  def `go to BeforeYouStart page`() = {
+    go to BeforeYouStartPage
+    page.url should equal(BeforeYouStartPage.url)
+  }
+
+  def `go to VehicleLookup page`() = {
+    click on BeforeYouStartPage.startNow
+    page.url should equal(VehicleLookupPage.url)
+  }
+
+  def enterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
     VehicleLookupPage.vehicleRegistrationNumber enter RegistrationNumber
     VehicleLookupPage.documentReferenceNumber enter DocRefNumber
     VehicleLookupPage.keeperPostcode enter Postcode
   }
 
-  def IndicateKeeperIsActing() = {
+  def indicateKeeperIsActing() = {
     click on VehicleLookupPage.currentKeeperYes
     click on VehicleLookupPage.findVehicleDetails
   }
 
-  def IndicateKeeperIsNotActing() = {
+  def indicateKeeperIsNotActing() = {
     click on VehicleLookupPage.currentKeeperNo
     click on VehicleLookupPage.findVehicleDetails
   }
 
-  def GetsInvalidMessages() = {
+  def hasInvalidMessages() = {
     page.source contains "Vehicle registration number - Must be valid format\nDocument reference number - Document reference number must be an 11-digit number"
   }
 
-  def ConfirmDetails() = {
+  def confirmDetails() = {
     page.title should equal(ConfirmPage.title)
     click on ConfirmPage.confirm
   }
 
-  def MakesAPayment() = {
+  def makesAPayment() = {
   }
 
   def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
@@ -64,8 +72,8 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def vehicleLookupDoesNotMatchRecord(registrationNumber: String, docRef: String, postcode: String) = {
-    EnterRegistrationNumberDocRefNumberAndPostcode(registrationNumber, docRef, postcode)
-    IndicateKeeperIsNotActing()
+    enterRegistrationNumberDocRefNumberAndPostcode(registrationNumber, docRef, postcode)
+    indicateKeeperIsNotActing()
     isVrmLockedPage()
   }
 }

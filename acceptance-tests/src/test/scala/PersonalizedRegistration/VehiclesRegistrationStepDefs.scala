@@ -12,34 +12,34 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
-    user.goToRetainAPersonalisedRegistrationPage()
+    user.`start the PR service`()
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is eligible for retention$""")
   def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is eligible for retention`(RegistrationNumber: String, DocRef: String, PostCode: String) {
-    user.EnterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber, DocRef, PostCode)
+    user.enterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber, DocRef, PostCode)
   }
 
   @When("^I indicate that the keeper is acting$")
   def `I indicate that the keeper is acting`() {
-    user.IndicateKeeperIsActing()
+    user.indicateKeeperIsActing()
   }
 
   @Then("^the confirm keeper details page is displayed$")
   def `the confirm keeper details page is displayed`() {
-    user.ConfirmDetails()
+    user.confirmDetails()
   }
 
   //Scenario 2 -
   @When( """^I enter invalid data in the "(.*?)", "(.*?)" and "(.*?)" fields$""")
   def `I enter invalid data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> fields`(RegistrationNumber: String, DocRef: String, PostCode: String) {
-    user.EnterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber, DocRef, PostCode)
-    user.IndicateKeeperIsNotActing()
+    user.enterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber, DocRef, PostCode)
+    user.indicateKeeperIsNotActing()
   }
 
   @Then("^the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed$")
   def `the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed`() {
-    user.GetsInvalidMessages()
+    user.hasInvalidMessages()
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
@@ -55,8 +55,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
   def `I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> that does not match a valid vehicle record`(registrationNumber: String, docRef: String, postcode: String) = {
-    user.EnterRegistrationNumberDocRefNumberAndPostcode(registrationNumber, docRef, postcode)
-    user.IndicateKeeperIsActing()
+    user.enterRegistrationNumberDocRefNumberAndPostcode(registrationNumber, docRef, postcode)
+    user.indicateKeeperIsActing()
   }
 
   @Then( """^the vehicle not found page is displayed$""")
