@@ -39,3 +39,21 @@ Feature: Vehicles Personalized Registration
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
     | "ST05YYC"                 | "11111111111" | "SA11AA" |
+
+  @UnHappyPath
+  Scenario Outline: Direct to Paper Channel
+    Given that I have started the PR Retention Service
+    When I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is not eligible for retention
+    Then the direct to paper channel page is displayed
+  Examples:
+    | VehicleRegistrationNumber | DocRefID      | Postcode |
+    | "D1"                      | "11111111111" | "SA11AA" |
+
+  @UnHappyPath
+  Scenario Outline: Vehicle not Eligible
+    Given that I have started the PR Retention Service
+    When I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is not eligible for retention
+    Then the vehicle not eligible page is displayed
+  Examples:
+    | VehicleRegistrationNumber | DocRefID      | Postcode |
+    | "E1"                      | "11111111111" | "SA11AA" |
