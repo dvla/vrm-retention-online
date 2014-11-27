@@ -2,14 +2,10 @@ package common
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 import pages.vrm_retention._
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
 
-class CommonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
-
-  implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
+class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
   def goToRetainAPersonalisedRegistrationPage() = {
     go to BeforeYouStartPage
@@ -34,12 +30,8 @@ class CommonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
     click on VehicleLookupPage.findVehicleDetails
   }
 
-
-  //Vehicle registration number - Must be valid format
-  //Document reference number - Document reference number must be an 11-digit number
-
   def GetsInvalidMessages() = {
-    page.source contains ("Vehicle registration number - Must be valid format\nDocument reference number - Document reference number must be an 11-digit number")
+    page.source contains "Vehicle registration number - Must be valid format\nDocument reference number - Document reference number must be an 11-digit number"
   }
 
   def ConfirmDetails() = {
@@ -48,7 +40,6 @@ class CommonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
   }
 
   def MakesAPayment() = {
-
   }
 
   def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
