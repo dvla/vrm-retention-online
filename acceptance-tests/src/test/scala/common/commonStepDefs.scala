@@ -11,32 +11,32 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   lazy val vehicleLookup = new VehicleLookupPageSteps
   lazy val vehicleNotFound = new VehicleNotFoundPageSteps
   lazy val vrmLocked = new VrmLockedPageSteps
+  lazy val confirmBusiness = new ConfirmBusinessPageSteps
 
-  def `start the PR service`() = {
-    beforeYouStart.`go to BeforeYouStart page`().
-      `is displayed`().
-      `go to VehicleLookup page`()
-    vehicleLookup.`is displayed`()
+  def `start the PR service` = {
+    beforeYouStart.`go to BeforeYouStart page`.
+      `is displayed`.
+      `click 'Start now' button`
+    vehicleLookup.`is displayed`
     this
   }
 
-  def confirmDetails() = {
+  def confirmDetails = {
     page.title should equal(ConfirmPage.title)
     click on ConfirmPage.confirm
     this
   }
 
   def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
-    VehicleLookupPage.findVehicleDetails enter RegistrationNumber
-    VehicleLookupPage.documentReferenceNumber enter DocRefNumber
-    VehicleLookupPage.keeperPostcode enter Postcode
-    VehicleLookupPage.currentKeeperNo.isSelected
-    click on VehicleLookupPage.findVehicleDetails
-    page.title should equal(ConfirmPage.title)
+    vehicleLookup.
+      enter(RegistrationNumber, DocRefNumber, Postcode).
+      `keeper is not acting`.
+      `find vehicle`
+    confirmBusiness.`is displayed`
     this
   }
 
-  def goToVehicleLookupPage() = {
+  def goToVehicleLookupPage = {
     go to VehicleLookupPage
     this
   }
@@ -44,8 +44,8 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   def vehicleLookupDoesNotMatchRecord(registrationNumber: String, docRefNumber: String, postcode: String) = {
     vehicleLookup.
       enter(registrationNumber, docRefNumber, postcode).
-      `keeper is not acting`().
-      `find vehicle`()
+      `keeper is not acting`.
+      `find vehicle`
     vrmLocked.`is displayed`
     this
   }

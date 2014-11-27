@@ -7,7 +7,7 @@ import pages.vrm_retention.VehicleLookupPage._
 
 class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
-  def `is displayed`() = {
+  def `is displayed` = {
     page.url should equal(url)
     this
   }
@@ -19,17 +19,17 @@ class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends Scala
     this
   }
 
-  def `keeper is acting`() = {
+  def `keeper is acting` = {
     click on currentKeeperYes
     this
   }
 
-  def `keeper is not acting`() = {
+  def `keeper is not acting` = {
     click on currentKeeperNo
     this
   }
 
-  def `find vehicle`() = {
+  def `find vehicle` = {
     click on findVehicleDetails
     this
   }

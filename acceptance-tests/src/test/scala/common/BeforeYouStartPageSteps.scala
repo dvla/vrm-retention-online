@@ -7,17 +7,17 @@ import pages.vrm_retention.BeforeYouStartPage
 
 class BeforeYouStartPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
-  def `go to BeforeYouStart page`() = {
+  def `go to BeforeYouStart page` = {
     go to BeforeYouStartPage
     this
   }
 
-  def `go to VehicleLookup page`() = {
+  def `click 'Start now' button` = {
     click on BeforeYouStartPage.startNow
     this
   }
 
-  def `is displayed`() = {
+  def `is displayed` = {
     page.url should equal(BeforeYouStartPage.url)
     this
   }

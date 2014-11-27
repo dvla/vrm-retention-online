@@ -16,7 +16,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
-    common.`start the PR service`()
+    common.`start the PR service`
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is eligible for retention$""")
@@ -26,13 +26,13 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   @When("^I indicate that the keeper is acting$")
   def `I indicate that the keeper is acting`() {
     vehicleLookup.
-      `keeper is acting`().
-      `find vehicle`()
+      `keeper is acting`.
+      `find vehicle`
   }
 
   @Then("^the confirm keeper details page is displayed$")
   def `the confirm keeper details page is displayed`() {
-    common.confirmDetails()
+    common.confirmDetails
   }
 
   //Scenario 2 -
@@ -40,8 +40,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   def `I enter invalid data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> fields`(registrationNumber: String, docRefNumber: String, postcode: String) {
     vehicleLookup.
       enter(registrationNumber, docRefNumber, postcode).
-      `keeper is not acting`().
-      `find vehicle`()
+      `keeper is not acting`.
+      `find vehicle`
   }
 
   @Then("^the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed$")
@@ -52,10 +52,10 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
   def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> that does not match a valid vehicle record three times in a row`(registrationNumber: String, docRef: String, postcode: String) {
     common.vehicleLookupDoesNotMatchRecord(registrationNumber, docRef, postcode) // 1st
-    common.goToVehicleLookupPage()
+    common.goToVehicleLookupPage
 
     common.vehicleLookupDoesNotMatchRecord(registrationNumber, docRef, postcode) // 2nd
-    common.goToVehicleLookupPage()
+    common.goToVehicleLookupPage
 
     common.vehicleLookupDoesNotMatchRecord(registrationNumber, docRef, postcode) // Locked
   }
@@ -64,8 +64,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   def `I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> that does not match a valid vehicle record`(registrationNumber: String, docRefNumber: String, postcode: String) = {
     vehicleLookup.
       enter(registrationNumber, docRefNumber, postcode).
-      `keeper is acting`().
-      `find vehicle`()
+      `keeper is acting`.
+      `find vehicle`
   }
 
   @Then( """^the vehicle not found page is displayed$""")
