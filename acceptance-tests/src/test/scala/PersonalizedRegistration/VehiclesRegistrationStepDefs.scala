@@ -1,6 +1,6 @@
 package PersonalizedRegistration
 
-import common.{BeforeYouStartPageSteps, VehicleLookupPageSteps, CommonStepDefs}
+import common._
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
@@ -11,6 +11,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   lazy val common = new CommonStepDefs
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps
+  lazy val vehicleNotFound = new VehicleNotFoundPageSteps
+  lazy val vrmLocked = new VrmLockedPageSteps
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
@@ -23,8 +25,9 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @When("^I indicate that the keeper is acting$")
   def `I indicate that the keeper is acting`() {
-    vehicleLookup.`keeper is acting`()
-    vehicleLookup.`find vehicle`()
+    vehicleLookup.
+      `keeper is acting`().
+      `find vehicle`()
   }
 
   @Then("^the confirm keeper details page is displayed$")
@@ -35,9 +38,10 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   //Scenario 2 -
   @When( """^I enter invalid data in the "(.*?)", "(.*?)" and "(.*?)" fields$""")
   def `I enter invalid data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> fields`(registrationNumber: String, docRefNumber: String, postcode: String) {
-    vehicleLookup.enter(registrationNumber, docRefNumber, postcode)
-    vehicleLookup.`keeper is not acting`()
-    vehicleLookup.`find vehicle`()
+    vehicleLookup.
+      enter(registrationNumber, docRefNumber, postcode).
+      `keeper is not acting`().
+      `find vehicle`()
   }
 
   @Then("^the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed$")
@@ -58,18 +62,15 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
   def `I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> that does not match a valid vehicle record`(registrationNumber: String, docRefNumber: String, postcode: String) = {
-    vehicleLookup.enter(registrationNumber, docRefNumber, postcode)
-    vehicleLookup.`keeper is acting`()
-    vehicleLookup.`find vehicle`()
+    vehicleLookup.
+      enter(registrationNumber, docRefNumber, postcode).
+      `keeper is acting`().
+      `find vehicle`()
   }
 
   @Then( """^the vehicle not found page is displayed$""")
-  def `the vehicle not found page is displayed`() = {
-    common.isVehicleNotFoundPage()
-  }
+  def `the vehicle not found page is displayed`() = vehicleNotFound.`is displayed`
 
   @Then("^the brute force lock out page is displayed$")
-  def `the brute force lock out page is displayed`() {
-    common.isVrmLockedPage()
-  }
+  def `the brute force lock out page is displayed`() = vrmLocked
 }
