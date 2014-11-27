@@ -35,7 +35,7 @@ final class VehiclesRegistrationStepDefs(webBrowserDriver: WebBrowserDriver) ext
   }
 
   //Scenario 2 -
-  @When("""^I enter invalid data in the "(.*?)" "(.*?)" and "(.*?)" fields$""")
+  @When("""^I enter invalid data in the "(.*?)", "(.*?)" and "(.*?)" fields$""")
   def `I enter invalid data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> fields`(RegistrationNumber: String, DocRef: String, PostCode: String) {
     User.EnterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber, DocRef, PostCode)
     User.IndicateKeeperIsNotActing()
