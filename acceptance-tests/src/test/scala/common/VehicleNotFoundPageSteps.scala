@@ -11,4 +11,17 @@ class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver) extends Sca
     page.url should equal(url)
     this
   }
+
+  def `has 'not found' message` = {
+    page.source should include("This registration number cannot be retained")
+    page.source should not include "This registration number cannot be retained online"
+    page.source should not include "Download V317"
+    this
+  }
+  
+  def `has 'direct to paper' message` = {
+    page.source should include("This registration number cannot be retained online")
+    page.source should include("Download V317")
+    this
+  }
 }

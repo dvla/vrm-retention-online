@@ -68,9 +68,32 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
       `find vehicle`
   }
 
+  @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is not eligible for retention$""")
+  def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is not eligible for retention`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+    vehicleLookup.
+      enter(registrationNumber, docRefNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+  }
+
   @Then( """^the vehicle not found page is displayed$""")
-  def `the vehicle not found page is displayed`() = vehicleNotFound.`is displayed`
+  def `the vehicle not found page is displayed`() =
+    vehicleNotFound.
+      `is displayed`.
+      `has 'not found' message`
 
   @Then("^the brute force lock out page is displayed$")
   def `the brute force lock out page is displayed`() = vrmLocked
+
+  @Then("^the direct to paper channel page is displayed$")
+  def `the direct to paper channel page is displayed`() =
+    vehicleNotFound.
+      `is displayed`.
+      `has 'direct to paper' message`
+
+  @Then("^the vehicle not eligible page is displayed$")
+  def `the vehicle not eligible page is displayed`() =
+    vehicleNotFound.
+      `is displayed`.
+      `has 'not found' message`
 }
