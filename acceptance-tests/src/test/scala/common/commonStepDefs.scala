@@ -4,10 +4,10 @@ import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
-import pages.vrm_retention.{VehicleLookupFailurePage, ConfirmPage, BeforeYouStartPage, VehicleLookupPage}
+import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
 
-class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+class CommonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
   implicit val webDriver = webBrowserDriver.asInstanceOf[WebDriver]
 
@@ -58,10 +58,23 @@ class commonStepDefs(webBrowserDriver: WebBrowserDriver) extends ScalaDsl with E
     VehicleLookupPage.currentKeeperNo.isSelected
     click on VehicleLookupPage.findVehicleDetails
     page.title should equal(ConfirmPage.title)
-
   }
 
   def isVehicleNotFoundPage() = {
     page.title should equal(VehicleLookupFailurePage.title)
+  }
+
+  def isVrmLockedPage() = {
+    page.url should equal(VrmLockedPage.url)
+  }
+
+  def goToVehicleLookupPage() = {
+    go to VehicleLookupPage
+  }
+
+  def vehicleLookupDoesNotMatchRecord(registrationNumber: String, docRef: String, postcode: String) = {
+    EnterRegistrationNumberDocRefNumberAndPostcode(registrationNumber, docRef, postcode)
+    IndicateKeeperIsNotActing()
+    isVrmLockedPage()
   }
 }

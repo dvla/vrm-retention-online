@@ -31,10 +31,10 @@ Feature: Vehicles Personalized Registration
     | Vehicle-Registration-Number | Doc-Ref-ID    | Postcode |
     | "C1"                        | "11111111111" | "SA11AA" |
 
-  @UnHappyPath-InProgress
+  @UnHappyPath
   Scenario Outline:Brute Force Lockout
     Given that I have started the PR Retention Service
-    When I enter data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> that does not match a valid vehicle record three times in a row
+    When I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed
   Examples:
     | VehicleRegistrationNumber | DocRefID      | Postcode |
