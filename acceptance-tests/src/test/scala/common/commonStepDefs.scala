@@ -7,19 +7,14 @@ import pages.vrm_retention._
 
 class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
+  lazy val beforeYouStart = new BeforeYouStartPageSteps
+  lazy val vehicleLookup = new VehicleLookupPageSteps
+
   def `start the PR service`() = {
-    `go to BeforeYouStart page`()
-    `go to VehicleLookup page`()
-  }
-
-  def `go to BeforeYouStart page`() = {
-    go to BeforeYouStartPage
-    page.url should equal(BeforeYouStartPage.url)
-  }
-
-  def `go to VehicleLookup page`() = {
-    click on BeforeYouStartPage.startNow
-    page.url should equal(VehicleLookupPage.url)
+    beforeYouStart.`go to BeforeYouStart page`().
+      `is displayed`().
+      `go to VehicleLookup page`()
+    vehicleLookup.`is displayed`()
   }
 
   def enterRegistrationNumberDocRefNumberAndPostcode(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
