@@ -67,7 +67,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
   }
 
   override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] =
-    vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form), trackingId).map { response =>
+    vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form, dateService.now.toDateTime), trackingId).map { response =>
       response.responseCode match {
         case Some(responseCode) =>
           auditService.send(AuditMessage.from(
