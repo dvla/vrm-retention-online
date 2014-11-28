@@ -1,10 +1,11 @@
 package PersonalizedRegistration
 
-import common._
+import _root_.common._
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.scalatest.Matchers
+import pages._
 
 final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
@@ -13,6 +14,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   lazy val vehicleLookup = new VehicleLookupPageSteps
   lazy val vehicleNotFound = new VehicleNotFoundPageSteps
   lazy val vrmLocked = new VrmLockedPageSteps
+  lazy val vehicleLookupFailure = new VehicleLookupFailurePageSteps
+  lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
@@ -73,4 +76,59 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Then("^the brute force lock out page is displayed$")
   def `the brute force lock out page is displayed`() = vrmLocked
+
+  //Scenario 5
+  @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that has a marker set$")
+  def `i enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> for a vehicle that has a marker set`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+    vehicleLookup.enter(registrationNumber, docRefNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+  }
+
+  @Then("^the direct to paper channel page is displayed$")
+  def `the direct to paper channel page is displayed`() = {
+    vehicleLookupFailure.`direct to paper channel message is displayed`
+  }
+
+  //Scenario 6
+  @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is not eligible for retention$")
+  def `i enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> and for a vehicle that is not eligible for retention`(registrationNumber: String, docRefNumber: String, postcode: String) {
+    vehicleLookup.enter(registrationNumber, docRefNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+  }
+
+  @Then("^the vehicle not eligible page is displayed$")
+  def `the_vehicle_not_eligible_page_is_displayed`() = {
+    vehicleLookupFailure.`vehicle not eligible message is displayed`
+  }
+
+  //Scenario 7
+  @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have not previously chosen to store my details$")
+  def `i enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have not previously chosen to store my details`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+    vehicleLookup.enter(registrationNumber, docRefNumber, postcode).
+      `keeper is not acting`.
+      `find vehicle`
+    //Enter Business Details
+    //setupBusinessDetails.`enter business details`
+  }
+
+  @Then("^the supply business details page is displayed$")
+  def `the supply business details page is displayed`() = {
+
+
+  }
+
+  //Scenario 8
+  @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
+  def `i enter data in the and for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+
+  }
+
+  @Then("^the confirm business details page is displayed$")
+  def `the confirm business details page is displayed`() = {
+
+  }
+
+
 }

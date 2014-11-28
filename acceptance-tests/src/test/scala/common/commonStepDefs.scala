@@ -3,6 +3,7 @@ package common
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.scalatest.Matchers
+import pages._
 import pages.vrm_retention._
 
 class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {

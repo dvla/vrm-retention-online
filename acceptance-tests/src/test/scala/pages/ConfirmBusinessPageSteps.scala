@@ -1,11 +1,11 @@
-package common
+package pages
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.scalatest.Matchers
-import pages.vrm_retention.VehicleLookupFailurePage._
+import pages.vrm_retention.ConfirmBusinessPage._
 
-class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
   def `is displayed` = {
     page.url should equal(url)

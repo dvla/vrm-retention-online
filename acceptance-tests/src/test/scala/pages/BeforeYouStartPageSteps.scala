@@ -1,4 +1,4 @@
-package common
+package pages
 
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
