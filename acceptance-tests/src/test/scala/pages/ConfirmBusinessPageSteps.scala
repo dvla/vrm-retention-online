@@ -3,6 +3,7 @@ package pages
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.scalatest.Matchers
+import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.ConfirmBusinessPage._
 
 class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
@@ -13,8 +14,12 @@ class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver) extends Sca
     this
   }
 
+  def `store details` = {
+    click on ConfirmBusinessPage.rememberDetails
+  }
+
   def `proceed to confirm` = {
-    click on confirm
+    click on ConfirmBusinessPage.confirm
   }
 
 }

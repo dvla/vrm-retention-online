@@ -119,17 +119,20 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   //Scenario 8
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
   def `i enter data in the and for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(registrationNumber: String, docRefNumber: String, postcode: String) = {
-    vehicleLookup.enter(registrationNumber, docRefNumber, postcode).
-      `keeper is not acting`.
-      `find vehicle`
-    setupBusinessDetails.`is displayed`
-    //Enter Business Details
-    setupBusinessDetails.`enter business details`
-    businessChooseYourAddress.`proceed to next page`
+    //1st Store the details
+    common.goToVehicleLookupPageWithNonKeeper(registrationNumber, docRefNumber, postcode)
+    common.provideBusinessDetails
+    common.chooseBusinessAddress
+    common.confirmBusinessDetailsIsDisplayed
+    common.storeBusinessDetails
+    common.exitBusiness
+    //2nd validate details are stored
+    common.goToVehicleLookupPage
+    common.goToVehicleLookupPageWithNonKeeper(registrationNumber, docRefNumber, postcode)
   }
 
   @Then("^the confirm business details page is displayed$")
   def `the confirm business details page is displayed`() = {
-    confirmBusiness.`is displayed`
+    common.confirmBusinessDetailsIsDisplayed
   }
 }

@@ -13,6 +13,8 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   lazy val vehicleNotFound = new VehicleNotFoundPageSteps
   lazy val vrmLocked = new VrmLockedPageSteps
   lazy val confirmBusiness = new ConfirmBusinessPageSteps
+  lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps
+  lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
 
   def `start the PR service` = {
     beforeYouStart.`go to BeforeYouStart page`.
@@ -33,7 +35,30 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
       enter(RegistrationNumber, DocRefNumber, Postcode).
       `keeper is not acting`.
       `find vehicle`
-    confirmBusiness.`is displayed`
+    //confirmBusiness.`is displayed`
+    this
+  }
+
+  def provideBusinessDetails =  {
+    setupBusinessDetails.`is displayed`
+    setupBusinessDetails.`enter business details`
+  }
+
+  def chooseBusinessAddress ={
+    businessChooseYourAddress.`proceed to next page`
+  }
+
+  def storeBusinessDetails = {
+    click on ConfirmBusinessPage.rememberDetails
+    click on ConfirmBusinessPage.confirm
+    this
+  }
+  def confirmBusinessDetailsIsDisplayed = {
+    page.title should equal(ConfirmBusinessPage.title)
+    this
+  }
+  def exitBusiness = {
+    click on ConfirmBusinessPage.exit
     this
   }
 
