@@ -28,7 +28,7 @@ object Helper {
   def isPasswordField(webElement: WebElement): Boolean = isInputField(webElement, "password")
   def isCheckBox(webElement: WebElement): Boolean = isInputField(webElement, "checkbox")
   def isRadioButton(webElement: WebElement): Boolean = isInputField(webElement, "radio")
-  def isEmailField(webElement: WebElement): Boolean = isInputField(webElement, "email")
+  def isEmailField(webElement: WebElement): Boolean = isInputField(webElement, "text")
   def isColorField(webElement: WebElement): Boolean = isInputField(webElement, "color")
   def isDateField(webElement: WebElement): Boolean = isInputField(webElement, "date")
   def isDateTimeField(webElement: WebElement): Boolean = isInputField(webElement, "datetime")

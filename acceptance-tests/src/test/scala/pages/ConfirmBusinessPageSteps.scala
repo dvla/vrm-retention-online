@@ -9,6 +9,12 @@ class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver) extends Sca
 
   def `is displayed` = {
     page.url should equal(url)
+    page.source contains title
     this
   }
+
+  def `proceed to confirm` = {
+    click on confirm
+  }
+
 }

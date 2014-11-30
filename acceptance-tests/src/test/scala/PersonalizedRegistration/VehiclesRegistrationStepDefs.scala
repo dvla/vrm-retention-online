@@ -16,6 +16,9 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   lazy val vrmLocked = new VrmLockedPageSteps
   lazy val vehicleLookupFailure = new VehicleLookupFailurePageSteps
   lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps
+  lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
+  lazy val confirmBusiness = new ConfirmBusinessPageSteps()
+
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
@@ -106,26 +109,27 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     vehicleLookup.enter(registrationNumber, docRefNumber, postcode).
       `keeper is not acting`.
       `find vehicle`
-    //Enter Business Details
-    //setupBusinessDetails.`enter business details`
   }
 
   @Then("^the supply business details page is displayed$")
   def `the supply business details page is displayed`() = {
-
-
+    setupBusinessDetails.`is displayed`
   }
 
   //Scenario 8
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
   def `i enter data in the and for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(registrationNumber: String, docRefNumber: String, postcode: String) = {
-
+    vehicleLookup.enter(registrationNumber, docRefNumber, postcode).
+      `keeper is not acting`.
+      `find vehicle`
+    setupBusinessDetails.`is displayed`
+    //Enter Business Details
+    setupBusinessDetails.`enter business details`
+    businessChooseYourAddress.`proceed to next page`
   }
 
   @Then("^the confirm business details page is displayed$")
   def `the confirm business details page is displayed`() = {
-
+    confirmBusiness.`is displayed`
   }
-
-
 }
