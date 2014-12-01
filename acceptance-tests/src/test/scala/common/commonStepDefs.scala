@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 import pages._
 import pages.vrm_retention._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
 class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
@@ -29,14 +30,14 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def validateCookieIsFresh(implicit driver: WebDriver) = {
-    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime())
-    cookie("tracking_id").value.contains(timeStamp)
-    cookie("tracking_id").expiry.isEmpty
-    //   cookie("tracking_id").underlying.validate()
-    //cookie("cookie_name").value should be ("cookie_value")
-    //    cookie("tracking_id").expiry.isDefined
-    //    cookie("tracking_id").underlying.getValue
-
+    try {
+      cookie(TrackingIdCookieName).underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
+    } catch {
+      case e: Throwable => fail(s"Cookie should be valid and not have thrown exception: $e")
+    }
+//    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
+//    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
+    cookie(TrackingIdCookieName).expiry should be (None)
   }
 
   def confirmDetails = {
