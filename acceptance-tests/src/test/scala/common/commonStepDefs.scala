@@ -1,7 +1,11 @@
 package common
 
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 import pages._
 import pages.vrm_retention._
@@ -22,6 +26,17 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
       `click 'Start now' button`
     vehicleLookup.`is displayed`
     this
+  }
+
+  def validateCookieIsFresh(implicit driver: WebDriver) = {
+    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime())
+    cookie("tracking_id").value.contains(timeStamp)
+    cookie("tracking_id").expiry.isEmpty
+    //   cookie("tracking_id").underlying.validate()
+    //cookie("cookie_name").value should be ("cookie_value")
+    //    cookie("tracking_id").expiry.isDefined
+    //    cookie("tracking_id").underlying.getValue
+
   }
 
   def confirmDetails = {
