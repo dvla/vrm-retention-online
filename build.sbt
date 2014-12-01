@@ -40,7 +40,7 @@ libraryDependencies ++= {
     filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
@@ -49,7 +49,7 @@ libraryDependencies ++= {
     "com.google.guava" % "guava" % "18.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
-    "org.apache.httpcomponents" % "httpclient" % "4.3.5" withSources() withJavadoc(),
+    "org.apache.httpcomponents" % "httpclient" % "4.3.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
