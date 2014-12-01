@@ -54,42 +54,6 @@ trait WebBrowserDSL {
     }
   }
 
-  final class FrameWebElementTarget(webElement: WebElement) extends SwitchTarget[WebDriver] {
-
-    def switch(driver: WebDriver): WebDriver =
-      try {
-        driver.switchTo.frame(webElement)
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchFrameException =>
-          throw new TestFailedException("Frame element '" + webElement + "' not found.")
-      }
-  }
-
-  final class FrameElementTarget(element: Element) extends SwitchTarget[WebDriver] {
-
-    def switch(driver: WebDriver): WebDriver =
-      try {
-        driver.switchTo.frame(element.underlying)
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchFrameException =>
-          throw new TestFailedException("Frame element '" + element + "' not found.")
-      }
-  }
-
-  final class WindowTarget(nameOrHandle: String) extends SwitchTarget[WebDriver] {
-
-    def switch(driver: WebDriver): WebDriver =
-      try {
-        driver.switchTo.window(nameOrHandle)
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchWindowException =>
-          throw new TestFailedException("Window with nameOrHandle '" + nameOrHandle + "' not found.")
-      }
-  }
-
   private def createTypedElement(element: WebElement): Element = {
     if (Helper.isTextField(element))
       new TextField(element)
@@ -430,8 +394,6 @@ trait WebBrowserDSL {
   }
 
   val activeElement = new ActiveElementTarget()
-
-  def window(nameOrHandle: String) = new WindowTarget(nameOrHandle)
 
   def switchTo[T](target: SwitchTarget[T])(implicit driver: WebDriver): T = switch to target
 
