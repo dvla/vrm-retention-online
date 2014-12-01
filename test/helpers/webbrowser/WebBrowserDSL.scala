@@ -528,12 +528,6 @@ trait WebBrowserDSL {
     val ae = switch to activeElement
     ae match {
       case tf: TextField => tf.value = value
-      case ta: TextArea => ta.value = value
-      case pf: PasswordField => pf.value = value
-      case pf: EmailField => pf.value = value
-      case pf: SearchField => pf.value = value
-      case pf: TelField => pf.value = value
-      case pf: UrlField => pf.value = value
       case _ =>
         throw new TestFailedException("Currently selected element is neither a text field, text area, password field, email field, search field, tel field or url field")
     }
