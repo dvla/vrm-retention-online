@@ -570,10 +570,4 @@ trait WebBrowserDSL {
       }
     }
   }
-
-  implicit def in(sel: SingleSel) = new {
-    def select(text: String) = {
-      sel.value = text
-    }
-  }
 }
