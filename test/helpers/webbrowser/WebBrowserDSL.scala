@@ -187,10 +187,6 @@ trait WebBrowserDSL {
     val by = By.partialLinkText(queryString)
   }
 
-  case class TagNameQuery(queryString: String) extends Query {
-    val by = By.tagName(queryString)
-  }
-
   def id(elementId: String): IdQuery = new IdQuery(elementId)
 
   def name(elementName: String): NameQuery = new NameQuery(elementName)
@@ -204,8 +200,6 @@ trait WebBrowserDSL {
   def linkText(linkText: String): LinkTextQuery = new LinkTextQuery(linkText)
 
   def partialLinkText(partialLinkText: String): PartialLinkTextQuery = new PartialLinkTextQuery(partialLinkText)
-
-  def tagName(tagName: String): TagNameQuery = new TagNameQuery(tagName)
 
   // XXX
 
@@ -555,8 +549,6 @@ trait WebBrowserDSL {
       val t = driver.getTitle
       if (t != null) t else ""
     }
-
-    def text: String = find(tagName("body")).get.text
 
     def url: String = driver.getCurrentUrl
 
