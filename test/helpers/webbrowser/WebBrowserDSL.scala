@@ -539,11 +539,6 @@ trait WebBrowserDSL {
     }
   }
 
-  def pressKeys(value: String)(implicit driver: WebDriver) {
-    val ae: WebElement = driver.switchTo.activeElement
-    ae.sendKeys(value)
-  }
-
   def page(implicit driver: WebDriver) = new {
     def title: String = {
       val t = driver.getTitle
@@ -559,12 +554,6 @@ trait WebBrowserDSL {
     def enter(value: String) = {
       element match {
         case tf: TextField => tf.value = value
-        case ta: TextArea => ta.value = value
-        case pf: PasswordField => pf.value = value
-        case pf: EmailField => pf.value = value
-        case pf: SearchField => pf.value = value
-        case pf: TelField => pf.value = value
-        case pf: UrlField => pf.value = value
         case _ =>
           throw new TestFailedException("Currently selected element is neither a text field, text area, password field, email field, search field, tel field or url field")
       }
