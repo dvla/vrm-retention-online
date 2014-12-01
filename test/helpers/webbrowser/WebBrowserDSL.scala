@@ -553,12 +553,6 @@ trait WebBrowserDSL {
     def url: String = driver.getCurrentUrl
 
     def source: String = driver.getPageSource
-
-    def DownloadLink: WebElement = driver.findElement(By.linkText("Download V317"))
-
-    def ExitLink: WebElement = driver.findElement(By.linkText("Exit"))
-
-    def TryAgainButton: WebElement = driver.findElement(By.id("vehicle-lookup"))
   }
 
   implicit def in(element: Element) = new {
@@ -580,12 +574,6 @@ trait WebBrowserDSL {
   implicit def in(sel: SingleSel) = new {
     def select(text: String) = {
       sel.value = text
-    }
-  }
-
-  implicit def in(sel: MultiSel) = new {
-    def select(values: collection.Seq[String]) = {
-      sel.values = values
     }
   }
 }
