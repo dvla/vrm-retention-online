@@ -431,12 +431,6 @@ trait WebBrowserDSL {
 
   val activeElement = new ActiveElementTarget()
 
-  def frame(element: WebElement) = new FrameWebElementTarget(element)
-
-  def frame(element: Element) = new FrameElementTarget(element)
-
-  def frame(query: Query)(implicit driver: WebDriver) = new FrameWebElementTarget(query.webElement)
-
   def window(nameOrHandle: String) = new WindowTarget(nameOrHandle)
 
   def switchTo[T](target: SwitchTarget[T])(implicit driver: WebDriver): T = switch to target
