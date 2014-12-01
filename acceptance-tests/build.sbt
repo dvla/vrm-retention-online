@@ -23,5 +23,6 @@ libraryDependencies ++= Seq(
   "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
   "info.cukes" % "cucumber-picocontainer" % "1.1.8" % "test" withSources() withJavadoc(),
   "info.cukes" % "cucumber-junit" % "1.1.8" % "test" withSources() withJavadoc(),
-  "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc()
+  "org.apache.httpcomponents" % "httpclient" % "4.3.4" withSources() withJavadoc(),
+  "dvla" %% "vehicles-presentation-common" % "2.7-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep")
 )
