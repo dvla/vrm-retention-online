@@ -54,13 +54,6 @@ trait WebBrowserDSL {
     }
   }
 
-  final class AlertTarget extends SwitchTarget[Alert] {
-
-    def switch(driver: WebDriver): Alert = {
-      driver.switchTo.alert
-    }
-  }
-
   final class DefaultContentTarget extends SwitchTarget[WebDriver] {
 
     def switch(driver: WebDriver): WebDriver = {
@@ -468,8 +461,6 @@ trait WebBrowserDSL {
   }
 
   val activeElement = new ActiveElementTarget()
-
-  val alertBox = new AlertTarget()
 
   val defaultContent = new DefaultContentTarget()
 
