@@ -26,8 +26,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is eligible for retention$""")
-  def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is eligible for retention`(registrationNumber: String, docRefNumber: String, postcode: String) =
-    vehicleLookup.enter(registrationNumber, docRefNumber, postcode)
+  def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is eligible for retention`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) =
+    vehicleLookup.enter(vehicleRegistrationNumber, documentReferenceNumber, postcode)
 
   @When("^I indicate that the keeper is acting$")
   def `I indicate that the keeper is acting`() {
@@ -43,9 +43,9 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   //Scenario 2 -
   @When( """^I enter invalid data in the "(.*?)", "(.*?)" and "(.*?)" fields$""")
-  def `I enter invalid data in the <VehicleRegistrationNumber> <DocRefID> and <Postcode> fields`(registrationNumber: String, docRefNumber: String, postcode: String) {
+  def `I enter invalid data in the <vehicle-registration-number> <document-reference-number> and <postcode> fields`(registrationNumber: String, vehicleRegistrationNumber: String, postcode: String) {
     vehicleLookup.
-      enter(registrationNumber, docRefNumber, postcode).
+      enter(registrationNumber, vehicleRegistrationNumber, postcode).
       `keeper is not acting`.
       `find vehicle`
   }
@@ -56,28 +56,28 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
-  def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> that does not match a valid vehicle record three times in a row`(registrationNumber: String, docRef: String, postcode: String) {
-    User.vehicleLookupDoesNotMatchRecord(registrationNumber, docRef, postcode) // 1st
+  def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
+    User.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
     User.goToVehicleLookupPage
 
-    User.vehicleLookupDoesNotMatchRecord(registrationNumber, docRef, postcode) // 2nd
+    User.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
     User.goToVehicleLookupPage
 
-    User.vehicleLookupDoesNotMatchRecord(registrationNumber, docRef, postcode) // Locked
+    User.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // Locked
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
-  def `I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> that does not match a valid vehicle record`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def `I enter data in the <Vehicle-Registration-Number>, <document-reference-number> and <postcode> that does not match a valid vehicle record`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
     vehicleLookup.
-      enter(registrationNumber, docRefNumber, postcode).
+      enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
       `keeper is acting`.
       `find vehicle`
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is not eligible for retention$""")
-  def `I enter data in the <VehicleRegistrationNumber>, <DocRefID> and <Postcode> for a vehicle that is not eligible for retention`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is not eligible for retention`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
     vehicleLookup.
-      enter(registrationNumber, docRefNumber, postcode).
+      enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
       `keeper is acting`.
       `find vehicle`
   }
@@ -105,8 +105,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   //Scenario 7
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have not previously chosen to store my details$")
-  def `i enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <Postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have not previously chosen to store my details`(registrationNumber: String, docRefNumber: String, postcode: String) = {
-    vehicleLookup.enter(registrationNumber, docRefNumber, postcode).
+  def `I enter data in the <Vehicle-Registration-Number>, <Doc-Ref-ID> and <postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have not previously chosen to store my details`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
+    vehicleLookup.enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
       `keeper is not acting`.
       `find vehicle`
   }
@@ -118,9 +118,9 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   //Scenario 8
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
-  def `i enter data in the and for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
     //1st Store the details
-    User.goToVehicleLookupPageWithNonKeeper(registrationNumber, docRefNumber, postcode)
+    User.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
     User.provideBusinessDetails
     User.chooseBusinessAddress
     User.confirmBusinessDetailsIsDisplayed
@@ -130,7 +130,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
     //2nd validate details are stored
     User.goToVehicleLookupPage
-    User.goToVehicleLookupPageWithNonKeeper(registrationNumber, docRefNumber, postcode)
+    User.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
   }
 
   @Then("^the confirm business details page is displayed$")

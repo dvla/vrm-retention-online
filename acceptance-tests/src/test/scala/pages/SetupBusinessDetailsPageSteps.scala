@@ -11,6 +11,7 @@ class SetupBusinessDetailsPageSteps (implicit webDriver: WebBrowserDriver) exten
   def `is displayed`={
     page.url should equal(url)
     page.source contains title
+    this
   }
 
   def `enter business details` = {

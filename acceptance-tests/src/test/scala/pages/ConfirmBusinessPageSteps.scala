@@ -16,10 +16,12 @@ class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver) extends Sca
 
   def `store details` = {
     click on ConfirmBusinessPage.rememberDetails
+    this
   }
 
   def `proceed to confirm` = {
     click on ConfirmBusinessPage.confirm
+    this
   }
 
 }
