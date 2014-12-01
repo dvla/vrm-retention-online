@@ -54,18 +54,6 @@ trait WebBrowserDSL {
     }
   }
 
-  final class FrameIndexTarget(index: Int) extends SwitchTarget[WebDriver] {
-
-    def switch(driver: WebDriver): WebDriver =
-      try {
-        driver.switchTo.frame(index)
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchFrameException =>
-          throw new TestFailedException("Frame at index '" + index + "' not found.")
-      }
-  }
-
   final class FrameNameOrIdTarget(nameOrId: String) extends SwitchTarget[WebDriver] {
 
     def switch(driver: WebDriver): WebDriver =
@@ -454,8 +442,6 @@ trait WebBrowserDSL {
   }
 
   val activeElement = new ActiveElementTarget()
-
-  def frame(index: Int) = new FrameIndexTarget(index)
 
   def frame(nameOrId: String) = new FrameNameOrIdTarget(nameOrId)
 
