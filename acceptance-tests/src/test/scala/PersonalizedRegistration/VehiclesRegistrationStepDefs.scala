@@ -50,8 +50,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
       `find vehicle`
   }
 
-  @Then("^the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed$")
-  def `the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and Postcode fields are displayed`() {
+  @Then("^the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and postcode fields are displayed$")
+  def `the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and postcode fields are displayed`() {
     vehicleLookup.`has error messages`
   }
 

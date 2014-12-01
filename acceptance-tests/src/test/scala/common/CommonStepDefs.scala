@@ -29,15 +29,16 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
     this
   }
 
-  def validateCookieIsFresh(implicit driver: WebDriver) = {
+  def validateCookieIsFresh = {
+    val c = cookie(TrackingIdCookieName)
     try {
-      cookie(TrackingIdCookieName).underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
+      c.underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
     } catch {
       case e: Throwable => fail(s"Cookie should be valid and not have thrown exception: $e")
     }
-//    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
-//    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
-    cookie(TrackingIdCookieName).expiry should be (None)
+    //    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
+    //    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
+    c.expiry should be (None)
   }
 
   def confirmDetails = {
