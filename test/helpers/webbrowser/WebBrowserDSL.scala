@@ -459,51 +459,8 @@ trait WebBrowserDSL {
 
   def isScreenshotSupported(implicit driver: WebDriver): Boolean = driver.isInstanceOf[TakesScreenshot]
 
-  object capture {
-
-    def to(fileName: String)(implicit driver: WebDriver) {
-      driver match {
-        case takesScreenshot: TakesScreenshot =>
-          val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)
-          val outFile = new File(targetDir, if (fileName.toLowerCase.endsWith(".png")) fileName else fileName + ".png")
-          new FileOutputStream(outFile) getChannel() transferFrom(
-            new FileInputStream(tmpFile) getChannel(), 0, Long.MaxValue)
-        case _ =>
-          throw new UnsupportedOperationException("Screen capture is not support by " + driver.getClass.getName)
-      }
-    }
-
-    def apply()(implicit driver: WebDriver): File = {
-      driver match {
-        case takesScreenshot: TakesScreenshot =>
-          val tmpFile = takesScreenshot.getScreenshotAs(OutputType.FILE)
-          val fileName = tmpFile.getName
-          val outFile = new File(targetDir, if (fileName.toLowerCase.endsWith(".png")) fileName else fileName + ".png")
-          new FileOutputStream(outFile) getChannel() transferFrom(
-            new FileInputStream(tmpFile) getChannel(), 0, Long.MaxValue)
-          outFile
-        case _ =>
-          throw new UnsupportedOperationException("Screen capture is not support by " + driver.getClass.getName)
-      }
-    }
-  }
-
-  def captureTo(fileName: String)(implicit driver: WebDriver) {
-    capture to fileName
-  }
-
   // Can get by with volatile, because the setting doesn't depend on the getting
   @volatile private var targetDir = new File(System.getProperty("java.io.tmpdir"))
-
-  def setCaptureDir(targetDirPath: String) {
-    targetDir =
-      if (targetDirPath.endsWith(File.separator))
-        new File(targetDirPath)
-      else
-        new File(targetDirPath + File.separator)
-    if (!targetDir.exists)
-      targetDir.mkdirs()
-  }
 
   def page(implicit driver: WebDriver) = new {
     def title: String = {
