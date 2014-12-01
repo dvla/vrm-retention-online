@@ -54,13 +54,6 @@ trait WebBrowserDSL {
     }
   }
 
-  final class DefaultContentTarget extends SwitchTarget[WebDriver] {
-
-    def switch(driver: WebDriver): WebDriver = {
-      driver.switchTo.defaultContent
-    }
-  }
-
   final class FrameIndexTarget(index: Int) extends SwitchTarget[WebDriver] {
 
     def switch(driver: WebDriver): WebDriver =
@@ -461,8 +454,6 @@ trait WebBrowserDSL {
   }
 
   val activeElement = new ActiveElementTarget()
-
-  val defaultContent = new DefaultContentTarget()
 
   def frame(index: Int) = new FrameIndexTarget(index)
 
