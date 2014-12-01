@@ -8,7 +8,7 @@ import views.vrm_retention.LeaveFeedback._
 object LeaveFeedbackPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/leave-feedback"
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Thank You"
   final val titleCy: String = ""
 
