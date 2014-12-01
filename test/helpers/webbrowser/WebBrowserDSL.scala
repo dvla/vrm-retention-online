@@ -522,17 +522,6 @@ trait WebBrowserDSL {
     driver.manage().timeouts().setScriptTimeout(timeoutInNanos, TimeUnit.NANOSECONDS)
   }
 
-  // Clears the text field or area, then presses the passed keys
-
-  def enter(value: String)(implicit driver: WebDriver) {
-    val ae = switch to activeElement
-    ae match {
-      case tf: TextField => tf.value = value
-      case _ =>
-        throw new TestFailedException("Currently selected element is neither a text field, text area, password field, email field, search field, tel field or url field")
-    }
-  }
-
   def page(implicit driver: WebDriver) = new {
     def title: String = {
       val t = driver.getTitle
