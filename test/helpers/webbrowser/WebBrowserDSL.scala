@@ -54,18 +54,6 @@ trait WebBrowserDSL {
     }
   }
 
-  final class FrameNameOrIdTarget(nameOrId: String) extends SwitchTarget[WebDriver] {
-
-    def switch(driver: WebDriver): WebDriver =
-      try {
-        driver.switchTo.frame(nameOrId)
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchFrameException =>
-          throw new TestFailedException("Frame with name or ID '" + nameOrId + "' not found.")
-      }
-  }
-
   final class FrameWebElementTarget(webElement: WebElement) extends SwitchTarget[WebDriver] {
 
     def switch(driver: WebDriver): WebDriver =
@@ -442,8 +430,6 @@ trait WebBrowserDSL {
   }
 
   val activeElement = new ActiveElementTarget()
-
-  def frame(nameOrId: String) = new FrameNameOrIdTarget(nameOrId)
 
   def frame(element: WebElement) = new FrameWebElementTarget(element)
 
