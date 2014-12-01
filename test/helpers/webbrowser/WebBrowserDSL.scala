@@ -505,23 +505,6 @@ trait WebBrowserDSL {
       targetDir.mkdirs()
   }
 
-  def executeScript[T](script: String, args: AnyRef*)(implicit driver: WebDriver): AnyRef =
-    driver match {
-      case executor: JavascriptExecutor => executor.executeScript(script, args.toArray: _*)
-      case _ => throw new UnsupportedOperationException("Web driver " + driver.getClass.getName + " does not support javascript execution.")
-    }
-
-  def executeAsyncScript(script: String, args: AnyRef*)(implicit driver: WebDriver): AnyRef =
-    driver match {
-      case executor: JavascriptExecutor => executor.executeAsyncScript(script, args.toArray: _*)
-      case _ => throw new UnsupportedOperationException("Web driver " + driver.getClass.getName + " does not support javascript execution.")
-    }
-
-
-  def setScriptTimeout(timeoutInNanos: Long)(implicit driver: WebDriver) {
-    driver.manage().timeouts().setScriptTimeout(timeoutInNanos, TimeUnit.NANOSECONDS)
-  }
-
   def page(implicit driver: WebDriver) = new {
     def title: String = {
       val t = driver.getTitle
