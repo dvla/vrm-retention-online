@@ -8,8 +8,8 @@ import org.junit.runner.RunWith
 @CucumberOptions(
   features = Array("acceptance-tests/src/test/resources/PersonalizedRegistration/"),
   glue = Array("PersonalizedRegistration"),
-  format = Array("pretty", "html:target/cucumber-report"),
-  tags = Array("@HappyPath,@UnHappyPath-InProgress,@UnHappyPath")
+  plugin = Array("pretty", "html:target/cucumber-report"),
+  tags = Array("@HappyPath,@UnHappyPath-InProgress,@UnHappyPath,@VehicleRegistration")
 )
 class RunCucumber {
 }

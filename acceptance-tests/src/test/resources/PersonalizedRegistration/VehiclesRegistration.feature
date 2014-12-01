@@ -1,3 +1,4 @@
+@VehicleRegistration
 Feature: Vehicles Personalized Registration
 
   As a User I want to Personalized my vehicle
