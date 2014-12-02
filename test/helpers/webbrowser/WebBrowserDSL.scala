@@ -445,18 +445,6 @@ trait WebBrowserDSL {
     }
   }
 
-  def addCookie(name: String, value: String, path: String = "/", expiry: Date = null, domain: String = null, secure: Boolean = false)(implicit driver: WebDriver) {
-    add cookie(name, value, path, expiry, domain, secure)
-  }
-
-  def deleteCookie(name: String)(implicit driver: WebDriver) {
-    delete cookie name
-  }
-
-  def deleteAllCookies()(implicit driver: WebDriver) {
-    delete all cookies
-  }
-
   // Can get by with volatile, because the setting doesn't depend on the getting
   @volatile private var targetDir = new File(System.getProperty("java.io.tmpdir"))
 
