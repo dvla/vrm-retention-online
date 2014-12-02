@@ -403,18 +403,6 @@ trait WebBrowserDSL {
     driver.navigate.refresh()
   }
 
-  object add {
-    private def addCookie(cookie: Cookie)(implicit driver: WebDriver) {
-      driver.manage.addCookie(cookie)
-    }
-
-    // Default values determined from http://code.google.com/p/selenium/source/browse/trunk/java/client/src/org/openqa/selenium/Cookie.java
-
-    def cookie(name: String, value: String, path: String = "/", expiry: Date = null, domain: String = null, secure: Boolean = false)(implicit driver: WebDriver) {
-      addCookie(new Cookie(name, value, domain, path, expiry, secure))
-    }
-  }
-
   def cookie(name: String)(implicit driver: WebDriver): WrappedCookie = {
     getCookie(name)
   }
