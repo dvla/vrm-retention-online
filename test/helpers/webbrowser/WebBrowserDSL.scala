@@ -428,16 +428,6 @@ trait WebBrowserDSL {
     }
   }
 
-  object delete {
-    private def deleteCookie(name: String)(implicit driver: WebDriver) {
-      val cookie = getCookie(name)
-      if (cookie == null)
-        throw new TestFailedException("Cookie '" + name + "' not found.")
-      driver.manage.deleteCookie(cookie.underlying)
-    }
-
-  }
-
   // Can get by with volatile, because the setting doesn't depend on the getting
   @volatile private var targetDir = new File(System.getProperty("java.io.tmpdir"))
 
