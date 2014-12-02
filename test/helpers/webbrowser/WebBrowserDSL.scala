@@ -377,10 +377,6 @@ trait WebBrowserDSL {
     driver.quit()
   }
 
-  def windowHandle(implicit driver: WebDriver): String = driver.getWindowHandle
-
-  def windowHandles(implicit driver: WebDriver): Set[String] = driver.getWindowHandles.asScala.toSet
-
   object switch {
     def to[T](target: SwitchTarget[T])(implicit driver: WebDriver): T = {
       target.switch(driver)
