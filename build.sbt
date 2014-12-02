@@ -116,7 +116,6 @@ gatlingTask
 resolvers ++= projectResolvers
 
 lazy val p1 = osAddressLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p2 = vehiclesLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p3 = vehicleAndKeeperLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p4 = vrmRetentionEligibility.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p5 = vrmRetentionRetain.disablePlugins(PlayScala, SassPlugin, SbtWeb)
