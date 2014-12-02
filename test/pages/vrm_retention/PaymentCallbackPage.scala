@@ -7,7 +7,7 @@ object PaymentCallbackPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/payment/callback"
 
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title: String = "Payment processing"
 }

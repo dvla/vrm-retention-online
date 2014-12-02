@@ -3,7 +3,6 @@ import com.typesafe.sbt.web.SbtWeb
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
-import templemore.sbt.cucumber.CucumberPlugin
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -14,7 +13,7 @@ publishTo <<= version { v: String =>
 
 name := "vrm-retention-online"
 
-version := "1.1.2"
+version := "1.2"
 
 organization := "dvla"
 
@@ -40,7 +39,6 @@ libraryDependencies ++= {
     filters,
     "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-java" % "1.1.8" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
@@ -49,13 +47,13 @@ libraryDependencies ++= {
     "com.google.guava" % "guava" % "18.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
     "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
-    "org.apache.httpcomponents" % "httpclient" % "4.3.5" withSources() withJavadoc(),
+    "org.apache.httpcomponents" % "httpclient" % "4.3.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.6" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "common-test" % "2.6" % "test" withSources() withJavadoc(),
+    "dvla" %% "vehicles-presentation-common" % "2.7" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "common-test" % "2.7" % "test" withSources() withJavadoc(),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -64,18 +62,6 @@ libraryDependencies ++= {
     "junit" % "junit-dep" % "4.11"
   )
 }
-
-CucumberPlugin.cucumberSettings ++
-  Seq(
-    CucumberPlugin.cucumberFeaturesLocation := "./test/acceptance/vrm-retention/",
-    CucumberPlugin.cucumberStepsBasePackage := "helpers.steps",
-    CucumberPlugin.cucumberJunitReport := false,
-    CucumberPlugin.cucumberHtmlReport := false,
-    CucumberPlugin.cucumberPrettyReport := false,
-    CucumberPlugin.cucumberJsonReport := false,
-    CucumberPlugin.cucumberStrict := true,
-    CucumberPlugin.cucumberMonochrome := false
-  )
 
 val myTestOptions =
   if (System.getProperty("include") != null) {
@@ -130,7 +116,6 @@ gatlingTask
 resolvers ++= projectResolvers
 
 lazy val p1 = osAddressLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p2 = vehiclesLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p3 = vehicleAndKeeperLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p4 = vrmRetentionEligibility.disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val p5 = vrmRetentionRetain.disablePlugins(PlayScala, SassPlugin, SbtWeb)

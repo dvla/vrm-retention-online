@@ -9,8 +9,8 @@ import pages.ApplicationContext.applicationContext
 object VrmLockedPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/vrm-locked"
-  def url = WebDriverFactory.testUrl + address.substring(1)
-  final override val title = "Registration mark is locked"
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
+  final override val title = "Registration number is locked"
 
   def newRetention(implicit driver: WebDriver): Element = find(id(NewRetentionId)).get
 

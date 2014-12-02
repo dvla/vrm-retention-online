@@ -11,7 +11,7 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
 
   final val address: String = s"$applicationContext/business-choose-your-address"
 
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title = "Select your business address"
   final val titleCy = "Dewiswch eich cyfeiriad masnach"

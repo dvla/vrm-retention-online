@@ -10,6 +10,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.{UnitSpec, WithApplication}
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import org.joda.time.DateTime
 import org.mockito.Mockito._
 import pages.vrm_retention.{BeforeYouStartPage, CheckEligibilityPage, MicroServiceErrorPage, VehicleLookupFailurePage, VrmLockedPage}
 import play.api.test.FakeRequest
@@ -23,10 +24,19 @@ import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConse
 import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
+import webserviceclients.fakes.DateServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
+
+  private val dateTime = new DateTime(
+    YearValid.toInt,
+    MonthValid.toInt,
+    DayValid.toInt,
+    0,
+    0)
+
 
   "present" should {
 
@@ -266,7 +276,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result, timeout) {
         r =>
-          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid, registrationNumber = RegistrationNumberValid)
+          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid,
+            registrationNumber = RegistrationNumberValid,
+          transactionTimestamp = dateTime
+          )
           verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = trackingId)
       }
     }
@@ -278,7 +291,10 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result, timeout) {
         r =>
-          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid, registrationNumber = RegistrationNumberValid)
+          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid,
+            registrationNumber = RegistrationNumberValid,
+            transactionTimestamp = dateTime
+          )
           verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = ClearTextClientSideSessionFactory.DefaultTrackingId)
       }
     }

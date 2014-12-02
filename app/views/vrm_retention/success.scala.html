@@ -48,7 +48,7 @@
 				<h2>Keeper details</h2>
 				<dl class="playback bg-plain">
 					<dt>Name:</dt>
-					<dd>@successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
+					<dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
 					<dt>Keeper Address</dt>
 					<dd>
 						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {

@@ -117,7 +117,7 @@ trait ValueElement extends Element {
 }
 
 final class EmailField(val underlying: WebElement) extends Element with ValueElement {
-  checkCorrectType(Helper.isEmailField, "email")
+  checkCorrectType(Helper.isEmailField, "text")
 }
 
 final class ColorField(val underlying: WebElement) extends Element with ValueElement {

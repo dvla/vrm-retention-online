@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver
 object SuccessPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/success"
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Summary"
 
   def finish(implicit driver: WebDriver): Element = find(id(FinishId)).get

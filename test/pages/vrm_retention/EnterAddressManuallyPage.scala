@@ -13,7 +13,7 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/enter-address-manually"
 
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title: String = "Enter address"
 

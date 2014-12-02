@@ -8,7 +8,7 @@ import views.vrm_retention.BeforeYouStart.NextId
 object CookiePolicyPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/cookie-policy"
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Cookies"
   final val titleCy: String = "Cwcis"
 }

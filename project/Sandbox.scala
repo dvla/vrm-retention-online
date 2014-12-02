@@ -19,10 +19,9 @@ object CommonResolvers {
 
 object Sandbox extends Plugin {
   final val VersionOsAddressLookup = "0.6"
-  final val VersionVehiclesLookup = "0.5"
-  final val VersionVehicleAndKeeperLookup = "0.2"
-  final val VersionVrmRetentionEligibility = "0.4"
-  final val VersionVrmRetentionRetain = "0.3"
+  final val VersionVehicleAndKeeperLookup = "0.3"
+  final val VersionVrmRetentionEligibility = "0.5"
+  final val VersionVrmRetentionRetain = "0.4"
   final val VersionPaymentSolve= "0.3"
   final val VersionLegacyStubs = "1.0-SNAPSHOT"
   final val VersionJetty = "9.2.1.v20140609"
@@ -67,8 +66,6 @@ object Sandbox extends Plugin {
 
   lazy val (osAddressLookup, scopeOsAddressLookup) =
     sandProject("os-address-lookup","dvla" %% "os-address-lookup" % VersionOsAddressLookup)
-  lazy val (vehiclesLookup, scopeVehiclesLookup) =
-    sandProject("vehicles-lookup", "dvla" %% "vehicles-lookup" % VersionVehiclesLookup)
   lazy val (vehicleAndKeeperLookup, scopeVehicleAndKeeperLookup) =
     sandProject("vehicle-and-keeper-lookup", "dvla" %% "vehicle-and-keeper-lookup" % VersionVehicleAndKeeperLookup)
   lazy val (vrmRetentionEligibility, scopeVrmRetentionEligibility) =
@@ -111,17 +108,6 @@ object Sandbox extends Plugin {
         Some(ConfigOutput(
           new File(classDirectory.all(scopeOsAddressLookup).value.head, s"${osAddressLookup.id}.conf"),
           setServicePort(OsAddressLookupPort)
-        ))
-      ))
-    )
-    runProject(
-      fullClasspath.all(scopeVehiclesLookup).value.flatten,
-      Some(ConfigDetails(
-        secretRepoFolder,
-        "ms/dev/vehicles-lookup.conf.enc",
-        Some(ConfigOutput(
-          new File(classDirectory.all(scopeVehiclesLookup).value.head, s"${vehiclesLookup.id}.conf"),
-          setServicePortAndLegacyServicesPort(VehicleLookupPort, "getVehicleDetails.baseurl", LegacyServicesStubsPort)
         ))
       ))
     )
@@ -186,7 +172,6 @@ object Sandbox extends Plugin {
 
   lazy val sandbox = taskKey[Unit]("Runs the whole sandbox for manual testing including microservices, webapp and legacy stubs'")
   lazy val sandboxTask = sandbox <<= (runMicroServices, (run in Runtime).toTask("")) { (body, stop) =>
-    System.setProperty("vehicleLookupMicroServiceUrlBase", s"http://localhost:$VehicleLookupPort")
     System.setProperty("vehicleAndKeeperLookupMicroServiceUrlBase", s"http://localhost:$VehicleAndKeeperLookupPort")
     System.setProperty("vrmRetentionEligibilityMicroServiceUrlBase", s"http://localhost:$VrmRetentionEligibilityPort")
     System.setProperty("vrmRetentionRetainMicroServiceUrlBase", s"http://localhost:$VrmRetentionRetainPort")

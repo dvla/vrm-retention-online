@@ -10,7 +10,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, P
 object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/setup-business-details"
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your business details"
 
   def traderName(implicit driver: WebDriver): TextField = textField(id(BusinessNameId))

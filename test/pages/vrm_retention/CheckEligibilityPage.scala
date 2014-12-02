@@ -9,7 +9,7 @@ object CheckEligibilityPage extends Page with WebBrowserDSL {
 
   def address = s"$applicationContext/check-eligibility"
 
-  def url = WebDriverFactory.testUrl + address.substring(1)
+  override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
   final override val title: String = ""
 }
