@@ -391,31 +391,6 @@ trait WebBrowserDSL {
 
   def switchTo[T](target: SwitchTarget[T])(implicit driver: WebDriver): T = switch to target
 
-  def goBack()(implicit driver: WebDriver) {
-    driver.navigate.back()
-  }
-
-  def goForward()(implicit driver: WebDriver) {
-    driver.navigate.forward()
-  }
-
-  def reloadPage()(implicit driver: WebDriver) {
-    driver.navigate.refresh()
-  }
-
-  def cookie(name: String)(implicit driver: WebDriver): WrappedCookie = {
-    getCookie(name)
-  }
-
-  private def getCookie(name: String)(implicit driver: WebDriver): WrappedCookie = {
-    driver.manage.getCookies.asScala.toList.find(_.getName == name) match {
-      case Some(cookie) =>
-        new WrappedCookie(cookie)
-      case None =>
-        throw new TestFailedException("Cookie '" + name + "' not found.")
-    }
-  }
-
   // Can get by with volatile, because the setting doesn't depend on the getting
   @volatile private var targetDir = new File(System.getProperty("java.io.tmpdir"))
 

@@ -1,11 +1,7 @@
 package common
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
-import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers
 import pages._
 import pages.vrm_retention._
@@ -30,15 +26,15 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def validateCookieIsFresh = {
-    val c = cookie(TrackingIdCookieName)
+    val cookie = webDriver.manage().getCookieNamed(TrackingIdCookieName)
     try {
-      c.underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
+      cookie.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
     } catch {
       case e: Throwable => fail(s"Cookie should be valid and not have thrown exception: $e")
     }
     //    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
     //    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
-    c.expiry should be (None)
+    cookie.getExpiry should be(null)
     this
   }
 
@@ -57,13 +53,13 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
     this
   }
 
-  def provideBusinessDetails =  {
+  def provideBusinessDetails = {
     setupBusinessDetails.`is displayed`
     setupBusinessDetails.`enter business details`
     this
   }
 
-  def chooseBusinessAddress ={
+  def chooseBusinessAddress = {
     businessChooseYourAddress.`proceed to next page`
     this
   }
@@ -73,10 +69,12 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
     click on ConfirmBusinessPage.confirm
     this
   }
+
   def confirmBusinessDetailsIsDisplayed = {
     page.title should equal(ConfirmBusinessPage.title)
     this
   }
+
   def exitBusiness = {
     click on ConfirmBusinessPage.exit
     this
