@@ -457,8 +457,6 @@ trait WebBrowserDSL {
     delete all cookies
   }
 
-  def isScreenshotSupported(implicit driver: WebDriver): Boolean = driver.isInstanceOf[TakesScreenshot]
-
   // Can get by with volatile, because the setting doesn't depend on the getting
   @volatile private var targetDir = new File(System.getProperty("java.io.tmpdir"))
 
