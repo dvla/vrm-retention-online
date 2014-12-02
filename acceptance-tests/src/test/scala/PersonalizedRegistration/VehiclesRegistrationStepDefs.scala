@@ -56,13 +56,14 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
-    user.goToVehicleLookupPage
+    user.
+      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode). // 1st
+      goToVehicleLookupPage.
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
-    user.goToVehicleLookupPage
+      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode). // 2nd
+      goToVehicleLookupPage.
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // Locked
+      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // Locked
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
@@ -119,17 +120,18 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
     //1st Store the details
-    user.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
-    user.provideBusinessDetails
-    user.chooseBusinessAddress
-    user.confirmBusinessDetailsIsDisplayed
-    user.storeBusinessDetails
-    user.exitBusiness
-    user.validateCookieIsFresh
+    user.
+      goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      provideBusinessDetails.
+      chooseBusinessAddress.
+      confirmBusinessDetailsIsDisplayed.
+      storeBusinessDetails.
+      exitBusiness.
+      validateCookieIsFresh.
 
-    //2nd validate details are stored
-    user.goToVehicleLookupPage
-    user.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
+      //2nd validate details are stored
+      goToVehicleLookupPage.
+      goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
   }
 
   @Then("^the confirm business details page is displayed$")

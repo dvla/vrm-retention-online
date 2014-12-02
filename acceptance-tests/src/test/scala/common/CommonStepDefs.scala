@@ -60,10 +60,12 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   def provideBusinessDetails =  {
     setupBusinessDetails.`is displayed`
     setupBusinessDetails.`enter business details`
+    this
   }
 
   def chooseBusinessAddress ={
     businessChooseYourAddress.`proceed to next page`
+    this
   }
 
   def storeBusinessDetails = {
