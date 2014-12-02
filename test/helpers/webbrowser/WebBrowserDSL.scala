@@ -439,10 +439,6 @@ trait WebBrowserDSL {
     def cookie(name: String)(implicit driver: WebDriver) {
       deleteCookie(name)
     }
-
-    def all(cookies: CookiesNoun)(implicit driver: WebDriver) {
-      driver.manage.deleteAllCookies()
-    }
   }
 
   // Can get by with volatile, because the setting doesn't depend on the getting
