@@ -369,14 +369,6 @@ trait WebBrowserDSL {
     }
   }
 
-  def implicitlyWait(timeoutInNanos: Long)(implicit driver: WebDriver) {
-    driver.manage.timeouts.implicitlyWait(timeoutInNanos, TimeUnit.NANOSECONDS)
-  }
-
-  def quit()(implicit driver: WebDriver) {
-    driver.quit()
-  }
-
   object switch {
     def to[T](target: SwitchTarget[T])(implicit driver: WebDriver): T = {
       target.switch(driver)
