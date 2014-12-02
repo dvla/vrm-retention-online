@@ -3,6 +3,7 @@ package common
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
 import org.scalatest.Matchers
+import org.scalatest.selenium.WebBrowser.cookie
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
@@ -26,15 +27,15 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def validateCookieIsFresh = {
-    val cookie = webDriver.manage().getCookieNamed(TrackingIdCookieName)
+    val c = cookie(TrackingIdCookieName)
     try {
-      cookie.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
+      c.underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
     } catch {
       case e: Throwable => fail(s"Cookie should be valid and not have thrown exception: $e")
     }
     //    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
     //    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
-    cookie.getExpiry should be(null)
+    c.expiry should be(None)
     this
   }
 
