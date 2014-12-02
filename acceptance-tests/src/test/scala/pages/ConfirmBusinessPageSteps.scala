@@ -23,5 +23,4 @@ class ConfirmBusinessPageSteps(implicit webDriver: WebBrowserDriver) extends Sca
     click on ConfirmBusinessPage.confirm
     this
   }
-
 }

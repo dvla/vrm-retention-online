@@ -9,7 +9,7 @@ import pages._
 
 final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
 
-  lazy val User = new CommonStepDefs
+  lazy val user = new CommonStepDefs
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps
   lazy val vehicleNotFound = new VehicleNotFoundPageSteps
@@ -19,10 +19,9 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
   lazy val confirmBusiness = new ConfirmBusinessPageSteps()
 
-
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
-    User.`start the PR service`
+    user.`start the PR service`
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is eligible for retention$""")
@@ -38,7 +37,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Then("^the confirm keeper details page is displayed$")
   def `the confirm keeper details page is displayed`() {
-    User.confirmDetails
+    user.confirmDetails
   }
 
   //Scenario 2 -
@@ -57,13 +56,13 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    User.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
-    User.goToVehicleLookupPage
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+    user.goToVehicleLookupPage
 
-    User.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
-    User.goToVehicleLookupPage
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
+    user.goToVehicleLookupPage
 
-    User.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // Locked
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // Locked
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
@@ -120,21 +119,21 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
     //1st Store the details
-    User.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
-    User.provideBusinessDetails
-    User.chooseBusinessAddress
-    User.confirmBusinessDetailsIsDisplayed
-    User.storeBusinessDetails
-    User.exitBusiness
-    User.validateCookieIsFresh
+    user.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
+    user.provideBusinessDetails
+    user.chooseBusinessAddress
+    user.confirmBusinessDetailsIsDisplayed
+    user.storeBusinessDetails
+    user.exitBusiness
+    user.validateCookieIsFresh
 
     //2nd validate details are stored
-    User.goToVehicleLookupPage
-    User.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
+    user.goToVehicleLookupPage
+    user.goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
   }
 
   @Then("^the confirm business details page is displayed$")
   def `the confirm business details page is displayed`() = {
-    User.confirmBusinessDetailsIsDisplayed
+    user.confirmBusinessDetailsIsDisplayed
   }
 }

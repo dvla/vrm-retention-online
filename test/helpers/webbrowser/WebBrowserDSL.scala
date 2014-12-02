@@ -477,6 +477,7 @@ trait WebBrowserDSL {
     def enter(value: String) = {
       element match {
         case tf: TextField => tf.value = value
+        case pf: EmailField => pf.value = value
         case _ =>
           throw new TestFailedException("Currently selected element is neither a text field, text area, password field, email field, search field, tel field or url field")
       }
