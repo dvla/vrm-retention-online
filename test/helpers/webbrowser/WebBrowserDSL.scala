@@ -355,20 +355,6 @@ trait WebBrowserDSL {
     }
   }
 
-  def submit()(implicit driver: WebDriver) {
-    try {
-      (switch to activeElement).underlying.submit()
-    }
-    catch {
-      case e: org.openqa.selenium.NoSuchElementException =>
-        throw new TestFailedException("Current element is not a form element.")
-      case e: Throwable =>
-        // Could happens as bug in different WebDriver, like NullPointerException in HtmlUnitDriver when element is not a form element.
-        // Anyway, we'll just wrap them as TestFailedException
-        throw new TestFailedException("WebDriver encountered problem to submit(): " + e.getMessage)
-    }
-  }
-
   object switch {
     def to[T](target: SwitchTarget[T])(implicit driver: WebDriver): T = {
       target.switch(driver)
