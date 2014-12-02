@@ -330,11 +330,6 @@ trait WebBrowserDSL {
   def singleSel(queryString: String)(implicit driver: WebDriver): SingleSel =
     tryQueries(queryString)(q => new SingleSel(q.webElement))
 
-  def multiSel(query: Query)(implicit driver: WebDriver) = new MultiSel(query.webElement)
-
-  def multiSel(queryString: String)(implicit driver: WebDriver): MultiSel =
-    tryQueries(queryString)(q => new MultiSel(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()
