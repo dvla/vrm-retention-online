@@ -315,11 +315,6 @@ trait WebBrowserDSL {
 
   def radioButtonGroup(groupName: String)(implicit driver: WebDriver) = new RadioButtonGroup(groupName, driver)
 
-  def radioButton(query: Query)(implicit driver: WebDriver) = new RadioButton(query.webElement)
-
-  def radioButton(queryString: String)(implicit driver: WebDriver): RadioButton =
-    tryQueries(queryString)(q => new RadioButton(q.webElement))
-
   def checkbox(query: Query)(implicit driver: WebDriver) = new Checkbox(query.webElement)
 
   def checkbox(queryString: String)(implicit driver: WebDriver): Checkbox =
