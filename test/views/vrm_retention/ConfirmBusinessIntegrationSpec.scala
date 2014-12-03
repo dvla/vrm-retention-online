@@ -30,7 +30,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to ConfirmBusinessPage
 
-      click on confirm
+      org.scalatest.selenium.WebBrowser.click on confirm
 
       page.url should equal(ConfirmPage.url)
     }
@@ -43,7 +43,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to ConfirmBusinessPage
 
-      click on exit
+      org.scalatest.selenium.WebBrowser.click on exit
 
       page.url should equal(LeaveFeedbackPage.url)
     }
