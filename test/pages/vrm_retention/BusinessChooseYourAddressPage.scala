@@ -18,7 +18,7 @@ object BusinessChooseYourAddressPage extends Page with WebBrowserDSL {
   final override val title = "Select your business address"
   final val titleCy = "Dewiswch eich cyfeiriad masnach"
 
-  def chooseAddress(implicit driver: WebDriver): SingleSel = singleSel(id(AddressSelectId))
+  def chooseAddress(implicit driver: WebDriver) = singleSel(org.scalatest.selenium.WebBrowser.id(AddressSelectId))
 
   def back(implicit driver: WebDriver): Element = find(id(BackId)).get
 

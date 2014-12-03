@@ -303,11 +303,6 @@ trait WebBrowserDSL {
   def timeField(queryString: String)(implicit driver: WebDriver): TimeField =
     tryQueries(queryString)(q => new TimeField(q.webElement))
 
-  def singleSel(query: Query)(implicit driver: WebDriver) = new SingleSel(query.webElement)
-
-  def singleSel(queryString: String)(implicit driver: WebDriver): SingleSel =
-    tryQueries(queryString)(q => new SingleSel(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()
