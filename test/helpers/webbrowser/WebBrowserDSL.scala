@@ -233,11 +233,6 @@ trait WebBrowserDSL {
     }
   }
 
-  def textField(query: Query)(implicit driver: WebDriver): TextField = new TextField(query.webElement)
-
-  def textField(queryString: String)(implicit driver: WebDriver): TextField =
-    tryQueries(queryString)(q => new TextField(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()

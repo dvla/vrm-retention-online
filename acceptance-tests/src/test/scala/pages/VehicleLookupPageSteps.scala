@@ -13,9 +13,9 @@ class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends Scala
   }
 
   def enter(registrationNumber: String, docRefNumber: String, postcode: String) = {
-    vehicleRegistrationNumber enter registrationNumber
-    documentReferenceNumber enter docRefNumber
-    keeperPostcode enter postcode
+    vehicleRegistrationNumber.value = registrationNumber
+    documentReferenceNumber.value = docRefNumber
+    keeperPostcode.value = postcode
     this
   }
 

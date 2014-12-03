@@ -16,13 +16,13 @@ object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your business details"
 
-  def traderName(implicit driver: WebDriver) = textField(id(BusinessNameId))
+  def traderName(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(BusinessNameId))
 
-  def traderContact(implicit driver: WebDriver) = textField(id(BusinessContactId))
+  def traderContact(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(BusinessContactId))
 
   def traderEmail(implicit driver: WebDriver) = emailField(org.scalatest.selenium.WebBrowser.id(BusinessEmailId))
 
-  def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessPostcodeId))
+  def traderPostcode(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(BusinessPostcodeId))
 
   def lookup(implicit driver: WebDriver) = find(id(SubmitId)).get
 
@@ -31,18 +31,18 @@ object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
                 traderBusinessPostcode: String = PostcodeValid)
                (implicit driver: WebDriver) = {
     go to SetupBusinessDetailsPage
-    traderName enter traderBusinessName
+    traderName.value = traderBusinessName
     traderEmail.value = traderBusinessEmail
-    traderPostcode enter traderBusinessPostcode
+    traderPostcode.value = traderBusinessPostcode
     click on lookup
   }
 
   def submitInvalidPostcode(implicit driver: WebDriver) = {
     go to SetupBusinessDetailsPage
-    traderName enter TraderBusinessNameValid
-    traderContact enter TraderBusinessContactValid
+    traderName.value = TraderBusinessNameValid
+    traderContact.value = TraderBusinessContactValid
     traderEmail.value = TraderBusinessEmailValid
-    traderPostcode enter PostcodeInvalid
+    traderPostcode.value = PostcodeInvalid
     click on lookup
   }
 }

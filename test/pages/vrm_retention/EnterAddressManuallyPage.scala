@@ -8,6 +8,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewMod
 import views.vrm_retention.EnterAddressManually.NextId
 import views.vrm_retention.Main.BackId
 import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import org.scalatest.selenium.WebBrowser._
+import org.openqa.selenium.By
 
 object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
@@ -17,17 +19,17 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   final override val title: String = "Enter address"
 
-  def addressBuildingNameOrNumber(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
+  def addressBuildingNameOrNumber(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
 
-  def addressLine2(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
+  def addressLine2(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
-  def addressLine3(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
+  def addressLine3(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
-  def addressPostTown(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$PostTownId"))
+  def addressPostTown(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$PostTownId"))
 
   def next(implicit driver: WebDriver): Element = find(id(NextId)).get
 
