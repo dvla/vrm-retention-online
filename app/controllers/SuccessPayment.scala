@@ -83,18 +83,44 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
     }
   }
 
+  private def callUpdateWebPaymentService(trxRef: String, successViewModel: SuccessViewModel, isKeeper: Boolean)
+                                         (implicit request: Request[_]): Future[Result] = {
+
+    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
+
+    val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
+      transNo = transNo,
+      trxRef = trxRef,
+      authType = SuccessPayment.SETTLE_AUTH_CODE
+    )
+    val trackingId = request.cookies.trackingId()
+
+    paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
+      Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
+    }.recover {
+      case NonFatal(e) =>
+        Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
+        Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
+    }
+  }
+
   def createPdf = Action.async {
     implicit request =>
-      (request.cookies.getModel[EligibilityModel], request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
+      (request.cookies.getModel[EligibilityModel], request.cookies.getString(TransactionIdCacheKey),
+        request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-          pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetails.firstName.getOrElse("") + " " + vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
+          pdfService.create(eligibilityModel, transactionId,
+            vehicleAndKeeperDetails.title.getOrElse("") + " " +
+              vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
+              vehicleAndKeeperDetails.lastName.getOrElse(""),
+            vehicleAndKeeperDetails.address).map {
             pdf =>
               val inputStream = new ByteArrayInputStream(pdf)
               val dataContent = Enumerator.fromStream(inputStream)
               // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
               // and manually test after making any change.
               val newVRM = eligibilityModel.replacementVRM.replace(" ", "")
-              val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
+              val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
               Ok.feed(dataContent).
                 withHeaders(
                   CONTENT_TYPE -> "application/pdf",
@@ -130,27 +156,6 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
       isKeeper = true
     ))
-  }
-
-  private def callUpdateWebPaymentService(trxRef: String, successViewModel: SuccessViewModel, isKeeper: Boolean)
-                                         (implicit request: Request[_]): Future[Result] = {
-
-    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
-
-    val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
-      transNo = transNo,
-      trxRef = trxRef,
-      authType = SuccessPayment.SETTLE_AUTH_CODE
-    )
-    val trackingId = request.cookies.trackingId()
-
-    paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
-      Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
-    }.recover {
-      case NonFatal(e) =>
-        Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
-        Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
-    }
   }
 }
 

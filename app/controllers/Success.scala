@@ -52,15 +52,18 @@ final class Success @Inject()(pdfService: PdfService,
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-        pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
-          vehicleAndKeeperDetails.lastName.getOrElse(""), vehicleAndKeeperDetails.address).map {
+        pdfService.create(eligibilityModel, transactionId,
+          vehicleAndKeeperDetails.title.getOrElse("") + " " +
+            vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
+            vehicleAndKeeperDetails.lastName.getOrElse(""),
+          vehicleAndKeeperDetails.address).map {
           pdf =>
             val inputStream = new ByteArrayInputStream(pdf)
             val dataContent = Enumerator.fromStream(inputStream)
             // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
             // and manually test after making any change.
             val newVRM = eligibilityModel.replacementVRM.replace(" ", "")
-            val contentDisposition = "attachment;filename=" + newVRM + "-v948.pdf"
+            val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
             Ok.feed(dataContent).
               withHeaders(
                 CONTENT_TYPE -> "application/pdf",
