@@ -189,8 +189,6 @@ trait WebBrowserDSL {
 
   def id(elementId: String): IdQuery = new IdQuery(elementId)
 
-  def name(elementName: String): NameQuery = new NameQuery(elementName)
-
   def find(query: Query)(implicit driver: WebDriver): Option[Element] = query.findElement
 
   def find(queryString: String)(implicit driver: WebDriver): Option[Element] =
