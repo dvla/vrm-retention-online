@@ -32,7 +32,6 @@ object Sandbox extends Plugin {
 
   final val HttpsPort = 18443
   final val OsAddressLookupPort = 18801
-  final val VehicleLookupPort = 18802
   final val VehicleAndKeeperLookupPort = 18803
   final val VrmRetentionEligibilityPort = 18804
   final val VrmRetentionRetainPort = 18805
