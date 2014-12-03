@@ -20,12 +20,12 @@ class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends Scala
   }
 
   def `keeper is acting` = {
-    click on currentKeeperYes
+    org.scalatest.selenium.WebBrowser.click on currentKeeperYes
     this
   }
 
   def `keeper is not acting` = {
-    click on currentKeeperNo
+    org.scalatest.selenium.WebBrowser.click on currentKeeperNo
     this
   }
 
