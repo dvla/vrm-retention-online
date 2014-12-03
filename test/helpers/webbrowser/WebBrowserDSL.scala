@@ -191,18 +191,6 @@ trait WebBrowserDSL {
 
   def name(elementName: String): NameQuery = new NameQuery(elementName)
 
-  def xpath(xpath: String): XPathQuery = new XPathQuery(xpath)
-
-  def className(className: String): ClassNameQuery = new ClassNameQuery(className)
-
-  def cssSelector(cssSelector: String): CssSelectorQuery = new CssSelectorQuery(cssSelector)
-
-  def linkText(linkText: String): LinkTextQuery = new LinkTextQuery(linkText)
-
-  def partialLinkText(partialLinkText: String): PartialLinkTextQuery = new PartialLinkTextQuery(partialLinkText)
-
-  // XXX
-
   def find(query: Query)(implicit driver: WebDriver): Option[Element] = query.findElement
 
   def find(queryString: String)(implicit driver: WebDriver): Option[Element] =

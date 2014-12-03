@@ -4,6 +4,7 @@ import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import org.openqa.selenium.WebDriver
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId}
+import org.scalatest.selenium.WebBrowser.linkText
 
 object VehicleLookupFailurePage extends Page with WebBrowserDSL {
 
@@ -17,10 +18,10 @@ object VehicleLookupFailurePage extends Page with WebBrowserDSL {
   def tryAgain(implicit driver: WebDriver): Element = find(id(VehicleLookupId)).get
 
   def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
-
-  def downloadLink(implicit driver: WebDriver): Element = find(linkText("Download V317")).get
+  
+  def downloadLink(implicit driver: WebDriver) = org.scalatest.selenium.WebBrowser.find(linkText("Download V317")).get
 
   def tryAgainButton(implicit driver: WebDriver): Element = find(id(VehicleLookupId)).get
 
-  def exitLink(implicit driver: WebDriver): Element = find(linkText("Exit")).get
+  def exitLink(implicit driver: WebDriver) = org.scalatest.selenium.WebBrowser.find(linkText("Exit")).get
 }
