@@ -1,11 +1,12 @@
 package pages
 
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import helpers.webbrowser.{WebBrowserDriver}
 import org.scalatest.Matchers
 import pages.vrm_retention.BeforeYouStartPage
+import org.scalatest.selenium.WebBrowser._
 
-class BeforeYouStartPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+class BeforeYouStartPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   def `go to BeforeYouStart page` = {
     go to BeforeYouStartPage
@@ -18,7 +19,7 @@ class BeforeYouStartPageSteps(implicit webDriver: WebBrowserDriver) extends Scal
   }
 
   def `is displayed` = {
-    page.url should equal(BeforeYouStartPage.url)
+    currentUrl should equal(BeforeYouStartPage.url)
     this
   }
 }

@@ -39,10 +39,6 @@ import scala.language.implicitConversions
 
 trait WebBrowserDSL {
 
-  class CookiesNoun
-
-  val cookies = new CookiesNoun
-
   sealed abstract class SwitchTarget[T] {
     def switch(driver: WebDriver): T
   }

@@ -1,5 +1,6 @@
 package views.vrm_retention
 
+import org.scalatest.selenium.WebBrowser.click
 import controllers.routes
 import helpers.UiSpec
 import helpers.tags.UiTag
@@ -8,6 +9,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver}
 import pages.vrm_retention.BeforeYouStartPage.{footerItem, startNow}
 import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage}
+import org.scalatest.selenium.WebBrowser._
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
@@ -53,7 +55,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "go to next page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
-      click on startNow
+      org.scalatest.selenium.WebBrowser.click on BeforeYouStartPage.startNow
 
       page.url should equal(VehicleLookupPage.url)
     }
