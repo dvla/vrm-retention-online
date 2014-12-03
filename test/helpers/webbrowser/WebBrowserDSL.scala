@@ -238,26 +238,6 @@ trait WebBrowserDSL {
   def textField(queryString: String)(implicit driver: WebDriver): TextField =
     tryQueries(queryString)(q => new TextField(q.webElement))
 
-  def textArea(query: Query)(implicit driver: WebDriver) = new TextArea(query.webElement)
-
-  def textArea(queryString: String)(implicit driver: WebDriver): TextArea =
-    tryQueries(queryString)(q => new TextArea(q.webElement))
-
-  def pwdField(query: Query)(implicit driver: WebDriver): PasswordField = new PasswordField(query.webElement)
-
-  def pwdField(queryString: String)(implicit driver: WebDriver): PasswordField =
-    tryQueries(queryString)(q => new PasswordField(q.webElement))
-
-  def emailField(query: Query)(implicit driver: WebDriver): EmailField = new EmailField(query.webElement)
-
-  def emailField(queryString: String)(implicit driver: WebDriver): EmailField =
-    tryQueries(queryString)(q => new EmailField(q.webElement))
-
-  def colorField(query: Query)(implicit driver: WebDriver): ColorField = new ColorField(query.webElement)
-
-  def colorField(queryString: String)(implicit driver: WebDriver): ColorField =
-    tryQueries(queryString)(q => new ColorField(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()

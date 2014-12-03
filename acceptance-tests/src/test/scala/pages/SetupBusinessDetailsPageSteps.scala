@@ -16,7 +16,7 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver) extend
   def `enter business details` = {
     traderName enter "Test Test1"
     traderContact enter "Valtech"
-    traderEmail enter "business@email.com"
+    traderEmail.value = "business@email.com"
     traderPostcode enter "SA11AA"
     click on lookup
     this
