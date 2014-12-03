@@ -80,7 +80,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   private def createCookie[A](key: String, value: A)(implicit tjs: Writes[A]): Cookie = {
     val json = Json.toJson(value).toString()
     val cookieName = session.nameCookie(key)
-    session.newCookie(cookieName, json)
+    session.newCookie(cookieName, json, key)
   }
 
   def vehicleAndKeeperLookupFormModel(referenceNumber: String = ReferenceNumberValid,
@@ -144,7 +144,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
 
   private def createCookie[A](key: String, value: String): Cookie = {
     val cookieName = session.nameCookie(key)
-    session.newCookie(cookieName, value)
+    session.newCookie(cookieName, value, key)
   }
 
   def eligibilityModel(replacementVRM: String = ReplacementRegistrationNumberValid): Cookie = {
