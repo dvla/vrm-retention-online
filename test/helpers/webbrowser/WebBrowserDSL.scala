@@ -258,26 +258,6 @@ trait WebBrowserDSL {
   def colorField(queryString: String)(implicit driver: WebDriver): ColorField =
     tryQueries(queryString)(q => new ColorField(q.webElement))
 
-  def dateField(query: Query)(implicit driver: WebDriver): DateField = new DateField(query.webElement)
-
-  def dateField(queryString: String)(implicit driver: WebDriver): DateField =
-    tryQueries(queryString)(q => new DateField(q.webElement))
-
-  def dateTimeField(query: Query)(implicit driver: WebDriver): DateTimeField = new DateTimeField(query.webElement)
-
-  def dateTimeField(queryString: String)(implicit driver: WebDriver): DateTimeField =
-    tryQueries(queryString)(q => new DateTimeField(q.webElement))
-
-  def dateTimeLocalField(query: Query)(implicit driver: WebDriver): DateTimeLocalField = new DateTimeLocalField(query.webElement)
-
-  def dateTimeLocalField(queryString: String)(implicit driver: WebDriver): DateTimeLocalField =
-    tryQueries(queryString)(q => new DateTimeLocalField(q.webElement))
-
-  def monthField(query: Query)(implicit driver: WebDriver): MonthField = new MonthField(query.webElement)
-
-  def monthField(queryString: String)(implicit driver: WebDriver): MonthField =
-    tryQueries(queryString)(q => new MonthField(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()
