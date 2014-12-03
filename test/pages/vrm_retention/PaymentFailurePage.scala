@@ -1,17 +1,19 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import views.vrm_retention.PaymentFailure.{ExitId, TryAgainId}
-import pages.ApplicationContext.applicationContext
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
+import pages.ApplicationContext.applicationContext
+import views.vrm_retention.PaymentFailure.{ExitId, TryAgainId}
 
-object PaymentFailurePage extends Page with WebBrowserDSL {
+object PaymentFailurePage extends Page {
 
   def address = s"$applicationContext/payment-failure"
+
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Payment Failure"
 
-  def tryAgain(implicit driver: WebDriver): Element = find(id(TryAgainId)).get
+  def tryAgain(implicit driver: WebDriver) = find(id(TryAgainId)).get
 
-  def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
+  def exit(implicit driver: WebDriver) = find(id(ExitId)).get
 }
