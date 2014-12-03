@@ -214,16 +214,6 @@ trait WebBrowserDSL {
       }
     }
 
-  def findAll(query: Query)(implicit driver: WebDriver): Iterator[Element] = query.findAllElements
-
-  def findAll(queryString: String)(implicit driver: WebDriver): Iterator[Element] = {
-    val byIdItr = new IdQuery(queryString).findAllElements
-    if (byIdItr.hasNext)
-      byIdItr
-    else
-      new NameQuery(queryString).findAllElements
-  }
-
   private def tryQueries[T](queryString: String)(f: Query => T)(implicit driver: WebDriver): T = {
     try {
       f(IdQuery(queryString))
