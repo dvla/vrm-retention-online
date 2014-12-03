@@ -293,11 +293,6 @@ trait WebBrowserDSL {
   def searchField(queryString: String)(implicit driver: WebDriver): SearchField =
     tryQueries(queryString)(q => new SearchField(q.webElement))
 
-  def telField(query: Query)(implicit driver: WebDriver): TelField = new TelField(query.webElement)
-
-  def telField(queryString: String)(implicit driver: WebDriver): TelField =
-    tryQueries(queryString)(q => new TelField(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()
