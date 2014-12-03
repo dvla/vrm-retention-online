@@ -78,7 +78,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
-      click on back
+      org.scalatest.selenium.WebBrowser.click on back
 
       page.url should equal(SetupBusinessDetailsPage.url)
     }

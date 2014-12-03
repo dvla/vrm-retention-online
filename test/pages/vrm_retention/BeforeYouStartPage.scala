@@ -14,7 +14,7 @@ object BeforeYouStartPage extends Page {
   final override val title: String = "Take a Registration Number off a Vehicle"
   final val titleCy: String = "Cael gwared cerbyd i mewn i'r fasnach foduron"
 
-  def startNow(implicit driver: WebDriver) = find(org.scalatest.selenium.WebBrowser.id(NextId)).get
+  def startNow(implicit driver: WebDriver) = find(id(NextId)).get
 
   def footer(implicit driver: WebDriver) = driver.findElement(By.id("footer"))
 
