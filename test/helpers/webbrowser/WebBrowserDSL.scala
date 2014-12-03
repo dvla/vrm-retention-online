@@ -125,16 +125,6 @@ trait WebBrowserDSL {
 
     val queryString: String
 
-    def element(implicit driver: WebDriver): Element = {
-      try {
-        createTypedElement(driver.findElement(by))
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchElementException =>
-          throw new TestFailedException("Element '" + queryString + "' not found.")
-      }
-    }
-
     def findElement(implicit driver: WebDriver): Option[Element] =
       try {
         Some(createTypedElement(driver.findElement(by)))
@@ -142,9 +132,6 @@ trait WebBrowserDSL {
       catch {
         case e: org.openqa.selenium.NoSuchElementException => None
       }
-
-    def findAllElements(implicit driver: WebDriver): Iterator[Element] =
-      driver.findElements(by).asScala.toIterator.map { e => createTypedElement(e)}
 
     def webElement(implicit driver: WebDriver): WebElement = {
       try {
