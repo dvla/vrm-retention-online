@@ -1,11 +1,12 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.PaymentPreventBack.ReturnToSuccessId
 
-object PaymentPreventBackPage extends Page with WebBrowserDSL {
+object PaymentPreventBackPage extends Page {
 
   def address = s"$applicationContext/payment-prevent-back"
 
@@ -13,5 +14,5 @@ object PaymentPreventBackPage extends Page with WebBrowserDSL {
 
   final override val title: String = ""
 
-  def returnToSuccess(implicit driver: WebDriver): Element = find(id(ReturnToSuccessId)).get
+  def returnToSuccess(implicit driver: WebDriver) = find(id(ReturnToSuccessId)).get
 }
