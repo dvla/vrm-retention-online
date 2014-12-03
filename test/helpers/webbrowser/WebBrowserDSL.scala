@@ -278,21 +278,6 @@ trait WebBrowserDSL {
   def monthField(queryString: String)(implicit driver: WebDriver): MonthField =
     tryQueries(queryString)(q => new MonthField(q.webElement))
 
-  def numberField(query: Query)(implicit driver: WebDriver): NumberField = new NumberField(query.webElement)
-
-  def numberField(queryString: String)(implicit driver: WebDriver): NumberField =
-    tryQueries(queryString)(q => new NumberField(q.webElement))
-
-  def rangeField(query: Query)(implicit driver: WebDriver): RangeField = new RangeField(query.webElement)
-
-  def rangeField(queryString: String)(implicit driver: WebDriver): RangeField =
-    tryQueries(queryString)(q => new RangeField(q.webElement))
-
-  def searchField(query: Query)(implicit driver: WebDriver): SearchField = new SearchField(query.webElement)
-
-  def searchField(queryString: String)(implicit driver: WebDriver): SearchField =
-    tryQueries(queryString)(q => new SearchField(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()
