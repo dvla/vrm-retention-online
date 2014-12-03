@@ -308,13 +308,6 @@ trait WebBrowserDSL {
   def urlField(queryString: String)(implicit driver: WebDriver): UrlField =
     tryQueries(queryString)(q => new UrlField(q.webElement))
 
-  def weekField(query: Query)(implicit driver: WebDriver): WeekField = new WeekField(query.webElement)
-
-  def weekField(queryString: String)(implicit driver: WebDriver): WeekField =
-    tryQueries(queryString)(q => new WeekField(q.webElement))
-
-  def radioButtonGroup(groupName: String)(implicit driver: WebDriver) = new RadioButtonGroup(groupName, driver)
-
   def singleSel(query: Query)(implicit driver: WebDriver) = new SingleSel(query.webElement)
 
   def singleSel(queryString: String)(implicit driver: WebDriver): SingleSel =
