@@ -298,11 +298,6 @@ trait WebBrowserDSL {
   def telField(queryString: String)(implicit driver: WebDriver): TelField =
     tryQueries(queryString)(q => new TelField(q.webElement))
 
-  def timeField(query: Query)(implicit driver: WebDriver): TimeField = new TimeField(query.webElement)
-
-  def timeField(queryString: String)(implicit driver: WebDriver): TimeField =
-    tryQueries(queryString)(q => new TimeField(q.webElement))
-
   object click {
     def on(element: WebElement) {
       element.click()

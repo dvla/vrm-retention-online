@@ -1,6 +1,6 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, SingleSel, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.Select
 import pages.ApplicationContext.applicationContext
