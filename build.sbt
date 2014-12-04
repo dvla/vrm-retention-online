@@ -13,7 +13,7 @@ publishTo <<= version { v: String =>
 
 name := "vrm-retention-online"
 
-version := "1.2.1-SNAPSHOT"
+version := "1.2.2"
 
 organization := "dvla"
 
@@ -52,8 +52,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.7.1-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "common-test" % "2.7.1-SNAPSHOT" % "test" withSources() withJavadoc(),
+    "dvla" %% "vehicles-presentation-common" % "2.7.1" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    //"dvla" %% "common-test" % "2.7.1" % "test" withSources() withJavadoc(),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -112,6 +112,9 @@ testGatlingTask
 sandboxAsyncTask
 
 gatlingTask
+
+// Uncomment before releasing to github in order to make Travis work
+resolvers += "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 resolvers ++= projectResolvers
 
