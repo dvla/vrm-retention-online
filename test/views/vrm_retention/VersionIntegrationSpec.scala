@@ -9,8 +9,8 @@ class VersionIntegrationSpec extends UiSpec with TestHarness {
   "Version endpoint" should {
     "be declared and should include the build-details.txt from classpath" in new WebBrowser {
       go.to(WebDriverFactory.testUrl + s"$applicationContext/version")
-      val t = fromInputStream(getClass.getResourceAsStream("/build-details.txt")).getLines().toList
-      page.source.lines.toSeq should contain allOf(t.head, t.tail.head, t.tail.tail.toSeq:_*)
+      val t = fromInputStream(getClass.getResourceAsStream("/build-details.txt")).getLines().toSet.toList
+      page.source.lines.toSet.toList should contain allOf(t.head, t.tail.head, t.tail.tail.toSeq:_*)
     }
   }
 }
