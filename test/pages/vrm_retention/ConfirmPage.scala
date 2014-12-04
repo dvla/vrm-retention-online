@@ -1,11 +1,12 @@
 package pages.vrm_retention
 
-import helpers.webbrowser._
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.Confirm.{ConfirmId, ExitId}
 
-object ConfirmPage extends Page with WebBrowserDSL {
+object ConfirmPage extends Page {
 
   def address = s"$applicationContext/confirm"
 
@@ -13,9 +14,9 @@ object ConfirmPage extends Page with WebBrowserDSL {
 
   final override val title: String = "Confirm keeper details"
 
-  def confirm(implicit driver: WebDriver): Element = find(id(ConfirmId)).get
+  def confirm(implicit driver: WebDriver) = find(id(ConfirmId)).get
 
-  def exit(implicit driver: WebDriver): Element = find(id(ExitId)).get
+  def exit(implicit driver: WebDriver) = find(id(ExitId)).get
 
   def happyPath(implicit driver: WebDriver) = {
     go to ConfirmPage

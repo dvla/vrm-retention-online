@@ -1,15 +1,16 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Page, WebDriverFactory}
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_retention.EnterAddressManually.NextId
 import views.vrm_retention.Main.BackId
 import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
-object EnterAddressManuallyPage extends Page with WebBrowserDSL {
+object EnterAddressManuallyPage extends Page {
 
   def address = s"$applicationContext/enter-address-manually"
 
@@ -17,21 +18,21 @@ object EnterAddressManuallyPage extends Page with WebBrowserDSL {
 
   final override val title: String = "Enter address"
 
-  def addressBuildingNameOrNumber(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
+  def addressBuildingNameOrNumber(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
 
-  def addressLine2(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
+  def addressLine2(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
-  def addressLine3(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
+  def addressLine3(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
-  def addressPostTown(implicit driver: WebDriver): TextField =
-    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$PostTownId"))
+  def addressPostTown(implicit driver: WebDriver) =
+    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$PostTownId"))
 
-  def next(implicit driver: WebDriver): Element = find(id(NextId)).get
+  def next(implicit driver: WebDriver) = find(id(NextId)).get
 
-  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
+  def back(implicit driver: WebDriver) = find(id(BackId)).get
 
   def happyPath(buildingNameOrNumber: String = BuildingNameOrNumberValid,
                 line2: String = Line2Valid,

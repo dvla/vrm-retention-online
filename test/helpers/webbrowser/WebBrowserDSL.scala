@@ -39,10 +39,6 @@ import scala.language.implicitConversions
 
 trait WebBrowserDSL {
 
-  class CookiesNoun
-
-  val cookies = new CookiesNoun
-
   sealed abstract class SwitchTarget[T] {
     def switch(driver: WebDriver): T
   }
@@ -125,16 +121,6 @@ trait WebBrowserDSL {
 
     val queryString: String
 
-    def element(implicit driver: WebDriver): Element = {
-      try {
-        createTypedElement(driver.findElement(by))
-      }
-      catch {
-        case e: org.openqa.selenium.NoSuchElementException =>
-          throw new TestFailedException("Element '" + queryString + "' not found.")
-      }
-    }
-
     def findElement(implicit driver: WebDriver): Option[Element] =
       try {
         Some(createTypedElement(driver.findElement(by)))
@@ -142,9 +128,6 @@ trait WebBrowserDSL {
       catch {
         case e: org.openqa.selenium.NoSuchElementException => None
       }
-
-    def findAllElements(implicit driver: WebDriver): Iterator[Element] =
-      driver.findElements(by).asScala.toIterator.map { e => createTypedElement(e)}
 
     def webElement(implicit driver: WebDriver): WebElement = {
       try {
@@ -165,43 +148,7 @@ trait WebBrowserDSL {
     val by = By.name(queryString)
   }
 
-  case class XPathQuery(queryString: String) extends Query {
-    val by = By.xpath(queryString)
-  }
-
-  // TODO: Are these case classes just to get at the val?
-
-  case class ClassNameQuery(queryString: String) extends Query {
-    val by = By.className(queryString)
-  }
-
-  case class CssSelectorQuery(queryString: String) extends Query {
-    val by = By.cssSelector(queryString)
-  }
-
-  case class LinkTextQuery(queryString: String) extends Query {
-    val by = By.linkText(queryString)
-  }
-
-  case class PartialLinkTextQuery(queryString: String) extends Query {
-    val by = By.partialLinkText(queryString)
-  }
-
   def id(elementId: String): IdQuery = new IdQuery(elementId)
-
-  def name(elementName: String): NameQuery = new NameQuery(elementName)
-
-  def xpath(xpath: String): XPathQuery = new XPathQuery(xpath)
-
-  def className(className: String): ClassNameQuery = new ClassNameQuery(className)
-
-  def cssSelector(cssSelector: String): CssSelectorQuery = new CssSelectorQuery(cssSelector)
-
-  def linkText(linkText: String): LinkTextQuery = new LinkTextQuery(linkText)
-
-  def partialLinkText(partialLinkText: String): PartialLinkTextQuery = new PartialLinkTextQuery(partialLinkText)
-
-  // XXX
 
   def find(query: Query)(implicit driver: WebDriver): Option[Element] = query.findElement
 
@@ -214,16 +161,6 @@ trait WebBrowserDSL {
       }
     }
 
-  def findAll(query: Query)(implicit driver: WebDriver): Iterator[Element] = query.findAllElements
-
-  def findAll(queryString: String)(implicit driver: WebDriver): Iterator[Element] = {
-    val byIdItr = new IdQuery(queryString).findAllElements
-    if (byIdItr.hasNext)
-      byIdItr
-    else
-      new NameQuery(queryString).findAllElements
-  }
-
   private def tryQueries[T](queryString: String)(f: Query => T)(implicit driver: WebDriver): T = {
     try {
       f(IdQuery(queryString))
@@ -232,31 +169,6 @@ trait WebBrowserDSL {
       case _: Throwable => f(NameQuery(queryString))
     }
   }
-
-  def textField(query: Query)(implicit driver: WebDriver): TextField = new TextField(query.webElement)
-
-  def textField(queryString: String)(implicit driver: WebDriver): TextField =
-    tryQueries(queryString)(q => new TextField(q.webElement))
-
-  def textArea(query: Query)(implicit driver: WebDriver) = new TextArea(query.webElement)
-
-  def textArea(queryString: String)(implicit driver: WebDriver): TextArea =
-    tryQueries(queryString)(q => new TextArea(q.webElement))
-
-  def pwdField(query: Query)(implicit driver: WebDriver): PasswordField = new PasswordField(query.webElement)
-
-  def pwdField(queryString: String)(implicit driver: WebDriver): PasswordField =
-    tryQueries(queryString)(q => new PasswordField(q.webElement))
-
-  def emailField(query: Query)(implicit driver: WebDriver): EmailField = new EmailField(query.webElement)
-
-  def emailField(queryString: String)(implicit driver: WebDriver): EmailField =
-    tryQueries(queryString)(q => new EmailField(q.webElement))
-
-  def colorField(query: Query)(implicit driver: WebDriver): ColorField = new ColorField(query.webElement)
-
-  def colorField(queryString: String)(implicit driver: WebDriver): ColorField =
-    tryQueries(queryString)(q => new ColorField(q.webElement))
 
   object click {
     def on(element: WebElement) {
@@ -300,16 +212,5 @@ trait WebBrowserDSL {
     def url: String = driver.getCurrentUrl
 
     def source: String = driver.getPageSource
-  }
-
-  implicit def in(element: Element) = new {
-    def enter(value: String) = {
-      element match {
-        case tf: TextField => tf.value = value
-        case pf: EmailField => pf.value = value
-        case _ =>
-          throw new TestFailedException("Currently selected element is neither a text field, text area, password field, email field, search field, tel field or url field")
-      }
-    }
   }
 }

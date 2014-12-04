@@ -1,14 +1,15 @@
 package common
 
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import helpers.webbrowser.{WebBrowserDriver}
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser.cookie
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
+import org.scalatest.selenium.WebBrowser._
 
-class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps
@@ -40,7 +41,7 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def confirmDetails = {
-    page.title should equal(ConfirmPage.title)
+    pageTitle should equal(ConfirmPage.title)
     click on ConfirmPage.confirm
     this
   }
@@ -72,7 +73,7 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def confirmBusinessDetailsIsDisplayed = {
-    page.title should equal(ConfirmBusinessPage.title)
+    pageTitle should equal(ConfirmBusinessPage.title)
     this
   }
 

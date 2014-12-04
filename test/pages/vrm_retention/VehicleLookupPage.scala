@@ -16,11 +16,11 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   final override val title: String = "Enter details"
 
-  def vehicleRegistrationNumber(implicit driver: WebDriver): TextField = textField(id(VehicleRegistrationNumberId))
+  def vehicleRegistrationNumber(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(VehicleRegistrationNumberId))
 
-  def documentReferenceNumber(implicit driver: WebDriver): TextField = textField(id(DocumentReferenceNumberId))
+  def documentReferenceNumber(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(DocumentReferenceNumberId))
 
-  def keeperPostcode(implicit driver: WebDriver): TextField = textField(id(PostcodeId))
+  def keeperPostcode(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(PostcodeId))
 
   def currentKeeperYes(implicit driver: WebDriver) = radioButton(org.scalatest.selenium.WebBrowser.id(KeeperConsentId + "_" + UserType_Keeper))
 

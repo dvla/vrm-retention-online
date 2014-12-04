@@ -31,7 +31,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to PaymentFailurePage
 
-      click on tryAgain
+      org.scalatest.selenium.WebBrowser.click on tryAgain
 
       page.url should equal(VehicleLookupPage.url)
     }
@@ -45,7 +45,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to PaymentFailurePage
 
-      click on exit
+      org.scalatest.selenium.WebBrowser.click on exit
 
       page.url should equal(LeaveFeedbackPage.url)
     }

@@ -47,7 +47,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to PaymentPage
 
-      click on PaymentPage.cancel
+      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
 
       page.url should equal(LeaveFeedbackPage.url)
     }
@@ -57,7 +57,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to PaymentPage
 
-      click on PaymentPage.cancel
+      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RetainSet.foreach(cacheKey => {
@@ -73,7 +73,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         storeBusinessDetailsConsent(consent = "false")
       go to PaymentPage
 
-      click on PaymentPage.cancel
+      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
 
       // Verify the cookies identified by the full set of cache keys have been removed
       BusinessDetailsSet.foreach(cacheKey => {
@@ -93,7 +93,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
 
-      click on PaymentPage.cancel
+      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
 
       // Verify the cookies identified by the full set of cache keys have been removed
       BusinessDetailsSet.foreach(cacheKey => {
