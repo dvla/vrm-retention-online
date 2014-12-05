@@ -1,5 +1,3 @@
-Build status for master branch [![Build Status](https://travis-ci.org/dvla/vrm-retention-online.svg?branch=master)](https://travis-ci.org/dvla/vrm-retention-online)
-
 DVLA Vehicles Online
 ====================
 
@@ -36,9 +34,12 @@ Development environment
     -   `vrm-retention-online`
     -   `vrm-retention-eligibility`
     -   `vrm-retention-retain`
-    -   `vehicles-lookup`
+    -   `vehicles-and-keeper-lookup`
     -   `<<the appropriate secrets repo>>'
     -   `os-address-lookup`
+    -   `legacy-stub-services`
+    -   `vehicles-gatling`
+    -   `payment-solve`  		
 
 2.  JDK 1.7 must be installed
 
