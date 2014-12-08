@@ -24,4 +24,3 @@ libraryDependencies ++= Seq(
   "info.cukes" % "cucumber-picocontainer" % "1.2.0" % "test" withSources() withJavadoc(),
   "com.novocode" % "junit-interface" % "0.10" % "test"
 )
-

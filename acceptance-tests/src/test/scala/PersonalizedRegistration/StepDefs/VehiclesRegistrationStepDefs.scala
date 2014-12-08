@@ -1,4 +1,4 @@
-package PersonalizedRegistration
+package PersonalizedRegistration.StepDefs
 
 import _root_.common._
 import cucumber.api.java.en.{Given, Then, When}
