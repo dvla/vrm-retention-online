@@ -9,6 +9,6 @@ import org.junit.runner.RunWith
   features = Array("acceptance-tests/src/test/resources/PersonalizedRegistration/"),
   glue = Array("PersonalizedRegistration"),
   plugin = Array("pretty","html:target/cucumber-report"),
-  tags = Array("@HappyPath,~@UnHappyPath")
+  tags = Array("@Payment")
 )
-class RunCucumberWithHappyPath
+class RunCucumberWithFeatures

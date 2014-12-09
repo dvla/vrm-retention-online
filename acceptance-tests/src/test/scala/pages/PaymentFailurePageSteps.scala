@@ -1,0 +1,5 @@
+package pages
+
+class PaymentFailurePageSteps {
+
+}

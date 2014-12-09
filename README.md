@@ -102,7 +102,13 @@ Unit and Selenium tests written using Scalatest can be run using `sbt test`
 
 Acceptance tests written using Cucumber can be run using `sbt acceptance-tests/'test-only PersonalizedRegistration.RunCucumber'`
 
-Acceptance tests feature can be run using `sbt acceptance-tests/test-only -Dcucumber.options="acceptance-tests/src/test/resources/PersonalizedRegistration/Payment.feature"`
+Acceptance tests feature can be run using `sbt acceptance-tests/'test-only PersonalizedRegistration.RunCucumber' -Dcucumber.options="acceptance-tests/src/test/resources/PersonalizedRegistration/Payment.feature"`
+
+Acceptance tests happy path scenarios can be run using `sbt acceptance-tests/'test-only PersonalizedRegistration.TestRunners.RunCucumberWithHappyPath'`
+
+Acceptance tests un happy path scenarios can be run using `sbt acceptance-tests/'test-only PersonalizedRegistration.TestRunners.RunCucumberWithUnHappyPath'`
+
+Acceptance tests Reporting 
 
 Session encryption
 ------------------
