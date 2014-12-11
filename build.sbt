@@ -46,7 +46,7 @@ libraryDependencies ++= {
     "com.google.inject" % "guice" % "4.0-beta5" withSources() withJavadoc(),
     "com.google.guava" % "guava" % "18.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
-    "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
+    "commons-codec" % "commons-codec" % "1.8" withSources() withJavadoc(),
     "org.apache.httpcomponents" % "httpclient" % "4.3.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
