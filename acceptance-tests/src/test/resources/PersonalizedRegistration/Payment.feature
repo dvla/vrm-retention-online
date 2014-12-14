@@ -1,22 +1,13 @@
 Feature: Payment for the Vehicle Registration
 
- @HappyPath
-  Scenario Outline: Valid Card Number
+  Scenario Outline: Validate Payment functionality with valid and invalid card numbers
     Given that I have started the PR Retention Service
     And I search and confirm the vehicle to be registered
     When I enter payment details as <CardName>,<CardNumber> and <SecurityCode>
     And proceed to the payment
-    Then Summary page should be displayed
+    Then following <Message> should be displayed
   Examples:
-    | CardName     | CardNumber            | SecurityCode |
-    | "Test Test1" | "4012 0010 3848 8884" | "242"        |
+    | CardName     | CardNumber            | SecurityCode | Message                               |
+    | "Test Test1" | "4444 3333 2222 1111" | "123"        | "Payment Successful"                  |
+    | "Test Test2" | "4012 0010 3685 3337" | "244"        | "Payment Cancelled or Not Authorised" |
 
-  @UnHappyPath
-  Scenario Outline: InValid Card Number
-    Given that I have started the PR Retention Service
-    When I enter payment details as <CardName>,<CardNumber> and <SecurityCode>
-    And proceed to the payment
-    Then Failure Page should be displayed
-  Examples:
-    | CardName     | CardNumber | SecurityCode |
-    | "Test Test3" | "Test1"    | "612"        |
