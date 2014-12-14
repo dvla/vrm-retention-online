@@ -7,9 +7,6 @@
 //
     .first-col {
         display: block;
-        @media screen and (max-width:$device-medium) {
-            display: none;
-        }
     }
 }
 
