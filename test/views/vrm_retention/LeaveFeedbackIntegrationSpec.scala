@@ -2,9 +2,8 @@ package views.vrm_retention
 
 import helpers.UiSpec
 import helpers.tags.UiTag
-import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
-import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage}
 
 final class LeaveFeedbackIntegrationSpec extends UiSpec with TestHarness {
@@ -14,7 +13,7 @@ final class LeaveFeedbackIntegrationSpec extends UiSpec with TestHarness {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to LeaveFeedbackPage
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
@@ -25,7 +24,7 @@ final class LeaveFeedbackIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on LeaveFeedbackPage.exit
 
-      page.url should equal(BeforeYouStartPage.url)
+      currentUrl should equal(BeforeYouStartPage.url)
     }
   }
 }

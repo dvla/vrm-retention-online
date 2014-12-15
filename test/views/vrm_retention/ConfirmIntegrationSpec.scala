@@ -5,9 +5,10 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
-import pages.vrm_retention.ConfirmPage.{exitPath, happyPath}
-import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, PaymentPage, VehicleLookupPage, _}
+import pages.vrm_retention.ConfirmPage.exitPath
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, VehicleLookupPage, _}
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
@@ -20,7 +21,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       go to ConfirmPage
 
-      page.url should equal(ConfirmPage.url)
+      currentUrl should equal(ConfirmPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -32,18 +33,18 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-//  "confirm button" should {
-//
-//    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowser {
-//      go to BeforeYouStartPage
-//
-//      cacheSetup()
-//
-//      happyPath
-//
-//      page.url should equal(PaymentPage.url)
-//    }
-//  }
+  //  "confirm button" should {
+  //
+  //    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowser {
+  //      go to BeforeYouStartPage
+  //
+  //      cacheSetup()
+  //
+  //      happyPath
+  //
+  //      currentUrl should equal(PaymentPage.url)
+  //    }
+  //  }
 
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowser {
@@ -53,7 +54,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       exitPath
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
@@ -66,7 +67,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.url should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(SetupBusinessDetailsPage.url)
     }
   }
 

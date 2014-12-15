@@ -5,6 +5,7 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.PaymentNotAuthorisedPage.exit
 import pages.vrm_retention._
 
@@ -19,7 +20,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
       go to PaymentNotAuthorisedPage
 
-      page.url should equal(PaymentNotAuthorisedPage.url)
+      currentUrl should equal(PaymentNotAuthorisedPage.url)
     }
   }
 
@@ -34,7 +35,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
   //
   //      click on tryAgain
   //
-  //      page.url should equal(PaymentPage.url)
+  //      currentUrl should equal(PaymentPage.url)
   //    }
   //  }
 
@@ -48,7 +49,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
       org.scalatest.selenium.WebBrowser.click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 

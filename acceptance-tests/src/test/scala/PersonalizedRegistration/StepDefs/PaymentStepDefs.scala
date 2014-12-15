@@ -1,14 +1,14 @@
 package PersonalizedRegistration.StepDefs
 
 import _root_.common.CommonStepDefs
-import cucumber.api.java.en.{Then, Given, When}
+import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
 import pages._
+import org.scalatest.selenium.WebBrowser._
 
-
-final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   lazy val user = new CommonStepDefs
   lazy val vehicleLookup = new VehicleLookupPageSteps
@@ -25,7 +25,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
       `keeper is acting`.
       `find vehicle`
     user.confirmDetails
-
   }
 
   @When("^I enter payment details as \"(.*?)\",\"(.*?)\" and \"(.*?)\"$")
@@ -34,24 +33,21 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
       .`is displayed`
       .enter(cardName, cardNumber, cardExpiry)
       .`expiryDate`
-
   }
 
   @When("^proceed to the payment$")
   def `proceed to the payment`() {
     payment.`paynow`
-
   }
 
   @Then("^following \"(.*?)\" should be displayed$")
   def `following should be displayed`(Message: String) {
     if (Message == "Payment Successful") {
-      page.title contains ("/success-payment")
+      pageTitle contains ("/success-payment")
       //success.`is displayed`
     }
     if (Message == "Payment Cancelled or Not Authorised") {
-      page.title contains ("/payment-not-authorised")
+      pageTitle contains ("/payment-not-authorised")
     }
   }
-
 }

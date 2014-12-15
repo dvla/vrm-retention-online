@@ -1,9 +1,10 @@
 package pages.common
 
-import helpers.webbrowser.{Element, WebBrowserDSL}
 import mappings.common.Feedback.FeedbackId
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 
-object Feedback extends WebBrowserDSL {
-  def mailto(implicit driver: WebDriver): Element = find(id(FeedbackId)).get
+object Feedback {
+
+  def mailto(implicit driver: WebDriver) = find(id(FeedbackId)).get
 }

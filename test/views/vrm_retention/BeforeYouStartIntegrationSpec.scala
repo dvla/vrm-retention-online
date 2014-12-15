@@ -1,15 +1,14 @@
 package views.vrm_retention
 
-import org.scalatest.selenium.WebBrowser.click
 import controllers.routes
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver}
-import pages.vrm_retention.BeforeYouStartPage.{footerItem, startNow}
-import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage}
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_retention.BeforeYouStartPage.footerItem
+import pages.vrm_retention.{BeforeYouStartPage, VehicleLookupPage}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
@@ -18,7 +17,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
-      page.url should equal(BeforeYouStartPage.url)
+      currentUrl should equal(BeforeYouStartPage.url)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
@@ -40,7 +39,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "display the global cookie message when cookie 'seen_cookie_message' does not exist" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
 
-      page.source should include("Find out more about cookies")
+      pageSource should include("Find out more about cookies")
     }
 
     "display a link to the cookie policy" taggedAs UiTag in new WebBrowser {
@@ -57,7 +56,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on BeforeYouStartPage.startNow
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 }
