@@ -13,10 +13,29 @@ class PaymentPageSteps (implicit webDriver: WebBrowserDriver) extends ScalaDsl w
     this
   }
 
-  def enter(cardName:String, cardNumber:String, securityCode :String) = {
-//    CardName.value = cardName
-//    CardNumber.value = cardNumber
-//    SecurityCode.value = securityCode
+  def enter(CardName:String, CardNumber:String, SecurityCode :String) = {
+    cardName.value = CardName
+    cardNumber.value = CardNumber
+    securityCode.value = SecurityCode
     this
+  }
+
+  def `paynow` = {
+    org.scalatest.selenium.WebBrowser.click on payNow
+    printf("The URL"+page.title)
+    maximize
+    theLogicaGroupLogo
+    printf("The URL"+page.title)
+    //org.scalatest.selenium.WebBrowser.implicitlyWait(Span(2,Minutes))
+
+  }
+
+  def `expiryDate` = {
+    org.scalatest.selenium.WebBrowser.singleSel(expiryMonth()).value="08"
+    org.scalatest.selenium.WebBrowser.singleSel(expiryYear()).value="2016"
+  }
+
+  def `Message is displayed` = {
+    page.url should equal(url)
   }
 }

@@ -1,8 +1,8 @@
 package pages.vrm_retention
 
 import helpers.webbrowser.{Page, WebDriverFactory}
-import org.openqa.selenium.{By, WebDriver}
 import org.openqa.selenium.support.ui.Select
+import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId}

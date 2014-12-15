@@ -1,12 +1,12 @@
 package views.vrm_retention
 
 import helpers.UiSpec
-import helpers.webbrowser.TestHarness
-import pages.vrm_retention.PaymentFailurePage.exit
-import pages.vrm_retention.{LeaveFeedbackPage, RetainFailurePage, BeforeYouStartPage}
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
+import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
+import pages.vrm_retention.PaymentFailurePage.exit
+import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, RetainFailurePage}
 
 final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -43,5 +43,4 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
       vehicleAndKeeperLookupFormModel().
       vehicleAndKeeperDetailsModel().
       paymentModel()
-
 }

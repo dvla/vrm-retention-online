@@ -170,26 +170,6 @@ trait WebBrowserDSL {
     }
   }
 
-  object click {
-    def on(element: WebElement) {
-      element.click()
-    }
-
-    def on(query: Query)(implicit driver: WebDriver) {
-      query.webElement.click()
-    }
-
-    def on(queryString: String)(implicit driver: WebDriver) {
-      // stack depth is not correct if just call the button("...") directly.
-      val target = tryQueries(queryString)(q => q.webElement)
-      on(target)
-    }
-
-    def on(element: Element) {
-      element.underlying.click()
-    }
-  }
-
   object switch {
     def to[T](target: SwitchTarget[T])(implicit driver: WebDriver): T = {
       target.switch(driver)
