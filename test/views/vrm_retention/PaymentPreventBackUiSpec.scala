@@ -7,6 +7,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_retention.PaymentPreventBackPage.returnToSuccess
 import pages.vrm_retention.{BeforeYouStartPage, PaymentPreventBackPage, SuccessPaymentPage}
+import org.scalatest.selenium.WebBrowser._
 
 final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
 
@@ -14,7 +15,7 @@ final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to PaymentPreventBackPage
 
-      page.url should equal(PaymentPreventBackPage.url)
+      currentUrl should equal(PaymentPreventBackPage.url)
     }
   }
 
@@ -25,7 +26,7 @@ final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
       go to PaymentPreventBackPage
       org.scalatest.selenium.WebBrowser.click on returnToSuccess
 
-      page.url should equal(SuccessPaymentPage.url)
+      currentUrl should equal(SuccessPaymentPage.url)
     }
   }
 

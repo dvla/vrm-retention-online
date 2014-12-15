@@ -18,7 +18,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       cacheSetup
       go to VrmLockedPage
 
-      page.url should equal(VrmLockedPage.url)
+      currentUrl should equal(VrmLockedPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -39,7 +39,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
 
       click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
 
     "remove redundant cookies" taggedAs UiTag in new WebBrowser {

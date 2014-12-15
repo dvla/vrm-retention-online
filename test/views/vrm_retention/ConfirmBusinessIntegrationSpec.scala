@@ -20,7 +20,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
       go to ConfirmBusinessPage
 
-      page.url should equal(ConfirmBusinessPage.url)
+      currentUrl should equal(ConfirmBusinessPage.url)
     }
   }
 
@@ -33,7 +33,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on confirm
 
-      page.url should equal(ConfirmPage.url)
+      currentUrl should equal(ConfirmPage.url)
     }
   }
 
@@ -46,7 +46,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
@@ -60,7 +60,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.url should equal(BusinessChooseYourAddressPage.url)
+      currentUrl should equal(BusinessChooseYourAddressPage.url)
     }
 
     "redirect to EnterAddressManually page when we did enter address manually" taggedAs UiTag in new WebBrowser {
@@ -71,7 +71,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.url should equal(EnterAddressManuallyPage.url)
+      currentUrl should equal(EnterAddressManuallyPage.url)
     }
   }
 

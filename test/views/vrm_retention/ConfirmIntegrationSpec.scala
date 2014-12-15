@@ -21,7 +21,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       go to ConfirmPage
 
-      page.url should equal(ConfirmPage.url)
+      currentUrl should equal(ConfirmPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -42,7 +42,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
   //
   //      happyPath
   //
-  //      page.url should equal(PaymentPage.url)
+  //      currentUrl should equal(PaymentPage.url)
   //    }
   //  }
 
@@ -54,7 +54,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       exitPath
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
@@ -67,7 +67,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.url should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(SetupBusinessDetailsPage.url)
     }
   }
 

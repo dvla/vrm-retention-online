@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
 import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
+import org.scalatest.selenium.WebBrowser._
 
 final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -20,7 +21,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.title should equal(VehicleLookupFailurePage.title)
+      pageTitle should equal(VehicleLookupFailurePage.title)
     }
 
     "display the lookup unsuccessful page for a direct to paper failure" taggedAs UiTag in new WebBrowser {
@@ -30,7 +31,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.title should equal(VehicleLookupFailurePage.directToPaperTitle)
+      pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
     }
 
     "display the lookup unsuccessful page for a failure" taggedAs UiTag in new WebBrowser {
@@ -40,7 +41,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       go to VehicleLookupFailurePage
 
-      page.title should equal(VehicleLookupFailurePage.failureTitle)
+      pageTitle should equal(VehicleLookupFailurePage.failureTitle)
     }
   }
 
@@ -54,7 +55,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on tryAgain
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 
@@ -68,7 +69,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 

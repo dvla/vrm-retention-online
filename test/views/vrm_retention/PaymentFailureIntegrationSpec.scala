@@ -7,6 +7,7 @@ import helpers.webbrowser.TestHarness
 import org.openqa.selenium.WebDriver
 import pages.vrm_retention.PaymentFailurePage.{exit, tryAgain}
 import pages.vrm_retention._
+import org.scalatest.selenium.WebBrowser._
 
 final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
@@ -19,7 +20,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to PaymentFailurePage
 
-      page.url should equal(PaymentFailurePage.url)
+      currentUrl should equal(PaymentFailurePage.url)
     }
   }
 
@@ -33,7 +34,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on tryAgain
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 
@@ -47,7 +48,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 

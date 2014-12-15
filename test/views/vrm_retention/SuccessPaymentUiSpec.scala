@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.SuccessPaymentPage.next
 import pages.vrm_retention.{BeforeYouStartPage, SuccessPage, SuccessPaymentPage}
+import org.scalatest.selenium.WebBrowser._
 
 final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
 
@@ -18,7 +19,7 @@ final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to SuccessPaymentPage
 
-      page.url should equal(SuccessPaymentPage.url)
+      currentUrl should equal(SuccessPaymentPage.url)
     }
   }
 
@@ -30,7 +31,7 @@ final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
       go to SuccessPaymentPage
       click on next
 
-      page.url should equal(SuccessPage.url)
+      currentUrl should equal(SuccessPage.url)
     }
   }
 
