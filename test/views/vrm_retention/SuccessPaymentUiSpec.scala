@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.SuccessPaymentPage.next
 import pages.vrm_retention.{BeforeYouStartPage, SuccessPage, SuccessPaymentPage}
-import org.scalatest.selenium.WebBrowser._
 
 final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
 

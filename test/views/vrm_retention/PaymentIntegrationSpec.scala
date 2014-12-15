@@ -5,9 +5,9 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention._
 import views.vrm_retention.RelatedCacheKeys.{BusinessDetailsSet, RetainSet}
-import org.scalatest.selenium.WebBrowser._
 
 final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 

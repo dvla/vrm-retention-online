@@ -5,13 +5,13 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
 import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmBusinessPage, SetupBusinessDetailsPage, VehicleLookupPage}
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
-import org.scalatest.selenium.WebBrowser._
 
 final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHarness {
 

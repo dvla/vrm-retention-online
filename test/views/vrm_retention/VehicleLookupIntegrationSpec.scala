@@ -5,10 +5,10 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
 import pages.vrm_retention.VehicleLookupPage.happyPath
 import pages.vrm_retention._
-import org.scalatest.selenium.WebBrowser._
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
