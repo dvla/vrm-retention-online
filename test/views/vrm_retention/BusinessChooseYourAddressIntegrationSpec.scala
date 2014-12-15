@@ -85,7 +85,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   "select button" should {
-    
+
     "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()

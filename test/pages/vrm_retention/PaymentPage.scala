@@ -17,7 +17,8 @@ object PaymentPage extends Page {
 
   def cardName(implicit driver: WebDriver) = {
     driver.switchTo().frame(driver.findElement(By.cssSelector(IFrame)))
-    textField(org.scalatest.selenium.WebBrowser.id(CardName))}
+    textField(org.scalatest.selenium.WebBrowser.id(CardName))
+  }
 
   def cardNumber(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(CardNumber))
 
@@ -25,13 +26,11 @@ object PaymentPage extends Page {
 
   def payNow(implicit driver: WebDriver) = find(id(PayNow)).get
 
-  def maximize(implicit driver: WebDriver) =  driver.manage().window().maximize()
+  def maximize(implicit driver: WebDriver) = driver.manage().window().maximize()
 
   def theLogicaGroupLogo(implicit driver: WebDriver) = driver.findElement(By.id("CompanyLogo")).click()
 
   def expiryMonth() = ExpiryMonth
 
   def expiryYear() = ExpiryYear
-
-
 }

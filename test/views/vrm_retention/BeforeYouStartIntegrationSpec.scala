@@ -1,15 +1,13 @@
 package views.vrm_retention
 
-import org.scalatest.selenium.WebBrowser.click
 import controllers.routes
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver}
-import pages.vrm_retention.BeforeYouStartPage.{footerItem, startNow}
-import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage}
-import org.scalatest.selenium.WebBrowser._
+import pages.vrm_retention.BeforeYouStartPage.footerItem
+import pages.vrm_retention.{BeforeYouStartPage, VehicleLookupPage}
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 

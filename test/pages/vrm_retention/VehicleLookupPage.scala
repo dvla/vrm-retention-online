@@ -1,14 +1,14 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, TextField, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, UserType_Business, UserType_Keeper, VehicleRegistrationNumberId}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValidForMicroService, ReferenceNumberValid, RegistrationNumberValid}
-import org.scalatest.selenium.WebBrowser._
 
-object VehicleLookupPage extends Page with WebBrowserDSL {
+object VehicleLookupPage extends Page {
 
   def address = s"$applicationContext/vehicle-lookup"
 
@@ -26,7 +26,7 @@ object VehicleLookupPage extends Page with WebBrowserDSL {
 
   def currentKeeperNo(implicit driver: WebDriver) = radioButton(org.scalatest.selenium.WebBrowser.id(KeeperConsentId + "_" + UserType_Business))
 
-  def findVehicleDetails(implicit driver: WebDriver): Element = find(id(SubmitId)).get
+  def findVehicleDetails(implicit driver: WebDriver) = find(id(SubmitId)).get
 
   def happyPath(referenceNumber: String = ReferenceNumberValid,
                 registrationNumber: String = RegistrationNumberValid,
