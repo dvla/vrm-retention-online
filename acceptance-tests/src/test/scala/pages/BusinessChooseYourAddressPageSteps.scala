@@ -1,7 +1,7 @@
 package pages
 
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{ WebBrowserDriver}
+import helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.BusinessChooseYourAddressPage

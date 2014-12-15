@@ -1,15 +1,16 @@
 package pages
 
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.SetupBusinessDetailsPage._
 
-class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+class SetupBusinessDetailsPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
-    page.url should equal(url)
-    page.source contains title
+    currentUrl should equal(url)
+    pageSource contains title
     this
   }
 
