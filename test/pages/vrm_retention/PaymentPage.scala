@@ -27,7 +27,7 @@ object PaymentPage extends Page {
 
   def maximize(implicit driver: WebDriver) =  driver.manage().window().maximize()
 
-  def theLogicaGroupLogo(implicit driver: WebDriver) = driver.findElement(By.id("CompanyLogo")).click()
+  def theLogicaGroupLogo(implicit driver: WebDriver) = driver.findElement(By.xpath("//*[@id=\"CompanyLogo\"]")).click()
 
   def expiryMonth() = ExpiryMonth
 

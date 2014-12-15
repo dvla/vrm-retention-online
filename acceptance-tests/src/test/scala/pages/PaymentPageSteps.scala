@@ -23,9 +23,9 @@ class PaymentPageSteps (implicit webDriver: WebBrowserDriver) extends ScalaDsl w
   def `paynow` = {
     org.scalatest.selenium.WebBrowser.click on payNow
     printf("The URL"+page.title)
-    maximize
-    theLogicaGroupLogo
-    printf("The URL"+page.title)
+    //maximize
+    //theLogicaGroupLogo
+    //printf("The URL"+page.title)
     //org.scalatest.selenium.WebBrowser.implicitlyWait(Span(2,Minutes))
 
   }
