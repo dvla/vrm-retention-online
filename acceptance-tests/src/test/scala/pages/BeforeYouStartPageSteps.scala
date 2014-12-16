@@ -19,7 +19,7 @@ class BeforeYouStartPageSteps(implicit webDriver: WebBrowserDriver) extends Scal
   }
 
   def `is displayed` = {
-    currentUrl should equal(BeforeYouStartPage.url)
+    currentUrl should include(BeforeYouStartPage.address)
     this
   }
 }
