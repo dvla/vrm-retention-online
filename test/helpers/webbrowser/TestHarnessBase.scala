@@ -16,7 +16,7 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
 
   import WebBrowser._
 
-  abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal,
+  abstract class WebBrowserForFirefox(val app: FakeApplication = fakeAppWithTestGlobal,
                             val port: Int = testPort,
                             implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
     extends Around with Scope {
@@ -28,18 +28,10 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
       }
   }
 
-  abstract class ProgressBarTrue extends WebBrowser(app = fakeApplicationWithProgressBarTrue)
-
-  abstract class ProgressBarFalse extends WebBrowser(app = fakeApplicationWithProgressBarFalse)
-
-  abstract class WebBrowserWithJs extends WebBrowser(
-    webDriver = WebDriverFactory.webDriver(javascriptEnabled = true)
-  )
-
   object WebBrowser {
 
-    private lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(global))
-    private lazy val testPort: Int = TestConfiguration.testPort
+    private[TestHarnessBase] lazy val fakeAppWithTestGlobal: FakeApplication = FakeApplication(withGlobal = Some(global))
+    private[TestHarnessBase] lazy val testPort: Int = TestConfiguration.testPort
   }
 
 }

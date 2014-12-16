@@ -13,7 +13,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
       go to ErrorPage
 
       currentUrl should equal(ErrorPage.url)
@@ -22,7 +22,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
 
   "startAgain button" should {
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForFirefox {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessChooseYourAddress().

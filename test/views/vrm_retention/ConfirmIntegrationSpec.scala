@@ -14,7 +14,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       cacheSetup()
@@ -24,7 +24,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(ConfirmPage.url)
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForFirefox {
       go to VehicleLookupPage
       val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
@@ -47,7 +47,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
   //  }
 
   "exit" should {
-    "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowser {
+    "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       cacheSetup()
@@ -60,7 +60,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
 
   "back button" should {
 
-    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowser {
+    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage

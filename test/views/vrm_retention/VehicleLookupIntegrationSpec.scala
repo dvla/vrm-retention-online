@@ -14,7 +14,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       go to VehicleLookupPage
@@ -22,7 +22,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(VehicleLookupPage.url)
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForFirefox {
       go to VehicleLookupPage
       val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
@@ -33,7 +33,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
   "findVehicleDetails button" should {
 
-    "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowser {
+    "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(isCurrentKeeper = true)
@@ -41,7 +41,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(ConfirmPage.url)
     }
 
-    "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowser {
+    "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(isCurrentKeeper = false)
@@ -49,7 +49,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(SetupBusinessDetailsPage.url)
     }
 
-    "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowser {
+    "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(referenceNumber = "")
@@ -57,7 +57,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when no registrationNumber is entered" taggedAs UiTag in new WebBrowser {
+    "display one validation error message when no registrationNumber is entered" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(registrationNumber = "")
@@ -65,7 +65,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when a registrationNumber is entered containing one character" taggedAs UiTag in new WebBrowser {
+    "display one validation error message when a registrationNumber is entered containing one character" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(registrationNumber = "a")
@@ -73,7 +73,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when a registrationNumber is entered containing special characters" taggedAs UiTag in new WebBrowser {
+    "display one validation error message when a registrationNumber is entered containing special characters" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(registrationNumber = "$^")
@@ -81,7 +81,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display two validation error messages when no vehicle details are entered but consent is given" taggedAs UiTag in new WebBrowser {
+    "display two validation error messages when no vehicle details are entered but consent is given" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(referenceNumber = "", registrationNumber = "")
@@ -89,7 +89,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(2)
     }
 
-    "display one validation error message when only a valid referenceNumber is entered and consent is given" taggedAs UiTag in new WebBrowser {
+    "display one validation error message when only a valid referenceNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(registrationNumber = "")
@@ -97,7 +97,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "display one validation error message when only a valid registrationNumber is entered and consent is given" taggedAs UiTag in new WebBrowser {
+    "display one validation error message when only a valid registrationNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       happyPath(referenceNumber = "")
@@ -106,7 +106,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     }
 
     // TODO need to revisit after store business consent check box change
-    "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowser {
+    "redirect to vrm locked when too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
 
       cacheSetup

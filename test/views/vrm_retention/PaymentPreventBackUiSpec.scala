@@ -12,7 +12,7 @@ import pages.vrm_retention.{BeforeYouStartPage, PaymentPreventBackPage, SuccessP
 final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
 
   "go to the page" should {
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
       go to PaymentPreventBackPage
 
       currentUrl should equal(PaymentPreventBackPage.url)
@@ -20,7 +20,7 @@ final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
   }
 
   "returnToSuccess" should {
-    "redirect to the PayemntSuccess page" taggedAs UiTag in new WebBrowser {
+    "redirect to the PayemntSuccess page" taggedAs UiTag in new WebBrowserForFirefox {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPreventBackPage
