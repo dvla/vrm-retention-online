@@ -195,14 +195,14 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   }
 
   def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
-                   paymentStatus: Option[String] =  None,
-                   maskedPAN: Option[String] =  MaskedPANValid,
-                   authCode: Option[String] =  AuthCodeValid,
-                   merchantId: Option[String] =  MerchantIdValid,
-                   paymentType: Option[String] =  PaymentTypeValid,
-                   cardType: Option[String] =  CardTypeValid,
-                   totalAmountPaid: Option[Long] =  TotalAmountPaidValid,
-                   rejectionCode: Option[String] =  None): Cookie = {
+                   paymentStatus: Option[String] = None,
+                   maskedPAN: Option[String] = MaskedPANValid,
+                   authCode: Option[String] = AuthCodeValid,
+                   merchantId: Option[String] = MerchantIdValid,
+                   paymentType: Option[String] = PaymentTypeValid,
+                   cardType: Option[String] = CardTypeValid,
+                   totalAmountPaid: Option[Long] = TotalAmountPaidValid,
+                   rejectionCode: Option[String] = None): Cookie = {
     val key = PaymentDetailsCacheKey
     val value = PaymentModel(trxRef = trxRef,
       paymentStatus = paymentStatus,

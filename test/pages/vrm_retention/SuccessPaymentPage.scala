@@ -1,11 +1,14 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
+import java.util.concurrent.TimeUnit
+
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import views.vrm_retention.SuccessPayment.NextId
 
-object SuccessPaymentPage extends Page with WebBrowserDSL {
+object SuccessPaymentPage extends Page {
 
   def address = s"$applicationContext/success-payment"
 
@@ -13,5 +16,7 @@ object SuccessPaymentPage extends Page with WebBrowserDSL {
 
   final override val title: String = "Summary Payment"
 
-  def next(implicit driver: WebDriver): Element = find(id(NextId)).get
+  def next(implicit driver: WebDriver) = find(id(NextId)).get
+
+  def waiting(implicit driver: WebDriver) = driver.manage().timeouts().implicitlyWait(1, TimeUnit.MINUTES)
 }

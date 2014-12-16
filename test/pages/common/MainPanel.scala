@@ -1,10 +1,10 @@
 package pages.common
 
-import helpers.webbrowser.{Element, WebBrowserDSL}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import views.vrm_retention.Main.BackId
 
-object MainPanel extends WebBrowserDSL {
+object MainPanel {
 
-  def back(implicit driver: WebDriver): Element = find(id(BackId)).get
+  def back(implicit driver: WebDriver) = find(id(BackId)).get
 }

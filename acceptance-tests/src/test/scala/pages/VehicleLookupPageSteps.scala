@@ -1,14 +1,15 @@
 package pages
 
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.VehicleLookupPage._
 
-class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
-    page.url should equal(url)
+    currentUrl should equal(url)
     this
   }
 
@@ -20,12 +21,12 @@ class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends Scala
   }
 
   def `keeper is acting` = {
-    org.scalatest.selenium.WebBrowser.click on currentKeeperYes
+    click on currentKeeperYes
     this
   }
 
   def `keeper is not acting` = {
-    org.scalatest.selenium.WebBrowser.click on currentKeeperNo
+    click on currentKeeperNo
     this
   }
 
@@ -35,8 +36,8 @@ class VehicleLookupPageSteps(implicit webDriver: WebBrowserDriver) extends Scala
   }
 
   def `has error messages` = {
-    page.source contains "Vehicle registration number - Must be valid format"
-    page.source contains "Document reference number - Document reference number must be an 11-digit number"
+    pageSource contains "Vehicle registration number - Must be valid format"
+    pageSource contains "Document reference number - Document reference number must be an 11-digit number"
     this
   }
 }

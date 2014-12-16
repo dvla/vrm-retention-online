@@ -4,12 +4,13 @@ import cucumber.api.scala.{EN, ScalaDsl}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.VrmLockedPage._
+import pages.vrm_retention.PaymentCallbackPage._
 
-class VrmLockedPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+class PaymentCallbackPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     currentUrl should equal(url)
+    pageSource contains title
     this
   }
 }

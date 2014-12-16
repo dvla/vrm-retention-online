@@ -1,18 +1,17 @@
 package pages.vrm_retention
 
-import helpers.webbrowser._
-import helpers.webbrowser.Page
-import views.vrm_retention.SetupBusinessDetails
-import SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
+import helpers.webbrowser.{Page, _}
 import org.openqa.selenium.WebDriver
-import pages.ApplicationContext.applicationContext
-import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid, TraderBusinessContactValid, TraderBusinessEmailValid, TraderBusinessNameValid}
 import org.scalatest.selenium.WebBrowser._
-import org.openqa.selenium.By
+import pages.ApplicationContext.applicationContext
+import views.vrm_retention.SetupBusinessDetails
+import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SubmitId}
+import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid, TraderBusinessContactValid, TraderBusinessEmailValid, TraderBusinessNameValid}
 
-object SetupBusinessDetailsPage extends Page with WebBrowserDSL {
+object SetupBusinessDetailsPage extends Page {
 
   def address = s"$applicationContext/setup-business-details"
+
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Provide your business details"
 

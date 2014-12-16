@@ -21,7 +21,7 @@ trait TestHarness {
                             val port: Int = 9003,
                             implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver
                              )
-      extends Around with Scope with WebBrowserDSL {
+      extends Around with Scope {
 
 
 

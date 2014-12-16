@@ -1,12 +1,12 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Page, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
-import views.vrm_retention.MicroserviceError
 import views.vrm_retention.MicroserviceError.{ExitId, TryAgainId}
 
-object MicroServiceErrorPage extends Page with WebBrowserDSL {
+object MicroServiceErrorPage extends Page {
 
   def address = s"$applicationContext/micro-service-error"
 

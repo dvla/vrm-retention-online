@@ -1,27 +1,28 @@
 package pages
 
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDSL, WebBrowserDriver}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.VehicleLookupFailurePage._
 
-class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with WebBrowserDSL with Matchers {
+class VehicleNotFoundPageSteps(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
-    page.url should equal(url)
+    currentUrl should equal(url)
     this
   }
 
   def `has 'not found' message` = {
-    page.source should include("This registration number cannot be retained")
-    page.source should not include "This registration number cannot be retained online"
-    page.source should not include "Download V317"
+    pageSource should include("This registration number cannot be retained")
+    pageSource should not include "This registration number cannot be retained online"
+    pageSource should not include "Download V317"
     this
   }
 
   def `has 'direct to paper' message` = {
-    page.source should include("This registration number cannot be retained online")
-    page.source should include("Download V317")
+    pageSource should include("This registration number cannot be retained online")
+    pageSource should include("Download V317")
     this
   }
 }

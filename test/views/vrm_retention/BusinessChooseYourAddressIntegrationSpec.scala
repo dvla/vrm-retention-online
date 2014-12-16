@@ -5,6 +5,7 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import helpers.webbrowser.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
 import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
 import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmBusinessPage, SetupBusinessDetailsPage, VehicleLookupPage}
@@ -20,27 +21,27 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.url should equal(BusinessChooseYourAddressPage.url)
+      currentUrl should equal(BusinessChooseYourAddressPage.url)
     }
 
     "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
       go to BusinessChooseYourAddressPage
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
 
     "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.source.contains("No addresses found for that postcode") should equal(false) // Does not contain message
+      pageSource.contains("No addresses found for that postcode") should equal(false) // Does not contain message
     }
 
     "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
-      page.source.contains(AddressLookupServiceConstants.PostcodeValid.toUpperCase) should equal(true)
+      pageSource.contains(AddressLookupServiceConstants.PostcodeValid.toUpperCase) should equal(true)
     }
 
     "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
@@ -49,13 +50,13 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       go to BusinessChooseYourAddressPage
 
       BusinessChooseYourAddressPage.getListCount should equal(4) // The first option is the "Please select..." and the other options are the addresses.
-      page.source should include(
+      pageSource should include(
         s"presentationProperty stub, 123, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
-      page.source should include(
+      pageSource should include(
         s"presentationProperty stub, 456, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
-      page.source should include(
+      pageSource should include(
         s"presentationProperty stub, 789, property stub, street stub, town stub, area stub, $PostcodeValid"
       )
     }
@@ -80,18 +81,18 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
       org.scalatest.selenium.WebBrowser.click on back
 
-      page.url should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(SetupBusinessDetailsPage.url)
     }
   }
 
   "select button" should {
-    
+
     "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
       go to BeforeYouStartPage
       cacheSetup()
       happyPath
 
-      page.url should equal(ConfirmBusinessPage.url)
+      currentUrl should equal(ConfirmBusinessPage.url)
     }
 
     "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {

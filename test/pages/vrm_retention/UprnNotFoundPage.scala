@@ -1,18 +1,19 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Element, Page, WebBrowserDSL, WebDriverFactory}
-import views.vrm_retention.UprnNotFound
-import UprnNotFound._
-import pages.ApplicationContext.applicationContext
+import helpers.webbrowser.{Page, WebDriverFactory}
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
+import pages.ApplicationContext.applicationContext
+import views.vrm_retention.UprnNotFound._
 
-object UprnNotFoundPage extends Page with WebBrowserDSL {
+object UprnNotFoundPage extends Page {
 
   def address = s"$applicationContext/uprn-not-found"
+
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Error confirming post code"
 
-  def setupTradeDetails(implicit driver: WebDriver): Element = find(id(SetupBusinessDetailsId)).get
+  def setupTradeDetails(implicit driver: WebDriver) = find(id(SetupBusinessDetailsId)).get
 
-  def manualAddress(implicit driver: WebDriver): Element = find(id(ManualAddressId)).get
+  def manualAddress(implicit driver: WebDriver) = find(id(ManualAddressId)).get
 }

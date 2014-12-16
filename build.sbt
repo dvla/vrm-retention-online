@@ -46,14 +46,14 @@ libraryDependencies ++= {
     "com.google.inject" % "guice" % "4.0-beta5" withSources() withJavadoc(),
     "com.google.guava" % "guava" % "18.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
-    "commons-codec" % "commons-codec" % "1.9" withSources() withJavadoc(),
+    "commons-codec" % "commons-codec" % "1.8" withSources() withJavadoc(),
     "org.apache.httpcomponents" % "httpclient" % "4.3.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.8-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "common-test" % "2.8-SNAPSHOT" % "test" withSources() withJavadoc(),
+    "dvla" %% "vehicles-presentation-common" % "2.9-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.9-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -112,6 +112,9 @@ testGatlingTask
 sandboxAsyncTask
 
 gatlingTask
+
+// Uncomment before releasing to github in order to make Travis work
+resolvers += "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 resolvers ++= projectResolvers
 
