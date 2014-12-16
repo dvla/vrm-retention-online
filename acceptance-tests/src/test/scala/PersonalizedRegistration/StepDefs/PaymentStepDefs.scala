@@ -5,8 +5,8 @@ import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
-import pages._
 import org.scalatest.selenium.WebBrowser._
+import pages._
 
 final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
@@ -18,7 +18,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   lazy val paymentCallBack = new PaymentCallbackPageSteps
 
   @Given("^I search and confirm the vehicle to be registered$")
-  def `i search and confirm the vehicle to be registered`() {
+  def `i search and confirm the vehicle to be registered`() = {
     vehicleLookup.
       `is displayed`.
       enter("A1", "11111111111", "AA11AA").
@@ -28,7 +28,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   }
 
   @When("^I enter payment details as \"(.*?)\",\"(.*?)\" and \"(.*?)\"$")
-  def `i enter payment details as <CardName>,<CardNumber> and <SecurityCode>`(cardName: String, cardNumber: String, cardExpiry: String) {
+  def `i enter payment details as <CardName>,<CardNumber> and <SecurityCode>`(cardName: String, cardNumber: String, cardExpiry: String) = {
     payment
       .`is displayed`
       .enter(cardName, cardNumber, cardExpiry)
@@ -36,18 +36,27 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   }
 
   @When("^proceed to the payment$")
-  def `proceed to the payment`() {
+  def `proceed to the payment`() = {
     payment.`paynow`
   }
 
   @Then("^following \"(.*?)\" should be displayed$")
-  def `following should be displayed`(Message: String) {
-    if (Message == "Payment Successful") {
-      pageTitle contains ("/success-payment")
-      //success.`is displayed`
+  def `following should be displayed`(Message: String) = {
+    pageSource contains (Message)
+    if (Message=="Payment Successful") {
+      pageTitle contains (Message)
     }
-    if (Message == "Payment Cancelled or Not Authorised") {
+    else if (Message == "Payment Cancelled or Not Authorised") {
       pageTitle contains ("/payment-not-authorised")
     }
+    else
+      fail(s"not the message we expected: $Message")
   }
+
+/** DO NOT REMOVE COMMENTED CODE **/
+//  @After()
+//  def teardown() ={
+//    webDriver.quit()
+//  }
+
 }
