@@ -18,7 +18,7 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
 
   abstract class WebBrowser(val app: FakeApplication = fakeAppWithTestGlobal,
                             val port: Int = testPort,
-                            implicit protected val webDriver: EventFiringWebDriver = WebDriverFactory.webDriver)
+                            implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
     extends Around with Scope {
 
     override def around[T: AsResult](t: => T): Result =
