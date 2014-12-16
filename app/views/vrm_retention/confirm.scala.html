@@ -18,18 +18,18 @@
         <div class="second-col">
             <h2>@Messages("vrm_retention_confirm.title")</h2>
             <dl>
-                <dt><strong>@Messages("vrm_retention_confirm.keeperLabel")</strong></dt>
-                <dt>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dt>
+                <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
+                <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </strong></dt>
             </dl>
             <dl>
-                <dt><strong>@Messages("vrm_retention_confirm.keeperAddressLabel")</strong></dt>
+                <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
                 <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
-                    @keeperAddressLine <br>
+                    <strong>@keeperAddressLine </strong><br>
                     }</dt>
             </dl>
             <dl>
-                <dt><strong>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</strong></dt>
-                <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
+                <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
+                <dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>
             </dl>
         </div>
         <div class="first-col">
@@ -74,15 +74,6 @@
                         '_showConstraints -> false,
                         'maxLength -> KeeperEmailMaxLength
                     )
-
-                @valtechInputText(confirmForm(KeeperEmailId), hintText = Some(Messages("vrm_assign_confirm.emailHint")),
-                args = Map(
-                    'optionalFieldKey -> true,
-                    '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),
-                    '_showConstraints -> false,
-                    'maxLength -> KeeperEmailMaxLength
-                )
-            )
 
                 )
 
