@@ -1,16 +1,6 @@
 package helpers.common
 
-import helpers.webbrowser.TestGlobal
-import play.api.test.FakeApplication
-
 object ProgressBar {
-  val fakeApplicationWithProgressBarFalse = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "false"))
-
-  val fakeApplicationWithProgressBarTrue = FakeApplication(
-    withGlobal = Some(TestGlobal),
-    additionalConfiguration = Map("progressBar.enabled" -> "true"))
 
   def progressStep(currentStep: Int): String = {
     val end = 6

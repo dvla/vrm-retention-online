@@ -3,8 +3,9 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
 import pages.vrm_retention.VehicleLookupPage.happyPath
 import pages.vrm_retention._
@@ -18,7 +19,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       go to VehicleLookupPage
 
-      page.url should equal(VehicleLookupPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -37,7 +38,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(isCurrentKeeper = true)
 
-      page.url should equal(ConfirmPage.url)
+      currentUrl should equal(ConfirmPage.url)
     }
 
     "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowser {
@@ -45,7 +46,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       happyPath(isCurrentKeeper = false)
 
-      page.url should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(SetupBusinessDetailsPage.url)
     }
 
     "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowser {
@@ -112,7 +113,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
 
       VehicleLookupPage.tryLockedVrm()
 
-      page.url should equal(VrmLockedPage.url)
+      currentUrl should equal(VrmLockedPage.url)
     }
   }
 

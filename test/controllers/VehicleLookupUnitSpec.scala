@@ -3,12 +3,12 @@ package controllers
 import audit.{AuditMessage, AuditService}
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
-import composition.{TestAuditService, TestBruteForcePreventionWebService, TestConfig, TestDateService}
+import composition.{TestAuditService, TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import helpers.{UnitSpec, WithApplication}
 import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.mockito.Mockito._
@@ -36,7 +36,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     DayValid.toInt,
     0,
     0)
-
 
   "present" should {
 
@@ -278,7 +277,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         r =>
           val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid,
             registrationNumber = RegistrationNumberValid,
-          transactionTimestamp = dateTime
+            transactionTimestamp = dateTime
           )
           verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = trackingId)
       }

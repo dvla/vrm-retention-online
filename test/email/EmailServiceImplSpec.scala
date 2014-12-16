@@ -1,6 +1,7 @@
 package email
 
-import helpers.{UnitSpec, WithApplication}
+import composition.WithApplication
+import helpers.UnitSpec
 import models._
 import org.apache.commons.mail.HtmlEmail
 import webserviceclients.fakes.AddressLookupServiceConstants._

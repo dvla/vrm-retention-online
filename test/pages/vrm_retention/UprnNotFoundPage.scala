@@ -1,12 +1,13 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Page, WebBrowserDSL, WebDriverFactory}
+import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
-import views.vrm_retention.UprnNotFound
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.UprnNotFound._
 
-object UprnNotFoundPage extends Page with WebBrowserDSL {
+object UprnNotFoundPage extends Page {
 
   def address = s"$applicationContext/uprn-not-found"
 

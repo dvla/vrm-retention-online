@@ -1,9 +1,10 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Page, WebDriverFactory}
+import helpers.webbrowser.Page
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.Payment._
 
 object PaymentPage extends Page {
@@ -28,7 +29,7 @@ object PaymentPage extends Page {
 
   def maximize(implicit driver: WebDriver) = driver.manage().window().maximize()
 
-  def theLogicaGroupLogo(implicit driver: WebDriver) = driver.findElement(By.id("CompanyLogo")).click()
+  def theLogicaGroupLogo(implicit driver: WebDriver) = driver.findElement(By.xpath("//*[@id=\"CompanyLogo\"]")).click()
 
   def expiryMonth() = ExpiryMonth
 

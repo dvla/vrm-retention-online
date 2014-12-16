@@ -1,12 +1,12 @@
 package pdf
 
-import composition.TestDateService
-import helpers.{UnitSpec, WithApplication}
+import composition.{TestDateService, WithApplication}
+import helpers.UnitSpec
+import models.EligibilityModel
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.{Seconds, Span}
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import models.EligibilityModel
 
 final class PdfServiceSpec extends UnitSpec {
 

@@ -1,7 +1,8 @@
 package webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import helpers.{UnitSpec, WireMockFixture, WithApplication}
+import composition.WithApplication
+import helpers.{UnitSpec, WireMockFixture}
 import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders

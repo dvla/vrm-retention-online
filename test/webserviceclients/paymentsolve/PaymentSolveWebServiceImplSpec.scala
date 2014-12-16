@@ -1,7 +1,8 @@
 package webserviceclients.paymentsolve
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import helpers.{UnitSpec, WireMockFixture, WithApplication}
+import composition.WithApplication
+import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config

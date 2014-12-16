@@ -1,26 +1,24 @@
 package controllers
 
-import composition.{TestDateService, TestAuditService}
+import audit.{AuditMessage, AuditService}
+import com.tzavellas.sse.guice.ScalaModule
+import composition.{TestAuditService, TestDateService, WithApplication}
+import helpers.UnitSpec
+import helpers.common.CookieHelper._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import helpers.{UnitSpec, WithApplication}
+import org.mockito.Mockito._
 import pages.vrm_retention.{LeaveFeedbackPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
-import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import utils.helpers.CookieFlagsRetention
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
-import helpers.common.CookieHelper._
-import com.tzavellas.sse.guice.ScalaModule
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
-import utils.helpers.CookieFlagsRetention
-import scala.concurrent.duration.DurationInt
-import audit.{AuditMessage, AuditService}
-import org.mockito.Mockito._
-import scala.Some
-import uk.gov.dvla.auditing.Message
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import webserviceclients.fakes.AddressLookupServiceConstants._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
+import scala.concurrent.duration.DurationInt
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
 
@@ -69,7 +67,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),
         ("model", "Alfasud ti"),
-        ("keeperName","Mr David Jones"),
+        ("keeperName", "Mr David Jones"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
@@ -106,7 +104,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val result = confirmWithCookieFlags.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain (StoreBusinessDetailsCacheKey)
+        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
         cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
       }
     }
@@ -124,7 +122,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val result = confirmBusiness.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain (StoreBusinessDetailsCacheKey)
+        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
       }
     }
   }
@@ -149,7 +147,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     }
   }
 
-
   private def buildRequest(storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(
       StoreDetailsConsentId -> storeDetailsConsent.toString
@@ -171,9 +168,9 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   private def confirmWithCookieFlags = {
     testInjector(new TestAuditService,
       new ScalaModule() {
-      override def configure(): Unit = {
-        bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
-      }
-    }).getInstance(classOf[ConfirmBusiness])
+        override def configure(): Unit = {
+          bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
+        }
+      }).getInstance(classOf[ConfirmBusiness])
   }
 }

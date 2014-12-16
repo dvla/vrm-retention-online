@@ -3,8 +3,9 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.WebDriver
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.PaymentFailurePage.exit
 import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, RetainFailurePage}
 
@@ -19,7 +20,7 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to RetainFailurePage
 
-      page.url should equal(RetainFailurePage.url)
+      currentUrl should equal(RetainFailurePage.url)
     }
   }
 
@@ -33,7 +34,7 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on exit
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 

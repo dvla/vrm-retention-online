@@ -3,8 +3,9 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention._
 import views.vrm_retention.RelatedCacheKeys.{BusinessDetailsSet, RetainSet}
 
@@ -17,7 +18,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
       go to PaymentPage
 
-      page.url should equal(PaymentPage.url)
+      currentUrl should equal(PaymentPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -34,7 +35,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
       go to PaymentPage
 
-      page.url should equal(PaymentPreventBackPage.url)
+      currentUrl should equal(PaymentPreventBackPage.url)
     }
   }
 
@@ -49,7 +50,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
       org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
 
     "remove RetainSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowser {

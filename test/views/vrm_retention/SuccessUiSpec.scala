@@ -3,7 +3,7 @@ package views.vrm_retention
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
@@ -19,7 +19,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to SuccessPage
 
-      page.url should equal(SuccessPage.url)
+      currentUrl should equal(SuccessPage.url)
     }
   }
 
@@ -31,7 +31,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       go to SuccessPage
       click on finish
 
-      page.url should equal(LeaveFeedbackPage.url)
+      currentUrl should equal(LeaveFeedbackPage.url)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
@@ -54,7 +54,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
 
       click on back
 
-      page.url should equal(SuccessPaymentPage.url)
+      currentUrl should equal(SuccessPaymentPage.url)
     }
   }
 

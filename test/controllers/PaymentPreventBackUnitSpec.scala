@@ -1,9 +1,9 @@
 package controllers
 
-import composition.{TestAuditService, TestConfig}
+import composition.{TestAuditService, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
+import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention.SuccessPaymentPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

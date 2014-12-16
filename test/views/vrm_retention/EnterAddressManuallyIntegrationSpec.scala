@@ -4,7 +4,7 @@ import helpers.UiSpec
 import helpers.common.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
@@ -22,25 +22,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.url should equal(EnterAddressManuallyPage.url)
-    }
-
-    "display the progress of the page when progressBar is set to true" taggedAs UiTag in new ProgressBarTrue {
-      go to BeforeYouStartPage
-      cacheSetup()
-
-      go to EnterAddressManuallyPage
-
-      page.source.contains(progressStep(3)) should equal(true)
-    }
-
-    "not display the progress of the page when progressBar is set to false" taggedAs UiTag in new ProgressBarFalse {
-      go to BeforeYouStartPage
-      cacheSetup()
-
-      go to EnterAddressManuallyPage
-
-      page.source.contains(progressStep(3)) should equal(false)
+      currentUrl should equal(EnterAddressManuallyPage.url)
     }
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
@@ -60,7 +42,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       go to EnterAddressManuallyPage
 
-      page.source should not contain "addressAndPostcode"
+      pageSource should not contain "addressAndPostcode"
     }
   }
 
@@ -72,7 +54,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPath()
 
-      page.url should equal(ConfirmBusinessPage.url)
+      currentUrl should equal(ConfirmBusinessPage.url)
     }
 
     "accept when only mandatory fields only are input" taggedAs UiTag in new WebBrowser {
@@ -81,7 +63,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
 
       happyPathMandatoryFieldsOnly()
 
-      page.url should equal(ConfirmBusinessPage.url)
+      currentUrl should equal(ConfirmBusinessPage.url)
     }
 
     "display validation error messages when no details are entered" taggedAs UiTag in new WebBrowser {
@@ -103,7 +85,7 @@ final class EnterAddressManuallyIntegrationSpec extends UiSpec with TestHarness 
       go to EnterAddressManuallyPage
       click on back
 
-      page.url should equal(BusinessChooseYourAddressPage.url)
+      currentUrl should equal(BusinessChooseYourAddressPage.url)
     }
   }
 

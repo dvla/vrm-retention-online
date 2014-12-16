@@ -1,9 +1,10 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Page, WebDriverFactory}
+import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{linkText, _}
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId}
 
 object VehicleLookupFailurePage extends Page {

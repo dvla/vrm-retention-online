@@ -1,15 +1,17 @@
 package common
 
+import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.{WebBrowserDriver}
+import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{TestConfiguration, WebBrowserDriver}
 import org.scalatest.Matchers
-import org.scalatest.selenium.WebBrowser.cookie
+import org.scalatest.selenium.WebBrowser.{cookie, _}
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
-import org.scalatest.selenium.WebBrowser._
 
-class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
 
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps
@@ -20,6 +22,13 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
 
   def `start the PR service` = {
+    import com.typesafe.config.ConfigFactory
+    val conf = ConfigFactory.load()
+    val testEnvValue = conf.getString("test.env")
+    val testUrlKey = s"test.url"
+    val testUrlValue = conf.getString(s"$testUrlKey.$testEnvValue")
+    sys.props += ((testUrlKey, testUrlValue))
+
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`.
       `click 'Start now' button`

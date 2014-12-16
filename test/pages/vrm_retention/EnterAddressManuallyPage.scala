@@ -1,10 +1,11 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Page, WebDriverFactory}
+import helpers.webbrowser.Page
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_retention.EnterAddressManually.NextId
 import views.vrm_retention.Main.BackId

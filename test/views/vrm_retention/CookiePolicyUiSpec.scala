@@ -2,7 +2,8 @@ package views.vrm_retention
 
 import helpers.UiSpec
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
+import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.CookiePolicyPage
 
 final class CookiePolicyUiSpec extends UiSpec with TestHarness {
@@ -12,7 +13,7 @@ final class CookiePolicyUiSpec extends UiSpec with TestHarness {
     "display the page" taggedAs UiTag in new WebBrowser {
       go to CookiePolicyPage
 
-      page.url should equal(CookiePolicyPage.url)
+      currentUrl should equal(CookiePolicyPage.url)
     }
   }
 }
