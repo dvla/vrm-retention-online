@@ -2,16 +2,14 @@ package common
 
 import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
-import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{TestConfiguration, WebBrowserDriver}
+import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser.{cookie, _}
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
-class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
+class CommonStepDefs(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers with TestHarness {
 
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps

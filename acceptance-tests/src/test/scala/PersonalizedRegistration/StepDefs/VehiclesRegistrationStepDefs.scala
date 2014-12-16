@@ -3,12 +3,14 @@ package PersonalizedRegistration.StepDefs
 import _root_.common._
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import pages._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserFirefoxDriver
 
-final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+final class VehiclesRegistrationStepDefs extends ScalaDsl with EN with Matchers {
 
+  private implicit val webDriver: EventFiringWebDriver = new WebBrowserFirefoxDriver
   lazy val user = new CommonStepDefs
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps

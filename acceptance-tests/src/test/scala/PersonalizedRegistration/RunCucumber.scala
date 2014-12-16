@@ -8,7 +8,7 @@ import org.junit.runner.RunWith
 @CucumberOptions(
   features = Array("acceptance-tests/src/test/resources/PersonalizedRegistration/"),
   glue = Array("PersonalizedRegistration.StepDefs"),
-  plugin = Array("pretty","html:target/cucumber-report"),
+  plugin = Array("pretty", "html:target/cucumber-report"),
   tags = Array("~@WIP")
 )
 class RunCucumber

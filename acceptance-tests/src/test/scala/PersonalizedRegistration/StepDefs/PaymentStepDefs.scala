@@ -3,13 +3,15 @@ package PersonalizedRegistration.StepDefs
 import _root_.common.CommonStepDefs
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser._
 import pages._
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserFirefoxDriver
 
-final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+final class PaymentStepDefs extends ScalaDsl with EN with Matchers {
 
+  private implicit val webDriver: EventFiringWebDriver = new WebBrowserFirefoxDriver
   lazy val user = new CommonStepDefs
   lazy val vehicleLookup = new VehicleLookupPageSteps
   lazy val payment = new PaymentPageSteps
@@ -43,7 +45,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   @Then("^following \"(.*?)\" should be displayed$")
   def `following should be displayed`(Message: String) = {
     pageSource contains (Message)
-    if (Message=="Payment Successful") {
+    if (Message == "Payment Successful") {
       pageTitle contains (Message)
     }
     else if (Message == "Payment Cancelled or Not Authorised") {
@@ -53,10 +55,9 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
       fail(s"not the message we expected: $Message")
   }
 
-/** DO NOT REMOVE COMMENTED CODE **/
-//  @After()
-//  def teardown() ={
-//    webDriver.quit()
-//  }
-
+  /** DO NOT REMOVE COMMENTED CODE **/
+  //  @After()
+  //  def teardown() ={
+  //    webDriver.quit()
+  //  }
 }
