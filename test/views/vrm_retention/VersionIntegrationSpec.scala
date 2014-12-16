@@ -1,9 +1,10 @@
 package views.vrm_retention
 
 import helpers.UiSpec
-import helpers.webbrowser.{TestHarness, WebDriverFactory}
+import composition.TestHarness
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 import scala.io.Source.fromInputStream
 

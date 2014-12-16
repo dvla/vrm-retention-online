@@ -1,9 +1,10 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Page, WebDriverFactory}
+import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, SubmitId, UserType_Business, UserType_Keeper, VehicleRegistrationNumberId}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperPostcodeValidForMicroService, ReferenceNumberValid, RegistrationNumberValid}

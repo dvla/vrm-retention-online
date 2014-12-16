@@ -11,7 +11,7 @@ class HealthCheckUnitSpec extends UnitSpec {
 
     "GET request should return 200" in {
       val result = new HealthCheck().respond(FakeRequest("GET", "/healthcheck"))
-      whenReady(result) (_.header.status should equal(OK))
+      whenReady(result)(_.header.status should equal(OK))
     }
   }
 }

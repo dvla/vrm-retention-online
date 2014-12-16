@@ -1,21 +1,18 @@
 package controllers
 
-import composition.{TestDateService, TestAuditService}
+import audit.{AuditMessage, AuditService}
+import composition.{TestAuditService, TestDateService, WithApplication}
+import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito.verify
-import org.mockito.Matchers._
 import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK}
-import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
-import audit.{AuditMessage, AuditService}
-import uk.gov.dvla.auditing.Message
-import org.scalatest.mock.MockitoSugar
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 
 final class ConfirmUnitSpec extends UnitSpec {
 
@@ -72,7 +69,7 @@ final class ConfirmUnitSpec extends UnitSpec {
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),
         ("model", "Alfasud ti"),
-        ("keeperName","Mr David Jones"),
+        ("keeperName", "Mr David Jones"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),

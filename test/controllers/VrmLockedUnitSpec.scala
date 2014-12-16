@@ -1,17 +1,14 @@
 package controllers
 
-import com.tzavellas.sse.guice.ScalaModule
-import composition.TestConfig
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
+import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{bruteForcePreventionViewModel, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
-import helpers.{UnitSpec, WithApplication}
-import org.mockito.Mockito.when
 import pages.vrm_retention.LeaveFeedbackPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config
 
 final class VrmLockedUnitSpec extends UnitSpec {
 

@@ -1,8 +1,9 @@
 package audit
 
 import composition.TestConfig
-import helpers.{UnitSpec, WithApplication}
+import helpers.UnitSpec
 import uk.gov.dvla.auditing.Message
+import composition.WithApplication
 
 class AuditServiceImplSpec extends UnitSpec {
 

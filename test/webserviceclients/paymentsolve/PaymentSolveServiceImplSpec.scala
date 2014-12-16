@@ -1,8 +1,8 @@
 package webserviceclients.paymentsolve
 
-import composition.TestConfig
+import composition.{TestConfig, WithApplication}
 import composition.paymentsolvewebservice.PaymentCallFails
-import helpers.{UnitSpec, WithApplication}
+import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
 
 import scala.concurrent.Await

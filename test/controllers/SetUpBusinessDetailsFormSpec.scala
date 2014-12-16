@@ -1,11 +1,10 @@
 package controllers
 
 import helpers.UnitSpec
-import play.api.data.Form
-import webserviceclients.fakes.AddressLookupServiceConstants._
 import models.SetupBusinessDetailsFormModel
-import views.vrm_retention.SetupBusinessDetails
+import play.api.data.Form
 import views.vrm_retention.SetupBusinessDetails._
+import webserviceclients.fakes.AddressLookupServiceConstants._
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 

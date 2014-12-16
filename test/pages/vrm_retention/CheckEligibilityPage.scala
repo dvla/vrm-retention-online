@@ -2,6 +2,7 @@ package pages.vrm_retention
 
 import helpers.webbrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 object CheckEligibilityPage extends Page {
 

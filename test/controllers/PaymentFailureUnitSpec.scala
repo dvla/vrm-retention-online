@@ -1,8 +1,9 @@
 package controllers
 
+import composition.WithApplication
+import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{VehicleLookupPage, BeforeYouStartPage}
+import pages.vrm_retention.{BeforeYouStartPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 

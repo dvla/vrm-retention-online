@@ -1,22 +1,23 @@
 package controllers
 
-import composition.{TestAuditService, TestConfig}
+import composition.{TestAuditService, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import helpers.{UnitSpec, WithApplication}
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import models.{BusinessDetailsModel, EnterAddressManuallyModel}
-import pages.vrm_retention.{ConfirmBusinessPage, ConfirmPage, SetupBusinessDetailsPage}
+import pages.vrm_retention.{ConfirmBusinessPage, SetupBusinessDetailsPage}
 import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
-import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.{EnterAddressManuallyCacheKey, PostcodeId}
+import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+
 import scala.concurrent.Future
 
 final class EnterAddressManuallyUnitSpec extends UnitSpec {

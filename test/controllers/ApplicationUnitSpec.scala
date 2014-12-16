@@ -1,6 +1,7 @@
 package controllers
 
-import helpers.{UnitSpec, WithApplication}
+import composition.WithApplication
+import helpers.UnitSpec
 import pages.vrm_retention.BeforeYouStartPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

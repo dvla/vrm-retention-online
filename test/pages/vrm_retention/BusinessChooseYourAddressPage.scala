@@ -1,10 +1,11 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.{Page, WebDriverFactory}
+import helpers.webbrowser.Page
 import org.openqa.selenium.support.ui.Select
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, EnterAddressManuallyButtonId, SelectId}
 import views.vrm_retention.Main.BackId
 

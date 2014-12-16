@@ -1,7 +1,7 @@
 package composition
 
 import controllers.routes
-import helpers.{UnitSpec, WithApplication}
+import helpers.UnitSpec
 import play.api.mvc.Request
 import play.api.test.FakeRequest
 import play.api.test.Helpers.REFERER

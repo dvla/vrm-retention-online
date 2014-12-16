@@ -1,27 +1,25 @@
 package controllers
 
+import audit.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestDateService, TestAuditService, TestConfig, TestOrdnanceSurvey}
+import composition.{TestAuditService, TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
 import controllers.Common.PrototypeHtml
+import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import helpers.{UnitSpec, WithApplication}
+import org.mockito.Mockito._
 import pages.vrm_retention.{ConfirmBusinessPage, SetupBusinessDetailsPage, UprnNotFoundPage}
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
-import audit.{AuditMessage, AuditService}
-import org.mockito.Mockito._
-import scala.Some
-import uk.gov.dvla.auditing.Message
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -159,7 +157,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),
         ("model", "Alfasud ti"),
-        ("keeperName","Mr David Jones"),
+        ("keeperName", "Mr David Jones"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),

@@ -1,7 +1,8 @@
 package controllers
 
+import composition.WithApplication
+import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import helpers.{UnitSpec, WithApplication}
 import pages.vrm_retention.LeaveFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, defaultAwaitTimeout, status}

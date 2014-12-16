@@ -1,11 +1,11 @@
 package controllers
 
 import helpers.UnitSpec
-import play.api.data.Form
-import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
-import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import models.EnterAddressManuallyModel
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+import play.api.data.Form
+import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
+import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
 

@@ -1,11 +1,11 @@
 package controllers
 
-import composition.TestAuditService
+import composition.{TestAuditService, WithApplication}
 import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.paymentsolvewebservice._
+import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import helpers.{UnitSpec, WithApplication}
 import org.apache.commons.codec.binary.Base64
 import org.mockito.Mockito.verify
 import pages.vrm_retention._

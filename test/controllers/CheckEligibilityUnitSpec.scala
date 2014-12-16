@@ -3,10 +3,10 @@ package controllers
 import audit.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.eligibility._
-import composition.{TestAuditService, TestDateService}
+import composition.{TestAuditService, TestDateService, WithApplication}
+import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import helpers.{UnitSpec, WithApplication}
 import org.mockito.Mockito._
 import pages.vrm_retention.{ConfirmPage, ErrorPage, MicroServiceErrorPage, SetupBusinessDetailsPage, VehicleLookupFailurePage}
 import play.api.test.FakeRequest

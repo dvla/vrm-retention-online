@@ -1,11 +1,11 @@
 package controllers
 
-import composition.TestConfig
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{setupBusinessDetails, vehicleAndKeeperDetailsModel}
-import helpers.{UnitSpec, WithApplication}
 import models.SetupBusinessDetailsFormModel
 import pages.vrm_retention.{BusinessChooseYourAddressPage, VehicleLookupPage}
 import play.api.test.FakeRequest

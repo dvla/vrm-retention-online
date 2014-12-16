@@ -2,7 +2,7 @@ package views.vrm_retention
 
 import helpers.UiSpec
 import helpers.tags.UiTag
-import helpers.webbrowser.TestHarness
+import composition.TestHarness
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.CookiePolicyPage
 

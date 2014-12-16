@@ -1,9 +1,9 @@
 package controllers
 
-import composition.TestConfig
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
-import helpers.{UnitSpec, WithApplication}
-import pages.vrm_retention.{BeforeYouStartPage, VehicleLookupPage}
+import helpers.UnitSpec
+import pages.vrm_retention.BeforeYouStartPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout, status}
 

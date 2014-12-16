@@ -1,10 +1,10 @@
 package controllers
 
 import helpers.UnitSpec
-import play.api.data.Form
-import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import models.BusinessChooseYourAddressFormModel
+import play.api.data.Form
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 
 final class BusinessChooseYourAddressFormSpec extends UnitSpec {
 
