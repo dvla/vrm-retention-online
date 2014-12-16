@@ -1,14 +1,16 @@
 package common
 
+import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{TestConfiguration, WebBrowserDriver}
 import org.scalatest.Matchers
 import org.scalatest.selenium.WebBrowser.{cookie, _}
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
-class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
 
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps
@@ -19,6 +21,11 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
 
   def `start the PR service` = {
+    val TestUrl = "test.url"
+    val value = s"http://localhost:9000/"
+    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
+    sys.props += ((TestUrl, value))
+
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`.
       `click 'Start now' button`
