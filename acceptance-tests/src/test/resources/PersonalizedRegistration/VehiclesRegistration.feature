@@ -3,7 +3,7 @@ Feature: Vehicles Personalized Registration
   As a User I want to Personalized my vehicle
   so that I can use my vehicle with law
 
-@HappyPath
+  @HappyPath
   Scenario Outline: Happy Path - Keeper Acting
     Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is eligible for retention
@@ -22,7 +22,7 @@ Feature: Vehicles Personalized Registration
     | vehicle-registration-number | document-reference-number | postcode  |
     | "1XCG456"                   | "abgdrt12345"             | "SA000AS" |
 
- @UnHappyPath
+  @UnHappyPath
   Scenario Outline: Vehicle Not Found
     Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record

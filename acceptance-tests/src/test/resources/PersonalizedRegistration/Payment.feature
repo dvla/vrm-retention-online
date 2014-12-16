@@ -1,7 +1,7 @@
 Feature: Payment for the Vehicle Registration
 
   Scenario Outline: Validate Payment functionality with valid and invalid card numbers
-    Given that I have started the PR Retention Service
+    Given that I have started the PR Retention Service for payment
     And I search and confirm the vehicle to be registered
     When I enter payment details as <CardName>,<CardNumber> and <SecurityCode>
     And proceed to the payment

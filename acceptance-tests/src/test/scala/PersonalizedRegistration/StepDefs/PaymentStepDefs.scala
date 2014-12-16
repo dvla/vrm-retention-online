@@ -26,6 +26,11 @@ final class PaymentStepDefs extends ScalaDsl with EN with Matchers {
   lazy val paymentFailure = new PaymentFailurePageSteps
   lazy val paymentCallBack = new PaymentCallbackPageSteps
 
+  @Given("^that I have started the PR Retention Service for payment$")
+  def `that I have started the PR Retention Service for payment`() {
+    user.`start the PR service`
+  }
+
   @Given("^I search and confirm the vehicle to be registered$")
   def `i search and confirm the vehicle to be registered`() = {
     vehicleLookup.
