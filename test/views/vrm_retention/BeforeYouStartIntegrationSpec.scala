@@ -14,13 +14,13 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       currentUrl should equal(BeforeYouStartPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForFirefox {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessChooseYourAddress().
@@ -36,13 +36,13 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
     }
 
-    "display the global cookie message when cookie 'seen_cookie_message' does not exist" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the global cookie message when cookie 'seen_cookie_message' does not exist" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       pageSource should include("Find out more about cookies")
     }
 
-    "display a link to the cookie policy" taggedAs UiTag in new WebBrowserForFirefox {
+    "display a link to the cookie policy" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       footerItem(index = 0).findElement(By.tagName("a")).getAttribute("href") should include(routes.CookiePolicy.present().toString())
@@ -51,7 +51,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "startNow button" should {
 
-    "go to next page" taggedAs UiTag in new WebBrowserForFirefox {
+    "go to next page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       org.scalatest.selenium.WebBrowser.click on BeforeYouStartPage.startNow

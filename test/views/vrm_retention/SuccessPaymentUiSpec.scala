@@ -13,7 +13,7 @@ final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPaymentPage
@@ -24,7 +24,7 @@ final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
 
   "next" should {
 
-    "redirect to Success page" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to Success page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPaymentPage

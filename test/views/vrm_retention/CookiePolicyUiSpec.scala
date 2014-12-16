@@ -10,7 +10,7 @@ final class CookiePolicyUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to CookiePolicyPage
 
       currentUrl should equal(CookiePolicyPage.url)

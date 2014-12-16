@@ -1,7 +1,6 @@
 package helpers.webbrowser
 
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.specs2.execute.{AsResult, Result}
 import org.specs2.mutable.Around
 import org.specs2.specification.Scope
@@ -16,9 +15,9 @@ trait TestHarnessBase extends ProgressBar with GlobalCreator {
 
   import WebBrowser._
 
-  abstract class WebBrowserForFirefox(val app: FakeApplication = fakeAppWithTestGlobal,
-                            val port: Int = testPort,
-                            implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
+  abstract class WebBrowserForSelenium(val app: FakeApplication = fakeAppWithTestGlobal,
+                                      val port: Int = testPort,
+                                      implicit protected val webDriver: WebDriver = WebDriverFactory.webDriver)
     extends Around with Scope {
 
     override def around[T: AsResult](t: => T): Result =

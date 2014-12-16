@@ -14,7 +14,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -26,7 +26,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "confirm button" should {
 
-    "redirect to Confirm business page" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to Confirm business page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage
@@ -39,7 +39,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "exit button" should {
 
-    "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForFirefox {
+    "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage
@@ -52,7 +52,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "back button" should {
 
-    "redirect to BusinessChooseYourAddress page when we didn't enter address manually" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to BusinessChooseYourAddress page when we didn't enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().
         businessChooseYourAddress() // EnterAddressManually cookie does not exist therefore we did not come via the EnterAddressManually Page
@@ -63,7 +63,7 @@ final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(BusinessChooseYourAddressPage.url)
     }
 
-    "redirect to EnterAddressManually page when we did enter address manually" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to EnterAddressManually page when we did enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().
         enterAddressManually() // EnterAddressManually cookie exists therefore we came via the EnterAddressManually Page

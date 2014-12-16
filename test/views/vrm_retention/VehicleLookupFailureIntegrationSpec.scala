@@ -13,7 +13,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
   "go to page" should {
 
-    "display the lookup unsuccessful page for a doc ref mismatch" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the lookup unsuccessful page for a doc ref mismatch" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDocRefMismatchSetup()
@@ -23,7 +23,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       pageTitle should equal(VehicleLookupFailurePage.title)
     }
 
-    "display the lookup unsuccessful page for a direct to paper failure" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the lookup unsuccessful page for a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDirectToPaperSetup()
@@ -33,7 +33,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
     }
 
-    "display the lookup unsuccessful page for a failure" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the lookup unsuccessful page for a failure" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheFailureSetup()
@@ -45,7 +45,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
   }
 
   "try again button" should {
-    "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDocRefMismatchSetup()
@@ -59,7 +59,7 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
   }
 
   "exit button" should {
-    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheDocRefMismatchSetup()

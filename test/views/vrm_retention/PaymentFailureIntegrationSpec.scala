@@ -13,7 +13,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the payment failure page for an invalid begin web payment request" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the payment failure page for an invalid begin web payment request" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidBeginRequestSetup()
@@ -25,7 +25,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "try again button" should {
-    "redirect to confirm page when button clicked" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to confirm page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidBeginRequestSetup()
@@ -39,7 +39,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "exit button" should {
-    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidBeginRequestSetup()

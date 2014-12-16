@@ -13,7 +13,7 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the retain failure page for an invalid retain request" taggedAs UiTag in new WebBrowserForFirefox {
+    "display the retain failure page for an invalid retain request" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidRetainRequestSetup()
@@ -25,7 +25,7 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "exit button" should {
-    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForFirefox {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidRetainRequestSetup()
