@@ -6,11 +6,18 @@ import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import pages._
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserFirefoxDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{WebBrowserDriver, WebBrowserFirefoxDriver}
 
 final class VehiclesRegistrationStepDefs extends ScalaDsl with EN with Matchers {
 
-  private implicit val webDriver: EventFiringWebDriver = new WebBrowserFirefoxDriver
+  private implicit val webDriver: EventFiringWebDriver = {
+    import com.typesafe.config.ConfigFactory
+    val conf = ConfigFactory.load()
+    conf.getString("browser.type") match {
+      case "firefox" => new WebBrowserFirefoxDriver
+      case _ => new WebBrowserDriver
+    }
+  }
   lazy val user = new CommonStepDefs
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps
