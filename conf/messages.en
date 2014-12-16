@@ -3,7 +3,7 @@
 ##
 
 #main
-#main.banner = Sell a vehicle into the motor trade
+#main.banner = Take a Registration Number off a Vehicle
 main.back = Back
 main.banner.help = Help
 main.banner.feedback = your feedback
