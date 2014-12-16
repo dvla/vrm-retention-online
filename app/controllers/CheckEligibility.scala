@@ -66,8 +66,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
             replacementVrm = Some(replacementVRM)))
           routes.Confirm.present()
         } else {
-          if (storeBusinessDetails) {
-            val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+          val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+          if (storeBusinessDetails && businessDetailsModel.isDefined) {
             auditService.send(AuditMessage.from(
               pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
