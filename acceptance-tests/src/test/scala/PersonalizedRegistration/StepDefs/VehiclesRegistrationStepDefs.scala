@@ -3,7 +3,7 @@ package PersonalizedRegistration.StepDefs
 import _root_.common._
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import org.scalatest.Matchers
 import pages._
 
