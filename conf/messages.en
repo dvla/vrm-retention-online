@@ -404,7 +404,7 @@ vrm_retention_payment.callback.message-when-javascript-disabled = The payment pr
 
 # Vehicle details partial view
 vrm_retention_vehicle_callback.title = Vehicle details
-vrm_retention_vehicle_callback.regNumLabel = Registration number
+vrm_retention_vehicle_callback.regNumLabel = Registration number:
 vrm_retention_vehicle_callback.makeLabel = Make:
 vrm_retention_vehicle_callback.modelLabel = Model:
 

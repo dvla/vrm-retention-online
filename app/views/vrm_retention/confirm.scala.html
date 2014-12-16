@@ -24,7 +24,7 @@
             <dl>
                 <dt><strong>@Messages("vrm_retention_confirm.keeperAddressLabel")</strong></dt>
                 <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
-                    @keeperAddressLine<br>
+                    @keeperAddressLine <br>
                     }</dt>
             </dl>
             <dl>
@@ -53,33 +53,37 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-              <details>
-                <summary><span class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
-                <div class="panel-indent">
-                  <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
-                  <p>@Messages("vrm_retention_confirm.emailWarnp2")</p>
-                  <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
-                    <p>@Messages("vrm_retention_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_retention_confirm.emailWarnp4link")</a></p>
-                </div>
-              </details>
+                <details>
+                    <summary><span class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
+                    <div class="panel-indent">
+                        <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
+                        <p>@Messages("vrm_retention_confirm.emailWarnp2")</p>
+                        <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
+                        <p>@Messages("vrm_retention_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_retention_confirm.emailWarnp4link")</a></p>
+                    </div>
+                </details>
                 <br/>
-                <p><strong>@Messages("vrm_retention_confirm.emailAddressLabel")</strong>
-                    <br />
-                    @if(confirmViewModel.userType.equals("Keeper")) {
-                        <span class="form-hint form-hint-email">@Messages("vrm_retention_confirm.emailKeeper")</span>
-                    }
-                    @if(!confirmViewModel.userType.equals("Keeper")) {
-                        <span class="form-hint form-hint-email">@Messages("vrm_retention_confirm.emailTrade")</span>
-                    }
-                   </p>
-                    @valtechInputText(confirmForm(KeeperEmailId),
+
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    hintText = {
+                        if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
+                    },
                     args = Map(
-                        'NO_OPTIONAL_LABEL -> true,
-                        '_label -> "",
-                        'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
+                        'optionalFieldKey -> true,
+                        '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
                         '_showConstraints -> false,
                         'maxLength -> KeeperEmailMaxLength
                     )
+
+                @valtechInputText(confirmForm(KeeperEmailId), hintText = Some(Messages("vrm_assign_confirm.emailHint")),
+                args = Map(
+                    'optionalFieldKey -> true,
+                    '_label -> Messages("vrm_assign_confirm.emailAddressLabel"),
+                    '_showConstraints -> false,
+                    'maxLength -> KeeperEmailMaxLength
+                )
+            )
+
                 )
 
             </div>
