@@ -32,7 +32,7 @@ final class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
 
       go to RetainFailurePage
 
-      org.scalatest.selenium.WebBrowser.click on exit
+      click on exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
     }

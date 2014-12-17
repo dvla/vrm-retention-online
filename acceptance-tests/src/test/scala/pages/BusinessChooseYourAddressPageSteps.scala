@@ -15,7 +15,7 @@ class BusinessChooseYourAddressPageSteps(implicit webDriver: EventFiringWebDrive
       currentUrl should equal(url)
       pageTitle should equal(title)
       BusinessChooseYourAddressPage.chooseAddress.value = "0"
-      org.scalatest.selenium.WebBrowser.click on BusinessChooseYourAddressPage.select
+      click on BusinessChooseYourAddressPage.select
     }
     this
   }

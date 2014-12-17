@@ -38,8 +38,8 @@ object VehicleLookupPage extends Page {
     documentReferenceNumber.value = referenceNumber
     vehicleRegistrationNumber.value = registrationNumber
     keeperPostcode.value = postcode
-    if (isCurrentKeeper) org.scalatest.selenium.WebBrowser.click on currentKeeperYes
-    else org.scalatest.selenium.WebBrowser.click on currentKeeperNo
+    if (isCurrentKeeper) click on currentKeeperYes
+    else click on currentKeeperNo
     click on findVehicleDetails
   }
 

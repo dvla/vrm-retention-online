@@ -22,7 +22,7 @@ final class LeaveFeedbackIntegrationSpec extends UiSpec with TestHarness {
     "go to before you start page" taggedAs UiTag in new WebBrowserForSelenium {
       go to LeaveFeedbackPage
 
-      org.scalatest.selenium.WebBrowser.click on LeaveFeedbackPage.exit
+      click on LeaveFeedbackPage.exit
 
       currentUrl should equal(BeforeYouStartPage.url)
     }

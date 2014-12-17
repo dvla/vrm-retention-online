@@ -54,7 +54,7 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     "go to next page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      org.scalatest.selenium.WebBrowser.click on BeforeYouStartPage.startNow
+      click on BeforeYouStartPage.startNow
 
       currentUrl should equal(VehicleLookupPage.url)
     }

@@ -25,7 +25,7 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver) extends ScalaDs
   }
 
   def `paynow` = {
-    org.scalatest.selenium.WebBrowser.click on payNow
+    click on payNow
 
     //DO NOT REMOVE COMMENTED CODE
     //     maximize

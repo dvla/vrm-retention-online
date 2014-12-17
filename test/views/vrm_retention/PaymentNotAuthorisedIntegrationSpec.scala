@@ -47,7 +47,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
       go to PaymentNotAuthorisedPage
 
-      org.scalatest.selenium.WebBrowser.click on exit
+      click on exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
     }

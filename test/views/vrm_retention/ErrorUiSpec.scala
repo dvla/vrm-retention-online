@@ -33,7 +33,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to ErrorPage
-      org.scalatest.selenium.WebBrowser.click on startAgain
+      click on startAgain
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))

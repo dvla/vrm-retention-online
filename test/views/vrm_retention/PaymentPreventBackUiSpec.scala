@@ -24,7 +24,7 @@ final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPreventBackPage
-      org.scalatest.selenium.WebBrowser.click on returnToSuccess
+      click on returnToSuccess
 
       currentUrl should equal(SuccessPaymentPage.url)
     }
