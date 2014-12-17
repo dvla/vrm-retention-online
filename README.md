@@ -1,5 +1,3 @@
-Build status for master branch [![Build Status](https://travis-ci.org/dvla/vrm-retention-online.svg?branch=master)](https://travis-ci.org/dvla/vrm-retention-online)
-
 DVLA Vehicles Online
 ====================
 
