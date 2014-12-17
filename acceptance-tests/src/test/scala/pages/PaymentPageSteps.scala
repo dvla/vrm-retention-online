@@ -35,13 +35,13 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver) extends ScalaDs
     //    //theLogicaGroupLogo
     //    printf("The URL" + pageTitle)
 
-    //org.scalatest.selenium.WebBrowser.implicitlyWait(Span(2,Minutes))
+    //implicitlyWait(Span(2,Minutes))
     this
   }
 
   def `expiryDate` = {
-    org.scalatest.selenium.WebBrowser.singleSel(expiryMonth()).value = "08"
-    org.scalatest.selenium.WebBrowser.singleSel(expiryYear()).value = "2016"
+    singleSel(expiryMonth()).value = "08"
+    singleSel(expiryYear()).value = "2016"
     this
   }
 

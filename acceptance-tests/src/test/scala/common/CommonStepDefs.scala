@@ -4,7 +4,7 @@ import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.selenium.WebBrowser.{cookie, _}
+import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
