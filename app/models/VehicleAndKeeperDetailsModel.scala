@@ -39,19 +39,19 @@ object VehicleAndKeeperDetailsModel {
       model = vehicleAndKeeperDetailsDto.vehicleModel,
       title = {
         vehicleAndKeeperDetailsDto.keeperTitle match {
-          case Some(keeperTitle) => if (keeperTitle.toUpperCase().startsWith("M")) Some(keeperTitle.toUpperCase()) else None
+          case Some(keeperTitle) if keeperTitle.toUpperCase.startsWith("M") => Some(keeperTitle.toUpperCase)
           case None => None
         }
       },
       firstName = {
         vehicleAndKeeperDetailsDto.keeperFirstName match {
-          case Some(keeperFirstName) => Some(keeperFirstName.toUpperCase())
+          case Some(keeperFirstName) => Some(keeperFirstName.toUpperCase)
           case None => None
         }
       },
       lastName = {
         vehicleAndKeeperDetailsDto.keeperLastName match {
-          case Some(keeperLastName) => Some(keeperLastName.toUpperCase())
+          case Some(keeperLastName) => Some(keeperLastName.toUpperCase)
           case None => None
         }
       },
