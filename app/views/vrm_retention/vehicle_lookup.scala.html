@@ -55,11 +55,11 @@
 
                 <h3>@Messages("vrm_retention_vehiclelookup.label")</h3>
                 @listRadioGroup(field = vehicleAndKeeperLookupForm(KeeperConsentId),
+                    optionsWithHint = Seq(
+                        RadioWithHint(UserType_Business, Messages("vrm_retention_vehiclelookup.business"), ""),
+                        RadioWithHint(UserType_Keeper, Messages("vrm_retention_vehiclelookup.keeper"), "")
+                    ),
                     args = Map(
-                        'itemsWithHints -> Seq(
-                            RadioWithHint(UserType_Business, Messages("vrm_retention_vehiclelookup.business"), ""),
-                            RadioWithHint(UserType_Keeper, Messages("vrm_retention_vehiclelookup.keeper"), "")
-                        ),
                         '_label -> Messages("vrm_retention_vehiclelookup.hintlabel")
                     )
                 )
