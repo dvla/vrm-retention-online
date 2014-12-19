@@ -62,4 +62,6 @@ class Config {
   val rabbitmqUsername = getProperty("rabbitmq.username", "NOT FOUND")
   val rabbitmqPassword = getProperty("rabbitmq.password", "NOT FOUND")
   val rabbitmqVirtualHost = getProperty("rabbitmq.virtualHost", "NOT FOUND")
+
+  val sessionDomainForSharingCookies: String = getProperty("session-domain-for-sharing-cookies", "NOT FOUND")
 }
