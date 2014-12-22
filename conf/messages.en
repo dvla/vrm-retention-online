@@ -546,7 +546,7 @@ vrm_retention_success_payment.button = Next
 
 #Success page
 vrm_retention_success.title = Summary
-vrm_retention_success.subtitle = Take off a Registration Number complete for
+vrm_retention_success.subtitle = Take a Registration Number off a Vehicle complete for
 vrm_retention_success.replacementRegNumberLabel = Registration number
 vrm_retention_success.yourCert = Your Retention Certificate Number is:
 vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
@@ -560,7 +560,7 @@ vrm_retention_success.newPlateLink = Download eV948
 vrm_retention_success.noticePayment.h3 = Payment
 vrm_retention_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
 vrm_retention_success.noticePayment.desc1 = Description
-vrm_retention_success.noticePayment.desc2 = Take off a Registration Number
+vrm_retention_success.noticePayment.desc2 = Take a Registration Number off a Vehicle 
 
 vrm_retention_success.notice1.h3 = New vehicles
 vrm_retention_success.notice1.p1 = Now you have retained this registration number, you can use the Retention Certificate Number above to assign this number to a new vehicle in the AFRL system.
