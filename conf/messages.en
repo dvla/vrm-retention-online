@@ -546,7 +546,7 @@ vrm_retention_success_payment.button = Next
 
 #Success page
 vrm_retention_success.title = Summary
-vrm_retention_success.subtitle = Retention successful for
+vrm_retention_success.subtitle = Take off a Registration Number complete for
 vrm_retention_success.replacementRegNumberLabel = Registration number
 vrm_retention_success.yourCert = Your Retention Certificate Number is:
 vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
@@ -556,6 +556,11 @@ vrm_retention_success.retainConf-p2 = has now been retained. Put the following r
 vrm_retention_success.makingUp-p1 = Making up the number plate for the replacement registration number
 vrm_retention_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
 vrm_retention_success.newPlateLink = Download eV948
+
+vrm_retention_success.noticePayment.h3 = Payment
+vrm_retention_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
+vrm_retention_success.noticePayment.desc1 = Description
+vrm_retention_success.noticePayment.desc2 = Take off a Registration Number
 
 vrm_retention_success.notice1.h3 = New vehicles
 vrm_retention_success.notice1.p1 = Now you have retained this registration number, you can use the Retention Certificate Number above to assign this number to a new vehicle in the AFRL system.
@@ -596,7 +601,7 @@ vrm_retention_leave_feedback.feedback = leaving feedback
 vrm_retention_leave_feedback.p1=Please help us to improve this service by
 
 email.withoutHtml = Your email client does not support HTML messages.
-email.title = Retention successful for {0}
+email.title = Take off a Registration Number complete for {0}
 email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
 email.line2 = Your application to take a registration number off a vehicle
 email.line3 = Retention Certificate Number

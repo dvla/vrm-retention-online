@@ -96,12 +96,10 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
-//      Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
       Redirect(routes.Success.present())
     }.recover {
       case NonFatal(e) =>
         Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
-//        Ok(views.html.vrm_retention.success_payment(successViewModel = successViewModel, isKeeper = isKeeper))
         Redirect(routes.Success.present())
     }
   }
@@ -133,10 +131,6 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
           BadRequest("You are missing the cookies required to create a pdf")
         }
       }
-  }
-
-  def next = Action { implicit request =>
-    Redirect(routes.Success.present())
   }
 
   def emailStub = Action { implicit request =>

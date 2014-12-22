@@ -41,7 +41,7 @@ final class Success @Inject()(pdfService: PdfService,
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
             keeperEmailOpt, retainModel, transactionId)
 
-        Ok(views.html.vrm_retention.success(successViewModel))
+        Ok(views.html.vrm_retention.success(successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
         Redirect(routes.MicroServiceError.present())
     }
@@ -100,6 +100,6 @@ final class Success @Inject()(pdfService: PdfService,
       transactionId = "stub-transactionId",
       transactionTimestamp = "stub-transactionTimestamp"
     )
-    Ok(views.html.vrm_retention.success(successViewModel))
+    Ok(views.html.vrm_retention.success(successViewModel, isKeeper = false))
   }
 }

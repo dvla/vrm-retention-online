@@ -25,7 +25,9 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           paymentModel())
       val result = successPayment.present(request)
-      status(result) should equal(OK)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
+      }
     }
 
     "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
@@ -41,14 +43,6 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           paymentModel())
       val result = successPayment.present(request)
-      status(result) should equal(OK)
-    }
-  }
-
-  "next" should {
-
-    "redirect to Success Page" in new WithApplication {
-      val result = successPayment.next(FakeRequest())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
