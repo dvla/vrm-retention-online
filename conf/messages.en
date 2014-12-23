@@ -560,7 +560,7 @@ vrm_retention_success.newPlateLink = Download eV948
 vrm_retention_success.noticePayment.h3 = Payment
 vrm_retention_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
 vrm_retention_success.noticePayment.desc1 = Description
-vrm_retention_success.noticePayment.desc2 = Take a Registration Number off a Vehicle 
+vrm_retention_success.noticePayment.desc2 = Take a Registration Number off a Vehicle
 
 vrm_retention_success.notice1.h3 = New vehicles
 vrm_retention_success.notice1.p1 = Now you have retained this registration number, you can use the Retention Certificate Number above to assign this number to a new vehicle in the AFRL system.
