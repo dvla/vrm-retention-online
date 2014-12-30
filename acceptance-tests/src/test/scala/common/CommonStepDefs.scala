@@ -20,12 +20,12 @@ class CommonStepDefs(implicit webDriver: EventFiringWebDriver) extends ScalaDsl 
   lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
 
   def `start the PR service` = {
-    import com.typesafe.config.ConfigFactory
-    val conf = ConfigFactory.load()
-    val testEnvValue = conf.getString("test.env")
-    val testUrlKey = s"test.url"
-    val testUrlValue = conf.getString(s"$testUrlKey.$testEnvValue")
-    sys.props += ((testUrlKey, testUrlValue))
+//    import com.typesafe.config.ConfigFactory
+//    val conf = ConfigFactory.load()
+//    val testEnvValue = conf.getString("test.env")
+//    val testUrlKey = s"test.url"
+//    val testUrlValue = conf.getString(s"$testUrlKey.$testEnvValue")
+//    sys.props += ((testUrlKey, testUrlValue))
 
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`.
