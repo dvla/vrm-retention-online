@@ -8,7 +8,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
 final class SuccessPaymentUnitSpec extends UnitSpec {
-/*
+
   "present" should {
 
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
@@ -48,23 +48,23 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
       }
     }
   }
-*/
+
   "create pdf" should {
-/*
-    "return a bad request if cookie for EligibilityModel does no exist" in {
+
+    "return a bad request if cookie for EligibilityModel does no exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(transactionId())
       val result = successPayment.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request if cookie for TransactionId does no exist" in {
+    "return a bad request if cookie for TransactionId does no exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(eligibilityModel())
       val result = successPayment.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
-*/
+
     "return a pdf when the cookie exists" in pending
 
     /*
