@@ -10,7 +10,7 @@ import play.api.test.Helpers._
 final class SuccessPaymentUnitSpec extends UnitSpec {
 
   "present" should {
-
+/*
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
@@ -47,6 +47,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
+*/
   }
 
   "create pdf" should {
