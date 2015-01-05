@@ -7,8 +7,7 @@ export SBT_OPTS="-Dspecs2.color=false -Dsbt.log.format=true -Dsbt.log.noformat=t
  -XX:PermSize=1024M -XX:MaxPermSize=2048M \
  -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=3128 -Dtest.port=9003 $SBT_OPTS"
 
-#sbt clean test accept dist publish
-sbt clean test dist publish
+sbt clean test accept dist publish
 
 rm -rf target/*.rpm
 ./rpm-build/jenkins_job_make_rpm
