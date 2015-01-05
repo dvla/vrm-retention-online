@@ -1,6 +1,7 @@
 package PersonalizedRegistration.StepDefs
 
 import _root_.common._
+import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
@@ -147,4 +148,8 @@ final class VehiclesRegistrationStepDefs extends ScalaDsl with EN with Matchers 
   def `the confirm business details page is displayed`() = {
     user.confirmBusinessDetailsIsDisplayed
   }
+  
+  /** DO NOT REMOVE **/
+  @After()
+  def teardown() = webDriver.quit()
 }
