@@ -1,7 +1,6 @@
 package controllers
 
 import audit.{AuditMessage, AuditService}
-import com.tzavellas.sse.guice.ScalaModule
 import composition.{TestAuditService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
@@ -10,9 +9,7 @@ import org.mockito.Mockito._
 import pages.vrm_retention.{LeaveFeedbackPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.CookieFlagsRetention
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants._
@@ -166,11 +163,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   private def confirmWithCookieFlags = {
-    testInjector(new TestAuditService,
-      new ScalaModule() {
-        override def configure(): Unit = {
-          bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
-        }
-      }).getInstance(classOf[ConfirmBusiness])
+    testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
   }
 }
