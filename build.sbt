@@ -153,8 +153,7 @@ SandboxSettings.runAllMicroservices := {
 }
 
 // Add the following line back in once the gatling tests are all working
-//SandboxSettings.gatlingSimulation := "uk.gov.dvla.retention.Simulate"
-SandboxSettings.gatlingSimulation := ""
+SandboxSettings.gatlingSimulation := "uk.gov.dvla.retention.Simulate"
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
 

@@ -148,7 +148,7 @@ final class VehiclesRegistrationStepDefs extends ScalaDsl with EN with Matchers 
   def `the confirm business details page is displayed`() = {
     user.confirmBusinessDetailsIsDisplayed
   }
-  
+
   /** DO NOT REMOVE **/
   @After()
   def teardown() = webDriver.quit()
