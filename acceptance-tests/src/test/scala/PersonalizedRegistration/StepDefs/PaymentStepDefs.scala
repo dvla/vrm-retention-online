@@ -1,6 +1,7 @@
 package PersonalizedRegistration.StepDefs
 
 import _root_.common.CommonStepDefs
+import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
@@ -67,9 +68,7 @@ final class PaymentStepDefs extends ScalaDsl with EN with Matchers {
       fail(s"not the message we expected: $Message")
   }
 
-  /** DO NOT REMOVE COMMENTED CODE **/
-  //  @After()
-  //  def teardown() ={
-  //    webDriver.quit()
-  //  }
+  /** DO NOT REMOVE **/
+  @After()
+  def teardown() = webDriver.quit()
 }
