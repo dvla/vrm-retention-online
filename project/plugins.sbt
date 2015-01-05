@@ -43,3 +43,5 @@ addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2")
 addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "0.99.10.2")
 
 addSbtPlugin("org.scoverage" %% "sbt-coveralls" % "0.99.0")
+
+addSbtPlugin("io.gatling" % "gatling-sbt" % "2.1.0")

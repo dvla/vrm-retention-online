@@ -13,6 +13,7 @@ import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionRetain
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
+import io.gatling.sbt.GatlingPlugin
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -41,6 +42,10 @@ lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-t
   .dependsOn(root % "test->test")
   .disablePlugins(PlayScala, SassPlugin, SbtWeb)
   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+
+lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
+  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .enablePlugins(GatlingPlugin)
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
