@@ -6,6 +6,7 @@ import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually._
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{WebBrowserDriver, WebBrowserFirefoxDriver}
@@ -57,7 +58,9 @@ final class PaymentStepDefs extends ScalaDsl with EN with Matchers {
 
   @Then("^following \"(.*?)\" should be displayed$")
   def `following should be displayed`(Message: String) = {
-    pageSource contains (Message)
+    eventually {
+      pageSource contains (Message)
+    }
     if (Message == "Payment Successful") {
       pageTitle contains (Message)
     }

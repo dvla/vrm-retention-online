@@ -4,6 +4,7 @@ import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually._
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_retention._
@@ -20,12 +21,12 @@ class CommonStepDefs(implicit webDriver: EventFiringWebDriver) extends ScalaDsl 
   lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
 
   def `start the PR service` = {
-//    import com.typesafe.config.ConfigFactory
-//    val conf = ConfigFactory.load()
-//    val testEnvValue = conf.getString("test.env")
-//    val testUrlKey = s"test.url"
-//    val testUrlValue = conf.getString(s"$testUrlKey.$testEnvValue")
-//    sys.props += ((testUrlKey, testUrlValue))
+    //    import com.typesafe.config.ConfigFactory
+    //    val conf = ConfigFactory.load()
+    //    val testEnvValue = conf.getString("test.env")
+    //    val testUrlKey = s"test.url"
+    //    val testUrlValue = conf.getString(s"$testUrlKey.$testEnvValue")
+    //    sys.props += ((testUrlKey, testUrlValue))
 
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`.
@@ -48,7 +49,9 @@ class CommonStepDefs(implicit webDriver: EventFiringWebDriver) extends ScalaDsl 
   }
 
   def confirmDetails = {
-    pageTitle should equal(ConfirmPage.title)
+    eventually {
+      pageTitle should equal(ConfirmPage.title)
+    }
     click on ConfirmPage.confirm
     this
   }
@@ -80,7 +83,9 @@ class CommonStepDefs(implicit webDriver: EventFiringWebDriver) extends ScalaDsl 
   }
 
   def confirmBusinessDetailsIsDisplayed = {
-    pageTitle should equal(ConfirmBusinessPage.title)
+    eventually {
+      pageTitle should equal(ConfirmBusinessPage.title)
+    }
     this
   }
 
