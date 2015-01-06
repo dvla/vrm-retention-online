@@ -2,7 +2,7 @@ package uk.gov.dvla.vehicles.retain.gatling
 
 import io.gatling.core.Predef._
 import Scenarios._
-import uk.gov.dvla.vehicles.dispose.gatling.Helper.httpConf
+import Helper.httpConf
 
 class RetainSimulation extends Simulation {
 

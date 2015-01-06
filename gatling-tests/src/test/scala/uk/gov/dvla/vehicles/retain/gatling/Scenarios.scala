@@ -16,7 +16,7 @@ object Scenarios {
   }
 
   def registeredKeeperAndFullKeeperAddress = {
-    val data = csv("retention/data/happy/RegisteredKeeperAndFullKeeperAddress.csv").circular
+    val data = csv("data/happy/RegisteredKeeperAndFullKeeperAddress.csv").circular
     val chain = new Chains(data)
     endToEnd(
       scenarioName = "Single retention from start to finish with Registered Keeper And Full Keeper Address",
@@ -25,7 +25,7 @@ object Scenarios {
   }
 
   def registeredKeeperAndPartialKeeperAddress = {
-    val data = csv("retention/data/happy/RegisteredKeeperAndPartialKeeperAddress.csv").circular
+    val data = csv("data/happy/RegisteredKeeperAndPartialKeeperAddress.csv").circular
     val chain = new Chains(data)
     endToEnd(
       scenarioName = "Single retention from start to finish with Registered Keeper And Partial Keeper Address",
@@ -34,7 +34,7 @@ object Scenarios {
   }
 
   def registeredKeeperAndMakeNoModel = {
-    val data = csv("retention/data/happy/RegisteredKeeperAndMakeNoModel.csv").circular
+    val data = csv("data/happy/RegisteredKeeperAndMakeNoModel.csv").circular
     val chain = new Chains(data)
     endToEnd(
       scenarioName = "Single retention from start to finish with Registered Keeper And make no model",
@@ -43,7 +43,7 @@ object Scenarios {
   }
 
   def registeredKeeperAndModelNoMake = {
-    val data = csv("retention/data/happy/RegisteredKeeperAndModelNoMake.csv").circular
+    val data = csv("data/happy/RegisteredKeeperAndModelNoMake.csv").circular
     val chain = new Chains(data)
     endToEnd(
       scenarioName = "Single retention from start to finish with Registered Keeper And model no make",
@@ -52,7 +52,7 @@ object Scenarios {
   }
 
   def registeredKeeperVeryLongMakeAndModel = {
-    val data = csv("retention/data/happy/RegisteredKeeperVeryLongMakeAndModel.csv").circular
+    val data = csv("data/happy/RegisteredKeeperVeryLongMakeAndModel.csv").circular
     val chain = new Chains(data)
     endToEnd(
       scenarioName = "Single retention from start to finish with Registered Keeper with very long make and model",
@@ -61,7 +61,7 @@ object Scenarios {
   }
 
   def notRegisteredKeeperAndFullKeeperAddress = {
-    val data = csv("retention/data/happy/NotRegisteredKeeperAndFullKeeperAddress.csv").circular
+    val data = csv("data/happy/NotRegisteredKeeperAndFullKeeperAddress.csv").circular
     val chain = new Chains(data)
     scenario("Single retention from start to finish with not Registered Keeper And Full Keeper Address")
       .exitBlockOnFail(
@@ -81,7 +81,7 @@ object Scenarios {
 
   // Sad paths
   def vrmNotFound = {
-    val data = csv("retention/data/sad/VrmNotFound.csv").circular
+    val data = csv("data/sad/VrmNotFound.csv").circular
     val chain = new Chains(data)
     scenario("Vrm not found")
       .exitBlockOnFail(
@@ -94,7 +94,7 @@ object Scenarios {
   }
 
   def eligibilityCheckDirectToPaper = {
-    val data = csv("retention/data/sad/EligibilityCheckDirectToPaper.csv").circular
+    val data = csv("data/sad/EligibilityCheckDirectToPaper.csv").circular
     val chain = new Chains(data)
     scenario("Eligibility Check - Direct to Paper")
       .exitBlockOnFail(
@@ -107,7 +107,7 @@ object Scenarios {
   }
 
   def notEligibleToTransact = {
-    val data = csv("retention/data/sad/NotEligibleToTransact.csv").circular
+    val data = csv("data/sad/NotEligibleToTransact.csv").circular
     val chain = new Chains(data)
     scenario("Eligibility Check - Not Eligible To Transact")
       .exitBlockOnFail(

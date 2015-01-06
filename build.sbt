@@ -14,6 +14,7 @@ import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
 import io.gatling.sbt.GatlingPlugin
+import GatlingPlugin.Gatling
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -157,8 +158,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runVrmRetentionRetain.value
 }
 
-// Add the following line back in once the gatling tests are all working
-SandboxSettings.gatlingSimulation := "uk.gov.dvla.retention.Simulate"
+SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
 
