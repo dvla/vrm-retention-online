@@ -1,13 +1,13 @@
 package uk.gov.dvla.vehicles.retain.gatling
 
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.{Record, RecordSeqFeederBuilder}
+import io.gatling.core.feeder._
 
 object Scenarios {
 
   // Happy paths
   def assetsAreAccessible = {
-    val data = RecordSeqFeederBuilder[String](records = IndexedSeq.empty[Record[String]])
+    val data = RecordSeqFeederBuilder[String](records = Array[Record[String]]())
     val chain = new Chains(data)
     scenario("Assets Are accessible")
       .exec(
@@ -71,10 +71,8 @@ object Scenarios {
           chain.vehicleLookupToSetupBusinessDetails,
           chain.setupBusinessDetailsToBusinessChooseYourAddress,
           chain.businessChooseYourAddressToConfirmBusiness,
-//          chain.confirmToFullscreenSolvePayment
           chain.confirmBusinessToIframePayment,
-          chain.paymentCallbackToRetainToSuccessPayment,
-          chain.successPaymentToSuccess
+          chain.paymentCallbackToRetainToSuccess
         )
       )
   }
@@ -126,10 +124,8 @@ object Scenarios {
           chain.beforeYouStart,
           chain.beforeYouStartToVehicleLookup,
           chain.vehicleLookupToConfirm,
-//          chain.confirmToFullscreenSolvePayment
           chain.confirmToIframePayment,
-          chain.paymentCallbackToRetainToSuccessPayment,
-          chain.successPaymentToSuccess
+          chain.paymentCallbackToRetainToSuccess
         )
       )
 }

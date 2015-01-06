@@ -15,7 +15,6 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
   private val paymentPageTitle = "Payment"
   private val fullscreenSolvePaymentPageTitle = "Complete your order - the-logic-group.com Checkout"
   private val confirmBusinessPageTitle = "Confirm your business details"
-  private val successPaymentPageTitle = "Payment Successful"
   private val successPageTitle = "Summary"
   private val vehicleLookupFailurePageTitle = "Look-up was unsuccessful"
   private val vehicleLookupToDirectToPaperTitle = "This registration number cannot be retained online"
@@ -175,7 +174,7 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
           http("businessChooseYourAddressToConfirmBusiness")
             .post(s"/business-choose-your-address")
             .headers(headers_x_www_form_urlencoded)
-//            .param("vrm_retention_businessChooseYourAddress_addressSelect", "${addressSelect}") // Use UPRN
+//            .formParam("vrm_retention_businessChooseYourAddress_addressSelect", "${addressSelect}") // Use UPRN
             .formParam("address-select", "0") // UPRN disabled for Northern Ireland
             .formParam("csrf_prevention_token", "${csrf_prevention_token}")
             .formParam("action", "")
@@ -267,25 +266,12 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
       )
     )
 
-  def paymentCallbackToRetainToSuccessPayment =
+  def paymentCallbackToRetainToSuccess =
     exitBlockOnFail(
       feed(data).
         exec(
-          http("paymentCallbackToRetainToSuccessPayment")
+          http("paymentCallbackToRetainToSuccess")
             .get(s"/retain") // Gatlin doesn't click on links, you need to go to the next page.
-            .headers(headers_accept_html)
-            // Assertions
-            .check(status.is(200))
-            .check(regex(successPaymentPageTitle).exists) // Page title
-        )
-    )
-
-  def successPaymentToSuccess =
-    exitBlockOnFail(
-      feed(data).
-        exec(
-          http("successPaymentToSuccess")
-            .get(s"/success") // Gatlin doesn't click on links, you need to go to the next page.
             .headers(headers_accept_html)
             // Assertions
             .check(status.is(200))
