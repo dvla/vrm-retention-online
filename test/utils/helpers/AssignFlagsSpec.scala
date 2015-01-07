@@ -4,11 +4,10 @@ import composition.TestConfig
 import play.api.mvc.Cookie
 import play.api.test.WithApplication
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
-import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 import scala.concurrent.duration.DurationInt
 
-final class RetentionCrossDomainFlagsSpec extends UnitSpec {
+final class AssignFlagsSpec extends UnitSpec {
 
   "applyToCookie (no key passed in)" should {
     "return cookie with max age and secure flag when key is not for a BusinessDetails cookie" in new WithApplication {
