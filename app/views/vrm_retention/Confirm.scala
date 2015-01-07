@@ -6,6 +6,6 @@ object Confirm {
   final val ConfirmId = "confirm"
   final val ExitId = "exit"
   final val KeeperEmailId = "keeper-email"
-  final val ConfirmCacheKey = "confirm"
-  final val KeeperEmailCacheKey = "keeper-email"
+  final val ConfirmCacheKey = "ret-confirm"
+  final val KeeperEmailCacheKey = "ret-keeper-email"
 }
