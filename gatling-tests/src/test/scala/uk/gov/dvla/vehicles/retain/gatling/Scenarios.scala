@@ -123,9 +123,9 @@ object Scenarios {
         exec(
           chain.beforeYouStart,
           chain.beforeYouStartToVehicleLookup,
-          chain.vehicleLookupToConfirm,
-          chain.confirmToIframePayment,
-          chain.paymentCallbackToRetainToSuccess
+          chain.vehicleLookupToConfirm//,
+//          chain.confirmToIframePayment,
+//          chain.paymentCallbackToRetainToSuccess
         )
       )
 }

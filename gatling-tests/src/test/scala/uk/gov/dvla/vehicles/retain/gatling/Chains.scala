@@ -254,18 +254,6 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
       )
     )
 
-  def confirmToFullscreenSolvePayment =
-    exitBlockOnFail(
-      exec(
-        http("confirmToPayment")
-          .get(s"/payment/begin") // Gatlin doesn't click on links, you need to go to the next page.
-          .headers(headers_accept_html)
-          // Assertions
-          .check(status.is(200))
-          .check(regex(fullscreenSolvePaymentPageTitle).exists) // Page title
-      )
-    )
-
   def paymentCallbackToRetainToSuccess =
     exitBlockOnFail(
       feed(data).
