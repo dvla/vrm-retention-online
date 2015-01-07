@@ -17,8 +17,7 @@ class TestConfig(
                   vehicleAndKeeperLookupMicroServiceBaseUrl: String = "NOT FOUND",
                   secureCookies: Boolean = true,
                   cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
-                  storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
-                  sessionDomainForSharingCookies: String = "test-session-domain-for-sharing-cookies"
+                  storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt
                   ) extends ScalaModule with MockitoSugar {
 
   def build = {
@@ -32,7 +31,6 @@ class TestConfig(
     when(config.secureCookies).thenReturn(secureCookies)
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
-    when(config.sessionDomainForSharingCookies).thenReturn(sessionDomainForSharingCookies)
     config
   }
 
