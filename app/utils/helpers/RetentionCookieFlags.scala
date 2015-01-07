@@ -9,7 +9,7 @@ import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 final class RetentionCookieFlags @Inject()()(implicit val config: Config) extends CookieFlags {
 
-  override def applyToCookie(cookie: Cookie, key: String): Cookie = {
+  override def applyToCookie(cookie: Cookie, key: String): Cookie =
     if (List(StoreBusinessDetailsCacheKey, BusinessDetailsCacheKey).contains(key)) {
       cookie.
         withSecure(config.secureCookies).
@@ -19,7 +19,6 @@ final class RetentionCookieFlags @Inject()()(implicit val config: Config) extend
         withSecure(config.secureCookies).
         withMaxAge(config.cookieMaxAge)
     }
-  }
 
   override def applyToCookie(cookie: Cookie): Cookie = applyToCookie(cookie, key = "")
 }
