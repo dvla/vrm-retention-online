@@ -7,8 +7,6 @@ keeperAddress: String,
 amount: String,
 replacementVRM: String,
 crownContentId: String,
-openGovernmentLicenceContentId: String,
-crestId: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
@@ -119,7 +117,7 @@ isKeeper: Boolean)(implicit lang: Lang)
                                                                                                    width="35"
                                                                                                    height="31" alt="@Messages("crown-copyright")"
                                                                                                    style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans, sans-serif;"/>
-                        @Messages("gov-uk")
+                        <a target="_blank" href="www.gov.uk">@Messages("gov-uk")</a>
                     </td>
                 </tr>
             </table>
@@ -280,12 +278,6 @@ isKeeper: Boolean)(implicit lang: Lang)
                 </tr>
             </table>
         </td>
-    </tr>
-    <tr>
-        <td id="GovUkFooter" class="spacing" style="border-collapse: collapse; color: #000; background: #DEE0E2; padding: 0 30px;" bgcolor="#DEE0E2">
-            <table style="width:100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td style="border-collapse: collapse; font-size: 0.8em; text-align: left; padding: 20px 0; font-family: Helvetica, Arial, sans, sans-serif;" align="right"><img src="@openGovernmentLicenceContentId" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;"  alt="@Messages("email.openGovernmentLicence.alt")"/>@Messages("email.line28")</td>
-                <td align="right" style="padding:20px 0;"><img src="@crestId" alt="@Messages("email.crest.alt")"></td>
-                </tr></table></td>
     </tr></table><!-- End of wrapper table --></body>
 
 </html>
