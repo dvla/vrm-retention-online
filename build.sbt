@@ -127,7 +127,6 @@ lazy val paymentSolveProject = paymentSolve("0.6-SNAPSHOT").disablePlugins(PlayS
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.7-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val gatlingProject = gatlingTests().disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 SandboxSettings.portOffset := 18000
 
@@ -146,8 +145,6 @@ SandboxSettings.vrmRetentionEligibilityProject := vrmRetentionEligibilityProject
 SandboxSettings.vrmRetentionRetainProject := vrmRetentionRetainProject
 
 SandboxSettings.legacyStubsProject := legacyStubsProject
-
-SandboxSettings.gatlingTestsProject := gatlingProject
 
 SandboxSettings.runAllMicroservices := {
   Tasks.runLegacyStubs.value
@@ -169,3 +166,7 @@ Sandbox.sandboxAsyncTask
 Sandbox.gatlingTask
 
 Sandbox.acceptTask
+
+Sandbox.cucumberTask
+
+Sandbox.acceptRemoteTask
