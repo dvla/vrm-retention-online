@@ -31,7 +31,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     }
 
     happyPath.getOrElse {
-      Logger.debug("VrmLocked - Can't find cookies")
+      Logger.warn("VrmLocked - Kicking back to start page because we can't find one of the cookies")
       Redirect(routes.VehicleLookup.present())
     }
   }

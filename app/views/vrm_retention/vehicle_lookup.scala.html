@@ -22,11 +22,10 @@
             <div class="second-col uppercase-input">
                 <h2>@Messages("vrm_retention_vehiclelookup.title")</h2>
 
-                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId),
+                @valtechInputText(vehicleAndKeeperLookupForm(VehicleRegistrationNumberId), hintText = Some(Messages("vrm_retention_vehiclelookup.vrnHint")),
                     args = Map(
                         '_label -> Messages("vrm_retention_vehiclelookup.vrninputlabel"),
                         'maxLength -> VehicleRegistrationNumber.MaxLength,
-                        'hintText -> Messages("vrm_retention_vehiclelookup.vrnHint"),
                         '_showConstraints -> false
                     )
                 )
@@ -34,7 +33,6 @@
                 @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId), hintText = Some(Messages("vrm_retention_vehiclelookup.refnumHint")),
                     args = Map(
                         '_label -> Messages("vrm_retention_vehiclelookup.refnumlabel"),
-                        'hint -> Messages("vrm_retention_vehiclelookup.refnumHint"),
                         '_showConstraints -> false,
                         //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
                         'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
