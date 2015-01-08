@@ -20,7 +20,7 @@
                 <div class="step">
                     @form(action = controllers.routes.VrmLocked.exit()) {
                         @csrfTokenHiddenField()
-                        <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button">@Messages("vrm_locked.exit.button")</button>
+                        <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button" role="button">@Messages("vrm_locked.exit.button")</button>
                     }
                 </div>
             </div>
