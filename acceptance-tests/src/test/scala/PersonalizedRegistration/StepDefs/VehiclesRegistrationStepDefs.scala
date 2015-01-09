@@ -6,19 +6,23 @@ import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
+import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{WebBrowserDriver, WebBrowserFirefoxDriver}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class VehiclesRegistrationStepDefs extends ScalaDsl with EN with Matchers {
+import scala.concurrent.duration.DurationInt
 
-  private implicit val webDriver: EventFiringWebDriver = {
-    import com.typesafe.config.ConfigFactory
-    val conf = ConfigFactory.load()
-    conf.getString("browser.type") match {
-      case "firefox" => new WebBrowserFirefoxDriver
-      case _ => new WebBrowserDriver
-    }
-  }
+final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+
+  //  private implicit val webDriver: EventFiringWebDriver = {
+  //    import com.typesafe.config.ConfigFactory
+  //    val conf = ConfigFactory.load()
+  //    conf.getString("browser.type") match {
+  //      case "firefox" => new WebBrowserFirefoxDriver
+  //      case _ => new WebBrowserDriver
+  //    }
+  //  }
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   lazy val user = new CommonStepDefs
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps

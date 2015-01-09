@@ -4,23 +4,25 @@ import _root_.common.CommonStepDefs
 import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually._
+import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
 import org.scalatest.selenium.WebBrowser._
 import pages._
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{WebBrowserDriver, WebBrowserFirefoxDriver}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class PaymentStepDefs extends ScalaDsl with EN with Matchers {
+import scala.concurrent.duration.DurationInt
 
-  private implicit val webDriver: EventFiringWebDriver = {
-    import com.typesafe.config.ConfigFactory
-    val conf = ConfigFactory.load()
-    conf.getString("browser.type") match {
-      case "firefox" => new WebBrowserFirefoxDriver
-      case _ => new WebBrowserDriver
-    }
-  }
+final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+
+  //  private implicit val webDriver: EventFiringWebDriver = {
+  //    import com.typesafe.config.ConfigFactory
+  //    val conf = ConfigFactory.load()
+  //    conf.getString("browser.type") match {
+  //      case "firefox" => new WebBrowserFirefoxDriver
+  //      case _ => new WebBrowserDriver
+  //    }
+  //  }
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   lazy val user = new CommonStepDefs
   lazy val vehicleLookup = new VehicleLookupPageSteps
   lazy val payment = new PaymentPageSteps

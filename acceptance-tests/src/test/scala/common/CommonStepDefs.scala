@@ -4,17 +4,14 @@ import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
+import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
-import scala.concurrent.duration.DurationInt
+class CommonStepDefs(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
-class CommonStepDefs(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers with TestHarness {
-
-  implicit val timeout = PatienceConfig(timeout = 30.seconds)
   lazy val beforeYouStart = new BeforeYouStartPageSteps
   lazy val vehicleLookup = new VehicleLookupPageSteps
   lazy val vehicleNotFound = new VehicleNotFoundPageSteps
