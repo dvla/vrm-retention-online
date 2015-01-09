@@ -379,9 +379,9 @@ vrm_retention_eligibility_direct_to_paper.p3 =
 vrm_retention_eligibility_failure.title = This registration number cannot be retained
 vrm_retention_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.
 vrm_retention_eligibility_failure.p3 =
-vrm_retention_eligibility_unknown_error_code.p1 = Unfortunately, our records won’t let you retain this registration number.
-vrm_retention_eligibility_unknown_error_code.p2 = For further information you can telephone a member of our contact centre using the details opposite.
-vrm_retention_eligibility_unknown_error_code.p3 = Some information may be sensitive and we wont be able to discuss this on the phone. We will however continue to try and sort out the issue preventing you from retaining your registration number.
+#vrm_retention_eligibility_unknown_error_code.p1 = Unfortunately, our records won’t let you retain this registration number.
+#vrm_retention_eligibility_unknown_error_code.p2 = For further information you can telephone a member of our contact centre using the details opposite.
+#vrm_retention_eligibility_unknown_error_code.p3 = Some information may be sensitive and we wont be able to discuss this on the phone. We will however continue to try and sort out the issue preventing you from retaining your registration number.
 
 # Payment page
 vrm_retention_payment.title = Payment
