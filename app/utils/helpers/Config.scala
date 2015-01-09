@@ -11,14 +11,12 @@ class Config {
   // Micro-service config
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getProperty("vehicleAndKeeperLookupMicroServiceUrlBase", "NOT FOUND")
   val vrmRetentionEligibilityMicroServiceUrlBase: String = getProperty("vrmRetentionEligibilityMicroServiceUrlBase", "NOT FOUND")
-  val vrmRetentionEligibilityMsRequestTimeout: Int = getProperty("vrmRetentionEligibility.ms.requesttimeout", 5.seconds.toMillis.toInt)
+  val vrmRetentionEligibilityMsRequestTimeout: Int = getProperty("vrmRetentionEligibility.requesttimeout", 30.seconds.toMillis.toInt)
   val vrmRetentionRetainMicroServiceUrlBase: String = getProperty("vrmRetentionRetainMicroServiceUrlBase", "NOT FOUND")
-  val vrmRetentionRetainMsRequestTimeout: Int = getProperty("vrmRetentionRetain.ms.requesttimeout", 5.seconds.toMillis.toInt)
+  val vrmRetentionRetainMsRequestTimeout: Int = getProperty("vrmRetentionRetain.requesttimeout", 30.seconds.toMillis.toInt)
   val paymentSolveMicroServiceUrlBase: String = getProperty("paymentSolveMicroServiceUrlBase", "NOT FOUND")
-  val paymentSolveMsRequestTimeout: Int = getProperty("paymentSolve.ms.requesttimeout", 5.seconds.toMillis.toInt)
-  val vehicleAndKeeperLookupRequestTimeout: Int = getProperty("vehicleAndKeeperLookup.requesttimeout", 5.seconds.toMillis.toInt)
-  val vrmRetentionEligibilityRequestTimeout: Int = getProperty("vrmRetentionEligibility.requesttimeout", 5.seconds.toMillis.toInt)
-  val vrmRetentionRetainRequestTimeout: Int = getProperty("vrmRetentionRetain.requesttimeout", 5.seconds.toMillis.toInt)
+  val paymentSolveMsRequestTimeout: Int = getProperty("paymentSolve.ms.requesttimeout", 30.seconds.toMillis.toInt)
+  val vehicleAndKeeperLookupRequestTimeout: Int = getProperty("vehicleAndKeeperLookup.requesttimeout", 30.seconds.toMillis.toInt)
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")
