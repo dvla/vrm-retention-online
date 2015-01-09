@@ -22,16 +22,29 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   //      case _ => new WebBrowserDriver
   //    }
   //  }
-  implicit val timeout = PatienceConfig(timeout = 30.seconds)
-  lazy val user = new CommonStepDefs
-  lazy val beforeYouStart = new BeforeYouStartPageSteps
-  lazy val vehicleLookup = new VehicleLookupPageSteps
-  lazy val vehicleNotFound = new VehicleNotFoundPageSteps
-  lazy val vrmLocked = new VrmLockedPageSteps
-  lazy val vehicleLookupFailure = new VehicleLookupFailurePageSteps
-  lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
-  lazy val confirmBusiness = new ConfirmBusinessPageSteps()
+  val timeout = PatienceConfig(timeout = 30.seconds)
+  val beforeYouStart = new BeforeYouStartPageSteps(timeout)
+  val vehicleLookup = new VehicleLookupPageSteps(timeout)
+  val payment = new PaymentPageSteps(timeout)
+  val success = new SuccessPaymentPageSteps(timeout)
+  val paymentFailure = new PaymentFailurePageSteps(timeout)
+  val paymentCallBack = new PaymentCallbackPageSteps(timeout)
+  val vehicleNotFound = new VehicleNotFoundPageSteps(timeout)
+  val vrmLocked = new VrmLockedPageSteps(timeout)
+  val vehicleLookupFailure = new VehicleLookupFailurePageSteps(timeout)
+  val setupBusinessDetails = new SetupBusinessDetailsPageSteps(timeout)
+  val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps(timeout)
+  val confirmBusiness = new ConfirmBusinessPageSteps(timeout)
+  lazy val user = new CommonStepDefs(
+    timeout,
+    beforeYouStart,
+    vehicleLookup,
+    vehicleNotFound,
+    vrmLocked,
+    confirmBusiness,
+    setupBusinessDetails,
+    businessChooseYourAddress
+  )
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
@@ -51,6 +64,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Then("^the confirm keeper details page is displayed$")
   def `the confirm keeper details page is displayed`() {
+    println("***** timeout 1: " + timeout.timeout)
     user.confirmDetails
   }
 

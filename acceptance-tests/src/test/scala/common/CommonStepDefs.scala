@@ -10,15 +10,16 @@ import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
-class CommonStepDefs(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
-
-  lazy val beforeYouStart = new BeforeYouStartPageSteps
-  lazy val vehicleLookup = new VehicleLookupPageSteps
-  lazy val vehicleNotFound = new VehicleNotFoundPageSteps
-  lazy val vrmLocked = new VrmLockedPageSteps
-  lazy val confirmBusiness = new ConfirmBusinessPageSteps
-  lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
+class CommonStepDefs(
+                      timeout: PatienceConfig,
+                      beforeYouStart: BeforeYouStartPageSteps,
+                      vehicleLookup: VehicleLookupPageSteps,
+                      vehicleNotFound: VehicleNotFoundPageSteps,
+                      vrmLocked: VrmLockedPageSteps,
+                      confirmBusiness: ConfirmBusinessPageSteps,
+                      setupBusinessDetails: SetupBusinessDetailsPageSteps,
+                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps
+                      )(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
     //    import com.typesafe.config.ConfigFactory
@@ -49,6 +50,7 @@ class CommonStepDefs(implicit webDriver: EventFiringWebDriver, timeout: Patience
   }
 
   def confirmDetails = {
+    println("***** timeout 2: " + timeout.timeout)
     eventually {
       pageTitle should equal(ConfirmPage.title)
     }

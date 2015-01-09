@@ -7,7 +7,7 @@ import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.VehicleLookupFailurePage._
 
-class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+class VehicleLookupFailurePageSteps(timeout: PatienceConfig)(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers {
 
   def `direct to paper channel message is displayed` = {
     eventually {

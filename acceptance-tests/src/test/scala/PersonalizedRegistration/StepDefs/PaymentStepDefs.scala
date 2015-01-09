@@ -22,13 +22,29 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   //      case _ => new WebBrowserDriver
   //    }
   //  }
-  implicit val timeout = PatienceConfig(timeout = 30.seconds)
-  lazy val user = new CommonStepDefs
-  lazy val vehicleLookup = new VehicleLookupPageSteps
-  lazy val payment = new PaymentPageSteps
-  lazy val success = new SuccessPaymentPageSteps
-  lazy val paymentFailure = new PaymentFailurePageSteps
-  lazy val paymentCallBack = new PaymentCallbackPageSteps
+  val beforeYouStart = new BeforeYouStartPageSteps(timeout)
+  val vehicleLookup = new VehicleLookupPageSteps(timeout)
+  val payment = new PaymentPageSteps(timeout)
+  val success = new SuccessPaymentPageSteps(timeout)
+  val paymentFailure = new PaymentFailurePageSteps(timeout)
+  val paymentCallBack = new PaymentCallbackPageSteps(timeout)
+  val vehicleNotFound = new VehicleNotFoundPageSteps(timeout)
+  val vrmLocked = new VrmLockedPageSteps(timeout)
+  val vehicleLookupFailure = new VehicleLookupFailurePageSteps(timeout)
+  val setupBusinessDetails = new SetupBusinessDetailsPageSteps(timeout)
+  val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps(timeout)
+  val confirmBusiness = new ConfirmBusinessPageSteps(timeout)
+  val timeout = PatienceConfig(timeout = 30.seconds)
+  lazy val user = new CommonStepDefs(
+    timeout,
+    beforeYouStart,
+    vehicleLookup,
+    vehicleNotFound,
+    vrmLocked,
+    confirmBusiness,
+    setupBusinessDetails,
+    businessChooseYourAddress
+  )
 
   @Given("^that I have started the PR Retention Service for payment$")
   def `that I have started the PR Retention Service for payment`() {
