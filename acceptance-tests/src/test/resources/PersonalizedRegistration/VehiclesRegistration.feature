@@ -40,14 +40,14 @@ Feature: Vehicles Personalized Registration
     | vehicle-registration-number | document-reference-number | postcode |
     | "ST05YYC"                   | "11111111111"             | "SA11AA" |
 
-  @UnHappyPath
-  Scenario Outline: Direct to Paper Channel
-    Given that I have started the PR Retention Service
-    When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is not eligible for retention
-    Then the direct to paper channel page is displayed
-  Examples:
-    | vehicle-registration-number | document-reference-number | postcode |
-    | "D1"                        | "11111111111"             | "SA11AA" |
+#  @UnHappyPath
+#  Scenario Outline: Direct to Paper Channel
+#    Given that I have started the PR Retention Service
+#    When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is not eligible for retention
+#    Then the direct to paper channel page is displayed
+#  Examples:
+#    | vehicle-registration-number | document-reference-number | postcode |
+#    | "D1"                        | "11111111111"             | "SA11AA" |
 
   @UnHappyPath
   Scenario Outline: Vehicle not Eligible
