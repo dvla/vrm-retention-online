@@ -22,21 +22,20 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   //      case _ => new WebBrowserDriver
   //    }
   //  }
-  val beforeYouStart = new BeforeYouStartPageSteps(timeout)
-  val vehicleLookup = new VehicleLookupPageSteps(timeout)
-  val payment = new PaymentPageSteps(timeout)
-  val success = new SuccessPaymentPageSteps(timeout)
-  val paymentFailure = new PaymentFailurePageSteps(timeout)
-  val paymentCallBack = new PaymentCallbackPageSteps(timeout)
-  val vehicleNotFound = new VehicleNotFoundPageSteps(timeout)
-  val vrmLocked = new VrmLockedPageSteps(timeout)
-  val vehicleLookupFailure = new VehicleLookupFailurePageSteps(timeout)
-  val setupBusinessDetails = new SetupBusinessDetailsPageSteps(timeout)
-  val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps(timeout)
-  val confirmBusiness = new ConfirmBusinessPageSteps(timeout)
-  val timeout = PatienceConfig(timeout = 30.seconds)
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  val beforeYouStart = new BeforeYouStartPageSteps
+  val vehicleLookup = new VehicleLookupPageSteps
+  val payment = new PaymentPageSteps
+  val success = new SuccessPaymentPageSteps
+  val paymentFailure = new PaymentFailurePageSteps
+  val paymentCallBack = new PaymentCallbackPageSteps
+  val vehicleNotFound = new VehicleNotFoundPageSteps
+  val vrmLocked = new VrmLockedPageSteps
+  val vehicleLookupFailure = new VehicleLookupFailurePageSteps
+  val setupBusinessDetails = new SetupBusinessDetailsPageSteps
+  val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
+  val confirmBusiness = new ConfirmBusinessPageSteps
   lazy val user = new CommonStepDefs(
-    timeout,
     beforeYouStart,
     vehicleLookup,
     vehicleNotFound,

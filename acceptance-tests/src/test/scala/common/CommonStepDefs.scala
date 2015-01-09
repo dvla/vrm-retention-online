@@ -11,7 +11,6 @@ import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
 class CommonStepDefs(
-                      timeout: PatienceConfig,
                       beforeYouStart: BeforeYouStartPageSteps,
                       vehicleLookup: VehicleLookupPageSteps,
                       vehicleNotFound: VehicleNotFoundPageSteps,
@@ -19,7 +18,7 @@ class CommonStepDefs(
                       confirmBusiness: ConfirmBusinessPageSteps,
                       setupBusinessDetails: SetupBusinessDetailsPageSteps,
                       businessChooseYourAddress: BusinessChooseYourAddressPageSteps
-                      )(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers with TestHarness {
+                      )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
     //    import com.typesafe.config.ConfigFactory

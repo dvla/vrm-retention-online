@@ -8,7 +8,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.ConfirmBusinessPage._
 
-class ConfirmBusinessPageSteps(timeout: PatienceConfig)(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers {
+class ConfirmBusinessPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {

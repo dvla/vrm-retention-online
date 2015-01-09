@@ -4,7 +4,6 @@ import _root_.common._
 import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
@@ -22,21 +21,20 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   //      case _ => new WebBrowserDriver
   //    }
   //  }
-  val timeout = PatienceConfig(timeout = 30.seconds)
-  val beforeYouStart = new BeforeYouStartPageSteps(timeout)
-  val vehicleLookup = new VehicleLookupPageSteps(timeout)
-  val payment = new PaymentPageSteps(timeout)
-  val success = new SuccessPaymentPageSteps(timeout)
-  val paymentFailure = new PaymentFailurePageSteps(timeout)
-  val paymentCallBack = new PaymentCallbackPageSteps(timeout)
-  val vehicleNotFound = new VehicleNotFoundPageSteps(timeout)
-  val vrmLocked = new VrmLockedPageSteps(timeout)
-  val vehicleLookupFailure = new VehicleLookupFailurePageSteps(timeout)
-  val setupBusinessDetails = new SetupBusinessDetailsPageSteps(timeout)
-  val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps(timeout)
-  val confirmBusiness = new ConfirmBusinessPageSteps(timeout)
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  val beforeYouStart = new BeforeYouStartPageSteps
+  val vehicleLookup = new VehicleLookupPageSteps
+  val payment = new PaymentPageSteps
+  val success = new SuccessPaymentPageSteps
+  val paymentFailure = new PaymentFailurePageSteps
+  val paymentCallBack = new PaymentCallbackPageSteps
+  val vehicleNotFound = new VehicleNotFoundPageSteps
+  val vrmLocked = new VrmLockedPageSteps
+  val vehicleLookupFailure = new VehicleLookupFailurePageSteps
+  val setupBusinessDetails = new SetupBusinessDetailsPageSteps
+  val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
+  val confirmBusiness = new ConfirmBusinessPageSteps
   lazy val user = new CommonStepDefs(
-    timeout,
     beforeYouStart,
     vehicleLookup,
     vehicleNotFound,

@@ -7,7 +7,7 @@ import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.BeforeYouStartPage
 
-class BeforeYouStartPageSteps(timeout: PatienceConfig)(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers {
+class BeforeYouStartPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `go to BeforeYouStart page` = {
     go to BeforeYouStartPage
@@ -20,6 +20,7 @@ class BeforeYouStartPageSteps(timeout: PatienceConfig)(implicit webDriver: Event
   }
 
   def `is displayed` = {
+    println("*** *** timeout: " + timeout.timeout)
     eventually {
       currentUrl should include(BeforeYouStartPage.address)
     }

@@ -7,7 +7,7 @@ import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.VehicleLookupPage._
 
-class VehicleLookupPageSteps(timeout: PatienceConfig)(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers {
+class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {

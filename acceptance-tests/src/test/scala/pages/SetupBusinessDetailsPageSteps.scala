@@ -7,7 +7,7 @@ import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.SetupBusinessDetailsPage._
 
-class SetupBusinessDetailsPageSteps(timeout: PatienceConfig)(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers {
+class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {
