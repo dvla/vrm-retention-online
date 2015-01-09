@@ -17,6 +17,8 @@ class Config {
   val paymentSolveMicroServiceUrlBase: String = getProperty("paymentSolveMicroServiceUrlBase", "NOT FOUND")
   val paymentSolveMsRequestTimeout: Int = getProperty("paymentSolve.ms.requesttimeout", 5.seconds.toMillis.toInt)
   val vehicleAndKeeperLookupRequestTimeout: Int = getProperty("vehicleAndKeeperLookup.requesttimeout", 5.seconds.toMillis.toInt)
+  val vrmRetentionEligibilityRequestTimeout: Int = getProperty("vrmRetentionEligibility.requesttimeout", 5.seconds.toMillis.toInt)
+  val vrmRetentionRetainRequestTimeout: Int = getProperty("vrmRetentionRetain.requesttimeout", 5.seconds.toMillis.toInt)
 
   // Ordnance survey config
   val ordnanceSurveyMicroServiceUrl: String = getProperty("ordnancesurvey.ms.url", "NOT FOUND")
