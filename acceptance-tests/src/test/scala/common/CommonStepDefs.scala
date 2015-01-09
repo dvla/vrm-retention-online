@@ -49,7 +49,6 @@ class CommonStepDefs(
   }
 
   def confirmDetails = {
-    println("***** timeout 2: " + timeout.timeout)
     eventually {
       pageTitle should equal(ConfirmPage.title)
     }

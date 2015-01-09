@@ -34,7 +34,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   val setupBusinessDetails = new SetupBusinessDetailsPageSteps
   val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
   val confirmBusiness = new ConfirmBusinessPageSteps
-  lazy val user = new CommonStepDefs(
+  val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
     vehicleNotFound,
@@ -42,7 +42,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     confirmBusiness,
     setupBusinessDetails,
     businessChooseYourAddress
-  )
+  )(webDriver, timeout)
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
@@ -62,7 +62,6 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Then("^the confirm keeper details page is displayed$")
   def `the confirm keeper details page is displayed`() {
-    println("***** timeout 1: " + timeout.timeout)
     user.confirmDetails
   }
 

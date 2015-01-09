@@ -35,7 +35,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   val setupBusinessDetails = new SetupBusinessDetailsPageSteps
   val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
   val confirmBusiness = new ConfirmBusinessPageSteps
-  lazy val user = new CommonStepDefs(
+  val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
     vehicleNotFound,
@@ -43,7 +43,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
     confirmBusiness,
     setupBusinessDetails,
     businessChooseYourAddress
-  )
+  )(webDriver, timeout)
 
   @Given("^that I have started the PR Retention Service for payment$")
   def `that I have started the PR Retention Service for payment`() {
