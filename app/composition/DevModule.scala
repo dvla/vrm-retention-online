@@ -47,7 +47,7 @@ class DevModule extends ScalaModule {
     bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[RetentionCookieFlags].asEagerSingleton()
 
-    if (getProperty("encryptCookies", default = true)) {
+    if (getProperty[Boolean]("encryptCookies")) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
       bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
       bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()

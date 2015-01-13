@@ -23,8 +23,8 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     }
   }
 
-  private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
-    override val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+  private lazy val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
+    override lazy val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
   })
 
   private final val trackingId = "track-id-test"
