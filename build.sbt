@@ -27,11 +27,11 @@ name := "vrm-retention-online"
 
 version := "1.5-SNAPSHOT"
 
-organization := "dvla"
+organization := organisationString
 
-organizationName := "Driver & Vehicle Licensing Agency"
+organizationName := organisationNameString
 
-scalaVersion := "2.10.3"
+scalaVersion := scalaVersionString
 
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
