@@ -59,7 +59,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = true
+              isKeeper = false // US1589: Do not send keeper a pdf
             )
         }
 
@@ -73,7 +73,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = false // US1589: Do not send keeper a pdf
+              isKeeper = true
             )
         }
 
