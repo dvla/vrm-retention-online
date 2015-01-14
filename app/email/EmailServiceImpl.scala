@@ -1,6 +1,7 @@
 package email
 
 import javax.activation.{CommandMap, MailcapCommandMap}
+
 import com.google.inject.Inject
 import models._
 import org.apache.commons.mail.{Email, HtmlEmail}
@@ -12,12 +13,13 @@ import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.html.vrm_retention.{email_with_html, email_without_html}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 
 final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
-  private val crownUrl = Play.resource(name = "public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
+  private val govUkUrl = Play.resource(name = "public/images/gov-uk-email.png")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -58,7 +60,12 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               setTextMsg(plainTextMessage).
               setHtmlMsg(message)
 
-            if (isKeeper) htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description) // US1589: Do not send keeper a pdf
+            if (isKeeper) {
+              // US1589: Do not send keeper a pdf
+            }
+            else {
+              htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description)
+            }
 
             htmlEmail.setFrom(from.email, from.name).
               setSubject(subject).
@@ -70,7 +77,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
           commonsMail.setSmtpPort(config.emailSmtpPort)
           commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
           commonsMail.send()
-          if (isKeeper) Logger.debug("Email sent to keeper") else Logger.debug("Email sent to non-keeper")
+          if (isKeeper) Logger.debug("Email sent to keeper")
+          else Logger.debug("Email sent to non-keeper")
       }
     } else {
       Logger.error("Email not sent as not in whitelist")
@@ -85,8 +93,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
                            isKeeper: Boolean): HtmlFormat.Appendable = {
-    val crownContentId = crownUrl match {
-      case Some(url) => "cid:" + htmlEmail.embed(url, "crown.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+    val govUkContentId = govUkUrl match {
+      case Some(url) => "cid:" + htmlEmail.embed(url, "gov-uk.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
       case _ => ""
     }
     email_with_html(
@@ -98,11 +106,11 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
-      crownContentId = crownContentId,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
-      isKeeper
+      isKeeper,
+      govUkContentId = govUkContentId
     )
   }
 
