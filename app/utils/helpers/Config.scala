@@ -68,7 +68,7 @@ class Config {
   lazy val emailSenderAddress: String = getProperty[String]("email.senderAddress")//, "")
 
   // Cookie flags
-  lazy val secureCookies = getProperty[Boolean]("secureCookies")//, default = true)
+  lazy val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)//, default = true)
   lazy val cookieMaxAge = getProperty[Int]("application.cookieMaxAge")//, 30.minutes.toSeconds.toInt)
   lazy val storeBusinessDetailsMaxAge = getProperty[Int]("storeBusinessDetails.cookieMaxAge")//, 7.days.toSeconds.toInt)
 }
