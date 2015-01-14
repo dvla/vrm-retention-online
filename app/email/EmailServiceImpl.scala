@@ -109,7 +109,7 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
-      isKeeper,
+      isKeeper = isKeeper,
       govUkContentId = govUkContentId
     )
   }
