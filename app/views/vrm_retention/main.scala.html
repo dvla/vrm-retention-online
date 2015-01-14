@@ -10,9 +10,11 @@
 
 @govMainDefault(title) {
     <div class="app vrm-retention-online">
+
         @protoType()
 
         <div class="section-content">
+
             @progressBar(progress)
 
             @backNavigation.map { call =>
@@ -24,6 +26,8 @@
             @errorsSummary(currentForm)
 
             @content
+
         </div>
+        
     </div>
 }
