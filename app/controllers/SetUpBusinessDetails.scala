@@ -1,6 +1,6 @@
 package controllers
 
-import audit.AuditMessage
+import audit1.{AuditService, AuditMessage}
 import com.google.inject.Inject
 import models.{EligibilityModel, SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
@@ -13,7 +13,6 @@ import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.audit.AuditService
 
 final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,

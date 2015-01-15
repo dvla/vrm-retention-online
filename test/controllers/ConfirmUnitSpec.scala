@@ -1,7 +1,7 @@
 package controllers
 
-import audit.AuditMessage
-import composition.{TestAuditService, TestDateService, WithApplication}
+import audit1.{AuditService, AuditMessage}
+import composition.{TestAuditLocalService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -12,7 +12,6 @@ import play.api.test.Helpers.{LOCATION, OK}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
-import webserviceclients.audit.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 
 final class ConfirmUnitSpec extends UnitSpec {
@@ -57,7 +56,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       val mockAuditService = mock[AuditService]
 
       val injector = testInjector(
-        new TestAuditService(mockAuditService),
+        new TestAuditLocalService(mockAuditService),
         new TestDateService)
 
       val confirm = injector.getInstance(classOf[Confirm])
@@ -156,7 +155,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.present(request)
   }
 
-  private def confirm = testInjector(new TestAuditService).getInstance(classOf[Confirm])
+  private def confirm = testInjector(new TestAuditLocalService).getInstance(classOf[Confirm])
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(

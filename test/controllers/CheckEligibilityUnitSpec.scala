@@ -1,9 +1,9 @@
 package controllers
 
-import audit.AuditMessage
+import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.eligibility._
-import composition.{TestAuditService, TestDateService, WithApplication}
+import composition.{TestAuditLocalService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -13,7 +13,6 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
-import webserviceclients.audit.AuditService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants._
 
@@ -203,7 +202,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
 
   private def checkEligibility(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
     testInjector(
-      new TestAuditService(),
+      new TestAuditLocalService(),
       eligibilityWebService
     ).
       getInstance(classOf[CheckEligibility])
@@ -212,7 +211,7 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
   private def checkEligibilityAndAudit(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
     val auditService = mock[AuditService]
     val ioc = testInjector(
-      new TestAuditService(auditService = auditService),
+      new TestAuditLocalService(auditService = auditService),
       new TestDateService(),
       eligibilityWebService
     )

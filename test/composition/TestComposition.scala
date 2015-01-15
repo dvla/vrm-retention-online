@@ -16,7 +16,7 @@ trait TestComposition extends Composition {
     new TestVrmRetentionRetainWebService,
     new TestPaymentSolveWebService,
     new TestRefererFromHeader,
-    new TestAuditService
+    new TestAuditLocalService
   )
 
   def testInjector(modules: Module*) = {

@@ -1,6 +1,6 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
@@ -14,7 +14,6 @@ import utils.helpers.Config
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.audit.AuditService
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
 
 import scala.concurrent.ExecutionContext.Implicits.global

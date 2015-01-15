@@ -1,6 +1,6 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
@@ -13,7 +13,6 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNu
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
-import webserviceclients.audit.AuditService
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}
 
 import scala.concurrent.ExecutionContext.Implicits.global

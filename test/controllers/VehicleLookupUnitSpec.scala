@@ -1,9 +1,9 @@
 package controllers
 
-import audit.AuditMessage
+import audit1.{AuditService, AuditMessage}
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
-import composition.{TestAuditService, TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
+import composition.{TestAuditLocalService, TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -21,7 +21,6 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
-import webserviceclients.audit.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
@@ -356,7 +355,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditService(),
+      new TestAuditLocalService(),
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     ).
@@ -368,7 +367,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
-      new TestAuditService(),
+      new TestAuditLocalService(),
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     ).
@@ -383,7 +382,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditService(auditService = auditService),
+      new TestAuditLocalService(auditService = auditService),
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     )

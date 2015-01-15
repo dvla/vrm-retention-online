@@ -1,4 +1,4 @@
-package webserviceclients.audit
+package webserviceclients.audit2
 
 import com.google.inject.Inject
 import play.api.Logger
@@ -9,7 +9,7 @@ import utils.helpers.Config
 
 import scala.concurrent.Future
 
-final class AuditWebServiceImpl @Inject()(config: Config) extends AuditWebService {
+final class AuditMicroServiceImpl @Inject()(config: Config) extends AuditMicroService {
 
   override def invoke(request: AuditRequest): Future[WSResponse] = {
     val endPoint: String = s"${config.auditMicroServiceUrlBase}/audit/v1"

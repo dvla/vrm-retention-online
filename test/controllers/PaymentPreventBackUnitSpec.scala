@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestAuditService, TestConfig, WithApplication}
+import composition.{TestAuditLocalService, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -50,10 +50,10 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
       )
   }
 
-  private lazy val paymentPreventBack = testInjector(new TestAuditService).getInstance(classOf[PaymentPreventBack])
+  private lazy val paymentPreventBack = testInjector(new TestAuditLocalService).getInstance(classOf[PaymentPreventBack])
   private lazy val paymentPreventBackNotVisible =
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
-      new TestAuditService
+      new TestAuditLocalService
     ).getInstance(classOf[PaymentPreventBack])
 }

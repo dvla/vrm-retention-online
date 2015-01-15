@@ -1,7 +1,7 @@
 package controllers
 
-import audit.AuditMessage
-import composition.{TestAuditService, TestDateService, WithApplication}
+import audit1.{AuditService, AuditMessage}
+import composition.{TestAuditLocalService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -12,7 +12,6 @@ import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.audit.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
@@ -53,7 +52,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val mockAuditService = mock[AuditService]
 
       val injector = testInjector(
-        new TestAuditService(mockAuditService),
+        new TestAuditLocalService(mockAuditService),
         new TestDateService)
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
@@ -151,7 +150,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector(new TestAuditLocalService).getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().
@@ -164,6 +163,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   private def confirmWithCookieFlags = {
-    testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
+    testInjector(new TestAuditLocalService).getInstance(classOf[ConfirmBusiness])
   }
 }

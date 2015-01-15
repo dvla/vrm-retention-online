@@ -1,6 +1,6 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.Logger
@@ -14,7 +14,6 @@ import utils.helpers.Config
 import views.html.vrm_retention.enter_address_manually
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.audit.AuditService
 
 final class EnterAddressManually @Inject()(auditService: AuditService,
                                            dateService: DateService)

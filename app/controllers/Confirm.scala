@@ -1,6 +1,6 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.data.{Form, FormError}
@@ -13,7 +13,6 @@ import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.audit.AuditService
 
 final class Confirm @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                                                     config: Config) extends Controller {

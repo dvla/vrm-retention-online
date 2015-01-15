@@ -1,6 +1,5 @@
 package composition
 
-import audit.AuditServiceImpl
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailService, EmailServiceImpl}
@@ -15,11 +14,11 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl, BruteForcePreventionWebService}
 import utils.helpers.RetentionCookieFlags
-import webserviceclients.audit.AuditService
 import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, PaymentSolveWebService, PaymentSolveWebServiceImpl}
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
+import webserviceclients.audit2
 
 /**
  * Provides real implementations of traits
@@ -60,7 +59,9 @@ class DevModule extends ScalaModule {
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
-    bind[AuditService].to[AuditServiceImpl].asEagerSingleton()
+    bind[audit1.AuditService].to[audit1.AuditLocalServiceImpl].asEagerSingleton()
     bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
+    bind[audit2.AuditMicroService].to[audit2.AuditMicroServiceImpl].asEagerSingleton()
+    bind[audit2.AuditService].to[audit2.AuditServiceImpl].asEagerSingleton()
   }
 }

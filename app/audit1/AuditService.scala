@@ -1,4 +1,4 @@
-package webserviceclients.audit
+package audit1
 
 import uk.gov.dvla.auditing.Message
 

@@ -1,9 +1,9 @@
 package controllers
 
-import audit.AuditMessage
+import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestAuditService, TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
+import composition.{TestAuditLocalService, TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -18,7 +18,6 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import webserviceclients.audit.AuditService
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 
@@ -146,7 +145,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
           }
         },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-        new TestAuditService(mockAuditService),
+        new TestAuditLocalService(mockAuditService),
         new TestDateService)
 
       val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
@@ -356,7 +355,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         }
       },
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
-      new TestAuditService
+      new TestAuditLocalService
     ).getInstance(classOf[BusinessChooseYourAddress])
   }
 

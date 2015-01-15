@@ -1,4 +1,4 @@
-package webserviceclients.audit
+package webserviceclients.audit2
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import composition.WithApplication
@@ -21,7 +21,7 @@ final class AuditWebServiceImplSpec extends UnitSpec with WireMockFixture {
     }
   }
 
-  private val auditService = new AuditWebServiceImpl(new Config() {
+  private val auditService = new AuditMicroServiceImpl(new Config() {
     override val auditMicroServiceUrlBase = s"http://localhost:$wireMockPort"
   })
 

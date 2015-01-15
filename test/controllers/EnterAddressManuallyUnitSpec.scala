@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestAuditService, TestConfig, WithApplication}
+import composition.{TestAuditLocalService, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -269,7 +269,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   }
 
   private def enterAddressManuallyPrototypeNotVisible = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false), new TestAuditService)
+    testInjector(new TestConfig(isPrototypeBannerVisible = false), new TestAuditLocalService)
       .getInstance(classOf[EnterAddressManually])
   }
 
@@ -280,7 +280,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     enterAddressManually.present(request)
   }
 
-  private def enterAddressManually = testInjector(new TestAuditService).
+  private def enterAddressManually = testInjector(new TestAuditLocalService).
     getInstance(classOf[EnterAddressManually])
 
   private def validateAddressCookieValues(result: Future[Result], buildingName: String, line2: String,

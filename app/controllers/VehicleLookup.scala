@@ -1,6 +1,6 @@
 package controllers
 
-import audit.AuditMessage
+import audit1.{AuditService, AuditMessage}
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._
@@ -19,7 +19,6 @@ import utils.helpers.Config
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.audit.AuditService
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 
 import scala.concurrent.ExecutionContext.Implicits.global

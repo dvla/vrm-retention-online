@@ -1,6 +1,6 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import composition.RefererFromHeader
 import models._
@@ -16,7 +16,6 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.audit.AuditService
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
