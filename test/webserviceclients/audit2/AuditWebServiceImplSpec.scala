@@ -21,7 +21,7 @@ final class AuditWebServiceImplSpec extends UnitSpec with WireMockFixture {
     }
   }
 
-  private val auditService = new AuditMicroServiceImpl(new Config() {
+  private lazy val auditService = new AuditMicroServiceImpl(new Config() {
     override val auditMicroServiceUrlBase = s"http://localhost:$wireMockPort"
   })
 
