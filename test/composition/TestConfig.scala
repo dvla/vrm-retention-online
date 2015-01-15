@@ -10,7 +10,6 @@ import scala.concurrent.duration.DurationInt
 class TestConfig(
                   isPrototypeBannerVisible: Boolean = true,
                   ordnanceSurveyUseUprn: Boolean = false,
-                  auditServiceUseRabbit: Boolean = false,
                   rabbitmqHost: String = "NOT FOUND",
                   rabbitmqPort: Int = 0,
                   rabbitmqQueue: String = "NOT FOUND",
