@@ -1,7 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import audit.{AuditMessage, AuditService}
+
+import audit.AuditMessage
 import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
@@ -18,6 +19,8 @@ import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit.AuditService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 

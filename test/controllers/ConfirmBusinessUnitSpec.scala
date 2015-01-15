@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit.AuditMessage
 import composition.{TestAuditService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
@@ -12,6 +12,7 @@ import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 

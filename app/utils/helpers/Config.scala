@@ -61,4 +61,8 @@ class Config {
   val secureCookies = getProperty("secureCookies", default = true)
   val cookieMaxAge = getProperty("application.cookieMaxAge", 30.minutes.toSeconds.toInt)
   val storeBusinessDetailsMaxAge = getProperty("storeBusinessDetails.cookieMaxAge", 7.days.toSeconds.toInt)
+
+  // Audit
+  val auditMicroServiceUrlBase: String = getProperty("auditMicroServiceUrlBase", "NOT FOUND")
+  val auditMsRequestTimeout: Int = getProperty("audit.requesttimeout", 30.seconds.toMillis.toInt)
 }

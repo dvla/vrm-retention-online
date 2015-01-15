@@ -1,6 +1,7 @@
 package controllers
 
 import java.io.ByteArrayInputStream
+
 import com.google.inject.Inject
 import email.EmailService
 import models._
@@ -18,6 +19,7 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, _}
 import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveUpdateRequest}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal

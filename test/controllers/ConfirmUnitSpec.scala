@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit.AuditMessage
 import composition.{TestAuditService, TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -12,6 +12,7 @@ import play.api.test.Helpers.{LOCATION, OK}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
+import webserviceclients.audit.AuditService
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 
 final class ConfirmUnitSpec extends UnitSpec {

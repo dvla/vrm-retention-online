@@ -4,6 +4,7 @@ import composition.TestConfig
 import helpers.UnitSpec
 import uk.gov.dvla.auditing.Message
 import composition.WithApplication
+import webserviceclients.audit.AuditService
 
 class AuditServiceImplSpec extends UnitSpec {
 

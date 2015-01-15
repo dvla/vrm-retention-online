@@ -1,12 +1,12 @@
 package composition
 
-import audit.AuditService
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{mock, when}
 import org.mockito.internal.stubbing.answers.DoesNothing
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.auditing.Message
+import webserviceclients.audit.AuditService
 
 class TestAuditService(auditService: AuditService = mock(classOf[AuditService])) extends ScalaModule with MockitoSugar {
 

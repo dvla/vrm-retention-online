@@ -1,6 +1,6 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit.AuditMessage
 import com.tzavellas.sse.guice.ScalaModule
 import composition.eligibility._
 import composition.{TestAuditService, TestDateService, WithApplication}
@@ -13,6 +13,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import webserviceclients.audit.AuditService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants._
 

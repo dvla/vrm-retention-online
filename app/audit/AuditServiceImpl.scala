@@ -9,6 +9,7 @@ import play.api.Play.current
 import play.api.libs.concurrent.Akka
 import uk.gov.dvla.auditing.Message
 import utils.helpers.Config
+import webserviceclients.audit.AuditService
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration
 

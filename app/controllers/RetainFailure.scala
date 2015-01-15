@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel, PaymentModel}
+import models.{PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -9,6 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import utils.helpers.Config
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveService}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -49,7 +50,8 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
         }
         Ok(views.html.vrm_retention.retention_failure(
           transactionId = transactionId,
-          vehicleLookupFailureViewModel = viewModel))    }.recover {
+          vehicleLookupFailureViewModel = viewModel))
+    }.recover {
       case NonFatal(e) =>
         Logger.error(s"RetainFailure Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString)
         val viewModel = vehicleAndKeeperDetails match {
