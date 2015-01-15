@@ -48,7 +48,7 @@ class TestConfig(
 
     when(config.isProgressBarEnabled).thenReturn(true)
 
-    when(config.auditServiceUseRabbit).thenReturn(auditServiceUseRabbit)
+    when(config.auditServiceUseRabbit).thenReturn(true)
     when(config.rabbitmqHost).thenReturn(rabbitmqHost)
     when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
