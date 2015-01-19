@@ -6,12 +6,12 @@ import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
 import utils.helpers.Config
 
-final class AuditWebServiceImplSpec extends UnitSpec with WireMockFixture {
+final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "invoke" should {
 
     "send the serialised json request" in new WithApplication {
-      val resultFuture = auditService.invoke(request)
+      val resultFuture = auditMicroService.invoke(request)
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/audit/v1")
@@ -21,7 +21,7 @@ final class AuditWebServiceImplSpec extends UnitSpec with WireMockFixture {
     }
   }
 
-  private lazy val auditService = new AuditMicroServiceImpl(new Config() {
+  private def auditMicroService = new AuditMicroServiceImpl(new Config() {
     override val auditMicroServiceUrlBase = s"http://localhost:$wireMockPort"
   })
 
