@@ -16,16 +16,20 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class Payment @Inject()(paymentSolveService: PaymentSolveService,
-                              dateService: DateService,
-                              refererFromHeader: RefererFromHeader,
-                              auditService: AuditService)
+final class Payment @Inject()(
+                               paymentSolveService: PaymentSolveService,
+                               dateService: DateService,
+                               refererFromHeader: RefererFromHeader,
+                               auditService1: audit1.AuditService,
+                               auditService2: audit2.AuditService
+                               )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config) extends Controller {
 
@@ -81,7 +85,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
     Logger.error(message)
 
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.PaymentToPaymentFailure,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
@@ -135,7 +139,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
@@ -199,7 +203,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         Logger.error("The get web request to Solve was not validated.")
       }
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
         pageMovement = AuditMessage.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,

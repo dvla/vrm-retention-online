@@ -378,12 +378,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
                                          permitted: Boolean = true,
                                          vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
-    val auditService = mock[AuditService]
+    val auditService1 = mock[AuditService]
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditLocalService(auditService = auditService),
+      new TestAuditLocalService(auditService1 = auditService1),
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     )

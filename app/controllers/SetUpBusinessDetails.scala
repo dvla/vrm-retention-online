@@ -13,8 +13,13 @@ import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
 
-final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)
+final class SetUpBusinessDetails @Inject()(
+                                            auditService1: audit1.AuditService,
+                                            auditService2: audit2.AuditService,
+                                            dateService: DateService
+                                            )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                            config: Config) extends Controller {
 
@@ -49,7 +54,7 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
 
   def exit = Action {
     implicit request =>
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,

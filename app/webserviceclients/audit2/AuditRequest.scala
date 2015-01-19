@@ -1,11 +1,16 @@
 package webserviceclients.audit2
 
+import audit1.{VehicleAndKeeperDetailsModelOptSeq, BusinessDetailsModelOptSeq, PaymentModelOptSeq, AuditMessage}
+import models.{PaymentModel, BusinessDetailsModel, VehicleAndKeeperDetailsModel}
 import play.api.libs.json.Json._
 import play.api.libs.json._
 
 case class AuditRequest(name: String, serviceType: String, data: Seq[(String, Any)])
 
 object AuditRequest {
+
+  // service types
+  final val PersonalisedRegServiceType = "PR Retention"
 
   implicit val jsonWrites = new Writes[Seq[(String, Any)]] {
     def writes(o: Seq[(String, Any)]): JsValue = obj(
@@ -25,4 +30,38 @@ object AuditRequest {
   }
 
   implicit val auditMessageFormat = Json.writes[AuditRequest]
+
+  def from(pageMovement: String,
+           transactionId: String,
+           timestamp: String,
+           vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
+           replacementVrm: Option[String] = None,
+           keeperEmail: Option[String] = None,
+           businessDetailsModel: Option[BusinessDetailsModel] = None,
+           paymentModel: Option[PaymentModel] = None,
+           retentionCertId: Option[String] = None,
+           rejectionCode: Option[String] = None) = {
+
+    val data: Seq[(String, Any)] = {
+      val transactionIdOpt = Some(("transactionId", transactionId))
+      val timestampOpt = Some(("timestamp", timestamp))
+      val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
+      val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVrm", replacementVrm))
+      val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
+      val keeperEmailOpt = keeperEmail.map(keeperEmail => ("keeperEmail", keeperEmail))
+      val paymentModelOptSeq = PaymentModelOptSeq.from(paymentModel)
+      val retentionCertIdOpt = retentionCertId.map(retentionCertId => ("retentionCertId", retentionCertId))
+      val rejectionCodeOpt = rejectionCode.map(rejectionCode => ("rejectionCode", rejectionCode))
+
+      (Seq(
+        transactionIdOpt,
+        timestampOpt,
+        replacementVRMOpt,
+        keeperEmailOpt,
+        retentionCertIdOpt,
+        rejectionCodeOpt
+      ) ++ vehicleAndKeeperDetailsModelOptSeq ++ businessDetailsModelOptSeq ++ paymentModelOptSeq).flatten
+    }
+    AuditRequest(pageMovement, PersonalisedRegServiceType, data)
+  }
 }

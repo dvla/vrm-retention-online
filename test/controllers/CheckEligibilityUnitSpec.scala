@@ -210,9 +210,9 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
   }
 
   private def checkEligibilityAndAudit(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
-    val auditService = mock[AuditService]
+    val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestAuditLocalService(auditService = auditService),
+      new TestAuditLocalService(auditService1 = auditService1),
       new TestDateService(),
       eligibilityWebService
     )

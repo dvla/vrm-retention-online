@@ -13,8 +13,13 @@ import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
 
-final class Confirm @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class Confirm @Inject()(
+                               auditService1: audit1.AuditService,
+                               auditService2: audit2.AuditService,
+                               dateService: DateService
+                               )(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                                                     config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
@@ -55,7 +60,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
 
       val cookies = List(keeperEmail).flatten
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
         pageMovement = AuditMessage.ConfirmToPayment,
         timestamp = dateService.dateTimeISOChronology,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -85,7 +90,7 @@ final class Confirm @Inject()(auditService: AuditService, dateService: DateServi
   }
 
   def exit = Action { implicit request =>
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),

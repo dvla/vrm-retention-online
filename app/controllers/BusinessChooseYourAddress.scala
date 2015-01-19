@@ -4,7 +4,6 @@ import javax.inject.Inject
 
 import audit1.AuditMessage
 import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
-import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
@@ -26,10 +25,12 @@ import webserviceclients.audit2.AuditRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
-                                                auditService1: audit1.AuditService,
-                                                auditService2: audit2.AuditService,
-                                                dateService: DateService)
+final class BusinessChooseYourAddress @Inject()(
+                                                 addressLookupService: AddressLookupService,
+                                                 auditService1: audit1.AuditService,
+                                                 auditService2: audit2.AuditService,
+                                                 dateService: DateService
+                                                 )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config) extends Controller {
 
@@ -170,11 +171,13 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-//    auditService2.send(AuditRequest(
-//      name = "testttttt",
-//      serviceType = "PR Retention",
-//      data = Seq.empty
-//    )
+//    auditService2.send(AuditRequest.from(
+//      pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+//      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+//      timestamp = dateService.dateTimeISOChronology,
+//      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+//      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+//      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel])
 //    )
 
     Redirect(routes.ConfirmBusiness.present()).
