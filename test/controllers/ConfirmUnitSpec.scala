@@ -1,7 +1,8 @@
 package controllers
 
 import audit1.{AuditService, AuditMessage}
-import composition.{TestAuditLocalService, TestDateService, WithApplication}
+import composition.audit1.TestAuditLocalService
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._

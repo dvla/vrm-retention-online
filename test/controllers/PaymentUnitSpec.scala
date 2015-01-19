@@ -1,6 +1,7 @@
 package controllers
 
-import composition.{TestAuditLocalService, WithApplication}
+import composition.WithApplication
+import composition.audit1.TestAuditLocalService
 import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.paymentsolvewebservice._
 import helpers.UnitSpec

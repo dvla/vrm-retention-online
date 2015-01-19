@@ -1,9 +1,10 @@
 package controllers
 
 import audit1.{AuditService, AuditMessage}
+import composition.audit1.TestAuditLocalService
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
-import composition.{TestAuditLocalService, TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
+import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec

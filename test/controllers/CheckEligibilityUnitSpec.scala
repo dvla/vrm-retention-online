@@ -2,8 +2,9 @@ package controllers
 
 import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.audit1.TestAuditLocalService
 import composition.eligibility._
-import composition.{TestAuditLocalService, TestDateService, WithApplication}
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._

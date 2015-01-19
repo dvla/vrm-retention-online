@@ -2,8 +2,9 @@ package controllers
 
 import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.audit1.TestAuditLocalService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestAuditLocalService, TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
+import composition.{TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders

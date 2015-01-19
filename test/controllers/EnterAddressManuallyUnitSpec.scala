@@ -1,6 +1,7 @@
 package controllers
 
-import composition.{TestAuditLocalService, TestConfig, WithApplication}
+import composition.audit1.TestAuditLocalService
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec

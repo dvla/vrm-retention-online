@@ -15,7 +15,6 @@ final class AuditMicroServiceImpl @Inject()(config: Config) extends AuditMicroSe
     val endPoint: String = s"${config.auditMicroServiceUrlBase}/audit/v1"
     val requestAsJson = Json.toJson(request)
 
-    Logger.debug(endPoint)
     Logger.debug(s"Calling audit micro-service with request $request")
     WS.url(endPoint).
       withRequestTimeout(config.auditMsRequestTimeout). // Timeout is in milliseconds
