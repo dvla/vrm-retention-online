@@ -62,15 +62,24 @@ class Config {
   lazy val emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)
   lazy val emailSmtpUser: String = getOptionalProperty[String]("smtp.user").getOrElse("")
   lazy val emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
-  lazy val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist") //getOptionalProperty[("email.whitelist", "").split(",")
+  lazy val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
+  //getOptionalProperty[("email.whitelist", "").split(",")
   lazy val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
 
   // Cookie flags
-  lazy val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)//, default = true)
+  lazy val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
+  //, default = true)
   lazy val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
   lazy val storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
 
   // Audir microservice
   val auditMicroServiceUrlBase: String = getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
   val auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+
+  // Web headers
+  val applicationCode: String = getProperty[String]("webHeader.applicationCode")
+  val serviceTypeCode: String = getProperty[String]("webHeader.serviceTypeCode")
+  val orgBusinessUnit: String = getProperty[String]("webHeader.orgBusinessUnit")
+  val channelCode: String = getProperty[String]("webHeader.channelCode")
+  val contactId: Long = getProperty[Long]("webHeader.contactId")
 }

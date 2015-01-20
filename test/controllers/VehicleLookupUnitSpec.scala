@@ -1,6 +1,6 @@
 package controllers
 
-import audit1.{AuditService, AuditMessage}
+import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalService
 import composition.audit2.AuditServiceDoesNothing
 import composition.eligibility.EligibilityWebServiceCallWithResponse
@@ -21,6 +21,8 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
 import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
@@ -28,7 +30,7 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import webserviceclients.fakes.DateServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 
@@ -273,13 +275,16 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
-      val result = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService).submit(request)
+      val (vehicleLookup, dateService) = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService)
+      val result = vehicleLookup.submit(request)
 
       whenReady(result, timeout) {
         r =>
-          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid,
+          val expectedRequest = VehicleAndKeeperDetailsRequest(
+            dmsHeader = buildHeader(trackingId, dateService),
+            referenceNumber = ReferenceNumberValid,
             registrationNumber = RegistrationNumberValid,
-            transactionTimestamp = dateTime
+            transactionTimestamp = dateService.now.toDateTime
           )
           verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = trackingId)
       }
@@ -288,13 +293,16 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "send a request and default trackingId to the vehicleAndKeeperLookupWebService when cookie does not exist" in new WithApplication {
       val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
-      val result = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService).submit(request)
+      val (vehicleLookup, dateService) = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService)
+      val result = vehicleLookup.submit(request)
 
       whenReady(result, timeout) {
         r =>
-          val expectedRequest = VehicleAndKeeperDetailsRequest(referenceNumber = ReferenceNumberValid,
+          val expectedRequest = VehicleAndKeeperDetailsRequest(
+            dmsHeader = buildHeader(ClearTextClientSideSessionFactory.DefaultTrackingId, dateService),
+            referenceNumber = ReferenceNumberValid,
             registrationNumber = RegistrationNumberValid,
-            transactionTimestamp = dateTime
+            transactionTimestamp = dateService.now.toDateTime
           )
           verify(vehicleAndKeeperLookupWebService).invoke(request = expectedRequest, trackingId = ClearTextClientSideSessionFactory.DefaultTrackingId)
       }
@@ -365,7 +373,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
-    testInjector(
+    val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
@@ -373,7 +381,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new AuditServiceDoesNothing,
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
-    ).getInstance(classOf[VehicleLookup])
+    )
+    (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))
   }
 
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
@@ -453,5 +462,28 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new AuditServiceDoesNothing
     ).
       getInstance(classOf[VehicleLookup])
+  }
+
+  private def buildHeader(trackingId: String, dateService: DateService): DmsWebHeaderDto = {
+    val alwaysLog = true
+    val englishLanguage = "EN"
+    DmsWebHeaderDto(conversationId = trackingId,
+      originDateTime = dateService.now.toDateTime,
+      applicationCode = "test-applicationCode",
+      channelCode = "test-channelCode",
+      contactId = 42,
+      eventFlag = alwaysLog,
+      serviceTypeCode = "test-serviceTypeCode",
+      languageCode = englishLanguage,
+      endUser = buildEndUser)
+  }
+
+  private def buildEndUser: DmsWebEndUserDto = {
+    DmsWebEndUserDto(endUserTeamCode = "test-applicationCode",
+      endUserTeamDesc = "test-applicationCode",
+      endUserRole = "test-applicationCode",
+      endUserId = "test-applicationCode",
+      endUserIdDesc = "test-applicationCode",
+      endUserLongNameDesc = "test-applicationCode")
   }
 }

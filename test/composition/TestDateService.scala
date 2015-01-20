@@ -22,13 +22,13 @@ final class TestDateService extends ScalaModule with MockitoSugar {
       MonthValid.toInt,
       YearValid.toInt
     )
-    val now = new DateTime(
+    val dateTime = new DateTime(
       YearValid.toInt,
       MonthValid.toInt,
       DayValid.toInt,
       0,
-      0).toInstant
-
+      0)
+    val now: Instant = dateTime.toInstant
     val dateService = mock[DateService]
     when(dateService.dateTimeISOChronology).thenReturn(dateTimeISOChronology)
     when(dateService.today).thenReturn(today)
