@@ -10,7 +10,7 @@ import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest,
 
 import scala.concurrent.Future
 
-class VehicleAndKeeperDetailsCallVRMNotFound extends ScalaModule with MockitoSugar {
+final class VehicleAndKeeperDetailsCallVRMNotFound extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]

@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
-class AuditServiceDoesNothing extends ScalaModule with MockitoSugar {
+final class AuditServiceDoesNothing extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val service = mock[AuditService]

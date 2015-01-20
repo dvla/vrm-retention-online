@@ -12,7 +12,7 @@ import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest,
 
 import scala.concurrent.Future
 
-class TestVehicleAndKeeperLookupWebService(
+final class TestVehicleAndKeeperLookupWebService(
                                             vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]), // This can be passed in so the calls to the mock can be verified
                                             statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
                                             ) extends ScalaModule with MockitoSugar {

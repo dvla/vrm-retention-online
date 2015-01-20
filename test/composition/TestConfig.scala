@@ -7,7 +7,7 @@ import utils.helpers.Config
 
 import scala.concurrent.duration.DurationInt
 
-class TestConfig(
+final class TestConfig(
                   isPrototypeBannerVisible: Boolean = true,
                   ordnanceSurveyUseUprn: Boolean = false,
                   rabbitmqHost: String = "NOT FOUND",

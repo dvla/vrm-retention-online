@@ -10,7 +10,7 @@ import webserviceclients.fakes.FakeResponse
 
 import scala.concurrent.Future
 
-class AuditMicroServiceCallNotOk extends ScalaModule with MockitoSugar {
+final class AuditMicroServiceCallNotOk extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val webService = mock[AuditMicroService]

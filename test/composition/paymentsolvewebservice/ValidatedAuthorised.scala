@@ -12,7 +12,7 @@ import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveUpdat
 
 import scala.concurrent.Future
 
-class ValidatedAuthorised extends ScalaModule with MockitoSugar {
+final class ValidatedAuthorised extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val webService = mock[PaymentSolveWebService]

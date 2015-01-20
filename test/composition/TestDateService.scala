@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 
-class TestDateService extends ScalaModule with MockitoSugar {
+final class TestDateService extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val dateTimeISOChronology: String = new DateTime(

@@ -5,7 +5,7 @@ import helpers.UnitSpec
 import uk.gov.dvla.auditing.Message
 import composition.WithApplication
 
-class AuditServiceImplSpec extends UnitSpec {
+final class AuditServiceImplSpec extends UnitSpec {
 
 //  "send" should {
 //    // This test is commented out because it throws exception:
