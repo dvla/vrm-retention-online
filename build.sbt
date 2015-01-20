@@ -126,6 +126,7 @@ lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5-SNAPSHOT").
 lazy val paymentSolveProject = paymentSolve("0.6-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.7-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+//lazy val audit = audit("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 SandboxSettings.portOffset := 18000
