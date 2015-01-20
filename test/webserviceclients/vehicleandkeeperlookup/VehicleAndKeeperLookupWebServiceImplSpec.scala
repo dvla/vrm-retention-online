@@ -23,20 +23,20 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     }
   }
 
-  private lazy val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
+  private def lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
     override lazy val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
   })
 
   private final val trackingId = "track-id-test"
 
-  private val dateTime = new DateTime(
+  private def dateTime = new DateTime(
     YearValid.toInt,
     MonthValid.toInt,
     DayValid.toInt,
     0,
     0)
 
-  private val request = VehicleAndKeeperDetailsRequest(
+  private def request = VehicleAndKeeperDetailsRequest(
     referenceNumber = "ref number",
     registrationNumber = "reg number",
     transactionTimestamp = dateTime

@@ -52,7 +52,7 @@ object AddressLookupWebServiceConstants {
     FakeResponse(status = OK, fakeJson = None)
   }
 
-  val uprnToAddressResponseValid = {
+  def uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
     UprnToAddressResponseDto(addressViewModel = Some(AddressModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
   }

@@ -18,12 +18,12 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
     }
   }
 
-  private val dateTime = new DateTime(
+  private def dateTime = new DateTime(
     YearValid.toInt,
     MonthValid.toInt,
     DayValid.toInt,
     0,
     0)
-  private val request = VRMRetentionRetainRequest(currentVRM = ReplacementRegistrationNumberValid, transactionTimestamp = dateTime)
-  private val toJson = Json.toJson(request)
+  private def request = VRMRetentionRetainRequest(currentVRM = ReplacementRegistrationNumberValid, transactionTimestamp = dateTime)
+  private def toJson = Json.toJson(request)
 }

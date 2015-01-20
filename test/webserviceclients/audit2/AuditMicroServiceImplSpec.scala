@@ -25,7 +25,7 @@ final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {
     override val auditMicroServiceUrlBase = s"http://localhost:$wireMockPort"
   })
 
-  private val request = {
+  private def request = {
     val data: Seq[(String, Any)] = Seq(("stub-key", "stub-value"))
     AuditRequest(
       name = "transaction id",

@@ -12,8 +12,6 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
 
   "applyToCookie (no key passed in)" should {
     "return cookie with max age and secure flag when key is not for a BusinessDetails cookie" in new WithApplication {
-      val config = new TestConfig().build
-      val cookieFlags = new RetentionCookieFlags()(config)
       val originalCookie = Cookie(name = "testCookieName", value = "testCookieValue")
 
       originalCookie.secure should equal(false)
@@ -25,8 +23,6 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
     }
 
     "return cookie with max age, secure flag and domain when key is for a BusinessDetails cookie" in new WithApplication {
-      val config = new TestConfig().build
-      val cookieFlags = new RetentionCookieFlags()(config)
       val originalCookie = Cookie(name = StoreBusinessDetailsCacheKey, value = "testCookieValue")
 
       originalCookie.secure should equal(false)
@@ -36,5 +32,10 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
       modifiedCookie.secure should equal(true)
       modifiedCookie.maxAge should equal(Some(7.days.toSeconds.toInt))
     }
+  }
+
+  private def cookieFlags = {
+    val config = new TestConfig().build
+    new RetentionCookieFlags()(config)
   }
 }

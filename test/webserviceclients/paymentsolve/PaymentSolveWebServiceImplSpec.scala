@@ -22,13 +22,13 @@ final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture
     }
   }
 
-  private lazy val lookupService = new PaymentSolveWebServiceImpl(new Config() {
+  private def lookupService = new PaymentSolveWebServiceImpl(new Config() {
     override lazy val paymentSolveMicroServiceUrlBase = s"http://localhost:$wireMockPort"
   })
 
   private val trackingId = "track-id-test"
 
-  private val request = PaymentSolveBeginRequest(
+  private def request = PaymentSolveBeginRequest(
     transactionId = "transaction id",
     transNo = "trans no",
     vrm = "reg number",
