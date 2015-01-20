@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFact
 
 import scala.io.Source.fromInputStream
 
-class VersionIntegrationSpec extends UiSpec with TestHarness {
+final class VersionIntegrationSpec extends UiSpec with TestHarness {
 
   "Version endpoint" should {
     "be declared and should include the build-details.txt from classpath" in new WebBrowserForSelenium {
