@@ -1,7 +1,8 @@
 package controllers
 
 import audit1.{AuditService, AuditMessage}
-import composition.audit1.TestAuditLocalService
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
 import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
@@ -356,11 +357,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditLocalService(),
+      new AuditLocalService(),
+      new AuditServiceDoesNothing,
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
-    ).
-      getInstance(classOf[VehicleLookup])
+    ).getInstance(classOf[VehicleLookup])
   }
 
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
@@ -368,11 +369,11 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
-      new TestAuditLocalService(),
+      new AuditLocalService(),
+      new AuditServiceDoesNothing,
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
-    ).
-      getInstance(classOf[VehicleLookup])
+    ).getInstance(classOf[VehicleLookup])
   }
 
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
@@ -383,7 +384,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new TestAuditLocalService(auditService1 = auditService1),
+      new AuditLocalService(auditService1 = auditService1),
+      new AuditServiceDoesNothing,
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     )
@@ -436,7 +438,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest()
+      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
+      new AuditServiceDoesNothing
     ).
       getInstance(classOf[VehicleLookup])
   }
@@ -446,7 +449,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallVRMNotFound()
+      new VehicleAndKeeperDetailsCallVRMNotFound(),
+      new AuditServiceDoesNothing
     ).
       getInstance(classOf[VehicleLookup])
   }

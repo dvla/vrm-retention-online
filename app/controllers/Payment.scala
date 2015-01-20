@@ -17,6 +17,7 @@ import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -95,6 +96,16 @@ final class Payment @Inject()(
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
       rejectionCode = Some(message)))
+    auditService2.send(AuditRequest.from(
+      pageMovement = AuditMessage.PaymentToPaymentFailure,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+      paymentModel = request.cookies.getModel[PaymentModel],
+      rejectionCode = Some(message)))
 
     Redirect(routes.PaymentFailure.present())
   }
@@ -140,6 +151,15 @@ final class Payment @Inject()(
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
       auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = Some(paymentModel)))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
@@ -204,6 +224,14 @@ final class Payment @Inject()(
       }
 
       auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,

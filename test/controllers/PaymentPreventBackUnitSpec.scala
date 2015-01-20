@@ -1,6 +1,7 @@
 package controllers
 
-import composition.audit1.TestAuditLocalService
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
@@ -51,10 +52,13 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
       )
   }
 
-  private lazy val paymentPreventBack = testInjector(new TestAuditLocalService).getInstance(classOf[PaymentPreventBack])
+  private lazy val paymentPreventBack = testInjector(
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[PaymentPreventBack])
   private lazy val paymentPreventBackNotVisible =
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
-      new TestAuditLocalService
+      new AuditLocalService
     ).getInstance(classOf[PaymentPreventBack])
 }

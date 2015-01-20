@@ -1,7 +1,8 @@
 package controllers
 
 import composition.WithApplication
-import composition.audit1.TestAuditLocalService
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.paymentsolvewebservice._
 import helpers.UnitSpec
@@ -74,7 +75,11 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailure page when required cookies and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
-      val payment = testInjector(new ValidatedNotCardDetails, new TestAuditLocalService).getInstance(classOf[Payment])
+      val payment = testInjector(
+        new ValidatedNotCardDetails,
+        new AuditLocalService,
+        new AuditServiceDoesNothing
+      ).getInstance(classOf[Payment])
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
@@ -104,7 +109,11 @@ final class PaymentUnitSpec extends UnitSpec {
 
     "call the web service with a base64 url safe callback" in new WithApplication {
       val paymentSolveWebService = mock[PaymentSolveWebService]
-      val payment = testInjector(new ValidatedCardDetails(paymentSolveWebService), new TestAuditLocalService).getInstance(classOf[Payment])
+      val payment = testInjector(
+        new ValidatedCardDetails(paymentSolveWebService),
+        new AuditLocalService,
+        new AuditServiceDoesNothing
+      ).getInstance(classOf[Payment])
 
       val result = payment.begin(requestWithValidDefaults())
 
@@ -179,7 +188,11 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentNotAuthorised page when payment service status is not 'AUTHORISED'" in new WithApplication {
-      val payment = testInjector(new ValidatedNotAuthorised, new TestAuditLocalService).getInstance(classOf[Payment])
+      val payment = testInjector(
+        new ValidatedNotAuthorised,
+        new AuditLocalService,
+        new AuditServiceDoesNothing
+      ).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -197,7 +210,11 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to Success page when payment service response is status is 'AUTHORISED'" in new WithApplication {
-      val payment = testInjector(new ValidatedAuthorised, new TestAuditLocalService).getInstance(classOf[Payment])
+      val payment = testInjector(
+        new ValidatedAuthorised,
+        new AuditLocalService,
+        new AuditServiceDoesNothing
+      ).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -306,7 +323,19 @@ final class PaymentUnitSpec extends UnitSpec {
       )
   }
 
-  private lazy val payment = testInjector(new ValidatedCardDetails(), new TestAuditLocalService).getInstance(classOf[Payment])
-  private lazy val paymentCallFails = testInjector(new PaymentCallFails, new TestAuditLocalService).getInstance(classOf[Payment])
-  private lazy val paymentCancelValidated = testInjector(new CancelValidated, new TestAuditLocalService).getInstance(classOf[Payment])
+  private lazy val payment = testInjector(
+    new ValidatedCardDetails(),
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[Payment])
+  private lazy val paymentCallFails = testInjector(
+    new PaymentCallFails,
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[Payment])
+  private lazy val paymentCancelValidated = testInjector(
+    new CancelValidated,
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[Payment])
 }

@@ -2,7 +2,6 @@ package composition
 
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
-import composition.audit1.TestAuditLocalService
 import composition.paymentsolvewebservice.TestPaymentSolveWebService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 
@@ -17,7 +16,8 @@ trait TestComposition extends Composition {
     new TestVrmRetentionRetainWebService,
     new TestPaymentSolveWebService,
     new TestRefererFromHeader,
-    new TestAuditLocalService
+    new audit1.AuditLocalService,
+    new audit2.AuditServiceDoesNothing
   )
 
   def testInjector(modules: Module*) = {

@@ -2,7 +2,8 @@ package controllers
 
 import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1.TestAuditLocalService
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.eligibility._
 import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
@@ -203,8 +204,9 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
 
   private def checkEligibility(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
     testInjector(
-      new TestAuditLocalService(),
-      eligibilityWebService
+      eligibilityWebService,
+      new AuditLocalService(),
+      new AuditServiceDoesNothing
     ).
       getInstance(classOf[CheckEligibility])
   }
@@ -212,9 +214,10 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
   private def checkEligibilityAndAudit(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestAuditLocalService(auditService1 = auditService1),
       new TestDateService(),
-      eligibilityWebService
+      eligibilityWebService,
+      new AuditLocalService(auditService1 = auditService1),
+      new AuditServiceDoesNothing
     )
     (ioc.getInstance(classOf[CheckEligibility]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }

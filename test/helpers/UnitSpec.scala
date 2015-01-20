@@ -7,7 +7,10 @@ import org.scalatest.mock.MockitoSugar
 import org.scalatest.time.{Second, Span}
 import org.scalatest.{Matchers, WordSpec}
 
+import scala.concurrent.duration._
+
 abstract class UnitSpec extends WordSpec with Matchers with MockitoSugar with ScalaFutures with TestComposition {
 
   protected val timeout = Timeout(Span(1, Second))
+  protected val finiteTimeout = FiniteDuration(2, SECONDS)
 }

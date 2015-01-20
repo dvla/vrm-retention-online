@@ -14,6 +14,7 @@ import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 
 final class SetUpBusinessDetails @Inject()(
                                             auditService1: audit1.AuditService,
@@ -55,6 +56,12 @@ final class SetUpBusinessDetails @Inject()(
   def exit = Action {
     implicit request =>
       auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureActorToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,

@@ -20,7 +20,6 @@ class BeforeYouStartPageSteps(implicit webDriver: EventFiringWebDriver, timeout:
   }
 
   def `is displayed` = {
-    println("*** *** timeout: " + timeout.timeout)
     eventually {
       currentUrl should include(BeforeYouStartPage.address)
     }

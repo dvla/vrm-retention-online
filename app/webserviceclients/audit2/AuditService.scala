@@ -1,6 +1,8 @@
 package webserviceclients.audit2
 
+import scala.concurrent.Future
+
 trait AuditService {
 
-  def send(auditMessage: AuditRequest): Unit
+  def send(auditRequest: AuditRequest): Future[Unit]
 }

@@ -20,6 +20,7 @@ import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -81,19 +82,30 @@ final class VehicleLookup @Inject()(
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
             rejectionCode = Some(responseCode)))
+          auditService2.send(AuditRequest.from(
+            pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+            rejectionCode = Some(responseCode)))
 
           VehicleNotFound(responseCode.split(" - ")(1))
 
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
-              val auditMessage = AuditMessage.from(
+              auditService1.send(AuditMessage.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
                 transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
                 timestamp = dateService.dateTimeISOChronology,
                 vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
-              auditService1.send(auditMessage)
+                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+              auditService2.send(AuditRequest.from(
+                pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+                timestamp = dateService.dateTimeISOChronology,
+                vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
 
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 

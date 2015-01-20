@@ -1,7 +1,8 @@
 package controllers
 
 import audit1.{AuditService, AuditMessage}
-import composition.audit1.TestAuditLocalService
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
@@ -53,8 +54,10 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val mockAuditService = mock[AuditService]
 
       val injector = testInjector(
-        new TestAuditLocalService(mockAuditService),
-        new TestDateService)
+        new TestDateService,
+        new AuditLocalService(mockAuditService),
+        new AuditServiceDoesNothing
+        )
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
       val dateService = injector.getInstance(classOf[DateService])
@@ -151,7 +154,10 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector(new TestAuditLocalService).getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector(
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().
@@ -164,6 +170,9 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   private def confirmWithCookieFlags = {
-    testInjector(new TestAuditLocalService).getInstance(classOf[ConfirmBusiness])
+    testInjector(
+      new AuditLocalService,
+      new AuditServiceDoesNothing
+    ).getInstance(classOf[ConfirmBusiness])
   }
 }

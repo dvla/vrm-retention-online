@@ -170,15 +170,14 @@ final class BusinessChooseYourAddress @Inject()(
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-//    auditService2.send(AuditRequest.from(
-//      pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
-//      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-//      timestamp = dateService.dateTimeISOChronology,
-//      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-//      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-//      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel])
-//    )
+    auditService2.send(AuditRequest.from(
+      pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel])
+    )
 
     Redirect(routes.ConfirmBusiness.present()).
       discardingCookie(EnterAddressManuallyCacheKey).
