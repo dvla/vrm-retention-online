@@ -278,7 +278,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     ).getInstance(classOf[EnterAddressManually])
   }
 
-  private lazy val present = {
+  private def present = {
     val request = FakeRequest().
       withCookies(CookieFactoryForUnitSpecs.setupBusinessDetails()).
       withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel())

@@ -345,7 +345,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val present = {
+  private def present = {
     val request = FakeRequest()
     vehicleLookupStubs().present(request)
   }

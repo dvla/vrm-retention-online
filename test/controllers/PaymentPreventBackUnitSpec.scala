@@ -52,11 +52,11 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
       )
   }
 
-  private lazy val paymentPreventBack = testInjector(
+  private def paymentPreventBack = testInjector(
     new AuditLocalService,
     new AuditServiceDoesNothing
   ).getInstance(classOf[PaymentPreventBack])
-  private lazy val paymentPreventBackNotVisible =
+  private def paymentPreventBackNotVisible =
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
       new AuditLocalService

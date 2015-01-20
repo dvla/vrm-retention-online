@@ -46,7 +46,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val present = {
+  private def present = {
     val dateService = testInjector().getInstance(classOf[DateService])
     val request = FakeRequest().
       withCookies(transactionId()).
@@ -55,7 +55,7 @@ final class VrmLockedUnitSpec extends UnitSpec {
       withCookies(vehicleAndKeeperDetailsModel())
     vrmLocked.present(request)
   }
-  private lazy val vrmLocked = testInjector().getInstance(classOf[VrmLocked])
+  private def vrmLocked = testInjector().getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {
     testInjector(new TestConfig(isPrototypeBannerVisible = false)).

@@ -31,7 +31,7 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val present = {
+  private def present = {
     val request = FakeRequest()
     val uprnNotFound = testInjector().getInstance(classOf[UprnNotFound])
     uprnNotFound.present(request)

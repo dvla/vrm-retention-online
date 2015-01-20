@@ -58,5 +58,5 @@ final class PaymentFailureUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val paymentFailure = testInjector().getInstance(classOf[PaymentFailure])
+  private def paymentFailure = testInjector().getInstance(classOf[PaymentFailure])
 }

@@ -323,17 +323,17 @@ final class PaymentUnitSpec extends UnitSpec {
       )
   }
 
-  private lazy val payment = testInjector(
+  private def payment = testInjector(
     new ValidatedCardDetails(),
     new AuditLocalService,
     new AuditServiceDoesNothing
   ).getInstance(classOf[Payment])
-  private lazy val paymentCallFails = testInjector(
+  private def paymentCallFails = testInjector(
     new PaymentCallFails,
     new AuditLocalService,
     new AuditServiceDoesNothing
   ).getInstance(classOf[Payment])
-  private lazy val paymentCancelValidated = testInjector(
+  private def paymentCancelValidated = testInjector(
     new CancelValidated,
     new AuditLocalService,
     new AuditServiceDoesNothing

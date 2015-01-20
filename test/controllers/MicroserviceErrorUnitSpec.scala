@@ -34,6 +34,6 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
       getInstance(classOf[MicroServiceError])
   }
 
-  private lazy val present = microServiceError.present(FakeRequest())
-  private lazy val microServiceError = testInjector().getInstance(classOf[MicroServiceError])
+  private def present = microServiceError.present(FakeRequest())
+  private def microServiceError = testInjector().getInstance(classOf[MicroServiceError])
 }

@@ -124,8 +124,8 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val setUpBusinessDetails = testInjector().getInstance(classOf[SetUpBusinessDetails])
-  private lazy val present = {
+  private def setUpBusinessDetails = testInjector().getInstance(classOf[SetUpBusinessDetails])
+  private def present = {
     val request = FakeRequest().
       withCookies(vehicleAndKeeperDetailsModel())
     setUpBusinessDetails.present(request)

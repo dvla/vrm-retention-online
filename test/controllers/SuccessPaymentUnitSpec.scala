@@ -88,7 +88,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
     }*/
   }
 
-  private lazy val successPayment = testInjector(
+  private def successPayment = testInjector(
     new ValidatedAuthorised(),
     new com.tzavellas.sse.guice.ScalaModule() {
       override def configure(): Unit = {
