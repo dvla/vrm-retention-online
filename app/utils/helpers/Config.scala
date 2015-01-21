@@ -41,9 +41,6 @@ class Config {
   // Progress step indicator
   lazy val isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)
 
-  // Audit Service
-  lazy val auditServiceUseRabbit = getOptionalProperty[Boolean]("auditService.useRabbit").getOrElse(false)
-
   // Rabbit-MQ
   lazy val rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
   lazy val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)
