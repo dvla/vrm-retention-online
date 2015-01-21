@@ -390,7 +390,7 @@ vrm_retention_payment.javascript-disabled.message = You are seeing this addition
 vrm_retention_payment.javascript-disabled.button = Continue
 vrm_retention_payment.cancel.button = Cancel
 vrm_retention_payment.p1 = If you do not have a credit or debit card to complete this transaction you will need to use the paper service in order to retain your personalised registration where alternative payment options are available.
-vrm_retention_payment.title2 = Pay by debit or credit card
+vrm_retention_payment.title2 = Pay by credit or debit card
 vrm_retention_payment.p2 = Only Maestro, Visa Debit, Mastercard Debit, Electron debit cards, VISA, and Mastercard credit cards are accepted.
 vrm_retention_paymentfailure.tryagainbutton = Try again
 vrm_retention_paymentfailure.exitbutton = Exit
@@ -508,6 +508,7 @@ addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 #Success payment page
 vrm_retention_success_payment.title = Payment Successful
 vrm_retention_success_payment.h1 = Thank you for your payment, your Registration Number can now be taken off your vehicle
+vrm_retention_success_payment.h2 = What to do next
 vrm_retention_success_payment.p1 = Your replacement registration:
 vrm_retention_success_payment.p1business = Keeper’s replacement registration:
 vrm_retention_success_payment.p2 = You will receive a new V5C within 2 weeks. When this arrives, your registration number,
