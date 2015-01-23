@@ -87,3 +87,11 @@
     }
 
 }
+
+@if(config.googleAnalyticsTrackingId.isDefined) {
+    <script type="text/javascript">
+        track('@StoreDetailsConsentId', 'change');
+        track('@ConfirmId', 'click');
+        track('@ExitId', 'click');
+    </script>
+}
