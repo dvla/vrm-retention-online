@@ -11,7 +11,7 @@ function track(inputId, event) {
         if (element.addEventListener) {
             /* addEventListener is a W3 standard that is implemented in the majority of other browsers (FF, Webkit, Opera, IE9+) */
             element.addEventListener(event, function (e) {
-                console.log("trackClick addEventListener send event: " + location.href + ", id: " + inputId + ", event " + event);
+                /* console.log("trackClick addEventListener send event: " + location.href + ", id: " + inputId + ", event " + event); */
                 ga('send', 'event', location.href, inputId, event);
             });
         } else if (element.attachEvent) {
