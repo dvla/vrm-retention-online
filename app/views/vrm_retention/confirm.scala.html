@@ -54,7 +54,7 @@
         <div class="two-col">
             <div class="second-col">
                 <details>
-                    <summary><span class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
+                    <summary><span id="@SummaryId" class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
                     <div class="panel-indent">
                         <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
                         <p>@Messages("vrm_retention_confirm.emailWarnp2")</p>
@@ -89,6 +89,7 @@
 
 @if(config.googleAnalyticsTrackingId.isDefined) {
     <script type="text/javascript">
+        track('@SummaryId', 'click');
         track('@KeeperEmailId', 'change');
         track('@ConfirmId', 'click');
         track('@ExitId', 'click');
