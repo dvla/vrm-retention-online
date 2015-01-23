@@ -11,7 +11,7 @@ class Config {
 
   lazy val isCsrfPreventionEnabled = getOptionalProperty[Boolean]("csrf.prevention").getOrElse(default = true)
 
-  // Micro-service config // TODO take defaults off the timeouts
+  // Micro-service config
   lazy val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse("NOT FOUND")
   lazy val vrmRetentionEligibilityMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
   lazy val vrmRetentionEligibilityMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionEligibility.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
@@ -74,9 +74,9 @@ class Config {
   val auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
   // Web headers
-  val applicationCode: String = getProperty[String]("webHeader.applicationCode")
-  val serviceTypeCode: String = getProperty[String]("webHeader.serviceTypeCode")
-  val orgBusinessUnit: String = getProperty[String]("webHeader.orgBusinessUnit")
-  val channelCode: String = getProperty[String]("webHeader.channelCode")
-  val contactId: Long = getProperty[Long]("webHeader.contactId")
+  val applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")
+  val serviceTypeCode: String = getOptionalProperty[String]("webHeader.serviceTypeCode").getOrElse("NOT FOUND")
+  val orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit").getOrElse("NOT FOUND")
+  val channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse("NOT FOUND")
+  val contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(0L)
 }
