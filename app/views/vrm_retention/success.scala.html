@@ -4,7 +4,7 @@
 
 @import controllers.routes.Success
 @import views.html.vrm_retention.main
-@import views.vrm_retention.Success.FinishId
+@import views.vrm_retention.Success.{FinishId,CreatePdfId,PrintId}
 
 
 @main(
@@ -31,7 +31,7 @@
 					<p>@Messages("vrm_retention_success_payment.p7")</p>
 				</div>
 				<div class="first-col">
-					<a class="pdf-link" href="@Success.createPdf()">
+					<a id="@CreatePdfId" class="pdf-link" href="@Success.createPdf()">
 						<img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
 						@Messages("vrm_retention_success.newPlateLink")
 					</a>
@@ -93,9 +93,17 @@
 
     <div class="form-steps">
 	  <div class="step">
-	    <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
+	    <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
 	    <br /><br />
         <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
 	  </div>
     </div>
+}
+
+@if(config.googleAnalyticsTrackingId.isDefined) {
+	<script type="text/javascript">
+		track('@CreatePdfId', 'click');
+		track('@PrintId', 'click');
+		track('@FinishId', 'click');
+	</script>
 }
