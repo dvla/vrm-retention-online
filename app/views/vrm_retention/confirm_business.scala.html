@@ -85,13 +85,11 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
-
 }
 
 @if(config.googleAnalyticsTrackingId.isDefined) {
     <script type="text/javascript">
-        track('@StoreDetailsConsentId', 'change');
-        track('@ConfirmId', 'click');
-        track('@ExitId', 'click');
+        trackChange(['@StoreDetailsConsentId']);
+        trackClick(['@ConfirmId', '@ExitId']);
     </script>
 }

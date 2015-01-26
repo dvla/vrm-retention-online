@@ -89,9 +89,7 @@
 
 @if(config.googleAnalyticsTrackingId.isDefined) {
     <script type="text/javascript">
-        track('@SummaryId', 'click');
-        track('@KeeperEmailId', 'change');
-        track('@ConfirmId', 'click');
-        track('@ExitId', 'click');
+        trackChange(['@KeeperEmailId']);
+        trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
     </script>
 }

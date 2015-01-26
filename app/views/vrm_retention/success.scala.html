@@ -102,8 +102,6 @@
 
 @if(config.googleAnalyticsTrackingId.isDefined) {
 	<script type="text/javascript">
-		track('@CreatePdfId', 'click');
-		track('@PrintId', 'click');
-		track('@FinishId', 'click');
+		trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
 	</script>
 }
