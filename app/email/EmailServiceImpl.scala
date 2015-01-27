@@ -79,7 +79,7 @@ final class EmailServiceImpl @Inject()(
               addTo(emailAddress)
           }
 
-          commonsMail.setHostName(config.emailSmtpHost)
+          commonsMail.setHostName(config2.emailSmtpHost)
           commonsMail.setSmtpPort(config.emailSmtpPort)
           commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
           commonsMail.send()

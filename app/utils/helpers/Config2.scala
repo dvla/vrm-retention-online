@@ -49,9 +49,9 @@ trait Config2 {
 //  // Payment Service
 //  def renewalFee: String
 //  def renewalFeeAbolitionDate: String
-//
-//  // Email Service
-//  def emailSmtpHost: String
+
+  // Email Service
+  def emailSmtpHost: String
 //  def emailSmtpPort: Int
 //  def emailSmtpSsl: Boolean
 //  def emailSmtpTls: Boolean

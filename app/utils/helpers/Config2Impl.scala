@@ -50,4 +50,6 @@ class Config2Impl extends Config2 {
   override def rabbitmqUsername = getOptionalProperty[String]("rabbitmq.username").getOrElse("NOT FOUND")
   override def rabbitmqPassword = getOptionalProperty[String]("rabbitmq.password").getOrElse("NOT FOUND")
   override def rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
+
+  override def emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
 }

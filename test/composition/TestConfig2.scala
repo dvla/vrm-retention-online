@@ -52,8 +52,8 @@ final class TestConfig2(
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
 
 //    when(config.renewalFee).thenReturn(notFound)
-//
-//    when(config.emailSmtpHost).thenReturn(notFound)
+
+    when(config.emailSmtpHost).thenReturn(notFound)
 //    when(config.emailSmtpHost).thenReturn(notFound)
 //    when(config.emailSmtpSsl).thenReturn(false)
 //    when(config.emailSmtpTls).thenReturn(true)

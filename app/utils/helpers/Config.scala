@@ -7,7 +7,7 @@ import scala.concurrent.duration.DurationInt
 class Config {
 
   // Email Service
-  lazy val emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
+
   lazy val emailSmtpPort: Int = getOptionalProperty[Int]("smtp.port").getOrElse(25)
   lazy val emailSmtpSsl: Boolean = getOptionalProperty[Boolean]("smtp.ssl").getOrElse(false)
   lazy val emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)
