@@ -56,7 +56,7 @@ trait Config2 {
   def emailSmtpTls: Boolean
   def emailSmtpUser: String
   def emailSmtpPassword: String
-//  def emailWhitelist: Option[List[String]]
+  def emailWhitelist: Option[List[String]]
 //  def emailSenderAddress: String
 //
 //  // Cookie flags

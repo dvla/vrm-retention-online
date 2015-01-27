@@ -34,7 +34,7 @@ final class EmailServiceImpl @Inject()(
                          businessDetailsModel: Option[BusinessDetailsModel],
                          isKeeper: Boolean) {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
-    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+    if ((!config2.emailWhitelist.isDefined) || (config2.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
       Logger.debug("About to send email")
 
       pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {

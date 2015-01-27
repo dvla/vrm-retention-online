@@ -57,7 +57,7 @@ final class TestConfig2(
     when(config.emailSmtpTls).thenReturn(true)
     when(config.emailSmtpUser).thenReturn(notFound)
     when(config.emailSmtpPassword).thenReturn(notFound)
-//    when(config.emailWhitelist).thenReturn(None)
+    when(config.emailWhitelist).thenReturn(None)
 //    when(config.emailSenderAddress).thenReturn(notFound)
 //
     when(config.secureCookies).thenReturn(secureCookies)

@@ -56,4 +56,5 @@ class Config2Impl extends Config2 {
   override def emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)
   override def emailSmtpUser: String = getOptionalProperty[String]("smtp.user").getOrElse("")
   override def emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
+  override def emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
 }

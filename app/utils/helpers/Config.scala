@@ -7,8 +7,6 @@ import scala.concurrent.duration.DurationInt
 class Config {
 
   // Email Service
-  lazy val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
-  //getOptionalProperty[("email.whitelist", "").split(",")
   lazy val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
 
   lazy val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
