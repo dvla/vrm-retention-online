@@ -52,4 +52,6 @@ class Config2Impl extends Config2 {
   override def rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
 
   override def emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
+  override def emailSmtpPort: Int = getOptionalProperty[Int]("smtp.port").getOrElse(25)
+  override def emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)
 }

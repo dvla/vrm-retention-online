@@ -52,9 +52,8 @@ trait Config2 {
 
   // Email Service
   def emailSmtpHost: String
-//  def emailSmtpPort: Int
-//  def emailSmtpSsl: Boolean
-//  def emailSmtpTls: Boolean
+  def emailSmtpPort: Int
+  def emailSmtpTls: Boolean
 //  def emailSmtpUser: String
 //  def emailSmtpPassword: String
 //  def emailWhitelist: Option[List[String]]

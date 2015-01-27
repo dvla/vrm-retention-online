@@ -75,12 +75,12 @@ final class EmailServiceImpl @Inject()(
 
             htmlEmail.setFrom(from.email, from.name).
               setSubject(subject).
-              setStartTLSEnabled(config.emailSmtpTls).
+              setStartTLSEnabled(config2.emailSmtpTls).
               addTo(emailAddress)
           }
 
           commonsMail.setHostName(config2.emailSmtpHost)
-          commonsMail.setSmtpPort(config.emailSmtpPort)
+          commonsMail.setSmtpPort(config2.emailSmtpPort)
           commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
           commonsMail.send()
           if (isKeeper) Logger.debug("Email sent to keeper")

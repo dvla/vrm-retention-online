@@ -7,10 +7,6 @@ import scala.concurrent.duration.DurationInt
 class Config {
 
   // Email Service
-
-  lazy val emailSmtpPort: Int = getOptionalProperty[Int]("smtp.port").getOrElse(25)
-  lazy val emailSmtpSsl: Boolean = getOptionalProperty[Boolean]("smtp.ssl").getOrElse(false)
-  lazy val emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)
   lazy val emailSmtpUser: String = getOptionalProperty[String]("smtp.user").getOrElse("")
   lazy val emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
   lazy val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
