@@ -58,4 +58,7 @@ class Config2Impl extends Config2 {
   override def emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
   override def emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
   override def emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
+  override def cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
+  override def storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
+
 }

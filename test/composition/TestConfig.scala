@@ -26,9 +26,6 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
 
-    when(config.cookieMaxAge).thenReturn(cookieMaxAge)
-    when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
-
     when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
     when(config.auditMsRequestTimeout).thenReturn(30000)
 

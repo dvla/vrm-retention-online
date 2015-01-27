@@ -14,11 +14,11 @@ final class RetentionCookieFlags @Inject()()(config: Config,
     if (List(StoreBusinessDetailsCacheKey, BusinessDetailsCacheKey).contains(key)) {
       cookie.
         withSecure(config2.secureCookies).
-        withMaxAge(config.storeBusinessDetailsMaxAge)
+        withMaxAge(config2.storeBusinessDetailsMaxAge)
     } else {
       cookie.
         withSecure(config2.secureCookies).
-        withMaxAge(config.cookieMaxAge)
+        withMaxAge(config2.cookieMaxAge)
     }
 
   override def applyToCookie(cookie: Cookie): Cookie = applyToCookie(cookie, key = "")

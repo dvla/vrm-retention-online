@@ -61,9 +61,9 @@ trait Config2 {
 
   // Cookie flags
   def secureCookies: Boolean
-//  def cookieMaxAge: Int
-//  def storeBusinessDetailsMaxAge:Int
-//
+  def cookieMaxAge: Int
+  def storeBusinessDetailsMaxAge:Int
+
 //  // Audit microservice
 //  def auditMicroServiceUrlBase: String
 //  def auditMsRequestTimeout: Int
