@@ -8,7 +8,7 @@ trait Config2 {
   def purchaseAmount: String
 
 //  // Micro-service config
-//  def vehicleAndKeeperLookupMicroServiceBaseUrl: String
+  def vehicleAndKeeperLookupMicroServiceBaseUrl: String
   def vrmRetentionEligibilityMicroServiceUrlBase: String
   def vrmRetentionRetainMicroServiceUrlBase: String
 //  def paymentSolveMicroServiceUrlBase: String

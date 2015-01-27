@@ -18,7 +18,7 @@ final class VehicleAndKeeperLookupWebServiceImpl @Inject()(
   extends VehicleAndKeeperLookupWebService {
 
   private val endPoint: String =
-    s"${config.vehicleAndKeeperLookupMicroServiceBaseUrl}/vehicleandkeeper/lookup/v1"
+    s"${config2.vehicleAndKeeperLookupMicroServiceBaseUrl}/vehicleandkeeper/lookup/v1"
 
   override def invoke(request: VehicleAndKeeperDetailsRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.registrationNumber)

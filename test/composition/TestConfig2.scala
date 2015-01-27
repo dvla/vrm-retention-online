@@ -26,7 +26,7 @@ final class TestConfig2(
   def build = {
     val config: Config2 = mock[Config2]
     when(config.purchaseAmount).thenReturn("42")
-//    when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
+    when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
 //    when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
     when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(notFound)
@@ -65,7 +65,6 @@ final class TestConfig2(
 //    when(config.emailWhitelist).thenReturn(None)
 //    when(config.emailSenderAddress).thenReturn(notFound)
 //
-//    when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
     when(config.secureCookies).thenReturn(secureCookies)
 //    when(config.cookieMaxAge).thenReturn(cookieMaxAge)
 //    when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
