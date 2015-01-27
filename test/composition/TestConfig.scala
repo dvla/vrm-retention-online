@@ -25,7 +25,6 @@ final class TestConfig(
 
   def build = {
     val config: Config = mock[Config]
-    when(config.isCsrfPreventionEnabled).thenReturn(true)
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
     when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
@@ -66,8 +65,6 @@ final class TestConfig(
     when(config.emailSenderAddress).thenReturn(notFound)
 
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
-    when(config.encryptCookies).thenReturn(false)
-    when(config.secureCookies).thenReturn(secureCookies)
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 

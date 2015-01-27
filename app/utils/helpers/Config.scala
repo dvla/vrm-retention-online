@@ -9,8 +9,6 @@ class Config {
   // Payment Service
   lazy val purchaseAmount: String = getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
 
-  lazy val isCsrfPreventionEnabled = getOptionalProperty[Boolean]("csrf.prevention").getOrElse(default = true)
-
   // Micro-service config
   lazy val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse("NOT FOUND")
   lazy val vrmRetentionEligibilityMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
@@ -63,10 +61,6 @@ class Config {
   //getOptionalProperty[("email.whitelist", "").split(",")
   lazy val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
 
-  // Cookie flags
-  lazy val encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)
-  lazy val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
-  //, default = true)
   lazy val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
   lazy val storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
 

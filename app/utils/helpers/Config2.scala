@@ -2,8 +2,6 @@ package utils.helpers
 
 trait Config2 {
 
-  def isCsrfPreventionEnabled: Boolean
-
 //  // Micro-service config
 //  def vehicleAndKeeperLookupMicroServiceBaseUrl: String
 //  def vrmAssignEligibilityMicroServiceUrlBase: String
@@ -56,7 +54,7 @@ trait Config2 {
 //  def emailSenderAddress: String
 //
 //  // Cookie flags
-//  def secureCookies: Boolean
+  def secureCookies: Boolean
 //  def cookieMaxAge: Int
 //  def storeBusinessDetailsMaxAge:Int
 //

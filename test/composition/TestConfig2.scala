@@ -14,7 +14,7 @@ final class TestConfig2(
                   rabbitmqPort: Int = 0,
                   rabbitmqQueue: String = "NOT FOUND",
                   vehicleAndKeeperLookupMicroServiceBaseUrl: String = "NOT FOUND",
-                  secureCookies: Boolean = true,
+                  secureCookies: Boolean = false,
                   cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
                   storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
                   auditMicroServiceUrlBase: String = "http://somewhere-in-audit-micro-service-land",
@@ -25,7 +25,6 @@ final class TestConfig2(
 
   def build = {
     val config: Config2 = mock[Config2]
-    when(config.isCsrfPreventionEnabled).thenReturn(true)
 //    when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
 //    when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
 //    when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
@@ -66,7 +65,7 @@ final class TestConfig2(
 //    when(config.emailSenderAddress).thenReturn(notFound)
 //
 //    when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
-//    when(config.secureCookies).thenReturn(secureCookies)
+    when(config.secureCookies).thenReturn(secureCookies)
 //    when(config.cookieMaxAge).thenReturn(cookieMaxAge)
 //    when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 //
