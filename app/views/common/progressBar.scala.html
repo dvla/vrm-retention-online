@@ -2,7 +2,7 @@
         config: utils.helpers.Config,
         config2: utils.helpers.Config2)
 
-@if(config.isProgressBarEnabled){
+@if(config2.isProgressBarEnabled){
     @progress.map { p =>
         <div class="progress-indicator">@p</div>
     }

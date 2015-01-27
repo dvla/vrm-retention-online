@@ -101,7 +101,7 @@
     </div>
 }
 
-@if(config.googleAnalyticsTrackingId.isDefined) {
+@if(config2.googleAnalyticsTrackingId.isDefined) {
 	@if(!isKeeper) {
 		<script type="text/javascript">
 			trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);

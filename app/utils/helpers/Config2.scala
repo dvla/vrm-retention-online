@@ -31,13 +31,13 @@ trait Config2 {
 //  // Prototype survey URL
 //  def prototypeSurveyUrl: String
 //  def prototypeSurveyPrepositionInterval: Long
-//
-//  // Google analytics
-//  def googleAnalyticsTrackingId: Option[String]
-//
-//  // Progress step indicator
-//  def isProgressBarEnabled: Boolean
-//
+
+  // Google analytics
+  def googleAnalyticsTrackingId: Option[String]
+
+  // Progress step indicator
+  def isProgressBarEnabled: Boolean
+
 //  // Rabbit-MQ
 //  def rabbitmqHost: String
 //  def rabbitmqPort: Int

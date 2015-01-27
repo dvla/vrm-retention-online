@@ -34,8 +34,8 @@ final class TestConfig2(
     when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
     when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
 
-//    when(config.googleAnalyticsTrackingId).thenReturn(None)
-//
+    when(config.googleAnalyticsTrackingId).thenReturn(None)
+
     when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
 
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(30.seconds.toMillis.toInt)
@@ -44,9 +44,9 @@ final class TestConfig2(
 
 //    when(config.prototypeSurveyUrl).thenReturn(notFound)
 //    when(config.prototypeSurveyPrepositionInterval).thenReturn(7.days.toMillis)
-//
-//    when(config.isProgressBarEnabled).thenReturn(true)
-//
+
+    when(config.isProgressBarEnabled).thenReturn(true)
+
 //    when(config.rabbitmqHost).thenReturn(rabbitmqHost)
 //    when(config.rabbitmqPort).thenReturn(rabbitmqPort)
 //    when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)

@@ -6,12 +6,6 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
 
-  // Google analytics
-  lazy val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.retention")
-
-  // Progress step indicator
-  lazy val isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)
-
   // Rabbit-MQ
   lazy val rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
   lazy val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)

@@ -26,10 +26,6 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
 
-    when(config.googleAnalyticsTrackingId).thenReturn(None)
-
-    when(config.isProgressBarEnabled).thenReturn(true)
-
     when(config.rabbitmqHost).thenReturn(rabbitmqHost)
     when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
