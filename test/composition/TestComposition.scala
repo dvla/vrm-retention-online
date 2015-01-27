@@ -26,7 +26,7 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMR
 trait TestComposition extends Composition {
 
   override lazy val injector: Injector = testInjector(
-    new TestDateService,
+
     new TestOrdnanceSurvey,
     new TestVehicleAndKeeperLookupWebService,
     new TestVRMRetentionEligibilityWebService,
@@ -41,7 +41,8 @@ trait TestComposition extends Composition {
     val overriddenDevModule = Modules.`override`(
       new TestConfig2(),
       new TestModule(),
-      new TestBruteForcePreventionWebService
+      new TestBruteForcePreventionWebService,
+      new TestDateService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -60,7 +61,6 @@ final class TestModule extends ScalaModule {
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
-    bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[RetentionCookieFlags].asEagerSingleton()
 
     if (getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)) {
