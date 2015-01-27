@@ -14,4 +14,6 @@ class Config2Impl extends Config2 {
   override def applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")
 
   override def channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse("NOT FOUND")
+
+  override def contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(0L)
 }

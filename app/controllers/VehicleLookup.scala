@@ -165,7 +165,7 @@ final class VehicleLookup @Inject()(
       originDateTime = dateService.now.toDateTime,
       applicationCode = config2.applicationCode,
       channelCode = config2.channelCode,
-      contactId = config.contactId,
+      contactId = config2.contactId,
       eventFlag = alwaysLog,
       serviceTypeCode = config.serviceTypeCode,
       languageCode = englishLanguage,
