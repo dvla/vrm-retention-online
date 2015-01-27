@@ -27,7 +27,7 @@ final class TestConfig2(
     val config: Config2 = mock[Config2]
     when(config.purchaseAmount).thenReturn("42")
 //    when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
-//    when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
+    when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
 //    when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
 //    when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(notFound)
 //    when(config.vrmRetentionRetainMsRequestTimeout).thenReturn(1000)

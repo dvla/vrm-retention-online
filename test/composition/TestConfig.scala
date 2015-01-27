@@ -26,7 +26,6 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
-    when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
     when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
     when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(notFound)
     when(config.vrmRetentionRetainMsRequestTimeout).thenReturn(1000)

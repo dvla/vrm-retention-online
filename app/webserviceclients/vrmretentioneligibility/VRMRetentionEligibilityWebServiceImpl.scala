@@ -15,7 +15,7 @@ final class VRMRetentionEligibilityWebServiceImpl @Inject()(
                                                              config2: Config2
                                                              ) extends VRMRetentionEligibilityWebService {
 
-  private val endPoint = s"${config.vrmRetentionEligibilityMicroServiceUrlBase}/vrm/retention/eligibility"
+  private val endPoint = s"${config2.vrmRetentionEligibilityMicroServiceUrlBase}/vrm/retention/eligibility"
 
   override def invoke(request: VRMRetentionEligibilityRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
