@@ -14,5 +14,5 @@ class Version @Inject()(vehiclesKeeperConfig: VehicleAndKeeperLookupConfig,
     vehiclesKeeperConfig.vehicleAndKeeperLookupMicroServiceBaseUrl + "/version",
     //    config.paymentSolveMicroServiceUrlBase + "/version",
     config2.vrmRetentionEligibilityMicroServiceUrlBase + "/version",
-    config.vrmRetentionRetainMicroServiceUrlBase + "/version"
+    config2.vrmRetentionRetainMicroServiceUrlBase + "/version"
   )

@@ -15,7 +15,7 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(
                                                         config2: Config2
                                                         ) extends VRMRetentionRetainWebService {
 
-  private val endPoint: String = s"${config.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
+  private val endPoint: String = s"${config2.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
 
   override def invoke(request: VRMRetentionRetainRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)

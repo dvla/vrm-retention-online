@@ -20,4 +20,6 @@ class Config2Impl extends Config2 {
   override def serviceTypeCode: String = getOptionalProperty[String]("webHeader.serviceTypeCode").getOrElse("NOT FOUND")
 
   override def vrmRetentionEligibilityMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
+
+  override def vrmRetentionRetainMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionRetainMicroServiceUrlBase").getOrElse("NOT FOUND")
 }

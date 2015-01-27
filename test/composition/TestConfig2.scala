@@ -29,7 +29,7 @@ final class TestConfig2(
 //    when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(notFound)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
 //    when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
-//    when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(notFound)
+    when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(notFound)
 //    when(config.vrmRetentionRetainMsRequestTimeout).thenReturn(1000)
 //    when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
 //    when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
