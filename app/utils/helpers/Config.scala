@@ -70,6 +70,5 @@ class Config {
   // Web headers
   val serviceTypeCode: String = getOptionalProperty[String]("webHeader.serviceTypeCode").getOrElse("NOT FOUND")
   val orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit").getOrElse("NOT FOUND")
-  val channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse("NOT FOUND")
   val contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(0L)
 }

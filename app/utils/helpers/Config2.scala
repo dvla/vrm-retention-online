@@ -71,6 +71,6 @@ trait Config2 {
   def applicationCode: String
 //  def serviceTypeCode: String
 //  def orgBusinessUnit: String
-//  def channelCode: String
+  def channelCode: String
 //  def contactId: Long
 }

@@ -164,7 +164,7 @@ final class VehicleLookup @Inject()(
     DmsWebHeaderDto(conversationId = trackingId,
       originDateTime = dateService.now.toDateTime,
       applicationCode = config2.applicationCode,
-      channelCode = config.channelCode,
+      channelCode = config2.channelCode,
       contactId = config.contactId,
       eventFlag = alwaysLog,
       serviceTypeCode = config.serviceTypeCode,
