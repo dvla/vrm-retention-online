@@ -26,10 +26,6 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
 
-
-
-    when(config.renewalFee).thenReturn(notFound)
-
     when(config.emailSmtpHost).thenReturn(notFound)
     when(config.emailSmtpHost).thenReturn(notFound)
     when(config.emailSmtpSsl).thenReturn(false)

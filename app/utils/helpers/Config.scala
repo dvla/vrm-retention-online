@@ -6,9 +6,6 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
 
-  // Payment Service
-  lazy val renewalFee: String = getOptionalProperty[String]("assign.renewalFee").getOrElse("NOT FOUND")
-
   // Email Service
   lazy val emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
   lazy val emailSmtpPort: Int = getOptionalProperty[Int]("smtp.port").getOrElse(25)
