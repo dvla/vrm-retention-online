@@ -1,7 +1,7 @@
 package webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import composition.WithApplication
+import composition.{TestConfig2, TestConfig, WithApplication}
 import helpers.{UnitSpec, WireMockFixture}
 import org.joda.time.DateTime
 import play.api.libs.json.Json
@@ -26,9 +26,10 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     }
   }
 
-  private def lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
-    override lazy val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
-  })
+  private def lookupService = new VehicleAndKeeperLookupWebServiceImpl(
+    config = new TestConfig(vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort").build,
+    config2 = new TestConfig2(vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort").build
+  )
 
   private final val trackingId = "track-id-test"
 

@@ -7,10 +7,13 @@ import play.api.libs.json.Json
 import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import utils.helpers.Config
+import utils.helpers.{Config2, Config}
 import scala.concurrent.Future
 
-final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends PaymentSolveWebService {
+final class PaymentSolveWebServiceImpl @Inject()(
+                                                  config: Config,
+                                                  config2: Config2
+                                                  ) extends PaymentSolveWebService {
 
   override def invoke(request: PaymentSolveBeginRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.vrm)

@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.audit2
@@ -30,7 +30,8 @@ final class CheckEligibility @Inject()(
                                         auditService2: audit2.AuditService
                                         )
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config) extends Controller {
+                                       config: Config,
+                                       config2: Config2) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -169,8 +170,7 @@ final class CheckEligibility @Inject()(
     }
   }
 
-  private def buildWebHeader(trackingId: String): VssWebHeaderDto =
-  {
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,

@@ -8,10 +8,13 @@ import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import utils.helpers.Config
+import utils.helpers.{Config2, Config}
 import scala.concurrent.Future
 
-final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: Config)
+final class VehicleAndKeeperLookupWebServiceImpl @Inject()(
+                                                            config: Config,
+                                                            config2: Config2
+                                                            )
   extends VehicleAndKeeperLookupWebService {
 
   private val endPoint: String =

@@ -7,7 +7,8 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
-final class RetentionCookieFlags @Inject()()(implicit val config: Config) extends CookieFlags {
+final class RetentionCookieFlags @Inject()()(config: Config,
+                                             config2: Config2) extends CookieFlags {
 
   override def applyToCookie(cookie: Cookie, key: String): Cookie =
     if (List(StoreBusinessDetailsCacheKey, BusinessDetailsCacheKey).contains(key)) {

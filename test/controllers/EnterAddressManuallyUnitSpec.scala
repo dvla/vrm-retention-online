@@ -2,7 +2,7 @@ package controllers
 
 import composition.audit1.AuditLocalService
 import composition.audit2.AuditServiceDoesNothing
-import composition.{TestConfig, WithApplication}
+import composition.{TestConfig2, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -273,6 +273,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
   private def enterAddressManuallyPrototypeNotVisible = {
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
+      new TestConfig2(isPrototypeBannerVisible = false),
       new AuditLocalService,
       new AuditServiceDoesNothing
     ).getInstance(classOf[EnterAddressManually])

@@ -1,11 +1,11 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
+import _root_.audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalService
 import composition.audit2.AuditServiceDoesNothing
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
-import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
+import composition._
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -364,6 +364,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(),
       new AuditServiceDoesNothing,
@@ -376,6 +377,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
+      new TestConfig2(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
       new AuditLocalService(),
       new AuditServiceDoesNothing,
@@ -392,6 +394,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(auditService1 = auditService1),
       new AuditServiceDoesNothing,
@@ -417,6 +420,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallFails()
     ).
       getInstance(classOf[VehicleLookup])
@@ -427,6 +431,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallNoResponse()
     ).
       getInstance(classOf[VehicleLookup])
@@ -437,6 +442,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallServerDown()
     ).
       getInstance(classOf[VehicleLookup])
@@ -447,6 +453,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
       new AuditServiceDoesNothing
     ).
@@ -458,6 +465,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallVRMNotFound(),
       new AuditServiceDoesNothing
     ).

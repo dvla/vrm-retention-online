@@ -1,11 +1,11 @@
 package controllers
 
-import audit1.{AuditService, AuditMessage}
+import _root_.audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalService
 import composition.audit2.AuditServiceDoesNothing
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
+import composition._
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -136,7 +136,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit (use UPRN enabled)" should {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
-      val auditService1 = mock[audit1.AuditService]
+      val auditService1: _root_.audit1.AuditService = mock[_root_.audit1.AuditService]
 
       val injector = testInjector(
         new TestOrdnanceSurvey,
@@ -147,6 +147,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
           }
         },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
+        new TestConfig2(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
         new TestDateService,
         new AuditLocalService(auditService1),
         new AuditServiceDoesNothing
@@ -359,6 +360,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         }
       },
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
       new AuditLocalService,
       new AuditServiceDoesNothing
     ).getInstance(classOf[BusinessChooseYourAddress])

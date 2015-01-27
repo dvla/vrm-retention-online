@@ -16,7 +16,9 @@ final class TestConfig(
                   vehicleAndKeeperLookupMicroServiceBaseUrl: String = "NOT FOUND",
                   secureCookies: Boolean = false,
                   cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
-                  storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt
+                  storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
+                  auditMicroServiceUrlBase: String = "http://somewhere-in-audit-micro-service-land",
+                  paymentSolveMicroServiceUrlBase: String = "NOT FOUND"
                   ) extends ScalaModule with MockitoSugar {
 
   val notFound = "NOT FOUND"
@@ -29,7 +31,7 @@ final class TestConfig(
     when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
     when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(notFound)
     when(config.vrmRetentionRetainMsRequestTimeout).thenReturn(1000)
-    when(config.paymentSolveMicroServiceUrlBase).thenReturn(notFound)
+    when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
     when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)
@@ -69,7 +71,7 @@ final class TestConfig(
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 
-    when(config.auditMicroServiceUrlBase).thenReturn("")
+    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
     when(config.auditMsRequestTimeout).thenReturn(30000)
 
     // Web headers

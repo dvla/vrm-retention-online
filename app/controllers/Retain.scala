@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
@@ -29,7 +29,8 @@ final class Retain @Inject()(
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                             config: Config) extends Controller {
+                             config: Config,
+                             config2: Config2) extends Controller {
 
   def retain = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],

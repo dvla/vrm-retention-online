@@ -3,13 +3,17 @@ package webserviceclients.audit2
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.http.Status
-import utils.helpers.Config
+import utils.helpers.{Config2, Config}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-class AuditServiceImpl @Inject()(config: Config, ws: AuditMicroService) extends AuditService {
+class AuditServiceImpl @Inject()(
+                                  ws: AuditMicroService,
+                                  config: Config,
+                                  config2: Config2
+                                  ) extends AuditService {
 
   override def send(auditRequest: AuditRequest): Future[Unit] = {
     if (config.auditMicroServiceUrlBase == "NOT FOUND")

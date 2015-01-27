@@ -5,11 +5,12 @@ import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, Ve
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                             config: Config) extends Controller {
+                                             config: Config,
+                                             config2: Config2) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

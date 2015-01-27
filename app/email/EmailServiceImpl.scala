@@ -11,12 +11,16 @@ import play.api.i18n.Messages
 import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config
+import utils.helpers.{Config2, Config}
 import views.html.vrm_retention.{email_with_html, email_without_html}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: PdfService, config: Config) extends EmailService {
+final class EmailServiceImpl @Inject()(
+                                        dateService: DateService,
+                                        pdfService: PdfService,
+                                        config: Config,
+                                        config2: Config2) extends EmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Play.resource(name = "public/images/gov-uk-email.png")

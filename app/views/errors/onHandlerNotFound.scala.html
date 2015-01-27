@@ -1,4 +1,6 @@
-@(request: RequestHeader)(implicit lang: Lang, config: utils.helpers.Config)
+@(request: RequestHeader)(implicit lang: Lang,
+        config: utils.helpers.Config,
+        config2: utils.helpers.Config2)
 
 @import views.html.common.{govMainDefault, protoType}
 @import views.vrm_retention.OnHandlerNotFound.ExitId

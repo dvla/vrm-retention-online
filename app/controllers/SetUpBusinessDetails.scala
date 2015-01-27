@@ -1,6 +1,6 @@
 package controllers
 
-import audit1.{AuditService, AuditMessage}
+import audit1.AuditMessage
 import com.google.inject.Inject
 import models.{EligibilityModel, SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
@@ -22,7 +22,8 @@ final class SetUpBusinessDetails @Inject()(
                                             dateService: DateService
                                             )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                           config: Config) extends Controller {
+                                           config: Config,
+                                           config2: Config2) extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
