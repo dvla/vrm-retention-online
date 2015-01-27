@@ -66,7 +66,7 @@ trait Config2 {
 
   // Audit microservice
   def auditMicroServiceUrlBase: String
-//  def auditMsRequestTimeout: Int
+  def auditMsRequestTimeout: Int
 
 //  // Web headers
   def applicationCode: String

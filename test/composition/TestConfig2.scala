@@ -42,16 +42,12 @@ final class TestConfig2(
 
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
 
-//    when(config.prototypeSurveyUrl).thenReturn(notFound)
-//    when(config.prototypeSurveyPrepositionInterval).thenReturn(7.days.toMillis)
-
     when(config.isProgressBarEnabled).thenReturn(true)
 
     when(config.rabbitmqHost).thenReturn(rabbitmqHost)
     when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
 
-//    when(config.renewalFee).thenReturn(notFound)
 
     when(config.emailSmtpHost).thenReturn(notFound)
     when(config.emailSmtpTls).thenReturn(true)
@@ -65,12 +61,11 @@ final class TestConfig2(
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 
     when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
-//    when(config.auditMsRequestTimeout).thenReturn(30000)
-//
+    when(config.auditMsRequestTimeout).thenReturn(30000)
+
     // Web headers
     when(config.applicationCode).thenReturn("test-applicationCode")
     when(config.serviceTypeCode).thenReturn("test-serviceTypeCode")
-//    when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
     when(config.channelCode).thenReturn("test-channelCode")
     when(config.contactId).thenReturn(42)
 

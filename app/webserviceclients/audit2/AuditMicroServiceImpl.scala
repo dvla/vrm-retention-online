@@ -18,7 +18,7 @@ final class AuditMicroServiceImpl @Inject()(config: Config,
 
     Logger.debug(s"Calling audit micro-service with request $request")
     WS.url(endPoint).
-      withRequestTimeout(config.auditMsRequestTimeout). // Timeout is in milliseconds
+      withRequestTimeout(config2.auditMsRequestTimeout). // Timeout is in milliseconds
       post(requestAsJson)
   }
 }

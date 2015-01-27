@@ -21,15 +21,8 @@ final class TestConfig(
                   paymentSolveMicroServiceUrlBase: String = "NOT FOUND"
                   ) extends ScalaModule with MockitoSugar {
 
-  val notFound = "NOT FOUND"
-
   def build = {
     val config: Config = mock[Config]
-
-    when(config.auditMsRequestTimeout).thenReturn(30000)
-
-    // Web headers
-    when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
 
     config
   }
