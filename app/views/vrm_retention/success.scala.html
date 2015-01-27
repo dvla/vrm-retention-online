@@ -101,7 +101,9 @@
 }
 
 @if(config.googleAnalyticsTrackingId.isDefined) {
-	<script type="text/javascript">
-		trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
-	</script>
+	@if(!isKeeper) {
+		<script type="text/javascript">
+			trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+		</script>
+	}
 }
