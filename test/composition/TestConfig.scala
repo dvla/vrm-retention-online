@@ -28,10 +28,6 @@ final class TestConfig(
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)
 
-
-    when(config.ordnanceSurveyMicroServiceUrl).thenReturn(notFound)
-    when(config.ordnanceSurveyRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
-
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(30.seconds.toMillis.toInt)
 
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
