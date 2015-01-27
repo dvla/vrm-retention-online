@@ -10,8 +10,10 @@ trait Config2 {
 //  // Micro-service config
   def vehicleAndKeeperLookupMicroServiceBaseUrl: String
   def vrmRetentionEligibilityMicroServiceUrlBase: String
+  def vrmRetentionEligibilityMsRequestTimeout: Int
   def vrmRetentionRetainMicroServiceUrlBase: String
-//  def paymentSolveMicroServiceUrlBase: String
+  def vrmRetentionRetainMsRequestTimeout: Int
+  //  def paymentSolveMicroServiceUrlBase: String
 //  def paymentSolveMsRequestTimeout: Int
 //
 //  // Ordnance survey config

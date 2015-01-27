@@ -6,10 +6,6 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
 
-  // Micro-service config
-  lazy val vrmRetentionEligibilityMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionEligibility.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
-  lazy val vrmRetentionRetainMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionRetain.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
-
   lazy val paymentSolveMicroServiceUrlBase: String = getOptionalProperty[String]("paymentSolveMicroServiceUrlBase").getOrElse("NOT FOUND")
   lazy val paymentSolveMsRequestTimeout: Int = getOptionalProperty[Int]("paymentSolve.ms.requesttimeout").getOrElse(5.seconds.toMillis.toInt)
 

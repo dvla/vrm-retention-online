@@ -2,6 +2,8 @@ package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 
+import scala.concurrent.duration.DurationInt
+
 class Config2Impl extends Config2 {
 
   // Payment Service
@@ -24,4 +26,8 @@ class Config2Impl extends Config2 {
   override def vrmRetentionRetainMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionRetainMicroServiceUrlBase").getOrElse("NOT FOUND")
 
   override def vehicleAndKeeperLookupMicroServiceBaseUrl: String = getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse("NOT FOUND")
+
+  override def vrmRetentionEligibilityMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionEligibility.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+
+  override def vrmRetentionRetainMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionRetain.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 }

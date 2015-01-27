@@ -25,8 +25,6 @@ final class TestConfig(
 
   def build = {
     val config: Config = mock[Config]
-    when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
-    when(config.vrmRetentionRetainMsRequestTimeout).thenReturn(1000)
     when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
     when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
 
