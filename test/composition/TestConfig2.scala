@@ -64,7 +64,7 @@ final class TestConfig2(
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 
-//    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
+    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
 //    when(config.auditMsRequestTimeout).thenReturn(30000)
 //
     // Web headers

@@ -13,7 +13,7 @@ final class AuditMicroServiceImpl @Inject()(config: Config,
                                             config2: Config2) extends AuditMicroService {
 
   override def invoke(request: AuditRequest): Future[WSResponse] = {
-    val endPoint: String = s"${config.auditMicroServiceUrlBase}/audit/v1"
+    val endPoint: String = s"${config2.auditMicroServiceUrlBase}/audit/v1"
     val requestAsJson = Json.toJson(request)
 
     Logger.debug(s"Calling audit micro-service with request $request")

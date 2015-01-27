@@ -16,7 +16,7 @@ class AuditServiceImpl @Inject()(
                                   ) extends AuditService {
 
   override def send(auditRequest: AuditRequest): Future[Unit] = {
-    if (config.auditMicroServiceUrlBase == "NOT FOUND")
+    if (config2.auditMicroServiceUrlBase == "NOT FOUND")
       Future.successful(Logger.info(s"auditMicroServiceUrlBase not set in config. Audit request was: $auditRequest"))
     else ws.invoke(auditRequest).map { resp =>
       if (resp.status == Status.OK) {

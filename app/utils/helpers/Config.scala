@@ -8,7 +8,7 @@ class Config {
 
 
   // Audir microservice
-  val auditMicroServiceUrlBase: String = getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
+
   val auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
   // Web headers

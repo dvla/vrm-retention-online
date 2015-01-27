@@ -64,10 +64,10 @@ trait Config2 {
   def cookieMaxAge: Int
   def storeBusinessDetailsMaxAge:Int
 
-//  // Audit microservice
-//  def auditMicroServiceUrlBase: String
+  // Audit microservice
+  def auditMicroServiceUrlBase: String
 //  def auditMsRequestTimeout: Int
-//
+
 //  // Web headers
   def applicationCode: String
   def serviceTypeCode: String

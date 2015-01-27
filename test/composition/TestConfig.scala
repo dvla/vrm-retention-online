@@ -26,7 +26,6 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
 
-    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
     when(config.auditMsRequestTimeout).thenReturn(30000)
 
     // Web headers
