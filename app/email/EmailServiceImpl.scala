@@ -81,7 +81,7 @@ final class EmailServiceImpl @Inject()(
 
           commonsMail.setHostName(config2.emailSmtpHost)
           commonsMail.setSmtpPort(config2.emailSmtpPort)
-          commonsMail.setAuthentication(config.emailSmtpUser, config.emailSmtpPassword)
+          commonsMail.setAuthentication(config2.emailSmtpUser, config.emailSmtpPassword)
           commonsMail.send()
           if (isKeeper) Logger.debug("Email sent to keeper")
           else Logger.debug("Email sent to non-keeper")

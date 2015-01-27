@@ -26,7 +26,6 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
 
-    when(config.emailSmtpUser).thenReturn(notFound)
     when(config.emailSmtpPassword).thenReturn(notFound)
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(notFound)

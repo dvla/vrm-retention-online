@@ -7,7 +7,7 @@ import scala.concurrent.duration.DurationInt
 class Config {
 
   // Email Service
-  lazy val emailSmtpUser: String = getOptionalProperty[String]("smtp.user").getOrElse("")
+
   lazy val emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
   lazy val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
   //getOptionalProperty[("email.whitelist", "").split(",")

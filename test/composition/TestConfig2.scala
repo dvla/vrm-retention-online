@@ -54,10 +54,8 @@ final class TestConfig2(
 //    when(config.renewalFee).thenReturn(notFound)
 
     when(config.emailSmtpHost).thenReturn(notFound)
-//    when(config.emailSmtpHost).thenReturn(notFound)
-//    when(config.emailSmtpSsl).thenReturn(false)
     when(config.emailSmtpTls).thenReturn(true)
-//    when(config.emailSmtpUser).thenReturn(notFound)
+    when(config.emailSmtpUser).thenReturn(notFound)
 //    when(config.emailSmtpPassword).thenReturn(notFound)
 //    when(config.emailWhitelist).thenReturn(None)
 //    when(config.emailSenderAddress).thenReturn(notFound)
