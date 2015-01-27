@@ -28,8 +28,6 @@ final class TestConfig(
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)
 
-    when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(30.seconds.toMillis.toInt)
-
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
 
     when(config.prototypeSurveyUrl).thenReturn(notFound)

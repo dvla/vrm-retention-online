@@ -27,7 +27,7 @@ final class VehicleAndKeeperLookupWebServiceImpl @Inject()(
     Logger.debug(s"Calling vehicle and keeper lookup micro-service with request $refNo $vrm tracking id: $trackingId")
     WS.url(endPoint)
       .withHeaders(HttpHeaders.TrackingId -> trackingId)
-      .withRequestTimeout(config.vehicleAndKeeperLookupRequestTimeout) // Timeout is in milliseconds
+      .withRequestTimeout(config2.vehicleAndKeeperLookupRequestTimeout) // Timeout is in milliseconds
       .post(Json.toJson(request))
   }
 }

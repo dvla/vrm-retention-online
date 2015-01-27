@@ -7,9 +7,6 @@ import scala.concurrent.duration.DurationInt
 class Config {
 
 
-
-  lazy val vehicleAndKeeperLookupRequestTimeout: Int = getOptionalProperty[Int]("vehicleAndKeeperLookup.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
-
   // Prototype message in html
   lazy val isPrototypeBannerVisible: Boolean = getOptionalProperty[Boolean]("prototype.disclaimer").getOrElse(true)
 

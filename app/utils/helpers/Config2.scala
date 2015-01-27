@@ -20,8 +20,8 @@ trait Config2 {
 //  def ordnanceSurveyMicroServiceUrl: String
 //  def ordnanceSurveyRequestTimeout: Int
   def ordnanceSurveyUseUprn: Boolean
-//
-//  def vehicleAndKeeperLookupRequestTimeout: Int
+
+  def vehicleAndKeeperLookupRequestTimeout: Int
 //  def vrmAssignEligibilityRequestTimeout: Int
 //  def vrmAssignFulfilRequestTimeout: Int
 //
