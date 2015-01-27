@@ -6,14 +6,6 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
 
-  // Rabbit-MQ
-  lazy val rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
-  lazy val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)
-  lazy val rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
-  lazy val rabbitmqUsername = getOptionalProperty[String]("rabbitmq.username").getOrElse("NOT FOUND")
-  lazy val rabbitmqPassword = getOptionalProperty[String]("rabbitmq.password").getOrElse("NOT FOUND")
-  lazy val rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
-
   // Payment Service
   lazy val renewalFee: String = getOptionalProperty[String]("assign.renewalFee").getOrElse("NOT FOUND")
 

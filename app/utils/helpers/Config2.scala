@@ -38,14 +38,14 @@ trait Config2 {
   // Progress step indicator
   def isProgressBarEnabled: Boolean
 
-//  // Rabbit-MQ
-//  def rabbitmqHost: String
-//  def rabbitmqPort: Int
-//  def rabbitmqQueue: String
-//  def rabbitmqUsername:String
-//  def rabbitmqPassword: String
-//  def rabbitmqVirtualHost: String
-//
+  // Rabbit-MQ
+  def rabbitmqHost: String
+  def rabbitmqPort: Int
+  def rabbitmqQueue: String
+  def rabbitmqUsername:String
+  def rabbitmqPassword: String
+  def rabbitmqVirtualHost: String
+
 //  // Payment Service
 //  def renewalFee: String
 //  def renewalFeeAbolitionDate: String

@@ -26,9 +26,7 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
 
-    when(config.rabbitmqHost).thenReturn(rabbitmqHost)
-    when(config.rabbitmqPort).thenReturn(rabbitmqPort)
-    when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
+
 
     when(config.renewalFee).thenReturn(notFound)
 

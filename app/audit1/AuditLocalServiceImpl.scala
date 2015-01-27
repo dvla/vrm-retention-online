@@ -21,16 +21,16 @@ final class AuditLocalServiceImpl @Inject()(config: Config, config2: Config2) ex
     // If one does already exist it connects to it without erasing any messages already in the queue.
     // Parameters are:
     // (java.lang.String queue, boolean durable, boolean exclusive, boolean autoDelete, java.util.Map<java.lang.String,java.lang.Object> arguments)
-    channel.queueDeclare(config.rabbitmqQueue, true, false, false, null)
+    channel.queueDeclare(config2.rabbitmqQueue, true, false, false, null)
     channel
   }
 
   override def send(auditMessage: Message): Unit = {
-    if (config.rabbitmqHost != "NOT FOUND") {
+    if (config2.rabbitmqHost != "NOT FOUND") {
       Akka.system.scheduler.scheduleOnce(
         delay = FiniteDuration(0, TimeUnit.SECONDS),
         receiver = Akka.system.actorOf(
-          Props(new SendingActor(channel = sendingChannel, queue = config.rabbitmqQueue))
+          Props(new SendingActor(channel = sendingChannel, queue = config2.rabbitmqQueue))
         ),
         message = auditMessage
       )
