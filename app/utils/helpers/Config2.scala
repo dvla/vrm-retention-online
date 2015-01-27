@@ -1,6 +1,11 @@
 package utils.helpers
 
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
+
 trait Config2 {
+
+  // Payment Service
+  def purchaseAmount: String
 
 //  // Micro-service config
 //  def vehicleAndKeeperLookupMicroServiceBaseUrl: String
