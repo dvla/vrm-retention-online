@@ -26,7 +26,6 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMR
 trait TestComposition extends Composition {
 
   override lazy val injector: Injector = testInjector(
-    new TestBruteForcePreventionWebService,
     new TestDateService,
     new TestOrdnanceSurvey,
     new TestVehicleAndKeeperLookupWebService,
@@ -40,8 +39,9 @@ trait TestComposition extends Composition {
 
   def testInjector(modules: Module*) = {
     val overriddenDevModule = Modules.`override`(
+      new TestConfig2(),
       new TestModule(),
-      new TestConfig2()
+      new TestBruteForcePreventionWebService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -70,7 +70,6 @@ final class TestModule extends ScalaModule {
     } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
-    bind[BruteForcePreventionWebService].to[bruteforceprevention.WebServiceImpl].asEagerSingleton()
     bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
