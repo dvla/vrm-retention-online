@@ -55,7 +55,7 @@ trait Config2 {
   def emailSmtpPort: Int
   def emailSmtpTls: Boolean
   def emailSmtpUser: String
-//  def emailSmtpPassword: String
+  def emailSmtpPassword: String
 //  def emailWhitelist: Option[List[String]]
 //  def emailSenderAddress: String
 //
