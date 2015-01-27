@@ -28,9 +28,6 @@ final class TestConfig(
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)
 
-    when(config.prototypeSurveyUrl).thenReturn(notFound)
-    when(config.prototypeSurveyPrepositionInterval).thenReturn(7.days.toMillis)
-
     when(config.isProgressBarEnabled).thenReturn(true)
 
     when(config.rabbitmqHost).thenReturn(rabbitmqHost)

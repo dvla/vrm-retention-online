@@ -6,11 +6,6 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
 
-
-  // Prototype survey URL
-  lazy val prototypeSurveyUrl: String = getOptionalProperty[String]("survey.url").getOrElse("")
-  lazy val prototypeSurveyPrepositionInterval: Long = getOptionalProperty[Long]("survey.interval").getOrElse(7.days.toMillis)
-
   // Google analytics
   lazy val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.retention")
 
