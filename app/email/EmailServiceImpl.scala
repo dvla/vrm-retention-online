@@ -22,7 +22,7 @@ final class EmailServiceImpl @Inject()(
                                         config: Config,
                                         config2: Config2) extends EmailService {
 
-  private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
+  private val from = From(email = config2.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Play.resource(name = "public/images/gov-uk-email.png")
 
   override def sendEmail(emailAddress: String,

@@ -26,8 +26,6 @@ final class TestConfig(
   def build = {
     val config: Config = mock[Config]
 
-    when(config.emailSenderAddress).thenReturn(notFound)
-
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 

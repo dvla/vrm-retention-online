@@ -57,9 +57,9 @@ trait Config2 {
   def emailSmtpUser: String
   def emailSmtpPassword: String
   def emailWhitelist: Option[List[String]]
-//  def emailSenderAddress: String
-//
-//  // Cookie flags
+  def emailSenderAddress: String
+
+  // Cookie flags
   def secureCookies: Boolean
 //  def cookieMaxAge: Int
 //  def storeBusinessDetailsMaxAge:Int
