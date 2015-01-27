@@ -129,7 +129,7 @@ final class PaymentUnitSpec extends UnitSpec {
         transactionId = CookieFactoryForUnitSpecs.transactionId().value,
         transNo = CookieFactoryForUnitSpecs.paymentTransNo().value,
         vrm = RegistrationNumberValid,
-        purchaseAmount = 8000,
+        purchaseAmount = 42,
         paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
       )
       verify(paymentSolveWebService).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)

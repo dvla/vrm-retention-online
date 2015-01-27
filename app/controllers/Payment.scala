@@ -122,7 +122,7 @@ final class Payment @Inject()(
           transactionId = transactionId,
           transNo = transNo,
           vrm = vrm,
-          purchaseAmount = config.purchaseAmount.toInt,
+          purchaseAmount = config2.purchaseAmount.toInt,
           paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()
