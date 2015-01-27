@@ -167,7 +167,7 @@ final class VehicleLookup @Inject()(
       channelCode = config2.channelCode,
       contactId = config2.contactId,
       eventFlag = alwaysLog,
-      serviceTypeCode = config.serviceTypeCode,
+      serviceTypeCode = config2.serviceTypeCode,
       languageCode = englishLanguage,
       endUser = None)
   }

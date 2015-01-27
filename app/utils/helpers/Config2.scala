@@ -69,7 +69,7 @@ trait Config2 {
 //
 //  // Web headers
   def applicationCode: String
-//  def serviceTypeCode: String
+  def serviceTypeCode: String
 //  def orgBusinessUnit: String
   def channelCode: String
   def contactId: Long
