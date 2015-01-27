@@ -73,8 +73,8 @@ final class TestConfig2(
 //    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
 //    when(config.auditMsRequestTimeout).thenReturn(30000)
 //
-//    // Web headers
-//    when(config.applicationCode).thenReturn("test-applicationCode")
+    // Web headers
+    when(config.applicationCode).thenReturn("test-applicationCode")
 //    when(config.serviceTypeCode).thenReturn("test-serviceTypeCode")
 //    when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
 //    when(config.channelCode).thenReturn("test-channelCode")

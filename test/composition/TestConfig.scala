@@ -71,7 +71,6 @@ final class TestConfig(
     when(config.auditMsRequestTimeout).thenReturn(30000)
 
     // Web headers
-    when(config.applicationCode).thenReturn("test-applicationCode")
     when(config.serviceTypeCode).thenReturn("test-serviceTypeCode")
     when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
     when(config.channelCode).thenReturn("test-channelCode")

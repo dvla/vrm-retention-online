@@ -163,7 +163,7 @@ final class VehicleLookup @Inject()(
     val englishLanguage = "EN"
     DmsWebHeaderDto(conversationId = trackingId,
       originDateTime = dateService.now.toDateTime,
-      applicationCode = config.applicationCode,
+      applicationCode = config2.applicationCode,
       channelCode = config.channelCode,
       contactId = config.contactId,
       eventFlag = alwaysLog,

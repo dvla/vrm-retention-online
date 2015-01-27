@@ -5,9 +5,11 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 class Config2Impl extends Config2 {
 
   // Payment Service
-  def purchaseAmount: String = getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
+  override def purchaseAmount: String = getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
 
-  def secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
+  override def secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
 
-  def ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)
+  override def ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)
+
+  override def applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")
 }

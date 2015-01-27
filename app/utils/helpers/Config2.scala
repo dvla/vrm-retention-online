@@ -68,7 +68,7 @@ trait Config2 {
 //  def auditMsRequestTimeout: Int
 //
 //  // Web headers
-//  def applicationCode: String
+  def applicationCode: String
 //  def serviceTypeCode: String
 //  def orgBusinessUnit: String
 //  def channelCode: String
