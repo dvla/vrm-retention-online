@@ -6,7 +6,6 @@ import scala.concurrent.duration.DurationInt
 
 class Config {
 
-  lazy val paymentSolveMsRequestTimeout: Int = getOptionalProperty[Int]("paymentSolve.ms.requesttimeout").getOrElse(5.seconds.toMillis.toInt)
 
   // Ordnance survey config
   lazy val ordnanceSurveyMicroServiceUrl: String = getOptionalProperty[String]("ordnancesurvey.ms.url").getOrElse("NOT FOUND")
