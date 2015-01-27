@@ -38,7 +38,6 @@ final class TestConfig(
 
     when(config.ordnanceSurveyMicroServiceUrl).thenReturn(notFound)
     when(config.ordnanceSurveyRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
-    when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
 
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(30.seconds.toMillis.toInt)
 

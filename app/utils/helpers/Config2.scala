@@ -12,7 +12,7 @@ trait Config2 {
 //  // Ordnance survey config
 //  def ordnanceSurveyMicroServiceUrl: String
 //  def ordnanceSurveyRequestTimeout: Int
-//  def ordnanceSurveyUseUprn: Boolean
+  def ordnanceSurveyUseUprn: Boolean
 //
 //  def vehicleAndKeeperLookupRequestTimeout: Int
 //  def vrmAssignEligibilityRequestTimeout: Int

@@ -43,7 +43,7 @@ final class BusinessChooseYourAddress @Inject()(
         val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsForm, showBusinessName = Some(true))(session, request2lang).map { addresses =>
-          if (config.ordnanceSurveyUseUprn) Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
+          if (config2.ordnanceSurveyUseUprn) Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
           else Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), index(addresses)))
         }
       case _ => Future.successful {
@@ -60,7 +60,7 @@ final class BusinessChooseYourAddress @Inject()(
             val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel, showBusinessName = Some(true)).map { addresses =>
-              if (config.ordnanceSurveyUseUprn)
+              if (config2.ordnanceSurveyUseUprn)
                 BadRequest(business_choose_your_address(viewModel,
                   formWithReplacedErrors(invalidForm),
                   addresses)
@@ -79,7 +79,7 @@ final class BusinessChooseYourAddress @Inject()(
         request.cookies.getModel[SetupBusinessDetailsFormModel] match {
           case Some(setupBusinessDetailsForm) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
-            if (config.ordnanceSurveyUseUprn) {
+            if (config2.ordnanceSurveyUseUprn) {
               lookupUprn(validForm,
                 setupBusinessDetailsForm.name,
                 setupBusinessDetailsForm.contact,

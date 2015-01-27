@@ -22,7 +22,6 @@ class Config {
   // Ordnance survey config
   lazy val ordnanceSurveyMicroServiceUrl: String = getOptionalProperty[String]("ordnancesurvey.ms.url").getOrElse("NOT FOUND")
   lazy val ordnanceSurveyRequestTimeout: Int = getOptionalProperty[Int]("ordnancesurvey.requesttimeout").getOrElse(5.seconds.toMillis.toInt)
-  lazy val ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)
 
   lazy val vehicleAndKeeperLookupRequestTimeout: Int = getOptionalProperty[Int]("vehicleAndKeeperLookup.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
