@@ -13,7 +13,7 @@ trait Config2 {
   def vrmRetentionEligibilityMsRequestTimeout: Int
   def vrmRetentionRetainMicroServiceUrlBase: String
   def vrmRetentionRetainMsRequestTimeout: Int
-  //  def paymentSolveMicroServiceUrlBase: String
+    def paymentSolveMicroServiceUrlBase: String
 //  def paymentSolveMsRequestTimeout: Int
 //
 //  // Ordnance survey config

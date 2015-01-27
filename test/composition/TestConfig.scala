@@ -25,7 +25,6 @@ final class TestConfig(
 
   def build = {
     val config: Config = mock[Config]
-    when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
     when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)

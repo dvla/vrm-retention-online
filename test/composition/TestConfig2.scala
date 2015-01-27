@@ -31,7 +31,7 @@ final class TestConfig2(
     when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
     when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(notFound)
     when(config.vrmRetentionRetainMsRequestTimeout).thenReturn(1000)
-//    when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
+    when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
 //    when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
 //
 //    when(config.googleAnalyticsTrackingId).thenReturn(None)

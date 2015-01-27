@@ -17,7 +17,7 @@ final class PaymentSolveWebServiceImpl @Inject()(
 
   override def invoke(request: PaymentSolveBeginRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.vrm)
-    val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/beginWebPayment"
+    val endPoint: String = s"${config2.paymentSolveMicroServiceUrlBase}/payment/solve/beginWebPayment"
 
     Logger.debug(endPoint)
     Logger.debug(s"Calling payment solve micro-service with request ${request.transNo} and $vrm")
@@ -29,7 +29,7 @@ final class PaymentSolveWebServiceImpl @Inject()(
 
   override def invoke(request: PaymentSolveGetRequest, trackingId: String): Future[WSResponse] = {
     val trxRef = LogFormats.anonymize(request.trxRef)
-    val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/getWebPayment"
+    val endPoint: String = s"${config2.paymentSolveMicroServiceUrlBase}/payment/solve/getWebPayment"
 
     Logger.debug(endPoint)
     Logger.debug(s"Calling payment solve micro-service with request $trxRef")
@@ -41,7 +41,7 @@ final class PaymentSolveWebServiceImpl @Inject()(
 
   override def invoke(request: PaymentSolveCancelRequest, trackingId: String): Future[WSResponse] = {
     val trxRef = LogFormats.anonymize(request.trxRef)
-    val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/cancelWebPayment"
+    val endPoint: String = s"${config2.paymentSolveMicroServiceUrlBase}/payment/solve/cancelWebPayment"
 
     Logger.debug(endPoint)
     Logger.debug(s"Calling payment solve micro-service with request $trxRef")
@@ -53,7 +53,7 @@ final class PaymentSolveWebServiceImpl @Inject()(
 
   override def invoke(request: PaymentSolveUpdateRequest, trackingId: String): Future[WSResponse] = {
     val trxRef = LogFormats.anonymize(request.trxRef)
-    val endPoint: String = s"${config.paymentSolveMicroServiceUrlBase}/payment/solve/updateWebPayment"
+    val endPoint: String = s"${config2.paymentSolveMicroServiceUrlBase}/payment/solve/updateWebPayment"
 
     Logger.debug(endPoint)
     Logger.debug(s"Calling payment solve micro-service with request $trxRef")
