@@ -39,9 +39,9 @@ final class TestConfig2(
     when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
 
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(30.seconds.toMillis.toInt)
-//
-//    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
-//
+
+    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
+
 //    when(config.prototypeSurveyUrl).thenReturn(notFound)
 //    when(config.prototypeSurveyPrepositionInterval).thenReturn(7.days.toMillis)
 //

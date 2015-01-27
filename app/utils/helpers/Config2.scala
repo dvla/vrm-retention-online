@@ -25,8 +25,8 @@ trait Config2 {
 //  def vrmAssignEligibilityRequestTimeout: Int
 //  def vrmAssignFulfilRequestTimeout: Int
 //
-//  // Prototype message in html
-//  def isPrototypeBannerVisible: Boolean
+  // Prototype message in html
+  def isPrototypeBannerVisible: Boolean
 //
 //  // Prototype survey URL
 //  def prototypeSurveyUrl: String

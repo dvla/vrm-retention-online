@@ -7,9 +7,6 @@ import scala.concurrent.duration.DurationInt
 class Config {
 
 
-  // Prototype message in html
-  lazy val isPrototypeBannerVisible: Boolean = getOptionalProperty[Boolean]("prototype.disclaimer").getOrElse(true)
-
   // Prototype survey URL
   lazy val prototypeSurveyUrl: String = getOptionalProperty[String]("survey.url").getOrElse("")
   lazy val prototypeSurveyPrepositionInterval: Long = getOptionalProperty[Long]("survey.interval").getOrElse(7.days.toMillis)
