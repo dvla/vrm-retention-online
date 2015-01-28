@@ -3,6 +3,7 @@ package controllers
 import audit1._
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperLookupFormModel}
+import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
@@ -11,6 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
 import utils.helpers.Config
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import views.vrm_retention.Retain._
@@ -142,11 +144,13 @@ final class Retain @Inject()(
       Redirect(routes.MicroServiceError.present())
     }
 
+    val trackingId = request.cookies.trackingId()
+
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
+      webHeader = buildWebHeader(trackingId),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.today.toDateTimeMillis.get
     )
-    val trackingId = request.cookies.trackingId()
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
       response =>
@@ -163,5 +167,17 @@ final class Retain @Inject()(
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Retention Retain web service call failed. Exception " + e.toString)
     }
+  }
+
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
+    VssWebHeaderDto(transactionId = trackingId,
+      originDateTime = new DateTime,
+      applicationCode = config2.applicationCode,
+      serviceTypeCode = config2.serviceTypeCode,
+      buildEndUser())
+  }
+
+  private def buildEndUser(): VssWebEndUserDto = {
+    VssWebEndUserDto(endUserId = config2.orgBusinessUnit, orgBusUnit = config2.orgBusinessUnit)
   }
 }
