@@ -60,6 +60,8 @@ final class EmailServiceImpl @Inject()(dateService: DateService, pdfService: Pdf
               setTextMsg(plainTextMessage).
               setHtmlMsg(message)
 
+            htmlEmail.setCharset("UTF-8")
+
             if (isKeeper) {
               // US1589: Do not send keeper a pdf
             }
