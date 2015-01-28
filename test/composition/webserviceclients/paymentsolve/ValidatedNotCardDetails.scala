@@ -1,7 +1,7 @@
-package composition.paymentsolvewebservice
+package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginResponseWithValidDefaults, invalidResponse}
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.{beginResponseWithValidDefaults, invalidStatus}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
@@ -11,12 +11,12 @@ import webserviceclients.paymentsolve._
 
 import scala.concurrent.Future
 
-final class NotValidatedCardDetails extends ScalaModule with MockitoSugar {
+final class ValidatedNotCardDetails extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val webService = mock[PaymentSolveWebService]
     when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[String])).
-      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = beginResponseWithValidDefaults(response = invalidResponse))))
+      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = beginResponseWithValidDefaults(status = invalidStatus))))
     bind[PaymentSolveWebService].toInstance(webService)
   }
 }

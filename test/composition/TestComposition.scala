@@ -6,8 +6,8 @@ import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.paymentsolvewebservice.TestPaymentSolveWebService
-import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
 import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityServiceBinding
 import email.{EmailService, EmailServiceImpl}
@@ -33,7 +33,7 @@ trait TestComposition extends Composition {
       new TestConfig(),
       new TestBruteForcePreventionWebService,
       new TestDateService,
-      new TestOrdnanceSurvey,
+      new TestOrdnanceSurveyBinding,
       new TestVehicleAndKeeperLookupWebService,
       new TestVRMRetentionEligibilityWebService,
       new TestVrmRetentionRetainWebService,

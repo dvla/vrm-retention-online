@@ -1,7 +1,7 @@
-package composition.paymentsolvewebservice
+package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginResponseWithValidDefaults, cancelResponseWithValidDefaults, getResponseWithValidDefaults, updateResponseWithValidDefaults}
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.{beginResponseWithValidDefaults, cancelResponseWithValidDefaults, getResponseWithValidDefaults, updateResponseWithValidDefaults}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
@@ -38,10 +38,10 @@ object TestPaymentSolveWebService {
 
   val loadBalancerUrl = "http://somewhere-in-load-balancer-land:443"
   val beginWebPaymentUrl = "somewhere-in-payment-land"
-  private[paymentsolvewebservice] val invalidStatus = "INVALID"
-  private[paymentsolvewebservice] val invalidResponse = "INVALID"
+  private[paymentsolve] val invalidStatus = "INVALID"
+  private[paymentsolve] val invalidResponse = "INVALID"
 
-  private[paymentsolvewebservice] def beginResponseWithValidDefaults(response: String = "validated",
+  private[paymentsolve] def beginResponseWithValidDefaults(response: String = "validated",
                                                                      status: String = "CARD_DETAILS") = {
     val paymentSolveBeginResponse = PaymentSolveBeginResponse(
       response = response,
@@ -53,7 +53,7 @@ object TestPaymentSolveWebService {
     Some(asJson)
   }
 
-  private[paymentsolvewebservice] def getResponseWithValidDefaults(response: String = "validated",
+  private[paymentsolve] def getResponseWithValidDefaults(response: String = "validated",
                                                                    status: String = "AUTHORISED") = {
     val paymentSolveGetResponse = PaymentSolveGetResponse(
       response = response,
@@ -69,7 +69,7 @@ object TestPaymentSolveWebService {
     Some(asJson)
   }
 
-  private[paymentsolvewebservice] def cancelResponseWithValidDefaults(response: String = "validated",
+  private[paymentsolve] def cancelResponseWithValidDefaults(response: String = "validated",
                                                                       status: String = "AUTHORISED") = {
     val paymentSolveCancelResponse = PaymentSolveCancelResponse(
       response = response,
@@ -79,7 +79,7 @@ object TestPaymentSolveWebService {
     Some(asJson)
   }
 
-  private[paymentsolvewebservice] def updateResponseWithValidDefaults(response: String = "validated",
+  private[paymentsolve] def updateResponseWithValidDefaults(response: String = "validated",
                                                                       status: String = "CARD_DETAILS") = {
     val update = PaymentSolveUpdateResponse(
       response = response,

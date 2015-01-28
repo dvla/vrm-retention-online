@@ -6,7 +6,7 @@ import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUp
 import com.tzavellas.sse.guice.ScalaModule
 import composition._
 import composition.audit1.AuditLocalService
-import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
@@ -139,7 +139,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val auditService1: _root_.audit1.AuditService = mock[_root_.audit1.AuditService]
 
       val injector = testInjector(
-        new TestOrdnanceSurvey,
+        new TestOrdnanceSurveyBinding,
         new TestVehicleAndKeeperLookupWebService,
         new ScalaModule() {
           override def configure(): Unit = {
@@ -351,7 +351,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
-      new TestOrdnanceSurvey,
+      new TestOrdnanceSurveyBinding,
       new TestVehicleAndKeeperLookupWebService,
       new ScalaModule() {
         override def configure(): Unit = {

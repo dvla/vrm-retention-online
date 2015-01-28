@@ -1,7 +1,7 @@
-package composition.eligibility
+package composition.webserviceclients.vrmretentioneligibility
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.eligibility.Helper.createResponse
+import composition.webserviceclients.vrmretentioneligibility.Helper.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
@@ -10,16 +10,16 @@ import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest
 
 import scala.concurrent.Future
 
-final class EligibilityWebServiceCallWithCurrentAndEmptyReplacement() extends ScalaModule with MockitoSugar {
+final class EligibilityWebServiceCallWithResponse extends ScalaModule with MockitoSugar {
 
-  val withCurrentAndEmptyReplacement: (Int, VRMRetentionEligibilityResponse) = {
-    (OK, VRMRetentionEligibilityResponse(currentVRM = Some("stub-currentVRM"), replacementVRM = None, responseCode = None))
+  val withResponseCode: (Int, VRMRetentionEligibilityResponse) = {
+    (OK, VRMRetentionEligibilityResponse(None, None, responseCode = Some("X0001 - stub-response")))
   }
 
   def configure() = {
     val webService = mock[VRMRetentionEligibilityWebService]
     when(webService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
-      thenReturn(Future.successful(createResponse(withCurrentAndEmptyReplacement)))
+      thenReturn(Future.successful(createResponse(withResponseCode)))
     bind[VRMRetentionEligibilityWebService].toInstance(webService)
   }
 }

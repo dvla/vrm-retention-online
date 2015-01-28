@@ -1,7 +1,7 @@
-package composition.paymentsolvewebservice
+package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.cancelResponseWithValidDefaults
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.cancelResponseWithValidDefaults
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar

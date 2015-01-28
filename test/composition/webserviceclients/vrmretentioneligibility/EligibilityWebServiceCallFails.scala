@@ -1,4 +1,4 @@
-package composition.eligibility
+package composition.webserviceclients.vrmretentioneligibility
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any

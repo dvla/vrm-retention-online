@@ -1,4 +1,4 @@
-package composition.paymentsolvewebservice
+package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any

@@ -7,8 +7,8 @@ import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.Vr
 import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import composition._
 import composition.audit1.AuditLocalService
-import composition.eligibility.EligibilityWebServiceCallWithResponse
-import composition.vehicleandkeeperlookup._
+import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
+import composition.webserviceclients.vehicleandkeeperlookup._
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel

@@ -9,7 +9,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Lang
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 
-final class TestOrdnanceSurvey extends ScalaModule with MockitoSugar {
+final class TestOrdnanceSurveyBinding extends ScalaModule with MockitoSugar {
 
   def configure() = {
     bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]

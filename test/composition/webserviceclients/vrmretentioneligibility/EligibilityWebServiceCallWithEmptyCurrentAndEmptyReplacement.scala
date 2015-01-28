@@ -1,7 +1,7 @@
-package composition.eligibility
+package composition.webserviceclients.vrmretentioneligibility
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.eligibility.Helper.createResponse
+import composition.webserviceclients.vrmretentioneligibility.Helper.createResponse
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar

@@ -1,6 +1,6 @@
 package webserviceclients.paymentsolve
 
-import composition.paymentsolvewebservice.PaymentCallFails
+import composition.webserviceclients.paymentsolve.PaymentCallFails
 import composition.{TestConfig, WithApplication}
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar

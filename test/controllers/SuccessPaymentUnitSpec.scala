@@ -1,7 +1,7 @@
 package controllers
 
 import composition.WithApplication
-import composition.paymentsolvewebservice.ValidatedAuthorised
+import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import email.EmailService
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{businessChooseYourAddress, businessDetailsModel, eligibilityModel, keeperEmail, paymentModel, paymentTransNo, retainModel, setupBusinessDetails, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
