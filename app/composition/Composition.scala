@@ -14,6 +14,7 @@ trait Composition {
     new DevModule,
     new BruteForcePreventionWebServiceBinding,
     new DateServiceBinding,
+    new AddressServiceBinding,
     new RefererFromHeaderBinding,
     new AuditServiceBinding
   )
