@@ -26,7 +26,6 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMR
 trait TestComposition extends Composition {
 
   override lazy val injector: Injector = testInjector(
-    new audit1.AuditLocalService,
     new audit2.AuditServiceDoesNothing
   )
 
@@ -41,7 +40,8 @@ trait TestComposition extends Composition {
       new TestVRMRetentionEligibilityWebService,
       new TestVrmRetentionRetainWebService,
       new TestPaymentSolveWebService,
-      new TestRefererFromHeader
+      new TestRefererFromHeader,
+      new audit1.AuditLocalService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -67,7 +67,6 @@ final class TestModule extends ScalaModule {
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
-    bind[_root_.audit1.AuditService].to[_root_.audit1.AuditLocalServiceImpl].asEagerSingleton()
     bind[webserviceclients.audit2.AuditMicroService].to[webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
     bind[webserviceclients.audit2.AuditService].to[webserviceclients.audit2.AuditServiceImpl].asEagerSingleton()
   }
