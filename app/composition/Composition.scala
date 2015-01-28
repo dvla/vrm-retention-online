@@ -4,7 +4,7 @@ import com.google.inject.Guice
 import composition.webserviceclients.addresslookup.AddressServiceBinding
 import composition.webserviceclients.audit2.AuditServiceBinding
 import composition.webserviceclients.paymentsolve.{PaymentSolveBinding, RefererFromHeaderBinding}
-import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupBinding
+import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
 import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityBinding
 import composition.webserviceclients.vrmretentionretain.VrmRetentionRetainBinding
 import play.filters.gzip.GzipFilter
@@ -16,10 +16,11 @@ trait Composition {
   lazy val injector = Guice.createInjector(
     new ConfigBinding,
     new DevModule,
-    new BruteForcePreventionWebServiceBinding,
+    new BruteForcePreventionBinding,
     new DateServiceBinding,
     new AddressServiceBinding,
-    new VehicleAndKeeperLookupBinding,
+    new VehicleAndKeeperLookupWebServiceBinding,
+    new VehicleAndKeeperLookupServiceBinding,
     new VRMRetentionEligibilityBinding,
     new VrmRetentionRetainBinding,
     new PaymentSolveBinding,
