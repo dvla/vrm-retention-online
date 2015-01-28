@@ -26,9 +26,6 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMR
 trait TestComposition extends Composition {
 
   override lazy val injector: Injector = testInjector(
-    new TestVehicleAndKeeperLookupWebService,
-    new TestVRMRetentionEligibilityWebService,
-    new TestVrmRetentionRetainWebService,
     new TestPaymentSolveWebService,
     new TestRefererFromHeader,
     new audit1.AuditLocalService,
@@ -41,7 +38,10 @@ trait TestComposition extends Composition {
       new TestModule(),
       new TestBruteForcePreventionWebService,
       new TestDateService,
-      new TestOrdnanceSurvey
+      new TestOrdnanceSurvey,
+      new TestVehicleAndKeeperLookupWebService,
+      new TestVRMRetentionEligibilityWebService,
+      new TestVrmRetentionRetainWebService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -50,11 +50,8 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule {
 
   def configure() {
-    bind[VehicleAndKeeperLookupWebService].to[VehicleAndKeeperLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
-    bind[VRMRetentionEligibilityWebService].to[VRMRetentionEligibilityWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionEligibilityService].to[VRMRetentionEligibilityServiceImpl].asEagerSingleton()
-    bind[VRMRetentionRetainWebService].to[VRMRetentionRetainWebServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
