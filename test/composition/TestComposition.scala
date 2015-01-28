@@ -26,8 +26,6 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMR
 trait TestComposition extends Composition {
 
   override lazy val injector: Injector = testInjector(
-
-    new TestOrdnanceSurvey,
     new TestVehicleAndKeeperLookupWebService,
     new TestVRMRetentionEligibilityWebService,
     new TestVrmRetentionRetainWebService,
@@ -42,7 +40,8 @@ trait TestComposition extends Composition {
       new TestConfig2(),
       new TestModule(),
       new TestBruteForcePreventionWebService,
-      new TestDateService
+      new TestDateService,
+      new TestOrdnanceSurvey
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -51,8 +50,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule {
 
   def configure() {
-    bind[AddressLookupService].to[AddressLookupServiceImpl].asEagerSingleton()
-    bind[AddressLookupWebService].to[WebServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupWebService].to[VehicleAndKeeperLookupWebServiceImpl].asEagerSingleton()
     bind[VehicleAndKeeperLookupService].to[VehicleAndKeeperLookupServiceImpl].asEagerSingleton()
     bind[VRMRetentionEligibilityWebService].to[VRMRetentionEligibilityWebServiceImpl].asEagerSingleton()
