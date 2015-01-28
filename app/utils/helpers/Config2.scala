@@ -100,4 +100,6 @@ trait Config2 {
   def channelCode: String
 
   def contactId: Long
+
+  def orgBusinessUnit: String
 }

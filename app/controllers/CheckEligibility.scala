@@ -174,12 +174,12 @@ final class CheckEligibility @Inject()(
   private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
-      applicationCode = config.applicationCode,
-      serviceTypeCode = config.serviceTypeCode,
+      applicationCode = config2.applicationCode,
+      serviceTypeCode = config2.serviceTypeCode,
       buildEndUser())
   }
 
   private def buildEndUser(): VssWebEndUserDto = {
-    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
+    VssWebEndUserDto(endUserId = config2.orgBusinessUnit, orgBusUnit = config2.orgBusinessUnit)
   }
 }

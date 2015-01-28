@@ -69,6 +69,7 @@ final class TestConfig2(
     when(config.serviceTypeCode).thenReturn("test-serviceTypeCode")
     when(config.channelCode).thenReturn("test-channelCode")
     when(config.contactId).thenReturn(42)
+    when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
 
     config
   }
