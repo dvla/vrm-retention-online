@@ -9,12 +9,12 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.libs.concurrent.Akka
 import uk.gov.dvla.auditing.Message
-import utils.helpers.Config2
+import utils.helpers.Config
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration
 
-final class AuditLocalServiceImpl @Inject()(config2: Config2) extends AuditService {
+final class AuditLocalServiceImpl @Inject()(config2: Config) extends AuditService {
 
   private lazy val sendingChannel: Channel = {
     val connection = new RabbitMQConnection(config2).getConnection

@@ -1,6 +1,6 @@
 package webserviceclients.vrmretentioneligibility
 
-import composition.TestConfig2
+import composition.TestConfig
 import helpers.UnitSpec
 import org.joda.time.DateTime
 import play.api.libs.json.Json
@@ -32,7 +32,7 @@ final class VRMRetentionEligibilityRequestSpec extends UnitSpec {
     Json.toJson(request)
   }
 
-  private val config = new TestConfig2().build
+  private val config = new TestConfig().build
 
   private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId,

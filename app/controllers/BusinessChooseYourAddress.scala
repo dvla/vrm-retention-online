@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndK
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
-import utils.helpers.Config2
+import utils.helpers.Config
 import views.html.vrm_retention.business_choose_your_address
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
@@ -32,7 +32,7 @@ final class BusinessChooseYourAddress @Inject()(
                                                  dateService: DateService
                                                  )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                config2: Config2) extends Controller {
+                                                config2: Config) extends Controller {
 
   private[controllers] val form = Form(BusinessChooseYourAddressFormModel.Form.Mapping)
 

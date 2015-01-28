@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig2, WithApplication}
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -134,7 +134,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   private def setUpBusinessDetailsPrototypeNotVisible() = {
     testInjector(
-      new TestConfig2(isPrototypeBannerVisible = false)
+      new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[SetUpBusinessDetails])
   }
 

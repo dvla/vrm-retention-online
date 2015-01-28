@@ -1,6 +1,6 @@
 package utils.helpers
 
-trait Config2 {
+trait Config {
 
   // Payment Service
   def purchaseAmount: String
@@ -20,24 +20,13 @@ trait Config2 {
 
   def paymentSolveMsRequestTimeout: Int
 
-  //
-  //  // Ordnance survey config
-  //  def ordnanceSurveyMicroServiceUrl: String
-  //  def ordnanceSurveyRequestTimeout: Int
+  // Ordnance survey config
   def ordnanceSurveyUseUprn: Boolean
 
   def vehicleAndKeeperLookupRequestTimeout: Int
 
-  //  def vrmAssignEligibilityRequestTimeout: Int
-  //  def vrmAssignFulfilRequestTimeout: Int
-  //
   // Prototype message in html
   def isPrototypeBannerVisible: Boolean
-
-  //
-  //  // Prototype survey URL
-  //  def prototypeSurveyUrl: String
-  //  def prototypeSurveyPrepositionInterval: Long
 
   // Google analytics
   def googleAnalyticsTrackingId: Option[String]
@@ -57,10 +46,6 @@ trait Config2 {
   def rabbitmqPassword: String
 
   def rabbitmqVirtualHost: String
-
-  //  // Payment Service
-  //  def renewalFee: String
-  //  def renewalFeeAbolitionDate: String
 
   // Email Service
   def emailSmtpHost: String

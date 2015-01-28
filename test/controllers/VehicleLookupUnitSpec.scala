@@ -355,7 +355,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                  vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(),
       new AuditServiceDoesNothing,
@@ -367,7 +367,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
     val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
-      new TestConfig2(isPrototypeBannerVisible = true),
+      new TestConfig(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
       new AuditLocalService(),
       new AuditServiceDoesNothing,
@@ -383,7 +383,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(auditService1 = auditService1),
       new AuditServiceDoesNothing,
@@ -408,7 +408,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                               permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallFails()
     ).
       getInstance(classOf[VehicleLookup])
@@ -418,7 +418,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                     permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallNoResponse()
     ).
       getInstance(classOf[VehicleLookup])
@@ -428,7 +428,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                     permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallServerDown()
     ).
       getInstance(classOf[VehicleLookup])
@@ -438,7 +438,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                                permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
       new AuditServiceDoesNothing
     ).
@@ -449,7 +449,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                      permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallVRMNotFound(),
       new AuditServiceDoesNothing
     ).

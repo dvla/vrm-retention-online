@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig2, WithApplication}
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import pages.vrm_retention.BeforeYouStartPage
@@ -31,7 +31,7 @@ final class BeforeYouStartUnitSpec extends UnitSpec {
 
   private def beforeYouStartPrototypeNotVisible = {
     testInjector(
-      new TestConfig2(isPrototypeBannerVisible = false)
+      new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[BeforeYouStart])
   }
 

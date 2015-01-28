@@ -5,12 +5,12 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.libs.json.Json
 import play.api.libs.ws.{WS, WSResponse}
-import utils.helpers.Config2
+import utils.helpers.Config
 
 import scala.concurrent.Future
 
 final class AuditMicroServiceImpl @Inject()(
-                                             config2: Config2) extends AuditMicroService {
+                                             config2: Config) extends AuditMicroService {
 
   override def invoke(request: AuditRequest): Future[WSResponse] = {
     val endPoint: String = s"${config2.auditMicroServiceUrlBase}/audit/v1"

@@ -3,12 +3,12 @@ package controllers
 import com.google.inject.Inject
 import uk.gov.dvla.vehicles.presentation.common.controllers
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.{OrdnanceSurveyConfig, VehicleAndKeeperLookupConfig}
-import utils.helpers.Config2
+import utils.helpers.Config
 
 class Version @Inject()(vehiclesKeeperConfig: VehicleAndKeeperLookupConfig,
                         osAddressLookupConfig: OrdnanceSurveyConfig,
 
-                        config2: Config2)
+                        config2: Config)
   extends controllers.Version(
     osAddressLookupConfig.baseUrl + "/version",
     vehiclesKeeperConfig.vehicleAndKeeperLookupMicroServiceBaseUrl + "/version",

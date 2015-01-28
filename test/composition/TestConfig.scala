@@ -3,11 +3,11 @@ package composition
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import utils.helpers.Config2
+import utils.helpers.Config
 
 import scala.concurrent.duration.DurationInt
 
-final class TestConfig2(
+final class TestConfig(
                          isPrototypeBannerVisible: Boolean = true,
                          ordnanceSurveyUseUprn: Boolean = false,
                          rabbitmqHost: String = "NOT FOUND",
@@ -24,7 +24,7 @@ final class TestConfig2(
   val notFound = "NOT FOUND"
 
   def build = {
-    val config: Config2 = mock[Config2]
+    val config: Config = mock[Config]
     when(config.purchaseAmount).thenReturn("42")
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
@@ -75,6 +75,6 @@ final class TestConfig2(
   }
 
   def configure() = {
-    bind[Config2].toInstance(build)
+    bind[Config].toInstance(build)
   }
 }

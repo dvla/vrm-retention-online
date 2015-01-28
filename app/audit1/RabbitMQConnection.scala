@@ -2,10 +2,10 @@ package audit1
 
 import com.google.inject.Inject
 import com.rabbitmq.client.{Connection, ConnectionFactory}
-import utils.helpers.Config2
+import utils.helpers.Config
 
 final class RabbitMQConnection @Inject()(
-                                          config2: Config2
+                                          config2: Config
                                           ) {
 
   private val connection: Connection = null

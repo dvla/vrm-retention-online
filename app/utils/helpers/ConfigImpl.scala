@@ -4,7 +4,7 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 
 import scala.concurrent.duration.DurationInt
 
-class Config2Impl extends Config2 {
+class ConfigImpl extends Config {
 
   // Payment Service
   override def purchaseAmount: String = getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")

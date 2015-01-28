@@ -13,7 +13,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
-import utils.helpers.Config2
+import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.audit2
@@ -31,7 +31,7 @@ final class CheckEligibility @Inject()(
                                         auditService2: audit2.AuditService
                                         )
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config2: Config2) extends Controller {
+                                       config2: Config) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],

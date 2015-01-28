@@ -7,13 +7,13 @@ import play.api.libs.json.Json
 import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import utils.helpers.Config2
+import utils.helpers.Config
 
 import scala.concurrent.Future
 
 final class PaymentSolveWebServiceImpl @Inject()(
 
-                                                  config2: Config2
+                                                  config2: Config
                                                   ) extends PaymentSolveWebService {
 
   override def invoke(request: PaymentSolveBeginRequest, trackingId: String): Future[WSResponse] = {

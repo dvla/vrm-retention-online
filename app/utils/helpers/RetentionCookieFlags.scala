@@ -8,7 +8,7 @@ import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 final class RetentionCookieFlags @Inject()()(
-  config2: Config2) extends CookieFlags {
+  config2: Config) extends CookieFlags {
 
   override def applyToCookie(cookie: Cookie, key: String): Cookie =
     if (List(StoreBusinessDetailsCacheKey, BusinessDetailsCacheKey).contains(key)) {

@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClie
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
-import utils.helpers.Config2
+import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
@@ -24,7 +24,7 @@ final class SetUpBusinessDetails @Inject()(
                                             )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
 
-                                           config2: Config2) extends Controller {
+                                           config2: Config) extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping

@@ -4,11 +4,11 @@ import com.google.inject.Inject
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import utils.helpers.{Config2, CookieHelper}
+import utils.helpers.{Config, CookieHelper}
 
 final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
 
-                              config2: Config2) extends Controller {
+                              config2: Config) extends Controller {
 
   def present(exceptionDigest: String) = Action { implicit request =>
     Logger.debug("Error - Displaying generic error page")

@@ -30,7 +30,7 @@ trait TestComposition extends Composition {
       new VehicleAndKeeperLookupServiceBinding(),
       new VRMRetentionEligibilityServiceBinding,
       // Completely mocked web services below...
-      new TestConfig2(),
+      new TestConfig(),
       new TestBruteForcePreventionWebService,
       new TestDateService,
       new TestOrdnanceSurvey,

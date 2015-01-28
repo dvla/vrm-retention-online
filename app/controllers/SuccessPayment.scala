@@ -14,7 +14,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config2
+import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, _}
@@ -30,7 +30,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
                                      paymentSolveService: PaymentSolveService)
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
 
-                                     config2: Config2) extends Controller {
+                                     config2: Config) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

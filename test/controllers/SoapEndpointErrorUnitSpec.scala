@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig2, WithApplication}
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import play.api.test.FakeRequest
@@ -37,7 +37,7 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
 
   private def soapEndpointErrorPrototypeNotVisible = {
     testInjector(
-      new TestConfig2(isPrototypeBannerVisible = false)
+      new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[SoapEndpointError])
   }
 }

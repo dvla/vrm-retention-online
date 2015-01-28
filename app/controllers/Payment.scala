@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config2
+import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
@@ -33,7 +33,7 @@ final class Payment @Inject()(
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
 
-                              config2: Config2) extends Controller {
+                              config2: Config) extends Controller {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

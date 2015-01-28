@@ -1,6 +1,6 @@
 package utils.helpers
 
-import composition.TestConfig2
+import composition.TestConfig
 import play.api.mvc.Cookie
 import play.api.test.WithApplication
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
@@ -35,7 +35,7 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
   }
 
   private def cookieFlags(configSecureCookies: Boolean) = {
-    val config2 = new TestConfig2(secureCookies = configSecureCookies).build
+    val config2 = new TestConfig(secureCookies = configSecureCookies).build
     new RetentionCookieFlags()(config2)
   }
 }

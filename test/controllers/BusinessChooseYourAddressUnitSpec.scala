@@ -146,7 +146,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
             bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
           }
         },
-        new TestConfig2(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
+        new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
         new TestDateService,
         new AuditLocalService(auditService1),
         new AuditServiceDoesNothing
@@ -358,7 +358,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
           bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
         }
       },
-      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
       new AuditLocalService,
       new AuditServiceDoesNothing
     ).getInstance(classOf[BusinessChooseYourAddress])
