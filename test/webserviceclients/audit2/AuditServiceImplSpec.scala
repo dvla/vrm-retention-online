@@ -25,12 +25,14 @@ final class AuditServiceImplSpec extends UnitSpec with MockitoSugar {
   private def auditServiceCallFails = testInjector(
     new TestConfig(),
     new TestConfig2(),
-    new AuditMicroServiceCallFails
+    new AuditMicroServiceCallFails,
+    new composition.audit2.AuditService
   ).getInstance(classOf[webserviceclients.audit2.AuditService])
 
   private def auditServiceCallNotOk = testInjector(
     new TestConfig(),
     new TestConfig2(),
-    new AuditMicroServiceCallNotOk
+    new AuditMicroServiceCallNotOk,
+    new composition.audit2.AuditService
   ).getInstance(classOf[webserviceclients.audit2.AuditService])
 }
