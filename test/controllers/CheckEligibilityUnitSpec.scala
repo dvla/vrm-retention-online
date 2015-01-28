@@ -1,10 +1,10 @@
 package controllers
 
-import audit1.{AuditService, AuditMessage}
+import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalService
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.eligibility._
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders

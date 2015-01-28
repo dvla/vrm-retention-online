@@ -1,10 +1,9 @@
 package webserviceclients.audit2
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import composition.{TestConfig, TestConfig2, WithApplication}
+import composition.{TestConfig2, WithApplication}
 import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
-import utils.helpers.{Config2, Config}
 
 final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {
 
@@ -22,8 +21,7 @@ final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {
   }
 
   private def auditMicroService = new AuditMicroServiceImpl(
-    config = new TestConfig(auditMicroServiceUrlBase = s"http://localhost:$wireMockPort").build,
-    config2 = new TestConfig2 (auditMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
+    config2 = new TestConfig2(auditMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
   )
 
   private def request = {

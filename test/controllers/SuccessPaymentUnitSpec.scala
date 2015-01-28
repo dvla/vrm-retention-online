@@ -4,17 +4,7 @@ import composition.WithApplication
 import composition.paymentsolvewebservice.ValidatedAuthorised
 import email.EmailService
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessChooseYourAddress
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.keeperEmail
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentTransNo
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.retainModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.{businessChooseYourAddress, businessDetailsModel, eligibilityModel, keeperEmail, paymentModel, paymentTransNo, retainModel, setupBusinessDetails, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import pages.vrm_retention.SuccessPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, defaultAwaitTimeout, status}

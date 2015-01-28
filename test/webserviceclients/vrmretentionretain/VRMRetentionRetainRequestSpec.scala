@@ -24,6 +24,8 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
     DayValid.toInt,
     0,
     0)
+
   private def request = VRMRetentionRetainRequest(currentVRM = ReplacementRegistrationNumberValid, transactionTimestamp = dateTime)
+
   private def toJson = Json.toJson(request)
 }

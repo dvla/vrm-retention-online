@@ -17,8 +17,8 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.forma
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperDetailsRequest}
-import utils.helpers.{Config, Config2}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+import utils.helpers.Config2
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
@@ -36,7 +36,7 @@ final class VehicleLookup @Inject()(
                                      auditService2: audit2.AuditService
                                      )
                                    (implicit val clientSideSessionFactory: ClientSideSessionFactory,
-                                    config: Config,
+
                                     config2: Config2) extends VehicleLookupBase {
 
   override val vrmLocked: Call = routes.VrmLocked.present()

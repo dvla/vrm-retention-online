@@ -12,7 +12,7 @@ import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.{Config, Config2}
+import utils.helpers.Config2
 import views.html.vrm_retention.{email_with_html, email_without_html}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +20,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 final class EmailServiceImpl @Inject()(
                                         dateService: DateService,
                                         pdfService: PdfService,
-                                        config: Config,
+
                                         config2: Config2) extends EmailService {
 
   private val from = From(email = config2.emailSenderAddress, name = "DO NOT REPLY")

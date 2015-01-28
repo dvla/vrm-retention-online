@@ -355,7 +355,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                  vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(),
@@ -368,7 +367,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
   private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
     val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
-      new TestConfig(isPrototypeBannerVisible = true),
       new TestConfig2(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
       new AuditLocalService(),
@@ -385,7 +383,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val auditService1 = mock[AuditService]
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(auditService1 = auditService1),
@@ -411,7 +408,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                               permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallFails()
     ).
@@ -422,7 +418,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                     permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallNoResponse()
     ).
@@ -433,7 +428,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                     permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallServerDown()
     ).
@@ -444,7 +438,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                                permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
       new AuditServiceDoesNothing
@@ -456,7 +449,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
                                                      permitted: Boolean = true) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallVRMNotFound(),
       new AuditServiceDoesNothing

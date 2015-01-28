@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory, CookieKeyValue}
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.{Config, Config2}
+import utils.helpers.Config2
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
@@ -21,7 +21,7 @@ final class ConfirmBusiness @Inject()(
                                        auditService2: audit2.AuditService,
                                        dateService: DateService
                                        )(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                         config: Config,
+
                                          config2: Config2) extends Controller {
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)

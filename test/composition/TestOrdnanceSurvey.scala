@@ -1,13 +1,13 @@
 package composition
 
+import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.{any, _}
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Lang
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
-import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
-import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
 
 final class TestOrdnanceSurvey extends ScalaModule with MockitoSugar {
 

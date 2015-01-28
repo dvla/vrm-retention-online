@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig2, TestConfig, WithApplication}
+import composition.{TestConfig2, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import play.api.test.FakeRequest
@@ -39,7 +39,6 @@ final class UprnNotFoundUnitSpec extends UnitSpec {
 
   private def uprnNotFoundPrototypeNotVisible = {
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
       new TestConfig2(isPrototypeBannerVisible = false)
     ).getInstance(classOf[UprnNotFound])
   }

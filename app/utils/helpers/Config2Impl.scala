@@ -49,21 +49,36 @@ class Config2Impl extends Config2 {
 
   // Rabbit-MQ
   override def rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
+
   override def rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)
+
   override def rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
+
   override def rabbitmqUsername = getOptionalProperty[String]("rabbitmq.username").getOrElse("NOT FOUND")
+
   override def rabbitmqPassword = getOptionalProperty[String]("rabbitmq.password").getOrElse("NOT FOUND")
+
   override def rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
 
   override def emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
+
   override def emailSmtpPort: Int = getOptionalProperty[Int]("smtp.port").getOrElse(25)
+
   override def emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)
+
   override def emailSmtpUser: String = getOptionalProperty[String]("smtp.user").getOrElse("")
+
   override def emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
+
   override def emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
+
   override def emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
+
   override def cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
+
   override def storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
+
   override def auditMicroServiceUrlBase: String = getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
+
   override def auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 }

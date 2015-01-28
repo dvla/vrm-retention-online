@@ -3,7 +3,7 @@ package webserviceclients.audit2
 import com.google.inject.Inject
 import play.api.Logger
 import play.api.http.Status
-import utils.helpers.{Config2, Config}
+import utils.helpers.Config2
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -11,7 +11,7 @@ import scala.util.control.NonFatal
 
 class AuditServiceImpl @Inject()(
                                   ws: AuditMicroService,
-                                  config: Config,
+
                                   config2: Config2
                                   ) extends AuditService {
 

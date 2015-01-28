@@ -33,7 +33,7 @@ final class VRMRetentionEligibilityRequestSpec extends UnitSpec {
   }
 
   private val config = new TestConfig2().build
-  
+
   private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,

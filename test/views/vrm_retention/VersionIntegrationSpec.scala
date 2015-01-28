@@ -1,7 +1,7 @@
 package views.vrm_retention
 
-import helpers.UiSpec
 import composition.TestHarness
+import helpers.UiSpec
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory

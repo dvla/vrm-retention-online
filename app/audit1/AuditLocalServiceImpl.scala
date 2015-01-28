@@ -1,6 +1,7 @@
 package audit1
 
 import java.util.concurrent.TimeUnit
+
 import akka.actor.Props
 import com.google.inject.Inject
 import com.rabbitmq.client.Channel
@@ -8,14 +9,15 @@ import play.api.Logger
 import play.api.Play.current
 import play.api.libs.concurrent.Akka
 import uk.gov.dvla.auditing.Message
-import utils.helpers.{Config2, Config}
+import utils.helpers.Config2
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration
 
-final class AuditLocalServiceImpl @Inject()(config: Config, config2: Config2) extends AuditService {
+final class AuditLocalServiceImpl @Inject()(config2: Config2) extends AuditService {
 
   private lazy val sendingChannel: Channel = {
-    val connection = new RabbitMQConnection(config, config2).getConnection
+    val connection = new RabbitMQConnection(config2).getConnection
     val channel = connection.createChannel()
     // QueueDeclare is idempotent - it creates a queue if one does not exist.
     // If one does already exist it connects to it without erasing any messages already in the queue.

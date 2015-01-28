@@ -2,6 +2,7 @@ package composition
 
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -10,7 +11,6 @@ import play.api.http.Status.{FORBIDDEN, OK}
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 
 import scala.concurrent.Future
 

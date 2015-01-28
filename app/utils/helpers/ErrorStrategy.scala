@@ -2,6 +2,7 @@ package utils.helpers
 
 import java.util.Date
 import javax.crypto.BadPaddingException
+
 import com.google.inject.Inject
 import com.google.inject.name.Named
 import controllers.routes
@@ -12,6 +13,7 @@ import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 import uk.gov.dvla.vehicles.presentation.common.filters.ClfEntryBuilder
+
 import scala.concurrent.{ExecutionContext, Future}
 
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,

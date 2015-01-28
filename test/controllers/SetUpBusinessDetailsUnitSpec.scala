@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig2, TestConfig, WithApplication}
+import composition.{TestConfig2, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -125,6 +125,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   private def setUpBusinessDetails = testInjector().getInstance(classOf[SetUpBusinessDetails])
+
   private def present = {
     val request = FakeRequest().
       withCookies(vehicleAndKeeperDetailsModel())
@@ -133,7 +134,6 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   private def setUpBusinessDetailsPrototypeNotVisible() = {
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
       new TestConfig2(isPrototypeBannerVisible = false)
     ).getInstance(classOf[SetUpBusinessDetails])
   }

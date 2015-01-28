@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig2, TestConfig, WithApplication}
+import composition.{TestConfig2, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import pages.vrm_retention.BeforeYouStartPage
@@ -38,11 +38,12 @@ final class ErrorUnitSpec extends UnitSpec {
   }
 
   private val exceptionDigest = "stubbed exceptionDigest"
+
   private def errorWithPrototypeNotVisible = {
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
       new TestConfig2(isPrototypeBannerVisible = false)
     ).getInstance(classOf[Error])
   }
+
   private def error = testInjector().getInstance(classOf[Error])
 }

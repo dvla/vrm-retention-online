@@ -34,5 +34,6 @@ final class PdfServiceSpec extends UnitSpec {
   }
 
   private def pdfService = testInjector(new TestDateService).getInstance(classOf[PdfService])
+
   private def longTimeout = Timeout(Span(30, Seconds))
 }

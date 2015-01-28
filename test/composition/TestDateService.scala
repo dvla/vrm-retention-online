@@ -1,12 +1,12 @@
 package composition
 
+import _root_.webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 import com.tzavellas.sse.guice.ScalaModule
 import org.joda.time.{DateTime, Instant}
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-import _root_.webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 
 final class TestDateService extends ScalaModule with MockitoSugar {
 

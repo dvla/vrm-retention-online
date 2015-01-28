@@ -1,6 +1,6 @@
 package controllers
 
-import audit1.{AuditService, AuditMessage}
+import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalService
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestDateService, WithApplication}
@@ -57,7 +57,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         new TestDateService,
         new AuditLocalService(mockAuditService),
         new AuditServiceDoesNothing
-        )
+      )
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
       val dateService = injector.getInstance(classOf[DateService])

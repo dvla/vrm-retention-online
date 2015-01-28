@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClie
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
-import utils.helpers.{Config, Config2}
+import utils.helpers.Config2
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
@@ -22,7 +22,6 @@ final class Confirm @Inject()(
                                auditService2: audit2.AuditService,
                                dateService: DateService
                                )(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                 config: Config,
                                  config2: Config2) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)

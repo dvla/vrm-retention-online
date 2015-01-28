@@ -2,7 +2,6 @@ package composition
 
 import _root_.audit1.{AuditLocalServiceImpl, AuditService}
 import _root_.webserviceclients.audit2.{AuditMicroService, AuditMicroServiceImpl}
-import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, PaymentSolveWebService, PaymentSolveWebServiceImpl}
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailService, EmailServiceImpl}
@@ -12,7 +11,6 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProp
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieEncryption, CookieNameHashGenerator, Sha1HashGenerator, _}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
-import utils.helpers.RetentionCookieFlags
 
 /**
  * Provides real implementations of traits

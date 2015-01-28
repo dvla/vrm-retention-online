@@ -6,12 +6,12 @@ import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import utils.helpers.{Config, Config2}
+import utils.helpers.Config2
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config,
+
                                        config2: Config2) extends Controller {
 
   def present = Action { implicit request =>

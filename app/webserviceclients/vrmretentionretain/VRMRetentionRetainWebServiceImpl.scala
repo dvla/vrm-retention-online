@@ -7,11 +7,12 @@ import play.api.libs.json.Json
 import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import utils.helpers.{Config2, Config}
+import utils.helpers.Config2
+
 import scala.concurrent.Future
 
 final class VRMRetentionRetainWebServiceImpl @Inject()(
-                                                        config: Config,
+
                                                         config2: Config2
                                                         ) extends VRMRetentionRetainWebService {
 

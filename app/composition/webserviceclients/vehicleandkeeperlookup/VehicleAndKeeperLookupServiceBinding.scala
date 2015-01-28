@@ -1,7 +1,7 @@
 package composition.webserviceclients.vehicleandkeeperlookup
 
 import com.tzavellas.sse.guice.ScalaModule
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl}
 
 final class VehicleAndKeeperLookupServiceBinding extends ScalaModule {
 

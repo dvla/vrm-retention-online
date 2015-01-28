@@ -1,6 +1,6 @@
 package controllers
 
-import audit1.{AuditService, AuditMessage}
+import audit1.{AuditMessage, AuditService}
 import composition.audit1.AuditLocalService
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestDateService, WithApplication}
