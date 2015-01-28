@@ -2,13 +2,14 @@ package controllers
 
 import audit1._
 import com.google.inject.Inject
-import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
+import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}

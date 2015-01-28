@@ -9,6 +9,7 @@ import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.{Config, Config2}
 import views.vrm_retention.Confirm._

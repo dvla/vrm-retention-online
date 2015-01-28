@@ -11,19 +11,19 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperDetailsRequest}
 import utils.helpers.{Config, Config2}
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

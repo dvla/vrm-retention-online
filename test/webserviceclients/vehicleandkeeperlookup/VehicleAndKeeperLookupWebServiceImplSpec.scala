@@ -1,15 +1,14 @@
 package webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import composition.{TestConfig2, TestConfig, WithApplication}
+import composition.WithApplication
 import helpers.{UnitSpec, WireMockFixture}
 import org.joda.time.DateTime
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleAndKeeperLookupConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebServiceImpl}
 import webserviceclients.fakes.DateServiceConstants._
 
 final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
@@ -27,8 +26,9 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
   }
 
   private def lookupService = new VehicleAndKeeperLookupWebServiceImpl(
-    config = new TestConfig(vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort").build,
-    config2 = new TestConfig2(vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort").build
+    config = new VehicleAndKeeperLookupConfig() {
+      override lazy val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+    }
   )
 
   private final val trackingId = "track-id-test"

@@ -1,6 +1,6 @@
 package models
 
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 
 final case class EnterAddressManuallyViewModel(registrationNumber: String,

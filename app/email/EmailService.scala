@@ -3,6 +3,7 @@ package email
 import models._
 import org.apache.commons.mail.HtmlEmail
 import play.twirl.api.HtmlFormat
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 trait EmailService {
 

@@ -6,8 +6,8 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Lang
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
-import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
-import webserviceclients.fakes.AddressLookupWebServiceConstants
+import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
 
 final class TestOrdnanceSurvey extends ScalaModule with MockitoSugar {
 

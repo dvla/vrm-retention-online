@@ -10,8 +10,9 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.{Config2, Config}
+import utils.helpers.{Config, Config2}
 import views.html.vrm_retention.{email_with_html, email_without_html}
 
 import scala.concurrent.ExecutionContext.Implicits.global

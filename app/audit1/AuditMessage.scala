@@ -1,8 +1,8 @@
 package audit1
 
-import models.{BusinessDetailsModel, PaymentModel, VehicleAndKeeperDetailsModel}
+import models.{BusinessDetailsModel, PaymentModel}
 import uk.gov.dvla.auditing.Message
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 
 case class AuditMessage(override val name: String, override val serviceType: String, override val data: (String, Any)*)
   extends Message(name, serviceType, data: _*)

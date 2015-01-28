@@ -3,13 +3,13 @@ package controllers
 import javax.inject.Inject
 
 import audit1.AuditMessage
-import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
+import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSession, ClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService

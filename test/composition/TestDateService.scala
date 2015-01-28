@@ -6,7 +6,7 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
+import _root_.webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 
 final class TestDateService extends ScalaModule with MockitoSugar {
 

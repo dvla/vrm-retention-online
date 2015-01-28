@@ -4,9 +4,7 @@ import _root_.audit1.{AuditMessage, AuditService}
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import _root_.webserviceclients.fakes.DateServiceConstants._
 import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import _root_.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import composition._
 import composition.audit1.AuditLocalService
 import composition.eligibility.EligibilityWebServiceCallWithResponse
@@ -17,8 +15,7 @@ import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
-import org.joda.time.DateTime
+import models.VehicleAndKeeperLookupFormModel
 import org.mockito.Mockito._
 import pages.vrm_retention.{BeforeYouStartPage, CheckEligibilityPage, MicroServiceErrorPage, VehicleLookupFailurePage, VrmLockedPage}
 import play.api.test.FakeRequest
@@ -26,11 +23,13 @@ import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
-import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
+import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
 

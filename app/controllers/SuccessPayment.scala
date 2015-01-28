@@ -12,7 +12,7 @@ import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.{Config, Config2}
 import views.vrm_retention.Confirm._

@@ -1,7 +1,6 @@
 package composition
 
-import _root_.webserviceclients.paymentsolve.{TestRefererFromHeader, PaymentSolveService, PaymentSolveServiceImpl}
-import _root_.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl}
+import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, TestRefererFromHeader}
 import _root_.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl}
 import _root_.webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl}
 import com.google.inject.name.Names
@@ -17,6 +16,7 @@ import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl}
 import utils.helpers.RetentionCookieFlags
 
 trait TestComposition extends Composition {

@@ -1,7 +1,7 @@
 package composition.eligibility
 
 import play.api.libs.json.Json
-import webserviceclients.fakes.FakeResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
 
 object Helper {

@@ -2,11 +2,12 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
-import models.{EligibilityModel, SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
+import models.{EligibilityModel, SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.{Config, Config2}

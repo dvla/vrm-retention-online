@@ -8,7 +8,6 @@ object VehicleLookup {
   final val VehicleRegistrationNumberId = "vehicle-registration-number"
   final val PostcodeId = "postcode"
   final val KeeperConsentId = "keeper-consent"
-  final val VehicleAndKeeperLookupDetailsCacheKey = s"${CacheKeyPrefix}vehicle-and-keeper-lookup-details"
   final val VehicleAndKeeperLookupResponseCodeCacheKey = s"${CacheKeyPrefix}vehicle-and-keeper-lookup-response-code"
   final val VehicleAndKeeperLookupFormModelCacheKey = s"${CacheKeyPrefix}vehicle-and-keeper-lookup-form-model"
   final val TransactionIdCacheKey = s"${CacheKeyPrefix}transaction-Id"
