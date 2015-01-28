@@ -31,8 +31,6 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMReten
 class DevModule extends ScalaModule {
 
   def configure() {
-    bind[VRMRetentionRetainWebService].to[VRMRetentionRetainWebServiceImpl].asEagerSingleton()
-    bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[RetentionCookieFlags].asEagerSingleton()
