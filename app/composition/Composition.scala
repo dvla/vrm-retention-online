@@ -16,6 +16,7 @@ trait Composition {
     new DateServiceBinding,
     new AddressServiceBinding,
     new VehicleAndKeeperLookupBinding,
+    new VRMRetentionEligibilityBinding,
     new RefererFromHeaderBinding,
     new AuditServiceBinding
   )
