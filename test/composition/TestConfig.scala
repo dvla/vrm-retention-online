@@ -14,7 +14,7 @@ final class TestConfig(
                   rabbitmqPort: Int = 0,
                   rabbitmqQueue: String = "NOT FOUND",
                   vehicleAndKeeperLookupMicroServiceBaseUrl: String = "NOT FOUND",
-                  secureCookies: Boolean = true,
+                  secureCookies: Boolean = false,
                   cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
                   storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt
                   ) extends ScalaModule with MockitoSugar {
@@ -64,6 +64,7 @@ final class TestConfig(
     when(config.emailSenderAddress).thenReturn(notFound)
 
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
+    when(config.encryptCookies).thenReturn(false)
     when(config.secureCookies).thenReturn(secureCookies)
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)

@@ -18,7 +18,7 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
       originalCookie.maxAge should equal(None)
 
       val modifiedCookie = cookieFlags.applyToCookie(originalCookie) // This will load values from the fake config we are passing into this test's WithApplication.
-      modifiedCookie.secure should equal(true)
+      modifiedCookie.secure should equal(false)
       modifiedCookie.maxAge should equal(Some(30.minutes.toSeconds.toInt))
     }
 
@@ -29,7 +29,7 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
       originalCookie.maxAge should equal(None)
 
       val modifiedCookie = cookieFlags.applyToCookie(originalCookie, StoreBusinessDetailsCacheKey) // This will load values from the fake config we are passing into this test's WithApplication.
-      modifiedCookie.secure should equal(true)
+      modifiedCookie.secure should equal(false)
       modifiedCookie.maxAge should equal(Some(7.days.toSeconds.toInt))
     }
   }
