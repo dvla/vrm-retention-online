@@ -10,6 +10,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import composition.paymentsolvewebservice.TestPaymentSolveWebService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
+import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityServiceBinding
 import email.{EmailService, EmailServiceImpl}
 import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
@@ -29,6 +30,7 @@ trait TestComposition extends Composition {
       // Real implementations (but no external calls)
       new TestModule(),
       new VehicleAndKeeperLookupServiceBinding(),
+      new VRMRetentionEligibilityServiceBinding,
       // Completely mocked web services below...
       new TestConfig2(),
       new TestBruteForcePreventionWebService,
@@ -54,7 +56,6 @@ trait TestComposition extends Composition {
 final class TestModule extends ScalaModule {
 
   def configure() {
-    bind[VRMRetentionEligibilityService].to[VRMRetentionEligibilityServiceImpl].asEagerSingleton()
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[RetentionCookieFlags].asEagerSingleton()

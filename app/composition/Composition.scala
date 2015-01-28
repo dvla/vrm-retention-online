@@ -5,7 +5,7 @@ import composition.webserviceclients.addresslookup.AddressServiceBinding
 import composition.webserviceclients.audit2.AuditServiceBinding
 import composition.webserviceclients.paymentsolve.{PaymentSolveBinding, RefererFromHeaderBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
-import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityBinding
+import composition.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityServiceBinding, VRMRetentionEligibilityWebServiceBinding}
 import composition.webserviceclients.vrmretentionretain.VrmRetentionRetainBinding
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
@@ -21,7 +21,8 @@ trait Composition {
     new AddressServiceBinding,
     new VehicleAndKeeperLookupWebServiceBinding,
     new VehicleAndKeeperLookupServiceBinding,
-    new VRMRetentionEligibilityBinding,
+    new VRMRetentionEligibilityWebServiceBinding,
+    new VRMRetentionEligibilityServiceBinding,
     new VrmRetentionRetainBinding,
     new PaymentSolveBinding,
     new RefererFromHeaderBinding,
