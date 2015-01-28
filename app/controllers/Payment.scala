@@ -2,7 +2,6 @@ package controllers
 
 import audit1._
 import com.google.inject.Inject
-import composition.RefererFromHeader
 import models._
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
@@ -18,7 +17,7 @@ import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
+import webserviceclients.paymentsolve._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

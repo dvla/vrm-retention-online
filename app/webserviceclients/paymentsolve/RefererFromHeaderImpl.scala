@@ -1,4 +1,4 @@
-package composition
+package webserviceclients.paymentsolve
 
 import controllers.routes
 import play.api.http.HeaderNames.REFERER

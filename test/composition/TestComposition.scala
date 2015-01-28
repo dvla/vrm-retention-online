@@ -18,7 +18,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
 import utils.helpers._
-import webserviceclients.paymentsolve.{PaymentSolveServiceImpl, PaymentSolveService, PaymentSolveWebServiceImpl, PaymentSolveWebService}
+import webserviceclients.paymentsolve._
 import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupService, VehicleAndKeeperLookupWebServiceImpl, VehicleAndKeeperLookupWebService}
 import webserviceclients.vrmretentioneligibility._
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMRetentionRetainService, VRMRetentionRetainWebServiceImpl, VRMRetentionRetainWebService}
@@ -26,7 +26,6 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMR
 trait TestComposition extends Composition {
 
   override lazy val injector: Injector = testInjector(
-    new TestRefererFromHeader,
     new audit1.AuditLocalService,
     new audit2.AuditServiceDoesNothing
   )
@@ -41,7 +40,8 @@ trait TestComposition extends Composition {
       new TestVehicleAndKeeperLookupWebService,
       new TestVRMRetentionEligibilityWebService,
       new TestVrmRetentionRetainWebService,
-      new TestPaymentSolveWebService
+      new TestPaymentSolveWebService,
+      new TestRefererFromHeader
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -68,7 +68,6 @@ final class TestModule extends ScalaModule {
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[_root_.audit1.AuditService].to[_root_.audit1.AuditLocalServiceImpl].asEagerSingleton()
-    bind[RefererFromHeader].to[RefererFromHeaderImpl].asEagerSingleton()
     bind[webserviceclients.audit2.AuditMicroService].to[webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
     bind[webserviceclients.audit2.AuditService].to[webserviceclients.audit2.AuditServiceImpl].asEagerSingleton()
   }
