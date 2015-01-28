@@ -3,7 +3,7 @@ package controllers
 import composition.WithApplication
 import composition.audit1.AuditLocalService
 import composition.audit2.AuditServiceDoesNothing
-import composition.paymentsolve.RefererFromHeader
+import composition.paymentsolve.RefererFromHeaderBinding
 import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.paymentsolvewebservice._
 import helpers.UnitSpec
@@ -114,7 +114,7 @@ final class PaymentUnitSpec extends UnitSpec {
         new ValidatedCardDetails(paymentSolveWebService),
         new AuditLocalService,
         new AuditServiceDoesNothing,
-        new RefererFromHeader
+        new RefererFromHeaderBinding
       ).getInstance(classOf[Payment])
 
       val result = payment.begin(requestWithValidDefaults())
@@ -329,20 +329,20 @@ final class PaymentUnitSpec extends UnitSpec {
     new ValidatedCardDetails(),
     new AuditLocalService,
     new AuditServiceDoesNothing,
-    new RefererFromHeader
+    new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
 
   private def paymentCallFails = testInjector(
     new PaymentCallFails,
     new AuditLocalService,
     new AuditServiceDoesNothing,
-    new RefererFromHeader
+    new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
 
   private def paymentCancelValidated = testInjector(
     new CancelValidated,
     new AuditLocalService,
     new AuditServiceDoesNothing,
-    new RefererFromHeader
+    new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
 }

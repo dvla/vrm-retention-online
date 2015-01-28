@@ -1,8 +1,8 @@
 package composition
 
 import com.google.inject.Guice
-import composition.audit2.AuditService
-import composition.paymentsolve.RefererFromHeader
+import composition.audit2.AuditServiceBinding
+import composition.paymentsolve.RefererFromHeaderBinding
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
@@ -11,8 +11,8 @@ trait Composition {
 
   lazy val injector = Guice.createInjector(
     new DevModule,
-    new RefererFromHeader,
-    new AuditService
+    new RefererFromHeaderBinding,
+    new AuditServiceBinding
   )
 
   lazy val filters = Array(

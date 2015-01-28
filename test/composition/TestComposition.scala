@@ -46,6 +46,11 @@ trait TestComposition extends Composition {
   }
 }
 
+// This class is used to IoC components that don't call out to real web services. When you use IoC to create them, any
+// dependencies that call real web services must be mocked.
+// The testInjector is setup with mocks stubbed to return success instead of making actual web service calls. If for a
+// particular test you want different behaviour from the mock, you should call testInjector and pass in a module
+// that stubs the mock for your test's requirements.
 final class TestModule extends ScalaModule {
 
   def configure() {
