@@ -101,7 +101,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
       val result = vehicleLookupStubs().submit(request)
 
-      whenReady(result) {
+      whenReady(result, timeout) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
@@ -112,28 +112,36 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNotFoundResponseCode).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
     }
 
     "redirect to VehicleAndKeeperLookupFailure after a submit and vrm not found by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseVRMNotFound).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
     }
 
     "redirect to VehicleAndKeeperLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
     }
 
     "redirect to VehicleAndKeeperLookupFailure after a submit and vss error returned by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsServerDown).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
+      }
     }
 
     "replace max length error message for document reference number with standard error message (US43)" in new WithApplication {
@@ -188,7 +196,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails().submit(request)
 
-      whenReady(result) {
+      whenReady(result, timeout) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
           val cookies = fetchCookiesFromHeaders(r)
@@ -210,7 +218,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallServerDown().submit(request)
 
-      whenReady(result) {
+      whenReady(result, timeout) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
@@ -220,7 +228,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "write cookie when vrm not found by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallVRMNotFound().submit(request)
-      whenReady(result) {
+      whenReady(result, timeout) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(
@@ -232,14 +240,18 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
       val result = vehicleLookupStubs(permitted = false).submit(request)
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
+      }
     }
 
     "redirect to VehicleAndKeeperLookupFailure and display 1st attempt message when document reference number not found and security service returns 1st attempt" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest().submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
     }
 
     "write cookie when document reference number mismatch returned by microservice" in new WithApplication {
@@ -259,7 +271,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
       ).submit(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
     }
 
     "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
@@ -341,7 +355,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = vehicleLookupStubs().back(request)
 
-      result.futureValue.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+      }
     }
   }
 
