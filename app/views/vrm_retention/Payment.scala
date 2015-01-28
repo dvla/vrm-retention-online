@@ -1,12 +1,14 @@
 package views.vrm_retention
 
+import models.CacheKeyPrefix
+
 object Payment {
 
   final val GetWebPaymentlId = "get-web-payment"
   final val CancelId = "cancel"
   final val ExitId = "exit"
-  final val PaymentDetailsCacheKey = "payment-details"
-  final val PaymentTransNoCacheKey = "payment-trans-no"
+  final val PaymentDetailsCacheKey = s"${CacheKeyPrefix}payment-details"
+  final val PaymentTransNoCacheKey = s"${CacheKeyPrefix}payment-trans-no"
 
   //Logica Group Iframe
   final val CardName = "cardholderName"

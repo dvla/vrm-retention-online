@@ -1,9 +1,11 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestAuditService, TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
+import composition.{TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -134,7 +136,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit (use UPRN enabled)" should {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
-      val mockAuditService = mock[AuditService]
+      val auditService1 = mock[audit1.AuditService]
 
       val injector = testInjector(
         new TestOrdnanceSurvey,
@@ -145,8 +147,10 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
           }
         },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-        new TestAuditService(mockAuditService),
-        new TestDateService)
+        new TestDateService,
+        new AuditLocalService(auditService1),
+        new AuditServiceDoesNothing
+      )
 
       val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
       val dateService = injector.getInstance(classOf[DateService])
@@ -173,7 +177,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
-        verify(mockAuditService).send(auditMessage)
+        verify(auditService1).send(auditMessage)
       }
     }
 
@@ -355,7 +359,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         }
       },
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
-      new TestAuditService
+      new AuditLocalService,
+      new AuditServiceDoesNothing
     ).getInstance(classOf[BusinessChooseYourAddress])
   }
 

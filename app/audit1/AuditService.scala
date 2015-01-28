@@ -1,4 +1,4 @@
-package audit
+package audit1
 
 import uk.gov.dvla.auditing.Message
 

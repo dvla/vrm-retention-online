@@ -1,22 +1,53 @@
-@(successViewModel: models.SuccessViewModel)(implicit lang: Lang,
+@(successViewModel: models.SuccessViewModel, isKeeper: Boolean)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config)
 
+@import controllers.routes.Success
 @import views.html.vrm_retention.main
-@import views.vrm_retention.Success.FinishId
+@import views.vrm_retention.Success.{FinishId,CreatePdfId,PrintId}
+
 
 @main(
-    title = Messages("vrm_retention_success.title"),
-    backNavigation = Some(controllers.routes.SuccessPayment.present())
+    title = Messages("vrm_retention_success.title")
 ) {
 
+	<h2>@Messages("vrm_retention_success.title")</h2>
 	<div class="two-col retention-success">
 		<div class="second-col">
-		    <div class="alert-complete">
-			    <h2>@Messages("vrm_retention_success.subtitle") <span class="reg-number">@successViewModel.registrationNumber</span> </h2>
+
+			<div class="alert-complete">
+				<h2>@Messages("vrm_retention_success.subtitle")</h2>
+				<span class="reg-number">@successViewModel.registrationNumber</span>
 			</div>
 
-            <p><strong>@Messages("vrm_retention_success.yourCert")</strong> <br /> @successViewModel.retentionCertificationNumber </p>
+            <p>@Messages("vrm_retention_success.yourCert") <br /> <strong>@successViewModel.retentionCertificationNumber </strong></p>
+
+
+			@if(!isKeeper) {
+
+				<div class="info-highlight two-col">
+				<div class="second-col">
+					<h3>@Messages("vrm_retention_success_payment.p6")</h3>
+					<p>@Messages("vrm_retention_success_payment.p7")</p>
+				</div>
+				<div class="first-col">
+					<a id="@CreatePdfId" class="pdf-link" href="@Success.createPdf()">
+						<img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
+						@Messages("vrm_retention_success.newPlateLink")
+					</a>
+				</div>
+			</div>
+
+			}
+
+			<h3>@Messages("vrm_retention_success.noticePayment.h3")</h3>
+			<p>@Messages("vrm_retention_success.noticePayment.p1")</p>
+			<strong>@Messages("vrm_retention_success.noticePayment.desc1")</strong>
+			<p/>
+			@Messages("vrm_retention_success.noticePayment.desc2") @successViewModel.registrationNumber <span class="renewalFee">£80.00</span> <br>
+			<p/>
+
+			<h2>@Messages("vrm_retention_success_payment.h2")</h2>
 
             <h3>@Messages("vrm_retention_success.notice1.h3")</h3>
 			<div class="info-notice">
@@ -42,14 +73,14 @@
 			<div class="playback">
 				<h2>Application details</h2>
 				<p>Transaction ID:</p>
-				<p>@successViewModel.transactionId</p>
+				<p><strong>@successViewModel.transactionId</strong></p>
 			</div>
 			<div class="related">
 				<h2>Keeper details</h2>
 				<dl class="playback bg-plain">
 					<dt>Name:</dt>
 					<dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
-					<dt>Keeper Address</dt>
+					<dt>Address:</dt>
 					<dd>
 						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
 							@keeperAddressLine<br>
@@ -62,9 +93,17 @@
 
     <div class="form-steps">
 	  <div class="step">
-	    <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
+	    <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
 	    <br /><br />
         <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
 	  </div>
     </div>
+}
+
+@if(config.googleAnalyticsTrackingId.isDefined) {
+	@if(!isKeeper) {
+		<script type="text/javascript">
+			trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+		</script>
+	}
 }

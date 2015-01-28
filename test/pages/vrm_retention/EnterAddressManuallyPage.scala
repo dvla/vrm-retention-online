@@ -20,16 +20,16 @@ object EnterAddressManuallyPage extends Page {
   final override val title: String = "Enter address"
 
   def addressBuildingNameOrNumber(implicit driver: WebDriver) =
-    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
+    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$BuildingNameOrNumberId"))
 
   def addressLine2(implicit driver: WebDriver) =
-    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
+    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line2Id"))
 
   def addressLine3(implicit driver: WebDriver) =
-    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
+    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$Line3Id"))
 
   def addressPostTown(implicit driver: WebDriver) =
-    textField(org.scalatest.selenium.WebBrowser.id(s"${AddressAndPostcodeId}_${AddressLinesId}_$PostTownId"))
+    textField(id(s"${AddressAndPostcodeId}_${AddressLinesId}_$PostTownId"))
 
   def next(implicit driver: WebDriver) = find(id(NextId)).get
 

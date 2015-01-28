@@ -1,7 +1,8 @@
 package controllers
 
 import javax.inject.Inject
-import audit.{AuditMessage, AuditService}
+
+import audit1.AuditMessage
 import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
@@ -18,12 +19,18 @@ import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
-                                                auditService: AuditService,
-                                                dateService: DateService)
+final class BusinessChooseYourAddress @Inject()(
+                                                 addressLookupService: AddressLookupService,
+                                                 auditService1: audit1.AuditService,
+                                                 auditService2: audit2.AuditService,
+                                                 dateService: DateService
+                                                 )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config) extends Controller {
 
@@ -87,7 +94,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
   }
 
   def exit = Action { implicit request =>
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.CaptureActorToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
@@ -156,13 +163,21 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
      1) we are not blocking threads
      2) the browser does not change page before the future has completed and written to the cache. */
 
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+    auditService2.send(AuditRequest.from(
+      pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel])
+    )
 
     Redirect(routes.ConfirmBusiness.present()).
       discardingCookie(EnterAddressManuallyCacheKey).

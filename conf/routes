@@ -80,7 +80,6 @@ GET         /retain                                        @controllers.Retain.r
 
 GET         /success-payment                               @controllers.SuccessPayment.present
 GET         /success-payment/create-pdf                    @controllers.SuccessPayment.createPdf
-GET         /success-payment/next                          @controllers.SuccessPayment.next
 GET         /email-stub                                    @controllers.SuccessPayment.emailStub
 
 GET         /success                                       @controllers.Success.present

@@ -9,6 +9,6 @@ final class MicroServiceError @Inject()(implicit clientSideSessionFactory: Clien
                                         config: Config) extends Controller {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_retention.micro_service_error())
+    ServiceUnavailable(views.html.vrm_retention.micro_service_error())
   }
 }

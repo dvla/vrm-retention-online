@@ -13,26 +13,26 @@ final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPaymentPage
-
-      currentUrl should equal(SuccessPaymentPage.url)
-    }
-  }
-
-  "next" should {
-
-    "redirect to Success page" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to SuccessPaymentPage
-      click on next
 
       currentUrl should equal(SuccessPage.url)
     }
   }
+
+//  "next" should {
+//
+//    "redirect to Success page" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//      cacheSetup()
+//      go to SuccessPaymentPage
+//      click on next
+//
+//      currentUrl should equal(SuccessPage.url)
+//    }
+//  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.

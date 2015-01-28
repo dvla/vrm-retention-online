@@ -308,7 +308,7 @@ vrm_retention_beforeyoustartpart2.button = Start now
 vrm_retention_setupbusinessdetails.title = Provide your business details
 vrm_retention_setupbusinessdetails.p1 = As you have indicated that you are acting on behalf of the keeper we require certain details from you to complete the transaction.
 business-name = Business name
-vrm_retention_setupbusinessdetails.businessnamelabel = Name of the business
+vrm_retention_setupbusinessdetails.businessnamelabel = Business name
 vrm_retention_setupbusinessdetails.businessnamehelper = Name of the person completing this transaction
 contact-name = Contact name
 vrm_retention_setupbusinessdetails.businesscontactlabel = Contact name
@@ -379,9 +379,9 @@ vrm_retention_eligibility_direct_to_paper.p3 =
 vrm_retention_eligibility_failure.title = This registration number cannot be retained
 vrm_retention_eligibility_failure.p1 = Our records show this registration number cannot be taken off this vehicle.
 vrm_retention_eligibility_failure.p3 =
-vrm_retention_eligibility_unknown_error_code.p1 = Unfortunately, our records won’t let you retain this registration number.
-vrm_retention_eligibility_unknown_error_code.p2 = For further information you can telephone a member of our contact centre using the details opposite.
-vrm_retention_eligibility_unknown_error_code.p3 = Some information may be sensitive and we wont be able to discuss this on the phone. We will however continue to try and sort out the issue preventing you from retaining your registration number.
+#vrm_retention_eligibility_unknown_error_code.p1 = Unfortunately, our records won’t let you retain this registration number.
+#vrm_retention_eligibility_unknown_error_code.p2 = For further information you can telephone a member of our contact centre using the details opposite.
+#vrm_retention_eligibility_unknown_error_code.p3 = Some information may be sensitive and we wont be able to discuss this on the phone. We will however continue to try and sort out the issue preventing you from retaining your registration number.
 
 # Payment page
 vrm_retention_payment.title = Payment
@@ -390,7 +390,7 @@ vrm_retention_payment.javascript-disabled.message = You are seeing this addition
 vrm_retention_payment.javascript-disabled.button = Continue
 vrm_retention_payment.cancel.button = Cancel
 vrm_retention_payment.p1 = If you do not have a credit or debit card to complete this transaction you will need to use the paper service in order to retain your personalised registration where alternative payment options are available.
-vrm_retention_payment.title2 = Pay by debit or credit card
+vrm_retention_payment.title2 = Pay by credit or debit card
 vrm_retention_payment.p2 = Only Maestro, Visa Debit, Mastercard Debit, Electron debit cards, VISA, and Mastercard credit cards are accepted.
 vrm_retention_paymentfailure.tryagainbutton = Try again
 vrm_retention_paymentfailure.exitbutton = Exit
@@ -404,7 +404,7 @@ vrm_retention_payment.callback.message-when-javascript-disabled = The payment pr
 
 # Vehicle details partial view
 vrm_retention_vehicle_callback.title = Vehicle details
-vrm_retention_vehicle_callback.regNumLabel = Registration number
+vrm_retention_vehicle_callback.regNumLabel = Registration number:
 vrm_retention_vehicle_callback.makeLabel = Make:
 vrm_retention_vehicle_callback.modelLabel = Model:
 
@@ -438,7 +438,7 @@ vrm_retention_confirm.keeperAddressLabel = Address
 vrm_retention_confirm.keeperPostcodeLabel = Postcode
 vrm_retention_confirm.isBusiness = Confirm your business details
 vrm_retention_confirm.businessDetailsTitle = Business details
-vrm_retention_confirm.businessNameLabel = Name of the business
+vrm_retention_confirm.businessNameLabel = Business name
 vrm_retention_confirm.businessContactLabel = Contact name
 vrm_retention_confirm.businessEmailLabel = Contact e-mail
 vrm_retention_confirm.businessAddressLabel = Address
@@ -508,6 +508,7 @@ addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
 #Success payment page
 vrm_retention_success_payment.title = Payment Successful
 vrm_retention_success_payment.h1 = Thank you for your payment, your Registration Number can now be taken off your vehicle
+vrm_retention_success_payment.h2 = What to do next
 vrm_retention_success_payment.p1 = Your replacement registration:
 vrm_retention_success_payment.p1business = Keeper’s replacement registration:
 vrm_retention_success_payment.p2 = You will receive a new V5C within 2 weeks. When this arrives, your registration number,
@@ -546,7 +547,7 @@ vrm_retention_success_payment.button = Next
 
 #Success page
 vrm_retention_success.title = Summary
-vrm_retention_success.subtitle = Retention successful for
+vrm_retention_success.subtitle = Take a Registration Number off a Vehicle complete for
 vrm_retention_success.replacementRegNumberLabel = Registration number
 vrm_retention_success.yourCert = Your Retention Certificate Number is:
 vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
@@ -556,6 +557,11 @@ vrm_retention_success.retainConf-p2 = has now been retained. Put the following r
 vrm_retention_success.makingUp-p1 = Making up the number plate for the replacement registration number
 vrm_retention_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
 vrm_retention_success.newPlateLink = Download eV948
+
+vrm_retention_success.noticePayment.h3 = Payment
+vrm_retention_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.
+vrm_retention_success.noticePayment.desc1 = Description
+vrm_retention_success.noticePayment.desc2 = Take a Registration Number off a Vehicle
 
 vrm_retention_success.notice1.h3 = New vehicles
 vrm_retention_success.notice1.p1 = Now you have retained this registration number, you can use the Retention Certificate Number above to assign this number to a new vehicle in the AFRL system.
@@ -596,7 +602,7 @@ vrm_retention_leave_feedback.feedback = leaving feedback
 vrm_retention_leave_feedback.p1=Please help us to improve this service by
 
 email.withoutHtml = Your email client does not support HTML messages.
-email.title = Retention successful for {0}
+email.title = Take off a Registration Number complete for {0}
 email.line1 = If you need to contact the DVLA, call our helpline on 0300 790 6802
 email.line2 = Your application to take a registration number off a vehicle
 email.line3 = Retention Certificate Number
@@ -618,8 +624,6 @@ email.line24 = A new MOT Certificate displaying the replacement registration num
 email.line25 = A Retention Certificate for the retained registration number
 email.line26 = If the keeper has not received a new V5C within 3 to 5 days please advise them to call the DVLA helpline on 0300 790 6802 with the transaction ID listed above.
 email.line27 = * A new MOT Certificate will only be sent if the vehicle has an existing MOT record.
-email.line28 = All content is available under the Open government License v2.0, except where otherwise stated
-email.openGovernmentLicence.alt = Open government licence
 email.crest.alt = Crest
 email.email_service_impl.subject = Registration Number
 #Retention failure page

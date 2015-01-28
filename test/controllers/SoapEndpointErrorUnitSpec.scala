@@ -31,8 +31,8 @@ final class SoapEndpointErrorUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val present = soapEndpointError.present(FakeRequest())
-  private lazy val soapEndpointError = testInjector().getInstance(classOf[SoapEndpointError])
+  private def present = soapEndpointError.present(FakeRequest())
+  private def soapEndpointError = testInjector().getInstance(classOf[SoapEndpointError])
 
   private def soapEndpointErrorPrototypeNotVisible = {
     testInjector(new TestConfig(isPrototypeBannerVisible = false)).

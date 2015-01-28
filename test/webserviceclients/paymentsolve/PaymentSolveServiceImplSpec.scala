@@ -44,5 +44,5 @@ final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 
   private val trackingId = "stub-tracking-id"
 
-  private def paymentCallFails = testInjector(new TestConfig(), new PaymentCallFails).getInstance(classOf[PaymentSolveServiceImpl])
+  private def paymentCallFails = testInjector(new TestConfig(), new PaymentCallFails).getInstance(classOf[PaymentSolveService])
 }

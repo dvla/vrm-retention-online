@@ -13,7 +13,7 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the payment failure page for an invalid begin web payment request" taggedAs UiTag in new WebBrowser {
+    "display the payment failure page for an invalid begin web payment request" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidBeginRequestSetup()
@@ -25,28 +25,28 @@ final class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "try again button" should {
-    "redirect to confirm page when button clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to confirm page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidBeginRequestSetup()
 
       go to PaymentFailurePage
 
-      org.scalatest.selenium.WebBrowser.click on tryAgain
+      click on tryAgain
 
       currentUrl should equal(VehicleLookupPage.url)
     }
   }
 
   "exit button" should {
-    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheInvalidBeginRequestSetup()
 
       go to PaymentFailurePage
 
-      org.scalatest.selenium.WebBrowser.click on exit
+      click on exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
     }

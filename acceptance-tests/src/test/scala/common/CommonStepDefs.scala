@@ -2,29 +2,31 @@ package common
 
 import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
-import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{TestConfiguration, WebBrowserDriver}
+import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.selenium.WebBrowser.{cookie, _}
+import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
+import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
-class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers with TestHarness {
-
-  lazy val beforeYouStart = new BeforeYouStartPageSteps
-  lazy val vehicleLookup = new VehicleLookupPageSteps
-  lazy val vehicleNotFound = new VehicleNotFoundPageSteps
-  lazy val vrmLocked = new VrmLockedPageSteps
-  lazy val confirmBusiness = new ConfirmBusinessPageSteps
-  lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
+class CommonStepDefs(
+                      beforeYouStart: BeforeYouStartPageSteps,
+                      vehicleLookup: VehicleLookupPageSteps,
+                      vehicleNotFound: VehicleNotFoundPageSteps,
+                      vrmLocked: VrmLockedPageSteps,
+                      confirmBusiness: ConfirmBusinessPageSteps,
+                      setupBusinessDetails: SetupBusinessDetailsPageSteps,
+                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps
+                      )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
-    val TestUrl = "test.url"
-    val value = s"http://localhost:9000/"
-    Logger.debug(s"configureTestUrl - Set system property ${TestUrl} to value $value")
-    sys.props += ((TestUrl, value))
+    //    import com.typesafe.config.ConfigFactory
+    //    val conf = ConfigFactory.load()
+    //    val testEnvValue = conf.getString("test.env")
+    //    val testUrlKey = s"test.url"
+    //    val testUrlValue = conf.getString(s"$testUrlKey.$testEnvValue")
+    //    sys.props += ((testUrlKey, testUrlValue))
 
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`.
@@ -47,7 +49,9 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def confirmDetails = {
-    pageTitle should equal(ConfirmPage.title)
+    eventually {
+      pageTitle should equal(ConfirmPage.title)
+    }
     click on ConfirmPage.confirm
     this
   }
@@ -79,7 +83,9 @@ class CommonStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with
   }
 
   def confirmBusinessDetailsIsDisplayed = {
-    pageTitle should equal(ConfirmBusinessPage.title)
+    eventually {
+      pageTitle should equal(ConfirmBusinessPage.title)
+    }
     this
   }
 

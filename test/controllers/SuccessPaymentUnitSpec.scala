@@ -1,16 +1,27 @@
 package controllers
 
 import composition.WithApplication
+import composition.paymentsolvewebservice.ValidatedAuthorised
+import email.EmailService
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs._
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessChooseYourAddress
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.keeperEmail
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentTransNo
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.retainModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import pages.vrm_retention.SuccessPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.{BAD_REQUEST, LOCATION, defaultAwaitTimeout, status}
 
 final class SuccessPaymentUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
@@ -25,7 +36,9 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           paymentModel())
       val result = successPayment.present(request)
-      status(result) should equal(OK)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
+      }
     }
 
     "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
@@ -41,14 +54,6 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           paymentModel())
       val result = successPayment.present(request)
-      status(result) should equal(OK)
-    }
-  }
-
-  "next" should {
-
-    "redirect to Success Page" in new WithApplication {
-      val result = successPayment.next(FakeRequest())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
@@ -56,15 +61,14 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
   }
 
   "create pdf" should {
-
-    "return a bad request if cookie for EligibilityModel does no exist" in {
+    "return a bad request if cookie for EligibilityModel does no exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(transactionId())
       val result = successPayment.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request if cookie for TransactionId does no exist" in {
+    "return a bad request if cookie for TransactionId does no exist" in new WithApplication {
       val request = FakeRequest().
         withCookies(eligibilityModel())
       val result = successPayment.createPdf(request)
@@ -84,5 +88,14 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
     }*/
   }
 
-  private lazy val successPayment = testInjector().getInstance(classOf[SuccessPayment])
+  private def successPayment = testInjector(
+    new ValidatedAuthorised(),
+    new com.tzavellas.sse.guice.ScalaModule() {
+      override def configure(): Unit = {
+        val email: EmailService = mock[EmailService]
+        bind[EmailService].toInstance(email)
+      }
+    }
+
+  ).getInstance(classOf[SuccessPayment])
 }

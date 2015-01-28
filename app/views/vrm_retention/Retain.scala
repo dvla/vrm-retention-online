@@ -1,7 +1,9 @@
 package views.vrm_retention
 
+import models.CacheKeyPrefix
+
 object Retain {
 
-  final val RetainCacheKey = "retain"
-  final val RetainResponseCodeCacheKey = "retain-response-code"
+  final val RetainCacheKey = s"${CacheKeyPrefix}retain"
+  final val RetainResponseCodeCacheKey = s"${CacheKeyPrefix}retain-response-code"
 }

@@ -1,8 +1,20 @@
-import CommonResolvers._
+import Common._
 import com.typesafe.sbt.web.SbtWeb
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.gatlingTests
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionEligibility
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionRetain
+import uk.gov.dvla.vehicles.sandbox.Sandbox
+import uk.gov.dvla.vehicles.sandbox.SandboxSettings
+import uk.gov.dvla.vehicles.sandbox.Tasks
+import io.gatling.sbt.GatlingPlugin
+import GatlingPlugin.Gatling
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -13,13 +25,13 @@ publishTo <<= version { v: String =>
 
 name := "vrm-retention-online"
 
-version := "1.3-SNAPSHOT"
+version := "1.5-SNAPSHOT"
 
-organization := "dvla"
+organization := organisationString
 
-organizationName := "Driver & Vehicle Licensing Agency"
+organizationName := organisationNameString
 
-scalaVersion := "2.10.3"
+scalaVersion := scalaVersionString
 
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
@@ -31,6 +43,10 @@ lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-t
   .dependsOn(root % "test->test")
   .disablePlugins(PlayScala, SassPlugin, SbtWeb)
   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
+
+lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
+  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .enablePlugins(GatlingPlugin)
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
@@ -52,8 +68,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.9-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.9-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.12-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.12-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -101,27 +117,57 @@ CoverallsPlugin.coverallsSettings
 
 resolvers ++= projectResolvers
 
-runMicroServicesTask
-
-sandboxTask
-
-runAsyncTask
-
-testGatlingTask
-
-sandboxAsyncTask
-
-gatlingTask
-
 // Uncomment before releasing to github in order to make Travis work
-resolvers += "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
+//resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
-resolvers ++= projectResolvers
+// ====================== Sandbox Settings ==========================
+lazy val osAddressLookupProject = osAddressLookup("0.9-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.6-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.7-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+//lazy val audit = audit("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
-lazy val p1 = osAddressLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p3 = vehicleAndKeeperLookup.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p4 = vrmRetentionEligibility.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p5 = vrmRetentionRetain.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p6 = legacyStubs.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p7 = gatlingTests.disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val p8 = paymentSolve.disablePlugins(PlayScala, SassPlugin, SbtWeb)
+SandboxSettings.portOffset := 18000
+
+SandboxSettings.applicationContext := ""
+
+SandboxSettings.webAppSecrets := "ui/dev/vrm-retention-online.conf.enc"
+
+SandboxSettings.osAddressLookupProject := osAddressLookupProject
+
+SandboxSettings.vehicleAndKeeperLookupProject := vehicleAndKeeperLookupProject
+
+SandboxSettings.paymentSolveProject := paymentSolveProject
+
+SandboxSettings.vrmRetentionEligibilityProject := vrmRetentionEligibilityProject
+
+SandboxSettings.vrmRetentionRetainProject := vrmRetentionRetainProject
+
+SandboxSettings.legacyStubsProject := legacyStubsProject
+
+SandboxSettings.runAllMicroservices := {
+  Tasks.runLegacyStubs.value
+  Tasks.runOsAddressLookup.value
+  Tasks.runVehicleAndKeeperLookup.value
+  Tasks.runPaymentSolve.value
+  Tasks.runVrmRetentionEligibility.value
+  Tasks.runVrmRetentionRetain.value
+}
+
+SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
+
+SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
+
+Sandbox.sandboxTask
+
+Sandbox.sandboxAsyncTask
+
+Sandbox.gatlingTask
+
+Sandbox.acceptTask
+
+Sandbox.cucumberTask
+
+Sandbox.acceptRemoteTask

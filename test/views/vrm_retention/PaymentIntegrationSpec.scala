@@ -12,7 +12,7 @@ import views.vrm_retention.RelatedCacheKeys.{BusinessDetailsSet, RetainSet}
 final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
 
@@ -21,7 +21,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(PaymentPage.url)
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to VehicleLookupPage
       val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
@@ -29,7 +29,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 
-    "redirect to PaymentPreventBack page when retain cookie is present" taggedAs UiTag in new WebBrowser {
+    "redirect to PaymentPreventBack page when retain cookie is present" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().retainModel()
 
@@ -43,22 +43,22 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
   //  "pay now button" should
 
   "cancel" should {
-    "redirect to mock feedback page" taggedAs UiTag in new WebBrowser {
+    "redirect to mock feedback page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
 
-      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
+      click on PaymentPage.cancel
 
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove RetainSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowser {
+    "remove RetainSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
 
-      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
+      click on PaymentPage.cancel
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RetainSet.foreach(cacheKey => {
@@ -66,7 +66,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove RetainSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowser {
+    "remove RetainSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().
         businessChooseYourAddress().
@@ -74,7 +74,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         storeBusinessDetailsConsent(consent = "false")
       go to PaymentPage
 
-      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
+      click on PaymentPage.cancel
 
       // Verify the cookies identified by the full set of cache keys have been removed
       BusinessDetailsSet.foreach(cacheKey => {
@@ -86,7 +86,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove RetainSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowser {
+    "remove RetainSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().
         businessChooseYourAddress().
@@ -94,7 +94,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
         storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
 
-      org.scalatest.selenium.WebBrowser.click on PaymentPage.cancel
+      click on PaymentPage.cancel
 
       // Verify the cookies identified by the full set of cache keys have been removed
       BusinessDetailsSet.foreach(cacheKey => {

@@ -1,4 +1,4 @@
-package audit
+package audit1
 
 import java.util.concurrent.TimeUnit
 import akka.actor.Props
@@ -12,7 +12,7 @@ import utils.helpers.Config
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.FiniteDuration
 
-final class AuditServiceImpl @Inject()(config: Config) extends AuditService {
+final class AuditLocalServiceImpl @Inject()(config: Config) extends AuditService {
 
   private lazy val sendingChannel: Channel = {
     val connection = new RabbitMQConnection(config).getConnection

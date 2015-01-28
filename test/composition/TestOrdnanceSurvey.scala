@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import webserviceclients.fakes.AddressLookupWebServiceConstants
 
-class TestOrdnanceSurvey extends ScalaModule with MockitoSugar {
+final class TestOrdnanceSurvey extends ScalaModule with MockitoSugar {
 
   def configure() = {
     bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]

@@ -20,9 +20,9 @@ object VehicleLookupFailurePage extends Page {
 
   def exit(implicit driver: WebDriver) = find(id(ExitId)).get
 
-  def downloadLink(implicit driver: WebDriver) = org.scalatest.selenium.WebBrowser.find(linkText("Download V317")).get
+  def downloadLink(implicit driver: WebDriver) = find(linkText("Download V317")).get
 
   def tryAgainButton(implicit driver: WebDriver) = find(id(VehicleLookupId)).get
 
-  def exitLink(implicit driver: WebDriver) = org.scalatest.selenium.WebBrowser.find(linkText("Exit")).get
+  def exitLink(implicit driver: WebDriver) = find(linkText("Exit")).get
 }

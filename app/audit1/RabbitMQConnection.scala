@@ -1,4 +1,4 @@
-package audit
+package audit1
 
 import com.google.inject.Inject
 import com.rabbitmq.client.{Connection, ConnectionFactory}

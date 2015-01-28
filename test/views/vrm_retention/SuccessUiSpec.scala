@@ -14,7 +14,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage
@@ -25,7 +25,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
 
   "finish" should {
 
-    "redirect to feedback page" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage
@@ -34,7 +34,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage
@@ -45,18 +45,18 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
-  "back button" should {
-
-    "redirect to the SuccessPayment page" taggedAs UiTag in new WebBrowser {
-      go to BeforeYouStartPage
-      cacheSetup()
-      go to SuccessPage
-
-      click on back
-
-      currentUrl should equal(SuccessPaymentPage.url)
-    }
-  }
+//  "back button" should {
+//
+//    "redirect to the SuccessPayment page" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//      cacheSetup()
+//      go to SuccessPage
+//
+//      click on back
+//
+//      currentUrl should equal(SuccessPaymentPage.url)
+//    }
+//  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.

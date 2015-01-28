@@ -11,7 +11,7 @@ import webserviceclients.paymentsolve._
 
 import scala.concurrent.Future
 
-class NotValidatedCardDetails extends ScalaModule with MockitoSugar {
+final class NotValidatedCardDetails extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val webService = mock[PaymentSolveWebService]

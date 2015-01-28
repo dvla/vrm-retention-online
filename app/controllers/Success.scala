@@ -1,6 +1,7 @@
 package controllers
 
 import java.io.ByteArrayInputStream
+
 import com.google.inject.Inject
 import models._
 import pdf.PdfService
@@ -15,6 +16,7 @@ import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.PaymentSolveService
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -41,7 +43,7 @@ final class Success @Inject()(pdfService: PdfService,
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
             keeperEmailOpt, retainModel, transactionId)
 
-        Ok(views.html.vrm_retention.success(successViewModel))
+        Ok(views.html.vrm_retention.success(successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
         Redirect(routes.MicroServiceError.present())
     }
@@ -100,6 +102,6 @@ final class Success @Inject()(pdfService: PdfService,
       transactionId = "stub-transactionId",
       transactionTimestamp = "stub-transactionTimestamp"
     )
-    Ok(views.html.vrm_retention.success(successViewModel))
+    Ok(views.html.vrm_retention.success(successViewModel, isKeeper = false))
   }
 }

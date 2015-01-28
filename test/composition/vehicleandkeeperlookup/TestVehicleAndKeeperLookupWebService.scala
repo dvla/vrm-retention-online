@@ -6,16 +6,17 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.{mock, when}
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
+import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 import scala.concurrent.Future
 
-class TestVehicleAndKeeperLookupWebService(
-                                            vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]), // This can be passed in so the calls to the mock can be verified
-                                            statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
-                                            ) extends ScalaModule with MockitoSugar {
+final class TestVehicleAndKeeperLookupWebService(
+                                                  vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]), // This can be passed in so the calls to the mock can be verified
+                                                  statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
+                                                  ) extends ScalaModule with MockitoSugar {
 
   def configure() = {
     when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))

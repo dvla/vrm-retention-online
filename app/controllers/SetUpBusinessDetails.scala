@@ -1,20 +1,26 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditService, AuditMessage}
 import com.google.inject.Inject
 import models.{EligibilityModel, SetupBusinessDetailsFormModel, SetupBusinessDetailsViewModel, VehicleAndKeeperDetailsModel}
 import play.api.data.{Form, FormError}
 import play.api.mvc._
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 
-final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateService: DateService)
+final class SetUpBusinessDetails @Inject()(
+                                            auditService1: audit1.AuditService,
+                                            auditService2: audit2.AuditService,
+                                            dateService: DateService
+                                            )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                            config: Config) extends Controller {
 
@@ -49,7 +55,13 @@ final class SetUpBusinessDetails @Inject()(auditService: AuditService, dateServi
 
   def exit = Action {
     implicit request =>
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.CaptureActorToExit,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,

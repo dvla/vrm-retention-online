@@ -5,11 +5,11 @@ import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Writes, Json}
 
-final case class VehicleAndKeeperDetailsRequest(referenceNumber: String,
+final case class VehicleAndKeeperDetailsRequestOld(referenceNumber: String,
                                                 registrationNumber: String,
                                                 transactionTimestamp: DateTime)
 
-object VehicleAndKeeperDetailsRequest {
+object VehicleAndKeeperDetailsRequestOld {
 
   // Handles this type of formatted string 2014-03-04T00:00:00.000Z
   implicit val jodaISODateWrites: Writes[DateTime] = new Writes[DateTime] {
@@ -19,10 +19,10 @@ object VehicleAndKeeperDetailsRequest {
     }
   }
 
-  implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsRequest]
+  implicit val JsonFormat = Json.format[VehicleAndKeeperDetailsRequestOld]
 
-  def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionTimestamp: DateTime): VehicleAndKeeperDetailsRequest = {
-    VehicleAndKeeperDetailsRequest(
+  def from(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel, transactionTimestamp: DateTime): VehicleAndKeeperDetailsRequestOld = {
+    VehicleAndKeeperDetailsRequestOld(
       referenceNumber = vehicleAndKeeperLookupFormModel.referenceNumber,
       registrationNumber = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = transactionTimestamp

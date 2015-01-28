@@ -55,7 +55,7 @@ final class SuccessUnitSpec extends UnitSpec {
 
   "create pdf" should {
 
-    "return bad request when required cookies are missing" in {
+    "return bad request when required cookies are missing" in new WithApplication {
       val result = success.createPdf(FakeRequest())
       status(result) should equal(BAD_REQUEST)
     }
@@ -71,5 +71,5 @@ final class SuccessUnitSpec extends UnitSpec {
     }*/
   }
 
-  private lazy val success = testInjector().getInstance(classOf[Success])
+  private def success = testInjector().getInstance(classOf[Success])
 }

@@ -1,9 +1,11 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
 import composition.eligibility._
-import composition.{TestAuditService, TestDateService, WithApplication}
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -202,18 +204,20 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
 
   private def checkEligibility(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
     testInjector(
-      new TestAuditService(),
-      eligibilityWebService
+      eligibilityWebService,
+      new AuditLocalService(),
+      new AuditServiceDoesNothing
     ).
       getInstance(classOf[CheckEligibility])
   }
 
   private def checkEligibilityAndAudit(eligibilityWebService: ScalaModule = new EligibilityWebServiceCallWithCurrentAndReplacement()) = {
-    val auditService = mock[AuditService]
+    val auditService1 = mock[AuditService]
     val ioc = testInjector(
-      new TestAuditService(auditService = auditService),
       new TestDateService(),
-      eligibilityWebService
+      eligibilityWebService,
+      new AuditLocalService(auditService1 = auditService1),
+      new AuditServiceDoesNothing
     )
     (ioc.getInstance(classOf[CheckEligibility]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
   }

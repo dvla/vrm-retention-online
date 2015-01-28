@@ -20,6 +20,7 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends V
     Logger.debug(s"Calling vrm retention retain micro-service with request $vrm")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config.vrmRetentionRetainMsRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }
 }

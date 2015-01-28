@@ -5,7 +5,10 @@ import composition.WithApplication
 import helpers.{UnitSpec, WireMockFixture}
 import org.joda.time.DateTime
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import utils.helpers.Config
 import webserviceclients.fakes.DateServiceConstants._
 
@@ -23,24 +26,39 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     }
   }
 
-  private val lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
-    override val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
+  private def lookupService = new VehicleAndKeeperLookupWebServiceImpl(new Config() {
+    override lazy val vehicleAndKeeperLookupMicroServiceBaseUrl = s"http://localhost:$wireMockPort"
   })
 
   private final val trackingId = "track-id-test"
 
-  private val dateTime = new DateTime(
+  private def dateTime = new DateTime(
     YearValid.toInt,
     MonthValid.toInt,
     DayValid.toInt,
     0,
     0)
 
-  private val request = VehicleAndKeeperDetailsRequest(
+  private def request = VehicleAndKeeperDetailsRequest(
+    dmsHeader = buildHeader(trackingId),
     referenceNumber = "ref number",
     registrationNumber = "reg number",
     transactionTimestamp = dateTime
   )
+
+  private def buildHeader(trackingId: String): DmsWebHeaderDto = {
+    val alwaysLog = true
+    val englishLanguage = "EN"
+    DmsWebHeaderDto(conversationId = trackingId,
+      originDateTime = dateTime,
+      applicationCode = "test-applicationCode",
+      channelCode = "test-channelCode",
+      contactId = 42,
+      eventFlag = alwaysLog,
+      serviceTypeCode = "test-serviceTypeCode",
+      languageCode = englishLanguage,
+      endUser = None)
+  }
 
   private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperDetailsRequest]
 }

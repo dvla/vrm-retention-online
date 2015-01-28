@@ -1,8 +1,9 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
-import com.tzavellas.sse.guice.ScalaModule
-import composition.{TestAuditService, TestDateService, WithApplication}
+import audit1.{AuditService, AuditMessage}
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -10,9 +11,7 @@ import org.mockito.Mockito._
 import pages.vrm_retention.{LeaveFeedbackPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.CookieFlagsRetention
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.fakes.AddressLookupServiceConstants._
@@ -55,8 +54,10 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val mockAuditService = mock[AuditService]
 
       val injector = testInjector(
-        new TestAuditService(mockAuditService),
-        new TestDateService)
+        new TestDateService,
+        new AuditLocalService(mockAuditService),
+        new AuditServiceDoesNothing
+        )
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
       val dateService = injector.getInstance(classOf[DateService])
@@ -153,7 +154,10 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector(
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().
@@ -166,11 +170,9 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   private def confirmWithCookieFlags = {
-    testInjector(new TestAuditService,
-      new ScalaModule() {
-        override def configure(): Unit = {
-          bind[CookieFlags].to[CookieFlagsRetention].asEagerSingleton()
-        }
-      }).getInstance(classOf[ConfirmBusiness])
+    testInjector(
+      new AuditLocalService,
+      new AuditServiceDoesNothing
+    ).getInstance(classOf[ConfirmBusiness])
   }
 }

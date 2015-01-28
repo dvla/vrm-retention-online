@@ -18,12 +18,12 @@ object PaymentPage extends Page {
 
   def cardName(implicit driver: WebDriver) = {
     driver.switchTo().frame(driver.findElement(By.cssSelector(IFrame)))
-    textField(org.scalatest.selenium.WebBrowser.id(CardName))
+    textField(id(CardName))
   }
 
-  def cardNumber(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(CardNumber))
+  def cardNumber(implicit driver: WebDriver) = textField(id(CardNumber))
 
-  def securityCode(implicit driver: WebDriver) = textField(org.scalatest.selenium.WebBrowser.id(SecurityCode))
+  def securityCode(implicit driver: WebDriver) = textField(id(SecurityCode))
 
   def payNow(implicit driver: WebDriver) = find(id(PayNow)).get
 

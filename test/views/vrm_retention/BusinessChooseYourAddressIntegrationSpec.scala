@@ -17,34 +17,34 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
       currentUrl should equal(BusinessChooseYourAddressPage.url)
     }
 
-    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowser {
+    "redirect when no businessName is cached" taggedAs UiTag in new WebBrowserForSelenium {
       go to BusinessChooseYourAddressPage
 
       currentUrl should equal(VehicleLookupPage.url)
     }
 
-    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowser {
+    "not display 'No addresses found' message when address service returns addresses" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
       pageSource.contains("No addresses found for that postcode") should equal(false) // Does not contain message
     }
 
-    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowser {
+    "should display the postcode entered in the previous page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
       pageSource.contains(AddressLookupServiceConstants.PostcodeValid.toUpperCase) should equal(true)
     }
 
-    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowser {
+    "display expected addresses in dropdown when address service returns addresses" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -61,7 +61,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       )
     }
 
-    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowser {
+    "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
@@ -74,12 +74,12 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
   }
 
   "back button" should {
-    "display previous page" taggedAs UiTag in new WebBrowser {
+    "display previous page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to BusinessChooseYourAddressPage
 
-      org.scalatest.selenium.WebBrowser.click on back
+      click on back
 
       currentUrl should equal(SetupBusinessDetailsPage.url)
     }
@@ -87,7 +87,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
 
   "select button" should {
 
-    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowser {
+    "go to the next page when correct data is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       happyPath
@@ -95,7 +95,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       currentUrl should equal(ConfirmBusinessPage.url)
     }
 
-    "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowser {
+    "display validation error messages when addressSelected is not in the list" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       sadPath
@@ -103,7 +103,7 @@ final class BusinessChooseYourAddressIntegrationSpec extends UiSpec with TestHar
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowser {
+    "remove redundant EnterAddressManually cookie (as we are now in an alternate history)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().enterAddressManually()
       happyPath

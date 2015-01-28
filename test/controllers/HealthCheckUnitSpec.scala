@@ -5,7 +5,7 @@ import play.api.test.FakeRequest
 import play.mvc.Http.Status.OK
 import uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck
 
-class HealthCheckUnitSpec extends UnitSpec {
+final class HealthCheckUnitSpec extends UnitSpec {
 
   "requests to /healthcheck" should {
 

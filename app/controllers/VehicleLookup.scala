@@ -1,11 +1,12 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import audit1.AuditMessage
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._
+import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import play.api.data.{FormError, Form => PlayForm}
+import play.api.data.{Form => PlayForm, FormError}
 import play.api.mvc.{Call, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
@@ -15,18 +16,26 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import utils.helpers.Config
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupService}
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionService,
-                                    vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
-                                    dateService: DateService, auditService: AuditService)
+final class VehicleLookup @Inject()(
+                                     val bruteForceService: BruteForcePreventionService,
+                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
+                                     dateService: DateService,
+                                     auditService1: audit1.AuditService,
+                                     auditService2: audit2.AuditService
+                                     )
                                    (implicit val clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase {
 
@@ -66,11 +75,23 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
     Redirect(routes.BeforeYouStart.present())
   }
 
-  override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] =
-    vehicleAndKeeperLookupService.invoke(VehicleAndKeeperDetailsRequest.from(form, dateService.now.toDateTime), trackingId).map { response =>
+  override protected def callLookupService(trackingId: String, form: Form)(implicit request: Request[_]): Future[LookupResult] = {
+    val vehicleAndKeeperDetailsRequest = VehicleAndKeeperDetailsRequest(
+      dmsHeader = buildHeader(trackingId),
+      referenceNumber = form.referenceNumber,
+      registrationNumber = form.registrationNumber,
+      transactionTimestamp = dateService.now.toDateTime
+    )
+    vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map { response =>
       response.responseCode match {
         case Some(responseCode) =>
-          auditService.send(AuditMessage.from(
+          auditService1.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+            rejectionCode = Some(responseCode)))
+          auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
             transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
             timestamp = dateService.dateTimeISOChronology,
@@ -82,13 +103,18 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
-              val auditMessage = AuditMessage.from(
+              auditService1.send(AuditMessage.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
                 transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
                 timestamp = dateService.dateTimeISOChronology,
                 vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch"))
-              auditService.send(auditMessage)
+                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+              auditService2.send(AuditRequest.from(
+                pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+                transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+                timestamp = dateService.dateTimeISOChronology,
+                vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+                rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
 
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 
@@ -101,6 +127,7 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
           }
       }
     }
+  }
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
     val transactionTimestamp = dateService.today.toDateTimeMillis.get
@@ -129,5 +156,19 @@ final class VehicleLookup @Inject()(val bruteForceService: BruteForcePreventionS
     val tenthSecondsFromMidnight = (milliSecondsFromMidnight / 100.0).toInt
     // prepend with zeros
     "%06d".format(tenthSecondsFromMidnight)
+  }
+
+  private def buildHeader(trackingId: String): DmsWebHeaderDto = {
+    val alwaysLog = true
+    val englishLanguage = "EN"
+    DmsWebHeaderDto(conversationId = trackingId,
+      originDateTime = dateService.now.toDateTime,
+      applicationCode = config.applicationCode,
+      channelCode = config.channelCode,
+      contactId = config.contactId,
+      eventFlag = alwaysLog,
+      serviceTypeCode = config.serviceTypeCode,
+      languageCode = englishLanguage,
+      endUser = None)
   }
 }

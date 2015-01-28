@@ -18,18 +18,18 @@
         <div class="second-col">
             <h2>@Messages("vrm_retention_confirm.title")</h2>
             <dl>
-                <dt><strong>@Messages("vrm_retention_confirm.keeperLabel")</strong></dt>
-                <dt>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </dt>
+                <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
+                <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </strong></dt>
             </dl>
             <dl>
-                <dt><strong>@Messages("vrm_retention_confirm.keeperAddressLabel")</strong></dt>
+                <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
                 <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
-                    @keeperAddressLine<br>
+                    <strong>@keeperAddressLine </strong><br>
                     }</dt>
             </dl>
             <dl>
-                <dt><strong>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</strong></dt>
-                <dt>@confirmViewModel.keeperAddress.get.address.last</dt>
+                <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
+                <dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>
             </dl>
         </div>
         <div class="first-col">
@@ -53,30 +53,24 @@
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
-              <details>
-                <summary><span class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
-                <div class="panel-indent">
-                  <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
-                  <p>@Messages("vrm_retention_confirm.emailWarnp2")</p>
-                  <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
-                    <p>@Messages("vrm_retention_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_retention_confirm.emailWarnp4link")</a></p>
-                </div>
-              </details>
+                <details>
+                    <summary><span id="@SummaryId" class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
+                    <div class="panel-indent">
+                        <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
+                        <p>@Messages("vrm_retention_confirm.emailWarnp2")</p>
+                        <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
+                        <p>@Messages("vrm_retention_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_retention_confirm.emailWarnp4link")</a></p>
+                    </div>
+                </details>
                 <br/>
-                <p><strong>@Messages("vrm_retention_confirm.emailAddressLabel")</strong>
-                    <br />
-                    @if(confirmViewModel.userType.equals("Keeper")) {
-                        <span class="form-hint form-hint-email">@Messages("vrm_retention_confirm.emailKeeper")</span>
-                    }
-                    @if(!confirmViewModel.userType.equals("Keeper")) {
-                        <span class="form-hint form-hint-email">@Messages("vrm_retention_confirm.emailTrade")</span>
-                    }
-                   </p>
-                    @valtechInputText(confirmForm(KeeperEmailId),
+
+                @valtechInputText(confirmForm(KeeperEmailId),
+                    hintText = {
+                        if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
+                    },
                     args = Map(
-                        'NO_OPTIONAL_LABEL -> true,
-                        '_label -> "",
-                        'hint -> Messages("vrm_retention_confirm.emailAddressHint"),
+                        'optionalFieldKey -> true,
+                        '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
                         '_showConstraints -> false,
                         'maxLength -> KeeperEmailMaxLength
                     )
@@ -91,5 +85,11 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
+}
 
+@if(config.googleAnalyticsTrackingId.isDefined) {
+    <script type="text/javascript">
+        trackChange(['@KeeperEmailId']);
+        trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
+    </script>
 }

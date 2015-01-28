@@ -1,6 +1,6 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.data.Form
@@ -12,8 +12,14 @@ import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 
-final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: DateService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
+final class ConfirmBusiness @Inject()(
+                                       auditService1: audit1.AuditService,
+                                       auditService2: audit2.AuditService,
+                                       dateService: DateService
+                                       )(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                                                             config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
@@ -59,7 +65,14 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
 
       val cookies = List(storeBusinessDetails).flatten
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.ConfirmBusinessToConfirm,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.ConfirmBusinessToConfirm,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
@@ -90,7 +103,14 @@ final class ConfirmBusiness @Inject()(auditService: AuditService, dateService: D
   }
 
   def exit = Action { implicit request =>
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
+      pageMovement = AuditMessage.ConfirmBusinessToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+    auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,

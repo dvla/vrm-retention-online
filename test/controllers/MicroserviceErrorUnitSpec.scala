@@ -4,14 +4,14 @@ import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
+import play.api.test.Helpers.{SERVICE_UNAVAILABLE, contentAsString, defaultAwaitTimeout, status}
 
 final class MicroserviceErrorUnitSpec extends UnitSpec {
 
   "present" should {
 
     "display the page" in new WithApplication {
-      status(present) should equal(OK)
+      status(present) should equal(SERVICE_UNAVAILABLE)
     }
 
     "not display progress bar" in new WithApplication {
@@ -34,6 +34,6 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
       getInstance(classOf[MicroServiceError])
   }
 
-  private lazy val present = microServiceError.present(FakeRequest())
-  private lazy val microServiceError = testInjector().getInstance(classOf[MicroServiceError])
+  private def present = microServiceError.present(FakeRequest())
+  private def microServiceError = testInjector().getInstance(classOf[MicroServiceError])
 }

@@ -13,7 +13,7 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
 
   "go to page" should {
 
-    "display the payment not authorised page for a not authorised payment response" taggedAs UiTag in new WebBrowser {
+    "display the payment not authorised page for a not authorised payment response" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheNotAuthorisedSetup()
@@ -40,14 +40,14 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
   //  }
 
   "exit button" should {
-    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowser {
+    "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
       cacheNotAuthorisedSetup()
 
       go to PaymentNotAuthorisedPage
 
-      org.scalatest.selenium.WebBrowser.click on exit
+      click on exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
     }

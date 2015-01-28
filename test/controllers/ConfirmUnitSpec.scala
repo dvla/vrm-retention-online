@@ -1,7 +1,9 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
-import composition.{TestAuditService, TestDateService, WithApplication}
+import audit1.{AuditService, AuditMessage}
+import composition.audit1.AuditLocalService
+import composition.audit2.AuditServiceDoesNothing
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -56,8 +58,10 @@ final class ConfirmUnitSpec extends UnitSpec {
       val mockAuditService = mock[AuditService]
 
       val injector = testInjector(
-        new TestAuditService(mockAuditService),
-        new TestDateService)
+        new TestDateService,
+        new AuditLocalService(mockAuditService),
+        new AuditServiceDoesNothing
+      )
 
       val confirm = injector.getInstance(classOf[Confirm])
       val dateService = injector.getInstance(classOf[DateService])
@@ -155,7 +159,10 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.present(request)
   }
 
-  private def confirm = testInjector(new TestAuditService).getInstance(classOf[Confirm])
+  private def confirm = testInjector(
+    new AuditLocalService,
+    new AuditServiceDoesNothing
+  ).getInstance(classOf[Confirm])
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(

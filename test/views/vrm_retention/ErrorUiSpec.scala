@@ -13,7 +13,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to ErrorPage
 
       currentUrl should equal(ErrorPage.url)
@@ -22,7 +22,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
 
   "startAgain button" should {
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowser {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessChooseYourAddress().
@@ -33,7 +33,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to ErrorPage
-      org.scalatest.selenium.WebBrowser.click on startAgain
+      click on startAgain
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))

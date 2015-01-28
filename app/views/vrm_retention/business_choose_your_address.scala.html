@@ -40,14 +40,12 @@
                 }
                 <div class="form-steps">
                     @if(dropDownOptions.isEmpty) {
-                        <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()" class="button">
+                        <a id="@EnterAddressManuallyButtonId" href="@EnterAddressManually.present()" class="button" role="button">
                             @Messages("manual-address-entry-2")
                         </a>
                     }
                     @if(dropDownOptions.nonEmpty) {
-                        <button id="@SelectId" type="submit" name="action" class="button">
-                            @Messages("vrm_retention_businessChooseYourAddress.submitbutton")
-                        </button>
+                        <button id="@SelectId" type="submit" name="action" class="button"> @Messages("vrm_retention_businessChooseYourAddress.submitbutton")</button>
                     }
                     <br/>
                     <a id="@ExitId" class="exit" href="@controllers.routes.BusinessChooseYourAddress.exit()">@Messages("vrm_retention_exit.button")</a>

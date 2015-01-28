@@ -1,27 +1,33 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
-                             dateService: DateService,
-                             auditService: AuditService)
+final class Retain @Inject()(
+                              vrmRetentionRetainService: VRMRetentionRetainService,
+                              dateService: DateService,
+                              auditService1: audit1.AuditService,
+                              auditService2: audit2.AuditService
+                              )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config) extends Controller {
 
@@ -32,7 +38,12 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
         retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
       case (_, Some(transactionId), _) => {
-        auditService.send(AuditMessage.from(
+        auditService1.send(AuditMessage.from(
+          pageMovement = AuditMessage.PaymentToMicroServiceError,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology
+        ))
+        auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToMicroServiceError,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology
@@ -63,7 +74,17 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       var paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.SettledStatus)
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToSuccess,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = Some(paymentModel),
+        retentionCertId = Some(certificateNumber)))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToSuccess,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
@@ -88,7 +109,17 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       var paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.PaymentToPaymentFailure,
+        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = Some(paymentModel),
+        rejectionCode = Some(responseCode)))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         timestamp = dateService.dateTimeISOChronology,

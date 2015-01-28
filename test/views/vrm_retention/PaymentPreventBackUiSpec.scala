@@ -7,12 +7,12 @@ import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.PaymentPreventBackPage.returnToSuccess
-import pages.vrm_retention.{BeforeYouStartPage, PaymentPreventBackPage, SuccessPaymentPage}
+import pages.vrm_retention.{SuccessPage, BeforeYouStartPage, PaymentPreventBackPage, SuccessPaymentPage}
 
 final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
 
   "go to the page" should {
-    "display the page" taggedAs UiTag in new WebBrowser {
+    "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to PaymentPreventBackPage
 
       currentUrl should equal(PaymentPreventBackPage.url)
@@ -20,13 +20,13 @@ final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
   }
 
   "returnToSuccess" should {
-    "redirect to the PayemntSuccess page" taggedAs UiTag in new WebBrowser {
+    "redirect to the PayemntSuccess page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPreventBackPage
-      org.scalatest.selenium.WebBrowser.click on returnToSuccess
+      click on returnToSuccess
 
-      currentUrl should equal(SuccessPaymentPage.url)
+      currentUrl should equal(SuccessPage.url)
     }
   }
 

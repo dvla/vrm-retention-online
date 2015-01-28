@@ -4,11 +4,12 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 
 import scala.concurrent.Future
 
-class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
+final class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
 
   def configure() = {
     val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]

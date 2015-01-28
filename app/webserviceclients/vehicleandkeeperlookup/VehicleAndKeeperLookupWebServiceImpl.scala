@@ -7,6 +7,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import utils.helpers.Config
 import scala.concurrent.Future
 
@@ -23,6 +24,7 @@ final class VehicleAndKeeperLookupWebServiceImpl @Inject()(config: Config)
     Logger.debug(s"Calling vehicle and keeper lookup micro-service with request $refNo $vrm tracking id: $trackingId")
     WS.url(endPoint)
       .withHeaders(HttpHeaders.TrackingId -> trackingId)
+      .withRequestTimeout(config.vehicleAndKeeperLookupRequestTimeout) // Timeout is in milliseconds
       .post(Json.toJson(request))
   }
 }

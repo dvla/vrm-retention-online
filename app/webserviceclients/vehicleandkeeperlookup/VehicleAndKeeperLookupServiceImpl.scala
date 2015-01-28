@@ -3,6 +3,7 @@ package webserviceclients.vehicleandkeeperlookup
 import javax.inject.Inject
 import play.Logger
 import play.api.http.Status
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
