@@ -1,8 +1,11 @@
 package composition
 
 import com.google.inject.Guice
-import composition.audit2.AuditServiceBinding
-import composition.paymentsolve.RefererFromHeaderBinding
+import composition.webserviceclients.audit2.AuditServiceBinding
+import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupBinding
+import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityBinding
+import composition.webserviceclients.vrmretentionretain.VrmRetentionRetainBinding
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy

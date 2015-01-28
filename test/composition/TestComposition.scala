@@ -1,27 +1,23 @@
 package composition
 
+import _root_.webserviceclients.paymentsolve.{TestRefererFromHeader, PaymentSolveService, PaymentSolveServiceImpl}
+import _root_.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl}
+import _root_.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl}
+import _root_.webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl}
 import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.paymentsolvewebservice.TestPaymentSolveWebService
 import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import email.{EmailServiceImpl, EmailService}
-import pdf.{PdfServiceImpl, PdfService}
+import email.{EmailService, EmailServiceImpl}
+import pdf.{PdfService, PdfServiceImpl}
 import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
-import uk.gov.dvla.vehicles.presentation.common.services.{DateServiceImpl, DateService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupWebService, AddressLookupService}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{WebServiceImpl, AddressLookupServiceImpl}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceImpl, BruteForcePreventionService, BruteForcePreventionWebService}
-import utils.helpers._
-import webserviceclients.paymentsolve._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupService, VehicleAndKeeperLookupWebServiceImpl, VehicleAndKeeperLookupWebService}
-import webserviceclients.vrmretentioneligibility._
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainServiceImpl, VRMRetentionRetainService, VRMRetentionRetainWebServiceImpl, VRMRetentionRetainWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
+import utils.helpers.RetentionCookieFlags
 
 trait TestComposition extends Composition {
 
@@ -40,7 +36,7 @@ trait TestComposition extends Composition {
       new TestPaymentSolveWebService,
       new TestRefererFromHeader,
       new audit1.AuditLocalService,
-      new audit2.AuditServiceDoesNothing
+      new composition.webserviceclients.audit2.AuditServiceDoesNothing
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -71,6 +67,6 @@ final class TestModule extends ScalaModule {
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
-    bind[webserviceclients.audit2.AuditMicroService].to[webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
+    bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
   }
 }

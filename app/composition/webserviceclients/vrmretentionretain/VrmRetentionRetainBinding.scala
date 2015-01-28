@@ -1,7 +1,7 @@
-package composition
+package composition.webserviceclients.vrmretentionretain
 
+import _root_.webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
 import com.tzavellas.sse.guice.ScalaModule
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
 
 final class VrmRetentionRetainBinding extends ScalaModule {
 

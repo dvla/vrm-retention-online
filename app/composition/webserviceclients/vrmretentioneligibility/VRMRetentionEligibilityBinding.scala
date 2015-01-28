@@ -1,7 +1,7 @@
-package composition
+package composition.webserviceclients.vrmretentioneligibility
 
+import _root_.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 import com.tzavellas.sse.guice.ScalaModule
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
 
 final class VRMRetentionEligibilityBinding extends ScalaModule {
 

@@ -3,7 +3,7 @@ package controllers
 import audit1.{AuditService, AuditMessage}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.audit1.AuditLocalService
-import composition.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.eligibility._
 import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec

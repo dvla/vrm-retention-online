@@ -1,7 +1,7 @@
-package composition
+package composition.webserviceclients.vehicleandkeeperlookup
 
+import _root_.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 import com.tzavellas.sse.guice.ScalaModule
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
 
 final class VehicleAndKeeperLookupBinding extends ScalaModule {
 

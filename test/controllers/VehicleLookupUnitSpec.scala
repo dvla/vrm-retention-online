@@ -1,11 +1,17 @@
 package controllers
 
 import _root_.audit1.{AuditMessage, AuditService}
+import _root_.webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
+import _root_.webserviceclients.fakes.DateServiceConstants._
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import _root_.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
+import composition._
 import composition.audit1.AuditLocalService
-import composition.audit2.AuditServiceDoesNothing
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
-import composition._
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
@@ -21,25 +27,12 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
-import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import webserviceclients.fakes.DateServiceConstants._
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
-
-  private val dateTime = new DateTime(
-    YearValid.toInt,
-    MonthValid.toInt,
-    DayValid.toInt,
-    0,
-    0)
 
   "present" should {
 

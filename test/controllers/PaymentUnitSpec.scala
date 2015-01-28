@@ -2,8 +2,8 @@ package controllers
 
 import composition.WithApplication
 import composition.audit1.AuditLocalService
-import composition.audit2.AuditServiceDoesNothing
-import composition.paymentsolve.RefererFromHeaderBinding
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding
 import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.paymentsolvewebservice._
 import helpers.UnitSpec

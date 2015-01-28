@@ -1,11 +1,13 @@
 package controllers
 
-import _root_.audit1.{AuditService, AuditMessage}
+import _root_.audit1.AuditMessage
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1.AuditLocalService
-import composition.audit2.AuditServiceDoesNothing
-import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition._
+import composition.audit1.AuditLocalService
+import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -20,8 +22,6 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import webserviceclients.fakes.AddressLookupWebServiceConstants
-import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 

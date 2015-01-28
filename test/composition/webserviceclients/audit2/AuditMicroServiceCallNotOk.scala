@@ -1,4 +1,4 @@
-package composition.audit2
+package composition.webserviceclients.audit2
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any

@@ -1,4 +1,4 @@
-package composition.paymentsolve
+package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
 import webserviceclients.paymentsolve.RefererFromHeaderImpl
