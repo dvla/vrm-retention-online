@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig, WithApplication}
+import composition.{TestConfig2, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{bruteForcePreventionViewModel, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
@@ -58,7 +58,9 @@ final class VrmLockedUnitSpec extends UnitSpec {
   private def vrmLocked = testInjector().getInstance(classOf[VrmLocked])
 
   private def vrmLockedPrototypeNotVisible = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
-      getInstance(classOf[VrmLocked])
+    testInjector(
+      new TestConfig(isPrototypeBannerVisible = false),
+      new TestConfig2(isPrototypeBannerVisible = false)
+    ).getInstance(classOf[VrmLocked])
   }
 }

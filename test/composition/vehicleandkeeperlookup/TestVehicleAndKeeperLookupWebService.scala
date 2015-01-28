@@ -6,10 +6,9 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.{mock, when}
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import webserviceclients.fakes.FakeResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 
 import scala.concurrent.Future
 

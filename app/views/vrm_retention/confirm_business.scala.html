@@ -1,7 +1,8 @@
 @(confirmBusinessViewModel: models.ConfirmBusinessViewModel,
         confirmBusinessForm: Form[models.ConfirmBusinessFormModel])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config: utils.helpers.Config,
+        config2: utils.helpers.Config2)
 
 @import views.html.helper.form
 @import views.html.vrm_retention.main
@@ -87,7 +88,7 @@
     }
 }
 
-@if(config.googleAnalyticsTrackingId.isDefined) {
+@if(config2.googleAnalyticsTrackingId.isDefined) {
     <script type="text/javascript">
         trackChange(['@StoreDetailsConsentId']);
         trackClick(['@ConfirmId', '@ExitId']);

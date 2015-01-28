@@ -1,9 +1,9 @@
 package webserviceclients.fakes
 
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 
 object VehicleAndKeeperLookupWebServiceConstants {
 
@@ -12,8 +12,11 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val ReferenceNumberValid = "12345678910"
   final val TransactionIdValid = "ABC123123123123"
   final val PaymentTransNoValid = "123456"
+
   def VehicleMakeValid = Some("Alfa Romeo")
+
   def VehicleModelValid = Some("Alfasud ti")
+
   final val KeeperNameValid = "Keeper Name"
   final val KeeperUprnValid = 10123456789L
   final val ConsentValid = "true"
@@ -21,15 +24,25 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val BusinessConsentValid = "Business"
   final val KeeperPostcodeValid = PostcodeValid
   final val KeeperPostcodeValidForMicroService = "SA11AA"
+
   def KeeperTitleValid = Some("Mr")
+
   def KeeperLastNameValid = Some("Jones")
+
   def KeeperFirstNameValid = Some("David")
+
   def KeeperAddressLine1Valid = Some("1 High Street")
+
   def KeeperAddressLine2Valid = Some("Skewen")
+
   def KeeperAddressLine3Valid = None
+
   def KeeperAddressLine4Valid = None
+
   def KeeperPostTownValid = Some("Swansea")
+
   def KeeperPostCodeValid = Some("SA11AA")
+
   final val RecordMismatch = "vehicle_and_keeper_lookup_document_record_mismatch - 200"
 
   private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsDto(registrationNumber = RegistrationNumberValid,

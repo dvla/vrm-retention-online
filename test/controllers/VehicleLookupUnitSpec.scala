@@ -1,18 +1,21 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
+import _root_.audit1.{AuditMessage, AuditService}
+import _root_.webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import composition._
 import composition.audit1.AuditLocalService
-import composition.audit2.AuditServiceDoesNothing
 import composition.eligibility.EligibilityWebServiceCallWithResponse
 import composition.vehicleandkeeperlookup._
-import composition.{TestBruteForcePreventionWebService, TestConfig, TestDateService, WithApplication}
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
-import org.joda.time.DateTime
+import models.VehicleAndKeeperLookupFormModel
 import org.mockito.Mockito._
 import pages.vrm_retention.{BeforeYouStartPage, CheckEligibilityPage, MicroServiceErrorPage, VehicleLookupFailurePage, VrmLockedPage}
 import play.api.test.FakeRequest
@@ -20,26 +23,15 @@ import play.api.test.Helpers.{LOCATION, contentAsString, defaultAwaitTimeout}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsRequest, VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
-import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
-import webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import webserviceclients.fakes.DateServiceConstants._
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsResponse, VehicleAndKeeperLookupWebService}
+import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, TransactionIdCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey, VehicleRegistrationNumberId}
 
 final class VehicleLookupUnitSpec extends UnitSpec {
-
-  private val dateTime = new DateTime(
-    YearValid.toInt,
-    MonthValid.toInt,
-    DayValid.toInt,
-    0,
-    0)
 
   "present" should {
 
@@ -364,6 +356,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(),
       new AuditServiceDoesNothing,
@@ -376,6 +369,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
+      new TestConfig2(isPrototypeBannerVisible = true),
       new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
       new AuditLocalService(),
       new AuditServiceDoesNothing,
@@ -392,6 +386,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
       new AuditLocalService(auditService1 = auditService1),
       new AuditServiceDoesNothing,
@@ -417,6 +412,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallFails()
     ).
       getInstance(classOf[VehicleLookup])
@@ -427,6 +423,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperLookupCallNoResponse()
     ).
       getInstance(classOf[VehicleLookup])
@@ -437,6 +434,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallServerDown()
     ).
       getInstance(classOf[VehicleLookup])
@@ -447,6 +445,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
       new AuditServiceDoesNothing
     ).
@@ -458,6 +457,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
+      new TestConfig2(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new VehicleAndKeeperDetailsCallVRMNotFound(),
       new AuditServiceDoesNothing
     ).

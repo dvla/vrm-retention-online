@@ -3,17 +3,17 @@ package controllers
 import javax.inject.Inject
 
 import audit1.AuditMessage
-import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel, VehicleAndKeeperDetailsModel}
+import models.{BusinessChooseYourAddressFormModel, BusinessChooseYourAddressViewModel, BusinessDetailsModel, EligibilityModel, SetupBusinessDetailsFormModel}
 import play.api.data.{Form, FormError}
 import play.api.i18n.Lang
 import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSession, ClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.html.vrm_retention.business_choose_your_address
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
@@ -32,7 +32,8 @@ final class BusinessChooseYourAddress @Inject()(
                                                  dateService: DateService
                                                  )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                config: Config) extends Controller {
+                                                config: Config,
+                                                config2: Config2) extends Controller {
 
   private[controllers] val form = Form(BusinessChooseYourAddressFormModel.Form.Mapping)
 
@@ -42,7 +43,7 @@ final class BusinessChooseYourAddress @Inject()(
         val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsForm, showBusinessName = Some(true))(session, request2lang).map { addresses =>
-          if (config.ordnanceSurveyUseUprn) Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
+          if (config2.ordnanceSurveyUseUprn) Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
           else Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), index(addresses)))
         }
       case _ => Future.successful {
@@ -59,7 +60,7 @@ final class BusinessChooseYourAddress @Inject()(
             val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel, showBusinessName = Some(true)).map { addresses =>
-              if (config.ordnanceSurveyUseUprn)
+              if (config2.ordnanceSurveyUseUprn)
                 BadRequest(business_choose_your_address(viewModel,
                   formWithReplacedErrors(invalidForm),
                   addresses)
@@ -78,7 +79,7 @@ final class BusinessChooseYourAddress @Inject()(
         request.cookies.getModel[SetupBusinessDetailsFormModel] match {
           case Some(setupBusinessDetailsForm) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
-            if (config.ordnanceSurveyUseUprn) {
+            if (config2.ordnanceSurveyUseUprn) {
               lookupUprn(validForm,
                 setupBusinessDetailsForm.name,
                 setupBusinessDetailsForm.contact,

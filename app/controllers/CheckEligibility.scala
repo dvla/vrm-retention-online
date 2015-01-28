@@ -2,17 +2,18 @@ package controllers
 
 import audit1._
 import com.google.inject.Inject
-import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
+import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperLookupFormModel}
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
 import webserviceclients.audit2
@@ -30,7 +31,8 @@ final class CheckEligibility @Inject()(
                                         auditService2: audit2.AuditService
                                         )
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config) extends Controller {
+                                       config: Config,
+                                       config2: Config2) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -169,16 +171,15 @@ final class CheckEligibility @Inject()(
     }
   }
 
-  private def buildWebHeader(trackingId: String): VssWebHeaderDto =
-  {
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
-      applicationCode = config.applicationCode,
-      serviceTypeCode = config.serviceTypeCode,
+      applicationCode = config2.applicationCode,
+      serviceTypeCode = config2.serviceTypeCode,
       buildEndUser())
   }
 
   private def buildEndUser(): VssWebEndUserDto = {
-    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
+    VssWebEndUserDto(endUserId = config2.orgBusinessUnit, orgBusUnit = config2.orgBusinessUnit)
   }
 }

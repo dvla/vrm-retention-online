@@ -4,7 +4,6 @@ import audit1.AuditMessage
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._
-import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.{Form => PlayForm, FormError}
 import play.api.mvc.{Call, _}
@@ -12,19 +11,19 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.{LookupResult, VehicleFound, VehicleNotFound}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{DmsWebEndUserDto, DmsWebHeaderDto}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperDetailsRequest}
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.Payment._
 import views.vrm_retention.RelatedCacheKeys
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -37,7 +36,8 @@ final class VehicleLookup @Inject()(
                                      auditService2: audit2.AuditService
                                      )
                                    (implicit val clientSideSessionFactory: ClientSideSessionFactory,
-                                    config: Config) extends VehicleLookupBase {
+                                    config: Config,
+                                    config2: Config2) extends VehicleLookupBase {
 
   override val vrmLocked: Call = routes.VrmLocked.present()
   override val microServiceError: Call = routes.MicroServiceError.present()
@@ -163,11 +163,11 @@ final class VehicleLookup @Inject()(
     val englishLanguage = "EN"
     DmsWebHeaderDto(conversationId = trackingId,
       originDateTime = dateService.now.toDateTime,
-      applicationCode = config.applicationCode,
-      channelCode = config.channelCode,
-      contactId = config.contactId,
+      applicationCode = config2.applicationCode,
+      channelCode = config2.channelCode,
+      contactId = config2.contactId,
       eventFlag = alwaysLog,
-      serviceTypeCode = config.serviceTypeCode,
+      serviceTypeCode = config2.serviceTypeCode,
       languageCode = englishLanguage,
       endUser = None)
   }

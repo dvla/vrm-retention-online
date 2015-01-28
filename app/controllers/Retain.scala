@@ -2,7 +2,7 @@ package controllers
 
 import audit1._
 import com.google.inject.Inject
-import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
@@ -10,9 +10,10 @@ import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
@@ -31,7 +32,8 @@ final class Retain @Inject()(
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                             config: Config) extends Controller {
+                             config: Config,
+                             config2: Config2) extends Controller {
 
   def retain = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -171,12 +173,12 @@ final class Retain @Inject()(
   {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
-      applicationCode = config.applicationCode,
-      serviceTypeCode = config.serviceTypeCode,
+      applicationCode = config2.applicationCode,
+      serviceTypeCode = config2.serviceTypeCode,
       buildEndUser())
   }
 
   private def buildEndUser(): VssWebEndUserDto = {
-    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
+    VssWebEndUserDto(endUserId = config2.orgBusinessUnit, orgBusUnit = config2.orgBusinessUnit)
   }
 }

@@ -1,16 +1,14 @@
 package webserviceclients.vrmretentioneligibility
 
-import composition.TestConfig
+import composition.TestConfig2
 import helpers.UnitSpec
 import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
 import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
-import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.{TrackingIdValid, ReplacementRegistrationNumberValid}
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.{ReplacementRegistrationNumberValid, TrackingIdValid}
 
 final class VRMRetentionEligibilityRequestSpec extends UnitSpec {
-
-  val config = new TestConfig build
 
   "format" should {
     "write json with currentVRM" in {
@@ -28,18 +26,22 @@ final class VRMRetentionEligibilityRequestSpec extends UnitSpec {
     DayValid.toInt,
     0,
     0)
+
   private def toJson = {
     val request = VRMRetentionEligibilityRequest(buildWebHeader(TrackingIdValid), currentVRM = ReplacementRegistrationNumberValid, transactionTimestamp = dateTime)
     Json.toJson(request)
   }
-  private def buildWebHeader(trackingId: String): VssWebHeaderDto =
-  {
+
+  private val config = new TestConfig2().build
+  
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.serviceTypeCode,
       buildEndUser())
   }
+
   private def buildEndUser(): VssWebEndUserDto = {
     VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
   }

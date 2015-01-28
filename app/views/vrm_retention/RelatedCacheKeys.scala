@@ -14,7 +14,8 @@ import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Payment.PaymentDetailsCacheKey
 import views.vrm_retention.Retain.{RetainCacheKey, RetainResponseCodeCacheKey}
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import views.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 
 object RelatedCacheKeys {
 

@@ -2,7 +2,8 @@ package controllers
 
 import composition.WithApplication
 import composition.audit1.AuditLocalService
-import composition.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding
 import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.paymentsolvewebservice._
 import helpers.UnitSpec
@@ -112,7 +113,8 @@ final class PaymentUnitSpec extends UnitSpec {
       val payment = testInjector(
         new ValidatedCardDetails(paymentSolveWebService),
         new AuditLocalService,
-        new AuditServiceDoesNothing
+        new AuditServiceDoesNothing,
+        new RefererFromHeaderBinding
       ).getInstance(classOf[Payment])
 
       val result = payment.begin(requestWithValidDefaults())
@@ -129,7 +131,7 @@ final class PaymentUnitSpec extends UnitSpec {
         transactionId = CookieFactoryForUnitSpecs.transactionId().value,
         transNo = CookieFactoryForUnitSpecs.paymentTransNo().value,
         vrm = RegistrationNumberValid,
-        purchaseAmount = 8000,
+        purchaseAmount = 42,
         paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
       )
       verify(paymentSolveWebService).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
@@ -326,16 +328,21 @@ final class PaymentUnitSpec extends UnitSpec {
   private def payment = testInjector(
     new ValidatedCardDetails(),
     new AuditLocalService,
-    new AuditServiceDoesNothing
+    new AuditServiceDoesNothing,
+    new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
+
   private def paymentCallFails = testInjector(
     new PaymentCallFails,
     new AuditLocalService,
-    new AuditServiceDoesNothing
+    new AuditServiceDoesNothing,
+    new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
+
   private def paymentCancelValidated = testInjector(
     new CancelValidated,
     new AuditLocalService,
-    new AuditServiceDoesNothing
+    new AuditServiceDoesNothing,
+    new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
 }

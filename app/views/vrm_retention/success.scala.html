@@ -1,6 +1,7 @@
 @(successViewModel: models.SuccessViewModel, isKeeper: Boolean)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config: utils.helpers.Config)
+    config: utils.helpers.Config,
+		config2: utils.helpers.Config2)
 
 @import controllers.routes.Success
 @import views.html.vrm_retention.main
@@ -100,7 +101,7 @@
     </div>
 }
 
-@if(config.googleAnalyticsTrackingId.isDefined) {
+@if(config2.googleAnalyticsTrackingId.isDefined) {
 	@if(!isKeeper) {
 		<script type="text/javascript">
 			trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);

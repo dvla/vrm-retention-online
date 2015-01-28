@@ -1,13 +1,12 @@
 package composition.paymentsolvewebservice
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.getResponseWithValidDefaults
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.updateResponseWithValidDefaults
+import composition.paymentsolvewebservice.TestPaymentSolveWebService.{getResponseWithValidDefaults, updateResponseWithValidDefaults}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
-import webserviceclients.fakes.FakeResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveUpdateRequest, PaymentSolveWebService}
 
 import scala.concurrent.Future

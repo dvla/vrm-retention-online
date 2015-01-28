@@ -12,8 +12,7 @@ import webserviceclients.audit2.AuditRequest
 import scala.concurrent.Future
 
 final class AuditLocalService(
-                             auditService1: audit1.AuditService = mock(classOf[audit1.AuditService]),
-                             auditService2: audit2.AuditService = mock(classOf[audit2.AuditService])
+                             auditService1: audit1.AuditService = mock(classOf[audit1.AuditService])
                              ) extends ScalaModule with MockitoSugar {
 
   def configure() = {

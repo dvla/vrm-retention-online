@@ -1,6 +1,6 @@
 package utils.helpers
 
-import composition.TestConfig
+import composition.{TestConfig2, TestConfig}
 import play.api.mvc.Cookie
 import play.api.test.WithApplication
 import uk.gov.dvla.vehicles.presentation.common.UnitSpec
@@ -17,8 +17,8 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
       originalCookie.secure should equal(false)
       originalCookie.maxAge should equal(None)
 
-      val modifiedCookie = cookieFlags.applyToCookie(originalCookie) // This will load values from the fake config we are passing into this test's WithApplication.
-      modifiedCookie.secure should equal(false)
+      val modifiedCookie = cookieFlags(configSecureCookies = true).applyToCookie(originalCookie) // This will load values from the fake config we are passing into this test's WithApplication.
+      modifiedCookie.secure should equal(true)
       modifiedCookie.maxAge should equal(Some(30.minutes.toSeconds.toInt))
     }
 
@@ -28,14 +28,15 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
       originalCookie.secure should equal(false)
       originalCookie.maxAge should equal(None)
 
-      val modifiedCookie = cookieFlags.applyToCookie(originalCookie, StoreBusinessDetailsCacheKey) // This will load values from the fake config we are passing into this test's WithApplication.
-      modifiedCookie.secure should equal(false)
+      val modifiedCookie = cookieFlags(configSecureCookies = true).applyToCookie(originalCookie, StoreBusinessDetailsCacheKey) // This will load values from the fake config we are passing into this test's WithApplication.
+      modifiedCookie.secure should equal(true)
       modifiedCookie.maxAge should equal(Some(7.days.toSeconds.toInt))
     }
   }
 
-  private def cookieFlags = {
-    val config = new TestConfig().build
-    new RetentionCookieFlags()(config)
+  private def cookieFlags(configSecureCookies: Boolean) = {
+    val config = new TestConfig(secureCookies = configSecureCookies).build
+    val config2 = new TestConfig2(secureCookies = configSecureCookies).build
+    new RetentionCookieFlags()(config, config2)
   }
 }

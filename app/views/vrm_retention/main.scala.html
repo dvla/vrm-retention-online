@@ -2,7 +2,8 @@
     title: String,
     currentForm: Option[Form[_]] = None,
     backNavigation: Option[Call] = None)(content: Html)(implicit lang: Lang,
-    config: utils.helpers.Config)
+    config: utils.helpers.Config,
+    config2: utils.helpers.Config2)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
 @import views.html.common.{govMainDefault, progressBar, protoType}

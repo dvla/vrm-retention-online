@@ -1,12 +1,13 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{PaymentModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
+import models.{PaymentModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import utils.helpers.Config
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveService}
 
@@ -16,7 +17,8 @@ import scala.util.control.NonFatal
 
 final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                    config: Config) extends Controller {
+                                    config: Config,
+                                    config2: Config2) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

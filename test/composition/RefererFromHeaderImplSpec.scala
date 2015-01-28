@@ -5,6 +5,7 @@ import helpers.UnitSpec
 import play.api.mvc.Request
 import play.api.test.FakeRequest
 import play.api.test.Helpers.REFERER
+import _root_.webserviceclients.paymentsolve.RefererFromHeaderImpl
 
 final class RefererFromHeaderImplSpec extends UnitSpec {
 

@@ -6,10 +6,11 @@ import mappings.common.Help.HelpCacheKey
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 
 final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                             config: Config) extends Controller {
+                             config: Config,
+                             config2: Config2) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.common.help()) // TODO revisit persisting of 'origin' cookie.

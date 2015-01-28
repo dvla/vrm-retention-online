@@ -1,6 +1,6 @@
 package controllers
 
-import composition.{TestConfig, WithApplication}
+import composition.{TestConfig2, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import play.api.test.FakeRequest
@@ -30,8 +30,10 @@ final class MicroserviceErrorUnitSpec extends UnitSpec {
   }
 
   private def microServiceErrorPrototypeNotVisible = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
-      getInstance(classOf[MicroServiceError])
+    testInjector(
+      new TestConfig(isPrototypeBannerVisible = false),
+      new TestConfig2(isPrototypeBannerVisible = false)
+    ).getInstance(classOf[MicroServiceError])
   }
 
   private def present = microServiceError.present(FakeRequest())

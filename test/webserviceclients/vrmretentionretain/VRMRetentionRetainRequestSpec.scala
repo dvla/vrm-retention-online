@@ -1,6 +1,6 @@
 package webserviceclients.vrmretentionretain
 
-import composition.TestConfig
+import composition.TestConfig2
 import helpers.UnitSpec
 import org.joda.time.DateTime
 import play.api.libs.json.Json
@@ -10,7 +10,7 @@ import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.Replacement
 
 final class VRMRetentionRetainRequestSpec extends UnitSpec {
 
-  val config = new TestConfig build
+  val config = new TestConfig2 build
 
   "format" should {
     "write json with currentVRM" in {

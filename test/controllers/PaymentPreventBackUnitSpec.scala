@@ -1,8 +1,8 @@
 package controllers
 
 import composition.audit1.AuditLocalService
-import composition.audit2.AuditServiceDoesNothing
-import composition.{TestConfig, WithApplication}
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.{TestConfig2, TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -59,6 +59,7 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
   private def paymentPreventBackNotVisible =
     testInjector(
       new TestConfig(isPrototypeBannerVisible = false),
+      new TestConfig2(isPrototypeBannerVisible = false),
       new AuditLocalService
     ).getInstance(classOf[PaymentPreventBack])
 }

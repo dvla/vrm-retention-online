@@ -1,5 +1,6 @@
 @(title: String)(implicit lang: Lang,
-        config: utils.helpers.Config)
+        config: utils.helpers.Config,
+        config2: utils.helpers.Config2)
 
 <!--start header-->
 <head>
@@ -21,7 +22,7 @@
     <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("lib/vehicles-presentation-common/images/apple-touch-icon-144x144.png")" sizes="144x144">
     <link rel="apple-touch-icon-precomposed" href="@routes.Assets.at("lib/vehicles-presentation-common/images/apple-touch-icon-152x152.png")" sizes="152x152">
 
-    @if(config.googleAnalyticsTrackingId.isDefined) {
+    @if(config2.googleAnalyticsTrackingId.isDefined) {
         @*
         https://support.google.com/analytics/answer/1008080?hl=en&utm_id=ad
         Paste it immediately before the closing </head> tag.
@@ -33,7 +34,7 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', '@{config.googleAnalyticsTrackingId}', 'auto');
+        ga('create', '@{config2.googleAnalyticsTrackingId}', 'auto');
         ga('set', 'anonymizeIp', true);
         ga('send', 'pageview');
         </script>

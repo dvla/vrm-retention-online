@@ -2,7 +2,7 @@ package models
 
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 
 final case class BusinessDetailsModel(name: String, contact: String, email: String, address: AddressModel)

@@ -4,31 +4,28 @@ import composition.TestComposition
 import models._
 import play.api.libs.json.{Json, Writes}
 import play.api.mvc.Cookie
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import views.vrm_retention.Confirm.{KeeperEmailCacheKey}
-import views.vrm_retention.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
+import views.vrm_retention.Confirm.KeeperEmailCacheKey
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Payment._
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupDetailsCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupFormModelCacheKey}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
 import webserviceclients.fakes.PaymentSolveWebServiceConstants._
-import scala.Some
-import play.api.mvc.Cookie
-import org.openqa.selenium.WebDriver
-import views.vrm_retention
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 

@@ -9,9 +9,9 @@ import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.Confirm._
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
@@ -24,7 +24,8 @@ final class Success @Inject()(pdfService: PdfService,
                               dateService: DateService,
                               paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                              config: Config,
+                              config2: Config2) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

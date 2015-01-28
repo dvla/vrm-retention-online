@@ -2,7 +2,6 @@ package controllers
 
 import audit1._
 import com.google.inject.Inject
-import composition.RefererFromHeader
 import models._
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
@@ -10,15 +9,16 @@ import play.api.mvc.{Action, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config
+import utils.helpers.{Config, Config2}
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService}
+import webserviceclients.paymentsolve._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -32,7 +32,8 @@ final class Payment @Inject()(
                                auditService2: audit2.AuditService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                              config: Config,
+                              config2: Config2) extends Controller {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -121,7 +122,7 @@ final class Payment @Inject()(
           transactionId = transactionId,
           transNo = transNo,
           vrm = vrm,
-          purchaseAmount = config.purchaseAmount.toInt,
+          purchaseAmount = config2.purchaseAmount.toInt,
           paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()

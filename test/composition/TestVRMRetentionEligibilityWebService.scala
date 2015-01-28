@@ -1,5 +1,7 @@
 package composition
 
+import _root_.webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
+import _root_.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -9,9 +11,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import webserviceclients.fakes._
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
