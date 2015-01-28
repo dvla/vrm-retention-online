@@ -11,6 +11,8 @@ class Config2Impl extends Config2 {
 
   override def secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
 
+  override def encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)
+
   override def ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)
 
   override def applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")

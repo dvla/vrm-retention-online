@@ -57,6 +57,7 @@ final class TestConfig2(
     when(config.emailSenderAddress).thenReturn(notFound)
 
     when(config.secureCookies).thenReturn(secureCookies)
+    when(config.encryptCookies).thenReturn(false)
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
 
