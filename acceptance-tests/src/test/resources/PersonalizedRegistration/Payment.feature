@@ -13,4 +13,10 @@ Feature: Payment for the Vehicle Registration
   #Test Data requires Logo Authentication
      #| "Test Test1" | "4444 3333 2222 1111" | "123"        | "Payment Successful"                  |
      #| "Test Test2" | "4012 0010 3685 3337" | "244"        | "Payment Cancelled or Not Authorised" |
+     #| "Test Test3" | "4012 0010 3749 0014" | "752"        | "Payment Authorised" |
+     #| "Test Test4" | "4012 0010 3749 0006" | "244"        | "Payment Cancelled or Not Authorised" |
+     #| "Test Test5" | "4012 0010 3685 3337" | "244"        | "Payment Cancelled or Not Authorised" |
+     #| "Test Test6" | "4012 0010 3685 3337" | "244"        | "Payment Cancelled or Not Authorised" |
+     #| "Test Test7" | "4012 0010 3685 3337" | "244"        | "Payment Cancelled or Not Authorised" |
+     #| "Test Test8" | "4012 0010 3685 3337" | "244"        | "Payment Cancelled or Not Authorised" |
 
