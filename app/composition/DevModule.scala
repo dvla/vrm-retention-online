@@ -41,7 +41,6 @@ class DevModule extends ScalaModule {
     bind[VRMRetentionRetainService].to[VRMRetentionRetainServiceImpl].asEagerSingleton()
     bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
     bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
-    bind[DateService].to[DateServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[RetentionCookieFlags].asEagerSingleton()
 
     if (getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)) {

@@ -13,6 +13,7 @@ trait Composition {
     new ConfigBinding,
     new DevModule,
     new BruteForcePreventionWebServiceBinding,
+    new DateServiceBinding,
     new RefererFromHeaderBinding,
     new AuditServiceBinding
   )
