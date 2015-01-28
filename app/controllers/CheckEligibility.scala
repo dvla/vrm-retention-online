@@ -3,6 +3,7 @@ package controllers
 import audit1._
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
@@ -10,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
@@ -141,11 +143,13 @@ final class CheckEligibility @Inject()(
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }
 
+    val trackingId = request.cookies.trackingId()
+
     val eligibilityRequest = VRMRetentionEligibilityRequest(
+      buildWebHeader(trackingId),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
-    val trackingId = request.cookies.trackingId()
 
     eligibilityService.invoke(eligibilityRequest, trackingId).map { response =>
       response.responseCode match {
@@ -163,5 +167,18 @@ final class CheckEligibility @Inject()(
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Retention Eligibility web service call failed. Exception " + e.toString)
     }
+  }
+
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto =
+  {
+    VssWebHeaderDto(transactionId = trackingId,
+      originDateTime = new DateTime,
+      applicationCode = config.applicationCode,
+      serviceTypeCode = config.serviceTypeCode,
+      buildEndUser())
+  }
+
+  private def buildEndUser(): VssWebEndUserDto = {
+    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
   }
 }
