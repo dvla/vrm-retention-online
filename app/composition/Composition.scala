@@ -15,6 +15,7 @@ trait Composition {
     new BruteForcePreventionWebServiceBinding,
     new DateServiceBinding,
     new AddressServiceBinding,
+    new VehicleAndKeeperLookupBinding,
     new RefererFromHeaderBinding,
     new AuditServiceBinding
   )
