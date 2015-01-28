@@ -27,8 +27,6 @@ import utils.helpers.RetentionCookieFlags
 class DevModule extends ScalaModule {
 
   def configure() {
-    bind[CookieFlags].to[RetentionCookieFlags].asEagerSingleton()
-
     if (getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)) {
       bind[CookieEncryption].toInstance(new AesEncryption with CookieEncryption)
       bind[CookieNameHashGenerator].toInstance(new Sha1HashGenerator with CookieNameHashGenerator)
