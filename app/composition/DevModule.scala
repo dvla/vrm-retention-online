@@ -1,5 +1,8 @@
 package composition
 
+import _root_.audit1.{AuditLocalServiceImpl, AuditService}
+import _root_.webserviceclients.audit2.{AuditMicroService, AuditMicroServiceImpl}
+import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, PaymentSolveWebService, PaymentSolveWebServiceImpl}
 import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import email.{EmailService, EmailServiceImpl}
@@ -8,15 +11,8 @@ import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{AesEncryption, CookieEncryption, CookieNameHashGenerator, Sha1HashGenerator, _}
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
-import uk.gov.dvla.vehicles.presentation.common.services.{DateService, DateServiceImpl}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{AddressLookupServiceImpl, WebServiceImpl}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
 import utils.helpers.RetentionCookieFlags
-import webserviceclients.paymentsolve._
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupService, VehicleAndKeeperLookupServiceImpl, VehicleAndKeeperLookupWebService, VehicleAndKeeperLookupWebServiceImpl}
-import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityService, VRMRetentionEligibilityServiceImpl, VRMRetentionEligibilityWebService, VRMRetentionEligibilityWebServiceImpl}
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl, VRMRetentionRetainWebService, VRMRetentionRetainWebServiceImpl}
 
 /**
  * Provides real implementations of traits
@@ -31,8 +27,6 @@ import webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMReten
 class DevModule extends ScalaModule {
 
   def configure() {
-    bind[PaymentSolveWebService].to[PaymentSolveWebServiceImpl].asEagerSingleton()
-    bind[PaymentSolveService].to[PaymentSolveServiceImpl].asEagerSingleton()
     bind[CookieFlags].to[RetentionCookieFlags].asEagerSingleton()
 
     if (getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)) {
@@ -47,7 +41,7 @@ class DevModule extends ScalaModule {
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
-    bind[_root_.audit1.AuditService].to[_root_.audit1.AuditLocalServiceImpl].asEagerSingleton()
-    bind[webserviceclients.audit2.AuditMicroService].to[webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
+    bind[AuditService].to[AuditLocalServiceImpl].asEagerSingleton()
+    bind[AuditMicroService].to[AuditMicroServiceImpl].asEagerSingleton()
   }
 }

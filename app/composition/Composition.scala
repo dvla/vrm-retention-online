@@ -2,7 +2,7 @@ package composition
 
 import com.google.inject.Guice
 import composition.webserviceclients.audit2.AuditServiceBinding
-import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding
+import composition.webserviceclients.paymentsolve.{PaymentSolveBinding, RefererFromHeaderBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupBinding
 import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityBinding
 import composition.webserviceclients.vrmretentionretain.VrmRetentionRetainBinding
@@ -21,6 +21,7 @@ trait Composition {
     new VehicleAndKeeperLookupBinding,
     new VRMRetentionEligibilityBinding,
     new VrmRetentionRetainBinding,
+    new PaymentSolveBinding,
     new RefererFromHeaderBinding,
     new AuditServiceBinding
   )
