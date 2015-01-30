@@ -372,9 +372,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new AuditLocalService(),
-      new AuditServiceDoesNothing,
-      new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     ).getInstance(classOf[VehicleLookup])
   }
@@ -385,9 +382,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
       vehicleAndKeeperLookupWebService,
-      new AuditLocalService(),
-      new AuditServiceDoesNothing,
-      new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     )
     (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]), vehicleAndKeeperLookupWebService.stub)
@@ -400,9 +394,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
       new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperLookupStatusAndResponse),
-      new AuditLocalService,
-      new AuditServiceDoesNothing,
-      new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     )
     (ioc.getInstance(classOf[VehicleLookup]), ioc.getInstance(classOf[DateService]), ioc.getInstance(classOf[AuditService]))
@@ -454,8 +445,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest(),
-      new AuditServiceDoesNothing
+      new VehicleAndKeeperDetailsCallDocRefNumberNotLatest()
     ).
       getInstance(classOf[VehicleLookup])
   }
@@ -465,8 +455,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
-      new VehicleAndKeeperDetailsCallVRMNotFound(),
-      new AuditServiceDoesNothing
+      new VehicleAndKeeperDetailsCallVRMNotFound()
     ).
       getInstance(classOf[VehicleLookup])
   }
