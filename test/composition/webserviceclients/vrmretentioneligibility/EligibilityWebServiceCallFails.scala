@@ -10,10 +10,12 @@ import scala.concurrent.Future
 
 final class EligibilityWebServiceCallFails extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  val stub = {
     val webService = mock[VRMRetentionEligibilityWebService]
     when(webService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
       thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")))
-    bind[VRMRetentionEligibilityWebService].toInstance(webService)
+    webService
   }
+
+  def configure() = bind[VRMRetentionEligibilityWebService].toInstance(stub)
 }

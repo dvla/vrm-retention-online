@@ -12,14 +12,16 @@ import scala.concurrent.Future
 
 final class EligibilityWebServiceCallWithResponse extends ScalaModule with MockitoSugar {
 
-  val withResponseCode: (Int, VRMRetentionEligibilityResponse) = {
+  private val withResponseCode: (Int, VRMRetentionEligibilityResponse) = {
     (OK, VRMRetentionEligibilityResponse(None, None, responseCode = Some("X0001 - stub-response")))
   }
 
-  def configure() = {
+  val stub = {
     val webService = mock[VRMRetentionEligibilityWebService]
     when(webService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
       thenReturn(Future.successful(createResponse(withResponseCode)))
-    bind[VRMRetentionEligibilityWebService].toInstance(webService)
+    webService
   }
+
+  def configure() = bind[VRMRetentionEligibilityWebService].toInstance(stub)
 }
