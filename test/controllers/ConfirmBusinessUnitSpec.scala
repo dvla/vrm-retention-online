@@ -54,9 +54,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       val auditService1 = new AuditLocalService
 
       val injector = testInjector(
-        new TestDateService,
-        auditService1,
-        new AuditServiceDoesNothing
+        auditService1
       )
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
