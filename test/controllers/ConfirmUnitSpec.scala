@@ -58,9 +58,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       val auditService1 = new AuditLocalService
 
       val injector = testInjector(
-        new TestDateService,
-        auditService1,
-        new AuditServiceDoesNothing
+        auditService1
       )
 
       val confirm = injector.getInstance(classOf[Confirm])
@@ -159,10 +157,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.present(request)
   }
 
-  private def confirm = testInjector(
-    new AuditLocalService,
-    new AuditServiceDoesNothing
-  ).getInstance(classOf[Confirm])
+  private def confirm = testInjector().getInstance(classOf[Confirm])
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(
