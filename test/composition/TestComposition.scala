@@ -67,7 +67,6 @@ final class TestModule extends ScalaModule {
     } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
-    bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
   }
