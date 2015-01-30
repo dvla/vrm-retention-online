@@ -6,6 +6,7 @@ import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUp
 import com.tzavellas.sse.guice.ScalaModule
 import composition._
 import composition.audit1.AuditLocalService
+import composition.webserviceclients.addresslookup.TestAddressLookupBinding
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
@@ -138,7 +139,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
       val auditService1 = new AuditLocalService
       val injector = testInjector(
-        new TestOrdnanceSurveyBinding,
+        new TestAddressLookupBinding,
         new TestVehicleAndKeeperLookupWebService,
         new ScalaModule() {
           override def configure(): Unit = {
@@ -350,7 +351,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
-      new TestOrdnanceSurveyBinding,
+      new TestAddressLookupBinding,
       new TestVehicleAndKeeperLookupWebService,
       new ScalaModule() {
         override def configure(): Unit = {

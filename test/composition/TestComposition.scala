@@ -3,9 +3,10 @@ package composition
 import _root_.webserviceclients.paymentsolve.TestRefererFromHeader
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
+import composition.webserviceclients.addresslookup.TestAddressLookupBinding
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
-import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
+import composition.webserviceclients.bruteforceprevention.{TestBruteForcePreventionWebService, BruteForcePreventionServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentSolveWebService}
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebService, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityServiceBinding
@@ -37,7 +38,7 @@ trait TestComposition extends Composition {
       new TestConfig(),
       new TestBruteForcePreventionWebService,
       new TestDateService,
-      new TestOrdnanceSurveyBinding,
+      new TestAddressLookupBinding,
       new TestVehicleAndKeeperLookupWebService,
       new TestVRMRetentionEligibilityWebService,
       new TestVrmRetentionRetainWebService,

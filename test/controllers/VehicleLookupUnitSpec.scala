@@ -7,6 +7,7 @@ import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.Vr
 import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import composition._
 import composition.audit1.AuditLocalService
+import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebService
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import composition.webserviceclients.vehicleandkeeperlookup._
 import composition.webserviceclients.audit2.AuditServiceDoesNothing

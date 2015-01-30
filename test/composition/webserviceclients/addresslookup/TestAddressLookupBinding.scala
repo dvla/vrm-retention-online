@@ -1,4 +1,4 @@
-package composition
+package composition.webserviceclients.addresslookup
 
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
@@ -9,7 +9,7 @@ import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Lang
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
 
-final class TestOrdnanceSurveyBinding extends ScalaModule with MockitoSugar {
+final class TestAddressLookupBinding extends ScalaModule with MockitoSugar {
 
   def configure() = {
     bind[AddressLookupService].to[uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.AddressLookupServiceImpl]
