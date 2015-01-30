@@ -139,17 +139,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
       val auditService1 = new AuditLocalService
       val injector = testInjector(
-        new TestAddressLookupBinding,
-        new TestVehicleAndKeeperLookupWebService,
-        new ScalaModule() {
-          override def configure(): Unit = {
-            bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
-          }
-        },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-        new TestDateService,
-        auditService1,
-        new AuditServiceDoesNothing
+        auditService1
       )
 
       val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
