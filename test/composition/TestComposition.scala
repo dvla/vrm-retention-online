@@ -2,7 +2,6 @@ package composition
 
 import _root_.webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveServiceImpl, TestRefererFromHeader}
 import _root_.webserviceclients.vrmretentionretain.{VRMRetentionRetainService, VRMRetentionRetainServiceImpl}
-import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
@@ -10,12 +9,8 @@ import composition.webserviceclients.bruteforceprevention.BruteForcePreventionSe
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebService, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityServiceBinding
-import email.{EmailService, EmailServiceImpl}
-import pdf.{PdfService, PdfServiceImpl}
-import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
 import utils.helpers.RetentionCookieFlags
 
 trait TestComposition extends Composition {
@@ -31,6 +26,7 @@ trait TestComposition extends Composition {
       new BruteForcePreventionServiceBinding,
       new LoggerLikeBinding,
       new PdfServiceBinding,
+      new EmailServiceBinding,
       // Completely mocked web services below...
       new TestConfig(),
       new TestBruteForcePreventionWebService,
@@ -67,7 +63,6 @@ final class TestModule extends ScalaModule {
     } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
-    bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
   }
 }
