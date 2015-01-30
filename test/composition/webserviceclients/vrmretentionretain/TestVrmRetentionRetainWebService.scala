@@ -1,7 +1,8 @@
-package composition
+package composition.webserviceclients.vrmretentionretain
 
 import _root_.webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import _root_.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
+import _root_.webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
+import _root_.webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainResponse, VRMRetentionRetainWebService}
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -16,25 +17,28 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResp
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-final class TestVRMRetentionEligibilityWebService extends ScalaModule with MockitoSugar {
+final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSugar {
 
-  def configure() = {
-    val vrmRetentionEligibilityWebService = mock[VRMRetentionEligibilityWebService]
-    when(vrmRetentionEligibilityWebService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
+  val stub = {
+    val webService = mock[VRMRetentionRetainWebService]
+    when(webService.invoke(any[VRMRetentionRetainRequest], any[String])).
       thenAnswer(
         new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
-            val request = args(0).asInstanceOf[VRMRetentionEligibilityRequest] // Cast first argument.
-            val vrmRetentionEligibilityResponse = VRMRetentionEligibilityResponse(
-                currentVRM = Some(request.currentVRM),
+            val request = args(0).asInstanceOf[VRMRetentionRetainRequest] // Cast first argument.
+            val vrmRetentionRetainResponse = VRMRetentionRetainResponse(
+                certificateNumber = Some(CertificateNumberValid),
+                currentVRM = request.currentVRM,
                 replacementVRM = Some(ReplacementRegistrationNumberValid),
                 responseCode = None)
-            val asJson = Json.toJson(vrmRetentionEligibilityResponse)
+            val asJson = Json.toJson(vrmRetentionRetainResponse)
             new FakeResponse(status = OK, fakeJson = Some(asJson))
           }
         }
       )
-    bind[VRMRetentionEligibilityWebService].toInstance(vrmRetentionEligibilityWebService)
+    webService
   }
+
+  def configure() = bind[VRMRetentionRetainWebService].toInstance(stub)
 }
