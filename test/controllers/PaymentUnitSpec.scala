@@ -77,9 +77,7 @@ final class PaymentUnitSpec extends UnitSpec {
 
     "redirect to PaymentFailure page when required cookies and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
       val payment = testInjector(
-        new ValidatedNotCardDetails,
-        new AuditLocalService,
-        new AuditServiceDoesNothing
+        new ValidatedNotCardDetails
       ).getInstance(classOf[Payment])
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
@@ -112,8 +110,6 @@ final class PaymentUnitSpec extends UnitSpec {
       val paymentSolveWebService = new ValidatedCardDetails
       val payment = testInjector(
         paymentSolveWebService,
-        new AuditLocalService,
-        new AuditServiceDoesNothing,
         new RefererFromHeaderBinding
       ).getInstance(classOf[Payment])
 
@@ -191,9 +187,7 @@ final class PaymentUnitSpec extends UnitSpec {
 
     "redirect to PaymentNotAuthorised page when payment service status is not 'AUTHORISED'" in new WithApplication {
       val payment = testInjector(
-        new ValidatedNotAuthorised,
-        new AuditLocalService,
-        new AuditServiceDoesNothing
+        new ValidatedNotAuthorised
       ).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(
@@ -213,9 +207,7 @@ final class PaymentUnitSpec extends UnitSpec {
 
     "redirect to Success page when payment service response is status is 'AUTHORISED'" in new WithApplication {
       val payment = testInjector(
-        new ValidatedAuthorised,
-        new AuditLocalService,
-        new AuditServiceDoesNothing
+        new ValidatedAuthorised
       ).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(
@@ -327,22 +319,16 @@ final class PaymentUnitSpec extends UnitSpec {
 
   private def payment = testInjector(
     new ValidatedCardDetails(),
-    new AuditLocalService,
-    new AuditServiceDoesNothing,
     new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
 
   private def paymentCallFails = testInjector(
     new PaymentCallFails,
-    new AuditLocalService,
-    new AuditServiceDoesNothing,
     new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
 
   private def paymentCancelValidated = testInjector(
     new CancelValidated,
-    new AuditLocalService,
-    new AuditServiceDoesNothing,
     new RefererFromHeaderBinding
   ).getInstance(classOf[Payment])
 }

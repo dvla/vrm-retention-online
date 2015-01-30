@@ -86,6 +86,5 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
         bind[EmailService].toInstance(email)
       }
     }
-
   ).getInstance(classOf[SuccessPayment])
 }
