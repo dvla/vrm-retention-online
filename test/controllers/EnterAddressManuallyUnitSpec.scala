@@ -272,9 +272,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
 
   private def enterAddressManuallyPrototypeNotVisible = {
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
-      new AuditLocalService,
-      new AuditServiceDoesNothing
+      new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[EnterAddressManually])
   }
 
@@ -285,10 +283,7 @@ final class EnterAddressManuallyUnitSpec extends UnitSpec {
     enterAddressManually.present(request)
   }
 
-  private def enterAddressManually = testInjector(
-    new AuditLocalService,
-    new AuditServiceDoesNothing
-  ).getInstance(classOf[EnterAddressManually])
+  private def enterAddressManually = testInjector().getInstance(classOf[EnterAddressManually])
 
   private def validateAddressCookieValues(result: Future[Result], buildingName: String, line2: String,
                                           line3: String, postTown: String, postCode: String = PostcodeValid) = {
