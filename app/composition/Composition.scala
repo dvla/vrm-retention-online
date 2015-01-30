@@ -32,7 +32,8 @@ trait Composition {
     new CookieFlagsBinding,
     new LoggerLikeBinding,
     new PdfServiceBinding,
-    new EmailServiceBinding
+    new EmailServiceBinding,
+    new composition.audit1.AuditServiceBinding
   )
 
   lazy val filters = Array(

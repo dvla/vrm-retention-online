@@ -12,6 +12,7 @@ import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibi
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
 import utils.helpers.RetentionCookieFlags
+import composition.webserviceclients.audit2
 
 trait TestComposition extends Composition {
 
@@ -38,7 +39,7 @@ trait TestComposition extends Composition {
       new TestPaymentSolveWebService,
       new TestRefererFromHeader,
       new audit1.AuditLocalService,
-      new composition.webserviceclients.audit2.AuditServiceDoesNothing
+      new audit2.AuditServiceDoesNothing
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
