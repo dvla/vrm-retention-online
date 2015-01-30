@@ -3,7 +3,7 @@ package composition.webserviceclients.vehicleandkeeperlookup
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService.createResponse
 import org.mockito.Matchers.any
-import org.mockito.Mockito.{mock, when}
+import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
@@ -13,14 +13,16 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicle
 import scala.concurrent.Future
 
 final class TestVehicleAndKeeperLookupWebService(
-                                                  vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService = mock(classOf[VehicleAndKeeperLookupWebService]), // This can be passed in so the calls to the mock can be verified
                                                   statusAndResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = vehicleAndKeeperDetailsResponseSuccess
                                                   ) extends ScalaModule with MockitoSugar {
 
-  def configure() = {
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
-    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+  val stub = {
+    val webService: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
+    when(webService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).thenReturn(Future.successful(createResponse(statusAndResponse)))
+    webService
   }
+
+  def configure() = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }
 
 object TestVehicleAndKeeperLookupWebService {

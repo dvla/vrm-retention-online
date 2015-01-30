@@ -278,10 +278,9 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
     "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
       val trackingId = "x" * 20
-      val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
-      val (vehicleLookup, dateService) = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService)
+      val (vehicleLookup, dateService, vehicleAndKeeperLookupWebService) = vehicleLookupStubs
       val result = vehicleLookup.submit(request)
 
       whenReady(result, timeout) {
@@ -297,9 +296,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "send a request and default trackingId to the vehicleAndKeeperLookupWebService when cookie does not exist" in new WithApplication {
-      val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
-      val (vehicleLookup, dateService) = vehicleLookupStubs(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService)
+      val (vehicleLookup, dateService, vehicleAndKeeperLookupWebService) = vehicleLookupStubs
       val result = vehicleLookup.submit(request)
 
       whenReady(result, timeout) {
@@ -380,17 +378,18 @@ final class VehicleLookupUnitSpec extends UnitSpec {
     ).getInstance(classOf[VehicleLookup])
   }
 
-  private def vehicleLookupStubs(vehicleAndKeeperLookupWebService: VehicleAndKeeperLookupWebService) = {
+  private def vehicleLookupStubs = {
+    val vehicleAndKeeperLookupWebService = new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperDetailsResponseSuccess)
     val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
-      new TestVehicleAndKeeperLookupWebService(vehicleAndKeeperLookupWebService = vehicleAndKeeperLookupWebService, statusAndResponse = vehicleAndKeeperDetailsResponseSuccess),
+      vehicleAndKeeperLookupWebService,
       new AuditLocalService(),
       new AuditServiceDoesNothing,
       new TestDateService(),
       new EligibilityWebServiceCallWithResponse()
     )
-    (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]))
+    (injector.getInstance(classOf[VehicleLookup]), injector.getInstance(classOf[DateService]), vehicleAndKeeperLookupWebService.stub)
   }
 
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
