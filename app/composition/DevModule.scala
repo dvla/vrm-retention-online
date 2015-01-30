@@ -31,7 +31,5 @@ class DevModule extends ScalaModule {
       bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
     } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
-
-    bind[AuditMicroService].to[AuditMicroServiceImpl].asEagerSingleton()
   }
 }

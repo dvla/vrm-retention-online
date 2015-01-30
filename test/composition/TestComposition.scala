@@ -5,6 +5,7 @@ import _root_.webserviceclients.vrmretentionretain.{VRMRetentionRetainService, V
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
 import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebService, VehicleAndKeeperLookupServiceBinding}
@@ -39,7 +40,8 @@ trait TestComposition extends Composition {
       new TestPaymentSolveWebService,
       new TestRefererFromHeader,
       new audit1.AuditLocalService,
-      new audit2.AuditServiceDoesNothing
+      new audit2.AuditServiceDoesNothing,
+      new AuditMicroServiceCallNotOk
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
@@ -63,7 +65,5 @@ final class TestModule extends ScalaModule {
       bind[ClientSideSessionFactory].to[EncryptedClientSideSessionFactory].asEagerSingleton()
     } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
-
-    bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
   }
 }

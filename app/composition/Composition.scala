@@ -2,7 +2,7 @@ package composition
 
 import com.google.inject.Guice
 import composition.webserviceclients.addresslookup.AddressServiceBinding
-import composition.webserviceclients.audit2.AuditServiceBinding
+import composition.webserviceclients.audit2.{AuditMicroServiceBinding, AuditServiceBinding}
 import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, BruteForcePreventionWebServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentSolveBinding, RefererFromHeaderBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
@@ -33,7 +33,8 @@ trait Composition {
     new LoggerLikeBinding,
     new PdfServiceBinding,
     new EmailServiceBinding,
-    new composition.audit1.AuditServiceBinding
+    new composition.audit1.AuditServiceBinding,
+    new AuditMicroServiceBinding
   )
 
   lazy val filters = Array(
