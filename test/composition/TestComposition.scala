@@ -8,8 +8,7 @@ import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
+import composition.webserviceclients.vehicleandkeeperlookup.{TestVehicleAndKeeperLookupWebService, VehicleAndKeeperLookupServiceBinding}
 import composition.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityServiceBinding
 import email.{EmailService, EmailServiceImpl}
 import pdf.{PdfService, PdfServiceImpl}
@@ -17,7 +16,6 @@ import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession._
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.{BruteForcePreventionService, BruteForcePreventionServiceImpl}
 import utils.helpers.RetentionCookieFlags
 
 trait TestComposition extends Composition {
@@ -31,6 +29,8 @@ trait TestComposition extends Composition {
       new VehicleAndKeeperLookupServiceBinding,
       new VRMRetentionEligibilityServiceBinding,
       new BruteForcePreventionServiceBinding,
+      new LoggerLikeBinding,
+      new PdfServiceBinding,
       // Completely mocked web services below...
       new TestConfig(),
       new TestBruteForcePreventionWebService,
@@ -67,7 +67,6 @@ final class TestModule extends ScalaModule {
     } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
-    bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
     bind[_root_.webserviceclients.audit2.AuditMicroService].to[_root_.webserviceclients.audit2.AuditMicroServiceImpl].asEagerSingleton()
