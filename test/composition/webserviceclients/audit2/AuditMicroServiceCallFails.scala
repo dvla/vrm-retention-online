@@ -10,11 +10,13 @@ import scala.concurrent.Future
 
 final class AuditMicroServiceCallFails extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  val stub = {
     val webService = mock[AuditMicroService]
     when(webService.invoke(request = any[AuditRequest])).thenReturn(fail)
-    bind[AuditMicroService].toInstance(webService)
+    webService
   }
+
+  def configure() = bind[AuditMicroService].toInstance(stub)
 
   private def fail = Future.failed {
     new RuntimeException("This error is generated deliberately for test purposes by the stub AuditMicroServiceCallFails")

@@ -12,10 +12,12 @@ import scala.concurrent.Future
 
 final class AuditMicroServiceCallNotOk extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  val stub = {
     val webService = mock[AuditMicroService]
     when(webService.invoke(request = any[AuditRequest])).
       thenReturn(Future.successful(new FakeResponse(status = BAD_REQUEST)))
-    bind[AuditMicroService].toInstance(webService)
+    webService
   }
+
+  def configure() = bind[AuditMicroService].toInstance(stub)
 }
