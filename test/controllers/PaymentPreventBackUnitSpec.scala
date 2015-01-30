@@ -25,7 +25,7 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
     }
 
     "not display prototype message when config set to false" in new WithApplication {
-      val result = paymentPreventBackNotVisible.present()(FakeRequest())
+      val result = paymentPrototypeNotVisible.present()(FakeRequest())
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -52,14 +52,10 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
       )
   }
 
-  private def paymentPreventBack = testInjector(
-    new AuditLocalService,
-    new AuditServiceDoesNothing
-  ).getInstance(classOf[PaymentPreventBack])
+  private def paymentPreventBack = testInjector().getInstance(classOf[PaymentPreventBack])
 
-  private def paymentPreventBackNotVisible =
+  private def paymentPrototypeNotVisible =
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
-      new AuditLocalService
+      new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[PaymentPreventBack])
 }
