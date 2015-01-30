@@ -12,10 +12,12 @@ import scala.concurrent.Future
 
 final class VehicleAndKeeperLookupCallNoResponse extends ScalaModule with MockitoSugar {
 
-  def configure() = {
-    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
+  val stub = {
+    val webService = mock[VehicleAndKeeperLookupWebService]
+    when(webService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
       thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsNoResponse)))
-    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+    webService
   }
+
+  def configure() = bind[VehicleAndKeeperLookupWebService].toInstance(stub)
 }

@@ -10,10 +10,15 @@ import scala.concurrent.Future
 
 final class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
 
-  def configure() = {
-    val vehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
-    when(vehicleAndKeeperLookupWebService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
+  val stub = {
+    val webService = mock[VehicleAndKeeperLookupWebService]
+    when(webService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
       thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")))
-    bind[VehicleAndKeeperLookupWebService].toInstance(vehicleAndKeeperLookupWebService)
+    webService
+  }
+
+  def configure() = {
+
+    bind[VehicleAndKeeperLookupWebService].toInstance(stub)
   }
 }
