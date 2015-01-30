@@ -13,12 +13,14 @@ import scala.concurrent.Future
 
 final class ValidatedAuthorised extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  val stub = {
     val webService = mock[PaymentSolveWebService]
     when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[String])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults())))
     when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[String])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
-    bind[PaymentSolveWebService].toInstance(webService)
+    webService
   }
+
+  def configure() = bind[PaymentSolveWebService].toInstance(stub)
 }

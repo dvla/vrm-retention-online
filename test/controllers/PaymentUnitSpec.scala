@@ -109,9 +109,9 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "call the web service with a base64 url safe callback" in new WithApplication {
-      val paymentSolveWebService = mock[PaymentSolveWebService]
+      val paymentSolveWebService = new ValidatedCardDetails
       val payment = testInjector(
-        new ValidatedCardDetails(paymentSolveWebService),
+        paymentSolveWebService,
         new AuditLocalService,
         new AuditServiceDoesNothing,
         new RefererFromHeaderBinding
@@ -134,7 +134,7 @@ final class PaymentUnitSpec extends UnitSpec {
         purchaseAmount = 42,
         paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
       )
-      verify(paymentSolveWebService).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
+      verify(paymentSolveWebService.stub).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
     }
   }
 

@@ -14,7 +14,7 @@ import scala.concurrent.Future
 
 final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  val stub = {
     val webService = mock[PaymentSolveWebService]
 
     when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[String])).
@@ -29,9 +29,10 @@ final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
     when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[String])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
 
-
-    bind[PaymentSolveWebService].toInstance(webService)
+    webService
   }
+
+  def configure() = bind[PaymentSolveWebService].toInstance(stub)
 }
 
 object TestPaymentSolveWebService {
@@ -42,7 +43,7 @@ object TestPaymentSolveWebService {
   private[paymentsolve] val invalidResponse = "INVALID"
 
   private[paymentsolve] def beginResponseWithValidDefaults(response: String = "validated",
-                                                                     status: String = "CARD_DETAILS") = {
+                                                           status: String = "CARD_DETAILS") = {
     val paymentSolveBeginResponse = PaymentSolveBeginResponse(
       response = response,
       status = status,
@@ -54,7 +55,7 @@ object TestPaymentSolveWebService {
   }
 
   private[paymentsolve] def getResponseWithValidDefaults(response: String = "validated",
-                                                                   status: String = "AUTHORISED") = {
+                                                         status: String = "AUTHORISED") = {
     val paymentSolveGetResponse = PaymentSolveGetResponse(
       response = response,
       status = status,
@@ -70,7 +71,7 @@ object TestPaymentSolveWebService {
   }
 
   private[paymentsolve] def cancelResponseWithValidDefaults(response: String = "validated",
-                                                                      status: String = "AUTHORISED") = {
+                                                            status: String = "AUTHORISED") = {
     val paymentSolveCancelResponse = PaymentSolveCancelResponse(
       response = response,
       status = status
@@ -80,7 +81,7 @@ object TestPaymentSolveWebService {
   }
 
   private[paymentsolve] def updateResponseWithValidDefaults(response: String = "validated",
-                                                                      status: String = "CARD_DETAILS") = {
+                                                            status: String = "CARD_DETAILS") = {
     val update = PaymentSolveUpdateResponse(
       response = response,
       status = status

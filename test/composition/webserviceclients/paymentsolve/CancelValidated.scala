@@ -13,10 +13,12 @@ import scala.concurrent.Future
 
 final class CancelValidated extends ScalaModule with MockitoSugar {
 
-  def configure() = {
+  val stub = {
     val webService = mock[PaymentSolveWebService]
     when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[String])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
-    bind[PaymentSolveWebService].toInstance(webService)
+    webService
   }
+
+  def configure() = bind[PaymentSolveWebService].toInstance(stub)
 }
