@@ -51,11 +51,11 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "submit" should {
 
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
-      val mockAuditService = mock[AuditService]
+      val auditService1 = new AuditLocalService
 
       val injector = testInjector(
         new TestDateService,
-        new AuditLocalService(mockAuditService),
+        auditService1,
         new AuditServiceDoesNothing
       )
 
@@ -87,7 +87,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-        verify(mockAuditService).send(auditMessage)
+        verify(auditService1.stub).send(auditMessage)
       }
     }
 

@@ -55,11 +55,11 @@ final class ConfirmUnitSpec extends UnitSpec {
   "submit" should {
 
     "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
-      val mockAuditService = mock[AuditService]
+      val auditService1 = new AuditLocalService
 
       val injector = testInjector(
         new TestDateService,
-        new AuditLocalService(mockAuditService),
+        auditService1,
         new AuditServiceDoesNothing
       )
 
@@ -93,7 +93,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
-          verify(mockAuditService).send(auditMessage)
+          verify(auditService1.stub).send(auditMessage)
       }
     }
 
