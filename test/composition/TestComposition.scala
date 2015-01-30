@@ -6,6 +6,7 @@ import com.google.inject.name.Names
 import com.google.inject.util.Modules
 import com.google.inject.{Guice, Injector, Module}
 import com.tzavellas.sse.guice.ScalaModule
+import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
@@ -27,8 +28,9 @@ trait TestComposition extends Composition {
     val overriddenDevModule = Modules.`override`(
       // Real implementations (but no external calls)
       new TestModule(),
-      new VehicleAndKeeperLookupServiceBinding(),
+      new VehicleAndKeeperLookupServiceBinding,
       new VRMRetentionEligibilityServiceBinding,
+      new BruteForcePreventionServiceBinding,
       // Completely mocked web services below...
       new TestConfig(),
       new TestBruteForcePreventionWebService,
@@ -65,7 +67,6 @@ final class TestModule extends ScalaModule {
     } else
       bind[ClientSideSessionFactory].to[ClearTextClientSideSessionFactory].asEagerSingleton()
 
-    bind[BruteForcePreventionService].to[BruteForcePreventionServiceImpl].asEagerSingleton()
     bind[LoggerLike].annotatedWith(Names.named(AccessLoggerName)).toInstance(Logger("dvla.common.AccessLogger"))
     bind[PdfService].to[PdfServiceImpl].asEagerSingleton()
     bind[EmailService].to[EmailServiceImpl].asEagerSingleton()
