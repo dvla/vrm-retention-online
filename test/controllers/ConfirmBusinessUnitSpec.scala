@@ -100,7 +100,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
           eligibilityModel(),
           storeBusinessDetailsConsent()
         )
-      val result = confirmWithCookieFlags.submit(request)
+      val result = confirmBusiness.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
@@ -152,10 +152,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector(
-    new AuditLocalService,
-    new AuditServiceDoesNothing
-  ).getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().
@@ -165,12 +162,5 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         businessDetailsModel()
       )
     confirmBusiness.present(request)
-  }
-
-  private def confirmWithCookieFlags = {
-    testInjector(
-      new AuditLocalService,
-      new AuditServiceDoesNothing
-    ).getInstance(classOf[ConfirmBusiness])
   }
 }
