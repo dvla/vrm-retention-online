@@ -1,7 +1,7 @@
 package webserviceclients.paymentsolve
 
+import composition.webserviceclients.paymentsolve.PaymentCallFails
 import composition.{TestConfig, WithApplication}
-import composition.paymentsolvewebservice.PaymentCallFails
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
 
@@ -44,5 +44,7 @@ final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 
   private val trackingId = "stub-tracking-id"
 
-  private def paymentCallFails = testInjector(new TestConfig(), new PaymentCallFails).getInstance(classOf[PaymentSolveServiceImpl])
+  private def paymentCallFails = testInjector(
+    new PaymentCallFails
+  ).getInstance(classOf[PaymentSolveService])
 }

@@ -1,24 +1,31 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.Logger
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Action, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.html.vrm_retention.enter_address_manually
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 
-final class EnterAddressManually @Inject()(auditService: AuditService,
-                                           dateService: DateService)
+final class EnterAddressManually @Inject()(
+                                            auditService1: audit1.AuditService,
+                                            auditService2: audit2.AuditService,
+                                            dateService: DateService
+                                            )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                           config: Config) extends Controller {
+
+                                           config2: Config) extends Controller {
 
   private[controllers] val form = Form(
     EnterAddressManuallyModel.Form.Mapping
@@ -50,7 +57,14 @@ final class EnterAddressManually @Inject()(auditService: AuditService,
 
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
 
-            auditService.send(AuditMessage.from(
+            auditService1.send(AuditMessage.from(
+              pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+              transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+              timestamp = dateService.dateTimeISOChronology,
+              vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+              replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+              businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+            auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
               transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
               timestamp = dateService.dateTimeISOChronology,
@@ -69,7 +83,14 @@ final class EnterAddressManually @Inject()(auditService: AuditService,
   }
 
   def exit = Action { implicit request =>
-    auditService.send(AuditMessage.from(
+    auditService1.send(AuditMessage.from(
+      pageMovement = AuditMessage.CaptureActorToExit,
+      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+    auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.CaptureActorToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,

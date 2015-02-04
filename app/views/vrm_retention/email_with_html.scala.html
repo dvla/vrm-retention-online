@@ -6,13 +6,11 @@ keeperName: String,
 keeperAddress: String,
 amount: String,
 replacementVRM: String,
-crownContentId: String,
-openGovernmentLicenceContentId: String,
-crestId: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
-isKeeper: Boolean)(implicit lang: Lang)
+isKeeper: Boolean,
+govUkContentId: String)(implicit lang: Lang)
 
 <!-- Inliner Build Version 4380b7741bb759d6cb997545f3add21ad48f010b -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -115,11 +113,14 @@ isKeeper: Boolean)(implicit lang: Lang)
             style="border-collapse: collapse; color: #fff; background: #000; padding: 0 30px;" bgcolor="#000">
             <table style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
                 <tr>
-                    <td style="border-collapse: collapse; font-size: 1.6em; padding: 20px 0;"><img src="@crownContentId"
-                                                                                                   width="35"
-                                                                                                   height="31" alt="@Messages("crown-copyright")"
-                                                                                                   style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans, sans-serif;"/>
-                        @Messages("gov-uk")
+                    <td style="border-collapse: collapse; font-size: 1.6em; padding: 20px 0;">
+                        <a target="_blank" href="www.gov.uk" style="color: white; text-decoration: none;">
+                            <img src="@govUkContentId"
+                                width="320"
+                                height="106" alt="@Messages("crown-copyright")"
+                                style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans, sans-serif;"
+                            />
+                        </a>
                     </td>
                 </tr>
             </table>
@@ -280,12 +281,6 @@ isKeeper: Boolean)(implicit lang: Lang)
                 </tr>
             </table>
         </td>
-    </tr>
-    <tr>
-        <td id="GovUkFooter" class="spacing" style="border-collapse: collapse; color: #000; background: #DEE0E2; padding: 0 30px;" bgcolor="#DEE0E2">
-            <table style="width:100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td style="border-collapse: collapse; font-size: 0.8em; text-align: left; padding: 20px 0; font-family: Helvetica, Arial, sans, sans-serif;" align="right"><img src="@openGovernmentLicenceContentId" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic;"  alt="@Messages("email.openGovernmentLicence.alt")"/>@Messages("email.line28")</td>
-                <td align="right" style="padding:20px 0;"><img src="@crestId" alt="@Messages("email.crest.alt")"></td>
-                </tr></table></td>
     </tr></table><!-- End of wrapper table --></body>
 
 </html>

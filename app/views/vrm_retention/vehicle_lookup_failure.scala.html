@@ -2,7 +2,7 @@
         responseCodeVehicleLookupMSErrorMessage: String,
         attempts: Int,
         maxAttempts: Int)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config2: utils.helpers.Config)
 
 @import views.html.vrm_retention.main
 @import views.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId}
@@ -45,7 +45,7 @@
             <div class="form-steps">
                 @{ /* Note the reverse routing syntax for the hyperlink */ }
                 @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
-                    <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
+                    <a class="button" id="@VehicleLookupId" href="@controllers.routes.VehicleLookup.present()" role="button">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
                     <br/>
                 }
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>

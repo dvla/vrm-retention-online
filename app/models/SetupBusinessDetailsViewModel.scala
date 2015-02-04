@@ -1,6 +1,6 @@
 package models
 
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 
 final case class SetupBusinessDetailsViewModel(registrationNumber: String,
                                                vehicleMake: Option[String],

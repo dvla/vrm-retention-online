@@ -4,21 +4,21 @@ import composition.TestHarness
 import cucumber.api.scala.{EN, ScalaDsl}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually._
+import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_retention._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
-class CommonStepDefs(implicit webDriver: EventFiringWebDriver) extends ScalaDsl with EN with Matchers with TestHarness {
-
-  lazy val beforeYouStart = new BeforeYouStartPageSteps
-  lazy val vehicleLookup = new VehicleLookupPageSteps
-  lazy val vehicleNotFound = new VehicleNotFoundPageSteps
-  lazy val vrmLocked = new VrmLockedPageSteps
-  lazy val confirmBusiness = new ConfirmBusinessPageSteps
-  lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps
-  lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps
+class CommonStepDefs(
+                      beforeYouStart: BeforeYouStartPageSteps,
+                      vehicleLookup: VehicleLookupPageSteps,
+                      vehicleNotFound: VehicleNotFoundPageSteps,
+                      vrmLocked: VrmLockedPageSteps,
+                      confirmBusiness: ConfirmBusinessPageSteps,
+                      setupBusinessDetails: SetupBusinessDetailsPageSteps,
+                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps
+                      )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
     //    import com.typesafe.config.ConfigFactory

@@ -1,6 +1,7 @@
 package controllers
 
 import java.io.ByteArrayInputStream
+
 import com.google.inject.Inject
 import email.EmailService
 import models._
@@ -11,13 +12,14 @@ import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, _}
 import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveUpdateRequest}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -27,7 +29,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
                                      dateService: DateService,
                                      paymentSolveService: PaymentSolveService)
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                     config: Config) extends Controller {
+
+                                     config2: Config) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -59,7 +62,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = true
+              isKeeper = false // US1589: Do not send keeper a pdf
             )
         }
 
@@ -73,7 +76,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = false // US1589: Do not send keeper a pdf
+              isKeeper = true
             )
         }
 

@@ -1,11 +1,10 @@
 package webserviceclients.paymentsolve
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import composition.WithApplication
+import composition.{TestConfig, WithApplication}
 import helpers.{UnitSpec, WireMockFixture}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import utils.helpers.Config
 
 final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
@@ -22,13 +21,13 @@ final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture
     }
   }
 
-  private val lookupService = new PaymentSolveWebServiceImpl(new Config() {
-    override val paymentSolveMicroServiceUrlBase = s"http://localhost:$wireMockPort"
-  })
+  private def lookupService = new PaymentSolveWebServiceImpl(
+    config2 = new TestConfig(paymentSolveMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
+  )
 
   private val trackingId = "track-id-test"
 
-  private val request = PaymentSolveBeginRequest(
+  private def request = PaymentSolveBeginRequest(
     transactionId = "transaction id",
     transNo = "trans no",
     vrm = "reg number",

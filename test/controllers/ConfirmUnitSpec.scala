@@ -1,7 +1,9 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
-import composition.{TestAuditService, TestDateService, WithApplication}
+import audit1.{AuditMessage, AuditService}
+import composition.audit1.AuditLocalService
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -53,11 +55,11 @@ final class ConfirmUnitSpec extends UnitSpec {
   "submit" should {
 
     "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
-      val mockAuditService = mock[AuditService]
+      val auditService1 = new AuditLocalService
 
       val injector = testInjector(
-        new TestAuditService(mockAuditService),
-        new TestDateService)
+        auditService1
+      )
 
       val confirm = injector.getInstance(classOf[Confirm])
       val dateService = injector.getInstance(classOf[DateService])
@@ -89,7 +91,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
-          verify(mockAuditService).send(auditMessage)
+          verify(auditService1.stub).send(auditMessage)
       }
     }
 
@@ -155,7 +157,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     confirm.present(request)
   }
 
-  private def confirm = testInjector(new TestAuditService).getInstance(classOf[Confirm])
+  private def confirm = testInjector().getInstance(classOf[Confirm])
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
     FakeRequest().withFormUrlEncodedBody(

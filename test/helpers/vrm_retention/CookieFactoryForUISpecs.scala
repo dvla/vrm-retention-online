@@ -4,15 +4,17 @@ import models._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import views.vrm_retention
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import views.vrm_retention.Confirm.{KeeperEmailCacheKey}
-import views.vrm_retention.ConfirmBusiness.{StoreBusinessDetailsCacheKey}
+import views.vrm_retention.Confirm.KeeperEmailCacheKey
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.Payment._
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
@@ -22,9 +24,7 @@ import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttemp
 import webserviceclients.fakes.PaymentSolveWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants._
-import views.vrm_retention.Payment._
-import scala.Some
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.{CertificateNumberValid, TransactionTimestampValid}
 
 object CookieFactoryForUISpecs {
 
@@ -111,14 +111,14 @@ object CookieFactoryForUISpecs {
   }
 
   def paymentModel(trxRef: Option[String] = TransactionReferenceValid,
-                   paymentStatus: Option[String] =  None,
-                   maskedPAN: Option[String] =  MaskedPANValid,
-                   authCode: Option[String] =  AuthCodeValid,
-                   merchantId: Option[String] =  MerchantIdValid,
-                   paymentType: Option[String] =  PaymentTypeValid,
-                   cardType: Option[String] =  CardTypeValid,
-                   totalAmountPaid: Option[Long] =  TotalAmountPaidValid,
-                   rejectionCode: Option[String] =  None)(implicit webDriver: WebDriver) = {
+                   paymentStatus: Option[String] = None,
+                   maskedPAN: Option[String] = MaskedPANValid,
+                   authCode: Option[String] = AuthCodeValid,
+                   merchantId: Option[String] = MerchantIdValid,
+                   paymentType: Option[String] = PaymentTypeValid,
+                   cardType: Option[String] = CardTypeValid,
+                   totalAmountPaid: Option[Long] = TotalAmountPaidValid,
+                   rejectionCode: Option[String] = None)(implicit webDriver: WebDriver) = {
     val key = vrm_retention.Payment.PaymentDetailsCacheKey
     val value = PaymentModel(trxRef = trxRef,
       paymentStatus = paymentStatus,
@@ -173,7 +173,7 @@ object CookieFactoryForUISpecs {
                                    postTown: Option[String] = KeeperPostTownValid,
                                    postCode: Option[String] = KeeperPostCodeValid)
                                   (implicit webDriver: WebDriver) = {
-    val key = vrm_retention.VehicleLookup.VehicleAndKeeperLookupDetailsCacheKey
+    val key = VehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,

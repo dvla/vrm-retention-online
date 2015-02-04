@@ -1,13 +1,13 @@
 package views.vrm_retention
 
+import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.PaymentPreventBackPage.returnToSuccess
-import pages.vrm_retention.{SuccessPage, BeforeYouStartPage, PaymentPreventBackPage, SuccessPaymentPage}
+import pages.vrm_retention.{BeforeYouStartPage, PaymentPreventBackPage, SuccessPage}
 
 final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
 

@@ -4,29 +4,46 @@ import _root_.common.CommonStepDefs
 import cucumber.api.java.After
 import cucumber.api.java.en.{Given, Then, When}
 import cucumber.api.scala.{EN, ScalaDsl}
-import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually._
+import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
 import org.scalatest.selenium.WebBrowser._
 import pages._
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{WebBrowserDriver, WebBrowserFirefoxDriver}
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class PaymentStepDefs extends ScalaDsl with EN with Matchers {
+import scala.concurrent.duration.DurationInt
 
-  private implicit val webDriver: EventFiringWebDriver = {
-    import com.typesafe.config.ConfigFactory
-    val conf = ConfigFactory.load()
-    conf.getString("browser.type") match {
-      case "firefox" => new WebBrowserFirefoxDriver
-      case _ => new WebBrowserDriver
-    }
-  }
-  lazy val user = new CommonStepDefs
-  lazy val vehicleLookup = new VehicleLookupPageSteps
-  lazy val payment = new PaymentPageSteps
-  lazy val success = new SuccessPaymentPageSteps
-  lazy val paymentFailure = new PaymentFailurePageSteps
-  lazy val paymentCallBack = new PaymentCallbackPageSteps
+final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+
+  //  private implicit val webDriver: EventFiringWebDriver = {
+  //    import com.typesafe.config.ConfigFactory
+  //    val conf = ConfigFactory.load()
+  //    conf.getString("browser.type") match {
+  //      case "firefox" => new WebBrowserFirefoxDriver
+  //      case _ => new WebBrowserDriver
+  //    }
+  //  }
+  implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
+  val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
+  val payment = new PaymentPageSteps()(webDriver, timeout)
+  val success = new SuccessPaymentPageSteps()(webDriver, timeout)
+  val paymentFailure = new PaymentFailurePageSteps()(webDriver, timeout)
+  val paymentCallBack = new PaymentCallbackPageSteps()(webDriver, timeout)
+  val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)
+  val vrmLocked = new VrmLockedPageSteps()(webDriver, timeout)
+  val vehicleLookupFailure = new VehicleLookupFailurePageSteps()(webDriver, timeout)
+  val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
+  val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
+  val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
+  val user = new CommonStepDefs(
+    beforeYouStart,
+    vehicleLookup,
+    vehicleNotFound,
+    vrmLocked,
+    confirmBusiness,
+    setupBusinessDetails,
+    businessChooseYourAddress
+  )(webDriver, timeout)
 
   @Given("^that I have started the PR Retention Service for payment$")
   def `that I have started the PR Retention Service for payment`() {

@@ -2,6 +2,7 @@ package composition
 
 import java.io.File
 import java.util.UUID
+
 import com.typesafe.config.ConfigFactory
 import play.api.Play.current
 import play.api.i18n.Lang
@@ -9,6 +10,7 @@ import play.api.mvc.Results.NotFound
 import play.api.mvc.{RequestHeader, Result}
 import play.api.{Application, Configuration, GlobalSettings, Logger, Mode, Play}
 import utils.helpers.Config
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -64,7 +66,7 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
         case None => "en"
       }
       implicit val lang: Lang = Lang(value)
-      implicit val config = injector.getInstance(classOf[Config])
+      implicit val config2 = injector.getInstance(classOf[Config])
       Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
       NotFound(views.html.errors.onHandlerNotFound(request))
     }

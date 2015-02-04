@@ -1,9 +1,9 @@
 package webserviceclients.fakes
 
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
-import webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
 
 object VehicleAndKeeperLookupWebServiceConstants {
 
@@ -12,8 +12,11 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val ReferenceNumberValid = "12345678910"
   final val TransactionIdValid = "ABC123123123123"
   final val PaymentTransNoValid = "123456"
-  final val VehicleMakeValid = Some("Alfa Romeo")
-  final val VehicleModelValid = Some("Alfasud ti")
+
+  def VehicleMakeValid = Some("Alfa Romeo")
+
+  def VehicleModelValid = Some("Alfasud ti")
+
   final val KeeperNameValid = "Keeper Name"
   final val KeeperUprnValid = 10123456789L
   final val ConsentValid = "true"
@@ -21,18 +24,28 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val BusinessConsentValid = "Business"
   final val KeeperPostcodeValid = PostcodeValid
   final val KeeperPostcodeValidForMicroService = "SA11AA"
-  final val KeeperTitleValid = Some("Mr")
-  final val KeeperLastNameValid = Some("Jones")
-  final val KeeperFirstNameValid = Some("David")
-  final val KeeperAddressLine1Valid = Some("1 High Street")
-  final val KeeperAddressLine2Valid = Some("Skewen")
-  final val KeeperAddressLine3Valid = None
-  final val KeeperAddressLine4Valid = None
-  final val KeeperPostTownValid = Some("Swansea")
-  final val KeeperPostCodeValid = Some("SA11AA")
+
+  def KeeperTitleValid = Some("Mr")
+
+  def KeeperLastNameValid = Some("Jones")
+
+  def KeeperFirstNameValid = Some("David")
+
+  def KeeperAddressLine1Valid = Some("1 High Street")
+
+  def KeeperAddressLine2Valid = Some("Skewen")
+
+  def KeeperAddressLine3Valid = None
+
+  def KeeperAddressLine4Valid = None
+
+  def KeeperPostTownValid = Some("Swansea")
+
+  def KeeperPostCodeValid = Some("SA11AA")
+
   final val RecordMismatch = "vehicle_and_keeper_lookup_document_record_mismatch - 200"
 
-  private val vehicleAndKeeperDetails = VehicleAndKeeperDetailsDto(registrationNumber = RegistrationNumberValid,
+  private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,
     vehicleModel = VehicleModelValid,
     keeperTitle = KeeperTitleValid,
@@ -46,30 +59,30 @@ object VehicleAndKeeperLookupWebServiceConstants {
     keeperPostcode = KeeperPostCodeValid
   )
 
-  val vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = None, vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails))))
   }
 
-  val vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found - 200"), vehicleAndKeeperDetailsDto = None)))
   }
 
-  val vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, Some(VehicleAndKeeperDetailsResponse(
       responseCode = Some(RecordMismatch),
       vehicleAndKeeperDetailsDto = None
     )))
   }
 
-  val vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = None, vehicleAndKeeperDetailsDto = None)))
   }
 
-  val vehicleAndKeeperDetailsServerDown: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsServerDown: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (SERVICE_UNAVAILABLE, None)
   }
 
-  val vehicleAndKeeperDetailsNoResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsNoResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
     (OK, None)
   }
 }

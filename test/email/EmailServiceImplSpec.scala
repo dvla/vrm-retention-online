@@ -4,6 +4,7 @@ import composition.WithApplication
 import helpers.UnitSpec
 import models._
 import org.apache.commons.mail.HtmlEmail
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
@@ -89,8 +90,9 @@ final class EmailServiceImplSpec extends UnitSpec {
     }
   }
 
-  private lazy val emailService: EmailService = testInjector().getInstance(classOf[EmailService])
-  private val vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
+  private def emailService: EmailService = testInjector().getInstance(classOf[EmailService])
+
+  private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
     make = VehicleMakeValid,
     model = VehicleModelValid,
     title = None,
@@ -98,12 +100,17 @@ final class EmailServiceImplSpec extends UnitSpec {
     lastName = None,
     address = None
   )
-  private val eligibility = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
-  private val retain = RetainModel(
+
+  private def eligibility = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
+
+  private def retain = RetainModel(
     certificateNumber = "certificateNumber",
     transactionTimestamp = TransactionTimestampValid
   )
+
   private val transactionId = "stubTransactionId"
-  private val confirmFormModel = Some(ConfirmFormModel(keeperEmail = KeeperEmailValid))
-  private val businessDetailsModel = Some(BusinessDetailsModel(name = TraderBusinessNameValid, contact = TraderBusinessContactValid, email = TraderBusinessEmailValid, address = addressWithUprn))
+
+  private def confirmFormModel = Some(ConfirmFormModel(keeperEmail = KeeperEmailValid))
+
+  private def businessDetailsModel = Some(BusinessDetailsModel(name = TraderBusinessNameValid, contact = TraderBusinessContactValid, email = TraderBusinessEmailValid, address = addressWithUprn))
 }

@@ -1,6 +1,6 @@
 import Common._
 
-name := "vehicles-online-gatling-tests"
+name := "vrm-retention-online-gatling-tests"
 
 version := versionString
 

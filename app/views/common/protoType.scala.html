@@ -1,8 +1,9 @@
-@()(implicit lang: Lang, config: utils.helpers.Config)
+@()(implicit lang: Lang,
+        config2: utils.helpers.Config)
 
 @import views.html.common.feedback
 
-@if(config.isPrototypeBannerVisible) {
+@if(config2.isPrototypeBannerVisible) {
     <div class="prototype">
         <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner.part1") @feedback() @Messages("prototype.banner.part2")</p>
     </div>

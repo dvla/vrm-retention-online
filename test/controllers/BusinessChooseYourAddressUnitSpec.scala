@@ -1,9 +1,14 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
+import _root_.audit1.AuditMessage
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
-import composition.{TestAuditService, TestConfig, TestDateService, TestOrdnanceSurvey, WithApplication}
+import composition._
+import composition.audit1.AuditLocalService
+import composition.webserviceclients.addresslookup.TestAddressLookupBinding
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
@@ -18,8 +23,6 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
-import webserviceclients.fakes.AddressLookupWebServiceConstants
-import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 
 final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
@@ -134,19 +137,11 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit (use UPRN enabled)" should {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
-      val mockAuditService = mock[AuditService]
-
+      val auditService1 = new AuditLocalService
       val injector = testInjector(
-        new TestOrdnanceSurvey,
-        new TestVehicleAndKeeperLookupWebService,
-        new ScalaModule() {
-          override def configure(): Unit = {
-            bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
-          }
-        },
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-        new TestAuditService(mockAuditService),
-        new TestDateService)
+        auditService1
+      )
 
       val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
       val dateService = injector.getInstance(classOf[DateService])
@@ -173,7 +168,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
-        verify(mockAuditService).send(auditMessage)
+        verify(auditService1.stub).send(auditMessage)
       }
     }
 
@@ -347,7 +342,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
-      new TestOrdnanceSurvey,
+      new TestAddressLookupBinding,
       new TestVehicleAndKeeperLookupWebService,
       new ScalaModule() {
         override def configure(): Unit = {
@@ -355,7 +350,8 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         }
       },
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
-      new TestAuditService
+      new AuditLocalService,
+      new AuditServiceDoesNothing
     ).getInstance(classOf[BusinessChooseYourAddress])
   }
 

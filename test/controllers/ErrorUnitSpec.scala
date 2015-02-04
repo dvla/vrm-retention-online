@@ -38,9 +38,12 @@ final class ErrorUnitSpec extends UnitSpec {
   }
 
   private val exceptionDigest = "stubbed exceptionDigest"
-  private lazy val errorWithPrototypeNotVisible = {
-    testInjector(new TestConfig(isPrototypeBannerVisible = false)).
-      getInstance(classOf[Error])
+
+  private def errorWithPrototypeNotVisible = {
+    testInjector(
+      new TestConfig(isPrototypeBannerVisible = false)
+    ).getInstance(classOf[Error])
   }
-  private lazy val error = testInjector().getInstance(classOf[Error])
+
+  private def error = testInjector().getInstance(classOf[Error])
 }

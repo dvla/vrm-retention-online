@@ -8,11 +8,15 @@ import play.api.libs.ws.{WS, WSResponse}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
+
 import scala.concurrent.Future
 
-final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends VRMRetentionRetainWebService {
+final class VRMRetentionRetainWebServiceImpl @Inject()(
 
-  private val endPoint: String = s"${config.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
+                                                        config2: Config
+                                                        ) extends VRMRetentionRetainWebService {
+
+  private val endPoint: String = s"${config2.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
 
   override def invoke(request: VRMRetentionRetainRequest, trackingId: String): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
@@ -20,6 +24,7 @@ final class VRMRetentionRetainWebServiceImpl @Inject()(config: Config) extends V
     Logger.debug(s"Calling vrm retention retain micro-service with request $vrm")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId).
+      withRequestTimeout(config2.vrmRetentionRetainMsRequestTimeout). // Timeout is in milliseconds
       post(Json.toJson(request))
   }
 }

@@ -6,9 +6,10 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import utils.helpers.Config
 
 final class MicroServiceError @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                        config: Config) extends Controller {
+
+                                        config2: Config) extends Controller {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_retention.micro_service_error())
+    ServiceUnavailable(views.html.vrm_retention.micro_service_error())
   }
 }

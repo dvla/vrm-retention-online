@@ -1,10 +1,10 @@
 @(successViewModel: models.SuccessViewModel, isKeeper: Boolean)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config: utils.helpers.Config)
+	config2: utils.helpers.Config)
 
 @import controllers.routes.Success
 @import views.html.vrm_retention.main
-@import views.vrm_retention.Success.FinishId
+@import views.vrm_retention.Success.{FinishId,CreatePdfId,PrintId}
 
 
 @main(
@@ -31,7 +31,7 @@
 					<p>@Messages("vrm_retention_success_payment.p7")</p>
 				</div>
 				<div class="first-col">
-					<a class="pdf-link" href="@Success.createPdf()">
+					<a id="@CreatePdfId" class="pdf-link" href="@Success.createPdf()">
 						<img src="@routes.Assets.at("images/PDF_download.png")" alt="Download PDF">
 						@Messages("vrm_retention_success.newPlateLink")
 					</a>
@@ -40,13 +40,14 @@
 
 			}
 
-
 			<h3>@Messages("vrm_retention_success.noticePayment.h3")</h3>
 			<p>@Messages("vrm_retention_success.noticePayment.p1")</p>
 			<strong>@Messages("vrm_retention_success.noticePayment.desc1")</strong>
 			<p/>
 			@Messages("vrm_retention_success.noticePayment.desc2") @successViewModel.registrationNumber <span class="renewalFee">£80.00</span> <br>
 			<p/>
+
+			<h2>@Messages("vrm_retention_success_payment.h2")</h2>
 
             <h3>@Messages("vrm_retention_success.notice1.h3")</h3>
 			<div class="info-notice">
@@ -92,9 +93,21 @@
 
     <div class="form-steps">
 	  <div class="step">
-	    <button id="printDisposalSuccess" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
+	    <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
 	    <br /><br />
         <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
 	  </div>
     </div>
+}
+
+@if(config2.googleAnalyticsTrackingId.isDefined) {
+	@if(!isKeeper) {
+		<script type="text/javascript">
+			trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+		</script>
+	}
+
+    <script type="text/javascript">
+        trackClick(['@PrintId', '@FinishId']);
+    </script>
 }

@@ -1,5 +1,5 @@
 @(title: String)(content: Html)(implicit lang: Lang,
-        config: utils.helpers.Config)
+        config2: utils.helpers.Config)
 
 @import views.html.common.{footer, header}
 
@@ -13,6 +13,7 @@
     @header(title = title)
 
     <body>
+    
         <a href="#main" class="visuallyhidden">Skip to main content</a>
 
         <div id="global-cookie-message">

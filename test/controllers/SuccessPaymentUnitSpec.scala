@@ -1,20 +1,10 @@
 package controllers
 
 import composition.WithApplication
-import composition.paymentsolvewebservice.ValidatedAuthorised
+import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import email.EmailService
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessChooseYourAddress
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.keeperEmail
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentTransNo
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.retainModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.{businessChooseYourAddress, businessDetailsModel, eligibilityModel, keeperEmail, paymentModel, paymentTransNo, retainModel, setupBusinessDetails, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import pages.vrm_retention.SuccessPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, defaultAwaitTimeout, status}
@@ -88,7 +78,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
     }*/
   }
 
-  private lazy val successPayment = testInjector(
+  private def successPayment = testInjector(
     new ValidatedAuthorised(),
     new com.tzavellas.sse.guice.ScalaModule() {
       override def configure(): Unit = {
@@ -96,6 +86,5 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
         bind[EmailService].toInstance(email)
       }
     }
-
   ).getInstance(classOf[SuccessPayment])
 }

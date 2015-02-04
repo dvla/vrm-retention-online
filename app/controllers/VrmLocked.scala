@@ -1,19 +1,20 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
+import models.{VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
 import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                  config: Config) extends Controller {
+
+                                  config2: Config) extends Controller {
 
   def present = Action { implicit request =>
     val happyPath = for {
@@ -31,7 +32,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     }
 
     happyPath.getOrElse {
-      Logger.debug("VrmLocked - Can't find cookies")
+      Logger.warn("VrmLocked - Kicking back to start page because we can't find one of the cookies")
       Redirect(routes.VehicleLookup.present())
     }
   }

@@ -20,8 +20,9 @@
 
 package helpers.webbrowser
 
-import org.openqa.selenium.Cookie
 import java.util.Date
+
+import org.openqa.selenium.Cookie
 
 final class WrappedCookie(val underlying: Cookie) {
 

@@ -20,8 +20,9 @@
 
 package helpers.webbrowser
 
-import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.openqa.selenium.support.ui.Select
+import org.openqa.selenium.{By, WebDriver, WebElement}
+
 import scala.collection.JavaConverters._
 
 trait Element {
@@ -56,7 +57,7 @@ trait Element {
 
 final class TextField(val underlying: WebElement) extends Element {
 
-  if(!Helper.isTextField(underlying))
+  if (!Helper.isTextField(underlying))
     throw new TestFailedException("Element " + underlying + " is not text field.")
 
   def value: String = underlying.getAttribute("value")
@@ -66,11 +67,14 @@ final class TextField(val underlying: WebElement) extends Element {
     underlying.sendKeys(value)
   }
 
-  def clear() { underlying.clear() }
+  def clear() {
+    underlying.clear()
+  }
 }
 
 final class TextArea(val underlying: WebElement) extends Element {
-  if(!Helper.isTextArea(underlying))
+
+  if (!Helper.isTextArea(underlying))
     throw new TestFailedException("Element " + underlying + " is not text area.")
 
   def value: String = underlying.getAttribute("value")
@@ -80,12 +84,14 @@ final class TextArea(val underlying: WebElement) extends Element {
     underlying.sendKeys(value)
   }
 
-  def clear() { underlying.clear() }
+  def clear() {
+    underlying.clear()
+  }
 }
 
 final class PasswordField(val underlying: WebElement) extends Element {
 
-  if(!Helper.isPasswordField(underlying))
+  if (!Helper.isPasswordField(underlying))
     throw new TestFailedException("Element " + underlying + " is not password field.")
 
   def value: String = underlying.getAttribute("value")
@@ -95,14 +101,17 @@ final class PasswordField(val underlying: WebElement) extends Element {
     underlying.sendKeys(value)
   }
 
-  def clear() { underlying.clear() }
+  def clear() {
+    underlying.clear()
+  }
 }
 
 trait ValueElement extends Element {
+
   val underlying: WebElement
 
   def checkCorrectType(isA: (WebElement) => Boolean, typeDescription: String) = {
-    if(!isA(underlying))
+    if (!isA(underlying))
       throw new TestFailedException("Element " + underlying + " is not " + typeDescription + " field.")
   }
 
@@ -113,63 +122,79 @@ trait ValueElement extends Element {
     underlying.sendKeys(value)
   }
 
-  def clear() { underlying.clear() }
+  def clear() {
+    underlying.clear()
+  }
 }
 
 final class EmailField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isEmailField, "text")
 }
 
 final class ColorField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isColorField, "color")
 }
 
 final class DateField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isDateField, "date")
 }
 
 final class DateTimeField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isDateTimeField, "datetime")
 }
 
 final class DateTimeLocalField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isDateTimeLocalField, "datetime-local")
 }
 
 final class MonthField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isMonthField, "month")
 }
 
 final class NumberField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isNumberField, "number")
 }
 
 final class RangeField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isRangeField, "range")
 }
 
 final class SearchField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isSearchField, "search")
 }
 
 final class TelField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isTelField, "tel")
 }
 
 final class TimeField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isTimeField, "time")
 }
 
 final class UrlField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isUrlField, "url")
 }
 
 final class WeekField(val underlying: WebElement) extends Element with ValueElement {
+
   checkCorrectType(Helper.isWeekField, "week")
 }
 
 final class RadioButton(val underlying: WebElement) extends Element {
-  if(!Helper.isRadioButton(underlying))
+
+  if (!Helper.isRadioButton(underlying))
     throw new TestFailedException("Element " + underlying + " is not radio button.")
 
   def value: String = underlying.getAttribute("value")
@@ -207,9 +232,9 @@ final class RadioButtonGroup(groupName: String, driver: WebDriver) {
   }
 }
 
-
 final class Checkbox(val underlying: WebElement) extends Element {
-  if(!Helper.isCheckBox(underlying))
+
+  if (!Helper.isCheckBox(underlying))
     throw new TestFailedException("Element " + underlying + " is not check box.")
 
   def select() {
@@ -224,7 +249,6 @@ final class Checkbox(val underlying: WebElement) extends Element {
 
   def value: String = underlying.getAttribute("value")
 }
-
 
 final class MultiSelOptionSeq(underlying: collection.immutable.IndexedSeq[String]) extends collection.immutable.IndexedSeq[String] {
 
@@ -248,7 +272,8 @@ final class MultiSelOptionSeq(underlying: collection.immutable.IndexedSeq[String
 }
 
 final class SingleSel(val underlying: WebElement) extends Element {
-  if(underlying.getTagName.toLowerCase != "select")
+
+  if (underlying.getTagName.toLowerCase != "select")
     throw new TestFailedException("Element " + underlying + " is not select.")
   private val select = new Select(underlying)
   if (select.isMultiple)
@@ -268,7 +293,7 @@ final class SingleSel(val underlying: WebElement) extends Element {
       throw new TestFailedException("The single selection list on which value was invoked had no selection.")
   }
 
-  def value_=(value : String) {
+  def value_=(value: String) {
     try {
       select.selectByValue(value)
     }
@@ -282,7 +307,8 @@ final class SingleSel(val underlying: WebElement) extends Element {
 }
 
 final class MultiSel(val underlying: WebElement) extends Element {
-  if(underlying.getTagName.toLowerCase != "select")
+
+  if (underlying.getTagName.toLowerCase != "select")
     throw new TestFailedException("Element " + underlying + " is not select.")
   private val select = new Select(underlying)
   if (!select.isMultiple)

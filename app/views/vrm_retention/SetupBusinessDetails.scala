@@ -1,5 +1,7 @@
 package views.vrm_retention
 
+import models.CacheKeyPrefix
+
 object SetupBusinessDetails {
 
   final val BusinessEmailMaxLength = 254
@@ -8,7 +10,7 @@ object SetupBusinessDetails {
   final val BusinessContactId = "contact-name"
   final val BusinessEmailId = "contact-email"
   final val BusinessPostcodeId = "business-postcode"
-  final val SetupBusinessDetailsCacheKey = "setup-business-details"
+  final val SetupBusinessDetailsCacheKey = s"${CacheKeyPrefix}setup-business-details"
   final val SubmitId = "submit"
   final val ExitId = "exit"
 }

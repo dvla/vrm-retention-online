@@ -1,28 +1,37 @@
 package controllers
 
-import audit._
+import audit1._
 import com.google.inject.Inject
-import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperDetailsModel, VehicleAndKeeperLookupFormModel}
+import models.{BusinessDetailsModel, EligibilityModel, VehicleAndKeeperLookupFormModel}
+import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.{Result, _}
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Keeper, VehicleAndKeeperLookupResponseCodeCacheKey}
+import webserviceclients.audit2
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityService}
+
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
-final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
-                                       dateService: DateService,
-                                       auditService: AuditService)
+final class CheckEligibility @Inject()(
+                                        eligibilityService: VRMRetentionEligibilityService,
+                                        dateService: DateService,
+                                        auditService1: audit1.AuditService,
+                                        auditService2: audit2.AuditService
+                                        )
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config) extends Controller {
+                                       config2: Config) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -47,7 +56,12 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology
+      ))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology
@@ -58,7 +72,13 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
-          auditService.send(AuditMessage.from(
+          auditService1.send(AuditMessage.from(
+            pageMovement = AuditMessage.VehicleLookupToConfirm,
+            transactionId = transactionId,
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            replacementVrm = Some(replacementVRM)))
+          auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToConfirm,
             transactionId = transactionId,
             timestamp = dateService.dateTimeISOChronology,
@@ -68,7 +88,14 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         } else {
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
           if (storeBusinessDetails && businessDetailsModel.isDefined) {
-            auditService.send(AuditMessage.from(
+            auditService1.send(AuditMessage.from(
+              pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+              transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
+              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              replacementVrm = Some(replacementVRM),
+              businessDetailsModel = businessDetailsModel))
+            auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
@@ -77,7 +104,13 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
               businessDetailsModel = businessDetailsModel))
             routes.ConfirmBusiness.present()
           } else {
-            auditService.send(AuditMessage.from(
+            auditService1.send(AuditMessage.from(
+              pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+              transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
+              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              replacementVrm = Some(replacementVRM)))
+            auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.VehicleLookupToCaptureActor,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
@@ -95,7 +128,13 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
-      auditService.send(AuditMessage.from(
+      auditService1.send(AuditMessage.from(
+        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        transactionId = transactionId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(responseCode)))
+      auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
@@ -105,11 +144,13 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }
 
+    val trackingId = request.cookies.trackingId()
+
     val eligibilityRequest = VRMRetentionEligibilityRequest(
+      buildWebHeader(trackingId),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
-    val trackingId = request.cookies.trackingId()
 
     eligibilityService.invoke(eligibilityRequest, trackingId).map { response =>
       response.responseCode match {
@@ -127,5 +168,17 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Retention Eligibility web service call failed. Exception " + e.toString)
     }
+  }
+
+  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
+    VssWebHeaderDto(transactionId = trackingId,
+      originDateTime = new DateTime,
+      applicationCode = config2.applicationCode,
+      serviceTypeCode = config2.vssServiceTypeCode,
+      buildEndUser())
+  }
+
+  private def buildEndUser(): VssWebEndUserDto = {
+    VssWebEndUserDto(endUserId = config2.orgBusinessUnit, orgBusUnit = config2.orgBusinessUnit)
   }
 }

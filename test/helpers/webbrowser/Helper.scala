@@ -23,23 +23,42 @@ package helpers.webbrowser
 import org.openqa.selenium.WebElement
 
 object Helper {
+
   def isInputField(webElement: WebElement, name: String): Boolean = webElement.getTagName.toLowerCase == "input" && webElement.getAttribute("type").toLowerCase == name
+
   def isTextField(webElement: WebElement): Boolean = isInputField(webElement, "text")
+
   def isPasswordField(webElement: WebElement): Boolean = isInputField(webElement, "password")
+
   def isCheckBox(webElement: WebElement): Boolean = isInputField(webElement, "checkbox")
+
   def isRadioButton(webElement: WebElement): Boolean = isInputField(webElement, "radio")
+
   def isEmailField(webElement: WebElement): Boolean = isInputField(webElement, "text")
+
   def isColorField(webElement: WebElement): Boolean = isInputField(webElement, "color")
+
   def isDateField(webElement: WebElement): Boolean = isInputField(webElement, "date")
+
   def isDateTimeField(webElement: WebElement): Boolean = isInputField(webElement, "datetime")
+
   def isDateTimeLocalField(webElement: WebElement): Boolean = isInputField(webElement, "datetime-local")
+
   def isMonthField(webElement: WebElement): Boolean = isInputField(webElement, "month")
+
   def isNumberField(webElement: WebElement): Boolean = isInputField(webElement, "number")
+
   def isRangeField(webElement: WebElement): Boolean = isInputField(webElement, "range")
+
   def isSearchField(webElement: WebElement): Boolean = isInputField(webElement, "search")
+
   def isTelField(webElement: WebElement): Boolean = isInputField(webElement, "tel")
+
   def isTimeField(webElement: WebElement): Boolean = isInputField(webElement, "time")
+
   def isUrlField(webElement: WebElement): Boolean = isInputField(webElement, "url")
+
   def isWeekField(webElement: WebElement): Boolean = isInputField(webElement, "week")
+
   def isTextArea(webElement: WebElement): Boolean = webElement.getTagName.toLowerCase == "textarea"
 }

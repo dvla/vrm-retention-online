@@ -1,14 +1,14 @@
 package views.vrm_retention
 
-import helpers.UiSpec
 import composition.TestHarness
+import helpers.UiSpec
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
 import scala.io.Source.fromInputStream
 
-class VersionIntegrationSpec extends UiSpec with TestHarness {
+final class VersionIntegrationSpec extends UiSpec with TestHarness {
 
   "Version endpoint" should {
     "be declared and should include the build-details.txt from classpath" in new WebBrowserForSelenium {

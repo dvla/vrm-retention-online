@@ -1,6 +1,8 @@
 package controllers
 
-import composition.{TestAuditService, TestConfig, WithApplication}
+import composition.audit1.AuditLocalService
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -23,7 +25,7 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
     }
 
     "not display prototype message when config set to false" in new WithApplication {
-      val result = paymentPreventBackNotVisible.present()(FakeRequest())
+      val result = paymentPrototypeNotVisible.present()(FakeRequest())
       contentAsString(result) should not include PrototypeHtml
     }
   }
@@ -50,10 +52,10 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
       )
   }
 
-  private lazy val paymentPreventBack = testInjector(new TestAuditService).getInstance(classOf[PaymentPreventBack])
-  private lazy val paymentPreventBackNotVisible =
+  private def paymentPreventBack = testInjector().getInstance(classOf[PaymentPreventBack])
+
+  private def paymentPrototypeNotVisible =
     testInjector(
-      new TestConfig(isPrototypeBannerVisible = false),
-      new TestAuditService
+      new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[PaymentPreventBack])
 }

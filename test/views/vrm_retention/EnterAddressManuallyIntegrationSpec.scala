@@ -1,10 +1,9 @@
 package views.vrm_retention
 
+import composition.TestHarness
 import helpers.UiSpec
-import helpers.common.ProgressBar.progressStep
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel

@@ -1,5 +1,5 @@
 @(transactionId: String, vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel)(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config2: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.vrm_retention.main
@@ -32,7 +32,7 @@
             <div class="form-steps">
                 @csrfTokenHiddenField()
                 @* Note the reverse routing syntax for the hyperlink *@
-                <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
+                <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()" role="button">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
             </div>
         </div>
     </div>

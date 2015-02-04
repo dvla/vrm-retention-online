@@ -1,8 +1,11 @@
 package controllers
 
-import composition.{TestAuditService, WithApplication}
-import composition.paymentsolvewebservice.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
-import composition.paymentsolvewebservice._
+import composition.WithApplication
+import composition.audit1.AuditLocalService
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
+import composition.webserviceclients.paymentsolve._
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -73,7 +76,9 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailure page when required cookies and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
-      val payment = testInjector(new ValidatedNotCardDetails, new TestAuditService).getInstance(classOf[Payment])
+      val payment = testInjector(
+        new ValidatedNotCardDetails
+      ).getInstance(classOf[Payment])
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
@@ -102,8 +107,11 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "call the web service with a base64 url safe callback" in new WithApplication {
-      val paymentSolveWebService = mock[PaymentSolveWebService]
-      val payment = testInjector(new ValidatedCardDetails(paymentSolveWebService), new TestAuditService).getInstance(classOf[Payment])
+      val paymentSolveWebService = new ValidatedCardDetails
+      val payment = testInjector(
+        paymentSolveWebService,
+        new RefererFromHeaderBinding
+      ).getInstance(classOf[Payment])
 
       val result = payment.begin(requestWithValidDefaults())
 
@@ -119,10 +127,10 @@ final class PaymentUnitSpec extends UnitSpec {
         transactionId = CookieFactoryForUnitSpecs.transactionId().value,
         transNo = CookieFactoryForUnitSpecs.paymentTransNo().value,
         vrm = RegistrationNumberValid,
-        purchaseAmount = 8000,
+        purchaseAmount = 42,
         paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"
       )
-      verify(paymentSolveWebService).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
+      verify(paymentSolveWebService.stub).invoke(request = expectedPaymentSolveBeginRequest, tracking = ClearTextClientSideSessionFactory.DefaultTrackingId)
     }
   }
 
@@ -178,7 +186,9 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentNotAuthorised page when payment service status is not 'AUTHORISED'" in new WithApplication {
-      val payment = testInjector(new ValidatedNotAuthorised, new TestAuditService).getInstance(classOf[Payment])
+      val payment = testInjector(
+        new ValidatedNotAuthorised
+      ).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -196,7 +206,9 @@ final class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to Success page when payment service response is status is 'AUTHORISED'" in new WithApplication {
-      val payment = testInjector(new ValidatedAuthorised, new TestAuditService).getInstance(classOf[Payment])
+      val payment = testInjector(
+        new ValidatedAuthorised
+      ).getInstance(classOf[Payment])
       val request = FakeRequest().
         withCookies(
           transactionId(),
@@ -305,7 +317,18 @@ final class PaymentUnitSpec extends UnitSpec {
       )
   }
 
-  private lazy val payment = testInjector(new ValidatedCardDetails(), new TestAuditService).getInstance(classOf[Payment])
-  private lazy val paymentCallFails = testInjector(new PaymentCallFails, new TestAuditService).getInstance(classOf[Payment])
-  private lazy val paymentCancelValidated = testInjector(new CancelValidated, new TestAuditService).getInstance(classOf[Payment])
+  private def payment = testInjector(
+    new ValidatedCardDetails(),
+    new RefererFromHeaderBinding
+  ).getInstance(classOf[Payment])
+
+  private def paymentCallFails = testInjector(
+    new PaymentCallFails,
+    new RefererFromHeaderBinding
+  ).getInstance(classOf[Payment])
+
+  private def paymentCancelValidated = testInjector(
+    new CancelValidated,
+    new RefererFromHeaderBinding
+  ).getInstance(classOf[Payment])
 }

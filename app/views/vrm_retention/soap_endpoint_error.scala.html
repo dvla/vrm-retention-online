@@ -1,5 +1,5 @@
 @()(implicit lang: Lang, token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config2: utils.helpers.Config)
 
 @import views.html.vrm_retention.main
 
@@ -10,6 +10,6 @@
 
     <div class="form-steps">
         @{ /* Note the reverse routing syntax for the hyperlink */ }
-        <a class="exit" id="exit" href="@controllers.routes.BeforeYouStart.present()">@Messages("soap_endpoint_error.exit.button")</a>
+        <a class="exit" id="exit" href="@controllers.routes.BeforeYouStart.present()" role="button">@Messages("soap_endpoint_error.exit.button")</a>
     </div>
 }

@@ -1,7 +1,9 @@
 package controllers
 
-import audit.{AuditMessage, AuditService}
-import composition.{TestAuditService, TestDateService, WithApplication}
+import audit1.{AuditMessage, AuditService}
+import composition.audit1.AuditLocalService
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -49,11 +51,11 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
   "submit" should {
 
     "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
-      val mockAuditService = mock[AuditService]
+      val auditService1 = new AuditLocalService
 
       val injector = testInjector(
-        new TestAuditService(mockAuditService),
-        new TestDateService)
+        auditService1
+      )
 
       val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
       val dateService = injector.getInstance(classOf[DateService])
@@ -83,7 +85,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-        verify(mockAuditService).send(auditMessage)
+        verify(auditService1.stub).send(auditMessage)
       }
     }
 
@@ -98,7 +100,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
           eligibilityModel(),
           storeBusinessDetailsConsent()
         )
-      val result = confirmWithCookieFlags.submit(request)
+      val result = confirmBusiness.submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
@@ -150,7 +152,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     )
   }
 
-  private def confirmBusiness = testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
+  private def confirmBusiness = testInjector().getInstance(classOf[ConfirmBusiness])
 
   private def present = {
     val request = FakeRequest().
@@ -160,9 +162,5 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         businessDetailsModel()
       )
     confirmBusiness.present(request)
-  }
-
-  private def confirmWithCookieFlags = {
-    testInjector(new TestAuditService).getInstance(classOf[ConfirmBusiness])
   }
 }

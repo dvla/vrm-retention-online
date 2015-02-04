@@ -1,7 +1,7 @@
 package views.vrm_retention
 
-import helpers.UiSpec
 import composition.TestHarness
+import helpers.UiSpec
 import org.apache.http.client.methods.{CloseableHttpResponse, HttpGet, HttpPost, HttpPut, HttpRequestBase}
 import org.apache.http.impl.client.HttpClients
 import pages.ApplicationContext.applicationContext

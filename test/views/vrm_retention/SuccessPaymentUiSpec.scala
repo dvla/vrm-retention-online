@@ -1,12 +1,11 @@
 package views.vrm_retention
 
+import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import composition.TestHarness
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.SuccessPaymentPage.next
 import pages.vrm_retention.{BeforeYouStartPage, SuccessPage, SuccessPaymentPage}
 
 final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
@@ -22,17 +21,17 @@ final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
     }
   }
 
-//  "next" should {
-//
-//    "redirect to Success page" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cacheSetup()
-//      go to SuccessPaymentPage
-//      click on next
-//
-//      currentUrl should equal(SuccessPage.url)
-//    }
-//  }
+  //  "next" should {
+  //
+  //    "redirect to Success page" taggedAs UiTag in new WebBrowserForSelenium {
+  //      go to BeforeYouStartPage
+  //      cacheSetup()
+  //      go to SuccessPaymentPage
+  //      click on next
+  //
+  //      currentUrl should equal(SuccessPage.url)
+  //    }
+  //  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs.

@@ -5,6 +5,7 @@ import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.{PostcodeToAddressResponseDto, UprnAddressPairDto, UprnToAddressResponseDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 import scala.concurrent.Future
@@ -52,7 +53,7 @@ object AddressLookupWebServiceConstants {
     FakeResponse(status = OK, fakeJson = None)
   }
 
-  val uprnToAddressResponseValid = {
+  def uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
     UprnToAddressResponseDto(addressViewModel = Some(AddressModel(uprn = Some(uprnAddressPair.uprn.toLong), address = uprnAddressPair.address.split(", "))))
   }

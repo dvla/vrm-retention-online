@@ -18,5 +18,5 @@ final class ApplicationUnitSpec extends UnitSpec {
     }
   }
 
-  private lazy val application = testInjector().getInstance(classOf[Application])
+  private def application = testInjector().getInstance(classOf[Application])
 }

@@ -3,8 +3,9 @@ package webserviceclients.vrmretentionretain
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Json, Writes}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
 
-case class VRMRetentionRetainRequest(currentVRM: String, transactionTimestamp: DateTime)
+case class VRMRetentionRetainRequest(webHeader: VssWebHeaderDto, currentVRM: String, transactionTimestamp: DateTime)
 
 object VRMRetentionRetainRequest {
 
@@ -16,5 +17,7 @@ object VRMRetentionRetainRequest {
     }
   }
 
+  implicit val JsonFormatVssWebEndUserDto = Json.writes[VssWebEndUserDto]
+  implicit val JsonFormatVssWebHeaderDto = Json.writes[VssWebHeaderDto]
   implicit val JsonFormat = Json.format[VRMRetentionRetainRequest]
 }
