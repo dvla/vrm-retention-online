@@ -117,7 +117,7 @@ CoverallsPlugin.coverallsSettings
 resolvers ++= projectResolvers
 
 // Uncomment before releasing to github in order to make Travis work
-//resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
+resolvers ++= Seq("Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/")
 
 // ====================== Sandbox Settings ==========================
 lazy val osAddressLookupProject = osAddressLookup("0.9").disablePlugins(PlayScala, SassPlugin, SbtWeb)
