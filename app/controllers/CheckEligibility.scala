@@ -174,7 +174,7 @@ final class CheckEligibility @Inject()(
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
       applicationCode = config2.applicationCode,
-      serviceTypeCode = config2.serviceTypeCode,
+      serviceTypeCode = config2.vssServiceTypeCode,
       buildEndUser())
   }
 

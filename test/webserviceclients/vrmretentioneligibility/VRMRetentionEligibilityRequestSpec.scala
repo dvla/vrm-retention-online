@@ -38,7 +38,7 @@ final class VRMRetentionEligibilityRequestSpec extends UnitSpec {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
-      serviceTypeCode = config.serviceTypeCode,
+      serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser())
   }
 

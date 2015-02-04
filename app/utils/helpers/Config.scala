@@ -79,7 +79,8 @@ trait Config {
   //  // Web headers
   def applicationCode: String
 
-  def serviceTypeCode: String
+  def vssServiceTypeCode: String
+  def dmsServiceTypeCode: String
 
   //  def orgBusinessUnit: String
   def channelCode: String

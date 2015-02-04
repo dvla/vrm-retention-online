@@ -37,7 +37,7 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
-      serviceTypeCode = config.serviceTypeCode,
+      serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser())
   }
 

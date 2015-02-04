@@ -23,7 +23,8 @@ class ConfigImpl extends Config {
 
   override def orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit").getOrElse("NOT FOUND")
 
-  override def serviceTypeCode: String = getOptionalProperty[String]("webHeader.serviceTypeCode").getOrElse("NOT FOUND")
+  override def vssServiceTypeCode: String = getOptionalProperty[String]("webHeader.vssServiceTypeCode").getOrElse("NOT FOUND")
+  override def dmsServiceTypeCode: String = getOptionalProperty[String]("webHeader.dmsServiceTypeCode").getOrElse("NOT FOUND")
 
   override def vrmRetentionEligibilityMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
 

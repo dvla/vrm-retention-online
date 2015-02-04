@@ -56,7 +56,7 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
       channelCode = "test-channelCode",
       contactId = 42,
       eventFlag = alwaysLog,
-      serviceTypeCode = "test-serviceTypeCode",
+      serviceTypeCode = "test-vssServiceTypeCode",
       languageCode = englishLanguage,
       endUser = None)
   }
