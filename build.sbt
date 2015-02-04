@@ -3,7 +3,6 @@ import com.typesafe.sbt.web.SbtWeb
 import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.gatlingTests
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
@@ -68,8 +67,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.12-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.12-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.12.1-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.12.1-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -126,7 +125,7 @@ lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5-SNAPSHOT").
 lazy val paymentSolveProject = paymentSolve("0.6-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.7-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-//lazy val audit = audit("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+//lazy val auditProject = audit("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 SandboxSettings.portOffset := 18000
@@ -145,6 +144,8 @@ SandboxSettings.vrmRetentionEligibilityProject := vrmRetentionEligibilityProject
 
 SandboxSettings.vrmRetentionRetainProject := vrmRetentionRetainProject
 
+//SandboxSettings.auditProject := auditProject // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
+
 SandboxSettings.legacyStubsProject := legacyStubsProject
 
 SandboxSettings.runAllMicroservices := {
@@ -154,6 +155,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runPaymentSolve.value
   Tasks.runVrmRetentionEligibility.value
   Tasks.runVrmRetentionRetain.value
+//  Tasks.runAudit.value // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
 }
 
 SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
