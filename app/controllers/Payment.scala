@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClie
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_retention.Confirm._
+import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
@@ -93,7 +93,7 @@ final class Payment @Inject()(
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      keeperEmail = None,
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
       rejectionCode = Some(message)))
@@ -103,7 +103,7 @@ final class Payment @Inject()(
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
       rejectionCode = Some(message)))
@@ -157,7 +157,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel)))
       auditService2.send(AuditRequest.from(
@@ -166,7 +166,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel)))
 
@@ -230,7 +230,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToExit,
@@ -238,7 +238,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
       redirectToLeaveFeedback

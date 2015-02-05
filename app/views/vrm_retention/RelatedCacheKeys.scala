@@ -8,7 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import views.vrm_retention.Confirm.KeeperEmailCacheKey
+import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Payment.PaymentDetailsCacheKey
@@ -28,7 +28,7 @@ object RelatedCacheKeys {
     VehicleAndKeeperLookupFormModelCacheKey,
     CheckEligibilityCacheKey,
     EnterAddressManuallyCacheKey,
-    KeeperEmailCacheKey,
+    ConfirmCacheKey,
     REFERER,
     RetainCacheKey,
     RetainResponseCodeCacheKey,

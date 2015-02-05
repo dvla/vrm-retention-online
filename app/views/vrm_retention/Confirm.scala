@@ -12,7 +12,6 @@ object Confirm {
   final val ExitId = "exit"
   final val KeeperEmailId = "keeper-email"
   final val ConfirmCacheKey = s"${CacheKeyPrefix}confirm"
-  final val KeeperEmailCacheKey = s"${CacheKeyPrefix}keeper-email"
   final val SupplyEmailId = "supply-email"
   final val SupplyEmail_true = "true"
   final val SupplyEmail_false = "false"

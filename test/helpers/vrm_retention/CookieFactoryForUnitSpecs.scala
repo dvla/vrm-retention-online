@@ -12,7 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcode
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
-import views.vrm_retention.Confirm.KeeperEmailCacheKey
+import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Payment._
@@ -162,9 +162,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  def keeperEmail(keeperEmail: Option[String] = KeeperEmailValid): Cookie = {
-    val key = KeeperEmailCacheKey
-    createCookie(key, keeperEmail)
+  def confirmFormModel(keeperEmail: Option[String] = KeeperEmailValid, supplyEmail: String = "yes"): Cookie = {
+    val key = ConfirmCacheKey
+    val value = ConfirmFormModel(keeperEmail = keeperEmail, supplyEmail = "")
+    createCookie(key, value)
   }
 
   def transactionId(transactionId: String = TransactionIdValid): Cookie = {

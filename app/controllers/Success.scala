@@ -39,7 +39,7 @@ final class Success @Inject()(pdfService: PdfService,
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-        val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
+        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
             keeperEmailOpt, retainModel, transactionId)

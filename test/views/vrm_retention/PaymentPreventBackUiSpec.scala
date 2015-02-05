@@ -38,7 +38,7 @@ final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
       eligibilityModel().
       retainModel().
       businessDetails().
-      keeperEmail().
+      confirmFormModel().
       paymentTransNo().
       paymentModel()
 }

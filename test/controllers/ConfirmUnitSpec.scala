@@ -82,7 +82,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -100,7 +100,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -128,13 +128,13 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "write KeeperEmail cookie when user type is Keeper and has provided a keeperEmail" in new WithApplication {
+    "write ConfirmFormModel cookie when user type is Keeper and has provided a keeperEmail" in new WithApplication {
       val request = buildRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -142,7 +142,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain(KeeperEmailCacheKey)
+          cookies.map(_.name) should contain(ConfirmCacheKey)
       }
     }
 
@@ -152,7 +152,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -169,7 +169,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )

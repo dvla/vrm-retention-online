@@ -19,7 +19,7 @@ final class SuccessUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           retainModel(),
           transactionId(),
           paymentModel())
@@ -34,7 +34,7 @@ final class SuccessUnitSpec extends UnitSpec {
           businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
-          keeperEmail(),
+          confirmFormModel(),
           retainModel(),
           transactionId(),
           paymentModel())

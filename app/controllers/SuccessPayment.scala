@@ -15,7 +15,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup.{UserType_Keeper, _}
 import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveUpdateRequest}
@@ -45,7 +44,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-        val keeperEmailOpt = request.cookies.getString(KeeperEmailCacheKey)
+        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
             keeperEmailOpt, retainModel, transactionId)

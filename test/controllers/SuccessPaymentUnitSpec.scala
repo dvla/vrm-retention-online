@@ -4,7 +4,7 @@ import composition.WithApplication
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import email.EmailService
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.{businessChooseYourAddress, businessDetailsModel, eligibilityModel, keeperEmail, paymentModel, paymentTransNo, retainModel, setupBusinessDetails, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.{businessChooseYourAddress, businessDetailsModel, eligibilityModel, confirmFormModel, paymentModel, paymentTransNo, retainModel, setupBusinessDetails, transactionId, vehicleAndKeeperDetailsModel, vehicleAndKeeperLookupFormModel}
 import pages.vrm_retention.SuccessPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{BAD_REQUEST, LOCATION, defaultAwaitTimeout, status}
@@ -20,7 +20,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           retainModel(),
           transactionId(),
           paymentTransNo(),
@@ -38,7 +38,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec {
           businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
-          keeperEmail(),
+          confirmFormModel(),
           retainModel(),
           transactionId(),
           paymentTransNo(),
