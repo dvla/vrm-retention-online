@@ -5,7 +5,7 @@ import com.google.inject.Inject
 import models._
 import play.api.data.{Form, FormError}
 import play.api.mvc.{Result, _}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -31,14 +31,13 @@ final class Confirm @Inject()(
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
-      def formModelEmpty = {
-        val keeperEmailEmpty = None
-        val supplyEmailEmpty = ""
-        ConfirmFormModel(keeperEmailEmpty, supplyEmailEmpty)
-      }
       val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
-      // Always fill the form with empty values to force user to enter new details.
-      Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModelEmpty)))
+      val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
+      // with the situation where payment fails and they come back to this page via either back button or coming
+      // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
+      // customer gives up and then a new customer starts the journey in the same session and the email field is
+      // pre-populated with the previous customer's address.
+      Ok(views.html.vrm_retention.confirm(viewModel, emptyForm))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
