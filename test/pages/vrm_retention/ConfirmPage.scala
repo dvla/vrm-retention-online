@@ -23,9 +23,4 @@ object ConfirmPage extends Page {
     go to ConfirmPage
     click on confirm
   }
-
-  def exitPath(implicit driver: WebDriver) = {
-    go to ConfirmPage
-    click on exit
-  }
 }

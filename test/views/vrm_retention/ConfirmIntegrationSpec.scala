@@ -7,7 +7,6 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
-import pages.vrm_retention.ConfirmPage.exitPath
 import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, VehicleLookupPage, _}
 
 final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
@@ -49,10 +48,10 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheSetup()
+      go to ConfirmPage
 
-      exitPath
+      click on ConfirmPage.exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
     }
@@ -63,11 +62,11 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-      go to ConfirmBusinessPage
+      go to ConfirmPage
 
       click on back
 
-      currentUrl should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 
