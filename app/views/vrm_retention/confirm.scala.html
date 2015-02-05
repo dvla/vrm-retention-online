@@ -79,7 +79,7 @@
                         if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
                     },
                     args = Map(
-                        'optionalFieldKey -> true,
+                        'NO_OPTIONAL_LABEL -> true,
                         '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
                         '_showConstraints -> false,
                         'maxLength -> KeeperEmailMaxLength
