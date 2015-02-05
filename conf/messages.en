@@ -470,6 +470,10 @@ vrm_retention_confirm.storeDetailsConsentWarning = if you are using a public com
 vrm_retention_exit.button = Exit
 vrm_retention_finish.button = Finish
 vrm_retention_changedetails.button = Change Details
+supply-email = Do you want to receive an email with a summary of the transaction?
+supply-email-true = Yes
+supply-email-false = No
+email-not-supplied = You must supply an email address to receive a summary of the transaction
 
 # choose business address
 vrm_retention_businessChooseYourAddress_title = Select your business address

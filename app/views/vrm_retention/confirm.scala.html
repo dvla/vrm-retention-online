@@ -8,6 +8,8 @@
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.listRadioGroup
+@import uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint
 
 @main(
     title = Messages("vrm_retention_confirm.title"),
@@ -51,7 +53,7 @@
 
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
-        <div class="two-col">
+        <div class="two-col clearfix">
             <div class="second-col">
                 <details>
                     <summary><span id="@SummaryId" class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
@@ -64,6 +66,14 @@
                 </details>
                 <br/>
 
+                @listRadioGroup(field = confirmForm(SupplyEmailId),
+                    optionsWithHint = Seq(
+                        RadioWithHint(SupplyEmail_true, Messages("supply-email-true"), ""),
+                        RadioWithHint(SupplyEmail_false, Messages("supply-email-false"), "")
+                    ),
+                    args = Map.empty
+                )
+
                 @valtechInputText(confirmForm(KeeperEmailId),
                     hintText = {
                         if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
@@ -75,7 +85,6 @@
                         'maxLength -> KeeperEmailMaxLength
                     )
                 )
-
             </div>
         </div>
 

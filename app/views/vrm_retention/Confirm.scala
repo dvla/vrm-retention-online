@@ -14,6 +14,8 @@ object Confirm {
   final val ConfirmCacheKey = s"${CacheKeyPrefix}confirm"
   final val KeeperEmailCacheKey = s"${CacheKeyPrefix}keeper-email"
   final val SupplyEmailId = "supply-email"
+  final val SupplyEmail_true = "true"
+  final val SupplyEmail_false = "false"
 
   def supplyEmail: Mapping[String] = nonEmptyText
 }
