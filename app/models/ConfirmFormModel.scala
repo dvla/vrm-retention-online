@@ -18,7 +18,8 @@ object ConfirmFormModel {
     final val Mapping = mapping(
       KeeperEmailId -> optional(email),
       SupplyEmailId -> supplyEmail
-    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
+    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply).
+      verifying(form => if (form.supplyEmail == "true") form.keeperEmail.isDefined else true)
   }
 
 }

@@ -37,13 +37,6 @@ final class ConfirmFormSpec extends UnitSpec {
       errors(0).key should equal(SupplyEmailId)
       errors(0).message should equal("error.required")
     }
-
-    //    "reject when the keeper wants an email and does not provide an email address" in {
-    //      val errors = buildForm(keeperEmail = keeperEmailEmpty).errors
-    //      errors.length should equal(1)
-    //      errors(0).key should equal(KeeperEmailId)
-    //      errors(0).message should equal("error.required")
-    //    }
   }
 
   private def buildForm(keeperEmail: String = KeeperEmailValid.get,

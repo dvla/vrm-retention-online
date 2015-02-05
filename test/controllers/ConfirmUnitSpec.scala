@@ -9,7 +9,7 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito.verify
 import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, OK}
+import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Confirm._
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
@@ -145,6 +145,40 @@ final class ConfirmUnitSpec extends UnitSpec {
           cookies.map(_.name) should contain(KeeperEmailCacheKey)
       }
     }
+
+    "return a bad request when the supply email field has nothing selected" in new WithApplication {
+      val request = buildRequest(supplyEmail = supplyEmailEmpty).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
+        )
+
+      val result = confirm.submit(request)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
+      }
+    }
+
+    "return a bad request when the keeper wants to supply an email and does not provide an email address" in new WithApplication {
+      val request = buildRequest(keeperEmail = keeperEmailEmpty).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          keeperEmail(),
+          transactionId(),
+          eligibilityModel()
+        )
+
+      val result = confirm.submit(request)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
+      }
+    }
   }
 
   private def present = {
@@ -159,6 +193,8 @@ final class ConfirmUnitSpec extends UnitSpec {
   private def confirm = testInjector().getInstance(classOf[Confirm])
 
   private val supplyEmailTrue = "true"
+  private val supplyEmailEmpty = ""
+  private val keeperEmailEmpty = ""
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, supplyEmail: String = supplyEmailTrue) = {
     FakeRequest().withFormUrlEncodedBody(
