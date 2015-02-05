@@ -2,9 +2,11 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.Logger
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.Action
+import play.api.mvc.Controller
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import utils.helpers.{Config, CookieHelper}
+import utils.helpers.Config
+import utils.helpers.CookieHelper
 
 final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
 

@@ -5,10 +5,15 @@ import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
-import play.api.mvc.{Action, Controller, Request, Result}
+import play.api.mvc.Action
+import play.api.mvc.Controller
+import play.api.mvc.Request
+import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config

@@ -1,10 +1,12 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
+import models.VehicleAndKeeperLookupFormModel
+import models.VehicleLookupFailureViewModel
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.Retain.RetainCacheKey

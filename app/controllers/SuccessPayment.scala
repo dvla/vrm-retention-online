@@ -9,15 +9,19 @@ import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
-import play.api.mvc.{Result, _}
+import play.api.mvc.Result
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Payment._
-import views.vrm_retention.VehicleLookup.{UserType_Keeper, _}
-import webserviceclients.paymentsolve.{PaymentSolveService, PaymentSolveUpdateRequest}
+import views.vrm_retention.VehicleLookup.UserType_Keeper
+import views.vrm_retention.VehicleLookup._
+import webserviceclients.paymentsolve.PaymentSolveService
+import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

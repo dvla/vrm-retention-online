@@ -6,20 +6,24 @@ import models._
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
-import play.api.mvc.{Result, _}
+import play.api.mvc.Result
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
-import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
+import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
+import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -1,13 +1,17 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{VehicleAndKeeperLookupFormModel, VrmLockedViewModel}
+import models.VehicleAndKeeperLookupFormModel
+import models.VrmLockedViewModel
 import org.joda.time.DateTime
 import play.api.Logger
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.Action
+import play.api.mvc.Controller
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
