@@ -151,7 +151,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       retainModel = RetainModel(certificateNumber = "stub-certificateNumber", transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
       htmlEmail = new HtmlEmail(),
-      confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),
+      confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), supplyEmail = "true")),
       businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
       isKeeper = true
     ))

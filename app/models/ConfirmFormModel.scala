@@ -4,9 +4,9 @@ import play.api.data.Forms.{mapping, optional}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
-import views.vrm_retention.Confirm.{ConfirmCacheKey, KeeperEmailId}
+import views.vrm_retention.Confirm.{ConfirmCacheKey, KeeperEmailId, SupplyEmailId, supplyEmail}
 
-final case class ConfirmFormModel(keeperEmail: Option[String])
+final case class ConfirmFormModel(keeperEmail: Option[String], supplyEmail: String)
 
 object ConfirmFormModel {
 
@@ -16,7 +16,8 @@ object ConfirmFormModel {
   object Form {
 
     final val Mapping = mapping(
-      KeeperEmailId -> optional(email)
+      KeeperEmailId -> optional(email),
+      SupplyEmailId -> supplyEmail
     )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   }
 

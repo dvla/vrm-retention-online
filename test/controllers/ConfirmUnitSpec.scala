@@ -1,9 +1,8 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
+import audit1.AuditMessage
+import composition.WithApplication
 import composition.audit1.AuditLocalService
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -12,7 +11,7 @@ import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{LOCATION, OK}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
+import views.vrm_retention.Confirm._
 import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 
@@ -159,9 +158,12 @@ final class ConfirmUnitSpec extends UnitSpec {
 
   private def confirm = testInjector().getInstance(classOf[Confirm])
 
-  private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
+  private val supplyEmailTrue = "true"
+
+  private def buildRequest(keeperEmail: String = KeeperEmailValid.get, supplyEmail: String = supplyEmailTrue) = {
     FakeRequest().withFormUrlEncodedBody(
-      KeeperEmailId -> keeperEmail
+      KeeperEmailId -> keeperEmail,
+      SupplyEmailId -> supplyEmail
     )
   }
 }

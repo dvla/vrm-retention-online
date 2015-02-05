@@ -31,9 +31,14 @@ final class Confirm @Inject()(
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     } yield {
-      val formModel = ConfirmFormModel(None)
+      def formModelEmpty = {
+        val keeperEmailEmpty = None
+        val supplyEmailEmpty = ""
+        ConfirmFormModel(keeperEmailEmpty, supplyEmailEmpty)
+      }
       val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
-      Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModel)))
+      // Always fill the form with empty values to force user to enter new details.
+      Ok(views.html.vrm_retention.confirm(viewModel, form.fill(formModelEmpty)))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)

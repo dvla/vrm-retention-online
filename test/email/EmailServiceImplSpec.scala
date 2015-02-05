@@ -110,7 +110,7 @@ final class EmailServiceImplSpec extends UnitSpec {
 
   private val transactionId = "stubTransactionId"
 
-  private def confirmFormModel = Some(ConfirmFormModel(keeperEmail = KeeperEmailValid))
+  private def confirmFormModel = Some(ConfirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = "true"))
 
   private def businessDetailsModel = Some(BusinessDetailsModel(name = TraderBusinessNameValid, contact = TraderBusinessContactValid, email = TraderBusinessEmailValid, address = addressWithUprn))
 }
