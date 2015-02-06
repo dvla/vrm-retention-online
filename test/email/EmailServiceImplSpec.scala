@@ -1,5 +1,6 @@
 package email
 
+import composition.EmailServiceBinding
 import composition.WithApplication
 import helpers.UnitSpec
 import models._
@@ -90,7 +91,7 @@ final class EmailServiceImplSpec extends UnitSpec {
     }
   }
 
-  private def emailService: EmailService = testInjector().getInstance(classOf[EmailService])
+  private def emailService: EmailService = testInjector(new EmailServiceBinding).getInstance(classOf[EmailService])
 
   private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
     make = VehicleMakeValid,

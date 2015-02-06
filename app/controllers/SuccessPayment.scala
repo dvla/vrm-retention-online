@@ -17,6 +17,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
+import views.vrm_retention.Confirm.SupplyEmail_true
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import views.vrm_retention.VehicleLookup._
@@ -45,10 +46,16 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
       Some(eligibilityModel), Some(retainModel), Some(paymentModel)) =>
-
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
+        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap { confirm =>
+          if (confirm.supplyEmail == SupplyEmail_true) confirm.keeperEmail else None
+        }
+        request.cookies.getModel[ConfirmFormModel] match {
+          case Some(confirm) if confirm.supplyEmail == SupplyEmail_true =>
+          case _ =>
+        }
+
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
             keeperEmailOpt, retainModel, transactionId)
@@ -154,7 +161,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       retainModel = RetainModel(certificateNumber = "stub-certificateNumber", transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
       htmlEmail = new HtmlEmail(),
-      confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), supplyEmail = "true")),
+      confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), supplyEmail = SupplyEmail_true)),
       businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
       isKeeper = true
     ))

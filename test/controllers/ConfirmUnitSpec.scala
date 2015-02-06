@@ -7,12 +7,17 @@ import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito.verify
-import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
+import pages.vrm_retention.PaymentPage
+import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_retention.Confirm._
-import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
+import views.vrm_retention.Confirm.ConfirmCacheKey
+import views.vrm_retention.Confirm.KeeperEmailId
+import views.vrm_retention.Confirm.SupplyEmailId
+import views.vrm_retention.Confirm.SupplyEmail_true
+import views.vrm_retention.VehicleLookup.UserType_Business
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 
 final class ConfirmUnitSpec extends UnitSpec {
@@ -192,11 +197,10 @@ final class ConfirmUnitSpec extends UnitSpec {
 
   private def confirm = testInjector().getInstance(classOf[Confirm])
 
-  private val supplyEmailTrue = "true"
   private val supplyEmailEmpty = ""
   private val keeperEmailEmpty = ""
 
-  private def buildRequest(keeperEmail: String = KeeperEmailValid.get, supplyEmail: String = supplyEmailTrue) = {
+  private def buildRequest(keeperEmail: String = KeeperEmailValid.get, supplyEmail: String = SupplyEmail_true) = {
     FakeRequest().withFormUrlEncodedBody(
       KeeperEmailId -> keeperEmail,
       SupplyEmailId -> supplyEmail
