@@ -20,6 +20,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import utils.helpers.Config
 import views.vrm_retention.Confirm.KeeperEmailId
+import views.vrm_retention.Confirm.SupplyEmail_true
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
@@ -45,7 +46,9 @@ final class Confirm @Inject()(
       // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
       // customer gives up and then a new customer starts the journey in the same session and the email field is
       // pre-populated with the previous customer's address.
-      Ok(views.html.vrm_retention.confirm(viewModel, emptyForm))
+      val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
+      // always be hidden on first load
+      Ok(views.html.vrm_retention.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
@@ -110,7 +113,8 @@ final class Confirm @Inject()(
     yield {
       val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
       val updatedForm = formWithReplacedErrors(form)
-      BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm))
+      val isKeeperEmailDisplayedOnLoad = updatedForm.get.supplyEmail == SupplyEmail_true
+      BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad))
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)

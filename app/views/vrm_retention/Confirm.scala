@@ -15,6 +15,7 @@ object Confirm {
   final val SupplyEmailId = "supply-email"
   final val SupplyEmail_true = "true"
   final val SupplyEmail_false = "false"
+  final val KeeperEmailWrapper = "keeper-email-wrapper"
 
   def supplyEmail: Mapping[String] = nonEmptyText
 }

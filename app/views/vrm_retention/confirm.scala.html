@@ -1,5 +1,6 @@
 @(confirmViewModel: models.ConfirmViewModel,
-        confirmForm: Form[models.ConfirmFormModel])(implicit lang: Lang,
+        confirmForm: Form[models.ConfirmFormModel],
+        isKeeperEmailDisplayedOnLoad: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config2: utils.helpers.Config)
 
@@ -74,17 +75,19 @@
                     args = Map.empty
                 )
 
-                @valtechInputText(confirmForm(KeeperEmailId),
-                    hintText = {
-                        if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
-                    },
-                    args = Map(
-                        'NO_OPTIONAL_LABEL -> true,
-                        '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
-                        '_showConstraints -> false,
-                        'maxLength -> KeeperEmailMaxLength
+                <div id="@KeeperEmailWrapper">
+                    @valtechInputText(confirmForm(KeeperEmailId),
+                        hintText = {
+                            if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
+                        },
+                        args = Map(
+                            'NO_OPTIONAL_LABEL -> true,
+                            '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> KeeperEmailMaxLength
+                        )
                     )
-                )
+                </div>
             </div>
         </div>
 
@@ -102,3 +105,16 @@
         trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
     </script>
 }
+
+<script type="text/javascript">
+function onLoadConditionalVisibility(inputId, visible) {
+    var element = document.getElementById(inputId);
+    if (visible) {
+        element.style.dislay = "inherit";
+    } else {
+        element.style.display = "none";
+    }
+}
+
+    onLoadConditionalVisibility('@KeeperEmailWrapper', true);
+</script>
