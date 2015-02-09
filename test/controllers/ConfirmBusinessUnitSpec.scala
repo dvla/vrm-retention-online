@@ -77,7 +77,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -114,7 +114,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -135,7 +135,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )

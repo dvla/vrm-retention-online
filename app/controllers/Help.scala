@@ -3,7 +3,8 @@ package controllers
 import com.google.inject.Inject
 import controllers.routes.BeforeYouStart
 import mappings.common.Help.HelpCacheKey
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.Action
+import play.api.mvc.Controller
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import utils.helpers.Config

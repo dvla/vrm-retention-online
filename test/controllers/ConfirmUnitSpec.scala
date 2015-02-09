@@ -1,19 +1,23 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
+import audit1.AuditMessage
+import composition.WithApplication
 import composition.audit1.AuditLocalService
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito.verify
-import pages.vrm_retention.{PaymentPage, VehicleLookupPage}
+import pages.vrm_retention.PaymentPage
+import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, OK}
+import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_retention.Confirm.{KeeperEmailCacheKey, KeeperEmailId}
-import views.vrm_retention.VehicleLookup.{UserType_Business, UserType_Keeper}
+import views.vrm_retention.Confirm.ConfirmCacheKey
+import views.vrm_retention.Confirm.KeeperEmailId
+import views.vrm_retention.Confirm.SupplyEmailId
+import views.vrm_retention.Confirm.SupplyEmail_true
+import views.vrm_retention.VehicleLookup.UserType_Business
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 
 final class ConfirmUnitSpec extends UnitSpec {
@@ -83,7 +87,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -101,7 +105,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -129,13 +133,13 @@ final class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "write KeeperEmail cookie when user type is Keeper and has provided a keeperEmail" in new WithApplication {
+    "write ConfirmFormModel cookie when user type is Keeper and has provided a keeperEmail" in new WithApplication {
       val request = buildRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           transactionId(),
           eligibilityModel()
         )
@@ -143,7 +147,41 @@ final class ConfirmUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain(KeeperEmailCacheKey)
+          cookies.map(_.name) should contain(ConfirmCacheKey)
+      }
+    }
+
+    "return a bad request when the supply email field has nothing selected" in new WithApplication {
+      val request = buildRequest(supplyEmail = supplyEmailEmpty).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          confirmFormModel(),
+          transactionId(),
+          eligibilityModel()
+        )
+
+      val result = confirm.submit(request)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
+      }
+    }
+
+    "return a bad request when the keeper wants to supply an email and does not provide an email address" in new WithApplication {
+      val request = buildRequest(keeperEmail = keeperEmailEmpty).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          confirmFormModel(),
+          transactionId(),
+          eligibilityModel()
+        )
+
+      val result = confirm.submit(request)
+      whenReady(result) { r =>
+        r.header.status should equal(BAD_REQUEST)
       }
     }
   }
@@ -159,9 +197,13 @@ final class ConfirmUnitSpec extends UnitSpec {
 
   private def confirm = testInjector().getInstance(classOf[Confirm])
 
-  private def buildRequest(keeperEmail: String = KeeperEmailValid.get, storeDetailsConsent: Boolean = false) = {
+  private val supplyEmailEmpty = ""
+  private val keeperEmailEmpty = ""
+
+  private def buildRequest(keeperEmail: String = KeeperEmailValid.get, supplyEmail: String = SupplyEmail_true) = {
     FakeRequest().withFormUrlEncodedBody(
-      KeeperEmailId -> keeperEmail
+      KeeperEmailId -> keeperEmail,
+      SupplyEmailId -> supplyEmail
     )
   }
 }

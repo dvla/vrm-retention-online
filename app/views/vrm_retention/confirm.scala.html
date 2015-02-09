@@ -1,5 +1,6 @@
 @(confirmViewModel: models.ConfirmViewModel,
-        confirmForm: Form[models.ConfirmFormModel])(implicit lang: Lang,
+        confirmForm: Form[models.ConfirmFormModel],
+        isKeeperEmailDisplayedOnLoad: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config2: utils.helpers.Config)
 
@@ -8,6 +9,8 @@
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.listRadioGroup
+@import uk.gov.dvla.vehicles.presentation.common.views.models.RadioWithHint
 
 @main(
     title = Messages("vrm_retention_confirm.title"),
@@ -51,7 +54,7 @@
 
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
-        <div class="two-col">
+        <div class="two-col clearfix">
             <div class="second-col">
                 <details>
                     <summary><span id="@SummaryId" class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
@@ -64,18 +67,27 @@
                 </details>
                 <br/>
 
-                @valtechInputText(confirmForm(KeeperEmailId),
-                    hintText = {
-                        if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
-                    },
-                    args = Map(
-                        'optionalFieldKey -> true,
-                        '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
-                        '_showConstraints -> false,
-                        'maxLength -> KeeperEmailMaxLength
-                    )
+                @listRadioGroup(field = confirmForm(SupplyEmailId),
+                    optionsWithHint = Seq(
+                        RadioWithHint(SupplyEmail_true, Messages("supply-email-true"), ""),
+                        RadioWithHint(SupplyEmail_false, Messages("supply-email-false"), "")
+                    ),
+                    args = Map.empty
                 )
 
+                <div id="@KeeperEmailWrapper">
+                    @valtechInputText(confirmForm(KeeperEmailId),
+                        hintText = {
+                            if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
+                        },
+                        args = Map(
+                            'NO_OPTIONAL_LABEL -> true,
+                            '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+                            '_showConstraints -> false,
+                            'maxLength -> KeeperEmailMaxLength
+                        )
+                    )
+                </div>
             </div>
         </div>
 
@@ -93,3 +105,11 @@
         trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
     </script>
 }
+
+<script src="@routes.Assets.at("lib/vehicles-presentation-common/javascripts/on-event-change-display.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+    onLoadConditionalDisplay('@KeeperEmailWrapper', @isKeeperEmailDisplayedOnLoad);
+    onEventChangeDisplay('click', '@{s"${SupplyEmailId}_${SupplyEmail_true}"}', '@KeeperEmailWrapper', 'inherit');
+    onEventChangeDisplay('click', '@{s"${SupplyEmailId}_${SupplyEmail_false}"}', '@KeeperEmailWrapper', 'none');
+</script>

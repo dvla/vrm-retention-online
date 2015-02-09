@@ -1,15 +1,19 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{PaymentModel, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
+import models.PaymentModel
+import models.VehicleAndKeeperLookupFormModel
+import models.VehicleLookupFailureViewModel
 import play.api.Logger
-import play.api.mvc.{Result, _}
+import play.api.mvc.Result
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.VehicleLookup._
-import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveService}
+import webserviceclients.paymentsolve.PaymentSolveCancelRequest
+import webserviceclients.paymentsolve.PaymentSolveService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

@@ -2,24 +2,28 @@ package controllers
 
 import audit1._
 import com.google.inject.Inject
-import models.{BusinessDetailsModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperLookupFormModel}
+import models._
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
-import play.api.mvc.{Result, _}
+import play.api.mvc.Result
+import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
-import views.vrm_retention.Confirm.KeeperEmailCacheKey
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.vrmretentionretain.{VRMRetentionRetainRequest, VRMRetentionRetainService}
+import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
+import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -84,7 +88,7 @@ final class Retain @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
         retentionCertId = Some(certificateNumber)))
@@ -94,7 +98,7 @@ final class Retain @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
         retentionCertId = Some(certificateNumber)))
@@ -109,7 +113,6 @@ final class Retain @Inject()(
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
         s" redirect to VehicleLookupFailure")
-
       var paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
@@ -119,7 +122,7 @@ final class Retain @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
         rejectionCode = Some(responseCode)))
@@ -129,7 +132,7 @@ final class Retain @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
         rejectionCode = Some(responseCode)))

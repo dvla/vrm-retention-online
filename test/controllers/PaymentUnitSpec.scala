@@ -29,7 +29,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -46,7 +46,7 @@ final class PaymentUnitSpec extends UnitSpec {
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -64,7 +64,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -142,7 +142,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -159,7 +159,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           eligibilityModel()
         )
       val result = payment.getWebPayment(request)
@@ -175,7 +175,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -195,7 +195,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -215,7 +215,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -242,7 +242,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           eligibilityModel()
         )
       val result = paymentCancelValidated.cancel(request)
@@ -258,7 +258,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -276,7 +276,7 @@ final class PaymentUnitSpec extends UnitSpec {
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
-          keeperEmail(),
+          confirmFormModel(),
           paymentModel(),
           eligibilityModel()
         )
@@ -311,7 +311,7 @@ final class PaymentUnitSpec extends UnitSpec {
         paymentTransNo(),
         vehicleAndKeeperLookupFormModel(),
         vehicleAndKeeperDetailsModel(),
-        keeperEmail(),
+        confirmFormModel(),
         paymentModel(),
         eligibilityModel()
       )

@@ -4,13 +4,23 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
+import org.scalatest.concurrent.Eventually
+import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
-import pages.vrm_retention.ConfirmPage.exitPath
-import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, VehicleLookupPage, _}
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.ConfirmPage
+import pages.vrm_retention.ConfirmPage.`don't supply keeper email`
+import pages.vrm_retention.ConfirmPage.`supply keeper email`
+import pages.vrm_retention.ConfirmPage.isKeeperEmailHidden
+import pages.vrm_retention.VehicleLookupPage
+import pages.vrm_retention._
+import views.vrm_retention.Confirm.ConfirmCacheKey
 
-final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
+final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
   "go to page" should {
 
@@ -31,6 +41,47 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").size > 0 should equal(true)
     }
+
+    // [SW] tests commented out as we need Ops to add a line to the build scripts to install phantom-js
+//    "not display the keeper email field when neither yes or no has been selected on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+//      go to BeforeYouStartPage
+//
+//      cacheSetup()
+//
+//      go to ConfirmPage
+//
+//      eventually {
+//        isKeeperEmailHidden should equal(true)
+//      }
+//    }
+//
+//    "not display the keeper email field when I click no on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+//      go to BeforeYouStartPage
+//
+//      cacheSetup()
+//
+//      go to ConfirmPage
+//
+//      click on `don't supply keeper email`
+//
+//      eventually {
+//        isKeeperEmailHidden should equal(true)
+//      }
+//    }
+//
+//    "display the keeper email field when I click yes on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+//      go to BeforeYouStartPage
+//
+//      cacheSetup()
+//
+//      go to ConfirmPage
+//
+//      click on `supply keeper email`
+//
+//      eventually {
+//        isKeeperEmailHidden should equal(false)
+//      }
+//    }
   }
 
   //  "confirm button" should {
@@ -49,12 +100,22 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheSetup()
+      go to ConfirmPage
 
-      exitPath
+      click on ConfirmPage.exit
 
       currentUrl should equal(LeaveFeedbackPage.url)
+    }
+
+    "delete the Confirm cookie" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup().confirmFormModel()
+      go to ConfirmPage
+
+      click on ConfirmPage.exit
+
+      webDriver.manage().getCookieNamed(ConfirmCacheKey) should equal(null)
     }
   }
 
@@ -63,11 +124,11 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness {
     "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-      go to ConfirmBusinessPage
+      go to ConfirmPage
 
       click on back
 
-      currentUrl should equal(SetupBusinessDetailsPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 

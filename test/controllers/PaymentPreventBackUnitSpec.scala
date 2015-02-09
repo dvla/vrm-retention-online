@@ -46,7 +46,7 @@ final class PaymentPreventBackUnitSpec extends UnitSpec {
         paymentTransNo(),
         vehicleAndKeeperLookupFormModel(),
         vehicleAndKeeperDetailsModel(),
-        keeperEmail(),
+        confirmFormModel(),
         paymentModel(),
         eligibilityModel()
       )

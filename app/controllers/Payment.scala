@@ -5,14 +5,18 @@ import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
 import play.api.Logger
-import play.api.mvc.{Action, Controller, Request, Result}
+import play.api.mvc.Action
+import play.api.mvc.Controller
+import play.api.mvc.Request
+import play.api.mvc.Result
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_retention.Confirm._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
@@ -93,7 +97,7 @@ final class Payment @Inject()(
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      keeperEmail = None,
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
       rejectionCode = Some(message)))
@@ -103,7 +107,7 @@ final class Payment @Inject()(
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
       rejectionCode = Some(message)))
@@ -157,7 +161,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel)))
       auditService2.send(AuditRequest.from(
@@ -166,7 +170,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel)))
 
@@ -230,7 +234,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToExit,
@@ -238,7 +242,7 @@ final class Payment @Inject()(
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getString(KeeperEmailCacheKey),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
       redirectToLeaveFeedback

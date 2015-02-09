@@ -29,7 +29,6 @@ trait TestComposition extends Composition {
       new BruteForcePreventionServiceBinding,
       new LoggerLikeBinding,
       new PdfServiceBinding,
-      new EmailServiceBinding,
       new VrmRetentionRetainServiceBinding,
       new SessionFactoryBinding,
       new CookieFlagsBinding,
@@ -46,7 +45,8 @@ trait TestComposition extends Composition {
       new TestRefererFromHeader,
       new audit1.AuditLocalService,
       new audit2.AuditServiceDoesNothing,
-      new AuditMicroServiceCallNotOk
+      new AuditMicroServiceCallNotOk,
+      new TestEmailService
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
