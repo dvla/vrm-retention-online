@@ -43,32 +43,33 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
     }
 
     // [SW] tests commented out as they rely on waiting for javascript to execute. We need a proper javascript testing framework to test these!
-//    "not display the keeper email field when neither yes or no has been selected on the supply email field" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//
-//      cacheSetup()
-//
-//      go to ConfirmPage
-//
-//      eventually {
-//        isKeeperEmailHidden should equal(true)
-//      }
-//    }
-//
-//    "not display the keeper email field when I click no on the supply email field" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//
-//      cacheSetup()
-//
-//      go to ConfirmPage
-//
-//      click on `don't supply keeper email`
-//      wait(5000)
-//
-//      isKeeperEmailHidden should equal(true)
-//    }
+    "not display the keeper email field when neither yes or no has been selected on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+      go to BeforeYouStartPage
 
-    "display the keeper email field when I click yes on the supply email field" taggedAs UiTag in new WebBrowserForSelenium {
+      cacheSetup()
+
+      go to ConfirmPage
+
+      eventually {
+        isKeeperEmailHidden should equal(true)
+      }
+    }
+
+    "not display the keeper email field when I click no on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+      go to BeforeYouStartPage
+
+      cacheSetup()
+
+      go to ConfirmPage
+
+      click on `don't supply keeper email`
+
+      eventually {
+        isKeeperEmailHidden should equal(true)
+      }
+    }
+
+    "display the keeper email field when I click yes on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
 
       cacheSetup()
@@ -77,7 +78,9 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
 
       click on `supply keeper email`
 
-      isKeeperEmailHidden should equal(false)
+      eventually {
+        isKeeperEmailHidden should equal(false)
+      }
     }
   }
 
