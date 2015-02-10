@@ -24,7 +24,7 @@ publishTo <<= version { v: String =>
 
 name := "vrm-retention-online"
 
-version := "1.7"
+version := "1.8-SNAPSHOT"
 
 organization := organisationString
 
