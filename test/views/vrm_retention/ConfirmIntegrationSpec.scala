@@ -121,7 +121,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
 
   "back button" should {
 
-    "redirect to SetUpBusinessDetails page" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to VehicleLookupPage page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmPage
