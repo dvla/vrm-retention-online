@@ -36,11 +36,13 @@ isKeeper: Boolean)(implicit lang: Lang)
     @Messages("email.line12")
 }
 @Messages("email.line13")
-@businessDetailsModel.map { businessDetails =>
-    @Messages("email.line14")
-    @businessDetails.name
-    @businessAddress
-    @businessDetails.email
+@if(!isKeeper) {
+    @businessDetailsModel.map { businessDetails =>
+        @Messages("email.line14")
+        @businessDetails.name
+        @businessAddress
+        @businessDetails.email
+    }
 }
 @Messages("email.line20")
 @keeperName

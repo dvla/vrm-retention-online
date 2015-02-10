@@ -212,22 +212,23 @@ govUkContentId: String)(implicit lang: Lang)
                         <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line13")</h1>
 
-                        @businessDetailsModel.map { businessDetails =>
-                            <div class="twoThirds" style="width : 66 % ; float : left ;">
-                                <div style="padding : 5 px ;">
-                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                    @Messages("email.line14")</p>
+                        @if(!isKeeper) {
+                            @businessDetailsModel.map { businessDetails =>
+                                <div class="twoThirds" style="width : 66 % ; float : left ;">
+                                    <div style="padding : 5 px ;">
+                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                        @Messages("email.line14")</p>
 
-                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                        <strong>@businessDetails.name</strong><br/>
-                                        @businessAddress <br>
-                                    </p>
+                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                            <strong>@businessDetails.name</strong><br/>
+                                            @businessAddress <br>
+                                        </p>
 
-                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@businessDetails.email</p>
+                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@businessDetails.email</p>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
-
 
                         <div class="oneThird" style="width: 33%; float: left;">
                             <div style="border-left : 3px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px;">
