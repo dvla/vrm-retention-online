@@ -97,7 +97,7 @@ final class Payment @Inject()(
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      keeperEmail = None,
+      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
       rejectionCode = Some(message)))
