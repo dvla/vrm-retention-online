@@ -3,7 +3,7 @@ package controllers
 import java.io.ByteArrayInputStream
 
 import com.google.inject.Inject
-import email.EmailService
+import email.RetainEmailService
 import models._
 import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
@@ -29,7 +29,7 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 final class SuccessPayment @Inject()(pdfService: PdfService,
-                                     emailService: EmailService,
+                                     emailService: RetainEmailService,
                                      dateService: DateService,
                                      paymentSolveService: PaymentSolveService)
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -160,7 +160,6 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       eligibilityModel = EligibilityModel(replacementVRM = "stub-replacementVRM"),
       retainModel = RetainModel(certificateNumber = "stub-certificateNumber", transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
-      htmlEmail = new HtmlEmail(),
       confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"), supplyEmail = SupplyEmail_true)),
       businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
       isKeeper = true

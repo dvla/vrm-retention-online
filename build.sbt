@@ -9,6 +9,7 @@ import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionEligibility
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionRetain
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
@@ -128,6 +129,7 @@ lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.8").disable
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.7").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 //lazy val auditProject = audit("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val emailServiceProject = emailService("0.1-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 
 SandboxSettings.portOffset := 18000
 
@@ -140,6 +142,8 @@ SandboxSettings.osAddressLookupProject := osAddressLookupProject
 SandboxSettings.vehicleAndKeeperLookupProject := vehicleAndKeeperLookupProject
 
 SandboxSettings.paymentSolveProject := paymentSolveProject
+
+SandboxSettings.emailServiceProject := emailServiceProject
 
 SandboxSettings.vrmRetentionEligibilityProject := vrmRetentionEligibilityProject
 
@@ -156,6 +160,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runPaymentSolve.value
   Tasks.runVrmRetentionEligibility.value
   Tasks.runVrmRetentionRetain.value
+  Tasks.runEmailService.value
 //  Tasks.runAudit.value // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
 }
 

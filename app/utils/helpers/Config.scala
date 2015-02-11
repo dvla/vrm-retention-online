@@ -20,6 +20,9 @@ trait Config {
 
   def paymentSolveMsRequestTimeout: Int
 
+  def emailServiceMicroServiceUrlBase: String
+  def emailServiceMsRequestTimeout: Int
+
   // Ordnance survey config
   def ordnanceSurveyUseUprn: Boolean
 
@@ -48,18 +51,7 @@ trait Config {
   def rabbitmqVirtualHost: String
 
   // Email Service
-  def emailSmtpHost: String
-
-  def emailSmtpPort: Int
-
-  def emailSmtpTls: Boolean
-
-  def emailSmtpUser: String
-
-  def emailSmtpPassword: String
-
   def emailWhitelist: Option[List[String]]
-
   def emailSenderAddress: String
 
   // Cookie flags

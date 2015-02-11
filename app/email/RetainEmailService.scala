@@ -5,7 +5,7 @@ import org.apache.commons.mail.HtmlEmail
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
-trait EmailService {
+trait RetainEmailService {
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -20,7 +20,6 @@ trait EmailService {
                   eligibilityModel: EligibilityModel,
                   retainModel: RetainModel,
                   transactionId: String,
-                  htmlEmail: HtmlEmail,
                   confirmFormModel: Option[ConfirmFormModel],
                   businessDetailsModel: Option[BusinessDetailsModel],
                   isKeeper: Boolean): HtmlFormat.Appendable

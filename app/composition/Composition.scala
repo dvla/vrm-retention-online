@@ -4,6 +4,7 @@ import com.google.inject.Guice
 import composition.webserviceclients.addresslookup.AddressServiceBinding
 import composition.webserviceclients.audit2.{AuditMicroServiceBinding, AuditServiceBinding}
 import composition.webserviceclients.bruteforceprevention.{BruteForcePreventionServiceBinding, BruteForcePreventionWebServiceBinding}
+import composition.webserviceclients.emailservice.{EmailServiceWebServiceBinding, EmailServiceBinding}
 import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, PaymentWebServiceBinding, RefererFromHeaderBinding}
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
 import composition.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityServiceBinding, VRMRetentionEligibilityWebServiceBinding}
@@ -43,7 +44,9 @@ trait Composition {
     new CookieFlagsBinding,
     new LoggerLikeBinding,
     new PdfServiceBinding,
+    new RetainEmailServiceBinding,
     new EmailServiceBinding,
+    new EmailServiceWebServiceBinding,
     new composition.audit1.AuditServiceBinding,
     new AuditMicroServiceBinding,
     new SessionFactoryBinding

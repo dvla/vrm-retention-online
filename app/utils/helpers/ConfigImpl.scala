@@ -1,6 +1,7 @@
 package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 
 import scala.concurrent.duration.DurationInt
 
@@ -61,16 +62,6 @@ class ConfigImpl extends Config {
 
   override def rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
 
-  override def emailSmtpHost: String = getOptionalProperty[String]("smtp.host").getOrElse("")
-
-  override def emailSmtpPort: Int = getOptionalProperty[Int]("smtp.port").getOrElse(25)
-
-  override def emailSmtpTls: Boolean = getOptionalProperty[Boolean]("smtp.tls").getOrElse(true)
-
-  override def emailSmtpUser: String = getOptionalProperty[String]("smtp.user").getOrElse("")
-
-  override def emailSmtpPassword: String = getOptionalProperty[String]("smtp.password").getOrElse("")
-
   override def emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
 
   override def emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
@@ -82,4 +73,9 @@ class ConfigImpl extends Config {
   override def auditMicroServiceUrlBase: String = getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
 
   override def auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+
+  // Email microservice
+  override val emailServiceMicroServiceUrlBase: String = getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse("NOT FOUND")
+  override val emailServiceMsRequestTimeout: Int = getOptionalProperty[Int]("emailService.ms.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+
 }

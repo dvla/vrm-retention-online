@@ -1,9 +1,11 @@
 package email
 
+import java.io.{FileInputStream, File}
 import javax.activation.{CommandMap, MailcapCommandMap}
 
 import com.google.inject.Inject
 import models._
+import org.apache.commons.codec.binary.Base64
 import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
 import play.api.Play.current
@@ -14,17 +16,18 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.html.vrm_retention.{email_with_html, email_without_html}
+import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.control.NonFatal
 
-final class EmailServiceImpl @Inject()(
-                                        dateService: DateService,
-                                        pdfService: PdfService,
-
-                                        config2: Config) extends EmailService {
+final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
+                                             dateService: DateService,
+                                             pdfService: PdfService,
+                                             config2: Config) extends RetainEmailService {
 
   private val from = From(email = config2.emailSenderAddress, name = "DO NOT REPLY")
-  private val govUkUrl = Play.resource(name = "public/images/gov-uk-email.png")
+  private val crownImage = Some("gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -40,52 +43,30 @@ final class EmailServiceImpl @Inject()(
 
       pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
         pdf =>
-          // the below is required to avoid javax.activation.UnsupportedDataTypeException: no object DCH for MIME type multipart/mixed
-          val mc = new MailcapCommandMap()
-          mc.addMailcap("text/html;; x-java-content-handler=com.sun.mail.handlers.text_html")
-          mc.addMailcap("text/xml;; x-java-content-handler=com.sun.mail.handlers.text_xml")
-          mc.addMailcap("text/plain;; x-java-content-handler=com.sun.mail.handlers.text_plain")
-          mc.addMailcap("multipart/*;; x-java-content-handler=com.sun.mail.handlers.multipart_mixed")
-          mc.addMailcap("message/rfc822;; x-java-content-handler=com.sun.mail.handlers.message_rfc822")
-          CommandMap.setDefaultCommandMap(mc)
 
-          val commonsMail: Email = {
-            val htmlEmail = new HtmlEmail()
-            val pdfAttachment = Attachment(
-              bytes = pdf,
-              contentType = "application/pdf",
-              filename = "eV948.pdf",
-              description = "Replacement registration number letter of authorisation"
-            )
-            val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
-            val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, htmlEmail, confirmFormModel, businessDetailsModel, isKeeper).toString()
-            val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
+          val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
+          val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
+          val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
 
-            htmlEmail.
-              setTextMsg(plainTextMessage).
-              setHtmlMsg(message)
-
-            htmlEmail.setCharset("UTF-8")
-
-            if (isKeeper) {
-              // US1589: Do not send keeper a pdf
+          val attachment: Option[Attachment] = {
+            isKeeper match {
+              case false =>
+                Some(new Attachment(Base64.encodeBase64URLSafeString(pdf), "application/pdf", "eV948.pdf", "Replacement registration number letter of authorisation"))
+              case true => None
             }
-            else {
-              htmlEmail.attach(pdfAttachment.bytes, pdfAttachment.filename, pdfAttachment.description)
-            }
+          } // US1589: Do not send keeper a pdf
 
-            htmlEmail.setFrom(from.email, from.name).
-              setSubject(subject).
-              setStartTLSEnabled(config2.emailSmtpTls).
-              addTo(emailAddress)
+          val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
+
+          emailService.invoke(emailServiceSendRequest).map {
+            response =>
+              if (isKeeper) Logger.debug("Keeper email sent")
+              else Logger.debug("Non-keeper email sent")
+          }.recover {
+            case NonFatal(e) =>
+              Logger.error(s"Email Service web service call failed. Exception " + e.toString)
           }
 
-          commonsMail.setHostName(config2.emailSmtpHost)
-          commonsMail.setSmtpPort(config2.emailSmtpPort)
-          commonsMail.setAuthentication(config2.emailSmtpUser, config2.emailSmtpPassword)
-          commonsMail.send()
-          if (isKeeper) Logger.debug("Email sent to keeper")
-          else Logger.debug("Email sent to non-keeper")
       }
     } else {
       Logger.error("Email not sent as not in whitelist")
@@ -96,14 +77,20 @@ final class EmailServiceImpl @Inject()(
                            eligibilityModel: EligibilityModel,
                            retainModel: RetainModel,
                            transactionId: String,
-                           htmlEmail: HtmlEmail,
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
                            isKeeper: Boolean): HtmlFormat.Appendable = {
-    val govUkContentId = govUkUrl match {
-      case Some(url) => "cid:" + htmlEmail.embed(url, "gov-uk.png") // Content-id is randomly generated https://commons.apache.org/proper/commons-email/apidocs/org/apache/commons/mail/HtmlEmail.html#embed%28java.net.URL,%20java.lang.String%29
+
+    val crownContentId = crownImage match {
+      case Some(filename) =>
+        val file = new File(filename)
+        val imageInFile = new FileInputStream(file)
+        val imageData = Array.ofDim[Byte](file.length.toInt)
+        imageInFile.read(imageData)
+        "data:image/png;base64," + Base64.encodeBase64String(imageData)
       case _ => ""
     }
+
     email_with_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = retainModel.certificateNumber,
@@ -117,7 +104,7 @@ final class EmailServiceImpl @Inject()(
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
       isKeeper = isKeeper,
-      govUkContentId = govUkContentId
+      crownContentId = crownContentId
     )
   }
 

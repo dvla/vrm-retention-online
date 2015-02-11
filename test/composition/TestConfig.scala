@@ -18,7 +18,8 @@ final class TestConfig(
                         cookieMaxAge: Int = 30.minutes.toSeconds.toInt,
                         storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
                         auditMicroServiceUrlBase: String = "http://somewhere-in-audit-micro-service-land",
-                        paymentSolveMicroServiceUrlBase: String = "NOT FOUND"
+                        paymentSolveMicroServiceUrlBase: String = "NOT FOUND",
+                        emailServiceMicroServiceUrlBase: String = "NOT FOUND"
                         ) extends ScalaModule with MockitoSugar {
 
   val notFound = "NOT FOUND"
@@ -48,11 +49,6 @@ final class TestConfig(
     when(config.rabbitmqPort).thenReturn(rabbitmqPort)
     when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
 
-
-    when(config.emailSmtpHost).thenReturn(notFound)
-    when(config.emailSmtpTls).thenReturn(true)
-    when(config.emailSmtpUser).thenReturn(notFound)
-    when(config.emailSmtpPassword).thenReturn(notFound)
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(notFound)
 
@@ -71,6 +67,9 @@ final class TestConfig(
     when(config.channelCode).thenReturn("test-channelCode")
     when(config.contactId).thenReturn(42)
     when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
+
+    when(config.emailServiceMicroServiceUrlBase).thenReturn(emailServiceMicroServiceUrlBase)
+    when(config.emailServiceMsRequestTimeout).thenReturn(30000)
 
     config
   }
