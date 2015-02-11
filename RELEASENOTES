@@ -1,0 +1,13 @@
+======= 1.7 ======
+Time of release binaries creation:
+Tue Feb 10 2015 13:25:18 GMT+0000 (GMT)
+
+User stories:
+97a28bb Set dependencies to release versions
+9ff7d0b Fix: logic for not showing when not the Keeper but business details cookie existed
+c8edac4 Fix: logic for not showing when not the Keeper but business details cookie existed
+293c2bf Fix: flip message for keeper/business receiving pdf
+b4ffc70 Fix: corrected title of test
+f44a2b7 Fix: add missing fetching of email
+56e51de Refactor: remove dead code that did nothing
+31cf09d New development version 1.7-SNAPSHOT

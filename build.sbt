@@ -24,7 +24,7 @@ publishTo <<= version { v: String =>
 
 name := "vrm-retention-online"
 
-version := "1.6-SNAPSHOT"
+version := "1.8-SNAPSHOT"
 
 organization := organisationString
 
@@ -68,8 +68,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.13-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.13-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.13.1" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.13.1" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -121,11 +121,11 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.10-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.6-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.7-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.9-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.9").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.5").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.6").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.8").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.7").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 //lazy val auditProject = audit("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 

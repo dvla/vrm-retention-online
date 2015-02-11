@@ -289,16 +289,13 @@ final class PaymentUnitSpec extends UnitSpec {
   }
 
   "callback" should {
-    "should return OK" in new WithApplication {
+    "should redirect" in new WithApplication {
       val result = payment.callback("stub token")(FakeRequest())
-      whenReady(result) { r =>
-        r.header.status should equal(OK)
-      }
-    }
 
-    "have title" in new WithApplication {
-      val result = payment.callback("stub token")(FakeRequest())
-      contentAsString(result) should include(PaymentCallbackPage.title)
+      whenReady(result) { r =>
+        r.header.status should equal(SEE_OTHER)
+        r.header.headers.get(LOCATION) should equal(Some(controllers.routes.Payment.getWebPayment().url))
+      }
     }
   }
 

@@ -56,7 +56,7 @@ final class EmailServiceImplSpec extends UnitSpec {
         htmlEmail = htmlEmail,
         confirmFormModel = confirmFormModel,
         businessDetailsModel = businessDetailsModel,
-        isKeeper = true
+        isKeeper = false
       )
 
       result.toString should include(vehicleAndKeeperDetails.registrationNumber)
@@ -78,7 +78,7 @@ final class EmailServiceImplSpec extends UnitSpec {
         htmlEmail = htmlEmail,
         confirmFormModel = confirmFormModel,
         businessDetailsModel = None,
-        isKeeper = false
+        isKeeper = true
       )
 
       result.toString should include(vehicleAndKeeperDetails.registrationNumber)
