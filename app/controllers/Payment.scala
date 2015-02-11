@@ -65,7 +65,7 @@ final class Payment @Inject()(
 
   // The token is checked in the common project, we do nothing with it here.
   def callback(token: String) = Action { implicit request =>
-    Ok(views.html.vrm_retention.payment_callback_interstitial())
+    Redirect(routes.Payment.getWebPayment())
   }
 
   def getWebPayment = Action.async { implicit request =>
