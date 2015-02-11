@@ -117,7 +117,10 @@ require.config({
 
 require(["jquery", "jquery-migrate"],function($) {
 
-    if (!window.console) console = {log: function() {}};
+    if (!window.console) {var console = {};}
+    if (!console.log) {console.log = function() {};}
+    if (!console.debug) {console.debug = function() {};}
+    if (!console.error) {console.error = function() {};}
 
     function onLoadConditionalDisplay(id, isDisplayed) {
         var element = $('#' + id);
@@ -136,7 +139,7 @@ require(["jquery", "jquery-migrate"],function($) {
     function onEventChangeDisplay(idOfClickable, idOfDisplayable, isDisplayed) {
         $('#' + idOfClickable).click(function() {
             var elementOfDisplayable = $('#' + idOfDisplayable );
-            console.debug("onEventChangeDisplay addEventListener so on event change id: " + idOfDisplayable + " isDisplayed: " + isDisplayed);
+            /*console.debug("onEventChangeDisplay addEventListener so on event change id: " + idOfDisplayable + " isDisplayed: " + isDisplayed);*/
             if (isDisplayed) {
                 elementOfDisplayable.slideDown();
             } else {
