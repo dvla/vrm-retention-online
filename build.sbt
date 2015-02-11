@@ -25,7 +25,7 @@ publishTo <<= version { v: String =>
 
 name := "vrm-retention-online"
 
-version := "1.7-SNAPSHOT"
+version := "1.8-SNAPSHOT"
 
 organization := organisationString
 
@@ -69,8 +69,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.13-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.13-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.13.1" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.13.1" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service

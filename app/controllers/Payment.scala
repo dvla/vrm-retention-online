@@ -65,7 +65,7 @@ final class Payment @Inject()(
 
   // The token is checked in the common project, we do nothing with it here.
   def callback(token: String) = Action { implicit request =>
-    Ok(views.html.vrm_retention.payment_callback_interstitial())
+    Redirect(routes.Payment.getWebPayment())
   }
 
   def getWebPayment = Action.async { implicit request =>
@@ -97,7 +97,7 @@ final class Payment @Inject()(
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      keeperEmail = None,
+      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
       paymentModel = request.cookies.getModel[PaymentModel],
       rejectionCode = Some(message)))

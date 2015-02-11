@@ -51,10 +51,6 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap { confirm =>
           if (confirm.supplyEmail == SupplyEmail_true) confirm.keeperEmail else None
         }
-        request.cookies.getModel[ConfirmFormModel] match {
-          case Some(confirm) if confirm.supplyEmail == SupplyEmail_true =>
-          case _ =>
-        }
 
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
