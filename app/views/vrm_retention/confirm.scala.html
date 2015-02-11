@@ -106,10 +106,47 @@
     </script>
 }
 
-<script src="@routes.Assets.at("lib/vehicles-presentation-common/javascripts/on-event-change-display.js")" type="text/javascript"></script>
 
 <script type="text/javascript">
+require.config({
+    paths: {
+    'jquery': 'lib/jquery/jquery-1.9.1',
+    'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min'
+    }
+});
+
+require(["jquery", "jquery-migrate"],function($) {
+
+    function onLoadConditionalDisplay(id, isDisplayed) {
+        var element = $('#' + id);
+        if (isDisplayed) {
+            element.show();
+        } else {
+            element.hide();
+        }
+    }
+
+    /*
+     * Display a field that fires when the link or button is clicked.
+     *
+     * ids - The ids of the links/buttons you want to track.
+     */
+    function onEventChangeDisplay(idOfClickable, idOfDisplayable, isDisplayed) {
+        $('#' + idOfClickable).click(function() {
+            var elementOfDisplayable = $('#' + idOfDisplayable );
+            console.debug("onEventChangeDisplay addEventListener so on event change id: " + idOfDisplayable + " isDisplayed: " + isDisplayed);
+            if (isDisplayed) {
+                elementOfDisplayable.slideDown();
+            } else {
+                elementOfDisplayable.slideUp();
+            }
+        });
+    }
+
     onLoadConditionalDisplay('@KeeperEmailWrapper', @isKeeperEmailDisplayedOnLoad);
-    onEventChangeDisplay('click', '@{s"${SupplyEmailId}_${SupplyEmail_true}"}', '@KeeperEmailWrapper', 'inherit');
-    onEventChangeDisplay('click', '@{s"${SupplyEmailId}_${SupplyEmail_false}"}', '@KeeperEmailWrapper', 'none');
+    onEventChangeDisplay('@{s"${SupplyEmailId}_${SupplyEmail_true}"}', '@KeeperEmailWrapper', true);
+    onEventChangeDisplay('@{s"${SupplyEmailId}_${SupplyEmail_false}"}', '@KeeperEmailWrapper', false);
+
+});
+
 </script>
