@@ -117,11 +117,6 @@ require.config({
 
 require(["jquery", "jquery-migrate"],function($) {
 
-    if (!window.console) {var console = {};}
-    if (!console.log) {console.log = function() {};}
-    if (!console.debug) {console.debug = function() {};}
-    if (!console.error) {console.error = function() {};}
-
     function onLoadConditionalDisplay(id, isDisplayed) {
         var element = $('#' + id);
         if (isDisplayed) {
