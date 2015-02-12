@@ -1,7 +1,6 @@
 package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 
 import scala.concurrent.duration.DurationInt
 
@@ -78,4 +77,6 @@ class ConfigImpl extends Config {
   override val emailServiceMicroServiceUrlBase: String = getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse("NOT FOUND")
   override val emailServiceMsRequestTimeout: Int = getOptionalProperty[Int]("emailService.ms.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
+  override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
+  override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
 }

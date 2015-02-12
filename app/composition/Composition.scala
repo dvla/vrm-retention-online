@@ -9,6 +9,7 @@ import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, Paymen
 import composition.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperLookupServiceBinding, VehicleAndKeeperLookupWebServiceBinding}
 import composition.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityServiceBinding, VRMRetentionEligibilityWebServiceBinding}
 import composition.webserviceclients.vrmretentionretain.{VrmRetentionRetainServiceBinding, VrmRetentionRetainWebServiceBinding}
+import filters.ServiceOpenFilter
 import play.filters.gzip.GzipFilter
 import uk.gov.dvla.vehicles.presentation.common.filters.{AccessLoggingFilter, CsrfPreventionFilter, EnsureSessionCreatedFilter}
 import utils.helpers.ErrorStrategy
@@ -49,14 +50,16 @@ trait Composition {
     new EmailServiceWebServiceBinding,
     new composition.audit1.AuditServiceBinding,
     new AuditMicroServiceBinding,
-    new SessionFactoryBinding
+    new SessionFactoryBinding,
+    new DateTimeZoneServiceBinding
   )
 
   lazy val filters = Array(
     injector.getInstance(classOf[EnsureSessionCreatedFilter]),
     new GzipFilter(),
     injector.getInstance(classOf[AccessLoggingFilter]),
-    injector.getInstance(classOf[CsrfPreventionFilter])
+    injector.getInstance(classOf[CsrfPreventionFilter]),
+    injector.getInstance(classOf[ServiceOpenFilter])
   )
 
   lazy val errorStrategy = injector.getInstance(classOf[ErrorStrategy])

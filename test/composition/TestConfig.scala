@@ -71,6 +71,10 @@ final class TestConfig(
     when(config.emailServiceMicroServiceUrlBase).thenReturn(emailServiceMicroServiceUrlBase)
     when(config.emailServiceMsRequestTimeout).thenReturn(30000)
 
+    // Closing
+    when(config.opening).thenReturn(0)
+    when(config.closing).thenReturn(23)
+
     config
   }
 

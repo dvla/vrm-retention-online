@@ -80,4 +80,8 @@ trait Config {
   def contactId: Long
 
   def orgBusinessUnit: String
+
+  def opening: Int
+
+  def closing: Int
 }
