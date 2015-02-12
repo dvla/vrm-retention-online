@@ -1,13 +1,17 @@
-======= 1.7 ======
+======= 1.8 ======
 Time of release binaries creation:
-Tue Feb 10 2015 13:25:18 GMT+0000 (GMT)
+Thu Feb 12 2015 16:12:43 GMT+0000 (GMT)
 
-User stories:
-97a28bb Set dependencies to release versions
-9ff7d0b Fix: logic for not showing when not the Keeper but business details cookie existed
-c8edac4 Fix: logic for not showing when not the Keeper but business details cookie existed
-293c2bf Fix: flip message for keeper/business receiving pdf
-b4ffc70 Fix: corrected title of test
-f44a2b7 Fix: add missing fetching of email
-56e51de Refactor: remove dead code that did nothing
-31cf09d New development version 1.7-SNAPSHOT
+ee62858 DE318: we must not expect that Vehicle Lookup page repopulates as now we are wiping the cookie
+5715588 DE318: on reaching payment prevent page, wipe more cookies for safety to prevent any chance of the user manually typing a url to skip to success. Discard cookies (except cached business details) on arrival on Vehicle Lookup page
+343aefa US2460: Implement the opening times mechanism
+3a4c22d US2327: removed attempt to replace calls to console with empty function as even though it was a recommended way of doing it, it caused errors
+25c3c52 DE312: remove hint below radio with hint when no text is provided
+9978c2a US2327: comment out console.debug, but added more lines that should have worked to remove it on IE9
+4a10c42 Merge branch 'develop' into US2327
+bb21501 DE313: remove unused html, removed continue button from Payment noscript as the iframe should serve it
+f6b181f DE313: bypass the interstitial page
+7cb2d66 DE310: ie9 issue where console commands cause errors when debug window is not open
+9336049 DE310: using require-js and jQuery as jQuery is meant to have the compatibility issues sorted
+f7a9aab DE310: bump presentation common
+b079e3a New development version 1.8-SNAPSHOT
