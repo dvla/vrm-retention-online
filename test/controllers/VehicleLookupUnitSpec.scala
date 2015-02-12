@@ -40,15 +40,6 @@ final class VehicleLookupUnitSpec extends UnitSpec {
       present.futureValue.header.status should equal(play.api.http.Status.OK)
     }
 
-    "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel())
-      val result = vehicleLookupStubs().present(request)
-      val content = contentAsString(result)
-      content should include(ReferenceNumberValid)
-      content should include(RegistrationNumberValid)
-    }
-
     "display empty fields when cookie does not exist" in new WithApplication {
       val request = FakeRequest()
       val result = vehicleLookupStubs().present(request)
