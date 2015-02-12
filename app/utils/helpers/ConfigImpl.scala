@@ -82,4 +82,8 @@ class ConfigImpl extends Config {
   override def auditMicroServiceUrlBase: String = getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
 
   override def auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+
+  override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
+
+  override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
 }

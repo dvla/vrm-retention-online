@@ -696,3 +696,9 @@ cookie-policy-p48 = Welsh language
 cookie-policy-p49 = We log a cookie to remember the language you selected so you don't need to change it next time you visit.
 cookie-policy-p50 = Set to remember your language preference
 cookie-policy-p51 = 1 year
+
+# closed
+acquire.closed.title = Service Closed
+acquire.closed.p1 = The supporting systems for this service are currently unavailable.
+acquire.closed.p2 = The normal hours of operation are Monday to Saturday - {0} to {1}. Please complete your transaction during these hours.
+acquire.closed.exit_button = Exit

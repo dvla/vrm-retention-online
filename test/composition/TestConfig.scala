@@ -72,6 +72,10 @@ final class TestConfig(
     when(config.contactId).thenReturn(42)
     when(config.orgBusinessUnit).thenReturn("test-orgBusinessUnit")
 
+    // Closing
+    when(config.opening).thenReturn(0)
+    when(config.closing).thenReturn(23)
+
     config
   }
 
