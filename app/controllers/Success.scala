@@ -33,10 +33,11 @@ final class Success @Inject()(pdfService: PdfService,
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getModel[EligibilityModel],
-      request.cookies.getModel[RetainModel]) match {
+      request.cookies.getModel[RetainModel],
+      request.cookies.getModel[PaymentModel]) match {
 
       case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleAndKeeperDetails),
-      Some(eligibilityModel), Some(retainModel)) =>
+      Some(eligibilityModel), Some(retainModel), Some(_)) =>
 
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)

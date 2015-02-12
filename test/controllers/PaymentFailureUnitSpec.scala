@@ -40,11 +40,11 @@ final class PaymentFailureUnitSpec extends UnitSpec {
 
   "submit" should {
 
-    "redirect to BeforeYouStart page when VehicleAndKeeperLookupFormModel cookie not present" in new WithApplication {
+    "redirect to VehicleLookup page when VehicleAndKeeperLookupFormModel cookie not present" in new WithApplication {
       val request = FakeRequest()
       val result = paymentFailure.submit(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
