@@ -28,7 +28,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeep
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
 import views.vrm_retention.Payment._
-import views.vrm_retention.RelatedCacheKeys
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
@@ -60,7 +60,7 @@ final class VehicleLookup @Inject()(
 
   def present = Action { implicit request =>
     Ok(views.html.vrm_retention.vehicle_lookup(form.fill())).
-      discardingCookies(RelatedCacheKeys.VehicleAndKeeperLookupSet)
+      discardingCookies(removeCookiesOnExit)
   }
 
   def submit = Action.async { implicit request =>
