@@ -59,7 +59,7 @@ final class VehicleLookup @Inject()(
   )
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_retention.vehicle_lookup(form.fill())).
+    Ok(views.html.vrm_retention.vehicle_lookup(form)).
       discardingCookies(removeCookiesOnExit)
   }
 
