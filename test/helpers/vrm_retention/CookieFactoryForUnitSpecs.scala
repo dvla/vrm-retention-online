@@ -70,7 +70,11 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       title = title,
       firstName = firstName,
       lastName = lastName,
-      address = Some(addressViewModel))
+      address = Some(addressViewModel),
+      disposeFlag = None,
+      keeperEndDate = None,
+      suppressedV5Flag = None
+    )
     createCookie(key, value)
   }
 

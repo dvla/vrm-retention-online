@@ -194,7 +194,11 @@ object CookieFactoryForUISpecs {
       title = title,
       firstName = firstName,
       lastName = lastName,
-      address = Some(addressViewModel))
+      address = Some(addressViewModel),
+      disposeFlag = None,
+      keeperEndDate = None,
+      suppressedV5Flag = None
+    )
     addCookie(key, value)
     this
   }
