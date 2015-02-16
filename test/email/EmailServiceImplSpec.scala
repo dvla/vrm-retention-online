@@ -99,7 +99,10 @@ final class EmailServiceImplSpec extends UnitSpec {
     title = None,
     firstName = None,
     lastName = None,
-    address = None
+    address = None,
+    disposeFlag = None,
+    keeperEndDate = None,
+    suppressedV5Flag = None
   )
 
   private def eligibility = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)

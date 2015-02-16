@@ -56,7 +56,10 @@ object VehicleAndKeeperLookupWebServiceConstants {
     keeperAddressLine3 = KeeperAddressLine3Valid,
     keeperAddressLine4 = KeeperAddressLine4Valid,
     keeperPostTown = KeeperPostTownValid,
-    keeperPostcode = KeeperPostCodeValid
+    keeperPostcode = KeeperPostCodeValid,
+    disposeFlag = None,
+    keeperEndDate = None,
+    suppressedV5Flag = None
   )
 
   def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
