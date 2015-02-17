@@ -1,6 +1,7 @@
 package models
 
 import helpers.UnitSpec
+import org.joda.time.DateTime
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
@@ -23,7 +24,10 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
         keeperAddressLine3 = None,
         keeperAddressLine4 = None,
         keeperPostTown = Some("stub-keeperPostTown"),
-        keeperPostcode = Some("stub-keeperPostcode")
+        keeperPostcode = Some("stub-keeperPostcode"),
+        disposeFlag = None,
+        keeperEndDate = None,
+        suppressedV5Flag = None
       )
       VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto).title should equal(keeperTitle)
     }
@@ -42,7 +46,10 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
         keeperAddressLine3 = None,
         keeperAddressLine4 = None,
         keeperPostTown = Some("stub-keeperPostTown"),
-        keeperPostcode = Some("stub-keeperPostcode")
+        keeperPostcode = Some("stub-keeperPostcode"),
+        disposeFlag = None,
+        keeperEndDate = None,
+        suppressedV5Flag = None
       )
       val expected = Some("MR")
       VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto).title should equal(expected)
@@ -62,7 +69,10 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
         keeperAddressLine3 = None,
         keeperAddressLine4 = None,
         keeperPostTown = Some("stub-keeperPostTown"),
-        keeperPostcode = Some("stub-keeperPostcode")
+        keeperPostcode = Some("stub-keeperPostcode"),
+        disposeFlag = None,
+        keeperEndDate = None,
+        suppressedV5Flag = None
       )
       VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto).title should equal(keeperTitle)
     }
