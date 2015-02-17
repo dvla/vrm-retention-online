@@ -101,3 +101,4 @@ GET         /with-language/:chosenLanguage                 uk.gov.dvla.vehicles.
 GET         /cookie-policy                                 @controllers.CookiePolicy.present
 
 GET         /version                                       @controllers.Version.version
+GET         /closed-stub                                   @controllers.Closed.present
