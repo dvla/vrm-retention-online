@@ -2,6 +2,7 @@ package audit1
 
 import akka.actor.Actor
 import com.rabbitmq.client.Channel
+import com.rabbitmq.client.MessageProperties
 import uk.gov.dvla.auditing.Message
 
 class SendingActor(channel: Channel, queue: String) extends Actor {
@@ -10,7 +11,7 @@ class SendingActor(channel: Channel, queue: String) extends Actor {
     case auditMessage: Message =>
       //val message = auditMessage.toJson.getBytes // TODO cannot serailize because code needs scala 2.11 to compile, audit should be moved to a micro-service compiling with scala 2.11.
       val message = mungeToJson(auditMessage).getBytes // HACK
-      channel.basicPublish("", queue, null, message)
+      channel.basicPublish("", queue, MessageProperties.MINIMAL_PERSISTENT_BASIC, message)
     case _ =>
   }
 
