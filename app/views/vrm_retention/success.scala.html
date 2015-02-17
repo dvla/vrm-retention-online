@@ -74,22 +74,32 @@
 		<div class="first-col">
             @* Application details *@
 			<div class="playback">
-				<h2>Application details</h2>
-				<p>Transaction ID:</p>
+				<h2>@Messages("success-keeper-application-details")</h2>
+				<p>@Messages("success-keeper-application-details-transaction-id")</p>
 				<p><strong>@successViewModel.transactionId</strong></p>
+                <br/>
+				<p><strong>@Messages("success-keeper-application-details-contact-us")</strong></p>
+                <br/>
+                <p>@Messages("success-keeper-application-details-telephone")</p>
+                <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong></p>
+                <p><strong>@Messages("success-keeper-application-details-monday-to-saturday")</strong></p>
+                <p><strong>@Messages("success-keeper-application-details-sunday")</strong></p>
+                <p>@Messages("success-keeper-application-details-textphone")</p>
+                <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
 			</div>
 
             @* Keeper details *@
 			<div class="related">
-				<h2>Keeper details</h2>
+				<h2>@Messages("success-keeper-details")</h2>
 				<dl class="playback bg-plain">
-					<dt>Name:</dt>
+					<dt>@Messages("success-keeper-details-name")</dt>
 					<dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
-					<dt>Address:</dt>
+					<dt>@Messages("success-keeper-details-address")</dt>
 					<dd>
 						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
-							@keeperAddressLine<br>
-					  }
+							@keeperAddressLine<br/>
+					    }
+
 					</dd>
 				</dl>
 			</div>
