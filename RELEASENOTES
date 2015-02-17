@@ -1,6 +1,6 @@
 ======= 1.8.3 ======
 Time of release binaries creation:
-Tue Feb 17 2015 10:16:15 GMT+0000 (GMT)
+Tue Feb 17 2015 18:06:35 GMT+0000 (GMT)
 
 4a1b493 Set dependencies to release versions
 5495648 Fix: rabbit-mq persistance
