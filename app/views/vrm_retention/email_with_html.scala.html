@@ -10,7 +10,7 @@ keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
 isKeeper: Boolean,
-        crownContentId: String)(implicit lang: Lang)
+govUkContentId: String)(implicit lang: Lang)
 
 <!-- Inliner Build Version 4380b7741bb759d6cb997545f3add21ad48f010b -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -110,14 +110,17 @@ isKeeper: Boolean,
        bgcolor="#fff">
     <tr>
         <td id="GovUkContainer" class="spacing"
-            style="border-collapse: collapse; color: #fff; background: #000; padding: 0 30px;" bgcolor="#000">
+        style="border-collapse : collapse ; color : #fff ; background : #000 ; padding : 0 30 px ;" bgcolor="#000">
             <table style="border-collapse : collapse ; mso-table-lspace : 0 pt ; mso-table-rspace : 0 pt ;">
                 <tr>
-                    <td style="border-collapse : collapse ; font-size : 1.6 em ; padding : 20 px 0 ;"><img src="@crownContentId"
-                    width="35"
-                    height="31" alt="@Messages("crown-copyright")"
-                    style="outline : none ; text-decoration : none ; -ms-interpolation-mode : bicubic ; font-family : Helvetica, Arial, sans, sans-serif ;"/>
-                        <a href="http://www.gov.uk" style="color : white ; text-decoration : none ;">@Messages("gov-uk")</a>
+                    <td style="border-collapse : collapse ; font-size : 1.6 em ; padding : 20 px 0 ;">
+                        <a target="_blank" href="https://www.gov.uk/" style="color: white; text-decoration: none;">
+                            <img src="@govUkContentId"
+                            width="320"
+                            height="106" alt="@Messages("crown-copyright")"
+                            style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; font-family: Helvetica, Arial, sans, sans-serif;"
+                            />
+                        </a>
                     </td>
                 </tr>
             </table>
