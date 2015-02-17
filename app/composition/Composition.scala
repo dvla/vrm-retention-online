@@ -51,7 +51,8 @@ trait Composition {
     new composition.audit1.AuditServiceBinding,
     new AuditMicroServiceBinding,
     new SessionFactoryBinding,
-    new DateTimeZoneServiceBinding
+    new DateTimeZoneServiceBinding,
+    new HealthStatsBinding
   )
 
   lazy val filters = Array(
