@@ -564,6 +564,10 @@ vrm_retention_success.retainConf-p2 = has now been retained. Put the following r
 vrm_retention_success.makingUp-p1 = Making up the number plate for the replacement registration number
 vrm_retention_success.makingUp-p2 = The document below is available to download or print. You will need to have the number plate made up.
 vrm_retention_success.newPlateLink = Download eV948
+success-business-details = Business details
+success-business-details-name = Name:
+success-business-details-email = Email:
+success-business-details-address = Address:
 
 vrm_retention_success.noticePayment.h3 = Payment
 vrm_retention_success.noticePayment.p1 = Thank you for your payment, your credit/debit card has been charged.

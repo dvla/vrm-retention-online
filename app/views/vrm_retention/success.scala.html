@@ -72,11 +72,14 @@
 			</ul>
 		</div>
 		<div class="first-col">
+            @* Application details *@
 			<div class="playback">
 				<h2>Application details</h2>
 				<p>Transaction ID:</p>
 				<p><strong>@successViewModel.transactionId</strong></p>
 			</div>
+
+            @* Keeper details *@
 			<div class="related">
 				<h2>Keeper details</h2>
 				<dl class="playback bg-plain">
@@ -90,6 +93,26 @@
 					</dd>
 				</dl>
 			</div>
+
+            @* Business details *@
+            @if(!isKeeper) {
+                <div class="related">
+                    <h2>@Messages("success-business-details")</h2>
+                    <dl class="playback bg-plain">
+                        <dt>@Messages("success-business-details-name")</dt>
+                        <dd>@successViewModel.businessContact</dd>
+                        <dt>@Messages("success-business-details-email")</dt>
+                        <dd>@successViewModel.businessEmail</dd>
+                        <dt>@Messages("success-business-details-address")</dt>
+                        <dd>
+                        @successViewModel.businessName<br/>
+                        @for(keeperAddressLine <- successViewModel.businessAddress.get.address) {
+                            @keeperAddressLine<br/>
+                        }
+                        </dd>
+                    </dl>
+                </div>
+            }
 		</div>
 	</div>
 
