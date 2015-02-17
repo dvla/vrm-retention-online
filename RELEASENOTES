@@ -1,7 +1,8 @@
-======= 1.8.2 ======
+======= 1.8.3 ======
 Time of release binaries creation:
 Tue Feb 17 2015 10:16:15 GMT+0000 (GMT)
 
+4a1b493 Set dependencies to release versions
+5495648 Fix: rabbit-mq persistance
+7486181 RELEASENOTES 1.8.2
 319ed3c RELEASE 1.8.2
-c07707e US2467: Adjust Service Unavailable page wording for PR Services
-6a12179 DE299: email link needs to start with  h t t p protocol  otherwise instead of opening the link in a browser, OSX Mail client thinks the link is a resource attached to the email
