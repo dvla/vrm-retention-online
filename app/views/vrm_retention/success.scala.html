@@ -23,9 +23,11 @@
             <p>@Messages("vrm_retention_success.yourCert") <br /> <strong>@successViewModel.retentionCertificationNumber </strong></p>
             <div class="alert-warning"><h3>@Messages("success-cert-warning")</h3></div>
 
+            @Messages("success-replacement-registration-number") <span class="reg-number">@successViewModel.replacementRegistrationNumber</span>
+
 			@if(!isKeeper) {
 
-				<div class="info-highlight two-col">
+            <div class="info-highlight two-col">
 				<div class="second-col">
 					<h3>@Messages("vrm_retention_success_payment.p6")</h3>
 					<p>@Messages("vrm_retention_success_payment.p7")</p>

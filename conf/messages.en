@@ -556,6 +556,7 @@ vrm_retention_success.subtitle = Take a Registration Number off a Vehicle comple
 vrm_retention_success.replacementRegNumberLabel = Registration number
 vrm_retention_success.yourCert = Your Retention Certificate Number is:
 success-cert-warning = We strongly advise you to keep your certificate number confidential until the registration number is ready to be sold or assigned to a vehicle.
+success-replacement-registration-number = Your replacement Registration Number is:
 vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
 vrm_retention_success.replacementTitle = Your replacement registration number
 vrm_retention_success.retainConf-p1 = Your registration number
