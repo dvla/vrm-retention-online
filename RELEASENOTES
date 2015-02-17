@@ -1,6 +1,7 @@
-======= 1.8.1 ======
+======= 1.8.2 ======
 Time of release binaries creation:
-Mon Feb 16 2015 15:40:01 GMT+0000 (GMT)
+Tue Feb 17 2015 10:16:15 GMT+0000 (GMT)
 
-82795bc RELEASE 1.8.1
-1673f7f DE321: uplift PR rules for title being capitalised and only present for certain PACT codes
+319ed3c RELEASE 1.8.2
+c07707e US2467: Adjust Service Unavailable page wording for PR Services
+6a12179 DE299: email link needs to start with  h t t p protocol  otherwise instead of opening the link in a browser, OSX Mail client thinks the link is a resource attached to the email
