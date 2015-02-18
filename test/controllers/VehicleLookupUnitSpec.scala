@@ -311,7 +311,8 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         serviceType = "PR Retention",
         ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
         ("timestamp", dateService.dateTimeISOChronology),
-        ("rejectionCode", RecordMismatch)
+        ("rejectionCode", RecordMismatch),
+        ("currentVrm", RegistrationNumberWithSpaceValid)
       )
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookup.submit(request)
@@ -328,8 +329,12 @@ final class VehicleLookupUnitSpec extends UnitSpec {
         serviceType = "PR Retention",
         ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
         ("timestamp", dateService.dateTimeISOChronology),
-        ("rejectionCode", "PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch")
-      )
+        ("rejectionCode", "PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch"),
+        ("currentVrm", RegistrationNumberWithSpaceValid),
+        ("make", VehicleMakeValid.get),
+        ("model", VehicleModelValid.get),
+        ("keeperName", "MR DAVID JONES"),
+        ("keeperAddress", "1 HIGH STREET, SKEWEN, SWANSEA, SA1 1AA")      )
       val request = buildCorrectlyPopulatedRequest(postcode = PostcodeInvalid)
       val result = vehicleLookup.submit(request)
 

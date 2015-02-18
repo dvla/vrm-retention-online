@@ -19,8 +19,11 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.Lo
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleFound
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.VehicleNotFound
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber._
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
@@ -93,17 +96,33 @@ final class VehicleLookup @Inject()(
     vehicleAndKeeperLookupService.invoke(vehicleAndKeeperDetailsRequest, trackingId).map { response =>
       response.responseCode match {
         case Some(responseCode) =>
+
+          // need to record the current vrm from the form so put this into the
+          // vehicleAndKeeperDetailsModel
+          val vehicleAndKeeperDetailsModel = new VehicleAndKeeperDetailsModel(
+            registrationNumber = formatVrm(form.registrationNumber),
+            make = None,
+            model = None,
+            title = None,
+            firstName = None,
+            lastName = None,
+            address = None,
+            disposeFlag = None,
+            keeperEndDate = None,
+            suppressedV5Flag = None
+          )
+
           auditService1.send(AuditMessage.from(
             pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
             transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
             timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
             rejectionCode = Some(responseCode)))
           auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
             transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
             timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
             rejectionCode = Some(responseCode)))
 
           VehicleNotFound(responseCode.split(" - ")(1))
@@ -111,17 +130,19 @@ final class VehicleLookup @Inject()(
         case None =>
           response.vehicleAndKeeperDetailsDto match {
             case Some(dto) if !formatPostcode(form.postcode).equals(formatPostcode(dto.keeperPostcode.get)) =>
+              val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(dto)
+
               auditService1.send(AuditMessage.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
                 transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
                 timestamp = dateService.dateTimeISOChronology,
-                vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+                vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
                 rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
               auditService2.send(AuditRequest.from(
                 pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
                 transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
                 timestamp = dateService.dateTimeISOChronology,
-                vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+                vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
                 rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
 
               VehicleNotFound("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
