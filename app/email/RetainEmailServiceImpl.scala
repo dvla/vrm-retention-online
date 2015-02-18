@@ -42,7 +42,9 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
     if ((!config2.emailWhitelist.isDefined) || (config2.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
       Logger.debug("About to send email")
 
-      pdfService.create(eligibilityModel, transactionId, vehicleAndKeeperDetailsModel.firstName.getOrElse("") + " " + vehicleAndKeeperDetailsModel.lastName.getOrElse(""), vehicleAndKeeperDetailsModel.address).map {
+      val keeperName = Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).flatten.mkString(" ")
+
+      pdfService.create(eligibilityModel, transactionId, keeperName, vehicleAndKeeperDetailsModel.address).map {
         pdf =>
 
           val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)

@@ -118,10 +118,9 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       (request.cookies.getModel[EligibilityModel], request.cookies.getString(TransactionIdCacheKey),
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-          pdfService.create(eligibilityModel, transactionId,
-            vehicleAndKeeperDetails.title.getOrElse("") + " " +
-              vehicleAndKeeperDetails.firstName.getOrElse("") + " " +
-              vehicleAndKeeperDetails.lastName.getOrElse(""),
+          val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
+
+          pdfService.create(eligibilityModel, transactionId, keeperName,
             vehicleAndKeeperDetails.address).map {
             pdf =>
               val inputStream = new ByteArrayInputStream(pdf)
