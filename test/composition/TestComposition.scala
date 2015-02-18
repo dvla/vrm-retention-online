@@ -47,7 +47,8 @@ trait TestComposition extends Composition {
       new audit2.AuditServiceDoesNothing,
       new AuditMicroServiceCallNotOk,
       new TestEmailService,
-      new TestDateTimeZoneServiceBinding
+      new TestDateTimeZoneServiceBinding,
+      new HealthStatsBinding
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }

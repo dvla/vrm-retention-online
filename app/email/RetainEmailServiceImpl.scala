@@ -47,7 +47,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
           val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
           val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
-          val subject = Messages("email.email_service_impl.subject") + " " + vehicleAndKeeperDetailsModel.registrationNumber
+          val subject = vehicleAndKeeperDetailsModel.registrationNumber.replace(" ","") + " " + Messages("email.email_service_impl.subject") + " " + eligibilityModel.replacementVRM.replace(" ","")
 
           val attachment: Option[Attachment] = {
             isKeeper match {
