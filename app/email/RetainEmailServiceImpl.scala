@@ -2,7 +2,7 @@ package email
 
 import java.io.{FileInputStream, File}
 import javax.activation.{CommandMap, MailcapCommandMap}
-
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
 import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
@@ -37,9 +37,13 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                          transactionId: String,
                          confirmFormModel: Option[ConfirmFormModel],
                          businessDetailsModel: Option[BusinessDetailsModel],
-                         isKeeper: Boolean) {
+                         isKeeper: Boolean,
+                         trackingId: String) {
+
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
+
     if ((!config2.emailWhitelist.isDefined) || (config2.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+
       Logger.debug("About to send email")
 
       val keeperName = Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).flatten.mkString(" ")
@@ -61,7 +65,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
           val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
 
-          emailService.invoke(emailServiceSendRequest).map {
+          emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
               if (isKeeper) Logger.debug("Keeper email sent")
               else Logger.debug("Non-keeper email sent")

@@ -58,6 +58,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
+        val trackingId = request.cookies.trackingId()
+
         businessDetailsOpt.foreach {
           businessDetails =>
             emailService.sendEmail(
@@ -68,7 +70,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = false // US1589: Do not send keeper a pdf
+              isKeeper = false, // US1589: Do not send keeper a pdf
+              trackingId = trackingId
             )
         }
 
@@ -82,8 +85,9 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = true
-            )
+              isKeeper = true,
+              trackingId = trackingId
+          )
         }
 
         callUpdateWebPaymentService(paymentModel.trxRef.get, successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)

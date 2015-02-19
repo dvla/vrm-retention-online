@@ -14,7 +14,8 @@ trait RetainEmailService {
                 transactionId: String,
                 confirmFormModel: Option[ConfirmFormModel],
                 businessDetailsModel: Option[BusinessDetailsModel],
-                isKeeper: Boolean)
+                isKeeper: Boolean,
+                trackingId: String)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,
