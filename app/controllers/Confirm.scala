@@ -26,6 +26,7 @@ import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 
 final class Confirm @Inject()(
                                auditService1: audit1.AuditService,
@@ -49,7 +50,8 @@ final class Confirm @Inject()(
       // pre-populated with the previous customer's address.
       val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
       // always be hidden on first load
-      Ok(views.html.vrm_retention.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad))
+      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+      Ok(views.html.vrm_retention.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad, isKeeper))
     }
     val sadPath = Redirect(routes.VehicleLookup.present())
     happyPath.getOrElse(sadPath)
@@ -115,7 +117,8 @@ final class Confirm @Inject()(
       val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
       val updatedForm = formWithReplacedErrors(form)
       val isKeeperEmailDisplayedOnLoad = updatedForm.apply(SupplyEmailId).value == Some(SupplyEmail_true)
-      BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad))
+      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+      BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad, isKeeper))
     }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)

@@ -1,6 +1,7 @@
 @(confirmViewModel: models.ConfirmViewModel,
         confirmForm: Form[models.ConfirmFormModel],
-        isKeeperEmailDisplayedOnLoad: Boolean)(implicit lang: Lang,
+        isKeeperEmailDisplayedOnLoad: Boolean,
+        isKeeper: Boolean)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config2: utils.helpers.Config)
 
@@ -72,13 +73,13 @@
                         RadioWithHint(SupplyEmail_true, Messages("supply-email-true"), ""),
                         RadioWithHint(SupplyEmail_false, Messages("supply-email-false"), "")
                     ),
-                    args = Map.empty
+                    args = Map('_label -> {if(isKeeper) Messages("supply-email-keeper-acting") else Messages("supply-email-business-acting")})
                 )
 
                 <div id="@KeeperEmailWrapper">
                     @valtechInputText(confirmForm(KeeperEmailId),
                         hintText = {
-                            if(confirmViewModel.userType.equals("Keeper")) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
+                            if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
                         },
                         args = Map(
                             'NO_OPTIONAL_LABEL -> true,
