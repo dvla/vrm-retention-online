@@ -21,12 +21,12 @@
 			</div>
 
             <p>@Messages("vrm_retention_success.yourCert") <br /> <strong>@successViewModel.retentionCertificationNumber </strong></p>
+
             <div class="alert-warning"><h3>@Messages("success-cert-warning")</h3></div>
 
             @Messages("success-replacement-registration-number") <span class="reg-number">@successViewModel.replacementRegistrationNumber</span>
 
 			@if(!isKeeper) {
-
             <div class="info-highlight two-col">
 				<div class="second-col">
 					<h3>@Messages("vrm_retention_success_payment.p6")</h3>
@@ -131,7 +131,7 @@
 	  <div class="step">
 	    <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
 	    <br /><br />
-        <a id="@FinishId" href="@controllers.routes.Success.finish()">@Messages("vrm_retention_finish.button")</a>
+        <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">@Messages("vrm_retention_finish.button")</a>
 	  </div>
     </div>
 }

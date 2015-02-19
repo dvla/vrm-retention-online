@@ -186,10 +186,10 @@ dl {
 }
 
 a {
-    text-decoration: underline;
+    text-decoration: none;
     word-wrap: break-word;
     &:visited {
-        text-decoration: underline;
+        text-decoration: none;
         word-wrap: break-word;
     }
     /*
@@ -209,10 +209,6 @@ a {
 
 img {
     max-width: 100% !important;
-}
-
-.print-link {
-    display: none;
 }
 
 .first-col,
@@ -261,26 +257,26 @@ p.transaction-id {
     }
     margin:0;
 
-    .header-logo {
-        position: relative;
-        display: block;
-        //width: 166px;
-        //height:30px;
-        overflow: hidden;
-        a {
-            font-size:26pt;
-            font-weight:bold;
-            text-decoration:none;
-            &[href^="http://"]:after,
-            &[href^="https://"]:after {
-                content:'';
-            }
-
-        }
-        &:after {
-            display: none;
-        }
-    }
+//    .header-logo {
+//        position: relative;
+//        display: block;
+//        //width: 166px;
+//        //height:30px;
+//        overflow: hidden;
+//        a {
+//            font-size:26pt;
+//            font-weight:bold;
+//            text-decoration:none;
+//            &[href^="http://"]:after,
+//            &[href^="https://"]:after {
+//                content:'';
+//            }
+//
+//        }
+//        &:after {
+//            display: none;
+//        }
+//    }
     h1 {
         border:0 none;
     }
@@ -347,7 +343,8 @@ select {
 
 //hide specific elements/sections
 .print-message,
-.vehicles-online .prototype,
+.prototype,
+.global-header,
 .footer .footer-meta-inner,
 body .actions,
 .visuallyhidden,
@@ -372,6 +369,7 @@ button,
 .button-secondary,
 .button-not-implemented,
 .button-text,
+.exit,
 .pdf-link {
     display: none !important;
 }
