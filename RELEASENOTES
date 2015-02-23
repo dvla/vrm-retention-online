@@ -1,3 +1,65 @@
+======= 1.9 ======
+Time of release binaries creation:
+Mon Feb 23 2015 15:46:25 GMT+0000 (GMT)
+
+45793ea Set dependencies to release versions
+677e550 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+8856f68 US2376 updated to use email service client from presentation common
+86793e2 US2452: alt text for pdf icon
+41a81ef DE303: a little tidy up on the print.scss, but there is not wireframe to work against
+1ea3165 Change wording of the confirm page email question so it can be different for keeper vs trade
+5aa511d US2452: new pdf skeumorphic icon
+87f560d US2452: reduced font size
+8d0302f DE323 and DE324 fix to the keeper title and name on pdfs
+dd46e76 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+e5d772b added the vrm to retain into the audit message if there are failures
+e01236a Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+ef43435 Removing unused Acceptance Test Runners
+cf9bfb5 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+3b09913 US2437 fix to white space prob with vrms
+4fb4a40 Update audit ms to the latest release. This still won't run with sandbox assuming the scala versions are different
+ed87a0f Merge hotfix
+1c467af RELEASENOTES 1.8.3 update Nexus time
+a0cefed RELEASENOTES 1.8.3
+4a1b493 Set dependencies to release versions
+5495648 Fix: rabbit-mq persistance
+dde7fc0 US2452: Amendments to Retain Summary Page - eV948 text
+719f2c8 Merge branch 'develop' of gitlab.skyscape.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+c5dcafb US2454 bind the HealthStats as a singleton
+2f845c5 US2452: Amendments to Retain Summary Page - Insert the DVLA Helpline number break before textphone
+6325c10 US2452: Amendments to Retain Summary Page - Insert the DVLA Helpline number as per wireframe. Need UI help making the fonts different sizes
+3227ac9 US2452: Amendments to Retain Summary Page - Insert the Business Details where applicable
+92fc6fa US2452: Amendments to Retain Summary Page - Insert the Line for Replacement VRN and skeuomorph
+841acd9 US2355: Add wording regarding sharing of cert details to Retain summary
+0a2827f DE299 replicated the gov uk banner change from assign into retain
+fbafc7d Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+ecaebdf Merge hotfix back into develop
+7486181 RELEASENOTES 1.8.2
+319ed3c RELEASE 1.8.2
+c07707e US2467: Adjust Service Unavailable page wording for PR Services
+b37121e Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+3d8ba75 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+81dccc4 Added missing values to VehicleAndKeeperDetailsModelSpec test.
+fcc05de Remove the health check unit test as it is already coverred in common
+6a12179 DE299: email link needs to start with  h t t p protocol  otherwise instead of opening the link in a browser, OSX Mail client thinks the link is a resource attached to the email
+ef22529 Fix hotfix merge
+4c81cfa Merge hotfix
+868e855 RELEASENOTES 1.8.1
+15c9e4b US2376 no need for play.plugins after creation of email microservice
+82795bc RELEASE 1.8.1
+1673f7f DE321: uplift PR rules for title being capitalised and only present for certain PACT codes
+59fec92 US2343: Added missing parameters to VehicleAndKeeperDetailsModel.
+d8b0c38 US2343: Updated to use latest versions of components.
+82e859c Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+8da720a US2376 correction to location of crown image
+6f8a67e New development version 1.9-SNAPSHOT
+72e81b2 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+41e677c Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+27fb57b US2376 updated to use later versions of sbt-plugins
+906df07 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+b6691a5 US2376 updated to use email ms
+e883fb4 US2376 updated to use email ms
+
 ======= 1.8.3 ======
 Time of release binaries creation:
 Tue Feb 17 2015 18:06:35 GMT+0000 (GMT)
