@@ -71,7 +71,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       val data = Seq(("transactionId", "ABC123123123123"),
         ("timestamp", dateService.dateTimeISOChronology),
         ("replacementVrm", "SA11AA"),
-        ("keeperEmail", "example@email.com"),
+        ("keeperEmail", "keeper.example@test.com"),
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),
         ("model", "Alfasud ti"),
@@ -79,7 +79,7 @@ final class ConfirmUnitSpec extends UnitSpec {
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
-        ("businessEmail", "business.example@email.com"))
+        ("businessEmail", "business.example@test.com"))
       val auditMessage = new AuditMessage(AuditMessage.ConfirmToPayment, AuditMessage.PersonalisedRegServiceType, data: _*)
 
       val request = buildRequest().

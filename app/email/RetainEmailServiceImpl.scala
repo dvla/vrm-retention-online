@@ -42,7 +42,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if ((!config2.emailWhitelist.isDefined) || (config2.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+    if ((!config2.emailWhitelist.isDefined) || (config2.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) && inputEmailAddressDomain != "test.com") {
 
       Logger.debug("About to send email")
 
