@@ -3,7 +3,7 @@ package helpers.vrm_retention
 import models._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.BruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
@@ -144,7 +144,7 @@ object CookieFactoryForUISpecs {
                                     maxAttempts: Int = MaxAttempts,
                                     dateTimeISOChronology: String = org.joda.time.DateTime.now().toString)
                                    (implicit webDriver: WebDriver) = {
-    val key = BruteForcePreventionViewModelCacheKey
+    val key = bruteForcePreventionViewModelCacheKey
     val value = BruteForcePreventionModel(
       permitted,
       attempts,

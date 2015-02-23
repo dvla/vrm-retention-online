@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
 import play.api.mvc._
@@ -12,7 +13,6 @@ import utils.helpers.Config
 import views.vrm_retention.VehicleLookup._
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-
                                              config2: Config) extends Controller {
 
   def present = Action { implicit request =>

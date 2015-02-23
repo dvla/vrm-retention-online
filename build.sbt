@@ -69,8 +69,8 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.15-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.15-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.16-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.16-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "requirejs" % "2.1.14-1",
     // Auditing service
@@ -167,6 +167,8 @@ SandboxSettings.runAllMicroservices := {
 SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
+
+//SandboxSettings.bruteForceEnabled:= true
 
 Sandbox.sandboxTask
 
