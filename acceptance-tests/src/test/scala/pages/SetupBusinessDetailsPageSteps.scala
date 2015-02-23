@@ -20,7 +20,7 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
   def `enter business details` = {
     traderName.value = "Test Test1"
     traderContact.value = "Valtech"
-    traderEmail.value = "business@email.com"
+    traderEmail.value = "business.example@test.com"
     traderPostcode.value = "SA11AA"
     click on lookup
     this

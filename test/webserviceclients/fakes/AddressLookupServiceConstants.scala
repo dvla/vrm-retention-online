@@ -7,9 +7,9 @@ object AddressLookupServiceConstants {
 
   final val TraderBusinessNameValid = "example trader name"
   final val TraderBusinessContactValid = "example trader contact"
-  final val TraderBusinessEmailValid = "business.example@email.com"
+  final val TraderBusinessEmailValid = "business.example@test.com"
 
-  def KeeperEmailValid = Some("example@email.com")
+  def KeeperEmailValid = Some("keeper.example@test.com")
 
   final val StoreBusinessDetailslValid = "true"
   final val PostcodeInvalid = "xx99xx"

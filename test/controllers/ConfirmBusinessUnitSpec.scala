@@ -70,7 +70,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
-        ("businessEmail", "business.example@email.com"))
+        ("businessEmail", "business.example@test.com"))
       val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToConfirm, AuditMessage.PersonalisedRegServiceType, data: _*)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
