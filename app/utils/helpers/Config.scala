@@ -1,6 +1,8 @@
 package utils.helpers
 
-trait Config {
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupConfig
+
+trait Config extends VehicleLookupConfig {
 
   // Payment Service
   def purchaseAmount: String
@@ -67,19 +69,6 @@ trait Config {
   def auditMicroServiceUrlBase: String
 
   def auditMsRequestTimeout: Int
-
-  //  // Web headers
-  def applicationCode: String
-
-  def vssServiceTypeCode: String
-  def dmsServiceTypeCode: String
-
-  //  def orgBusinessUnit: String
-  def channelCode: String
-
-  def contactId: Long
-
-  def orgBusinessUnit: String
 
   def opening: Int
 
