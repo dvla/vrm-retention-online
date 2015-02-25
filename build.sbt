@@ -122,7 +122,7 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.10-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.11-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val paymentSolveProject = paymentSolve("0.7-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.9-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
