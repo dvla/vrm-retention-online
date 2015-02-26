@@ -11,7 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.controllers.{VehicleLookupBase1}
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
@@ -34,7 +34,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     auditService1: audit1.AuditService,
                                     auditService2: audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
-                                    config2: Config) extends VehicleLookupBase1[VehicleAndKeeperLookupFormModel] {
+                                    config2: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
