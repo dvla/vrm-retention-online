@@ -10,7 +10,7 @@
 @main(
     title = Messages("vrm_retention_payment.title")
 ) {
-  <script src="@routes.Assets.at("javascripts/firefox-dont-cache-page.js")" type="text/javascript"></script>
+  <script src="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/firefox-dont-cache-page.js")" type="text/javascript"></script>
   <h2>@Messages("vrm_retention_payment.title")</h2>
 
   <h3>@Messages("vrm_retention_payment.title2")</h3>

@@ -1,6 +1,5 @@
 import Common._
 import com.typesafe.sbt.web.SbtWeb
-import net.litola.SassPlugin
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
@@ -37,16 +36,18 @@ scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-langu
 
 crossScalaVersions := Seq("2.10.3", "2.11.4")
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
 lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
   .dependsOn(root % "test->test")
-  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .disablePlugins(PlayScala, SbtWeb)
   .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
 lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
-  .disablePlugins(PlayScala, SassPlugin, SbtWeb)
+  .disablePlugins(PlayScala, SbtWeb)
   .enablePlugins(GatlingPlugin)
+
+pipelineStages := Seq(rjs, digest, gzip)
 
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
@@ -122,14 +123,14 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.11-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.7-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.9-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.8-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-//lazy val auditProject = audit("0.2").disablePlugins(PlayScala, SassPlugin, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
-lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
-lazy val emailServiceProject = emailService("0.2-SNAPSHOT").disablePlugins(PlayScala, SassPlugin, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.11-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.7-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+//lazy val auditProject = audit("0.2").disablePlugins(PlayScala, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
+lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.2-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 18000
 

@@ -6,6 +6,8 @@ import scala.concurrent.duration.DurationInt
 
 class ConfigImpl extends Config {
 
+  val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
+
   // Payment Service
   override def purchaseAmount: String = getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
 

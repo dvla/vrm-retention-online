@@ -4,6 +4,8 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupConfig
 
 trait Config extends VehicleLookupConfig {
 
+  def assetsUrl: Option[String]
+
   // Payment Service
   def purchaseAmount: String
 
