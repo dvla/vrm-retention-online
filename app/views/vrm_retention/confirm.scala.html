@@ -107,12 +107,11 @@
     </script>
 }
 
-
 <script type="text/javascript">
 require.config({
     paths: {
-    'jquery': 'lib/jquery/jquery-1.9.1',
-    'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min'
+    'jquery': '@{controllers.StaticAssets.versioned(config2.assetsUrl)("""javascripts/lib/jquery/jquery-1.9.1.js""").dropRight(3) }',
+    'jquery-migrate': '@{controllers.StaticAssets.versioned(config2.assetsUrl)("""javascripts/lib/jquery/jquery-migrate-1.2.1.min.js""").dropRight(3)}'
     }
 });
 

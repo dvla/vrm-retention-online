@@ -26,6 +26,8 @@ final class TestConfig(
 
   def build = {
     val config: Config = mock[Config]
+    
+    when(config.assetsUrl).thenReturn(None)
     when(config.purchaseAmount).thenReturn("42")
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
