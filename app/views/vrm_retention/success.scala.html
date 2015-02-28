@@ -147,5 +147,5 @@
         </script>
     }
 
-    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js")"></script>
+    @helper.requireJs(module = controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js"), core = controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js"))
 }
