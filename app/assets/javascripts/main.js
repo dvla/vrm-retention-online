@@ -1,6 +1,6 @@
 require.config({
     paths: {
-        'jquery': '/webjars/jquery/1.9.1/jquery.min',
+        'jquery': '../lib/jquery/jquery',
         'header-footer-only': 'header-footer-only',
         'form-checked-selection': 'form-checked-selection',
         'details-polyfill': 'details-polyfill'

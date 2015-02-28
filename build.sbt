@@ -73,8 +73,8 @@ libraryDependencies ++= {
     "dvla" %% "vehicles-presentation-common" % "2.16-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
     "dvla" %% "vehicles-presentation-common" % "2.16-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
-    "org.webjars" %% "webjars-play" % "2.3.0-2",
-    "org.webjars" % "requirejs" % "2.1.14-1",
+    "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
+    "org.webjars" % "requirejs" % "2.1.16",
     "org.webjars" % "jquery" % "1.9.1",
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
