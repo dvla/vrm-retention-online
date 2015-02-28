@@ -106,5 +106,10 @@
         </script>
     }
 
+    @*
+        Referencing WebJarAssets:
+        https://github.com/webjars/webjars-play
+        http://www.tagwith.com/question_183150_play-2-3-webjars-default-requirejs-support-how-to-write-define-or-require
+    *@
     @helper.requireJs(module = controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/confirm-page.js"), core = routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url)
 }
