@@ -42,19 +42,18 @@
                 </dl>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function localize(milliseconds)
+        {
+            var date = new Date();
+            date.setTime(milliseconds);
+            var localTime = date.toLocaleTimeString();
+            document.getElementById('localTimeOfVrmLock').innerHTML = localTime;
+        }
+
+        localize(@vrmLockedViewModel.javascriptTimestamp);
+    </script>
+
+    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js")"></script>
 }
-
-<script type="text/javascript">
-    function localize(milliseconds)
-    {
-        var date = new Date();
-        date.setTime(milliseconds);
-        var localTime = date.toLocaleTimeString();
-        document.getElementById('localTimeOfVrmLock').innerHTML = localTime;
-    }
-
-localize(@vrmLockedViewModel.javascriptTimestamp);
-</script>
-
-
-<script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js")"></script>

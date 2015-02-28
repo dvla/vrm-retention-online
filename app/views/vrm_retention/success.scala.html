@@ -134,18 +134,18 @@
         <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">@Messages("vrm_retention_finish.button")</a>
 	  </div>
     </div>
+
+    @if(config2.googleAnalyticsTrackingId.isDefined) {
+        @if(!isKeeper) {
+            <script type="text/javascript">
+                trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
+            </script>
+        }
+
+        <script type="text/javascript">
+            trackClick(['@PrintId', '@FinishId']);
+        </script>
+    }
+
+    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js")"></script>
 }
-
-@if(config2.googleAnalyticsTrackingId.isDefined) {
-	@if(!isKeeper) {
-		<script type="text/javascript">
-			trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
-		</script>
-	}
-
-    <script type="text/javascript">
-        trackClick(['@PrintId', '@FinishId']);
-    </script>
-}
-
-<script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js")"></script>
