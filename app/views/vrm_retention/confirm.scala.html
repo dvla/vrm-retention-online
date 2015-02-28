@@ -106,5 +106,5 @@
         </script>
     }
 
-    @helper.requireJs(module = controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/confirm-page.js"), core = controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js"))
+    @helper.requireJs(module = controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/confirm-page.js"), core = routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url)
 }

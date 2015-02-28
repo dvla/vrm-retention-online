@@ -15,5 +15,5 @@
         <a class="button" id="@ExitId" href="@controllers.routes.BeforeYouStart.present()" role="button">@Messages("micro_service_error.exit.button")</a>
     </div>
 
-    @helper.requireJs(module = controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js"), core = controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js"))
+    @helper.requireJs(module = controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js"), core = routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url)
 }
