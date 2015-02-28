@@ -98,13 +98,13 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
-}
 
-@if(config2.googleAnalyticsTrackingId.isDefined) {
-    <script type="text/javascript">
+    @if(config2.googleAnalyticsTrackingId.isDefined) {
+        <script type="text/javascript">
         trackChange(['@KeeperEmailId']);
         trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
-    </script>
-}
+        </script>
+    }
 
-<script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/confirm-page.js")" src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js")"></script>
+    @helper.requireJs(module = controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/confirm-page.js"), core = controllers.StaticAssets.versioned(config2.assetsUrl)("lib/requirejs/require.js"))
+}
