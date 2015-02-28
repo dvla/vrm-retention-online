@@ -1,7 +1,6 @@
 require.config({
     paths: {
-        'jquery': 'lib/jquery/jquery-1.9.1',
-        'jquery-migrate': 'lib/jquery/jquery-migrate-1.2.1.min'
+        'jquery': '/webjars/jquery/1.9.1/jquery.min'
     }
 });
 
