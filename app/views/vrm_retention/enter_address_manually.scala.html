@@ -21,22 +21,22 @@
         <div class="second-col">
             <h2>@Messages("vrm_retention_setupbusinessdetails.title")</h2>
 
-        @form(action = EnterAddressManually.submit()) {
-            @csrfTokenHiddenField()
+            @form(action = EnterAddressManually.submit()) {
+                @csrfTokenHiddenField()
 
-            @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
+                @addressAndPostcode(enterAddressManuallyForm(AddressAndPostcodeId))
 
-            <legend>@Messages("address.postcode.label")</legend>
-            <div class="read-only-input">@enterAddressManuallyViewModel.businessPostCode</div>
-            <div class="form-steps">
-                @* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons *@
-                <button id="@NextId" type="submit" name="action" class="button">
-                    @Messages("vrm_retention_enteraddressmanually.submitbutton")
-                </button>
-                <br/>
-                <a id="@ExitId" class="exit" href="@EnterAddressManually.exit()">@Messages("vrm_retention_exit.button")</a>
-            </div>
-        }
+                <legend>@Messages("address.postcode.label")</legend>
+                <div class="read-only-input">@enterAddressManuallyViewModel.businessPostCode</div>
+                <div class="form-steps">
+                    @* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons *@
+                    <button id="@NextId" type="submit" name="action" class="button">
+                        @Messages("vrm_retention_enteraddressmanually.submitbutton")
+                    </button>
+                    <br/>
+                    <a id="@ExitId" class="exit" href="@EnterAddressManually.exit()">@Messages("vrm_retention_exit.button")</a>
+                </div>
+            }
         </div>
         <div id="vehicle-details" class="first-col trader-details">
 
@@ -57,5 +57,7 @@
 
         </div>
 
-</div>
+    </div>
+
+    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }

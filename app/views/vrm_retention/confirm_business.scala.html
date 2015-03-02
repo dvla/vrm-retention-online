@@ -85,11 +85,13 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
-}
 
-@if(config2.googleAnalyticsTrackingId.isDefined) {
-    <script type="text/javascript">
-        trackChange(['@StoreDetailsConsentId']);
-        trackClick(['@ConfirmId', '@ExitId']);
-    </script>
+    @if(config2.googleAnalyticsTrackingId.isDefined) {
+        <script type="text/javascript">
+            trackChange(['@StoreDetailsConsentId']);
+            trackClick(['@ConfirmId', '@ExitId']);
+        </script>
+    }
+
+    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
