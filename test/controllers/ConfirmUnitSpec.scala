@@ -7,6 +7,7 @@ import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito.verify
+import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
@@ -19,14 +20,14 @@ import views.vrm_retention.Confirm.SupplyEmail_true
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperConsentValid,BusinessConsentValid}
 
 final class ConfirmUnitSpec extends UnitSpec {
 
   "present" should {
 
     "display the page when required cookies are cached" in new WithApplication {
-      whenReady(present, timeout) {
-        r =>
+      whenReady(present, timeout) { r =>
           r.header.status should equal(OK)
       }
     }
@@ -40,8 +41,7 @@ final class ConfirmUnitSpec extends UnitSpec {
           storeBusinessDetailsConsent()
         )
       val result = confirm.present(request)
-      whenReady(result, timeout) {
-        r =>
+      whenReady(result, timeout) { r =>
           r.header.status should equal(OK)
       }
     }
@@ -49,8 +49,7 @@ final class ConfirmUnitSpec extends UnitSpec {
     "redirect to VehicleLookup when required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val result = confirm.present(request)
-      whenReady(result) {
-        r =>
+      whenReady(result) { r =>
           r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
@@ -186,6 +185,20 @@ final class ConfirmUnitSpec extends UnitSpec {
     }
   }
 
+  "back" should {
+    "redirect to Vehicle Lookup page when the user is a keeper" in new WithApplication {
+      whenReady(back(KeeperConsentValid)) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      }
+    }
+
+    "redirect to Confirm Business page when the user is a keeper" in new WithApplication {
+      whenReady(back(BusinessConsentValid)) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
+      }
+    }
+  }
+
   private def present = {
     val request = FakeRequest().
       withCookies(
@@ -193,6 +206,15 @@ final class ConfirmUnitSpec extends UnitSpec {
         vehicleAndKeeperDetailsModel()
       )
     confirm.present(request)
+  }
+
+  private def back(keeperConsent: String) = {
+    val request = FakeRequest().
+      withCookies(
+        vehicleAndKeeperLookupFormModel(keeperConsent = keeperConsent),
+        vehicleAndKeeperDetailsModel()
+      )
+    confirm.back(request)
   }
 
   private def confirm = testInjector().getInstance(classOf[Confirm])

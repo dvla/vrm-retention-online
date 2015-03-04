@@ -2,7 +2,7 @@ package webserviceclients.fakes
 
 import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
-import views.vrm_retention.VehicleLookup.UserType_Keeper
+import views.vrm_retention.VehicleLookup.{UserType_Keeper, UserType_Business}
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 object VehicleAndKeeperLookupWebServiceConstants {
@@ -21,7 +21,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val KeeperUprnValid = 10123456789L
   final val ConsentValid = "true"
   final val KeeperConsentValid = UserType_Keeper
-  final val BusinessConsentValid = "Business"
+  final val BusinessConsentValid = UserType_Business
   final val KeeperPostcodeValid = PostcodeValid
   final val KeeperPostcodeValidForMicroService = "SA11AA"
 

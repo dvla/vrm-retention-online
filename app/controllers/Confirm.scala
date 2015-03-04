@@ -24,9 +24,10 @@ import views.vrm_retention.Confirm.SupplyEmailId
 import views.vrm_retention.Confirm.SupplyEmail_true
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
+import views.vrm_retention.VehicleLookup.UserType_Business
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import views.vrm_retention.VehicleLookup.UserType_Keeper
 
 final class Confirm @Inject()(
                                auditService1: audit1.AuditService,
@@ -62,6 +63,19 @@ final class Confirm @Inject()(
       invalidForm => handleInvalid(invalidForm),
       model => handleValid(model)
     )
+  }
+
+  def back = Action { implicit request =>
+    // If the user is a business actor, then navigate to the previous page in the business journey,
+    // Else the user is a keeper actor, then navigate to the previous page in the keeper journey
+    val businessPath = for {
+      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      if vehicleAndKeeperLookupForm.userType == UserType_Business
+    } yield {
+      Redirect(routes.ConfirmBusiness.present())
+    }
+    val keeperPath = Redirect(routes.VehicleLookup.present())
+    businessPath.getOrElse(keeperPath)
   }
 
   private def formWithReplacedErrors(form: Form[ConfirmFormModel]) =
