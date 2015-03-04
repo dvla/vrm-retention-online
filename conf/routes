@@ -60,6 +60,7 @@ GET         /confirm-business/back                         @controllers.ConfirmB
 GET         /confirm                                       @controllers.Confirm.present
 POST        /confirm                                       @controllers.Confirm.submit
 GET         /confirm/exit                                  @controllers.Confirm.exit
+GET         /confirm/back                                  @controllers.Confirm.back
 
 GET         /payment/begin                                 @controllers.Payment.begin
 POST        /payment/callback/:token                       @controllers.Payment.callback(token: String)
