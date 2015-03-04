@@ -22,33 +22,52 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
 
   def assetsAreAccessible =
     exec(
-      http("screen.min.css")
-        .get( s"""/assets/screen.min.css""")
-        .headers(Map(
-        """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:08:06 GMT""",
-        """If-None-Match""" -> """59f34576dba4629e6e960e1d514fe573775e9999"""))
+      http("apple-touch-icon-57x57.png")
+        .get( s"""/assets/images/apple-touch-icon-57x57.png""")
     )
-      /*.exec(
-      http("fonts.min.css")
-        .get(s"""/assets/fonts.min.css""")
-        .headers(Map(
-          """If-Modified-Since""" -> """Fri, 30 May 2014 13:08:32 GMT""",
-          """If-None-Match""" -> """0702d8d00d43562d6fa1a4e87ac82609dc70ffc9"""))
-      )*/
       .exec(
-        http("print.min.css")
-          .get( s"""/assets/print.min.css""")
-          .headers(Map(
-          """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:08:08 GMT""",
-          """If-None-Match""" -> """b2b112249c52769ac41acd83e388f550e4c39c6f"""))
+        http("apple-touch-icon-72x72.png")
+          .get( s"""/assets/images/apple-touch-icon-72x72.png""")
       )
       .exec(
-        http("require.js")
-          .get( s"""/assets/javascripts/require.js""")
-          .headers(Map(
-          """Accept""" -> """*/*""",
-          """If-Modified-Since""" -> """Tue, 06 Aug 2013 09:49:32 GMT""",
-          """If-None-Match""" -> """858bab5a8e8f73a1d706221ed772a4f740e168d5"""))
+        http("apple-touch-icon-76x76.png")
+          .get( s"""/assets/images/apple-touch-icon-76x76.png""")
+      )
+      .exec(
+        http("apple-touch-icon-114x114.png")
+          .get( s"""/assets/images/apple-touch-icon-114x114.png""")
+      )
+      .exec(
+        http("apple-touch-icon-120x120.png")
+          .get( s"""/assets/images/apple-touch-icon-120x120.png""")
+      )
+      .exec(
+        http("apple-touch-icon-144x144.png")
+          .get( s"""/assets/images/apple-touch-icon-144x144.png""")
+      )
+      .exec(
+        http("apple-touch-icon-144x144.png")
+          .get( s"""/assets/images/apple-touch-icon-152x152.png""")
+      )
+      .exec(
+        http("document-reference-number.png")
+          .get( s"""/assets/images/document-reference-number.png""")
+      )
+      .exec(
+        http("favicon.ico")
+          .get( s"""/assets/images/favicon.ico""")
+      )
+      .exec(
+        http("gov.uk_logotype-2x.png")
+          .get( s"""/assets/images/gov.uk_logotype-2x.png""")
+      )
+      .exec(
+        http("gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
+          .get( s"""/assets/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png""")
+      )
+      .exec(
+        http("gov-uk-email.png")
+          .get( s"""/assets/images/gov-uk-email.png""")
       )
       .exec(
         http("govuk-crest.png")
@@ -59,12 +78,97 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
           """If-None-Match""" -> """0464ba08d53d88645ca77f9907c082c8c10d563b"""))
       )
       .exec(
+        http("icon-tick-green.gif")
+          .get( s"""/assets/images/icon-tick-green.gif""")
+      )
+      .exec(
+        http("open-government-licence-974ebd75112cb480aae1a55ae4593c67.png")
+          .get( s"""/assets/images/open-government-licence-974ebd75112cb480aae1a55ae4593c67.png""")
+      )
+      .exec(
+        http("payMock.png")
+          .get( s"""/assets/images/payMock.png""")
+      )
+      .exec(
+        http("pdf-icon-1.png")
+          .get( s"""/assets/images/pdf-icon-1.png""")
+      )
+      .exec(
+        http("progress-tick.png")
+          .get( s"""/assets/images/progress-tick.png""")
+      )
+
+      /* javascript */
+      .exec(
+        http("confirm-page.js")
+          .get( s"""/assets/javascripts/confirm-page.js""")
+      )
+      .exec(
+        http("details-polyfill.js")
+          .get( s"""/assets/javascripts/details-polyfill.js""")
+      )
+      .exec(
+        http("firefox-dont-cache-page.js")
+          .get( s"""/assets/javascripts/firefox-dont-cache-page.js""")
+      )
+      .exec(
+        http("form-checked-selection.js")
+          .get( s"""/assets/javascripts/form-checked-selection.js""")
+      )
+      .exec(
+        http("header-footer-only.js")
+          .get( s"""/assets/javascripts/header-footer-only.js""")
+      )
+      .exec(
         http("main.js")
           .get( s"""/assets/javascripts/main.js""")
           .headers(Map(
           """Accept""" -> """*/*""",
           """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:10:42 GMT""",
           """If-None-Match""" -> """5f859f72e7cc426915cf32f2643ee5fc494b04a8"""))
+      )
+      .exec(
+        http("on-event-change-display.js")
+          .get( s"""/assets/javascripts/on-event-change-display.js""")
+      )
+      .exec(
+        http("on-load-conditional-display.js")
+          .get( s"""/assets/javascripts/on-load-conditional-display.js""")
+      )
+
+      /* javascript from webjars */
+      .exec(
+        http("require.min.js")
+          .get( s"""/webjars/requirejs/2.1.16/require.min.js""")
+          .headers(Map(
+          """Accept""" -> """*/*""",
+          """If-Modified-Since""" -> """Tue, 06 Aug 2013 09:49:32 GMT""",
+          """If-None-Match""" -> """858bab5a8e8f73a1d706221ed772a4f740e168d5"""))
+      )
+      .exec(
+        http("jquery.min.js")
+          .get( s"""/webjars/jquery/1.9.1/jquery.min.js""")
+          .headers(Map(
+          """Accept""" -> """*/*""",
+          """If-Modified-Since""" -> """Tue, 06 Aug 2013 09:49:32 GMT""",
+          """If-None-Match""" -> """858bab5a8e8f73a1d706221ed772a4f740e168d5"""))
+      )
+
+
+      /* css */
+      .exec(
+        http("print.min.css")
+          .get( s"""/assets/print.min.css""")
+          .headers(Map(
+          """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:08:08 GMT""",
+          """If-None-Match""" -> """b2b112249c52769ac41acd83e388f550e4c39c6f"""))
+      )
+      .exec(
+        http("screen.min.css")
+          .get( s"""/assets/screen.min.css""")
+          .headers(Map(
+          """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:08:06 GMT""",
+          """If-None-Match""" -> """59f34576dba4629e6e960e1d514fe573775e9999"""))
       )
 
   def beforeYouStart =
