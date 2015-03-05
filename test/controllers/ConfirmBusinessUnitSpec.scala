@@ -1,16 +1,22 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
+import audit1.AuditMessage
+import composition.TestDateService
+import composition.WithApplication
 import composition.audit1.AuditLocalService
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito._
-import pages.vrm_retention.{LeaveFeedbackPage, VehicleLookupPage}
+import pages.vrm_retention.BusinessChooseYourAddressPage
+import pages.vrm_retention.EnterAddressManuallyPage
+import pages.vrm_retention.LeaveFeedbackPage
+import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout}
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.VehicleLookup._
@@ -126,6 +132,34 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     }
   }
 
+  "back" should {
+    "redirect to EnterAddressManually page when EnterAddressManually cookie exists" in new WithApplication {
+      val request = buildRequest(storeDetailsConsent = false).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel(),
+          enterAddressManually()
+        )
+      val result = confirmBusiness.back(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(EnterAddressManuallyPage.address))
+      }
+    }
+
+    "redirect to BusinessChooseYourAddress page when EnterAddressManually cookie does not exist" in new WithApplication {
+      val request = buildRequest(storeDetailsConsent = false).
+        withCookies(
+          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
+          vehicleAndKeeperDetailsModel(),
+          businessDetailsModel()
+        )
+      val result = confirmBusiness.back(request)
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+      }
+    }
+  }
 
   "exit" should {
 
