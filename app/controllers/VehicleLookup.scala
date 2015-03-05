@@ -7,6 +7,7 @@ import models._
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.{Form => PlayForm, FormError}
 import play.api.mvc._
+import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
@@ -36,6 +37,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config2: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
+  val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
+  val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
+  val postcodeMismatchResponseCodeText = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
+
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
@@ -52,6 +57,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override def vehicleLookupFailure(responseCode: String, formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
+    // TODO need to change VehicleAndKeeperDetailsModel to take just a registrationNumber
     val vehicleAndKeeperDetailsModel = new VehicleAndKeeperDetailsModel(
       registrationNumber = formatVrm(formModel.registrationNumber),
       make = None,
@@ -78,7 +84,12 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(responseCode)))
 
-    addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+    // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
+    if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
+      addDefaultCookies(Redirect(routes.CheckEligibility.present()), formModel)
+    } else {
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+    }
   }
 
   override def presentResult(implicit request: Request[_]) =
@@ -102,16 +113,16 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+          rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
           transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - vehicle_and_keeper_lookup_keeper_postcode_mismatch")))
+          rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
 
         addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel).
-          withCookie(responseCodeCacheKey, "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+          withCookie(responseCodeCacheKey, postcodeMismatchResponseCodeText)
       } else
         addDefaultCookies(Redirect(routes.CheckEligibility.present()), formModel).
           withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))

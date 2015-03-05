@@ -42,10 +42,11 @@ final class CheckEligibility @Inject()(
                                        config2: Config) extends Controller {
 
   def present = Action.async { implicit request =>
-    (request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[VehicleAndKeeperDetailsModel],
+    (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+      request.cookies.getModel[VehicleAndKeeperDetailsModel],
       request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean),
       request.cookies.getString(TransactionIdCacheKey)) match {
-      case (Some(form), Some(vehicleAndKeeperDetailsModel), storeBusinessDetails, Some(transactionId)) =>
+      case (Some(form), vehicleAndKeeperDetailsModel, storeBusinessDetails, Some(transactionId)) =>
         checkVrmEligibility(form, vehicleAndKeeperDetailsModel, storeBusinessDetails, transactionId)
       case _ => Future.successful {
         Redirect(routes.Error.present("user went to CheckEligibility present without required cookies"))
@@ -58,7 +59,7 @@ final class CheckEligibility @Inject()(
    * be found.
    */
   private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                  vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                                  vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel],
                                   storeBusinessDetails: Boolean, transactionId: String)
                                  (implicit request: Request[_]): Future[Result] = {
 
@@ -84,13 +85,13 @@ final class CheckEligibility @Inject()(
             pageMovement = AuditMessage.VehicleLookupToConfirm,
             transactionId = transactionId,
             timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
             replacementVrm = Some(replacementVRM)))
           auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToConfirm,
             transactionId = transactionId,
             timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+            vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
             replacementVrm = Some(replacementVRM)))
           routes.Confirm.present()
         } else {
@@ -100,14 +101,14 @@ final class CheckEligibility @Inject()(
               pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               replacementVrm = Some(replacementVRM),
               businessDetailsModel = businessDetailsModel))
             auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               replacementVrm = Some(replacementVRM),
               businessDetailsModel = businessDetailsModel))
             routes.ConfirmBusiness.present()
@@ -116,13 +117,13 @@ final class CheckEligibility @Inject()(
               pageMovement = AuditMessage.VehicleLookupToCaptureActor,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               replacementVrm = Some(replacementVRM)))
             auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.VehicleLookupToCaptureActor,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               replacementVrm = Some(replacementVRM)))
             routes.SetUpBusinessDetails.present()
           }
@@ -140,13 +141,13 @@ final class CheckEligibility @Inject()(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
         rejectionCode = Some(responseCode)))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
         rejectionCode = Some(responseCode)))
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
