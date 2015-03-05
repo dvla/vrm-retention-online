@@ -68,6 +68,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       address = None,
       disposeFlag = None,
       keeperEndDate = None,
+      keeperChangeDate = None,
       suppressedV5Flag = None
     )
 

@@ -59,6 +59,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
     keeperPostcode = KeeperPostCodeValid,
     disposeFlag = None,
     keeperEndDate = None,
+    keeperChangeDate = None,
     suppressedV5Flag = None
   )
 

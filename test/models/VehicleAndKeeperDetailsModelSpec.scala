@@ -27,6 +27,7 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
         keeperPostcode = Some("stub-keeperPostcode"),
         disposeFlag = None,
         keeperEndDate = None,
+        keeperChangeDate = None,
         suppressedV5Flag = None
       )
       VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto).title should equal(keeperTitle)
@@ -49,6 +50,7 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
         keeperPostcode = Some("stub-keeperPostcode"),
         disposeFlag = None,
         keeperEndDate = None,
+        keeperChangeDate = None,
         suppressedV5Flag = None
       )
       val expected = Some("MR")
@@ -72,6 +74,7 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
         keeperPostcode = Some("stub-keeperPostcode"),
         disposeFlag = None,
         keeperEndDate = None,
+        keeperChangeDate = None,
         suppressedV5Flag = None
       )
       VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto).title should equal(keeperTitle)
