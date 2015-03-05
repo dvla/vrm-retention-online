@@ -419,9 +419,9 @@ paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment Cancelled or Not Authorised
-paymentNotAuthorisedErrorMessage.p1 = Please contact your Card Issuer (the phone number may be on the back of the card) to find out further information.  There is no need to contact DVLA, no payment has been taken.
-paymentNotAuthorisedErrorMessage.p2 =
-paymentNotAuthorisedErrorMessage.p3 =
+paymentNotAuthorisedErrorMessage.p1 = Payment using this card has not been authorised by the card issuer and no payment has been taken for this transaction.
+paymentNotAuthorisedErrorMessage.p2 = You may have entered your card details incorrectly.  If you would like to try re-entering your card details or pay with an alternative card please try again.
+paymentNotAuthorisedErrorMessage.p3 = If you continue to receive this error please contact the card issuer for advice.
 
 # Payment prevent back page
 payment-prevent-back-title = Back button prevented
