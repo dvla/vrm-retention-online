@@ -2,7 +2,8 @@
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config2: utils.helpers.Config)
 
-@import uk.gov.dvla.vehicles.presentation.common.mappings.{DocumentReferenceNumber, Postcode, VehicleRegistrationNumber}
+@import mappings.common.vrm_retention.Postcode
+@import uk.gov.dvla.vehicles.presentation.common.mappings.{DocumentReferenceNumber, VehicleRegistrationNumber}
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.{csrfTokenHiddenField, valtechInputText}
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.listRadioGroup
@@ -45,6 +46,7 @@
                     args = Map(
                         '_label -> Messages("vrm_retention_vehiclelookup.postcodelabel"),
                         '_showConstraints -> false,
+                        'NO_OPTIONAL_LABEL -> true,
                         'maxLength -> Postcode.MaxLength
                     )
                 )
