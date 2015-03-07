@@ -147,7 +147,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     (form /: List(
       (VehicleRegistrationNumberId, "error.restricted.validVrnOnly"),
       (DocumentReferenceNumberId, "error.validDocumentReferenceNumber"),
-      (PostcodeId, "error.restricted.validv5CPostcode"))) { (form, error) =>
+      (PostcodeId, "error.restricted.validV5CPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
         message = error._2,
