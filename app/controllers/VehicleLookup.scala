@@ -106,7 +106,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
                                   formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Result = {
-      if (!formatPostcode(formModel.postcode).equals(formatPostcode(vehicleAndKeeperDetailsDto.keeperPostcode.get))) {
+
+    if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
+
         val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
         auditService1.send(AuditMessage.from(
@@ -145,7 +147,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     (form /: List(
       (VehicleRegistrationNumberId, "error.restricted.validVrnOnly"),
       (DocumentReferenceNumberId, "error.validDocumentReferenceNumber"),
-      (PostcodeId, "error.restricted.validPostcode"))) { (form, error) =>
+      (PostcodeId, "error.restricted.validv5CPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
         message = error._2,
@@ -166,4 +168,15 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                (implicit request: Request[_]): Result = result
     .withCookie(TransactionIdCacheKey, transactionId(formModel))
     .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
+
+  private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {
+    dtoPostcode match {
+      case Some(postcode) => {
+        // strip the stars and spaces before comparison
+        formModelPostcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase() ==
+          postcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase()
+      }
+      case None => formModelPostcode.isEmpty
+    }
+  }
 }
