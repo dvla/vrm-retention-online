@@ -9,6 +9,6 @@ object Postcode {
   final val MaxLength = 8
 
   def postcode: Mapping[String] = {
-    nonEmptyTextWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validPostcode
+    textWithTransform(_.toUpperCase.trim)(MinLength, MaxLength) verifying validPostcode
   }
 }
