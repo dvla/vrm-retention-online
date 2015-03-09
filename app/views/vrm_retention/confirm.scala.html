@@ -57,15 +57,18 @@
         @csrfTokenHiddenField()
         <div class="two-col clearfix">
             <div class="second-col">
-                <details>
-                    <summary><span id="@SummaryId" class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span></summary>
-                    <div class="panel-indent">
-                        <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
-                        <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
-                        <p>@Messages("vrm_retention_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_retention_confirm.emailWarnp4link")</a>.</p>
-                        <p>@Messages("vrm_retention_confirm.emailWarnp2") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_retention_confirm.emailWarnp2.link")</a>.</p>
+                <div class="summary-wrapper">
+
+                    <span id="@SummaryId" class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span>
+                    <div class="details">
+                        <div class="panel-indent">
+                            <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
+                            <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
+                            <p>@Messages("vrm_retention_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_retention_confirm.emailWarnp4link")</a>.</p>
+                            <p>@Messages("vrm_retention_confirm.emailWarnp2") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_retention_confirm.emailWarnp2.link")</a>.</p>
+                        </div>
                     </div>
-                </details>
+                </div>
                 <br/>
 
                 @listRadioGroup(field = confirmForm(SupplyEmailId),

@@ -16,6 +16,15 @@ require(["jquery", "header-footer-only", "form-checked-selection","details-polyf
 
     $(function() {
 
+        // If JS enabled hide summary details
+        $('.details').hide();
+
+        // Summary details toggle
+        $('.summary').on('click', function() {
+            $(this).siblings().toggle();
+            $(this).toggleClass('active');
+        });
+
         // Disabled clicking on disabled buttons
         $('.button-not-implemented').click(function() {
             return false;

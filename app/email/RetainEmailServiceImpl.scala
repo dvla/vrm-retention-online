@@ -63,7 +63,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
             }
           } // US1589: Do not send keeper a pdf
 
-          val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment, from, subject, emailAddress)
+          val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment,
+            from, subject, Option(List(emailAddress)),None)
 
           emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
