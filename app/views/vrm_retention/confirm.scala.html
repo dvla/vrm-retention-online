@@ -27,14 +27,14 @@
             </dl>
             <dl>
                 <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
-                <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address.init) {
+                <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address) {
                     <strong>@keeperAddressLine </strong><br>
                     }</dt>
             </dl>
-            <dl>
-                <dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>
-                <dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>
-            </dl>
+            @*<dl>*@
+                @*<dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>*@
+                @*<dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>*@
+            @*</dl>*@
         </div>
         <div class="first-col">
             <dl class="playback">
