@@ -12,6 +12,7 @@ Feature: Vehicles Personalized Registration
   Examples:
     | vehicle-registration-number | document-reference-number | postcode |
     | "ABC1"                      | "11111111111"             | "SA11AA" |
+    | "A1"                        | "11111111111"             | "AA11AA" |
 
   @HappyPath
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and postcode
