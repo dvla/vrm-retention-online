@@ -79,18 +79,20 @@
                     args = Map('_label -> {if(isKeeper) Messages("supply-email-keeper-acting") else Messages("supply-email-business-acting")})
                 )
 
-                <div id="@KeeperEmailWrapper">
-                    @valtechInputText(confirmForm(KeeperEmailId),
-                        hintText = {
-                            if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
-                        },
-                        args = Map(
-                            'NO_OPTIONAL_LABEL -> true,
-                            '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
-                            '_showConstraints -> false,
-                            'maxLength -> KeeperEmailMaxLength
+                <div id="@KeeperEmailWrapper" class="panel-indent-wrapper">
+                    <div class="panel-indent">
+                        @valtechInputText(confirmForm(KeeperEmailId),
+                            hintText = {
+                                if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
+                            },
+                            args = Map(
+                                'NO_OPTIONAL_LABEL -> true,
+                                '_label -> Messages("vrm_retention_confirm.emailAddressLabel"),
+                                '_showConstraints -> false,
+                                'maxLength -> KeeperEmailMaxLength
+                            )
                         )
-                    )
+                    </div>
                 </div>
             </div>
         </div>
