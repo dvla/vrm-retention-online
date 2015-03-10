@@ -16,7 +16,7 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
   private val fullscreenSolvePaymentPageTitle = "Complete your order - the-logic-group.com Checkout"
   private val confirmBusinessPageTitle = "Confirm your business details"
   private val successPageTitle = "Summary"
-  private val vehicleLookupFailurePageTitle = "Look-up was unsuccessful"
+  private val vehicleLookupFailurePageTitle = "Unable to find vehicle record"
   private val vehicleLookupToDirectToPaperTitle = "This registration number cannot be retained online"
   private val vehicleLookupToNotEligibleToTransactPageTitle = "This registration number cannot be retained"
 
