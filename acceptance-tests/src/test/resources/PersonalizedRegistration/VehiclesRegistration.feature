@@ -14,7 +14,6 @@ Feature: Vehicles Personalized Registration
     | "ABC1"                      | "11111111111"             | "SA11AA" |
     | "A1"                        | "11111111111"             | "AA11AA" |
     | "S11"                       | "11111111111"             | "SA1" |
-    | "S12"                       | "11111111111"             | "SA1 ***" |
     | "S13"                       | "11111111111"             | "" |
 
   @HappyPath

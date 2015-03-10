@@ -173,7 +173,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     dtoPostcode match {
       case Some(postcode) => {
         // strip the stars and spaces before comparison
-        formModelPostcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase() ==
+        formModelPostcode.filterNot(" " contains _).toUpperCase() ==
           postcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase()
       }
       case None => formModelPostcode.isEmpty

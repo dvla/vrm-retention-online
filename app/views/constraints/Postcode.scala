@@ -10,7 +10,7 @@ object Postcode {
 
   def validPostcode: Constraint[String] = pattern(
     regex =
-      """^[A-Z0-9 *]*$""".stripMargin.replace("\n", "").r,
+      """^[A-Z0-9 ]*$""".stripMargin.replace("\n", "").r,
     name = "constraint.restricted.validPostcode",
     error = "error.restricted.validV5CPostcode")
 }
