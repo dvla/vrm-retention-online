@@ -349,9 +349,9 @@ vrm_retention_vehiclelookup.traderCheckBoxlabel = I am actioning on the keeper's
 vrm_retention_vehiclelookup.postcodelabel = Keeper postcode
 
 vrm_retention_vehiclelookup.postcodeHint = The postcode of the registered keeper exactly as printed on the V5C document
-vrm_retention_vehiclelookup.keeper = Yes, I am the registered keeper or I am a private individual acting with their consent
+vrm_retention_vehiclelookup.keeper = Yes I am
 vrm_retention_vehiclelookup.business = No, I am a business and have consent to act on their behalf
-vrm_retention_vehiclelookup.label = Are you the keeper?
+vrm_retention_vehiclelookup.label = Are you the registered keeper?
 vrm_retention_vehiclelookup.hintlabel =
 keeper-consent = Keeper consent
 postcode = Postcode
