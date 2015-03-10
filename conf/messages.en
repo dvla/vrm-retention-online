@@ -358,10 +358,9 @@ postcode = Postcode
 document-reference-number-alt = Location of the document reference number on the V5C form
 
 # vehicle lookup failure
-vehicle_and_keeper_lookup_vrm_not_found.title = Look-up was unsuccessful
-vehicle_and_keeper_lookup_document_reference_mismatch.title = Look-up was unsuccessful
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Look-up was unsuccessful
-vrm_retention_vehiclelookupfailure.title.greaterThanOneAttempt = ({0} of {1})
+vehicle_and_keeper_lookup_vrm_not_found.title = Unable to find vehicle record
+vehicle_and_keeper_lookup_document_reference_mismatch.title = Unable to find vehicle record
+vehicle_and_keeper_lookup_keeper_postcode_mismatch.title = Unable to find vehicle record
 vrm_retention_vehiclelookupfailure.name = Failure
 vrm_retention_vehiclelookupfailure.p1 = The service is temporarily unavailable. Please try again later or send a completed V5C/3 to DVLA
 vrm_retention_vehiclelookupfailure.button = Try again

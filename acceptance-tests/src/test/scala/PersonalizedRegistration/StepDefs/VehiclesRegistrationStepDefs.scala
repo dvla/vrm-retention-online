@@ -107,11 +107,17 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
       `find vehicle`
   }
 
-  @Then( """^the vehicle not found page is displayed$""")
-  def `the vehicle not found page is displayed`() =
-    vehicleNotFound.
-      `is displayed`.
-      `has 'not found' message`
+  @Then("^the vrm not found page is displayed$")
+  def `the vrm not found page is displayed`() {
+    vehicleNotFound.`is displayed`
+      .`has 'not found' message`
+  }
+
+  @Then("^the doc ref mismatch page is displayed$")
+  def `the doc ref mismatch page is displayed`() {
+    vehicleNotFound.`is displayed`
+      .`has 'doc ref mismatch' message`
+  }
 
   @Then("^the brute force lock out page is displayed$")
   def `the brute force lock out page is displayed`() = vrmLocked
@@ -126,7 +132,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   def `the vehicle not eligible page is displayed`() =
     vehicleNotFound.
       `is displayed`.
-      `has 'not found' message`
+      `has 'not eligible' message`
 
   //Scenario 7
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have not previously chosen to store my details$")

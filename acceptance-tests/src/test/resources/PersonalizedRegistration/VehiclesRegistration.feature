@@ -29,10 +29,19 @@ Feature: Vehicles Personalized Registration
   Scenario Outline: Vehicle Not Found
     Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record
-    Then the vehicle not found page is displayed
+    Then the vrm not found page is displayed
   Examples:
     | vehicle-registration-number | document-reference-number | postcode |
     | "C1"                        | "11111111111"             | "SA11AA" |
+
+  @UnHappyPath
+  Scenario Outline: Doc Ref Mismatch
+    Given that I have started the PR Retention Service
+    When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record
+    Then the doc ref mismatch page is displayed
+  Examples:
+    | vehicle-registration-number | document-reference-number | postcode |
+    | "A1"                        | "22222222222"             | "AA11AA" |
 
   @UnHappyPath
   Scenario Outline:Brute Force Lockout

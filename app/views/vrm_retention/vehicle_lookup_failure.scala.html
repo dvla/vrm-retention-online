@@ -27,12 +27,8 @@
                 </dl>
         </div>
         <div class="second-col">
-            @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
-                <h2>@Messages("vrm_retention_eligibility_direct_to_paper.title")</h2>
-            }
-            @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
-            <h2>@Messages("vrm_retention_eligibility_failure.title")</h2>
-            }
+
+            <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
 
             <p>Transaction Id @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>

@@ -12,7 +12,7 @@ object VehicleLookupFailurePage extends Page {
   def address = s"$applicationContext/vehicle-lookup-failure"
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Look-up was unsuccessful"
+  final override val title: String = "Unable to find vehicle record"
   final val directToPaperTitle: String = "This registration number cannot be retained online"
   final val failureTitle: String = "This registration number cannot be retained"
 
