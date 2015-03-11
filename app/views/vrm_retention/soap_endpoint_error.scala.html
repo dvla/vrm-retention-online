@@ -2,11 +2,12 @@
         config2: utils.helpers.Config)
 
 @import views.html.vrm_retention.main
+@import views.vrm_retention.SoapEndpointError.{ExitId,`v317-id`}
 
 @main(
     title = Messages("soap_endpoint_error.title")
 ){
-    <p>@Messages("soap_endpoint_error.text")</p>
+    <p>@Messages("soap-endpoint-error-text1") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("text-v317")</a> @Messages("soap-endpoint-error-text2")</p>
 
     <div class="form-steps">
         @{ /* Note the reverse routing syntax for the hyperlink */ }

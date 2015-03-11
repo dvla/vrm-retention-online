@@ -5,7 +5,7 @@
         config2: utils.helpers.Config)
 
 @import views.html.vrm_retention.main
-@import views.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId}
+@import views.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId, `v317-id`}
 
 @main(
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
@@ -31,10 +31,10 @@
             <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
 
             <p>Transaction Id @transactionId</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
+            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1") @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {<a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("text-v317")</a>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1a")}</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
             @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
-               <p><a href="https://www.gov.uk/government/publications/application-to-transfer-or-retain-a-vehicle-registration-number">Download V317</a></p>
+               <p><a href="https://www.gov.uk/government/publications/application-to-transfer-or-retain-a-vehicle-registration-number">@Messages("download-v317")</a></p>
             }
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
