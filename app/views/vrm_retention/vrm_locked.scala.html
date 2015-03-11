@@ -5,7 +5,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.helper.form
 @import views.html.vrm_retention.main
-@import views.vrm_retention.VrmLocked.{ExitAction, ExitRetentionId}
+@import views.vrm_retention.VrmLocked.{ExitAction, ExitRetentionId, `v317-id`}
 
 @main(
     title = Messages("vrm_locked.title")
@@ -16,7 +16,7 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_locked.text1")</p>
             <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@vrmLockedViewModel.timeString</span></p>
-            <p>@Messages("vrm_locked.text3")</p>
+            <p>@Messages("vrm_locked.text3") <a id="@{`v317-id`}" href="@Messages("vrm-locked-link-v317")">@Messages("vrm-locked-text-v317")</a> @Messages("vrm-locked-text4")</p>
             <div class="form-steps">
                 <div class="step">
                     @form(action = controllers.routes.VrmLocked.exit()) {

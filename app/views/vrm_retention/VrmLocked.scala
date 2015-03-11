@@ -6,4 +6,5 @@ object VrmLocked {
   final val ExitRetentionId = "exit-retention"
   final val NewRetentionAction = "new-retention"
   final val ExitAction = "exit"
+  final val `v317-id` = "v317"
 }

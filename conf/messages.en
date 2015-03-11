@@ -237,7 +237,10 @@ soap_endpoint_error.exit.button=Exit
 vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at
-vrm_locked.text3=If you are sure that the details entered are correct then please send your completed V317 to DVLA Swansea, SA99 1DS.
+vrm_locked.text3=If you are sure that the details entered are correct then please send your completed
+vrm-locked-link-v317=https://www.gov.uk/personalised-vehicle-registration-numbers/retaining-a-registration-number
+vrm-locked-text-v3178=V317
+vrm-locked-text4=to DVLA, Swansea, SA99 1BD
 
 vrm_locked.newdisposalbutton=Sell another vehicle
 vrm_locked.exit.button=Exit
