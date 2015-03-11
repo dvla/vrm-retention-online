@@ -239,7 +239,7 @@ vrm_locked.text1=There have been repeated unsuccessful attempts to access the ve
 vrm_locked.text2=Locked at
 vrm_locked.text3=If you are sure that the details entered are correct then please send your completed
 vrm-locked-link-v317=https://www.gov.uk/personalised-vehicle-registration-numbers/retaining-a-registration-number
-vrm-locked-text-v3178=V317
+vrm-locked-text-v317=V317
 vrm-locked-text4=to DVLA, Swansea, SA99 1BD
 
 vrm_locked.newdisposalbutton=Sell another vehicle
