@@ -75,4 +75,6 @@ trait Config extends VehicleLookupConfig {
   def opening: Int
 
   def closing: Int
+
+  def closingWarnPeriodMins: Int
 }

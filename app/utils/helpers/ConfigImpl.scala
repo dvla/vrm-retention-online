@@ -81,4 +81,5 @@ class ConfigImpl extends Config {
 
   override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
   override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
+  override def closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(15)
 }
