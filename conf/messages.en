@@ -542,7 +542,7 @@ success-payment-keeper-p3 = You can use your newly issued V5C to get your replac
 vrm_retention_success_payment.print = Print full summary
 
 vrm_retention_success_payment.newDocumentsTitle = About your new documents
-vrm_retention_success_payment.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_retention_success_payment.newDocumentsDesc = The following will be sent to the registered keeper at the address shown below
 vrm_retention_success_payment.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement registration number
 vrm_retention_success_payment.newDocumentsList-2 = A new MOT certificate showing the replacement registration number
 vrm_retention_success_payment.newDocumentsList-3 = A retention certificate for the retained registration number
@@ -601,13 +601,13 @@ vrm_retention_success.notice2.p1.link = the current paper service.
 
 
 vrm_retention_success.p1 = What happens next?
-vrm_retention_success.p2 = We will send the following items to the keeper at their registered address:
+vrm_retention_success.p2 = We will send the following to the keeper at their registered address:
 vrm_retention_success.listItem1 = A new registration certificate (V5C) with the replacement registration number
 vrm_retention_success.listItem2 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
 vrm_retention_success.listItem3 = A Certificate of Retention document (V778) providing the mark has not been assigned to a new vehicle on the same day as this retention.
 
 vrm_retention_success.newDocumentsTitle = About your new documents
-vrm_retention_success.newDocumentsDesc = The following documents will be sent to the registered keeper at the address shown below
+vrm_retention_success.newDocumentsDesc = The following will be sent to the registered keeper at the address shown below
 vrm_retention_success.newDocumentsList-1 = A new vehicle registration certificate (V5C) showing a replacement registration number
 vrm_retention_success.newDocumentsList-2 = A new MOT certificate showing the replacement registration number
 vrm_retention_success.newDocumentsList-3 = A retention certificate for the retained registration number
@@ -646,7 +646,7 @@ email.line13 = About this transaction
 email.line14 = This transaction was completed, with the consent of the registered keeper by:
 email.line20 = Registered Keeper:
 email.line21 = New Documentation:
-email.line22 = The following documents will be sent to the registered keeper:
+email.line22 = The following will be sent to the registered keeper:
 email.line23 = A new Vehicle Registration Certificate (V5C) displaying the replacement registration number
 email.line24 = A new MOT Certificate displaying the replacement registration number*
 email.line25 = A Retention Certificate for the retained registration number
