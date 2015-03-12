@@ -1,6 +1,6 @@
 package views.vrm_retention
 
-import models.CacheKeyPrefix
+import models.PrScopedCacheKeyPrefix
 
 object SetupBusinessDetails {
 
@@ -10,7 +10,7 @@ object SetupBusinessDetails {
   final val BusinessContactId = "contact-name"
   final val BusinessEmailId = "contact-email"
   final val BusinessPostcodeId = "business-postcode"
-  final val SetupBusinessDetailsCacheKey = s"${CacheKeyPrefix}setup-business-details"
+  final val SetupBusinessDetailsCacheKey = s"${PrScopedCacheKeyPrefix}setup-business-details"
   final val SubmitId = "submit"
   final val ExitId = "exit"
 }
