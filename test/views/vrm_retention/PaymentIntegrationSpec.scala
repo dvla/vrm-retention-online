@@ -91,6 +91,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       cacheSetup().
         businessChooseYourAddress().
         setupBusinessDetails().
+        enterAddressManually().
         storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
 

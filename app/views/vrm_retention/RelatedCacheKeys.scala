@@ -1,6 +1,7 @@
 package views.vrm_retention
 
 import models.CacheKeyPrefix
+import play.api.Logger
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -28,7 +29,6 @@ object RelatedCacheKeys {
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey,
     CheckEligibilityCacheKey,
-    EnterAddressManuallyCacheKey,
     ConfirmCacheKey,
     REFERER,
     RetainCacheKey,
@@ -43,6 +43,7 @@ object RelatedCacheKeys {
   )
 
   val BusinessDetailsSet = Set(
+    EnterAddressManuallyCacheKey,
     BusinessChooseYourAddressCacheKey,
     BusinessDetailsCacheKey,
     SetupBusinessDetailsCacheKey,
@@ -51,6 +52,7 @@ object RelatedCacheKeys {
 
   def removeCookiesOnExit(implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory) = {
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+    Logger.debug(s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails")
     RelatedCacheKeys.RetainSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }
