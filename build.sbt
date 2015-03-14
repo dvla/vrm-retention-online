@@ -127,7 +127,7 @@ resolvers ++= projectResolvers
 // ====================== Sandbox Settings ==========================
 lazy val osAddressLookupProject = osAddressLookup("0.11-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.7-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 //lazy val auditProject = audit("0.2").disablePlugins(PlayScala, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
