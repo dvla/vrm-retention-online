@@ -92,28 +92,28 @@ Feature: Navigation
     | "setup-business-details"       | "confirm"                      | "setup-business-details"       |
 #    | "setup-business-details"       | "payment"                      | "setup-business-details"       |
 #    | "setup-business-details"       | "success"                      | "setup-business-details"       |
-#    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually"       |
-#    | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" |
-#    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" |
+    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually"       |
+    | "business-choose-your-address" | "confirm-business"             | "business-choose-your-address" |
+    | "business-choose-your-address" | "confirm"                      | "business-choose-your-address" |
 #    | "business-choose-your-address" | "payment"                      | "business-choose-your-address" |
 #    | "business-choose-your-address" | "success"                      | "business-choose-your-address" |
-#    | "enter-address-manually"       | "confirm-business"             | "business-choose-your-address" |
-#    | "enter-address-manually"       | "confirm"                      | "business-choose-your-address" |
+    | "enter-address-manually"       | "confirm-business"             | "business-choose-your-address" |
+    | "enter-address-manually"       | "confirm"                      | "business-choose-your-address" |
 #    | "enter-address-manually"       | "payment"                      | "business-choose-your-address" |
 #    | "enter-address-manually"       | "success"                      | "business-choose-your-address" |
-#    | "confirm-business"             | "confirm"                      | "confirm-business"             |
+    | "confirm-business"             | "confirm"                      | "confirm-business"             |
 #    | "confirm-business"             | "payment"                      | "confirm-business"             |
 #    | "confirm-business"             | "success"                      | "confirm-business"             |
 
-#  Scenario Outline: Pressing the browser's back button (business acting)
-#    Given that I am on the <origin> page
-#    When I press the browser's back button
-#    Then I am redirected to the <expected> page
-#    And the <expected> form is <filled> with the values I previously entered
-#  Examples:
-#    | origin                                          | expected                       | filled       |
-#    | "setup-business-details"                        | "vehicle-lookup"               | "filled"     |
-#    | "business-choose-your-address"                  | "setup-business-details"       | "filled"     |
-#    | "enter-address-manually"                        | "business-choose-your-address" | "not filled" |
-#    | "confirm-business (entered address manually)"   | "enter-address-manually"       | "filled"     |
-#    | "confirm-business"                              | "business-choose-your-address" | "filled"     |
+  Scenario Outline: Pressing the browser's back button (business acting)
+    Given that I am on the <origin> page
+    When I press the browser's back button
+    Then I am redirected to the <expected> page
+    And the <expected> form is <filled> with the values I previously entered
+  Examples:
+    | origin                                          | expected                       | filled       |
+    | "setup-business-details"                        | "vehicle-lookup"               | "filled"     |
+    | "business-choose-your-address"                  | "setup-business-details"       | "filled"     |
+    | "enter-address-manually"                        | "business-choose-your-address" | "not filled" |
+    | "confirm-business (entered address manually)"   | "enter-address-manually"       | "filled"     |
+    | "confirm-business"                              | "business-choose-your-address" | "filled"     |
