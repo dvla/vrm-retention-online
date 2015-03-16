@@ -79,17 +79,17 @@ Feature: Navigation
     | "confirm"                                     | "vehicle-lookup" |
 #    | "payment (keeper acting)"                     | "confirm"                     |
 
-#  Scenario Outline: Entering a url that is after the origin page (business acting)
-#    Given that I am on the <origin> page
-#    When I enter the url for the <target> page
-#    Then I am redirected to the <expected> page
-#    And the <expected> form is not filled with the values I previously entered
-#  Examples:
-#    | origin                         | target                         | expected                       |
-#    | "setup-business-details"       | "business-choose-your-address" | "setup-business-details"       |
-#    | "setup-business-details"       | "enter-address-manually"       | "setup-business-details"       |
-#    | "setup-business-details"       | "confirm-business"             | "setup-business-details"       |
-#    | "setup-business-details"       | "confirm"                      | "setup-business-details"       |
+  Scenario Outline: Entering a url that is after the origin page (business acting)
+    Given that I am on the <origin> page
+    When I enter the url for the <target> page
+    Then I am redirected to the <expected> page
+    And the <expected> form is not filled with the values I previously entered
+  Examples:
+    | origin                         | target                         | expected                       |
+    | "setup-business-details"       | "business-choose-your-address" | "setup-business-details"       |
+    | "setup-business-details"       | "enter-address-manually"       | "setup-business-details"       |
+    | "setup-business-details"       | "confirm-business"             | "setup-business-details"       |
+    | "setup-business-details"       | "confirm"                      | "setup-business-details"       |
 #    | "setup-business-details"       | "payment"                      | "setup-business-details"       |
 #    | "setup-business-details"       | "success"                      | "setup-business-details"       |
 #    | "business-choose-your-address" | "enter-address-manually"       | "enter-address-manually"       |
