@@ -15,6 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode._
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber._
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
@@ -172,11 +173,15 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {
     dtoPostcode match {
       case Some(postcode) => {
+        Logger.info("formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
         // strip the stars and spaces before comparison
         formModelPostcode.filterNot(" " contains _).toUpperCase() ==
-          postcode.filterNot(" " contains _).filterNot("*" contains _).toUpperCase()
+          formatPostcode(postcode).filterNot(" " contains _).filterNot("*" contains _).toUpperCase()
       }
-      case None => formModelPostcode.isEmpty
+      case None => {
+        Logger.info("formModelPostcode = " + formModelPostcode)
+        formModelPostcode.isEmpty
+      }
     }
   }
 }
