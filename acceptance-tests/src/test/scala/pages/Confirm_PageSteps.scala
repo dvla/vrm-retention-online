@@ -34,4 +34,10 @@ final class Confirm_PageSteps(implicit webDriver: WebBrowserDriver, timeout: Pat
     click on `don't supply keeper email`
     this
   }
+
+  def `form is not filled`() = {
+    `supply keeper email`.isSelected should equal(false)
+    `don't supply keeper email`.isSelected should equal(false)
+    this
+  }
 }

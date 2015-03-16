@@ -167,6 +167,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     filled match {
       case "filled" => `the <expected> form is filled with the values I previously entered`(expected)
       case "not filled" => `the <expected> form is not filled with the values I previously entered`(expected)
+      case "-" => // Page has no fields, do nothing.
       case e => throw new RuntimeException(s"unknown 'filled' value")
     }
   }
@@ -180,8 +181,8 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "business-choose-your-address" => businessChooseYourAddress.`form is filled with the values I previously entered`
       case "enter-address-manually" => enterAddressManually.`form is filled with the values I previously entered`
       case "confirm-business" => confirmBusiness.`form is filled with the values I previously entered`()
-      case "confirm" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
-      case "confirm (business acting)" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "confirm" => throw new RuntimeException(s"this page cannot be 'filled' as the fields are reset each time the user visits the page")
+      case "confirm (business acting)" => throw new RuntimeException(s"this page cannot be 'filled' as the fields are reset each time the user visits the page")
       case "payment" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "payment-prevent-back" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "success" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
@@ -198,7 +199,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "business-choose-your-address" => businessChooseYourAddress.`form is not filled`
       case "enter-address-manually" => enterAddressManually.`form is not filled`
       case "confirm-business" => confirmBusiness.`form is not filled`()
-      case "confirm" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
+      case "confirm" => confirm.`form is not filled`()
       case "confirm (business acting)" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "payment" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "payment-prevent-back" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
