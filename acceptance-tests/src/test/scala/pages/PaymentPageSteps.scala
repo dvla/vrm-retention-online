@@ -5,9 +5,20 @@ import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_retention.PaymentPage
+import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.PaymentPage._
 
 class PaymentPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+
+  def `happy path` = {
+    `is displayed`.
+      enter(cardholderName = "test", cardNumber = "4444333322221111", cardSecurityCode = "123").
+      `expiryDate`.
+      `paynow`.
+      `enter password`
+    this
+  }
 
   def `is displayed` = {
     eventually {
@@ -17,10 +28,10 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver, timeout: Patien
     this
   }
 
-  def enter(CardName: String, CardNumber: String, SecurityCode: String) = {
-    cardName.value = CardName
-    cardNumber.value = CardNumber
-    securityCode.value = SecurityCode
+  def enter(cardholderName: String, cardNumber: String, cardSecurityCode: String) = {
+    PaymentPage.cardholderName.value = cardholderName
+    PaymentPage.cardNumber.value = cardNumber
+    PaymentPage.cardSecurityCode.value = cardSecurityCode
     this
   }
 
@@ -47,6 +58,15 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver, timeout: Patien
 
   def `Message is displayed` = {
     currentUrl should equal(url)
+    this
+  }
+
+  def `enter password` = {
+    eventually {
+      pageSource should include("Please enter your password")
+      PaymentPage.acsPassword.value = "password"
+      submit()
+    }
     this
   }
 }

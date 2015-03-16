@@ -2,11 +2,15 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
+import models.BusinessChooseYourAddressFormModel
 import models.BusinessDetailsModel
 import models.ConfirmFormModel
 import models.ConfirmViewModel
 import models.EligibilityModel
+import models.EnterAddressManuallyModel
+import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
+import play.api.Logger
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.Result
@@ -22,6 +26,7 @@ import utils.helpers.Config
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId
 import views.vrm_retention.Confirm.SupplyEmail_true
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Business
@@ -38,24 +43,32 @@ final class Confirm @Inject()(
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
-  def present = Action { implicit request =>
-    val happyPath = for {
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-    } yield {
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
-      val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
-      // with the situation where payment fails and they come back to this page via either back button or coming
-      // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
-      // customer gives up and then a new customer starts the journey in the same session and the email field is
-      // pre-populated with the previous customer's address.
-      val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
-      // always be hidden on first load
-      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
-      Ok(views.html.vrm_retention.confirm(viewModel, emptyForm, isKeeperEmailDisplayedOnLoad, isKeeper))
-    }
-    val sadPath = Redirect(routes.VehicleLookup.present())
-    happyPath.getOrElse(sadPath)
+  def present: Action[AnyContent] = Action {
+    implicit request =>
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel], request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel), businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
+          // Happy path for a business user that has all the cookies (and they either have entered address manually)
+          present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+          // Happy path for keeper
+          present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
+        case _ =>
+          Logger.warn("*** Confirm present is missing cookies for either keeper or business")
+          Redirect(routes.ConfirmBusiness.present())
+      }
+  }
+
+  private def present(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel, vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel)(implicit request: Request[AnyContent]): Result = {
+    val viewModel = ConfirmViewModel(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm.userType)
+    val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
+    // with the situation where payment fails and they come back to this page via either back button or coming
+    // forward from vehicle lookup - this could now be a different customer! We don't want the chance that one
+    // customer gives up and then a new customer starts the journey in the same session and the email field is
+    // pre-populated with the previous customer's address.
+    val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
+    // always be hidden on first load
+    val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+    Ok(views.html.vrm_retention.confirm(confirmViewModel = viewModel, confirmForm = emptyForm, isKeeperEmailDisplayedOnLoad = isKeeperEmailDisplayedOnLoad, isKeeper = isKeeper))
   }
 
   def submit = Action { implicit request =>

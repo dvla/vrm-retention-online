@@ -76,13 +76,13 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   @Then("^following \"(.*?)\" should be displayed$")
   def `following should be displayed`(Message: String) = {
     eventually {
-      pageSource contains (Message)
+      pageSource should include (Message)
     }
     if (Message == "Payment Successful") {
-      pageTitle contains (Message)
+      pageTitle should include (Message)
     }
     else if (Message == "Payment Cancelled or Not Authorised") {
-      pageTitle contains ("/payment-not-authorised")
+      pageTitle should include ("/payment-not-authorised")
     }
     else
       fail(s"not the message we expected: $Message")
