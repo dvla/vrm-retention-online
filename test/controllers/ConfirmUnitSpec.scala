@@ -50,7 +50,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = confirm.present(request)
       whenReady(result) { r =>
-          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+          r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
     }
   }
@@ -203,7 +203,9 @@ final class ConfirmUnitSpec extends UnitSpec {
     val request = FakeRequest().
       withCookies(
         vehicleAndKeeperLookupFormModel(),
-        vehicleAndKeeperDetailsModel()
+        vehicleAndKeeperDetailsModel(),
+        setupBusinessDetails(),
+        businessDetailsModel()
       )
     confirm.present(request)
   }
