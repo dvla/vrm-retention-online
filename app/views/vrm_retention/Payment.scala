@@ -11,11 +11,13 @@ object Payment {
   final val PaymentTransNoCacheKey = s"${CacheKeyPrefix}payment-trans-no"
 
   //Logica Group Iframe
-  final val CardName = "cardholderName"
+  final val CardholderName = "cardholderName"
   final val CardNumber = "cardNumber"
-  final val SecurityCode ="csc"
+  final val CardSecurityCode ="csc"
   final val IFrame = "#main > div > div.section-content > iframe"
   final val ExpiryMonth = "expiryMonth"
   final val ExpiryYear = "expiryYear"
   final val PayNow = "btnSubmit"
+  final val AcsPassword = "acsPassword"
+  final val NoJavaScriptContinueButton = "noJavaScriptContinueButton"
 }
