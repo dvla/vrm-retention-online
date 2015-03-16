@@ -1,10 +1,12 @@
 package common
 
 import composition.TestHarness
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
+import org.scalatest.concurrent.Eventually.PatienceConfig
+import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_retention._
@@ -29,8 +31,9 @@ class CommonStepDefs(
     //    sys.props += ((testUrlKey, testUrlValue))
 
     beforeYouStart.`go to BeforeYouStart page`.
-      `is displayed`.
-      `click 'Start now' button`
+      `is displayed`
+    delete all cookies
+    beforeYouStart.`click 'Start now' button`
     vehicleLookup.`is displayed`
     this
   }

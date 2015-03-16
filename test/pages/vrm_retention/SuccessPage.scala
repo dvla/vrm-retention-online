@@ -1,5 +1,7 @@
 package pages.vrm_retention
 
+import java.util.concurrent.TimeUnit
+
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
@@ -15,4 +17,6 @@ object SuccessPage extends Page {
   final override val title: String = "Summary"
 
   def finish(implicit driver: WebDriver) = find(id(FinishId)).get
+
+  def waiting(implicit driver: WebDriver) = driver.manage().timeouts().implicitlyWait(1, TimeUnit.MINUTES)
 }

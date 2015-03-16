@@ -8,6 +8,7 @@ import models.ConfirmFormModel
 import models.ConfirmViewModel
 import models.EligibilityModel
 import models.EnterAddressManuallyModel
+import models.RetainModel
 import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
 import play.api.Logger
@@ -45,12 +46,10 @@ final class Confirm @Inject()(
 
   def present: Action[AnyContent] = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel], request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel), businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
-          // Happy path for a business user that has all the cookies (and they either have entered address manually)
-          present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
-          // Happy path for keeper
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[RetainModel]) match {
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), None) =>
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
         case _ =>
           Logger.warn("*** Confirm present is missing cookies for either keeper or business")

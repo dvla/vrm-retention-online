@@ -8,7 +8,6 @@ import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.BusinessChooseYourAddressPage
-import pages.vrm_retention.BusinessChooseYourAddressPage
 import pages.vrm_retention.BusinessChooseYourAddressPage._
 import pages.vrm_retention.BusinessChooseYourAddressPage.url
 

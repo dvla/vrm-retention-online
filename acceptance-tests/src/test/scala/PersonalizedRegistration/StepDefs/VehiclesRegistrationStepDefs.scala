@@ -2,8 +2,11 @@ package PersonalizedRegistration.StepDefs
 
 import _root_.common._
 import cucumber.api.java.After
-import cucumber.api.java.en.{Given, Then, When}
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
@@ -25,7 +28,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
   val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
   val payment = new PaymentPageSteps()(webDriver, timeout)
-  val success = new SuccessPaymentPageSteps()(webDriver, timeout)
+  val success = new SuccessPageSteps()(webDriver, timeout)
   val paymentFailure = new PaymentFailurePageSteps()(webDriver, timeout)
   val paymentCallBack = new PaymentCallbackPageSteps()(webDriver, timeout)
   val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)

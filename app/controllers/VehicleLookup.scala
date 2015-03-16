@@ -27,6 +27,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprev
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
+import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
@@ -99,7 +100,12 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   }
 
   override def presentResult(implicit request: Request[_]) =
-    Ok(views.html.vrm_retention.vehicle_lookup(form.fill()))
+    request.cookies.getModel[RetainModel] match {
+      case Some(fulfilModel) =>
+        Ok(views.html.vrm_retention.vehicle_lookup(form)).discardingCookies(removeCookiesOnExit)
+      case None =>
+        Ok(views.html.vrm_retention.vehicle_lookup(form.fill()))
+    }
 
   override def invalidFormResult(invalidForm: PlayForm[VehicleAndKeeperLookupFormModel])
                                 (implicit request: Request[_]): Future[Result] = Future.successful {

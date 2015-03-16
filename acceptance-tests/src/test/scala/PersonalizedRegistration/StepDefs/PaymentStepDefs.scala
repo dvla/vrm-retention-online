@@ -2,10 +2,14 @@ package PersonalizedRegistration.StepDefs
 
 import _root_.common.CommonStepDefs
 import cucumber.api.java.After
-import cucumber.api.java.en.{Given, Then, When}
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.{PatienceConfig, eventually}
+import org.scalatest.concurrent.Eventually.PatienceConfig
+import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
@@ -26,7 +30,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
   val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
   val payment = new PaymentPageSteps()(webDriver, timeout)
-  val success = new SuccessPaymentPageSteps()(webDriver, timeout)
+  val success = new SuccessPageSteps()(webDriver, timeout)
   val paymentFailure = new PaymentFailurePageSteps()(webDriver, timeout)
   val paymentCallBack = new PaymentCallbackPageSteps()(webDriver, timeout)
   val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)
@@ -35,6 +39,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
   val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
+  val confirm = new Confirm_PageSteps()(webDriver, timeout)
   val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -52,12 +57,8 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
 
   @Given("^I search and confirm the vehicle to be registered$")
   def `i search and confirm the vehicle to be registered`() = {
-    vehicleLookup.
-      `is displayed`.
-      enter("A1", "11111111111", "AA11AA").
-      `keeper is acting`.
-      `find vehicle`
-    user.confirmDetails
+    vehicleLookup.`happy path for keeper`
+    confirm.`happy path`
   }
 
   @When("^I enter payment details as \"(.*?)\",\"(.*?)\" and \"(.*?)\"$")
@@ -76,13 +77,13 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   @Then("^following \"(.*?)\" should be displayed$")
   def `following should be displayed`(Message: String) = {
     eventually {
-      pageSource should include (Message)
+      pageSource should include(Message)
     }
     if (Message == "Payment Successful") {
-      pageTitle should include (Message)
+      pageTitle should include(Message)
     }
     else if (Message == "Payment Cancelled or Not Authorised") {
-      pageTitle should include ("/payment-not-authorised")
+      pageTitle should include("/payment-not-authorised")
     }
     else
       fail(s"not the message we expected: $Message")

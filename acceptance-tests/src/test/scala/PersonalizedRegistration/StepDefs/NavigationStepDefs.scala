@@ -40,7 +40,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   lazy val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
   lazy val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   lazy val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
-  lazy val success = new SuccessPaymentPageSteps()(webDriver, timeout)
+  lazy val success = new SuccessPageSteps()(webDriver, timeout)
   lazy val enterAddressManually = new EnterAddressManually_PageSteps()(webDriver, timeout)
   lazy val user = new CommonStepDefs(
     beforeYouStart,
