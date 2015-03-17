@@ -24,20 +24,19 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
     }
   }
 
-  // TODO restore when payment iframe is back
-  //  "try again button" should {
-  //    "redirect to success page when button clicked" taggedAs UiTag in new WebBrowser {
-  //      go to BeforeYouStartPage
-  //
-  //      cacheNotAuthorisedSetup()
-  //
-  //      go to PaymentNotAuthorisedPage
-  //
-  //      click on tryAgain
-  //
-  //      currentUrl should equal(PaymentPage.url)
-  //    }
-  //  }
+  "try again button" should {
+    "redirect to confirm page (it is the last valid page before the payment page)" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+
+      cacheNotAuthorisedSetup()
+
+      go to PaymentNotAuthorisedPage
+
+      click on PaymentNotAuthorisedPage.tryAgain
+
+      currentUrl should equal(ConfirmPage.url)
+    }
+  }
 
   "exit button" should {
     "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
