@@ -78,7 +78,7 @@ final class ConfirmBusiness @Inject()(
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-println("***** model.storeBusinessDetails.toString " + model.storeBusinessDetails.toString)
+
       Redirect(routes.Confirm.present()).
         withCookie(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString)
     }

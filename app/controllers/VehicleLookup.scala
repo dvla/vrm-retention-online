@@ -64,19 +64,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override def vehicleLookupFailure(responseCode: String, formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
-    // TODO need to change VehicleAndKeeperDetailsModel to take just a registrationNumber
-    val vehicleAndKeeperDetailsModel = new VehicleAndKeeperDetailsModel(
-      registrationNumber = formatVrm(formModel.registrationNumber),
-      make = None,
-      model = None,
-      title = None,
-      firstName = None,
-      lastName = None,
-      address = None,
-      disposeFlag = None,
-      keeperEndDate = None,
-      keeperChangeDate = None,
-      suppressedV5Flag = None
+    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(
+      registrationNumber = formatVrm(formModel.registrationNumber)
     )
 
     auditService1.send(AuditMessage.from(
