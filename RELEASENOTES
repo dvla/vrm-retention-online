@@ -1,3 +1,99 @@
+======= 1.10 ======
+Time of release binaries creation:
+Tue Mar 17 2015 13:30:00 GMT+0000 (GMT)
+
+41cb27f Set dependencies to release versions
+35af21c DE396: acceptance test for tracking id cookie not being a session cookie
+bb808fb Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+f2185c4 US2632 Format partial postcodes
+2b9796f US2466: fix tests that broke after rebasing
+34589cb US2466: all browser tests pass
+f4f95c9 US2466: all non-browser tests pass
+efe8806 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+08ee668 fix to the postcode match code
+371a68d Merge branch 'US2650' of /home/git/repositories/dvla/vrm-retention-online into develop
+1885983 fix to remove padded zeros from postcodes
+6e8710b US2650 & US2581
+de9ad26 US2679: fix Confirm and ConfirmBusiness tests that broke after changing production code for new navigation specs
+5b039fe US2679: uncommented all navigation specs that don't go through payment
+47508ef US2679: starting to change production code to make Confirm navigation specs pass
+a50524a US2679: starting to change production code to make navigation specs pass
+c511595 Upped version of payment
+f64b0e4 DE396: all the business cookies need to have a 7 day expiry
+20c58cb DE396: In RelatedCacheKeys now we should keep the EnterAddressManually with the business set so we can re-populate
+b8ba869 Bump pres-common dependency
+e3c2070 DE396: EnterAddressManually and SetupBusinessDetails cookies should be shared across services so pages can be repopulated
+5e706f3 US2629 Wired in the service about to close widget
+41ee9b1 DE394: Invalid postcode message the same as Assign
+b49eda3 US2679: link text on failure pages for V317
+6b16bcc DE374: vrm locked screen message fix typo
+05ba230 DE374: vrm locked screen message now has a link to the gov page describing the V317
+6be17fb US2663 Remove references to the MOT cert
+c00bad9 Updated gatling after changing a page title
+62c51dc US2652 Updated vehicle lookup failure text and accept tests
+75c7eff Do not allow asterisks to be entered for a keeper postcode
+a854ac2 US2668 Change to the "are you the keeper" question text and "yes" text
+a590bec US2632 Changes to handle blank v5c keeper postcodes
+c9ef17b Merge branch 'US2523' of /home/git/repositories/dvla/vrm-retention-online into develop
+cfc3e0a Merge branch 'develop' into US2523
+72163c5 US2523 -  Adding panel-indent-wrapper to pick css class from common
+31ee5f3 Temp comment out of partial postcode accept tests
+078e268 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+a8cc7f8 Merge branch 'DE338' of /home/git/repositories/dvla/vrm-retention-online into develop
+d09736f Merge branch 'US2643' of /home/git/repositories/dvla/vrm-retention-online into develop
+5c8ac87 DE338 - Adding caret font icon + moving js to main
+b237ab7 US2643: make email recipients a list and add cc
+5a6a1db Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+65a6202 Temp comment out of the whitespace keeper postcode accept test
+ea6eb48 US2632 Updated acceptance tests and allow empty text for keeper postcode
+1478a78 DE378: opening time fixed
+a3f420b US2632 allow whitespace or nothing entered for keeper postcodes
+005dc18 US2632 Fix to the name of the postocde error text
+e1718cf US2632 Updates to use V5C postcode validation
+f5f7b5b Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+145f0df US2654 Call the eligibility service in the event of a VPDS tech exception
+06bf376 US2470: Added keeperChangeDate to vehicleAndKeeperLookup.
+7b1e5d5 Bump presentation-common dependency
+2af5f8d Merge branch 'DE370' of /home/git/repositories/dvla/vrm-retention-online into develop
+49b3374 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+4ba3f0f Rewording of the payment not authorised text
+8fd6435 DE365: Test for confirm business back button navigation
+3ab2823 DE370 - Bugfix for retention
+4483374 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+998f33b DE365 uncomment other tests
+2f6a71b US2600 Adjust completed doc text on a lock out
+8a1ef42 DE365 back navigation from the confirm page when the user is a business
+abfa4be US2602: gatling test for all assets
+eab042f corrected unhandled exception text
+59671ef fix to lock out text as it was VM not PR specific
+ccc6c7b Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+50a33a5 US1519: change jquery path in require-js configs, update sbt-rjs plugin, update webjars-play and requirejs dependencies
+e37823a Expand open/close time so i can carry on working
+c4bc373 US1519: Cannot use helper.requirejs as in Play 2.3.x it does not seem to get the paths correct (it is assuming there is a minified folder, but there isn't and it does not minify the files itself)
+4432d90 US1519: comments
+be03d0f US1519: remove commented out line
+f6db33f US1519: in require-js reference the webjar version of jquery, remove refs in require-js .configs to jquery migrate
+59e3d13 US1519: reference the minified version of require.js that can be accessed through the WebJarAssets routing
+35abc9d US1519: change all script tags that src require-js to instead be play's helper
+16e4c3c US1519: fix problem where I'd put the new script tags after the closing html tag
+158b7ee US1519: use play's helper for require-js, fixed problem where code was outside the main's closing bracket
+f75443e US1519: re-write of require-js to dependency inject the modules. As you can only have one ref to require-js on a html page I moved main.js out of the govMainDefault and instead specify it on any page that needs it. Made a .js file just for the confirm page which pulls the required modules and the main.js into itself. I can't seem to find out a better way of passing in params so instead it reads the value of the radio button from the page
+bafd68c Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+a081cab US1519: version the javascript urls in the confirm.scala.html must drop the file extension to work with require-js
+1c7028a US1519: version the javascript urls in the confirm.scala.html
+720f1ec US2356: adjust telephone number
+b113bc4 US1519 version assets and serve from another domain
+1224709 US2289 remove the use of the old VehiclesOnline controller
+b2b7332 Merge branch 'develop' of gitlab.skyscape.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+f287d39 Set sandbox dependencies to latest snapshots
+8e105bb US2289 using the new common vehicle lookup controller
+6627d5a US2559 - changing feedback email address
+def7b34 US2356 change telephone helpline number
+21c2329 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+4094baa US2317 Changed the BruteForcePreventionViewModelCacheKey to support an exemplar specific prefix
+d26b88d US2383: tests must not trigger a real email to be sent
+e2b8970 New development version 1.10-SNAPSHOT
+
 ======= 1.9 ======
 Time of release binaries creation:
 Mon Feb 23 2015 15:46:25 GMT+0000 (GMT)
