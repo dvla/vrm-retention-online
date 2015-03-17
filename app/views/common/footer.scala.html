@@ -1,5 +1,5 @@
 @()(implicit lang: Lang,
-        config2: utils.helpers.Config)
+        config: utils.helpers.Config)
 
 <!--start footer-->
 <div class="footer" id="footer" role="contentinfo">
@@ -13,7 +13,7 @@
                 <div class="open-government-licence">
                     <h2>
                         <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">
-                            <img src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/open-government-licence_2x.png")" alt="@Messages("open-government-licence")">
+                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/open-government-licence_2x.png")" alt="@Messages("open-government-licence")">
                         </a>
                     </h2>
                     <p>@Messages("open-government-licence-p1") <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">@Messages("open-government-licence")</a>@Messages("open-government-licence-p2")</p>
@@ -21,7 +21,7 @@
             </div>
             <!--start copyright-->
             <div class="copyright print-only">
-                <img src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/govuk-crest.png")" alt="@Messages("crown-copyright")">
+                <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/govuk-crest.png")" alt="@Messages("crown-copyright")">
             </div>
             <div class="copyright">
                 <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm" target="_blank">&copy;

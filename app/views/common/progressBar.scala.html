@@ -1,7 +1,7 @@
 @(progress: Option[String])(implicit lang: Lang,
-        config2: utils.helpers.Config)
+        config: utils.helpers.Config)
 
-@if(config2.isProgressBarEnabled){
+@if(config.isProgressBarEnabled){
     @progress.map { p =>
         <div class="progress-indicator">@p</div>
     }

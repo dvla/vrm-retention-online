@@ -2,7 +2,7 @@
         businessChooseYourAddressForm: Form[models.BusinessChooseYourAddressFormModel],
         dropDownOptions: Seq[(String, String)])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config2: utils.helpers.Config)
+        config: utils.helpers.Config)
 
 @import controllers.routes.BusinessChooseYourAddress
 @import controllers.routes.EnterAddressManually
@@ -70,5 +70,5 @@
         </div>
     }
 
-    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }

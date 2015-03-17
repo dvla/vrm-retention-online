@@ -1,6 +1,6 @@
 @(successViewModel: models.SuccessViewModel, isKeeper: Boolean)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-	config2: utils.helpers.Config)
+	config: utils.helpers.Config)
 
 @import controllers.routes.Success
 @import views.html.vrm_retention.main
@@ -34,7 +34,7 @@
 				</div>
 				<div class="first-col">
 					<a id="@CreatePdfId" class="pdf-link" href="@Success.createPdf()">
-						<img src="@controllers.StaticAssets.versioned(config2.assetsUrl)("images/pdf-icon-1.png")" alt="@Messages("vrm_retention_success.newPlateLink")">
+						<img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")" alt="@Messages("vrm_retention_success.newPlateLink")">
 						@Messages("vrm_retention_success.newPlateLink")
 					</a>
 				</div>
@@ -136,7 +136,7 @@
 	  </div>
     </div>
 
-    @if(config2.googleAnalyticsTrackingId.isDefined) {
+    @if(config.googleAnalyticsTrackingId.isDefined) {
         @if(!isKeeper) {
             <script type="text/javascript">
                 trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
@@ -148,5 +148,5 @@
         </script>
     }
 
-    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }

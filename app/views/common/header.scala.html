@@ -1,5 +1,5 @@
 @(title: String)(implicit lang: Lang,
-        config2: utils.helpers.Config)
+        config: utils.helpers.Config)
 
 <!--start header-->
 <head>
@@ -8,20 +8,20 @@
 
     <title>@title</title>
 
-    <link rel="stylesheet" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("screen.min.css")" media="screen" type="text/css">
+    <link rel="stylesheet" href="@controllers.StaticAssets.versioned(config.assetsUrl)("screen.min.css")" media="screen" type="text/css">
 
-    <link rel="stylesheet" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("print.min.css")" media="print" type="text/css">
+    <link rel="stylesheet" href="@controllers.StaticAssets.versioned(config.assetsUrl)("print.min.css")" media="print" type="text/css">
 
-    <link rel="shortcut icon" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/favicon.ico")" type="image/x-icon">
-    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-57x57.png")">
-    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-72x72.png")" sizes="72x72">
-    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-76x76.png")" sizes="76x76">
-    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-114x114.png")" sizes="114x114">
-    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-120x120.png")" sizes="120x120">
-    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-144x144.png")" sizes="144x144">
-    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-152x152.png")" sizes="152x152">
+    <link rel="shortcut icon" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/favicon.ico")" type="image/x-icon">
+    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-57x57.png")">
+    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-72x72.png")" sizes="72x72">
+    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-76x76.png")" sizes="76x76">
+    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-114x114.png")" sizes="114x114">
+    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-120x120.png")" sizes="120x120">
+    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-144x144.png")" sizes="144x144">
+    <link rel="apple-touch-icon-precomposed" href="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/images/apple-touch-icon-152x152.png")" sizes="152x152">
 
-    @if(config2.googleAnalyticsTrackingId.isDefined) {
+    @if(config.googleAnalyticsTrackingId.isDefined) {
         @*
         https://support.google.com/analytics/answer/1008080?hl=en&utm_id=ad
         Paste it immediately before the closing </head> tag.
@@ -33,12 +33,12 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', '@{config2.googleAnalyticsTrackingId}', 'auto');
+        ga('create', '@{config.googleAnalyticsTrackingId}', 'auto');
         ga('set', 'anonymizeIp', true);
         ga('send', 'pageview');
         </script>
 
-        <script src="@controllers.StaticAssets.versioned(config2.assetsUrl)("lib/vehicles-presentation-common/javascripts/google-analytics-event-tracking.js")" type="text/javascript"></script>
+        <script src="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/javascripts/google-analytics-event-tracking.js")" type="text/javascript"></script>
         <!-- End Google Analytics -->
     }
 </head>

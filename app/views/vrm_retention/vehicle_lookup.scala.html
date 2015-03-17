@@ -1,6 +1,6 @@
 @(vehicleAndKeeperLookupForm: Form[models.VehicleAndKeeperLookupFormModel])(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config2: utils.helpers.Config)
+    config: utils.helpers.Config)
 
 @import mappings.common.vrm_retention.Postcode
 @import uk.gov.dvla.vehicles.presentation.common.mappings.{DocumentReferenceNumber, VehicleRegistrationNumber}
@@ -72,12 +72,12 @@
                 <div class="img-wrap related">
                     <h3>@Messages("vrm_retention_vehiclelookup.intro")</h3>
                     <p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
-                    <img src="@controllers.StaticAssets.versioned(config2.assetsUrl)("images/document-reference-number.png")" alt="@Messages("document-reference-number-alt")">
+                    <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="@Messages("document-reference-number-alt")">
                 </div>
             </div>
         </div>
 
     }
 
-    <script data-main="@controllers.StaticAssets.versioned(config2.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
