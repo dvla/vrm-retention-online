@@ -47,7 +47,7 @@ class CommonStepDefs(
     }
     //    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
     //    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
-    c.expiry should be(None)
+    c.expiry should not be None // It is not a session cookie.
     this
   }
 
