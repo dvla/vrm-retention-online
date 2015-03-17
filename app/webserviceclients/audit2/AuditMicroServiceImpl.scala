@@ -10,15 +10,15 @@ import utils.helpers.Config
 import scala.concurrent.Future
 
 final class AuditMicroServiceImpl @Inject()(
-                                             config2: Config) extends AuditMicroService {
+                                             config: Config) extends AuditMicroService {
 
   override def invoke(request: AuditRequest): Future[WSResponse] = {
-    val endPoint: String = s"${config2.auditMicroServiceUrlBase}/audit/v1"
+    val endPoint: String = s"${config.auditMicroServiceUrlBase}/audit/v1"
     val requestAsJson = Json.toJson(request)
 
     Logger.debug(s"Calling audit micro-service with request $request")
     WS.url(endPoint).
-      withRequestTimeout(config2.auditMsRequestTimeout). // Timeout is in milliseconds
+      withRequestTimeout(config.auditMsRequestTimeout). // Timeout is in milliseconds
       post(requestAsJson)
   }
 }

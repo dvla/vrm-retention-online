@@ -18,8 +18,7 @@ import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                                  config2: Config) extends Controller {
+                                  config: Config) extends Controller {
 
   def present = Action { implicit request =>
     val happyPath = for {

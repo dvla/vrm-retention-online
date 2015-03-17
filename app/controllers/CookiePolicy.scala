@@ -6,8 +6,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import utils.helpers.Config
 
 final class CookiePolicy @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                                     config2: Config) extends Controller {
+                                     config: Config) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.vrm_retention.cookie_policy())

@@ -8,8 +8,7 @@ import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys
 
 final class LeaveFeedback @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                                      config2: Config) extends Controller {
+                                      config: Config) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.vrm_retention.leave_feedback()).

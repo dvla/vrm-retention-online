@@ -21,8 +21,7 @@ import scala.util.control.NonFatal
 
 final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                                    config2: Config) extends Controller {
+                                    config: Config) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

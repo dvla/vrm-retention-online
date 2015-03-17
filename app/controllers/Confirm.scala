@@ -32,7 +32,7 @@ final class Confirm @Inject()(
                                auditService2: audit2.AuditService,
                                dateService: DateService
                                )(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                 config2: Config) extends Controller {
+                                 config: Config) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 

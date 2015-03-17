@@ -11,17 +11,17 @@ import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 
 final class RetentionCookieFlags @Inject()()(
-  config2: Config) extends CookieFlags {
+  config: Config) extends CookieFlags {
 
   override def applyToCookie(cookie: Cookie, key: String): Cookie =
     if (List(StoreBusinessDetailsCacheKey, BusinessDetailsCacheKey, BusinessChooseYourAddressCacheKey, SetupBusinessDetailsCacheKey, EnterAddressManuallyCacheKey).contains(key)) {
       cookie.
-        withSecure(config2.secureCookies).
-        withMaxAge(config2.storeBusinessDetailsMaxAge)
+        withSecure(config.secureCookies).
+        withMaxAge(config.storeBusinessDetailsMaxAge)
     } else {
       cookie.
-        withSecure(config2.secureCookies).
-        withMaxAge(config2.cookieMaxAge)
+        withSecure(config.secureCookies).
+        withMaxAge(config.cookieMaxAge)
     }
 
   override def applyToCookie(cookie: Cookie): Cookie = applyToCookie(cookie, key = "")

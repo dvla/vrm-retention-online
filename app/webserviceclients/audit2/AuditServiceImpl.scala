@@ -11,12 +11,11 @@ import scala.util.control.NonFatal
 
 class AuditServiceImpl @Inject()(
                                   ws: AuditMicroService,
-
-                                  config2: Config
+                                  config: Config
                                   ) extends AuditService {
 
   override def send(auditRequest: AuditRequest): Future[Unit] = {
-    if (config2.auditMicroServiceUrlBase == "NOT FOUND")
+    if (config.auditMicroServiceUrlBase == "NOT FOUND")
       Future.successful(Logger.info(s"auditMicroServiceUrlBase not set in config. Audit request was: $auditRequest"))
     else ws.invoke(auditRequest).map { resp =>
       if (resp.status == Status.OK) {

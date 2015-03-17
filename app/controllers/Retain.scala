@@ -36,8 +36,7 @@ final class Retain @Inject()(
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                             config2: Config) extends Controller {
+                             config: Config) extends Controller {
 
   def retain = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -175,12 +174,12 @@ final class Retain @Inject()(
   private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId,
       originDateTime = new DateTime,
-      applicationCode = config2.applicationCode,
-      serviceTypeCode = config2.vssServiceTypeCode,
+      applicationCode = config.applicationCode,
+      serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser())
   }
 
   private def buildEndUser(): VssWebEndUserDto = {
-    VssWebEndUserDto(endUserId = config2.orgBusinessUnit, orgBusUnit = config2.orgBusinessUnit)
+    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
   }
 }

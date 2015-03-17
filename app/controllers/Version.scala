@@ -8,12 +8,11 @@ import utils.helpers.Config
 
 class Version @Inject()(vehiclesKeeperConfig: VehicleAndKeeperLookupConfig,
                         osAddressLookupConfig: OrdnanceSurveyConfig,
-
-                        config2: Config)
+                        config: Config)
   extends controllers.Version(
     osAddressLookupConfig.baseUrl + "/version",
     vehiclesKeeperConfig.vehicleAndKeeperLookupMicroServiceBaseUrl + "/version",
     //    config.paymentSolveMicroServiceUrlBase + "/version",
-    config2.vrmRetentionEligibilityMicroServiceUrlBase + "/version",
-    config2.vrmRetentionRetainMicroServiceUrlBase + "/version"
+    config.vrmRetentionEligibilityMicroServiceUrlBase + "/version",
+    config.vrmRetentionRetainMicroServiceUrlBase + "/version"
   )

@@ -10,8 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import utils.helpers.Config
 
 final class Help @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                             config2: Config) extends Controller {
+                             config: Config) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.common.help()) // TODO revisit persisting of 'origin' cookie.

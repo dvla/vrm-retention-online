@@ -66,7 +66,7 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
         case None => "en"
       }
       implicit val lang: Lang = Lang(value)
-      implicit val config2 = injector.getInstance(classOf[Config])
+      implicit val config = injector.getInstance(classOf[Config])
       Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
       NotFound(views.html.errors.onHandlerNotFound(request))
     }

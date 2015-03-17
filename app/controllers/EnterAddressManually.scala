@@ -30,8 +30,7 @@ final class EnterAddressManually @Inject()(
                                             dateService: DateService
                                             )
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                                           config2: Config) extends Controller {
+                                           config: Config) extends Controller {
 
   private[controllers] val form = Form(
     EnterAddressManuallyModel.Form.Mapping

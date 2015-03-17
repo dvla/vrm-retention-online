@@ -35,7 +35,7 @@ final class RetentionCookieFlagsSpec extends UnitSpec {
   }
 
   private def cookieFlags(configSecureCookies: Boolean) = {
-    val config2 = new TestConfig(secureCookies = configSecureCookies).build
-    new RetentionCookieFlags()(config2)
+    val config = new TestConfig(secureCookies = configSecureCookies).build
+    new RetentionCookieFlags()(config)
   }
 }

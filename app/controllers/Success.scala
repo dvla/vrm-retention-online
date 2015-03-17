@@ -26,8 +26,7 @@ final class Success @Inject()(pdfService: PdfService,
                               dateService: DateService,
                               paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                              config2: Config) extends Controller {
+                              config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

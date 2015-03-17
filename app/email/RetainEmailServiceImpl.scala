@@ -24,9 +24,9 @@ import scala.util.control.NonFatal
 final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                                              dateService: DateService,
                                              pdfService: PdfService,
-                                             config2: Config) extends RetainEmailService {
+                                             config: Config) extends RetainEmailService {
 
-  private val from = From(email = config2.emailSenderAddress, name = "DO NOT REPLY")
+  private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
 //  private val crownImage = Some("public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
   private val govUkUrl = Some("public/images/gov-uk-email.png")
 
@@ -42,7 +42,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if ((!config2.emailWhitelist.isDefined) || (config2.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) && inputEmailAddressDomain != "test.com") {
+    if ((!config.emailWhitelist.isDefined) || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) && inputEmailAddressDomain != "test.com") {
 
       Logger.debug("About to send email")
 
@@ -120,7 +120,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = retainModel.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config2.purchaseAmount.toDouble / 100.0).toString,
+      amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,
@@ -144,7 +144,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = retainModel.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config2.purchaseAmount.toDouble / 100.0).toString,
+      amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
       keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
       businessDetailsModel = businessDetailsModel,

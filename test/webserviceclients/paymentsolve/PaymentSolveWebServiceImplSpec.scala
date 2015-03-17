@@ -22,7 +22,7 @@ final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture
   }
 
   private def lookupService = new PaymentSolveWebServiceImpl(
-    config2 = new TestConfig(paymentSolveMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
+    config = new TestConfig(paymentSolveMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
   )
 
   private val trackingId = "track-id-test"

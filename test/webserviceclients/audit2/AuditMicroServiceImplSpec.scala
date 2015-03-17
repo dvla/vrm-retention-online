@@ -21,7 +21,7 @@ final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {
   }
 
   private def auditMicroService = new AuditMicroServiceImpl(
-    config2 = new TestConfig(auditMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
+    config = new TestConfig(auditMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
   )
 
   private def request = {

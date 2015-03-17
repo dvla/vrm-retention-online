@@ -36,8 +36,7 @@ final class Payment @Inject()(
                                auditService2: audit2.AuditService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                              config2: Config) extends Controller {
+                              config: Config) extends Controller {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -115,7 +114,7 @@ final class Payment @Inject()(
           transactionId = transactionId,
           transNo = transNo,
           vrm = vrm,
-          purchaseAmount = config2.purchaseAmount.toInt,
+          purchaseAmount = config.purchaseAmount.toInt,
           paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()

@@ -44,7 +44,7 @@ final class BusinessChooseYourAddress @Inject()(
                                                  dateService: DateService
                                                  )
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                config2: Config) extends Controller {
+                                                config: Config) extends Controller {
 
   private[controllers] val form = Form(BusinessChooseYourAddressFormModel.Form.Mapping)
 
@@ -54,7 +54,7 @@ final class BusinessChooseYourAddress @Inject()(
         val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsForm, vehicleAndKeeperDetails)
         val session = clientSideSessionFactory.getSession(request.cookies)
         fetchAddresses(setupBusinessDetailsForm, showBusinessName = Some(true))(session, request2lang).map { addresses =>
-          if (config2.ordnanceSurveyUseUprn) Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
+          if (config.ordnanceSurveyUseUprn) Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), addresses))
           else Ok(views.html.vrm_retention.business_choose_your_address(viewModel, form.fill(), index(addresses)))
         }
       case _ => Future.successful {
@@ -71,7 +71,7 @@ final class BusinessChooseYourAddress @Inject()(
             val viewModel = BusinessChooseYourAddressViewModel(setupBusinessDetailsFormModel, vehicleAndKeeperDetailsModel)
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
             fetchAddresses(setupBusinessDetailsFormModel, showBusinessName = Some(true)).map { addresses =>
-              if (config2.ordnanceSurveyUseUprn)
+              if (config.ordnanceSurveyUseUprn)
                 BadRequest(business_choose_your_address(viewModel,
                   formWithReplacedErrors(invalidForm),
                   addresses)
@@ -90,7 +90,7 @@ final class BusinessChooseYourAddress @Inject()(
         request.cookies.getModel[SetupBusinessDetailsFormModel] match {
           case Some(setupBusinessDetailsForm) =>
             implicit val session = clientSideSessionFactory.getSession(request.cookies)
-            if (config2.ordnanceSurveyUseUprn) {
+            if (config.ordnanceSurveyUseUprn) {
               lookupUprn(validForm,
                 setupBusinessDetailsForm.name,
                 setupBusinessDetailsForm.contact,

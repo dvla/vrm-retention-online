@@ -33,8 +33,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
                                      dateService: DateService,
                                      paymentSolveService: PaymentSolveService)
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                                     config2: Config) extends Controller {
+                                     config: Config) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

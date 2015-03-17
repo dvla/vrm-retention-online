@@ -11,8 +11,7 @@ import utils.helpers.Config
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-
-                                             config2: Config) extends Controller {
+                                             config: Config) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

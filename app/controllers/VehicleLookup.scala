@@ -42,7 +42,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     auditService1: audit1.AuditService,
                                     auditService2: audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
-                                    config2: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
+                                    config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
   val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
   val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
