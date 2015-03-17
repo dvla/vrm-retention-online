@@ -4,10 +4,14 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_retention.VehicleLookupPage
 import pages.vrm_retention._
-import views.vrm_retention.RelatedCacheKeys.{BusinessDetailsSet, RetainSet}
+import views.vrm_retention.RelatedCacheKeys.BusinessDetailsSet
+import views.vrm_retention.RelatedCacheKeys.RetainSet
 
 final class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
@@ -29,13 +33,13 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("value").size > 0 should equal(true)
     }
 
-    "redirect to PaymentPreventBack page when retain cookie is present" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to VehicleLookupPage page when retain cookie is present (the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().retainModel()
 
       go to PaymentPage
 
-      currentUrl should equal(PaymentPreventBackPage.url)
+      currentUrl should equal(VehicleLookupPage.url)
     }
   }
 

@@ -18,6 +18,4 @@ object SuccessPaymentPage extends Page {
   final override val title: String = "Summary Payment"
 
   def next(implicit driver: WebDriver) = find(id(NextId)).get
-
-  def waiting(implicit driver: WebDriver) = driver.manage().timeouts().implicitlyWait(1, TimeUnit.MINUTES)
 }

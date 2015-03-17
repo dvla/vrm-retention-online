@@ -2,14 +2,7 @@ package controllers
 
 import audit1.AuditMessage
 import com.google.inject.Inject
-import models.BusinessChooseYourAddressFormModel
-import models.BusinessDetailsModel
-import models.ConfirmFormModel
-import models.ConfirmViewModel
-import models.EligibilityModel
-import models.EnterAddressManuallyModel
-import models.SetupBusinessDetailsFormModel
-import models.VehicleAndKeeperLookupFormModel
+import models._
 import play.api.Logger
 import play.api.data.Form
 import play.api.data.FormError
@@ -26,13 +19,13 @@ import utils.helpers.Config
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId
 import views.vrm_retention.Confirm.SupplyEmail_true
-import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 final class Confirm @Inject()(
                                auditService1: audit1.AuditService,
@@ -45,15 +38,26 @@ final class Confirm @Inject()(
 
   def present: Action[AnyContent] = Action {
     implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel], request.cookies.getModel[VehicleAndKeeperLookupFormModel], request.cookies.getModel[SetupBusinessDetailsFormModel], request.cookies.getModel[BusinessChooseYourAddressFormModel], request.cookies.getModel[EnterAddressManuallyModel], request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(setupBusinessDetailsFormModel), businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
-          // Happy path for a business user that has all the cookies (and they either have entered address manually)
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[RetainModel],
+        request.cookies.getModel[BusinessChooseYourAddressFormModel],
+        request.cookies.getModel[EnterAddressManuallyModel],
+        request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), None, businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
+          // Happy path for a business user that has all the cookies (and they either have entered address manually)// Happy path for keeper keeper
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), _, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
-          // Happy path for keeper
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), None, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+          // Happy path for keeper keeper
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
         case _ =>
           Logger.warn("*** Confirm present is missing cookies for either keeper or business")
+          Logger.warn("*** VehicleAndKeeperDetailsModel " + request.cookies.getModel[VehicleAndKeeperDetailsModel])
+          Logger.warn("*** VehicleAndKeeperLookupFormModel " + request.cookies.getModel[VehicleAndKeeperLookupFormModel])
+          Logger.warn("*** RetainModel " + request.cookies.getModel[RetainModel])
+          Logger.warn("*** BusinessChooseYourAddressFormModel " + request.cookies.getModel[BusinessChooseYourAddressFormModel])
+          Logger.warn("*** EnterAddressManuallyModel " + request.cookies.getModel[EnterAddressManuallyModel])
+          Logger.warn("*** StoreBusinessDetailsCacheKey " + request.cookies.getString(StoreBusinessDetailsCacheKey))
           Redirect(routes.ConfirmBusiness.present())
       }
   }

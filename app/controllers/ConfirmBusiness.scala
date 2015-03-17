@@ -64,13 +64,6 @@ final class ConfirmBusiness @Inject()(
 
   private def handleValid(model: ConfirmBusinessFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
-      val storeBusinessDetails =
-        if (vehicleAndKeeperLookup.userType == UserType_Business)
-          Some(CookieKeyValue(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString))
-        else
-          None
-
-      val cookies = List(storeBusinessDetails).flatten
 
       auditService1.send(AuditMessage.from(
         pageMovement = AuditMessage.ConfirmBusinessToConfirm,
@@ -86,8 +79,9 @@ final class ConfirmBusiness @Inject()(
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-      Redirect(routes.Confirm.present()).withCookiesEx(cookies: _*)
+println("***** model.storeBusinessDetails.toString " + model.storeBusinessDetails.toString)
+      Redirect(routes.Confirm.present()).
+        withCookie(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString)
     }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)

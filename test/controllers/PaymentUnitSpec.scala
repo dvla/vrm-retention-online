@@ -36,7 +36,7 @@ final class PaymentUnitSpec extends UnitSpec {
 
       val result = payment.begin(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
     }
 
@@ -53,7 +53,7 @@ final class PaymentUnitSpec extends UnitSpec {
 
       val result = payment.begin(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(PaymentFailurePage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmPage.address))
       }
     }
 

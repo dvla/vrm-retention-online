@@ -1,14 +1,16 @@
 package pages
 
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
+import org.scalatest.concurrent.Eventually.PatienceConfig
+import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
+import pages.vrm_retention.VehicleLookupPage._
 import pages.vrm_retention.VehicleLookupPage.documentReferenceNumber
 import pages.vrm_retention.VehicleLookupPage.keeperPostcode
 import pages.vrm_retention.VehicleLookupPage.vehicleRegistrationNumber
-import pages.vrm_retention.VehicleLookupPage._
 
 class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 

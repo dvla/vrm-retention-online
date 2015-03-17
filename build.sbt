@@ -54,9 +54,10 @@ libraryDependencies ++= {
   Seq(
     cache,
     filters,
-    "org.seleniumhq.selenium" % "selenium-java" % "2.44.0" % "test" withSources() withJavadoc(),
+    "org.seleniumhq.selenium" % "selenium-java" % "2.45.0" % "test",
 //    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
     "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
@@ -125,14 +126,14 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.11-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.12-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.10-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val paymentSolveProject = paymentSolve("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 //lazy val auditProject = audit("0.2").disablePlugins(PlayScala, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val emailServiceProject = emailService("0.2-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.3-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 18000
 

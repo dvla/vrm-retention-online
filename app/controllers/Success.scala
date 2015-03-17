@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import models._
 import pdf.PdfService
+import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -48,7 +49,8 @@ final class Success @Inject()(pdfService: PdfService,
 
         Ok(views.html.vrm_retention.success(successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper))
       case _ =>
-        Redirect(routes.MicroServiceError.present())
+        Logger.warn("Success present user arrived without all of the required cookies")
+        Redirect(routes.Confirm.present())
     }
   }
 

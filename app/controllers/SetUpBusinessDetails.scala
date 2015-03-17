@@ -3,6 +3,7 @@ package controllers
 import audit1.AuditMessage
 import com.google.inject.Inject
 import models.EligibilityModel
+import models.RetainModel
 import models.SetupBusinessDetailsFormModel
 import models.SetupBusinessDetailsViewModel
 import play.api.data.Form
@@ -37,8 +38,9 @@ final class SetUpBusinessDetails @Inject()(
   )
 
   def present = Action { implicit request =>
-    request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
-      case Some(vehicleAndKeeperDetails) =>
+    (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[RetainModel]) match {
+      case (Some(vehicleAndKeeperDetails), None) =>
         val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
         Ok(views.html.vrm_retention.setup_business_details(form.fill(), viewModel))
       case _ => Redirect(routes.VehicleLookup.present())

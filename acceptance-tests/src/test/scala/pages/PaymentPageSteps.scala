@@ -1,11 +1,12 @@
 package pages
 
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.{eventually, PatienceConfig}
+import org.scalatest.concurrent.Eventually.PatienceConfig
+import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.PaymentPage._
 
@@ -23,7 +24,6 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver, timeout: Patien
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-      pageTitle should equal(title)
     }
     this
   }
@@ -52,7 +52,7 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver, timeout: Patien
 
   def `expiryDate` = {
     singleSel(expiryMonth()).value = "08"
-    singleSel(expiryYear()).value = "2016"
+    singleSel(expiryYear()).value = "2018"
     this
   }
 
