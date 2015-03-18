@@ -31,20 +31,28 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
 
       case (Some(transactionId), Some(paymentModel), Some(vehicleAndKeeperLookupFormModel)) =>
         val vehicleAndKeeperDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-        callCancelWebPaymentService(transactionId, paymentModel.trxRef.get, vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetails)
+        callCancelWebPaymentService(
+          transactionId,
+          paymentModel.trxRef.get,
+          vehicleAndKeeperLookupFormModel,
+          vehicleAndKeeperDetails,
+          isPrimaryUrl = paymentModel.isPrimaryUrl)
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))
     }
   }
 
-  private def callCancelWebPaymentService(transactionId: String, trxRef: String,
+  private def callCancelWebPaymentService(transactionId: String,
+                                          trxRef: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
-                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel])
+                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
+                                          isPrimaryUrl: Boolean)
                                          (implicit request: Request[_]): Future[Result] = {
 
     val paymentSolveCancelRequest = PaymentSolveCancelRequest(
       transNo = transactionId.replaceAll("[^0-9]", ""),
-      trxRef = trxRef
+      trxRef = trxRef,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
 

@@ -89,13 +89,21 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
           )
         }
 
-        callUpdateWebPaymentService(paymentModel.trxRef.get, successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
+        callUpdateWebPaymentService(
+          paymentModel.trxRef.get,
+          successViewModel,
+          isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper,
+          isPrimaryUrl = paymentModel.isPrimaryUrl
+        )
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))
     }
   }
 
-  private def callUpdateWebPaymentService(trxRef: String, successViewModel: SuccessViewModel, isKeeper: Boolean)
+  private def callUpdateWebPaymentService(trxRef: String,
+                                          successViewModel: SuccessViewModel,
+                                          isKeeper: Boolean,
+                                          isPrimaryUrl: Boolean)
                                          (implicit request: Request[_]): Future[Result] = {
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
@@ -103,7 +111,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
     val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
       transNo = transNo,
       trxRef = trxRef,
-      authType = SuccessPayment.SETTLE_AUTH_CODE
+      authType = SuccessPayment.SETTLE_AUTH_CODE,
+      isPrimaryUrl = isPrimaryUrl
     )
     val trackingId = request.cookies.trackingId()
 

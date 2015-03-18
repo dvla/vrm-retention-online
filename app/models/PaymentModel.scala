@@ -9,7 +9,7 @@ final case class PaymentModel(trxRef: Option[String] = None, var paymentStatus: 
                               var merchantId: Option[String] = None, var paymentType: Option[String] = None,
                               var cardType: Option[String] = None, var totalAmountPaid: Option[Long] = None,
                               var rejectionCode: Option[String] = None,
-                              val isPrimaryUrl: Boolean)
+                              isPrimaryUrl: Boolean)
 
 object PaymentModel {
 
