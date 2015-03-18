@@ -8,13 +8,14 @@ final case class PaymentModel(trxRef: Option[String] = None, var paymentStatus: 
                               var maskedPAN: Option[String] = None, var authCode: Option[String] = None,
                               var merchantId: Option[String] = None, var paymentType: Option[String] = None,
                               var cardType: Option[String] = None, var totalAmountPaid: Option[Long] = None,
-                              var rejectionCode: Option[String] = None)
+                              var rejectionCode: Option[String] = None,
+                              val isPrimaryUrl: Boolean)
 
 object PaymentModel {
 
-  def from(trxRef: String) = {
+  def from(trxRef: String, isPrimaryUrl: Boolean) = {
 
-    PaymentModel(trxRef = Some(trxRef))
+    PaymentModel(trxRef = Some(trxRef), isPrimaryUrl = isPrimaryUrl)
   }
 
   implicit val JsonFormat = Json.format[PaymentModel]

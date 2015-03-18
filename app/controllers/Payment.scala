@@ -122,7 +122,7 @@ final class Payment @Inject()(
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
           if (response.status == Payment.CardDetailsStatus) {
             Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
-              .withCookie(PaymentModel.from(response.trxRef.get))
+              .withCookie(PaymentModel.from(trxRef = response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl))
               .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
           } else {
             paymentFailure(s"The begin web request to Solve was not validated. Payment Solve encountered a problem with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure")
