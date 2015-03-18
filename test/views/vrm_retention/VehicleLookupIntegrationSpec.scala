@@ -7,7 +7,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
-import pages.vrm_retention.VehicleLookupPage.happyPath
+import pages.vrm_retention.VehicleLookupPage.fillWith
 import pages.vrm_retention._
 
 final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
@@ -36,7 +36,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(isCurrentKeeper = true)
+      fillWith(isCurrentKeeper = true)
 
       currentUrl should equal(ConfirmPage.url)
     }
@@ -44,7 +44,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "redirect to SetupBusinessDetailsPage when valid submission and not current keeper" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(isCurrentKeeper = false)
+      fillWith(isCurrentKeeper = false)
 
       currentUrl should equal(SetupBusinessDetailsPage.url)
     }
@@ -52,7 +52,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when no referenceNumber is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(referenceNumber = "")
+      fillWith(referenceNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -60,7 +60,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when no registrationNumber is entered" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "")
+      fillWith(registrationNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -68,7 +68,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when a registrationNumber is entered containing one character" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "a")
+      fillWith(registrationNumber = "a")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -76,7 +76,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when a registrationNumber is entered containing special characters" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "$^")
+      fillWith(registrationNumber = "$^")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -84,7 +84,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display two validation error messages when no vehicle details are entered but consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(referenceNumber = "", registrationNumber = "")
+      fillWith(referenceNumber = "", registrationNumber = "")
 
       ErrorPanel.numberOfErrors should equal(2)
     }
@@ -92,7 +92,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when only a valid referenceNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(registrationNumber = "")
+      fillWith(registrationNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }
@@ -100,7 +100,7 @@ final class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
     "display one validation error message when only a valid registrationNumber is entered and consent is given" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 
-      happyPath(referenceNumber = "")
+      fillWith(referenceNumber = "")
 
       ErrorPanel.numberOfErrors should equal(1)
     }

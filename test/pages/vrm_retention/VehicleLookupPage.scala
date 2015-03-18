@@ -29,7 +29,7 @@ object VehicleLookupPage extends Page {
 
   def findVehicleDetails(implicit driver: WebDriver) = find(id(SubmitId)).get
 
-  def happyPath(referenceNumber: String = ReferenceNumberValid,
+  def fillWith(referenceNumber: String = ReferenceNumberValid,
                 registrationNumber: String = RegistrationNumberValid,
                 postcode: String = KeeperPostcodeValidForMicroService,
                 isCurrentKeeper: Boolean = true)
@@ -44,6 +44,6 @@ object VehicleLookupPage extends Page {
   }
 
   def tryLockedVrm()(implicit driver: WebDriver) = {
-    happyPath(registrationNumber = BruteForcePreventionWebServiceConstants.VrmLocked)
+    fillWith(registrationNumber = BruteForcePreventionWebServiceConstants.VrmLocked)
   }
 }
