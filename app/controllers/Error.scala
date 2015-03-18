@@ -9,7 +9,8 @@ import utils.helpers.Config
 import utils.helpers.CookieHelper
 
 final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                              config: Config,
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present(exceptionDigest: String) = Action { implicit request =>
     Logger.debug("Error - Displaying generic error page")

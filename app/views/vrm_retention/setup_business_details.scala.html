@@ -1,7 +1,8 @@
 @(setupBusinessDetailsFormModel: Form[models.SetupBusinessDetailsFormModel],
         viewModel: models.SetupBusinessDetailsViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.SetUpBusinessDetails
 @import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode

@@ -38,7 +38,7 @@ import scala.concurrent.Future
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
-                                    dateService: DateService,
+                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
                                     auditService1: audit1.AuditService,
                                     auditService2: audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,

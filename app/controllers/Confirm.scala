@@ -29,10 +29,10 @@ import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 final class Confirm @Inject()(
                                auditService1: audit1.AuditService,
-                               auditService2: audit2.AuditService,
-                               dateService: DateService
+                               auditService2: audit2.AuditService
                                )(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                 config: Config) extends Controller {
+                                 config: Config,
+                                 dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 

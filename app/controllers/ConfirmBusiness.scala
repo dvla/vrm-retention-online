@@ -21,10 +21,10 @@ import webserviceclients.audit2.AuditRequest
 
 final class ConfirmBusiness @Inject()(
                                        auditService1: audit1.AuditService,
-                                       auditService2: audit2.AuditService,
-                                       dateService: DateService
+                                       auditService2: audit2.AuditService
                                        )(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                         config: Config) extends Controller {
+                                         config: Config,
+                                         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 

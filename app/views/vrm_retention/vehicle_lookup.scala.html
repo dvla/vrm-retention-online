@@ -1,6 +1,7 @@
 @(vehicleAndKeeperLookupForm: Form[models.VehicleAndKeeperLookupFormModel])(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config: utils.helpers.Config)
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import mappings.common.vrm_retention.Postcode
 @import uk.gov.dvla.vehicles.presentation.common.mappings.{DocumentReferenceNumber, VehicleRegistrationNumber}

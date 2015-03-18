@@ -30,13 +30,13 @@ import scala.util.control.NonFatal
 
 final class Payment @Inject()(
                                paymentSolveService: PaymentSolveService,
-                               dateService: DateService,
                                refererFromHeader: RefererFromHeader,
                                auditService1: audit1.AuditService,
                                auditService2: audit2.AuditService
                                )
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config) extends Controller {
+                              config: Config,
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

@@ -13,7 +13,8 @@ import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config) extends Controller {
+                                       config: Config,
+                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
