@@ -58,8 +58,8 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
           .get( s"""/assets/images/favicon.ico""")
       )
       .exec(
-        http("gov-uk-email.png")
-          .get( s"""/assets/images/gov-uk-email.png""")
+        http("gov-uk-email.jpg")
+          .get( s"""/assets/images/gov-uk-email.jpg""")
       )
       .exec(
         http("govuk-crest.png")

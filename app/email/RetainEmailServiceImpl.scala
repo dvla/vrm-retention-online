@@ -27,8 +27,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                                              config: Config) extends RetainEmailService {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
-//  private val crownImage = Some("public/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
-  private val govUkUrl = Some("public/images/gov-uk-email.png")
+  private val govUkUrl = Some("public/images/gov-uk-email.jpg")
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -107,7 +106,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
           case Some(resource) =>
             val imageInFile = resource.openStream()
             val imageData = org.apache.commons.io.IOUtils.toByteArray(imageInFile)
-            "data:image/png;base64," + Base64.encodeBase64String(imageData)
+            "data:image/jpg;base64," + Base64.encodeBase64String(imageData)
           case _ => ""
         }
       case _ => ""
