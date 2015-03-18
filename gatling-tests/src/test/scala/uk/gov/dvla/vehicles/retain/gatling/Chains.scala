@@ -58,14 +58,6 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
           .get( s"""/assets/images/favicon.ico""")
       )
       .exec(
-        http("gov.uk_logotype-2x.png")
-          .get( s"""/assets/images/gov.uk_logotype-2x.png""")
-      )
-      .exec(
-        http("gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png")
-          .get( s"""/assets/images/gov.uk_logotype_crown-c09acb07e4d1d5d558f5a0bc53e9e36d.png""")
-      )
-      .exec(
         http("gov-uk-email.png")
           .get( s"""/assets/images/gov-uk-email.png""")
       )
