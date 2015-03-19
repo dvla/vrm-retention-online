@@ -1,3 +1,26 @@
+======= 1.10.1 ======
+Time of release binaries creation:
+Thur Mar 19 2015 10:53:00 GMT+0000 (GMT)
+
+fc1168a RELEASE 1.10.1
+41056a2 Set dependencies to release versions
+846213e Fix merge: hotfix from master
+32082ed US2759: WebApp to Payment micro-service requests (other than /begin) should have a boolean parameter 'isPrimaryUrl'
+228f87c US2759: the WebApp receives the response and saves isPrimaryUrl in the PaymentModel cookie
+b6609d9 US2759: the Payment micro-service /begin call's response must return a boolean parameter isPrimaryUrl. This is set to true if the call was made using the primary url.
+0278a2b Hotfix: BusinessChooseYourAddress cookie needs to have a cross-domain name so it can be used across the PR services
+4b6eabf DE327: change .png to .jpg to make it hopefully work on Outlook
+ea18d50 Refactor: remove unused .gif and .png
+39912b3 Refactor: remove unused .pngs
+3776231 Refactor: remove any new'ing up of new DateServiceImpl - we should use IoC
+6c4cb9b Refactor: rename function as it is not only used for happy path
+9b937fe Refactor: uncommented test and updated to new navigation
+cf1f2f8 Refactor: Remove unused DSL files that were originally Sion's Selenium wrappers
+c42bbf1 Refactor: VehicleAndKeeperDetailsModel factory method that takes just a registrationNumber
+eb9a2a4 Refactor: rename config2 to config
+dc51c09 Refactor: rename config2 to config
+3bff436 New development version 1.11-SNAPSHOT
+
 ======= 1.10 ======
 Time of release binaries creation:
 Tue Mar 17 2015 13:30:00 GMT+0000 (GMT)
