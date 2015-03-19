@@ -4,6 +4,7 @@ import audit1.AuditMessage
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._
+import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
@@ -15,6 +16,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -64,8 +66,18 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override def vehicleLookupFailure(responseCode: String, formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
-    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(
-      registrationNumber = formatVrm(formModel.registrationNumber)
+    val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
+      registrationNumber = formatVrm(formModel.registrationNumber),
+      make = None,
+      model = None,
+      title = None,
+      firstName = None,
+      lastName = None,
+      address = None,
+      disposeFlag = None,
+      keeperEndDate = None,
+      keeperChangeDate = None,
+      suppressedV5Flag = None
     )
 
     auditService1.send(AuditMessage.from(
