@@ -626,7 +626,7 @@ vrm_retention_success.aboutTransactionIdLabel = Transaction ID -
 vrm_retention_success.aboutTransactionCompletedLabel = Transaction Completed -
 vrm_retention_success.aboutTransactionEmployeeLabel = Employee name (optional)
 
-vrm_retention_success.buttonnavprint = Print Full Summary
+vrm_retention_success.buttonnavprint = Print this page
 
 micro_service_error.title=We are sorry
 micro_service_error.text=The service is temporarily unavailable. Please try again later.

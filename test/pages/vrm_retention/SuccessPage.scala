@@ -8,6 +8,7 @@ import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.Success.FinishId
+import views.vrm_retention.Success.PrintId
 
 object SuccessPage extends Page {
 
@@ -19,4 +20,6 @@ object SuccessPage extends Page {
   def finish(implicit driver: WebDriver) = find(id(FinishId)).get
 
   def waiting(implicit driver: WebDriver) = driver.manage().timeouts().implicitlyWait(1, TimeUnit.MINUTES)
+
+  def print(implicit driver: WebDriver) = find(id(PrintId)).get
 }

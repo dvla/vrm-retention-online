@@ -7,7 +7,9 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.SuccessPage.finish
-import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, SuccessPage}
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.LeaveFeedbackPage
+import pages.vrm_retention.SuccessPage
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
 
@@ -41,6 +43,18 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
 
       // Verify the cookies identified by the full set of cache keys have been removed
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
+    }
+  }
+
+  "print button" should {
+
+    "have the label 'Print this page'" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup()
+
+      go to SuccessPage
+
+      SuccessPage.print.text should equal("Print this page")
     }
   }
 
