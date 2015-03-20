@@ -267,7 +267,7 @@ mandatory = Fields not labelled (optional) are mandatory
 #
 
 # main
-main.banner = Take a Registration Number off a Vehicle
+main.banner = Take a registration number off a vehicle
 
 # before you start
 vrm_retention_beforeyoustart.title = Take a Registration Number off a Vehicle
