@@ -88,25 +88,13 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                            businessDetailsModel: Option[BusinessDetailsModel],
                            isKeeper: Boolean): HtmlFormat.Appendable = {
 
-//    val crownContentId = crownImage match {
-//      case Some(filename) =>
-//        Play.resource(name = filename) match {
-//          case Some(resource) =>
-//            val imageInFile = resource.openStream()
-//            val imageData = org.apache.commons.io.IOUtils.toByteArray(imageInFile)
-//            "data:image/png;base64," + Base64.encodeBase64String(imageData)
-//          case _ => ""
-//        }
-//      case _ => ""
-//    }
-
     val govUkContentId = govUkUrl match {
       case Some(filename) =>
         Play.resource(name = filename) match {
           case Some(resource) =>
             val imageInFile = resource.openStream()
             val imageData = org.apache.commons.io.IOUtils.toByteArray(imageInFile)
-            "data:image/jpg;base64," + Base64.encodeBase64String(imageData)
+            "data:image/jpeg;base64," + Base64.encodeBase64String(imageData)
           case _ => ""
         }
       case _ => ""
