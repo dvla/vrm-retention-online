@@ -17,7 +17,7 @@ import views.vrm_retention.Payment.PaymentDetailsCacheKey
 import views.vrm_retention.Retain.{RetainCacheKey, RetainResponseCodeCacheKey}
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.{VehicleAndKeeperLookupFormModelCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 
 object RelatedCacheKeys {
 
@@ -25,7 +25,7 @@ object RelatedCacheKeys {
 
   val RetainSet = Set(
     bruteForcePreventionViewModelCacheKey,
-    VehicleAndKeeperLookupDetailsCacheKey,
+    vehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey,
     CheckEligibilityCacheKey,
@@ -37,7 +37,7 @@ object RelatedCacheKeys {
   )
 
   val VehicleAndKeeperLookupSet = Set(
-    VehicleAndKeeperLookupDetailsCacheKey,
+    vehicleAndKeeperLookupDetailsCacheKey,
     VehicleAndKeeperLookupResponseCodeCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey
   )

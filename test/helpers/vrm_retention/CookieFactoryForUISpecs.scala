@@ -4,7 +4,7 @@ import models._
 import org.openqa.selenium.{Cookie, WebDriver}
 import play.api.libs.json.{Json, Writes}
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.VehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.{AddressAndPostcodeViewModel, AddressLinesViewModel}
 import views.vrm_retention
@@ -180,7 +180,7 @@ object CookieFactoryForUISpecs {
                                    postTown: Option[String] = KeeperPostTownValid,
                                    postCode: Option[String] = KeeperPostCodeValid)
                                   (implicit webDriver: WebDriver) = {
-    val key = VehicleAndKeeperLookupDetailsCacheKey
+    val key = vehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
       addressLinesModel = AddressLinesViewModel(
         buildingNameOrNumber = addressLine1.get,
