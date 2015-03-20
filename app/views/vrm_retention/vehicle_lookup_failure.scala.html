@@ -47,12 +47,9 @@
             <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
 
             <p>Transaction Id @transactionId</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1") @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {<a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("text-v317")</a>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1a")}</p>
+            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1") @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {<a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1a")}</p>
             @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vehicle_and_keeper_lookup_keeper_postcode_mismatch")) { <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p> }
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
-            @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {
-               <p><a href="https://www.gov.uk/government/publications/application-to-transfer-or-retain-a-vehicle-registration-number">@Messages("download-v317")</a></p>
-            }
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
