@@ -5,8 +5,8 @@
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_retention.main
-@import views.html.common.failure_playback
-@import views.vrm_retention.VehicleLookupFailure.{ExitId, TryAgainId}
+@import views.html.vrm_retention.lookup_failure.failure_playback
+@import views.vrm_retention.VehicleLookupFailure.ExitId
 
 @main(
     title =  Messages(s"vehicle-lookup-failure-postcode-mismatch-title")
