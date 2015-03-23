@@ -19,12 +19,11 @@
 
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
-            @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vehicle_and_keeper_lookup_keeper_postcode_mismatch")) { <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p> }
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
 
             <div class="form-steps">
                 @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
-                    <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
+                    <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
                     <br/>
                 }
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
