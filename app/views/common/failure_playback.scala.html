@@ -1,0 +1,32 @@
+@(viewModel: models.VehicleLookupFailureViewModel)(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+<div id="vehicle-details" class="first-col trader-details">
+    <dl class="playback">
+        <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
+        <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+        <dd class="reg-number">@viewModel.registrationNumber</dd>
+        @if(viewModel.make.isDefined) {
+            <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+            <dd>@viewModel.make.get.take(20)</dd>
+        }
+        @if(viewModel.model.isDefined) {
+            <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+            <dd>@viewModel.model.get.take(20)</dd>
+        }
+
+        <br/>
+        <p>@Messages("success-keeper-application-details-contact-us")</p>
+        <p>@Messages("success-keeper-application-details-telephone")</p>
+        <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong> <br/>
+            <small>@Messages("success-keeper-application-details-telephone-number-extension")</small></p>
+        <p><strong>@Messages("success-keeper-application-details-monday-to-friday")</strong></p>
+        <p><strong>@Messages("success-keeper-application-details-saturday")</strong></p>
+        <p><strong>@Messages("success-keeper-application-details-sunday")</strong></p>
+        <br/>
+        <p style="font-size: 14px;">@Messages("success-keeper-application-details-textphone")</p>
+        <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
+    </dl>
+</div>
