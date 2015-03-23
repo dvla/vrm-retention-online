@@ -13,9 +13,6 @@ import org.scalatest.selenium.WebBrowser._
 import pages.common.MainPanel.back
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.ConfirmPage
-import pages.vrm_retention.ConfirmPage.`don't supply keeper email`
-import pages.vrm_retention.ConfirmPage.`supply keeper email`
-import pages.vrm_retention.ConfirmPage.isKeeperEmailHidden
 import pages.vrm_retention.VehicleLookupPage
 import pages.vrm_retention._
 import views.vrm_retention.Confirm.ConfirmCacheKey
@@ -43,45 +40,45 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
     }
 
     // [SW] tests commented out as we need Ops to add a line to the build scripts to install phantom-js
-//    "not display the keeper email field when neither yes or no has been selected on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-//      go to BeforeYouStartPage
-//
-//      cacheSetup()
-//
-//      go to ConfirmPage
-//
-//      eventually {
-//        isKeeperEmailHidden should equal(true)
-//      }
-//    }
-//
-//    "not display the keeper email field when I click no on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-//      go to BeforeYouStartPage
-//
-//      cacheSetup()
-//
-//      go to ConfirmPage
-//
-//      click on `don't supply keeper email`
-//
-//      eventually {
-//        isKeeperEmailHidden should equal(true)
-//      }
-//    }
-//
-//    "display the keeper email field when I click yes on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-//      go to BeforeYouStartPage
-//
-//      cacheSetup()
-//
-//      go to ConfirmPage
-//
-//      click on `supply keeper email`
-//
-//      eventually {
-//        isKeeperEmailHidden should equal(false)
-//      }
-//    }
+    //    "not display the keeper email field when neither yes or no has been selected on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    //      go to BeforeYouStartPage
+    //
+    //      cacheSetup()
+    //
+    //      go to ConfirmPage
+    //
+    //      eventually {
+    //        isKeeperEmailHidden should equal(true)
+    //      }
+    //    }
+    //
+    //    "not display the keeper email field when I click no on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    //      go to BeforeYouStartPage
+    //
+    //      cacheSetup()
+    //
+    //      go to ConfirmPage
+    //
+    //      click on `don't supply keeper email`
+    //
+    //      eventually {
+    //        isKeeperEmailHidden should equal(true)
+    //      }
+    //    }
+    //
+    //    "display the keeper email field when I click yes on the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    //      go to BeforeYouStartPage
+    //
+    //      cacheSetup()
+    //
+    //      go to ConfirmPage
+    //
+    //      click on `supply keeper email`
+    //
+    //      eventually {
+    //        isKeeperEmailHidden should equal(false)
+    //      }
+    //    }
   }
 
   //  "confirm button" should {

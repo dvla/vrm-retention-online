@@ -5,11 +5,17 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
+import org.scalatest.concurrent.Eventually
+import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
-import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
+import pages.vrm_retention.VehicleLookupFailurePage.exit
+import pages.vrm_retention.VehicleLookupFailurePage.tryAgain
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.LeaveFeedbackPage
+import pages.vrm_retention.VehicleLookupFailurePage
+import pages.vrm_retention.VehicleLookupPage
 
-final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness {
+final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
   "go to page" should {
 
@@ -54,7 +60,9 @@ final class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness 
 
       click on tryAgain
 
-      currentUrl should equal(VehicleLookupPage.url)
+      eventually {
+        currentUrl should equal(VehicleLookupPage.url)
+      }
     }
   }
 
