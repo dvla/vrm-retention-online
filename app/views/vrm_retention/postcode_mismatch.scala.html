@@ -10,18 +10,20 @@
 
 @import views.html.vrm_retention.main
 @import views.html.common.failure_playback
-@import views.vrm_retention.VehicleLookupFailure.{ExitId, `v317-id`}
+@import views.vrm_retention.VehicleLookupFailure.{ExitId, TryAgainId}
 
 @main(
-    title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
+    title =  Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.title")
 ) {
     <div class="two-col">
         @failure_playback(viewModel = vehicleLookupFailureViewModel)
         <div class="second-col">
-            <h2>@Messages("vrm_retention_eligibility_direct_to_paper.title")</h2>
+            <h2>@Messages("vehicle_and_keeper_lookup_keeper_postcode_mismatch.title")</h2>
 
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
-            <p>@Messages(s"vrm_retention_eligibility_direct_to_paper.p1") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"vrm_retention_eligibility_direct_to_paper.p1a")</p>
+            <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1")</p>
+            <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2")</p>
+            <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3")</p>
 
             <div class="form-steps">
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
