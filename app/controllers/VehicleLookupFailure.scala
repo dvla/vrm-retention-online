@@ -10,10 +10,10 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_retention.VehicleLookup._
 import views.html.vrm_retention.direct_to_paper
 import views.html.vrm_retention.postcode_mismatch
 import views.html.vrm_retention.vehicle_lookup_failure
+import views.vrm_retention.VehicleLookup._
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
@@ -58,31 +58,25 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       case "vrm_retention_eligibility_direct_to_paper" =>
         Ok(direct_to_paper(
           transactionId = transactionId,
-          vehicleLookupFailureViewModel = viewModel,
-          data = vehicleAndKeeperLookupForm,
-          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-          attempts = bruteForcePreventionModel.attempts,
-          maxAttempts = bruteForcePreventionModel.maxAttempts)
+          viewModel = viewModel,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode
+        )
         ).
           discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
       case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
         Ok(postcode_mismatch(
           transactionId = transactionId,
-          vehicleLookupFailureViewModel = viewModel,
-          data = vehicleAndKeeperLookupForm,
-          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-          attempts = bruteForcePreventionModel.attempts,
-          maxAttempts = bruteForcePreventionModel.maxAttempts)
+          viewModel = viewModel,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode
+        )
         ).
           discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
       case _ =>
         Ok(vehicle_lookup_failure(
           transactionId = transactionId,
-          vehicleLookupFailureViewModel = viewModel,
-          data = vehicleAndKeeperLookupForm,
-          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-          attempts = bruteForcePreventionModel.attempts,
-          maxAttempts = bruteForcePreventionModel.maxAttempts)
+          viewModel = viewModel,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode
+        )
         ).
           discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
     }
