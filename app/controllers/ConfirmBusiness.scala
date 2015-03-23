@@ -12,7 +12,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness._
-import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
@@ -74,27 +73,27 @@ final class ConfirmBusiness @Inject()(
           ) match {
           case (transactionId, vehicleAndKeeperDetailsModel, eligibilityModel, businessDetailsModel, enterAddressManuallyModel, businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
 
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.ConfirmBusinessToConfirm,
-          transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-          replacementVrm = Some(eligibilityModel.get.replacementVRM),
-          businessDetailsModel = businessDetailsModel))
-        auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.ConfirmBusinessToConfirm,
-          transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-          replacementVrm = Some(eligibilityModel.get.replacementVRM),
-          businessDetailsModel = businessDetailsModel))
+            auditService1.send(AuditMessage.from(
+              pageMovement = AuditMessage.ConfirmBusinessToConfirm,
+              transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+              timestamp = dateService.dateTimeISOChronology,
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+              replacementVrm = Some(eligibilityModel.get.replacementVRM),
+              businessDetailsModel = businessDetailsModel))
+            auditService2.send(AuditRequest.from(
+              pageMovement = AuditMessage.ConfirmBusinessToConfirm,
+              transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+              timestamp = dateService.dateTimeISOChronology,
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+              replacementVrm = Some(eligibilityModel.get.replacementVRM),
+              businessDetailsModel = businessDetailsModel))
 
-        Redirect(routes.Confirm.present()).
-          withCookie(enterAddressManuallyModel).
-          withCookie(businessChooseYourAddressFormModel).
-          withCookie(businessDetailsModel).
-          withCookie(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString).
-          withCookie(setupBusinessDetailsFormModel)
+            Redirect(routes.Confirm.present()).
+              withCookie(enterAddressManuallyModel).
+              withCookie(businessChooseYourAddressFormModel).
+              withCookie(businessDetailsModel).
+              withCookie(StoreBusinessDetailsCacheKey, model.storeBusinessDetails.toString).
+              withCookie(setupBusinessDetailsFormModel)
         }
       }
     val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))

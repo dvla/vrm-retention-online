@@ -17,7 +17,12 @@
             <h2>@Messages("vehicle-lookup-failure-direct-to-paper-title")</h2>
 
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
-            <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p1") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"vehicle-lookup-failure-direct-to-paper-p1a")</p>
+            <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p1")</p>
+            <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p1a") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"vehicle-lookup-failure-direct-to-paper-p1b")</p>
+            <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-address-line1")<br/>
+            @Messages(s"vehicle-lookup-failure-direct-to-paper-address-line2")<br/>
+            @Messages(s"vehicle-lookup-failure-direct-to-paper-address-line3")</p>
+            <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p2")</p>
 
             <div class="form-steps">
                 <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
