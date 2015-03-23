@@ -1,6 +1,5 @@
 @(transactionId: String,
-        viewModel: models.VehicleLookupFailureViewModel,
-        responseCodeVehicleLookupMSErrorMessage: String)(implicit lang: Lang,
+        viewModel: models.VehicleLookupFailureViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -20,7 +19,6 @@
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
             <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1")</p>
             <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2")</p>
-            <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3")</p>
 
             <div class="form-steps">
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>

@@ -376,7 +376,6 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The V5C document refe
 vehicle_and_keeper_lookup_document_reference_mismatch.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1 = The Keeper’s Postcode entered does not come from the most recent V5C issued for this vehicle.
 vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2 = Please make sure you have the keeper’s postcode as on the most recent V5C and try again.
-vehicle_and_keeper_lookup_keeper_postcode_mismatch.p3 =
 vrm_retention_eligibility_direct_to_paper.title = This registration number cannot be retained online
 vrm_retention_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line. You must
 direct-to-paper-text-v317 = complete and submit a V317 form
