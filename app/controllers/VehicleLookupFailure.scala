@@ -56,29 +56,25 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
-    vehicleAndKeeperLookupResponseCode match {
+    val failurePage = vehicleAndKeeperLookupResponseCode match {
       case "vrm_retention_eligibility_direct_to_paper" =>
-        Ok(direct_to_paper(
+        direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel
         )
-        ).
-          discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
       case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
-        Ok(postcode_mismatch(
+        postcode_mismatch(
           transactionId = transactionId,
           viewModel = viewModel
         )
-        ).
-          discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
       case _ =>
-        Ok(vehicle_lookup_failure(
+        vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
           responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode
         )
-        ).
-          discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
     }
+
+    Ok(failurePage).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
   }
 }
