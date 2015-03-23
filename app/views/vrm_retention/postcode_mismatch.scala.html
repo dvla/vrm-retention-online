@@ -1,24 +1,24 @@
 @(transactionId: String,
-        viewModel: models.VehicleLookupFailureViewModel)(implicit lang: Lang,
-        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config,
-        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+    viewModel: models.VehicleLookupFailureViewModel)(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_retention.main
 @import views.html.common.failure_playback
 @import views.vrm_retention.VehicleLookupFailure.{ExitId, TryAgainId}
 
 @main(
-    title =  Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.title")
+    title =  Messages(s"vehicle-lookup-failure-postcode-mismatch-title")
 ) {
     <div class="two-col">
         @failure_playback(viewModel = viewModel)
         <div class="second-col">
-            <h2>@Messages("vehicle_and_keeper_lookup_keeper_postcode_mismatch.title")</h2>
+            <h2>@Messages("vehicle-lookup-failure-postcode-mismatch-title")</h2>
 
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
-            <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p1")</p>
-            <p>@Messages(s"vehicle_and_keeper_lookup_keeper_postcode_mismatch.p2")</p>
+            <p>@Messages(s"vehicle-lookup-failure-postcode-mismatch-p1")</p>
+            <p>@Messages(s"vehicle-lookup-failure-postcode-mismatch-p2")</p>
 
             <div class="form-steps">
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>

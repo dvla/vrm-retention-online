@@ -10,6 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.html.vrm_retention.direct_to_paper
+import views.html.vrm_retention.eligibility_failure
 import views.html.vrm_retention.postcode_mismatch
 import views.html.vrm_retention.vehicle_lookup_failure
 import views.vrm_retention.VehicleLookup._
@@ -64,6 +65,11 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         )
       case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
         postcode_mismatch(
+          transactionId = transactionId,
+          viewModel = viewModel
+        )
+      case "vrm_retention_eligibility_failure" =>
+        eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel
         )

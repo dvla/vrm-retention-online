@@ -6,18 +6,18 @@
 
 @import views.html.vrm_retention.main
 @import views.html.common.failure_playback
-@import views.vrm_retention.VehicleLookupFailure.{ExitId, TryAgainId, `v317-id`}
+@import views.vrm_retention.VehicleLookupFailure.{ExitId, TryAgainId}
 
 @main(
-    title =  Messages(s"vehicle-lookup-failure-direct-to-paper-title")
+    title =  Messages(s"vehicle-lookup-failure-eligibility-failure-title")
 ) {
     <div class="two-col">
         @failure_playback(viewModel = viewModel)
         <div class="second-col">
-            <h2>@Messages("vehicle-lookup-failure-direct-to-paper-title")</h2>
+            <h2>@Messages("vehicle-lookup-failure-eligibility-failure-title")</h2>
 
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
-            <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p1") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"vehicle-lookup-failure-direct-to-paper-p1a")</p>
+            <p>@Messages(s"vehicle-lookup-failure-eligibility-failure-p1")</p>
 
             <div class="form-steps">
                 <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
