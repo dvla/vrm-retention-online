@@ -25,6 +25,7 @@ GET         /vehicle-lookup-back                           @controllers.VehicleL
 
 GET         /vehicle-lookup-failure                        @controllers.VehicleLookupFailure.present
 POST        /vehicle-lookup-failure                        @controllers.VehicleLookupFailure.submit
+POST        /vehicle-lookup-failure/try-again              @controllers.VehicleLookupFailure.tryAgain
 
 GET         /micro-service-error                           @controllers.MicroServiceError.present
 

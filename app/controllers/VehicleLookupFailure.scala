@@ -37,6 +37,10 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     }
   }
 
+  def tryAgain = Action { implicit request =>
+    Redirect(routes.VehicleLookup.present())
+  }
+
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           bruteForcePreventionModel: BruteForcePreventionModel,
@@ -47,14 +51,27 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
-    Ok(views.html.vrm_retention.vehicle_lookup_failure(
-      transactionId = transactionId,
-      vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm,
-      responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
-      attempts = bruteForcePreventionModel.attempts,
-      maxAttempts = bruteForcePreventionModel.maxAttempts)
-    ).
-      discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+    vehicleAndKeeperLookupResponseCode match {
+      case "vrm_retention_eligibility_direct_to_paper" =>
+        Ok(views.html.vrm_retention.direct_to_paper(
+          transactionId = transactionId,
+          vehicleLookupFailureViewModel = viewModel,
+          data = vehicleAndKeeperLookupForm,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
+          attempts = bruteForcePreventionModel.attempts,
+          maxAttempts = bruteForcePreventionModel.maxAttempts)
+        ).
+          discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+      case _ =>
+        Ok(views.html.vrm_retention.vehicle_lookup_failure(
+          transactionId = transactionId,
+          vehicleLookupFailureViewModel = viewModel,
+          data = vehicleAndKeeperLookupForm,
+          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode,
+          attempts = bruteForcePreventionModel.attempts,
+          maxAttempts = bruteForcePreventionModel.maxAttempts)
+        ).
+          discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+    }
   }
 }

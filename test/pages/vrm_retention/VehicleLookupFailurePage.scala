@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{linkText, _}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_retention.VehicleLookupFailure.{ExitId, VehicleLookupId}
+import views.vrm_retention.VehicleLookupFailure.{ExitId, TryAgainId}
 
 object VehicleLookupFailurePage extends Page {
 
@@ -16,13 +16,13 @@ object VehicleLookupFailurePage extends Page {
   final val directToPaperTitle: String = "This registration number cannot be retained online"
   final val failureTitle: String = "This registration number cannot be retained"
 
-  def tryAgain(implicit driver: WebDriver) = find(id(VehicleLookupId)).get
+  def tryAgain(implicit driver: WebDriver) = find(id(TryAgainId)).get
 
   def exit(implicit driver: WebDriver) = find(id(ExitId)).get
 
   def downloadLink(implicit driver: WebDriver) = find(linkText("Download V317")).get
 
-  def tryAgainButton(implicit driver: WebDriver) = find(id(VehicleLookupId)).get
+  def tryAgainButton(implicit driver: WebDriver) = find(id(TryAgainId)).get
 
   def exitLink(implicit driver: WebDriver) = find(linkText("Exit")).get
 }
