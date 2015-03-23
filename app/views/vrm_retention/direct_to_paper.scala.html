@@ -15,49 +15,40 @@
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
 ) {
     <div class="two-col">
-    <div id="vehicle-details" class="first-col trader-details">
-                <dl class="playback">
-                    <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
-                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
-                    @if(vehicleLookupFailureViewModel.make.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
-                    }
-                    @if(vehicleLookupFailureViewModel.model.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
-                    }
+        <div id="vehicle-details" class="first-col trader-details">
+            <dl class="playback">
+                <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
+                <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
+                @if(vehicleLookupFailureViewModel.make.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                    <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
+                }
+                @if(vehicleLookupFailureViewModel.model.isDefined) {
+                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                    <dd>@vehicleLookupFailureViewModel.model.get.take(20)</dd>
+                }
 
-                    <br/>
-                    <p>@Messages("success-keeper-application-details-contact-us")</p>
-                    <p>@Messages("success-keeper-application-details-telephone")</p>
-                    <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong> <br/>
-                        <small>@Messages("success-keeper-application-details-telephone-number-extension")</small></p>
-                    <p><strong>@Messages("success-keeper-application-details-monday-to-friday")</strong></p>
-                    <p><strong>@Messages("success-keeper-application-details-saturday")</strong></p>
-                    <p><strong>@Messages("success-keeper-application-details-sunday")</strong></p>
-                    <br/>
-                    <p style="font-size: 14px;">@Messages("success-keeper-application-details-textphone")</p>
-                    <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
-                </dl>
+                <br/>
+                <p>@Messages("success-keeper-application-details-contact-us")</p>
+                <p>@Messages("success-keeper-application-details-telephone")</p>
+                <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong> <br/>
+                    <small>@Messages("success-keeper-application-details-telephone-number-extension")</small></p>
+                <p><strong>@Messages("success-keeper-application-details-monday-to-friday")</strong></p>
+                <p><strong>@Messages("success-keeper-application-details-saturday")</strong></p>
+                <p><strong>@Messages("success-keeper-application-details-sunday")</strong></p>
+                <br/>
+                <p style="font-size: 14px;">@Messages("success-keeper-application-details-textphone")</p>
+                <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
+            </dl>
         </div>
         <div class="second-col">
+            <h2>@Messages("vrm_retention_eligibility_direct_to_paper.title")</h2>
 
-            <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
+            <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
+            <p>@Messages(s"vrm_retention_eligibility_direct_to_paper.p1") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"vrm_retention_eligibility_direct_to_paper.p1a")</p>
 
-            <p>Transaction Id @transactionId</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1") @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility_direct_to_paper")) {<a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1a")}</p>
-            @if(responseCodeVehicleLookupMSErrorMessage.startsWith("vehicle_and_keeper_lookup_keeper_postcode_mismatch")) { <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p> }
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
-
-            @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">
-                @{ /* Note the reverse routing syntax for the hyperlink */ }
-                @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
-                    <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vrm_retention_vehiclelookupfailure.button")</a>
-                    <br/>
-                }
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vrm_retention_vehiclelookupfailure.button2")</a>
             </div>
         </div>

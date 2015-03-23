@@ -381,7 +381,6 @@ vrm_retention_eligibility_direct_to_paper.title = This registration number canno
 vrm_retention_eligibility_direct_to_paper.p1 = You are unable to continue with this application on-line. You must
 direct-to-paper-text-v317 = complete and submit a V317 form
 vrm_retention_eligibility_direct_to_paper.p1a = to DVLA Personalised Registrations, Swansea, SA99 1DS.  All documents must be originals, not photocopies or faxed copies.
-vrm_retention_eligibility_direct_to_paper.p3 =
 download-v317 = Download V317
 unhandled_exception.p1 = The V5C document reference number entered is either not valid or does not come from the most recent V5C issued for this vehicle.
 unhandled_exception.p2 = Please make sure you have the most recent V5C and try again.
@@ -666,6 +665,7 @@ email.email_service_impl.subject = should be replaced with
 #Retention failure page
 vrm_retention_failure.title = Transaction not successful
 vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.
+vehicle-lookup-failure-transaction-id = Transaction Id
 
 # progress messages
 vrm_retention_progress_1 = Step 1 of 6
