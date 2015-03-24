@@ -10,9 +10,9 @@ define(["jquery"], function($) {
                 var elementOfDisplayable = $('#' + idOfDisplayable );
                 /*console.debug("onEventChangeDisplay addEventListener so on event change id: " + idOfDisplayable + " isDisplayed: " + isDisplayed);*/
                 if (isDisplayed) {
-                    elementOfDisplayable.slideDown();
+                    elementOfDisplayable.show();
                 } else {
-                    elementOfDisplayable.slideUp();
+                    elementOfDisplayable.hide();
                 }
             });
         }
