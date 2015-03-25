@@ -61,7 +61,7 @@
 			<h3>@Messages("vrm_retention_success.notice2.h3")</h3>
 			<div class="info-notice">
 				<p>@Messages("vrm_retention_success.notice2.p1")
-					<a href="https://www.gov.uk/personalised-vehicle-registration-numbers/retaining-a-registration-number" target="_blank">@Messages("vrm_retention_success.notice2.p1.link")</a> @Messages("vrm_retention_success.notice2.p2")
+					<a href="https://www.gov.uk/personalised-vehicle-registration-numbers/assigning-a-personalised-number-to-a-vehicle" target="_blank">@Messages("vrm_retention_success.notice2.p1.link")</a> @Messages("vrm_retention_success.notice2.p2")
 				</p>
 			</div>
 
@@ -99,12 +99,12 @@
 					<dt>@Messages("success-keeper-details-name")</dt>
 					<dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
 					<dt>@Messages("success-keeper-details-address")</dt>
-					<dd>
+					<dt>
 						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
-							@keeperAddressLine<br/>
+							<strong>@keeperAddressLine</strong><br/>
 					    }
 
-					</dd>
+					</dt>
 				</dl>
 			</div>
 
@@ -118,12 +118,12 @@
                         <dt>@Messages("success-business-details-email")</dt>
                         <dd>@successViewModel.businessEmail</dd>
                         <dt>@Messages("success-business-details-address")</dt>
-                        <dd>
+                        <dt>
                         @successViewModel.businessName<br/>
                         @for(keeperAddressLine <- successViewModel.businessAddress.get.address) {
-                            @keeperAddressLine<br/>
+                            <strong>@keeperAddressLine</strong><br/>
                         }
-                        </dd>
+                        </dt>
                     </dl>
                 </div>
             }
