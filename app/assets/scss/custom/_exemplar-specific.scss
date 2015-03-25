@@ -19,6 +19,10 @@
 
 #{$htmlNamespace} {
 
+  .reg-number {
+   
+    font-family: 'mandatoryregular';
+  }
     .beta-info {
         clear: both;
         color: $grey-1;
@@ -38,6 +42,13 @@
             margin-bottom: 10px;
             font-size: 1.3em;
         }
+    }
+
+    .playback {
+      .reg-number {
+        font-family: 'mandatoryregular';
+        font-size: 30px !important;
+      }
     }
 }
 
@@ -129,6 +140,7 @@ summary {
 .vrm-retention-online .alert-complete {
     .reg-number {
         margin-left: auto;
+        font-family: 'mandatoryregular';
         margin-right: auto;
         font-size: 27px;
     }
