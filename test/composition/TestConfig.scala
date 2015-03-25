@@ -3,6 +3,8 @@ package composition
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
 
 import scala.concurrent.duration.DurationInt
@@ -26,7 +28,7 @@ final class TestConfig(
 
   def build = {
     val config: Config = mock[Config]
-    
+
     when(config.assetsUrl).thenReturn(None)
     when(config.purchaseAmount).thenReturn("42")
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
@@ -72,6 +74,15 @@ final class TestConfig(
 
     when(config.emailServiceMicroServiceUrlBase).thenReturn(emailServiceMicroServiceUrlBase)
     when(config.emailServiceMsRequestTimeout).thenReturn(30000)
+    when(config.emailConfiguration).thenReturn(EmailConfiguration(
+      host = "",
+      port = 25,
+      username = "",
+      password = "",
+      from = From("", "DO-NOT-REPLY"),
+      feedbackEmail = From("", "Feedback"),
+      whiteList = None
+    ))
 
     // Closing
     when(config.opening).thenReturn(0)

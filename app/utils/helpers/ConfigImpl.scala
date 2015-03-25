@@ -1,6 +1,8 @@
 package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 
 import scala.concurrent.duration.DurationInt
 
@@ -78,6 +80,15 @@ class ConfigImpl extends Config {
   // Email microservice
   override val emailServiceMicroServiceUrlBase: String = getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse("NOT FOUND")
   override val emailServiceMsRequestTimeout: Int = getOptionalProperty[Int]("emailService.ms.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+  override val emailConfiguration: EmailConfiguration = EmailConfiguration(
+    getProperty[String]("smtp.host"),
+    getProperty[Int]("smtp.port"),
+    getProperty[String]("smtp.user"),
+    getProperty[String]("smtp.password"),
+    From(getProperty[String]("email.senderAddress"), "DO-NOT-REPLY"),
+    From(getProperty[String]("email.feedbackAddress"), "Feedback"),
+    getStringListProperty("email.whitelist")
+  )
 
   override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
   override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)

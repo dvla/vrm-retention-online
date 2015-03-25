@@ -7,7 +7,6 @@
 main.back = Back
 main.banner.help = Help
 main.banner.feedback = your feedback
-main.banner.feedback.link = mailto:retention.online@dvla.gsi.gov.uk?Subject=Retain%20a%20Personalised%20Number%20Feedback
 crown-copyright = Crown Copyright
 open-government-licence = Open Government Licence v2.0
 open-government-licence-p1 = All content is available under the
@@ -739,3 +738,22 @@ closed.exit_button = Exit
 
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
+
+# feedback
+common_feedback.title = Give Feedback
+common_feedback.message = Please don't include any Personal or financial information - for example your National Insurance number.
+common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
+common_feedback.placeholder = (Limit is 500 characters)
+common_feedback.submit_button = Submit feedback
+common_feedback.thankyou = Thank you for your feedback
+common_feedback.subject = Sell to the trade - Feedback
+common_feedback.name = Name
+common_feedback.email = Email
+common_feedback.feedbackTitle = Please leave your name and email address in case we need to contact you
+error.feedback = Feedback cannot exceed 500 characters
+error.feedbackName = Name cannot be more than 60 characters
+feedbackEmail = Email
+feedbackName = Name
+feedback = Feedback Form
+feedback_return = ◄ Return to your application
+feedback_close = Please close this page to return to your application
