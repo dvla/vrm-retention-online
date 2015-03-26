@@ -119,7 +119,7 @@
                         <dd>@successViewModel.businessEmail</dd>
                         <dt>@Messages("success-business-details-address")</dt>
                         <dt>
-                        @successViewModel.businessName<br/>
+							<strong>@successViewModel.businessName</strong><br/>
                         @for(keeperAddressLine <- successViewModel.businessAddress.get.address) {
                             <strong>@keeperAddressLine</strong><br/>
                         }
