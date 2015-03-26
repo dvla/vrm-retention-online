@@ -67,8 +67,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
           emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
-              if (isKeeper) Logger.debug("Keeper email sent")
-              else Logger.debug("Non-keeper email sent")
+              if (isKeeper) Logger.info(s"Keeper email sent - trackingId ${trackingId}")
+              else Logger.info(s"Non-keeper email sent - trackingId ${trackingId}")
           }.recover {
             case NonFatal(e) =>
               Logger.error(s"Email Service web service call failed. Exception " + e.toString)
