@@ -11,71 +11,71 @@ class ConfigImpl extends Config {
   val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
 
   // Payment Service
-  override def purchaseAmount: String = getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
+  override val purchaseAmount: String = getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
 
-  override def secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
+  override val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
 
-  override def encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)
+  override val encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)
 
-  override def ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)
+  override val ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)
 
-  override def applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")
+  override val applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")
 
-  override def channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse("NOT FOUND")
+  override val channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse("NOT FOUND")
 
-  override def contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(0L)
+  override val contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(0L)
 
-  override def orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit").getOrElse("NOT FOUND")
+  override val orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit").getOrElse("NOT FOUND")
 
-  override def vssServiceTypeCode: String = getOptionalProperty[String]("webHeader.vssServiceTypeCode").getOrElse("NOT FOUND")
-  override def dmsServiceTypeCode: String = getOptionalProperty[String]("webHeader.dmsServiceTypeCode").getOrElse("NOT FOUND")
+  override val vssServiceTypeCode: String = getOptionalProperty[String]("webHeader.vssServiceTypeCode").getOrElse("NOT FOUND")
+  override val dmsServiceTypeCode: String = getOptionalProperty[String]("webHeader.dmsServiceTypeCode").getOrElse("NOT FOUND")
 
-  override def vrmRetentionEligibilityMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
+  override val vrmRetentionEligibilityMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
 
-  override def vrmRetentionRetainMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionRetainMicroServiceUrlBase").getOrElse("NOT FOUND")
+  override val vrmRetentionRetainMicroServiceUrlBase: String = getOptionalProperty[String]("vrmRetentionRetainMicroServiceUrlBase").getOrElse("NOT FOUND")
 
-  override def vehicleAndKeeperLookupMicroServiceBaseUrl: String = getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse("NOT FOUND")
+  override val vehicleAndKeeperLookupMicroServiceBaseUrl: String = getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse("NOT FOUND")
 
-  override def vrmRetentionEligibilityMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionEligibility.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+  override val vrmRetentionEligibilityMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionEligibility.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
-  override def vrmRetentionRetainMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionRetain.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+  override val vrmRetentionRetainMsRequestTimeout: Int = getOptionalProperty[Int]("vrmRetentionRetain.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
-  override def paymentSolveMicroServiceUrlBase: String = getOptionalProperty[String]("paymentSolveMicroServiceUrlBase").getOrElse("NOT FOUND")
+  override val paymentSolveMicroServiceUrlBase: String = getOptionalProperty[String]("paymentSolveMicroServiceUrlBase").getOrElse("NOT FOUND")
 
-  override def paymentSolveMsRequestTimeout: Int = getOptionalProperty[Int]("paymentSolve.ms.requesttimeout").getOrElse(5.seconds.toMillis.toInt)
+  override val paymentSolveMsRequestTimeout: Int = getOptionalProperty[Int]("paymentSolve.ms.requesttimeout").getOrElse(5.seconds.toMillis.toInt)
 
-  override def vehicleAndKeeperLookupRequestTimeout: Int = getOptionalProperty[Int]("vehicleAndKeeperLookup.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+  override val vehicleAndKeeperLookupRequestTimeout: Int = getOptionalProperty[Int]("vehicleAndKeeperLookup.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
-  override def isPrototypeBannerVisible: Boolean = getOptionalProperty[Boolean]("prototype.disclaimer").getOrElse(true)
+  override val isPrototypeBannerVisible: Boolean = getOptionalProperty[Boolean]("prototype.disclaimer").getOrElse(true)
 
-  override def googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.retention")
+  override val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.retention")
 
-  override def isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)
+  override val isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)
 
   // Rabbit-MQ
-  override def rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
+  override val rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
 
-  override def rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)
+  override val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)
 
-  override def rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
+  override val rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
 
-  override def rabbitmqUsername = getOptionalProperty[String]("rabbitmq.username").getOrElse("NOT FOUND")
+  override val rabbitmqUsername = getOptionalProperty[String]("rabbitmq.username").getOrElse("NOT FOUND")
 
-  override def rabbitmqPassword = getOptionalProperty[String]("rabbitmq.password").getOrElse("NOT FOUND")
+  override val rabbitmqPassword = getOptionalProperty[String]("rabbitmq.password").getOrElse("NOT FOUND")
 
-  override def rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
+  override val rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
 
-  override def emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
+  override val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
 
-  override def emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
+  override val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
 
-  override def cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
+  override val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
 
-  override def storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
+  override val storeBusinessDetailsMaxAge = getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
 
-  override def auditMicroServiceUrlBase: String = getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
+  override val auditMicroServiceUrlBase: String = getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
 
-  override def auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+  override val auditMsRequestTimeout: Int = getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
 
   // Email microservice
   override val emailServiceMicroServiceUrlBase: String = getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse("NOT FOUND")
@@ -86,7 +86,7 @@ class ConfigImpl extends Config {
     getStringListProperty("email.whitelist")
   )
 
-  override def opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
-  override def closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
-  override def closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(15)
+  override val opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
+  override val closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
+  override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(15)
 }
