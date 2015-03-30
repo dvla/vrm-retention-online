@@ -75,10 +75,6 @@ final class TestConfig(
     when(config.emailServiceMicroServiceUrlBase).thenReturn(emailServiceMicroServiceUrlBase)
     when(config.emailServiceMsRequestTimeout).thenReturn(30000)
     when(config.emailConfiguration).thenReturn(EmailConfiguration(
-      host = "",
-      port = 25,
-      username = "",
-      password = "",
       from = From("", "DO-NOT-REPLY"),
       feedbackEmail = From("", "Feedback"),
       whiteList = None
