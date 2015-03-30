@@ -16,6 +16,27 @@ require(["jquery", "header-footer-only", "form-checked-selection","details-polyf
 
     $(function() {
 
+        // Enabling loading class/js animation on submit's CTAs
+        $(':submit').on('click', function(e) {
+            var runTimes;
+
+            if ( $(this).hasClass("disabled") ) {
+                return false;
+            }
+
+            $(this).html('Loading').addClass('loading-action disabled');
+            runTimes = 0;
+            setInterval(function() {
+                if ( runTimes < 3 ){
+                    $(':submit').append('.');
+                    runTimes++;
+                } else {
+                    runTimes = 0;
+                    $(':submit').html('Loading');
+                }
+            }, 1000);
+        });
+
         // If JS enabled hide summary details
         $('.details').hide();
 
