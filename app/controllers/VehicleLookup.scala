@@ -57,11 +57,11 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
                         (implicit request: Request[_]): Result =
-    addDefaultCookies(Redirect(routes.VrmLocked.present()),formModel)
+    addDefaultCookies(Redirect(routes.VrmLocked.present()),transactionId(formModel))
 
   override def microServiceError(t: Throwable, formModel: VehicleAndKeeperLookupFormModel)
                                 (implicit request: Request[_]): Result =
-    addDefaultCookies(Redirect(routes.MicroServiceError.present()), formModel)
+    addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
 
   override def vehicleLookupFailure(responseCode: String, formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
@@ -80,24 +80,26 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       suppressedV5Flag = None
     )
 
+    val txnId = transactionId(formModel)
+
     auditService1.send(AuditMessage.from(
       pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = txnId,
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(responseCode)))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = txnId,
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(responseCode)))
 
     // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
     if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
-      addDefaultCookies(Redirect(routes.CheckEligibility.present()), formModel)
+      addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId)
     } else {
-      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel)
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId)
     }
   }
 
@@ -118,27 +120,29 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                   formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Result = {
 
+    val txnId = transactionId(formModel)
+
     if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
 
         val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
         auditService1.send(AuditMessage.from(
           pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = txnId,
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
           rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-          transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          transactionId = txnId,
           timestamp = dateService.dateTimeISOChronology,
           vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
           rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
 
-        addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), formModel).
+        addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
           withCookie(responseCodeCacheKey, postcodeMismatchResponseCodeText)
       } else
-        addDefaultCookies(Redirect(routes.CheckEligibility.present()), formModel).
+        addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).
           withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
   }
 
@@ -175,9 +179,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     "%06d".format(tenthSecondsFromMidnight)
   }
 
-  private def addDefaultCookies(result: Result, formModel: VehicleAndKeeperLookupFormModel)
+  private def addDefaultCookies(result: Result, transactionId: String)
                                (implicit request: Request[_]): Result = result
-    .withCookie(TransactionIdCacheKey, transactionId(formModel))
+    .withCookie(TransactionIdCacheKey, transactionId)
     .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
 
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {

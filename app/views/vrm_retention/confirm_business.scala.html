@@ -27,19 +27,13 @@
                 <dt>@Messages("vrm_retention_confirm.businessEmailLabel")</dt>
                 <dd>@confirmBusinessViewModel.businessEmail</dd>
                 <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-                <dd>
+                <dt>
                 @confirmBusinessViewModel.businessAddress.map { addressModel =>
-                    @for(businessAddressLine <- addressModel.address.init) {
-                        @businessAddressLine <br>
+                    @for(businessAddressLine <- addressModel.address) {
+                        <strong>@businessAddressLine</strong> <br>
                         }
                 }
-                </dd>
-                <dt>@Messages("vrm_retention_confirm.businessPostcodeLabel")</dt>
-                <dd>
-                @confirmBusinessViewModel.businessAddress.map { addressModel =>
-                    @addressModel.address.last
-                }
-                </dd>
+                </dt>
             </dl>
         </div>
         <div class="first-col">
