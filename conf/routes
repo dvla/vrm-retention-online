@@ -16,8 +16,8 @@
 GET         /assets/*file                                  controllers.Assets.versioned(path="/public", file:Asset)
 GET         /webjars/*file                                 controllers.WebJarAssets.at(file)
 
-GET         /                                              @controllers.Application.index
 GET         /before-you-start                              @controllers.BeforeYouStart.present
+GET         /                                              @controllers.BeforeYouStart.present
 
 GET         /vehicle-lookup                                @controllers.VehicleLookup.present
 POST        /vehicle-lookup                                @controllers.VehicleLookup.submit
