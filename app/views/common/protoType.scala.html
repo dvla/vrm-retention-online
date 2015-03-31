@@ -1,10 +1,13 @@
 @()(implicit lang: Lang,
         config: utils.helpers.Config)
 
-@import views.html.common.feedback
+@import views.common.ProtoType.FeedbackId
 
 @if(config.isPrototypeBannerVisible) {
     <div class="prototype">
-        <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner.part1") @feedback() @Messages("prototype.banner.part2")</p>
+        <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner.part1")
+            <a id="@FeedbackId" href="@controllers.routes.FeedbackController.present()" target="blank">@Messages("main.banner.feedback")</a>
+            @Messages("prototype.banner.part2")
+        </p>
     </div>
 }

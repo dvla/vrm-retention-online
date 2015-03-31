@@ -1,0 +1,22 @@
+@()(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import views.html.vrm_retention.main
+
+@main(
+  title = Messages("common_feedback.thankyou")
+) {
+    <h1>@Messages("common_feedback.thankyou")</h1>
+    
+    <!-- If Javascript is enabled, we un-hide this button -->
+    <a onclick="window.close()" id="feedback-close" style="display: none;">@Messages("feedback_return")</a>
+    <!-- If Javascript is disabled, the close button remains hidden and we show this message -->
+    <span id="feedback-return" style="display: block;">@Messages("feedback_close")</span>
+
+    <script>
+        document.getElementById("feedback-close").style.display = "block";
+        document.getElementById("feedback-return").style.display = "none";
+    </script>
+}

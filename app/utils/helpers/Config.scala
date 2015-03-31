@@ -1,80 +1,82 @@
 package utils.helpers
 
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupConfig
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 
 trait Config extends VehicleLookupConfig {
 
-  def assetsUrl: Option[String]
+  val assetsUrl: Option[String]
 
   // Payment Service
-  def purchaseAmount: String
+  val purchaseAmount: String
 
   //  // Micro-service config
-  def vehicleAndKeeperLookupMicroServiceBaseUrl: String
+  val vehicleAndKeeperLookupMicroServiceBaseUrl: String
 
-  def vrmRetentionEligibilityMicroServiceUrlBase: String
+  val vrmRetentionEligibilityMicroServiceUrlBase: String
 
-  def vrmRetentionEligibilityMsRequestTimeout: Int
+  val vrmRetentionEligibilityMsRequestTimeout: Int
 
-  def vrmRetentionRetainMicroServiceUrlBase: String
+  val vrmRetentionRetainMicroServiceUrlBase: String
 
-  def vrmRetentionRetainMsRequestTimeout: Int
+  val vrmRetentionRetainMsRequestTimeout: Int
 
-  def paymentSolveMicroServiceUrlBase: String
+  val paymentSolveMicroServiceUrlBase: String
 
-  def paymentSolveMsRequestTimeout: Int
+  val paymentSolveMsRequestTimeout: Int
 
-  def emailServiceMicroServiceUrlBase: String
-  def emailServiceMsRequestTimeout: Int
+  val emailServiceMicroServiceUrlBase: String
+  val emailServiceMsRequestTimeout: Int
+  val emailConfiguration: EmailConfiguration
 
   // Ordnance survey config
-  def ordnanceSurveyUseUprn: Boolean
+  val ordnanceSurveyUseUprn: Boolean
 
-  def vehicleAndKeeperLookupRequestTimeout: Int
+  val vehicleAndKeeperLookupRequestTimeout: Int
 
   // Prototype message in html
-  def isPrototypeBannerVisible: Boolean
+  val isPrototypeBannerVisible: Boolean
 
   // Google analytics
-  def googleAnalyticsTrackingId: Option[String]
+  val googleAnalyticsTrackingId: Option[String]
 
   // Progress step indicator
-  def isProgressBarEnabled: Boolean
+  val isProgressBarEnabled: Boolean
 
   // Rabbit-MQ
-  def rabbitmqHost: String
+  val rabbitmqHost: String
 
-  def rabbitmqPort: Int
+  val rabbitmqPort: Int
 
-  def rabbitmqQueue: String
+  val rabbitmqQueue: String
 
-  def rabbitmqUsername: String
+  val rabbitmqUsername: String
 
-  def rabbitmqPassword: String
+  val rabbitmqPassword: String
 
-  def rabbitmqVirtualHost: String
+  val rabbitmqVirtualHost: String
 
   // Email Service
-  def emailWhitelist: Option[List[String]]
-  def emailSenderAddress: String
+  val emailWhitelist: Option[List[String]]
+  val emailSenderAddress: String
 
   // Cookie flags
-  def secureCookies: Boolean
+  val secureCookies: Boolean
 
-  def encryptCookies: Boolean
+  val encryptCookies: Boolean
 
-  def cookieMaxAge: Int
+  val cookieMaxAge: Int
 
-  def storeBusinessDetailsMaxAge: Int
+  val storeBusinessDetailsMaxAge: Int
 
   // Audit microservice
-  def auditMicroServiceUrlBase: String
+  val auditMicroServiceUrlBase: String
 
-  def auditMsRequestTimeout: Int
+  val auditMsRequestTimeout: Int
 
-  def opening: Int
+  val opening: Int
 
-  def closing: Int
+  val closing: Int
 
-  def closingWarnPeriodMins: Int
+  val closingWarnPeriodMins: Int
 }
