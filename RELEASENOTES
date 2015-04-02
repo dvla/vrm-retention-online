@@ -1,3 +1,60 @@
+======= 1.11 ======
+Time of release binaries creation:
+Tue Apr 01 2015 14:20:00 GMT+0000 (GMT)
+
+624221f RELEASE 1.11
+a527f8f Set dependencies to release versions
+ca7c2ee US2193: print button should not say loading
+f2242c0 US2193: move script referrence to main.js to the govMainDefault, remove it from any child of govMainDefault
+d5dab9a Adding feedback count down script
+fa48d36 Remove '/' route as we can use Pay's reverse routing to go straight to the before-you-start page
+6df2800 Merge branch 'US2193' of /home/git/repositories/dvla/vrm-retention-online into develop
+5e35594 Merge branch 'develop' into US2193
+eb47cf5 US2193: change config defs to override val, removing unused
+25b75a0 DE431 stop double clicking
+1b3fb6f US2193: remove unused values from email config
+5bfae3e Merge branch 'develop' into US2193
+d2a901c fix to audit transaction id problem
+c801915 fix to the email header depending upon customer or keeper
+04b28e4 made the business nameon the final screen bold
+66daecb Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+a5e2aa1 changed the line spacing on confirm business and success, and changed link on success to assign and not retain
+9cb1ee1 Merge branch 'DE428' of /home/git/repositories/dvla/vrm-retention-online into develop
+2fb6654 Merge branch 'develop' into DE428
+04d96ca DE428
+c8e9c31 US2193: Deploy the VM feedback form in the PR exemplar services
+31b8ee2 Merge branch 'US2455' of /home/git/repositories/dvla/vrm-retention-online into develop
+4937632 US2455 - fixing production font path
+d1908b1 Fix the exception cases for the access logging
+e3fcf01 Merge branch 'US2455' of /home/git/repositories/dvla/vrm-retention-online into develop
+abccc56 Merge branch 'US2641' of /home/git/repositories/dvla/vrm-retention-online into develop
+39e744d US2455 - implementing reg mark font
+5539668 US2641
+c449488 DE421: layout
+9340da8 US2599: if a cookie is an option, then if the option is None then make no change to the Result. If the option is Some, then add the cookie to the Result. Now we can try to read all the business cookies set on the confirm page and all those that exist get re-written so that the maxAge is bumped
+bf85a75 US2656: moved failure playback into failure package
+de2e54a US2656: moved vehicle lookup failure html into a package
+60e2f13 US2656: extract eligibilty failure page
+8d6e1e5 US2656: rename some direct-to-paper messages
+17a9c3c US2656: controller has a single point of exit
+d523240 US2656: remove unused params
+730cf8b US2656: remove unused params
+931ba88 US2656: extract postcode mismatch from vehicle-lookup-failure, correct name of message on the exit button
+553283d US2656: extract common vehicle lookup failure playback column
+33458f8 US2656: remove debris from direct to paper html
+cc2389c US2656: separating out the views for a vehicle lookup failure (direct to paper)
+a500d54 US2656: separating out the views for a vehicle lookup failure (direct to paper)
+6274a98 US2656: Adjust Download V317 link text
+4b1fa36 US2657: Rename the Keeper Email field on Business Journey
+6a279b8 US2658: Sentence case the service title
+386718c US2674: Move the certificate ID into the green box
+dde586b DE327: change code to specify the image as an image/jpeg instead of image/jpg to make it hopefully work on Outlook
+af7fcc0 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+2f2ae9a US2675: Change print button label to be Print this page
+89aa256 US2635: Added prefix to vehicleAndKeeperLookupDetailsCacheKey cookie.
+187fd1c Fix due to address line validation changes
+4e981f7 Merge back into development version 1.11-SNAPSHOT
+
 ======= 1.10.1 ======
 Time of release binaries creation:
 Thur Mar 19 2015 10:53:00 GMT+0000 (GMT)

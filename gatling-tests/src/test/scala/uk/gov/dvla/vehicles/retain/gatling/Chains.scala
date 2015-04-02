@@ -80,20 +80,8 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
           .get( s"""/assets/javascripts/confirm-page.js""")
       )
       .exec(
-        http("details-polyfill.js")
-          .get( s"""/assets/javascripts/details-polyfill.js""")
-      )
-      .exec(
         http("firefox-dont-cache-page.js")
           .get( s"""/assets/javascripts/firefox-dont-cache-page.js""")
-      )
-      .exec(
-        http("form-checked-selection.js")
-          .get( s"""/assets/javascripts/form-checked-selection.js""")
-      )
-      .exec(
-        http("header-footer-only.js")
-          .get( s"""/assets/javascripts/header-footer-only.js""")
       )
       .exec(
         http("main.js")
