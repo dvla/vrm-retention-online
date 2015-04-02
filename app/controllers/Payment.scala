@@ -52,8 +52,19 @@ final class Payment @Inject()(
   }
 
   // The token is checked in the common project, we do nothing with it here.
-  def callback(token: String) = Action { implicit request =>
-    Redirect(routes.Payment.getWebPayment())
+  def callback(token: String) = Action.async { implicit request =>
+    // check whether it is past the closing time
+    if (dateService.now.toDateTime.getHourOfDay >= config.closing)
+      (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
+        case (Some(transactionId), Some(paymentDetails)) =>
+          callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get, paymentDetails.isPrimaryUrl).map { _ =>
+            Redirect(routes.PaymentPostShutdown.present())
+          }
+        case _ =>
+          Future.successful(Redirect(routes.PaymentPostShutdown.present()))
+      }
+    else
+      Future.successful(Redirect(routes.Payment.getWebPayment()))
   }
 
   def getWebPayment = Action.async { implicit request =>
