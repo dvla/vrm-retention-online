@@ -2,11 +2,8 @@ package PersonalizedRegistration.StepDefs
 
 import _root_.common._
 import cucumber.api.java.After
-import cucumber.api.java.en.Given
-import cucumber.api.java.en.Then
-import cucumber.api.java.en.When
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
+import cucumber.api.java.en.{Given, Then, When}
+import cucumber.api.scala.{EN, ScalaDsl}
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
@@ -85,13 +82,21 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
     user.
-      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode). // 1st
-      goToVehicleLookupPage.
+      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+    vehicleNotFound.`is displayed`
+    user.goToVehicleLookupPage
 
-      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode). // 2nd
-      goToVehicleLookupPage.
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
+    vehicleNotFound.`is displayed`
+    user.goToVehicleLookupPage
 
-      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // Locked
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
+    vehicleNotFound.`is displayed`
+    user.goToVehicleLookupPage
+
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
+
+    vrmLocked.`is displayed` // Locked
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
@@ -116,6 +121,15 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
       .`has 'not found' message`
   }
 
+  @Then("^reset the \"(.*?)\" so it won't be locked next time we run the tests$")
+  def `reset the <vehicle-registration-number> so it won't be locked next time we run the tests`(registrationNumber: String) {
+    user.goToVehicleLookupPage
+    vehicleLookup.
+      enter(registrationNumber, "11111111111", "AA11AA").
+      `keeper is not acting`.
+      `find vehicle`
+  }
+
   @Then("^the doc ref mismatch page is displayed$")
   def `the doc ref mismatch page is displayed`() {
     vehicleNotFound.`is displayed`
@@ -123,7 +137,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   }
 
   @Then("^the brute force lock out page is displayed$")
-  def `the brute force lock out page is displayed`() = vrmLocked
+  def `the brute force lock out page is displayed`() = vrmLocked.`is displayed`
 
   @Then("^the direct to paper channel page is displayed$")
   def `the direct to paper channel page is displayed`() =
