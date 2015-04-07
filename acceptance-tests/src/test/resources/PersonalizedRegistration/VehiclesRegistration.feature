@@ -54,7 +54,6 @@ Feature: Vehicles Personalized Registration
     | vehicle-registration-number | document-reference-number | postcode |
     | "B1"                   | "22222222222"             | "AA11AA" |
 
-  @WIP
   @UnHappyPath
   Scenario Outline: Direct to Paper Channel
     Given that I have started the PR Retention Service
@@ -65,7 +64,6 @@ Feature: Vehicles Personalized Registration
     | vehicle-registration-number | document-reference-number | postcode |
     | "D1"                        | "11111111111"             | "SA11AA" |
 
-  @WIP
   @UnHappyPath
   Scenario Outline: Vehicle not Eligible
     Given that I have started the PR Retention Service
