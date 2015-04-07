@@ -74,7 +74,6 @@ Feature: Vehicles Personalized Registration
     | vehicle-registration-number | document-reference-number | postcode |
     | "E1"                        | "11111111111"             | "SA11AA" |
 
-  @WIP
   @HappyPath
   Scenario Outline: Trader Acting(no details stored)
     Given that I have started the PR Retention Service
@@ -84,7 +83,6 @@ Feature: Vehicles Personalized Registration
     | vehicle-registration-number | document-reference-number | postcode |
     | "ABC1"                      | "11111111111"             | "SA11AA" |
 
-  @WIP
   @HappyPath
   Scenario Outline: Trader Acting (details stored)
     Given that I have started the PR Retention Service
