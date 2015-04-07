@@ -81,8 +81,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    user.
-      vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
@@ -95,8 +94,6 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     user.goToVehicleLookupPage
 
     user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
-
-    vrmLocked.`is displayed` // Locked
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
