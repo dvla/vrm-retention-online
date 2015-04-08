@@ -46,13 +46,10 @@ Feature: Vehicles Personalized Registration
     | "F1"                        | "22222222222"             | "AA11AA" |
 
   @UnHappyPath
-  Scenario Outline:Brute Force Lockout
+  Scenario: Brute Force Lockout
     Given that I have started the PR Retention Service
-    When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row
+    When I enter data that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed
-  Examples:
-    | vehicle-registration-number | document-reference-number | postcode |
-    | "B1"                   | "22222222222"             | "AA11AA" |
 
   @UnHappyPath
   Scenario Outline: Direct to Paper Channel

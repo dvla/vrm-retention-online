@@ -13,6 +13,7 @@ import pages._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 import scala.concurrent.duration.DurationInt
+import _root_.utils.helpers.RandomVrmGenerator
 
 final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
@@ -79,21 +80,24 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     vehicleLookup.`has error messages`
   }
 
-  @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
-  def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+  @When( """^I enter data that does not match a valid vehicle record three times in a row$""")
+  def `I enter data that does not match a valid vehicle record three times in a row`() {
+    val vehicleRegistrationNumber = RandomVrmGenerator.vrm
+    val documentReferenceNumber = RandomVrmGenerator.docRef
+
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 1st
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 2nd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 3rd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 4th
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
