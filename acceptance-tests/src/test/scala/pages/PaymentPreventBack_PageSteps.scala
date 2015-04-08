@@ -14,7 +14,7 @@ final class PaymentPreventBack_PageSteps(implicit webDriver: WebBrowserDriver, t
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 }

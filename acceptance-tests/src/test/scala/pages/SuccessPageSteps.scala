@@ -13,10 +13,9 @@ import pages.vrm_retention.SuccessPage.waiting
 class SuccessPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
-    waiting
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 }

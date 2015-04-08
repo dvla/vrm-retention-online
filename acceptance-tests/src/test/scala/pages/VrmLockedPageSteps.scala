@@ -15,7 +15,7 @@ class VrmLockedPageSteps(implicit webDriver: EventFiringWebDriver, timeout: Pati
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 }

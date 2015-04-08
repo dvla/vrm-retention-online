@@ -15,7 +15,7 @@ class PaymentFailurePageSteps(implicit webDriver: EventFiringWebDriver, timeout:
     eventually {
       currentUrl should equal(url)
       pageSource contains title
-    }
+    }(timeout)
     this
   }
 }

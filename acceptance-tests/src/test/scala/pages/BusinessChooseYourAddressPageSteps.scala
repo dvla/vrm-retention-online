@@ -29,7 +29,7 @@ class BusinessChooseYourAddressPageSteps(implicit webDriver: EventFiringWebDrive
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 
@@ -38,7 +38,7 @@ class BusinessChooseYourAddressPageSteps(implicit webDriver: EventFiringWebDrive
       currentUrl should equal(url)
       BusinessChooseYourAddressPage.chooseAddress.value = "0"
       click on BusinessChooseYourAddressPage.select
-    }
+    }(timeout)
     this
   }
 

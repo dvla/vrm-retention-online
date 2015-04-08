@@ -14,7 +14,7 @@ class VehicleNotFoundPageSteps(implicit webDriver: EventFiringWebDriver, timeout
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 

@@ -75,7 +75,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   def `following should be displayed`(Message: String) = {
     eventually {
       pageSource should include(Message)
-    }
+    }(timeout)
     if (Message == "Payment Successful") {
       pageTitle should include(Message)
     }
