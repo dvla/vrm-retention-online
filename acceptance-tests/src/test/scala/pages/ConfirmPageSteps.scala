@@ -9,12 +9,12 @@ import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.ConfirmPage._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class Confirm_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class ConfirmPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.
       `customer does not want an email`.
-      `proceed to confirm`
+      `confirm the details`
     this
   }
 
@@ -25,7 +25,7 @@ final class Confirm_PageSteps(implicit webDriver: WebBrowserDriver, timeout: Pat
     this
   }
 
-  def `proceed to confirm` = {
+  def `confirm the details` = {
     click on confirm
     this
   }

@@ -35,7 +35,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
   private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
-  private val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  private val confirm = new ConfirmPageSteps()(webDriver, timeout)
   private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,

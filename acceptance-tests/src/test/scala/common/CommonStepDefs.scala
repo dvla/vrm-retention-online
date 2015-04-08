@@ -20,7 +20,7 @@ class CommonStepDefs(
                       confirmBusiness: ConfirmBusinessPageSteps,
                       setupBusinessDetails: SetupBusinessDetailsPageSteps,
                       businessChooseYourAddress: BusinessChooseYourAddressPageSteps,
-                      confirm: Confirm_PageSteps
+                      confirm: ConfirmPageSteps
                       )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
@@ -39,7 +39,7 @@ class CommonStepDefs(
     this
   }
 
-  def isTrackingCookieFresh = {
+  def `check tracking cookie is fresh` = {
     val c = cookie(TrackingIdCookieName)
     try {
       c.underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
@@ -55,7 +55,7 @@ class CommonStepDefs(
   def confirmDetails = {
     confirm.
       `is displayed`.
-      `proceed to confirm`
+      `confirm the details`
     this
   }
 
@@ -64,21 +64,9 @@ class CommonStepDefs(
       `is displayed`.
       `enter business details`
     businessChooseYourAddress.`proceed to next page`
-    confirmBusinessDetailsIsDisplayed
+    confirmBusiness.`is displayed`
     click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
-    this
-  }
-
-  def confirmBusinessDetailsIsDisplayed = {
-    eventually {
-      currentUrl should include(ConfirmBusinessPage.address)
-    }
-    this
-  }
-
-  def exitBusiness = {
-    click on ConfirmBusinessPage.exit
     this
   }
 

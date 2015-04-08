@@ -29,7 +29,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
   private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
-  private val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  private val confirm = new ConfirmPageSteps()(webDriver, timeout)
   private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -155,11 +155,11 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     // 1st Store the details
     user.
       `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      `provide business details`.
-      exitBusiness // Exit the service
+      `provide business details`
+    confirmBusiness.`exit the service` // Exit the service
 
     //2nd validate the details are still stored
-    user.isTrackingCookieFresh
+    user.`check tracking cookie is fresh`
 
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`
@@ -170,7 +170,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Then("^the confirm business details page is displayed$")
   def `the confirm business details page is displayed`() = {
-    user.confirmBusinessDetailsIsDisplayed
+    confirmBusiness.`is displayed`
   }
 
   @Then("""^reset the "(.*?)" so it won't be locked next time we run the tests$""")

@@ -33,7 +33,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   private val timeout = PatienceConfig(timeout = 5.seconds)
   private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
   private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
-  private val confirm = new Confirm_PageSteps()(webDriver, timeout)
+  private val confirm = new ConfirmPageSteps()(webDriver, timeout)
   private val payment = new PaymentPageSteps()(webDriver, timeout)
   private val paymentPreventBack = new PaymentPreventBack_PageSteps()(webDriver, timeout)
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)

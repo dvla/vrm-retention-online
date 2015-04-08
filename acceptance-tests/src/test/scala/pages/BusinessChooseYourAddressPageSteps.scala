@@ -36,7 +36,6 @@ class BusinessChooseYourAddressPageSteps(implicit webDriver: EventFiringWebDrive
   def `proceed to next page` = {
     eventually {
       currentUrl should equal(url)
-      pageTitle should equal(title)
       BusinessChooseYourAddressPage.chooseAddress.value = "0"
       click on BusinessChooseYourAddressPage.select
     }
