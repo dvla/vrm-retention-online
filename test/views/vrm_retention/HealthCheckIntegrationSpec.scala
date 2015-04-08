@@ -12,13 +12,16 @@ final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
 
   "Accessing the /healthcheck url" should {
 
-    "return 200 for GET and POST" in new WebBrowserForSelenium {
-      var httpResponse = execute(new HttpGet(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
+    "return 200 for GET" in new WebBrowserForSelenium {
+      val httpResponse = execute(new HttpGet(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be(Status.OK)
       finally httpResponse.close()
+    }
+
+    "return 400 for POST" in new WebBrowserForSelenium {
       // TODO: the test below doesn't seem valid as there is no POST for this in the routes file.
-      httpResponse = execute(new HttpPost(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
-      try httpResponse.getStatusLine.getStatusCode should be(Status.OK)
+      val httpResponse = execute(new HttpPost(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
+      try httpResponse.getStatusLine.getStatusCode should be(Status.BAD_REQUEST)
       finally httpResponse.close()
     }
 
