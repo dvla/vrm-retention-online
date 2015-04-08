@@ -45,7 +45,6 @@ Feature: Vehicles Personalized Registration
     | vehicle-registration-number | document-reference-number | postcode |
     | "F1"                        | "22222222222"             | "AA11AA" |
 
-  @WIP
   @UnHappyPath
   Scenario Outline:Brute Force Lockout
     Given that I have started the PR Retention Service

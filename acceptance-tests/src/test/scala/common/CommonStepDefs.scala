@@ -63,7 +63,7 @@ class CommonStepDefs(
     setupBusinessDetails.
       `is displayed`.
       `enter business details`
-    businessChooseYourAddress.`proceed to next page`
+    businessChooseYourAddress.`choose address from the drop-down`
     confirmBusiness.`is displayed`
     click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm

@@ -33,15 +33,6 @@ class BusinessChooseYourAddressPageSteps(implicit webDriver: EventFiringWebDrive
     this
   }
 
-  def `proceed to next page` = {
-    eventually {
-      currentUrl should equal(url)
-      BusinessChooseYourAddressPage.chooseAddress.value = "0"
-      click on BusinessChooseYourAddressPage.select
-    }(timeout)
-    this
-  }
-
   def `form is filled with the values I previously entered` = {
     BusinessChooseYourAddressPage.chooseAddress.value should equal("0")
     this
