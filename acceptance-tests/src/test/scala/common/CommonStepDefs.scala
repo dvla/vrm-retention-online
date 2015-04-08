@@ -19,7 +19,8 @@ class CommonStepDefs(
                       vrmLocked: VrmLockedPageSteps,
                       confirmBusiness: ConfirmBusinessPageSteps,
                       setupBusinessDetails: SetupBusinessDetailsPageSteps,
-                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps
+                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps,
+                      confirm: Confirm_PageSteps
                       )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
@@ -52,10 +53,9 @@ class CommonStepDefs(
   }
 
   def confirmDetails = {
-    eventually {
-      pageTitle should equal(ConfirmPage.title)
-    }
-    click on ConfirmPage.confirm
+    confirm.
+      `is displayed`.
+      `proceed to confirm`
     this
   }
 

@@ -34,6 +34,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
   val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
+  val confirm = new Confirm_PageSteps()(webDriver, timeout)
   val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -41,7 +42,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     vrmLocked,
     confirmBusiness,
     setupBusinessDetails,
-    businessChooseYourAddress
+    businessChooseYourAddress,
+    confirm
   )(webDriver, timeout)
 
   @Given("^that I have started the PR Retention Service$")

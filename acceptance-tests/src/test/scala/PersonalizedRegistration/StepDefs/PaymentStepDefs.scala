@@ -47,7 +47,8 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
     vrmLocked,
     confirmBusiness,
     setupBusinessDetails,
-    businessChooseYourAddress
+    businessChooseYourAddress,
+    confirm
   )(webDriver, timeout)
 
   @Given("^that I have started the PR Retention Service for payment$")

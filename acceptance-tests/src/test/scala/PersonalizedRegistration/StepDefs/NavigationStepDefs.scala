@@ -49,7 +49,8 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
     vrmLocked,
     confirmBusiness,
     setupBusinessDetails,
-    businessChooseYourAddress
+    businessChooseYourAddress,
+    confirm
   )(webDriver, timeout)
   implicit val timeout = PatienceConfig(timeout = 5.seconds)
 
