@@ -6,7 +6,6 @@ import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
 import pages._
 import pages.vrm_retention._
@@ -19,7 +18,8 @@ class CommonStepDefs(
                       vrmLocked: VrmLockedPageSteps,
                       confirmBusiness: ConfirmBusinessPageSteps,
                       setupBusinessDetails: SetupBusinessDetailsPageSteps,
-                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps
+                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps,
+                      confirm: ConfirmPageSteps
                       )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
@@ -38,7 +38,7 @@ class CommonStepDefs(
     this
   }
 
-  def validateCookieIsFresh = {
+  def `check tracking cookie is fresh` = {
     val c = cookie(TrackingIdCookieName)
     try {
       c.underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
@@ -52,48 +52,20 @@ class CommonStepDefs(
   }
 
   def confirmDetails = {
-    eventually {
-      pageTitle should equal(ConfirmPage.title)
-    }
-    click on ConfirmPage.confirm
+    confirm.
+      `is displayed`.
+      `confirm the details`
     this
   }
 
-  def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
-    vehicleLookup.
-      enter(RegistrationNumber, DocRefNumber, Postcode).
-      `keeper is not acting`.
-      `find vehicle`
-    //confirmBusiness.`is displayed`
-    this
-  }
-
-  def provideBusinessDetails = {
-    setupBusinessDetails.`is displayed`
-    setupBusinessDetails.`enter business details`
-    this
-  }
-
-  def chooseBusinessAddress = {
-    businessChooseYourAddress.`proceed to next page`
-    this
-  }
-
-  def storeBusinessDetails = {
+  def `provide business details` = {
+    setupBusinessDetails.
+      `is displayed`.
+      `enter business details`
+    businessChooseYourAddress.`choose address from the drop-down`
+    confirmBusiness.`is displayed`
     click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
-    this
-  }
-
-  def confirmBusinessDetailsIsDisplayed = {
-    eventually {
-      pageTitle should equal(ConfirmBusinessPage.title)
-    }
-    this
-  }
-
-  def exitBusiness = {
-    click on ConfirmBusinessPage.exit
     this
   }
 
@@ -102,7 +74,7 @@ class CommonStepDefs(
     this
   }
 
-  def vehicleLookupDoesNotMatchRecord(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def `perform vehicle lookup (trader acting)`(registrationNumber: String, docRefNumber: String, postcode: String) = {
     vehicleLookup.
       enter(registrationNumber, docRefNumber, postcode).
       `keeper is not acting`.

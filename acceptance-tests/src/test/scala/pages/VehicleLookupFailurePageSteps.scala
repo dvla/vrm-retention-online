@@ -19,7 +19,7 @@ class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver, ti
       pageTitle contains "This registration number cannot be retained online"
       downloadLink.isDisplayed should equal(true)
       exitLink.isDisplayed should equal(true)
-    }
+    }(timeout)
     this
   }
 
@@ -31,7 +31,7 @@ class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver, ti
       pageTitle contains "Transaction Id"
       tryAgainButton.isEnabled should equal(true)
       exitLink.isDisplayed should equal(true)
-    }
+    }(timeout)
     this
   }
 }

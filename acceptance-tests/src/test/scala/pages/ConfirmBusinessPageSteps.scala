@@ -23,8 +23,7 @@ class ConfirmBusinessPageSteps(implicit webDriver: EventFiringWebDriver, timeout
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-      pageTitle should equal(title)
-    }
+    }(timeout)
     this
   }
 
@@ -45,6 +44,11 @@ class ConfirmBusinessPageSteps(implicit webDriver: EventFiringWebDriver, timeout
 
   def `form is not filled`() = {
     rememberDetails.isSelected should equal(false)
+    this
+  }
+
+  def `exit the service` = {
+    click on ConfirmBusinessPage.exit
     this
   }
 }

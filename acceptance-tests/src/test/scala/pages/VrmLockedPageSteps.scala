@@ -8,14 +8,13 @@ import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.VrmLockedPage._
-import play.api.Logger
 
 class VrmLockedPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }
+    }(timeout)
     this
   }
 }

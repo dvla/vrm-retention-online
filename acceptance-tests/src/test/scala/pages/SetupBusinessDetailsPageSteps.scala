@@ -25,7 +25,7 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
     eventually {
       currentUrl should equal(url)
       pageSource contains title
-    }
+    }(timeout)
     this
   }
 

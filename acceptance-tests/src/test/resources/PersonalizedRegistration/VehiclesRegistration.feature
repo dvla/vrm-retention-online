@@ -16,7 +16,7 @@ Feature: Vehicles Personalized Registration
     | "S11"                       | "11111111111"             | "SA1" |
     | "S13"                       | "11111111111"             | "" |
 
-  @HappyPath
+  @UnHappyPath
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and postcode
     Given that I have started the PR Retention Service
     When I enter invalid data in the <vehicle-registration-number>, <document-reference-number> and <postcode> fields
