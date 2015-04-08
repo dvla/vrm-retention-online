@@ -1,11 +1,14 @@
 Feature: Vehicles Personalized Registration
 
-  As a User I want to Personalized my vehicle
+  As a User
+  I want to Personalized my vehicle
   so that I can use my vehicle with law
+
+  Background:
+    Given that I have started the PR Retention Service
 
   @HappyPath
   Scenario Outline: Happy Path - Keeper Acting
-    Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is eligible for retention
     And I indicate that the keeper is acting
     Then the confirm keeper details page is displayed
@@ -18,7 +21,6 @@ Feature: Vehicles Personalized Registration
 
   @UnHappyPath
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and postcode
-    Given that I have started the PR Retention Service
     When I enter invalid data in the <vehicle-registration-number>, <document-reference-number> and <postcode> fields
     Then the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and postcode fields are displayed
   Examples:
@@ -27,7 +29,6 @@ Feature: Vehicles Personalized Registration
 
   @UnHappyPath
   Scenario Outline: Vehicle Not Found
-    Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record
     Then the vrm not found page is displayed
   Examples:
@@ -36,7 +37,6 @@ Feature: Vehicles Personalized Registration
 
   @UnHappyPath
   Scenario Outline: Doc Ref Mismatch
-    Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record
     Then the doc ref mismatch page is displayed
     And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
@@ -46,13 +46,11 @@ Feature: Vehicles Personalized Registration
 
   @UnHappyPath
   Scenario: Brute Force Lockout
-    Given that I have started the PR Retention Service
     When I enter data that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed
 
   @UnHappyPath
   Scenario Outline: Direct to Paper Channel
-    Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is not eligible for retention
     Then the direct to paper channel page is displayed
     And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
@@ -62,7 +60,6 @@ Feature: Vehicles Personalized Registration
 
   @UnHappyPath
   Scenario Outline: Vehicle not Eligible
-    Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is not eligible for retention
     Then the vehicle not eligible page is displayed
     And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
@@ -72,7 +69,6 @@ Feature: Vehicles Personalized Registration
 
   @HappyPath
   Scenario Outline: Trader Acting(no details stored)
-    Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is eligible for retention and I indicate that the keeper is not acting and I have not previously chosen to store my details
     Then the supply business details page is displayed
   Examples:
@@ -81,7 +77,6 @@ Feature: Vehicles Personalized Registration
 
   @HappyPath
   Scenario Outline: Trader Acting (details stored)
-    Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old
     Then the confirm business details page is displayed
   Examples:
