@@ -59,18 +59,12 @@ class CommonStepDefs(
     this
   }
 
-  def provideBusinessDetails = {
-    setupBusinessDetails.`is displayed`
-    setupBusinessDetails.`enter business details`
-    this
-  }
-
-  def chooseBusinessAddress = {
+  def `provide business details` = {
+    setupBusinessDetails.
+      `is displayed`.
+      `enter business details`
     businessChooseYourAddress.`proceed to next page`
-    this
-  }
-
-  def storeBusinessDetails = {
+    confirmBusinessDetailsIsDisplayed
     click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
     this

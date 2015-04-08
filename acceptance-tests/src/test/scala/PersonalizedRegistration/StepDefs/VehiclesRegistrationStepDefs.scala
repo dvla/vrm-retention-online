@@ -155,10 +155,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     // 1st Store the details
     user.
       `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode).
-      provideBusinessDetails.
-      chooseBusinessAddress.
-      confirmBusinessDetailsIsDisplayed.
-      storeBusinessDetails.
+      `provide business details`.
       exitBusiness // Exit the service
 
     //2nd validate the details are still stored
