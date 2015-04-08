@@ -30,7 +30,6 @@ Feature: Vehicles Personalized Registration
     Given that I have started the PR Retention Service
     When I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record
     Then the vrm not found page is displayed
-    And reset the <vehicle-registration-number> so it won't be locked next time we run the tests
   Examples:
     | vehicle-registration-number | document-reference-number | postcode |
     | "C1"                        | "11111111111"             | "SA11AA" |
