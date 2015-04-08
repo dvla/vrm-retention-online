@@ -2,8 +2,11 @@ package PersonalizedRegistration.StepDefs
 
 import _root_.common._
 import cucumber.api.java.After
-import cucumber.api.java.en.{Given, Then, When}
-import cucumber.api.scala.{EN, ScalaDsl}
+import cucumber.api.java.en.Given
+import cucumber.api.java.en.Then
+import cucumber.api.java.en.When
+import cucumber.api.scala.EN
+import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
@@ -173,7 +176,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     confirmBusiness.`is displayed`
   }
 
-  @Then("""^reset the "(.*?)" so it won't be locked next time we run the tests$""")
+  @Then( """^reset the "(.*?)" so it won't be locked next time we run the tests$""")
   def `reset the <Vehicle-Registration-Number> so it won't be locked next time we run the tests`(vehicleRegistrationNumber: String) = {
     user.
       goToVehicleLookupPage.

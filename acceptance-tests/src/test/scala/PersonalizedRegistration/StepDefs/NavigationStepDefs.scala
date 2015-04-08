@@ -1,6 +1,5 @@
 package PersonalizedRegistration.StepDefs
 
-import _root_.common.CommonStepDefs
 import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
