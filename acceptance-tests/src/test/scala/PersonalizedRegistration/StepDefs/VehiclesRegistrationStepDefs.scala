@@ -81,19 +81,19 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record three times in a row$""")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> that does not match a valid vehicle record three times in a row`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 1st
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 2nd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 3rd
     vehicleNotFound.`is displayed`
     user.goToVehicleLookupPage
 
-    user.vehicleLookupDoesNotMatchRecord(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode) // 4th
   }
 
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does not match a valid vehicle record$""")
@@ -116,15 +116,6 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   def `the vrm not found page is displayed`() {
     vehicleNotFound.`is displayed`
       .`has 'not found' message`
-  }
-
-  @Then("^reset the \"(.*?)\" so it won't be locked next time we run the tests$")
-  def `reset the <vehicle-registration-number> so it won't be locked next time we run the tests`(registrationNumber: String) {
-    user.goToVehicleLookupPage
-    vehicleLookup.
-      enter(registrationNumber, "11111111111", "AA11AA").
-      `keeper is not acting`.
-      `find vehicle`
   }
 
   @Then("^the doc ref mismatch page is displayed$")
@@ -164,24 +155,35 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   //Scenario 8
   @When("^I enter data in the \"(.*?)\", \"(.*?)\" and \"(.*?)\" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old$")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
-    //1st Store the details
+    // 1st Store the details
     user.
-      goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode).
       provideBusinessDetails.
       chooseBusinessAddress.
       confirmBusinessDetailsIsDisplayed.
       storeBusinessDetails.
-      exitBusiness.
-      validateCookieIsFresh.
+      exitBusiness // Exit the service
 
-      //2nd validate details are stored
-      goToVehicleLookupPage.
-      goToVehicleLookupPageWithNonKeeper(vehicleRegistrationNumber, documentReferenceNumber, postcode)
+    //2nd validate the details are still stored
+    user.isTrackingCookieFresh
+
+    beforeYouStart.`go to BeforeYouStart page`.
+      `is displayed`
+    beforeYouStart.`click 'Start now' button`
+    vehicleLookup.`is displayed`
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode)
   }
 
   @Then("^the confirm business details page is displayed$")
   def `the confirm business details page is displayed`() = {
     user.confirmBusinessDetailsIsDisplayed
+  }
+
+  @Then("""^reset the "(.*?)" so it won't be locked next time we run the tests$""")
+  def `reset the <Vehicle-Registration-Number> so it won't be locked next time we run the tests`(vehicleRegistrationNumber: String) = {
+    user.
+      goToVehicleLookupPage.
+      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "11111111111", "SA11AA") // This combination of doc ref and postcode should always appear valid to the legacy stubs, so will reset the brute force count.
   }
 
   /** DO NOT REMOVE **/

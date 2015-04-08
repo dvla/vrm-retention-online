@@ -38,7 +38,7 @@ class CommonStepDefs(
     this
   }
 
-  def validateCookieIsFresh = {
+  def isTrackingCookieFresh = {
     val c = cookie(TrackingIdCookieName)
     try {
       c.underlying.validate() // The java method returns void or throws, so to make it testable you should wrap it in a try-catch.
@@ -56,15 +56,6 @@ class CommonStepDefs(
       pageTitle should equal(ConfirmPage.title)
     }
     click on ConfirmPage.confirm
-    this
-  }
-
-  def goToVehicleLookupPageWithNonKeeper(RegistrationNumber: String, DocRefNumber: String, Postcode: String) = {
-    vehicleLookup.
-      enter(RegistrationNumber, DocRefNumber, Postcode).
-      `keeper is not acting`.
-      `find vehicle`
-    //confirmBusiness.`is displayed`
     this
   }
 
@@ -87,7 +78,7 @@ class CommonStepDefs(
 
   def confirmBusinessDetailsIsDisplayed = {
     eventually {
-      pageTitle should equal(ConfirmBusinessPage.title)
+      currentUrl should include(ConfirmBusinessPage.address)
     }
     this
   }
@@ -102,7 +93,7 @@ class CommonStepDefs(
     this
   }
 
-  def vehicleLookupDoesNotMatchRecord(registrationNumber: String, docRefNumber: String, postcode: String) = {
+  def `perform vehicle lookup (trader acting)`(registrationNumber: String, docRefNumber: String, postcode: String) = {
     vehicleLookup.
       enter(registrationNumber, docRefNumber, postcode).
       `keeper is not acting`.
