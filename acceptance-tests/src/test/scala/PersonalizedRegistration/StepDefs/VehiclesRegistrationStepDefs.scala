@@ -11,9 +11,9 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages._
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
 import scala.concurrent.duration.DurationInt
-import _root_.utils.helpers.RandomVrmGenerator
 
 final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
@@ -83,7 +83,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   @When( """^I enter data that does not match a valid vehicle record three times in a row$""")
   def `I enter data that does not match a valid vehicle record three times in a row`() {
     val vehicleRegistrationNumber = RandomVrmGenerator.vrm
-    val documentReferenceNumber = RandomVrmGenerator.docRef
+    val documentReferenceNumber = "22222222222"
 
     user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, "AA11AA") // 1st
     vehicleNotFound.`is displayed`
