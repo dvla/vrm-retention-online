@@ -26,7 +26,7 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   //      case _ => new WebBrowserDriver
   //    }
   //  }
-  private implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  private val timeout = PatienceConfig(timeout = 30.seconds)
   private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
   private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
   private val payment = new PaymentPageSteps()(webDriver, timeout)

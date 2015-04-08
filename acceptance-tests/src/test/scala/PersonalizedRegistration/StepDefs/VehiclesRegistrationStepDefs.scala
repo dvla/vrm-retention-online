@@ -21,7 +21,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   //      case _ => new WebBrowserDriver
   //    }
   //  }
-  private implicit val timeout = PatienceConfig(timeout = 30.seconds)
+  private val timeout = PatienceConfig(timeout = 30.seconds)
   private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
   private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
   private val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)
