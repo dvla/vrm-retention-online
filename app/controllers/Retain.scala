@@ -3,7 +3,7 @@ package controllers
 import audit1._
 import com.google.inject.Inject
 import models._
-import org.joda.time.DateTime
+import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.Result
@@ -15,6 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import utils.helpers.Config
@@ -73,10 +74,11 @@ final class Retain @Inject()(
     def retainSuccess(certificateNumber: String) = {
 
       // create the transaction timestamp
-      val transactionTimestamp = dateService.today.toDateTimeMillis.get
+      val transactionTimestamp =
+        DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
       val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-        ISODateTimeFormat.hourMinuteSecondMillis().print(transactionTimestamp)
-      val transactionTimestampWithZone = s"$isoDateTimeString:${transactionTimestamp.getZone}"
+        ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
+      val transactionTimestampWithZone = s"$isoDateTimeString"
 
       var paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.SettledStatus)

@@ -4,7 +4,7 @@ import audit1.AuditMessage
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._
-import org.joda.time.DateTime
+import org.joda.time.{DateTimeZone, DateTime}
 import org.joda.time.format.ISODateTimeFormat
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
@@ -26,6 +26,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode._
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber._
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
@@ -151,7 +152,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   }
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {
-    val transactionTimestamp = dateService.today.toDateTimeMillis.get
+    val transactionTimestamp =
+      DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
     val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp).drop(2) + " " +
       ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
     validForm.registrationNumber +

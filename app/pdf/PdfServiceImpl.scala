@@ -10,10 +10,12 @@ import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
 import org.apache.pdfbox.preflight.PreflightDocument
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
+import org.joda.time.{DateTimeZone, DateTime}
 import pdf.PdfServiceImpl.{blankPage, fontDefaultSize, v948Blank}
 import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -124,7 +126,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
   }
 
   private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
-    val today = dateService.today
+    val today = DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London")))
     val dateStamp = today.`dd shortMonth yyyy`
     val timeStamp = today.`HH:mm`
     val font = fontHelvetica(size = fontDefaultSize)
