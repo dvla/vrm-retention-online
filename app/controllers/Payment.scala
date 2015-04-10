@@ -4,6 +4,7 @@ import audit1._
 import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
+import org.joda.time.{DateTimeZone, DateTime}
 import play.api.Logger
 import play.api.mvc.Action
 import play.api.mvc.Controller
@@ -54,7 +55,7 @@ final class Payment @Inject()(
   // The token is checked in the common project, we do nothing with it here.
   def callback(token: String) = Action.async { implicit request =>
     // check whether it is past the closing time
-    if (dateService.now.toDateTime.getHourOfDay >= config.closing)
+    if (new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).getHourOfDay >= config.closing)
       (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
         case (Some(transactionId), Some(paymentDetails)) =>
           callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get, paymentDetails.isPrimaryUrl).map { _ =>
