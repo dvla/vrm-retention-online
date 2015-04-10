@@ -68,11 +68,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   //Scenario 2 -
   @When( """^I enter invalid data in the "(.*?)", "(.*?)" and "(.*?)" fields$""")
-  def `I enter invalid data in the <vehicle-registration-number> <document-reference-number> and <postcode> fields`(registrationNumber: String, vehicleRegistrationNumber: String, postcode: String) {
-    vehicleLookup.
-      enter(registrationNumber, vehicleRegistrationNumber, postcode).
-      `keeper is not acting`.
-      `find vehicle`
+  def `I enter invalid data in the <vehicle-registration-number> <document-reference-number> and <postcode> fields`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) {
+    user.`perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, documentReferenceNumber, postcode)
   }
 
   @Then("^the error messages for invalid data in the Vehicle Registration Number, Doc Ref ID and postcode fields are displayed$")
