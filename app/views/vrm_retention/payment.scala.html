@@ -31,4 +31,10 @@
         @csrfTokenHiddenField()
         <a id="@CancelId" href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a>
     </div>
+
+    @if(config.googleAnalyticsTrackingId.isDefined) {
+        <script type="text/javascript">
+        trackClick(['@CancelId']);
+        </script>
+    }
 }
