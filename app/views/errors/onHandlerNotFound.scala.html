@@ -1,4 +1,4 @@
-@(request: RequestHeader)(implicit lang: Lang,
+@(request: RequestHeader, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
         config: utils.helpers.Config)
 
 @import views.html.common.{govMainDefault, protoType}
@@ -6,7 +6,8 @@
 
 @govMainDefault(Messages("onHandlerNotFound.title")) {
     <div class="app vrm-retention-online">
-        @protoType()
+
+        @protoType(config.closing, config.closingWarnPeriodMins, dateService)
 
         <div class="section-content">
             <h2>@Messages("onHandlerNotFound.header")</h2>

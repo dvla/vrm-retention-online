@@ -1,13 +1,34 @@
-@()(implicit lang: Lang,
+@(closingHour: Int, closingWarnPeriodMins: Int, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
         config: utils.helpers.Config)
 
-@import views.common.ProtoType.FeedbackId
+    @import views.common.ProtoType.FeedbackId
+    @import org.joda.time.{DateTimeZone, DateTime}
 
-@if(config.isPrototypeBannerVisible) {
-    <div class="prototype">
-        <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner.part1")
-            <a id="@FeedbackId" href="@controllers.routes.FeedbackController.present()" target="blank">@Messages("main.banner.feedback")</a>
-            @Messages("prototype.banner.part2")
-        </p>
-    </div>
-}
+    @if(config.isPrototypeBannerVisible) {
+
+        @if(
+            Some((closingHour, new org.joda.time.DateTime(
+                dateService.now.toDateTime.getYear,
+                dateService.now.toDateTime.getMonthOfYear,
+                dateService.now.toDateTime.getDayOfMonth,
+                if(closingHour == 24) 0 else closingHour,
+                0, DateTimeZone.forID("Europe/London"))
+                    )).map { case (closingHour, closingTime) =>
+                val closingT = if(closingHour == 24) closingTime.plusDays(1) else closingTime
+                val currentTime = new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))
+                currentTime.isBefore(closingT)
+            }.get
+        ) {
+            <div class="prototype">
+                <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner.part1")
+                    <a id="@FeedbackId" href="@controllers.routes.FeedbackController.present()" target="blank">@Messages("main.banner.feedback")</a>
+                    @Messages("prototype.banner.part2")
+                </p>
+            </div>
+        } else {
+            <div class="prototype">
+                <p><span class="phase-tag beta">BETA</span></p>
+            </div>
+        }
+
+    }

@@ -9,6 +9,7 @@ import play.api.i18n.Lang
 import play.api.mvc.Results.NotFound
 import play.api.mvc.{RequestHeader, Result}
 import play.api.{Application, Configuration, GlobalSettings, Logger, Mode, Play}
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -68,7 +69,7 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
       implicit val lang: Lang = Lang(value)
       implicit val config = injector.getInstance(classOf[Config])
       Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
-      NotFound(views.html.errors.onHandlerNotFound(request))
+      NotFound(views.html.errors.onHandlerNotFound(request, injector.getInstance(classOf[DateService])))
     }
   }
 

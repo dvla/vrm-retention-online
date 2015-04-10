@@ -14,7 +14,7 @@
 @govMainDefault(title) {
     <div class="app vrm-retention-online">
 
-        @protoType()
+        @protoType(config.closing, config.closingWarnPeriodMins, dateService)
 
         @serviceClosingWarning(config.closing, config.closingWarnPeriodMins, new DateServiceImpl)
 
