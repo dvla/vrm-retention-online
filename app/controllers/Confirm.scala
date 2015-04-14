@@ -40,20 +40,22 @@ final class Confirm @Inject()(
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[EligibilityModel],
         request.cookies.getModel[RetainModel],
         request.cookies.getModel[BusinessChooseYourAddressFormModel],
         request.cookies.getModel[EnterAddressManuallyModel],
         request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), None, businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
-          // Happy path for a business user that has all the cookies (and they either have entered address manually)// Happy path for keeper keeper
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(eligibilityModel), None, businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
+          // Happy path for a business user that has all the cookies (and they either have entered address manually)
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), None, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(eligibilityModel), None, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
           // Happy path for keeper keeper
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
         case _ =>
           Logger.warn("*** Confirm present is missing cookies for either keeper or business")
           Logger.warn("*** VehicleAndKeeperDetailsModel " + request.cookies.getModel[VehicleAndKeeperDetailsModel])
           Logger.warn("*** VehicleAndKeeperLookupFormModel " + request.cookies.getModel[VehicleAndKeeperLookupFormModel])
+          Logger.warn("*** EligibilityModel " + request.cookies.getModel[EligibilityModel])
           Logger.warn("*** RetainModel " + request.cookies.getModel[RetainModel])
           Logger.warn("*** BusinessChooseYourAddressFormModel " + request.cookies.getModel[BusinessChooseYourAddressFormModel])
           Logger.warn("*** EnterAddressManuallyModel " + request.cookies.getModel[EnterAddressManuallyModel])

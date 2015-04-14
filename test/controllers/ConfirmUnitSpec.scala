@@ -37,6 +37,7 @@ final class ConfirmUnitSpec extends UnitSpec {
         withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
+          eligibilityModel(),
           businessDetailsModel(),
           storeBusinessDetailsConsent()
         )
@@ -204,6 +205,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       withCookies(
         vehicleAndKeeperLookupFormModel(),
         vehicleAndKeeperDetailsModel(),
+        eligibilityModel(),
         setupBusinessDetails(),
         businessDetailsModel()
       )

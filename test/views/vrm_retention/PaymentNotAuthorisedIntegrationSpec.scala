@@ -56,5 +56,6 @@ final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness 
     CookieFactoryForUISpecs.
       transactionId().
       vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel()
+      vehicleAndKeeperDetailsModel().
+      eligibilityModel()
 }

@@ -42,9 +42,10 @@ final class Payment @Inject()(
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+      request.cookies.getModel[EligibilityModel],
       request.cookies.getModel[RetainModel],
       request.cookies.getModel[ConfirmFormModel]) match {
-      case (Some(transactionId), Some(vehiclesLookupForm), None, Some(confirmFormModel)) =>
+      case (Some(transactionId), Some(vehiclesLookupForm), Some(eligibilityModel), None, Some(confirmFormModel)) =>
         callBeginWebPaymentService(transactionId, vehiclesLookupForm.registrationNumber)
       case _ => Future.successful {
         Redirect(routes.Confirm.present())
