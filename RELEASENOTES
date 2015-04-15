@@ -1,3 +1,50 @@
+======= 1.12 ======
+Time of release binaries creation:
+Wed Apr 15 2015 13:30:00 GMT+0000 (GMT)
+
+2dd2980 RELEASE 1.12
+c4e7949 Set dependencies to release versions
+06979b6 added more cookie checks to some present pages
+558598e Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+05fc51a use correct timezone when checking if past closing time for payments
+f5bf1e5 acceptance tests: code re-use
+bc85c3a Track users clicking the 'Cancel' button on the payment page
+40a8e31 US2789 Disable feedback link outside core hours for PR
+528e6cc DE446 fix to the timestamps on emails and the pdf
+553e724 Merge branch 'US2857' of /home/git/repositories/dvla/vrm-retention-online into develop
+6ac57b3 US2587: post request on healthcheck returns a bad requests if no tracking id is present
+6879333 acceptance tests: move 'given' into the 'background'
+5a2ea8d acceptance tests: use RandomVrmGenerator from common
+d9bbf30 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+c9951fc acceptance tests: don't reset reg 'C1' as it's a special failing code
+e0cc5a3 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+5b91292 US2706 Apply two column layout to error pages
+4f3e7fc acceptance tests: for the brute force lockout use a randomly generated vrm and doc ref
+30a4176 acceptance tests: tidy up
+d3a9927 acceptance tests: change tage from Happy to UnHappyPath
+dcab406 acceptance test: consistancy with assign plus code re-use
+5abd892 acceptance tests: to speed up compilation explicitly state timeout rather than use implicits
+8a36c9c acceptance tests: re-named confirm page steps for consistancy, a few re-names, moved some funcs out of common step defs
+a135148 Combine several user steps into one user step as the code is not used anywhere else
+8761fef acceptance tests timeout doesn't need to be implicit, no need for lazy
+acf6c07 acceptance tests by adding private to some vals it revealed some are not used
+f025729 Acceptance tests re-using confirm page steps
+246808d rename acceptance step, check steps reflect the behaviour we want to test for
+adf6229 Minor tidy up
+3304d4c Enable brute force in sandbox. Re-enable acceptance tests marked as WIP
+108a6a5 Enable brute force in sandbox. Re-enable acceptance tests marked as WIP
+320f330 Enable brute force in sandbox. Re-enable acceptance tests marked as WIP, fix the tests now that the brute force is enabled in sandbox.
+072a9b1 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+ce3ae21 DE439: restore a message that Ed removed
+057fb3e Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+fd5517d US2801 Go to new page if payment attempted after service shutdown
+3cb4644 remove gatling tests for unused assets
+275f7a3 remove 2 gatling tests for unused assets
+52e3a74 Merge hotfix for DE441 back to develop
+f2cce08 Hotfix RELEASE 1.11.1 for DE441
+6ce9101 US2193: email subject line
+905d00c New development version 1.12-SNAPSHOT
+
 ======= 1.11 ======
 Time of release binaries creation:
 Tue Apr 01 2015 14:20:00 GMT+0000 (GMT)
