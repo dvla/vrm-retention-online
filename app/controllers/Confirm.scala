@@ -28,7 +28,6 @@ import webserviceclients.audit2.AuditRequest
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 final class Confirm @Inject()(
-                               auditService1: audit1.AuditService,
                                auditService2: audit2.AuditService
                                )(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                  config: Config,
@@ -117,14 +116,6 @@ final class Confirm @Inject()(
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.ConfirmToPayment,
-        timestamp = dateService.dateTimeISOChronology,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = model.keeperEmail,
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.ConfirmToPayment,
         timestamp = dateService.dateTimeISOChronology,
@@ -158,14 +149,6 @@ final class Confirm @Inject()(
   }
 
   def exit = Action { implicit request =>
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.ConfirmToExit,
-      timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,

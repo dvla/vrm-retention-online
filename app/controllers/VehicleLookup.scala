@@ -42,7 +42,6 @@ import scala.concurrent.Future
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
-                                    auditService1: audit1.AuditService,
                                     auditService2: audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
@@ -83,12 +82,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     val txnId = transactionId(formModel)
 
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-      transactionId = txnId,
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(responseCode)))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
       transactionId = txnId,
@@ -127,12 +120,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
         val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-          transactionId = txnId,
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
           transactionId = txnId,

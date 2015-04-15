@@ -48,7 +48,6 @@ trait Composition {
     new RetainEmailServiceBinding,
     new EmailServiceBinding,
     new EmailServiceWebServiceBinding,
-    new composition.audit1.AuditServiceBinding,
     new AuditMicroServiceBinding,
     new SessionFactoryBinding,
     new DateTimeZoneServiceBinding,

@@ -1,20 +1,23 @@
 package controllers
 
-import audit1.{AuditMessage, AuditService}
 import com.tzavellas.sse.guice.ScalaModule
-import composition.audit1.AuditLocalService
+import composition.WithApplication
 import composition.webserviceclients.vrmretentioneligibility._
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestDateService, WithApplication}
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito._
-import pages.vrm_retention.{ConfirmPage, ErrorPage, MicroServiceErrorPage, SetupBusinessDetailsPage, VehicleLookupFailurePage}
+import pages.vrm_retention.ConfirmPage
+import pages.vrm_retention.ErrorPage
+import pages.vrm_retention.MicroServiceErrorPage
+import pages.vrm_retention.SetupBusinessDetailsPage
+import pages.vrm_retention.VehicleLookupFailurePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import webserviceclients.audit2.AuditRequest
+import webserviceclients.audit2.AuditService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants._
 
@@ -176,17 +179,19 @@ final class CheckEligibilityUnitSpec extends UnitSpec {
 
     "calls audit service with expected values when the required cookies exist" in new WithApplication {
       val (checkEligibility, dateService, auditService) = checkEligibilityAndAudit()
-      val expected = new AuditMessage(
+      val expected = new AuditRequest(
         name = "VehicleLookupToConfirm",
         serviceType = "PR Retention",
-        ("transactionId", TransactionIdValid),
-        ("timestamp", dateService.dateTimeISOChronology),
-        ("replacementVrm", ReplacementRegistrationNumberValid),
-        ("currentVrm", RegistrationNumberValid),
-        ("make", VehicleMakeValid.get),
-        ("model", VehicleModelValid.get),
-        ("keeperName", "Mr David Jones"),
-        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
+        data = Seq(
+          ("transactionId", TransactionIdValid),
+          ("timestamp", dateService.dateTimeISOChronology),
+          ("replacementVrm", ReplacementRegistrationNumberValid),
+          ("currentVrm", RegistrationNumberValid),
+          ("make", VehicleMakeValid.get),
+          ("model", VehicleModelValid.get),
+          ("keeperName", "Mr David Jones"),
+          ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
+        )
       )
       val request = FakeRequest().
         withCookies(

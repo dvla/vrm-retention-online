@@ -35,7 +35,6 @@ import scala.util.control.NonFatal
 
 final class CheckEligibility @Inject()(
                                         eligibilityService: VRMRetentionEligibilityService,
-                                        auditService1: audit1.AuditService,
                                         auditService2: audit2.AuditService
                                         )
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -66,11 +65,6 @@ final class CheckEligibility @Inject()(
 
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology
-      ))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
         transactionId = transactionId,
@@ -82,12 +76,6 @@ final class CheckEligibility @Inject()(
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
-          auditService1.send(AuditMessage.from(
-            pageMovement = AuditMessage.VehicleLookupToConfirm,
-            transactionId = transactionId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-            replacementVrm = Some(replacementVRM)))
           auditService2.send(AuditRequest.from(
             pageMovement = AuditMessage.VehicleLookupToConfirm,
             transactionId = transactionId,
@@ -98,13 +86,6 @@ final class CheckEligibility @Inject()(
         } else {
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
           if (storeBusinessDetails && businessDetailsModel.isDefined) {
-            auditService1.send(AuditMessage.from(
-              pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
-              transactionId = transactionId,
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-              replacementVrm = Some(replacementVRM),
-              businessDetailsModel = businessDetailsModel))
             auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
@@ -114,12 +95,6 @@ final class CheckEligibility @Inject()(
               businessDetailsModel = businessDetailsModel))
             routes.ConfirmBusiness.present()
           } else {
-            auditService1.send(AuditMessage.from(
-              pageMovement = AuditMessage.VehicleLookupToCaptureActor,
-              transactionId = transactionId,
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-              replacementVrm = Some(replacementVRM)))
             auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.VehicleLookupToCaptureActor,
               transactionId = transactionId,
@@ -138,12 +113,6 @@ final class CheckEligibility @Inject()(
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-        rejectionCode = Some(responseCode)))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,

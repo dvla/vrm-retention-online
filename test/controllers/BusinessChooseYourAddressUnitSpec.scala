@@ -1,11 +1,11 @@
 package controllers
 
 import _root_.audit1.AuditMessage
+import _root_.webserviceclients.audit2.AuditRequest
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
 import com.tzavellas.sse.guice.ScalaModule
 import composition._
-import composition.audit1.AuditLocalService
 import composition.webserviceclients.addresslookup.TestAddressLookupBinding
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
@@ -137,10 +137,10 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
   "submit (use UPRN enabled)" should {
 
     "redirect to Confirm Business page after a valid submit" in new WithApplication {
-      val auditService1 = new AuditLocalService
+      val auditService2 = new AuditServiceDoesNothing
       val injector = testInjector(
         new TestConfig(isPrototypeBannerVisible = true, ordnanceSurveyUseUprn = true),
-        auditService1
+        auditService2
       )
 
       val businessChooseYourAddress = injector.getInstance(classOf[BusinessChooseYourAddress])
@@ -157,7 +157,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.PersonalisedRegServiceType, data: _*)
+      val auditMessage = new AuditRequest(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.PersonalisedRegServiceType, data)
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
@@ -168,7 +168,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
       val result = businessChooseYourAddress.submit(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
-        verify(auditService1.stub).send(auditMessage)
+        verify(auditService2.stub).send(auditMessage)
       }
     }
 
@@ -342,16 +342,12 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
 
   private def businessChooseYourAddress(isPrototypeBannerVisible: Boolean = true, ordnanceSurveyUseUprn: Boolean) = {
     testInjector(
-      new TestAddressLookupBinding,
-      new TestVehicleAndKeeperLookupWebService,
       new ScalaModule() {
         override def configure(): Unit = {
           bind[CookieFlags].to[NoCookieFlags].asEagerSingleton()
         }
       },
-      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn),
-      new AuditLocalService,
-      new AuditServiceDoesNothing
+      new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible, ordnanceSurveyUseUprn = ordnanceSurveyUseUprn)
     ).getInstance(classOf[BusinessChooseYourAddress])
   }
 

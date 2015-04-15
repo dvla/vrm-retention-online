@@ -2,7 +2,7 @@ package controllers
 
 import audit1.AuditMessage
 import composition.WithApplication
-import composition.audit1.AuditLocalService
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -19,6 +19,7 @@ import views.vrm_retention.Confirm.SupplyEmailId
 import views.vrm_retention.Confirm.SupplyEmail_true
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
+import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperConsentValid,BusinessConsentValid}
 
@@ -59,10 +60,10 @@ final class ConfirmUnitSpec extends UnitSpec {
   "submit" should {
 
     "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
-      val auditService1 = new AuditLocalService
+      val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
-        auditService1
+        auditService2
       )
 
       val confirm = injector.getInstance(classOf[Confirm])
@@ -80,7 +81,7 @@ final class ConfirmUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.ConfirmToPayment, AuditMessage.PersonalisedRegServiceType, data: _*)
+      val auditMessage = new AuditRequest(AuditMessage.ConfirmToPayment, AuditMessage.PersonalisedRegServiceType, data)
 
       val request = buildRequest().
         withCookies(
@@ -95,7 +96,7 @@ final class ConfirmUnitSpec extends UnitSpec {
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
-          verify(auditService1.stub).send(auditMessage)
+          verify(auditService2.stub).send(auditMessage)
       }
     }
 

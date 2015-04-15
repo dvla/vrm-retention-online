@@ -1,7 +1,5 @@
 package controllers
 
-import composition.audit1.AuditLocalService
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.{TestConfig, WithApplication}
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec

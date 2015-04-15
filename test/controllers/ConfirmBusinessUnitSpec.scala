@@ -3,7 +3,6 @@ package controllers
 import audit1.AuditMessage
 import composition.TestDateService
 import composition.WithApplication
-import composition.audit1.AuditLocalService
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper._
@@ -77,7 +76,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToConfirm, AuditMessage.PersonalisedRegServiceType, data: _*)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
@@ -135,11 +133,9 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
     }
 
     "call the audit service" in new WithApplication {
-      val auditService1 = new AuditLocalService
       val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
-        auditService1,
         auditService2
       )
 
@@ -157,7 +153,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditMessage(AuditMessage.ConfirmBusinessToConfirm, AuditMessage.PersonalisedRegServiceType, data: _*)
       val auditRequest = new AuditRequest(AuditMessage.ConfirmBusinessToConfirm, AuditMessage.PersonalisedRegServiceType, data)
       val request = buildRequest(storeDetailsConsent = true).
         withCookies(
@@ -174,7 +169,6 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-        verify(auditService1.stub).send(auditMessage)
         verify(auditService2.stub).send(auditRequest)
       }
     }

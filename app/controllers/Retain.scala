@@ -32,7 +32,6 @@ import scala.util.control.NonFatal
 
 final class Retain @Inject()(
                               vrmRetentionRetainService: VRMRetentionRetainService,
-                              auditService1: audit1.AuditService,
                               auditService2: audit2.AuditService
                               )
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -46,11 +45,6 @@ final class Retain @Inject()(
       case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentModel)) =>
         retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
       case (_, Some(transactionId), _) => {
-        auditService1.send(AuditMessage.from(
-          pageMovement = AuditMessage.PaymentToMicroServiceError,
-          transactionId = transactionId,
-          timestamp = dateService.dateTimeISOChronology
-        ))
         auditService2.send(AuditRequest.from(
           pageMovement = AuditMessage.PaymentToMicroServiceError,
           transactionId = transactionId,
@@ -83,16 +77,6 @@ final class Retain @Inject()(
       var paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.SettledStatus)
 
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.PaymentToSuccess,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = Some(paymentModel),
-        retentionCertId = Some(certificateNumber)))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToSuccess,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -117,16 +101,6 @@ final class Retain @Inject()(
       var paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
-      auditService1.send(AuditMessage.from(
-        pageMovement = AuditMessage.PaymentToPaymentFailure,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = Some(paymentModel),
-        rejectionCode = Some(responseCode)))
       auditService2.send(AuditRequest.from(
         pageMovement = AuditMessage.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,

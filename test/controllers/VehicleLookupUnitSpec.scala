@@ -1,12 +1,12 @@
 package controllers
 
-import _root_.audit1.{AuditMessage, AuditService}
+import _root_.audit1.{AuditMessage}
+import _root_.webserviceclients.audit2.AuditService
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
 import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import composition._
-import composition.audit1.AuditLocalService
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebService
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import composition.webserviceclients.vehicleandkeeperlookup._

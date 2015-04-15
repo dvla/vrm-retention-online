@@ -18,7 +18,6 @@ import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class ConfirmBusiness @Inject()(
-                                       auditService1: audit1.AuditService,
                                        auditService2: audit2.AuditService
                                        )(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                          config: Config,
@@ -73,13 +72,6 @@ final class ConfirmBusiness @Inject()(
           ) match {
           case (transactionId, vehicleAndKeeperDetailsModel, eligibilityModel, businessDetailsModel, enterAddressManuallyModel, businessChooseYourAddressFormModel, setupBusinessDetailsFormModel) =>
 
-            auditService1.send(AuditMessage.from(
-              pageMovement = AuditMessage.ConfirmBusinessToConfirm,
-              transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-              replacementVrm = Some(eligibilityModel.get.replacementVRM),
-              businessDetailsModel = businessDetailsModel))
             auditService2.send(AuditRequest.from(
               pageMovement = AuditMessage.ConfirmBusinessToConfirm,
               transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
@@ -117,13 +109,6 @@ final class ConfirmBusiness @Inject()(
   }
 
   def exit = Action { implicit request =>
-    auditService1.send(AuditMessage.from(
-      pageMovement = AuditMessage.ConfirmBusinessToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-      timestamp = dateService.dateTimeISOChronology,
-      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-      replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
     auditService2.send(AuditRequest.from(
       pageMovement = AuditMessage.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),

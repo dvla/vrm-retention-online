@@ -43,7 +43,6 @@ trait TestComposition extends Composition {
       new TestVrmRetentionRetainWebService,
       new TestPaymentSolveWebService,
       new TestRefererFromHeader,
-      new audit1.AuditLocalService,
       new audit2.AuditServiceDoesNothing,
       new AuditMicroServiceCallNotOk,
       new TestEmailService,

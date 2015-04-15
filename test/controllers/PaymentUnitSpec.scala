@@ -1,7 +1,6 @@
 package controllers
 
 import composition.WithApplication
-import composition.audit1.AuditLocalService
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
 import composition.webserviceclients.paymentsolve._
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
