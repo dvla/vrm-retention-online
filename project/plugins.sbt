@@ -8,9 +8,9 @@ resolvers += "Nexus releases" at "http://rep002-01.skyscape.preview-dvla.co.uk:8
 
 resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/releases"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("dvla" % "build-details-generator" % "1.3.2-SNAPSHOT")
+addSbtPlugin("dvla" % "build-details-generator" % "1.3.1")
 
-addSbtPlugin("dvla" % "microservices-sandbox" % "1.3.4-SNAPSHOT")
+addSbtPlugin("dvla" % "microservices-sandbox" % "1.3.4")
 
 // The Typesafe repository 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
