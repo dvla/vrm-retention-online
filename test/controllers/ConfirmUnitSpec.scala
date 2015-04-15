@@ -1,6 +1,5 @@
 package controllers
 
-import audit1.AuditMessage
 import composition.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
@@ -81,7 +80,7 @@ final class ConfirmUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditRequest(AuditMessage.ConfirmToPayment, AuditMessage.PersonalisedRegServiceType, data)
+      val auditMessage = new AuditRequest(AuditRequest.ConfirmToPayment, AuditRequest.PersonalisedRegServiceType, data)
 
       val request = buildRequest().
         withCookies(

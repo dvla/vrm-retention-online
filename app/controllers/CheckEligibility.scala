@@ -1,6 +1,6 @@
 package controllers
 
-import audit1._
+import webserviceclients.audit2.AuditRequest
 import com.google.inject.Inject
 import models.BusinessDetailsModel
 import models.CacheKeyPrefix
@@ -66,7 +66,7 @@ final class CheckEligibility @Inject()(
     def microServiceErrorResult(message: String) = {
       Logger.error(message)
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.VehicleLookupToMicroServiceError,
+        pageMovement = AuditRequest.VehicleLookupToMicroServiceError,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology
       ))
@@ -77,7 +77,7 @@ final class CheckEligibility @Inject()(
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
           auditService2.send(AuditRequest.from(
-            pageMovement = AuditMessage.VehicleLookupToConfirm,
+            pageMovement = AuditRequest.VehicleLookupToConfirm,
             transactionId = transactionId,
             timestamp = dateService.dateTimeISOChronology,
             vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
@@ -87,7 +87,7 @@ final class CheckEligibility @Inject()(
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
           if (storeBusinessDetails && businessDetailsModel.isDefined) {
             auditService2.send(AuditRequest.from(
-              pageMovement = AuditMessage.VehicleLookupToConfirmBusiness,
+              pageMovement = AuditRequest.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
@@ -96,7 +96,7 @@ final class CheckEligibility @Inject()(
             routes.ConfirmBusiness.present()
           } else {
             auditService2.send(AuditRequest.from(
-              pageMovement = AuditMessage.VehicleLookupToCaptureActor,
+              pageMovement = AuditRequest.VehicleLookupToCaptureActor,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
@@ -114,7 +114,7 @@ final class CheckEligibility @Inject()(
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.VehicleLookupToVehicleLookupFailure,
+        pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,

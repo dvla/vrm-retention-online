@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import models._
 import play.api.Logger
@@ -62,7 +61,7 @@ final class EnterAddressManually @Inject()(
             val viewModel = BusinessDetailsModel.from(setupBusinessDetailsForm, vehicleAndKeeperDetails, validForm)
 
             auditService2.send(AuditRequest.from(
-              pageMovement = AuditMessage.CaptureActorToConfirmBusiness,
+              pageMovement = AuditRequest.CaptureActorToConfirmBusiness,
               transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -81,7 +80,7 @@ final class EnterAddressManually @Inject()(
 
   def exit = Action { implicit request =>
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.CaptureActorToExit,
+      pageMovement = AuditRequest.CaptureActorToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

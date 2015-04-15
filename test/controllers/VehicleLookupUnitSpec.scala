@@ -1,6 +1,5 @@
 package controllers
 
-import _root_.audit1.{AuditMessage}
 import _root_.webserviceclients.audit2.AuditService
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.{PostcodeInvalid, PostcodeValid}
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants

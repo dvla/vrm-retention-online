@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import models._
 import org.joda.time.{DateTimeZone, DateTime}
@@ -46,7 +45,7 @@ final class Retain @Inject()(
         retainVrm(vehiclesLookupForm, transactionId, paymentModel.trxRef.get)
       case (_, Some(transactionId), _) => {
         auditService2.send(AuditRequest.from(
-          pageMovement = AuditMessage.PaymentToMicroServiceError,
+          pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology
         ))
@@ -78,7 +77,7 @@ final class Retain @Inject()(
       paymentModel.paymentStatus = Some(Payment.SettledStatus)
 
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.PaymentToSuccess,
+        pageMovement = AuditRequest.PaymentToSuccess,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -102,7 +101,7 @@ final class Retain @Inject()(
       paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.PaymentToPaymentFailure,
+        pageMovement = AuditRequest.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

@@ -1,6 +1,5 @@
 package controllers
 
-import audit1._
 import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
@@ -92,7 +91,7 @@ final class Payment @Inject()(
     Logger.error(message)
 
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.PaymentToPaymentFailure,
+      pageMovement = AuditRequest.PaymentToPaymentFailure,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -146,7 +145,7 @@ final class Payment @Inject()(
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.PaymentToPaymentNotAuthorised,
+        pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -212,7 +211,7 @@ final class Payment @Inject()(
       }
 
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.PaymentToExit,
+        pageMovement = AuditRequest.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

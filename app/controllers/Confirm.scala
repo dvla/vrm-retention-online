@@ -1,6 +1,6 @@
 package controllers
 
-import audit1.AuditMessage
+import webserviceclients.audit2.AuditRequest
 import com.google.inject.Inject
 import models._
 import play.api.Logger
@@ -117,7 +117,7 @@ final class Confirm @Inject()(
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
       auditService2.send(AuditRequest.from(
-        pageMovement = AuditMessage.ConfirmToPayment,
+        pageMovement = AuditRequest.ConfirmToPayment,
         timestamp = dateService.dateTimeISOChronology,
         transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
@@ -150,7 +150,7 @@ final class Confirm @Inject()(
 
   def exit = Action { implicit request =>
     auditService2.send(AuditRequest.from(
-      pageMovement = AuditMessage.ConfirmToExit,
+      pageMovement = AuditRequest.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],

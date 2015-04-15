@@ -1,7 +1,7 @@
 package webserviceclients.audit2
 
-import audit1.{BusinessDetailsModelOptSeq, PaymentModelOptSeq, VehicleAndKeeperDetailsModelOptSeq}
-import models.{BusinessDetailsModel, PaymentModel}
+import models.BusinessDetailsModel
+import models.PaymentModel
 import play.api.libs.json.Json._
 import play.api.libs.json._
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -12,6 +12,25 @@ object AuditRequest {
 
   // service types
   final val PersonalisedRegServiceType = "PR Retention"
+
+  // page movement names
+  final val VehicleLookupToConfirm = "VehicleLookupToConfirm"
+  final val VehicleLookupToConfirmBusiness = "VehicleLookupToConfirmBusiness"
+  final val VehicleLookupToCaptureActor = "VehicleLookupToCaptureActor"
+  final val VehicleLookupToVehicleLookupFailure = "VehicleLookupToVehicleLookupFailure"
+  final val VehicleLookupToExit = "VehicleLookupToExit"
+  final val VehicleLookupToMicroServiceError = "VehicleLookupToMicroServiceError"
+  final val CaptureActorToConfirmBusiness = "CaptureActorToConfirmBusiness"
+  final val CaptureActorToExit = "CaptureActorToExit"
+  final val ConfirmBusinessToConfirm = "ConfirmBusinessToConfirm"
+  final val ConfirmBusinessToExit = "ConfirmBusinessToExit"
+  final val ConfirmToPayment = "ConfirmToPayment"
+  final val ConfirmToExit = "ConfirmToExit"
+  final val PaymentToSuccess = "PaymentToSuccess"
+  final val PaymentToPaymentNotAuthorised = "PaymentToPaymentNotAuthorised"
+  final val PaymentToPaymentFailure = "PaymentToPaymentFailure"
+  final val PaymentToExit = "PaymentToExit"
+  final val PaymentToMicroServiceError = "PaymentToMicroServiceError"
 
   implicit val jsonWrites = new Writes[Seq[(String, Any)]] {
     def writes(o: Seq[(String, Any)]): JsValue = obj(

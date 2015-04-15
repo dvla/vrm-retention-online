@@ -1,6 +1,5 @@
 package controllers
 
-import _root_.audit1.AuditMessage
 import _root_.webserviceclients.audit2.AuditRequest
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
@@ -157,7 +156,7 @@ final class BusinessChooseYourAddressUnitSpec extends UnitSpec {
         ("businessName", "example trader contact"),
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
-      val auditMessage = new AuditRequest(AuditMessage.CaptureActorToConfirmBusiness, AuditMessage.PersonalisedRegServiceType, data)
+      val auditMessage = new AuditRequest(AuditRequest.CaptureActorToConfirmBusiness, AuditRequest.PersonalisedRegServiceType, data)
       val request = buildCorrectlyPopulatedRequest(addressSelected = traderUprnValid.toString).
         withCookies(CookieFactoryForUnitSpecs.transactionId()).
         withCookies(CookieFactoryForUnitSpecs.eligibilityModel()).
