@@ -44,13 +44,6 @@
 
 			}
 
-			<h3>@Messages("vrm_retention_success.noticePayment.h3")</h3>
-			<p>@Messages("vrm_retention_success.noticePayment.p1")</p>
-			<strong>@Messages("vrm_retention_success.noticePayment.desc1")</strong>
-			<p/>
-			@Messages("vrm_retention_success.noticePayment.desc2") @successViewModel.registrationNumber <span class="renewalFee">£80.00</span> <br>
-			<p/>
-
 			<h2>@Messages("vrm_retention_success_payment.h2")</h2>
 
             <h3>@Messages("vrm_retention_success.notice1.h3")</h3>
@@ -79,17 +72,22 @@
 				<h2>@Messages("success-keeper-application-details")</h2>
 				<p>@Messages("success-keeper-application-details-transaction-id")</p>
 				<p><strong>@successViewModel.transactionId</strong></p>
-                <br/>
+				<br/>
 				<p>@Messages("success-keeper-application-details-contact-us")</p>
-                <p>@Messages("success-keeper-application-details-telephone")</p>
-                <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong> <br/>
-                <small>@Messages("success-keeper-application-details-telephone-number-extension")</small></p>
-                <p><strong>@Messages("success-keeper-application-details-monday-to-friday")</strong></p>
-                <p><strong>@Messages("success-keeper-application-details-saturday")</strong></p>
-                <p><strong>@Messages("success-keeper-application-details-sunday")</strong></p>
-                <br/>
-                <p style="font-size: 14px;">@Messages("success-keeper-application-details-textphone")</p>
-                <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
+				<div style="line-height : 75 % ;">
+					<br>
+				</div>
+				<p>@Messages("success-keeper-application-details-telephone")</p>
+				<p><strong>@Messages("success-keeper-application-details-telephone-number")</strong>
+					<strong><small>@Messages("success-keeper-application-details-telephone-number-extension1") @Messages("success-keeper-application-details-telephone-number-extension2") @Messages("success-keeper-application-details-telephone-number-extension3")</small></strong>
+				</p>
+				<br/>
+				<p>@Messages("success-keeper-application-details-monday-to-friday")</p>
+				<p>@Messages("success-keeper-application-details-saturday")</p>
+				<p>@Messages("success-keeper-application-details-sunday")</p>
+				<br/>
+				<p>@Messages("success-keeper-application-details-textphone")</p>
+				<p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
 			</div>
 
             @* Keeper details *@
