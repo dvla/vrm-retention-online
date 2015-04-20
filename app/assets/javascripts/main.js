@@ -1,14 +1,37 @@
 require.config({
     paths: {
+        'jquery' : '../lib/jquery/jquery',
+        'jquery-migrate': '../lib/jquery-migrate/jquery-migrate',
+        'header-footer-only': '../lib/vehicles-presentation-common/javascripts/header-footer-only',
+        'global-helpers': '../lib/vehicles-presentation-common/javascripts/global-helpers',
+        'page-init': '../lib/vehicles-presentation-common/javascripts/page-init',
+        'details-polyfill': 'details-polyfill',
+        'retention-page-init': 'retention-page-init'
+    },
+    // Make jquery-migrate depend on the loading of jquery
+    "shim": {
+        'jquery-migrate': ['jquery']
+    }
+});
+
+require(["retention-page-init"], function(retentionPageInit) {
+    $(function() {
+        retentionPageInit.init();
+    });
+});
+
+/*
+require.config({
+    paths: {
         'jquery': '../lib/jquery/jquery',
         'header-footer-only': 'header-footer-only',
-        'form-checked-selection': 'form-checked-selection',
         'details-polyfill': 'details-polyfill'
     }
 });
 
-require(["jquery", "header-footer-only", "form-checked-selection","details-polyfill"],function($) {
+require(["jquery", "header-footer-only", "form-checked-selection", "details-polyfill"],function($) {
 
+    // ALREADY IN COMMON
     var IE10 = (navigator.userAgent.match(/(MSIE 10.0)/g) ? true : false);
     if (IE10) {
         $('html').addClass('ie10');
@@ -16,6 +39,7 @@ require(["jquery", "header-footer-only", "form-checked-selection","details-polyf
 
     $(function() {
 
+        // ALREADY IN COMMON
         // Enabling loading class/js animation on submit's CTAs
         $('button[type="submit"]').on('click', function(e) {
             var runTimes;
@@ -37,26 +61,31 @@ require(["jquery", "header-footer-only", "form-checked-selection","details-polyf
             }, 1000);
         });
 
+        // MOVED TO RETENTION INIT
         // If JS enabled hide summary details
         $('.details').hide();
 
+        // MOVED TO RETENTION INIT
         // Summary details toggle
         $('.summary').on('click', function() {
             $(this).siblings().toggle();
             $(this).toggleClass('active');
         });
 
+        // THIS IS IN COMMON
         // Disabled clicking on disabled buttons
         $('.button-not-implemented').click(function() {
             return false;
         });
 
+        // THIS IS IN COMMON
         // Print button
         $('.print-button').click(function() {
             window.print();
             return false;
         });
 
+        // THIS IS IN COMMON
         // smooth scroll
         $('a[href^="#"]').bind('click.smoothscroll', function (e) {
             e.preventDefault();
@@ -69,6 +98,7 @@ require(["jquery", "header-footer-only", "form-checked-selection","details-polyf
             });
         });
 
+        // THIS IS IN COMMON
         function updateCountdown() {
             var remaining = 500 - $('#feedback-form textarea').val().length;
             $('.character-countdown').text(remaining + ' characters remaining.');
@@ -99,6 +129,7 @@ require(["jquery", "header-footer-only", "form-checked-selection","details-polyf
 
     });
 
+    // THIS IS IN COMMON GLOBAL HELPERS
     function areCookiesEnabled(){
         var cookieEnabled = (navigator.cookieEnabled) ? true : false;
 
@@ -110,8 +141,10 @@ require(["jquery", "header-footer-only", "form-checked-selection","details-polyf
         return (cookieEnabled);
     }
 
+    // THIS IS IN COMMON GLOBAL HELPERS
     function opt(v){
         if (typeof v == 'undefined') return [];
         else return[v];
     }
 });
+*/
