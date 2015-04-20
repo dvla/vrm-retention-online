@@ -66,10 +66,11 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
         case Some(cookie) => cookie.value
         case None => "en"
       }
-      implicit val lang: Lang = Lang(value)
-      implicit val config = injector.getInstance(classOf[Config])
+      val lang: Lang = Lang(value)
+      val config = injector.getInstance(classOf[Config])
+      val dateService =  injector.getInstance(classOf[DateService])
       Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
-      NotFound(views.html.errors.onHandlerNotFound(request, injector.getInstance(classOf[DateService])))
+      NotFound(views.html.errors.onHandlerNotFound(request)(lang, config, dateService))
     }
   }
 

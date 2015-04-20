@@ -1,5 +1,6 @@
-@(request: RequestHeader, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
-        config: utils.helpers.Config)
+@(request: RequestHeader)(implicit lang: Lang,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.common.{govMainDefault, protoType}
 @import views.vrm_retention.OnHandlerNotFound.ExitId

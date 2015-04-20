@@ -1,7 +1,9 @@
 @(title: String)(content: Html)(implicit lang: Lang,
-        config: utils.helpers.Config)
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.common.{footer, header}
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarningV2
 
 <!DOCTYPE html>
     <!--[if IE 6]>         <html class="ie ie6" lang="en"> <![endif]-->
@@ -15,6 +17,8 @@
     <body>
     
         <a href="#main" class="visuallyhidden">Skip to main content</a>
+
+        @serviceClosingWarningV2(config.opening, config.closing, config.closingWarnPeriodMins, dateService)
 
         <div id="global-cookie-message">
             <div class="cookie-message-wrapper">
