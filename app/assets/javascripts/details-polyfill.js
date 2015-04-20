@@ -1,3 +1,4 @@
+// TODO: It looks like the contents of this file is not being used anywhere so we can delete it
 // <details> polyfill
 // http://caniuse.com/#feat=details
 
