@@ -5,7 +5,8 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
-import views.vrm_retention.VrmLocked.{ExitRetentionId, NewRetentionId}
+import views.vrm_retention.VrmLocked.ExitRetentionId
+import views.vrm_retention.VrmLocked.NewRetentionId
 
 object VrmLockedPage extends Page {
 

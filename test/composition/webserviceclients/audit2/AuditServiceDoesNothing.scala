@@ -4,7 +4,8 @@ import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import webserviceclients.audit2.{AuditRequest, AuditService}
+import webserviceclients.audit2.AuditRequest
+import webserviceclients.audit2.AuditService
 
 import scala.concurrent.Future
 

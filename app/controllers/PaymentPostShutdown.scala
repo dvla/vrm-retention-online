@@ -1,7 +1,9 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{CacheKeyPrefix, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
+import models.CacheKeyPrefix
+import models.VehicleAndKeeperLookupFormModel
+import models.VehicleLookupFailureViewModel
 import play.api.mvc._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies

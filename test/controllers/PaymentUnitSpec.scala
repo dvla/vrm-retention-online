@@ -1,10 +1,10 @@
 package controllers
 
 import composition.WithApplication
-import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.{beginWebPaymentUrl, loadBalancerUrl}
-import composition.webserviceclients.paymentsolve._
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.beginWebPaymentUrl
+import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.loadBalancerUrl
+import composition.webserviceclients.paymentsolve._
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
@@ -13,10 +13,11 @@ import org.mockito.Mockito.verify
 import pages.vrm_retention._
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.Helpers._
-import play.api.test.{FakeHeaders, FakeRequest}
+import play.api.test.FakeHeaders
+import play.api.test.FakeRequest
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveWebService}
+import webserviceclients.paymentsolve.PaymentSolveBeginRequest
 
 final class PaymentUnitSpec extends UnitSpec {
 

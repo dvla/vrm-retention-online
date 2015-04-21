@@ -1,6 +1,7 @@
 package pages.common
 
-import org.openqa.selenium.{By, WebDriver}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
 
 object Accessibility {
 

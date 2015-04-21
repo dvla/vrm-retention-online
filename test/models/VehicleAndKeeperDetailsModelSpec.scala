@@ -1,7 +1,6 @@
 package models
 
 import helpers.UnitSpec
-import org.joda.time.DateTime
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto

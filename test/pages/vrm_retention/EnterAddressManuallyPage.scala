@@ -9,7 +9,10 @@ import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFact
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_retention.EnterAddressManually.NextId
 import views.vrm_retention.Main.BackId
-import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import webserviceclients.fakes.AddressLookupServiceConstants.BuildingNameOrNumberValid
+import webserviceclients.fakes.AddressLookupServiceConstants.Line2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.Line3Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
 
 object EnterAddressManuallyPage extends Page {
 

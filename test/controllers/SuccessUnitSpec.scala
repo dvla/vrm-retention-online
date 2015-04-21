@@ -5,7 +5,11 @@ import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import pages.vrm_retention.LeaveFeedbackPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, defaultAwaitTimeout, status}
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.status
 
 final class SuccessUnitSpec extends UnitSpec {
 

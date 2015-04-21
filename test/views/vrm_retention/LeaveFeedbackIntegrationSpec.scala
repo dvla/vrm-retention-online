@@ -4,7 +4,8 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage}
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.LeaveFeedbackPage
 
 final class LeaveFeedbackIntegrationSpec extends UiSpec with TestHarness {
 

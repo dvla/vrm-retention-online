@@ -1,10 +1,11 @@
 package pdf
 
-import composition.{TestDateService, WithApplication}
+import composition.WithApplication
 import helpers.UnitSpec
 import models.EligibilityModel
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
-import org.scalatest.time.{Seconds, Span}
+import org.scalatest.time.Seconds
+import org.scalatest.time.Span
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 

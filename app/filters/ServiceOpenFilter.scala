@@ -1,7 +1,8 @@
 package filters
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.filters.{EnsureServiceOpenFilter, DateTimeZoneService}
+import uk.gov.dvla.vehicles.presentation.common.filters.DateTimeZoneService
+import uk.gov.dvla.vehicles.presentation.common.filters.EnsureServiceOpenFilter
 import utils.helpers.Config
 
 class ServiceOpenFilter @Inject()(implicit config: Config,

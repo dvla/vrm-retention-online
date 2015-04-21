@@ -1,23 +1,34 @@
 package controllers
 
-import composition.webserviceclients.audit2.AuditServiceDoesNothing
-import composition.{TestConfig, WithApplication}
+import composition.TestConfig
+import composition.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-import models.{BusinessDetailsModel, EnterAddressManuallyModel}
-import pages.vrm_retention.{ConfirmBusinessPage, SetupBusinessDetailsPage}
+import models.BusinessDetailsModel
+import models.EnterAddressManuallyModel
+import pages.vrm_retention.ConfirmBusinessPage
+import pages.vrm_retention.SetupBusinessDetailsPage
 import play.api.mvc.Result
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, contentAsString, defaultAwaitTimeout}
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_retention.EnterAddressManually.{EnterAddressManuallyCacheKey, PostcodeId}
-import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid, PostcodeValid}
+import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
+import views.vrm_retention.EnterAddressManually.PostcodeId
+import webserviceclients.fakes.AddressLookupServiceConstants.BuildingNameOrNumberValid
+import webserviceclients.fakes.AddressLookupServiceConstants.Line2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.Line3Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 import scala.concurrent.Future
 

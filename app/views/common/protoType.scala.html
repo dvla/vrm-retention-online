@@ -1,8 +1,9 @@
 @(closingHour: Int, closingWarnPeriodMins: Int, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
         config: utils.helpers.Config)
 
+    @import org.joda.time.DateTime
+    @import org.joda.time.DateTimeZone
     @import views.common.ProtoType.FeedbackId
-    @import org.joda.time.{DateTimeZone, DateTime}
 
     @if(config.isPrototypeBannerVisible) {
 

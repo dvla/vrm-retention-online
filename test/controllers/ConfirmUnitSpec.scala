@@ -20,7 +20,8 @@ import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{KeeperConsentValid,BusinessConsentValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
 
 final class ConfirmUnitSpec extends UnitSpec {
 

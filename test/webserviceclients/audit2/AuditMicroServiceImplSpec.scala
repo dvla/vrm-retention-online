@@ -1,8 +1,12 @@
 package webserviceclients.audit2
 
-import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import composition.{TestConfig, WithApplication}
-import helpers.{UnitSpec, WireMockFixture}
+import com.github.tomakehurst.wiremock.client.WireMock.equalTo
+import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
+import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
+import composition.TestConfig
+import composition.WithApplication
+import helpers.UnitSpec
+import helpers.WireMockFixture
 import play.api.libs.json.Json
 
 final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {

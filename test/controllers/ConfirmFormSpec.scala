@@ -3,7 +3,8 @@ package controllers
 import helpers.UnitSpec
 import models.ConfirmFormModel
 import play.api.data.Form
-import views.vrm_retention.Confirm.{KeeperEmailId, SupplyEmailId}
+import views.vrm_retention.Confirm.KeeperEmailId
+import views.vrm_retention.Confirm.SupplyEmailId
 import webserviceclients.fakes.AddressLookupServiceConstants._
 
 final class ConfirmFormSpec extends UnitSpec {

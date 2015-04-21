@@ -1,7 +1,8 @@
 package helpers
 
 import org.scalatest.Assertions.fail
-import play.api.libs.json.{Json, Reads}
+import play.api.libs.json.Json
+import play.api.libs.json.Reads
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 
 object JsonUtils {

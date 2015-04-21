@@ -1,13 +1,16 @@
 package composition.webserviceclients.bruteforceprevention
 
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
-import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.{VrmThrows, responseFirstAttempt, responseSecondAttempt}
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmThrows
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseFirstAttempt
+import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.responseSecondAttempt
 import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import play.api.http.Status.{FORBIDDEN, OK}
+import play.api.http.Status.FORBIDDEN
+import play.api.http.Status.OK
 import play.api.libs.ws.WSResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse

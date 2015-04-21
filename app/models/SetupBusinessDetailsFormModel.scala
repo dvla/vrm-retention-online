@@ -7,7 +7,11 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
-import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessEmailId, BusinessNameId, BusinessPostcodeId, SetupBusinessDetailsCacheKey}
+import views.vrm_retention.SetupBusinessDetails.BusinessContactId
+import views.vrm_retention.SetupBusinessDetails.BusinessEmailId
+import views.vrm_retention.SetupBusinessDetails.BusinessNameId
+import views.vrm_retention.SetupBusinessDetails.BusinessPostcodeId
+import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 
 final case class SetupBusinessDetailsFormModel(name: String, contact: String, email: String, postcode: String)
 

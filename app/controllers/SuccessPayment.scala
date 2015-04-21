@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream
 import com.google.inject.Inject
 import email.RetainEmailService
 import models._
-import org.apache.commons.mail.HtmlEmail
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
@@ -15,7 +14,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Confirm.SupplyEmail_true
 import views.vrm_retention.Payment._

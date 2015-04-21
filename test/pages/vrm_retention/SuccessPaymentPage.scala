@@ -1,7 +1,5 @@
 package pages.vrm_retention
 
-import java.util.concurrent.TimeUnit
-
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._

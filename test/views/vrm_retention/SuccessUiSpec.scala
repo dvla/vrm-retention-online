@@ -6,10 +6,10 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.SuccessPage.finish
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage
 import pages.vrm_retention.SuccessPage
+import pages.vrm_retention.SuccessPage.finish
 
 final class SuccessUiSpec extends UiSpec with TestHarness {
 

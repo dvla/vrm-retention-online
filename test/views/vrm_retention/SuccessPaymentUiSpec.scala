@@ -6,7 +6,9 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.{BeforeYouStartPage, SuccessPage, SuccessPaymentPage}
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.SuccessPage
+import pages.vrm_retention.SuccessPaymentPage
 
 final class SuccessPaymentUiSpec extends UiSpec with TestHarness {
 

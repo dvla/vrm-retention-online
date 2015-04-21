@@ -1,8 +1,11 @@
 package webserviceclients.fakes
 
-import play.api.http.Status.{OK, SERVICE_UNAVAILABLE}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.{VehicleAndKeeperDetailsDto, VehicleAndKeeperDetailsResponse}
-import views.vrm_retention.VehicleLookup.{UserType_Keeper, UserType_Business}
+import play.api.http.Status.OK
+import play.api.http.Status.SERVICE_UNAVAILABLE
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
+import views.vrm_retention.VehicleLookup.UserType_Business
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 object VehicleAndKeeperLookupWebServiceConstants {

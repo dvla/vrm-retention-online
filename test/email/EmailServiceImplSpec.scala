@@ -1,15 +1,6 @@
 package email
 
-import composition.RetainEmailServiceBinding
-import composition.WithApplication
 import helpers.UnitSpec
-import models._
-import org.apache.commons.mail.HtmlEmail
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.TransactionTimestampValid
 
 final class EmailServiceImplSpec extends UnitSpec {
 
