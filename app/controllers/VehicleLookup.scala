@@ -3,9 +3,9 @@ package controllers
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
 import models._
-import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
@@ -51,7 +51,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
                         (implicit request: Request[_]): Result =
-    addDefaultCookies(Redirect(routes.VrmLocked.present()),transactionId(formModel))
+    addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
 
   override def microServiceError(t: Throwable, formModel: VehicleAndKeeperLookupFormModel)
                                 (implicit request: Request[_]): Result =
@@ -112,20 +112,20 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
 
-        val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
+      val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
-        auditService2.send(AuditRequest.from(
-          pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
-          transactionId = txnId,
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-          rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
+      auditService2.send(AuditRequest.from(
+        pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
+        transactionId = txnId,
+        timestamp = dateService.dateTimeISOChronology,
+        vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
 
-        addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
-          withCookie(responseCodeCacheKey, postcodeMismatchResponseCodeText)
-      } else
-        addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).
-          withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
+      addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
+        withCookie(responseCodeCacheKey, postcodeMismatchResponseCodeText)
+    } else
+      addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).
+        withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
   }
 
   def back = Action { implicit request =>

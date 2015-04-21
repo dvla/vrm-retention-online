@@ -84,7 +84,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
               businessDetailsModel,
               isKeeper = true,
               trackingId = trackingId
-          )
+            )
         }
 
         callUpdateWebPaymentService(

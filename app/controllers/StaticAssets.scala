@@ -9,10 +9,9 @@ import controllers.Assets.Asset
  * maybeAssetsUrl should come from a configuration option.
  */
 object StaticAssets {
-  
-  def versioned(maybeAssetsUrl: Option[String])(file: Asset): String = {
-    
-    maybeAssetsUrl.map(_ + routes.Assets.versioned(file).url).getOrElse( routes.Assets.versioned(file).url)
 
+  def versioned(maybeAssetsUrl: Option[String])(file: Asset): String = {
+
+    maybeAssetsUrl.map(_ + routes.Assets.versioned(file).url).getOrElse(routes.Assets.versioned(file).url)
   }
 }

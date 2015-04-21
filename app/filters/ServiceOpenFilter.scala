@@ -8,6 +8,7 @@ import utils.helpers.Config
 class ServiceOpenFilter @Inject()(implicit config: Config,
                                   timeZone: DateTimeZoneService,
                                   dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends EnsureServiceOpenFilter {
+
   protected lazy val opening = config.opening
   protected lazy val closing = config.closing
   protected lazy val dateTimeZone = timeZone

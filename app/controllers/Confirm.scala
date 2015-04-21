@@ -88,8 +88,8 @@ final class Confirm @Inject()(
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       if vehicleAndKeeperLookupForm.userType == UserType_Business
     } yield {
-      Redirect(routes.ConfirmBusiness.present())
-    }
+        Redirect(routes.ConfirmBusiness.present())
+      }
     val keeperPath = Redirect(routes.VehicleLookup.present())
     businessPath.getOrElse(keeperPath)
   }
@@ -135,13 +135,13 @@ final class Confirm @Inject()(
       vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
     }
-    yield {
-      val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
-      val updatedForm = formWithReplacedErrors(form)
-      val isKeeperEmailDisplayedOnLoad = updatedForm.apply(SupplyEmailId).value == Some(SupplyEmail_true)
-      val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
-      BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad, isKeeper))
-    }
+      yield {
+        val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
+        val updatedForm = formWithReplacedErrors(form)
+        val isKeeperEmailDisplayedOnLoad = updatedForm.apply(SupplyEmailId).value == Some(SupplyEmail_true)
+        val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+        BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad, isKeeper))
+      }
     val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)
   }

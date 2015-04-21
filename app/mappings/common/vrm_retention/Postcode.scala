@@ -5,6 +5,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
 import views.constraints.Postcode.validPostcode
 
 object Postcode {
+
   private final val MinLength = 0
   final val MaxLength = 8
 

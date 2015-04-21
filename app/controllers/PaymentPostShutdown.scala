@@ -12,8 +12,8 @@ import utils.helpers.Config
 import views.vrm_retention.VehicleLookup._
 
 final class PaymentPostShutdown @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                             config: Config,
-                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                            config: Config,
+                                            dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -26,9 +26,9 @@ final class PaymentPostShutdown @Inject()()(implicit clientSideSessionFactory: C
   }
 
   private def displayPaymentPostShutdown(transactionId: String,
-                                          vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
-                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
-                                           )(implicit request: Request[AnyContent]) = {
+                                         vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
+                                         vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
+                                          )(implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)

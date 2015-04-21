@@ -117,9 +117,9 @@ final class BusinessChooseYourAddress @Inject()(
   }
 
   private def index(addresses: Seq[(String, String)]) = {
-    addresses.map { case (uprn, address) => address}. // Extract the address.
+    addresses.map { case (uprn, address) => address }. // Extract the address.
       zipWithIndex. // Add an index for each address
-      map { case (address, index) => (index.toString, address)} // Flip them around so index comes first.
+      map { case (address, index) => (index.toString, address) } // Flip them around so index comes first.
   }
 
   private def formWithReplacedErrors(form: Form[BusinessChooseYourAddressFormModel])(implicit request: Request[_]) =
