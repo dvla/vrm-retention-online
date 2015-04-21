@@ -1,6 +1,8 @@
+//TODO delete this file as it is already in common
+
 //radio and checkbox selection, active class toggle
 require(["jquery"],function($) {
-
+/*
   var label = $('label.form-radio.selectable, label.form-checkbox.selectable');
   
   label.each(function() {
@@ -16,5 +18,5 @@ require(["jquery"],function($) {
       }
     });
   });
-
+*/
 });

@@ -65,8 +65,16 @@
                         <div class="panel-indent">
                             <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
                             <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
-                            <p>@Messages("vrm_retention_confirm.emailWarnp4") <a href="https://www.gov.uk/change-name-address-v5c">@Messages("vrm_retention_confirm.emailWarnp4link")</a>.</p>
-                            <p>@Messages("vrm_retention_confirm.emailWarnp2") <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">@Messages("vrm_retention_confirm.emailWarnp2.link")</a>.</p>
+                            <p>@Messages("vrm_retention_confirm.emailWarnp4")
+                                <a href="https://www.gov.uk/change-name-address-v5c">
+                                    @Messages("vrm_retention_confirm.emailWarnp4link")
+                                </a>.
+                            </p>
+                            <p>@Messages("vrm_retention_confirm.emailWarnp2")
+                                <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">
+                                    @Messages("vrm_retention_confirm.emailWarnp2.link")
+                                </a>.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -77,18 +85,25 @@
                         RadioWithHint(SupplyEmail_true, Messages("supply-email-true"), ""),
                         RadioWithHint(SupplyEmail_false, Messages("supply-email-false"), "")
                     ),
-                    args = Map('_label -> {if(isKeeper) Messages("supply-email-keeper-acting") else Messages("supply-email-business-acting")})
+                    args = Map('_label -> {
+                        if(isKeeper) Messages("supply-email-keeper-acting")
+                        else Messages("supply-email-business-acting")
+                    })
                 )
 
                 <div id="@KeeperEmailWrapper" class="panel-indent-wrapper">
                     <div class="panel-indent">
                         @valtechInputText(confirmForm(KeeperEmailId),
                             hintText = {
-                                if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper")) else Some(Messages("vrm_retention_confirm.emailTrade"))
+                                if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper"))
+                                else Some(Messages("vrm_retention_confirm.emailTrade"))
                             },
                             args = Map(
                                 'NO_OPTIONAL_LABEL -> true,
-                                '_label -> {if(isKeeper) Messages("vrm_retention_confirm.emailAddressKeeperLabel") else Messages("vrm_retention_confirm.emailAddressCustomerLabel")},
+                                '_label -> {
+                                    if(isKeeper) Messages("vrm_retention_confirm.emailAddressKeeperLabel")
+                                    else Messages("vrm_retention_confirm.emailAddressCustomerLabel")
+                                },
                                 '_showConstraints -> false,
                                 'maxLength -> KeeperEmailMaxLength
                             )
@@ -121,5 +136,6 @@
         is a minified folder, but there isn't and it does not minify the files itself).
         https://stackoverflow.com/questions/25379419/play-framework-2-3-dist-task-javascripts-min-not-available
     *@
-    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/confirm-page.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/confirm-page.js")"
+            src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
