@@ -18,10 +18,10 @@ final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
       finally httpResponse.close()
     }
 
-    "return 400 for POST" in new WebBrowserForSelenium {
+    "return 403 for POST" in new WebBrowserForSelenium {
       // TODO: the test below doesn't seem valid as there is no POST for this in the routes file.
       val httpResponse = execute(new HttpPost(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
-      try httpResponse.getStatusLine.getStatusCode should be(Status.BAD_REQUEST)
+      try httpResponse.getStatusLine.getStatusCode should be(Status.FORBIDDEN)
       finally httpResponse.close()
     }
 
