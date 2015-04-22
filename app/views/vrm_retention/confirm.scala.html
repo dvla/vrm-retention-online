@@ -89,7 +89,10 @@
                     visibleLabel = Messages("supply-email-true"),
                     invisibleLable = Messages("supply-email-false"),
                     optionalField = valtechInputText(confirmForm(KeeperEmailId),
-                        hintText = Some(Messages("vrm_retention_confirm.emailKeeper")),
+                        hintText = {
+                            if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper"))
+                            else Some(Messages("vrm_retention_confirm.emailTrade"))
+                        },
                         args = Map(
                             '_label -> {
                                 if(isKeeper) Messages("vrm_retention_confirm.emailAddressKeeperLabel")
