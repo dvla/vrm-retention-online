@@ -22,10 +22,8 @@ object ConfirmFormModel {
   object Form {
 
     final val Mapping = mapping(
-      SupplyEmailId -> OptionalToggle.optional(email.withPrefix(KeeperEmailId)) //supplyEmail
-    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)//.
-//      verifying("email-not-supplied", form => if (form.supplyEmail == SupplyEmail_true) form.keeperEmail.isDefined else true) // When the user selects
-    // that they want an email, they must provide an email.
+      SupplyEmailId -> OptionalToggle.optional(email.withPrefix(KeeperEmailId))
+    )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   }
 
 }
