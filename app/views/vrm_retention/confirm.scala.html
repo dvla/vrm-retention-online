@@ -115,20 +115,8 @@
 
     @if(config.googleAnalyticsTrackingId.isDefined) {
         <script type="text/javascript">
-        trackChange(['@KeeperEmailId']);
-        trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
+            trackChange(['@KeeperEmailId']);
+            trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
         </script>
     }
-
-    @*
-        Referencing WebJarAssets:
-        https://github.com/webjars/webjars-play
-        http://www.tagwith.com/question_183150_play-2-3-webjars-default-requirejs-support-how-to-write-define-or-require
-
-        Cannot use helper.requirejs as in Play 2.3.x it does not seem to get the paths correct (it is assuming there
-        is a minified folder, but there isn't and it does not minify the files itself).
-        https://stackoverflow.com/questions/25379419/play-framework-2-3-dist-task-javascripts-min-not-available
-    *@
-    <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/confirm-page.js")"
-            src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 }
