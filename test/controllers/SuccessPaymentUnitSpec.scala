@@ -88,7 +88,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           businessDetailsModel(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
-          confirmFormModel(keeperEmail = None, supplyEmail = SupplyEmail_false),
+          confirmFormModel(keeperEmail = None),
           retainModel(),
           transactionId(),
           paymentTransNo(),
@@ -117,7 +117,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
-          confirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = supplyEmailTrue),
+          confirmFormModel(keeperEmail = KeeperEmailValid),
           retainModel(),
           transactionId(),
           paymentTransNo(),
@@ -146,7 +146,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
-          confirmFormModel(keeperEmail = None, supplyEmail = supplyEmailTrue),
+          confirmFormModel(keeperEmail = None),
           retainModel(),
           transactionId(),
           paymentTransNo(),
@@ -175,36 +175,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
-          confirmFormModel(keeperEmail = None, supplyEmail = "no"),
-          retainModel(),
-          transactionId(),
-          paymentTransNo(),
-          paymentModel())
-      val (successPayment, emailService) = build
-      val result = successPayment.present(request)
-      whenReady(result) { r =>
-        verify(emailService, never).sendEmail(
-          any[String],
-          any[VehicleAndKeeperDetailsModel],
-          any[EligibilityModel],
-          any[RetainModel],
-          any[String],
-          any[Option[ConfirmFormModel]],
-          any[Option[BusinessDetailsModel]],
-          Matchers.eq(isKeeper),
-          any[String]
-        )
-      }
-    }
-
-    "not call the email service when keeper did not select to supply an email address but did provide one" in new WithApplication {
-      val isKeeper = true
-      val request = FakeRequest().
-        withCookies(
-          vehicleAndKeeperLookupFormModel(),
-          vehicleAndKeeperDetailsModel(),
-          eligibilityModel(),
-          confirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = "no"),
+          confirmFormModel(keeperEmail = None),
           retainModel(),
           transactionId(),
           paymentTransNo(),
