@@ -14,6 +14,7 @@ import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
 import io.gatling.sbt.GatlingPlugin
 import GatlingPlugin.Gatling
+import scoverage.ScoverageSbtPlugin.ScoverageKeys
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -114,11 +115,21 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-instrumentSettings
+//////////////////
+// Scoverage
+//
+// Code coverage plugin
 
-ScoverageKeys.excludedPackages := "<empty>;Reverse.*"
+ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;"
 
-CoverallsPlugin.coverallsSettings
+ScoverageKeys.coverageMinimum := 65
+
+ScoverageKeys.coverageFailOnMinimum := true
+
+ScoverageKeys.coverageHighlighting := true
+
+// End Scoverage
+//////////////////
 
 resolvers ++= projectResolvers
 
