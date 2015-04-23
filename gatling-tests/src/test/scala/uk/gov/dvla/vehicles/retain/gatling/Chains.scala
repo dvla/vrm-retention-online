@@ -76,10 +76,6 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
 
       /* javascript */
       .exec(
-        http("confirm-page.js")
-          .get( s"""/assets/javascripts/confirm-page.js""")
-      )
-      .exec(
         http("firefox-dont-cache-page.js")
           .get( s"""/assets/javascripts/firefox-dont-cache-page.js""")
       )
