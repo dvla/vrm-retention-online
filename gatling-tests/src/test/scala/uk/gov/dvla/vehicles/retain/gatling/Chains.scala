@@ -87,14 +87,6 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
           """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:10:42 GMT""",
           """If-None-Match""" -> """5f859f72e7cc426915cf32f2643ee5fc494b04a8"""))
       )
-      .exec(
-        http("on-event-change-display.js")
-          .get( s"""/assets/javascripts/on-event-change-display.js""")
-      )
-      .exec(
-        http("on-load-conditional-display.js")
-          .get( s"""/assets/javascripts/on-load-conditional-display.js""")
-      )
 
       /* javascript from webjars */
       .exec(
