@@ -3,7 +3,9 @@ package controllers
 import helpers.UnitSpec
 import models.ConfirmFormModel
 import play.api.data.Form
-import views.vrm_retention.Confirm.{KeeperEmailId, SupplyEmailId}
+import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
+import views.vrm_retention.Confirm.KeeperEmailId
+import views.vrm_retention.Confirm.SupplyEmailId
 import webserviceclients.fakes.AddressLookupServiceConstants._
 
 final class ConfirmFormSpec extends UnitSpec {
@@ -13,44 +15,31 @@ final class ConfirmFormSpec extends UnitSpec {
     "accept when the keeper wants an email and does provide an email address" in {
       val model = buildForm().get
 
-      model.supplyEmail should equal(supplyEmailTrue)
       model.keeperEmail should equal(KeeperEmailValid)
     }
 
     "accept when the keeper does not want an email and does not provide an email address" in {
-      val model = buildForm(keeperEmail = keeperEmailEmpty, supplyEmail = supplyEmailFalse).get
+      val model = buildForm(keeperEmail = None).get
 
-      model.supplyEmail should equal(supplyEmailFalse)
       model.keeperEmail should equal(None)
     }
 
-    "accept when the keeper does not want an email and does provide an email address (we just won't use the address)" in {
-      val model = buildForm(supplyEmail = supplyEmailFalse).get
-
-      model.supplyEmail should equal(supplyEmailFalse)
-      model.keeperEmail should equal(KeeperEmailValid)
-    }
-
-    "reject when the supply email field has nothing selected" in {
-      val errors = buildForm(supplyEmail = supplyEmailEmpty).errors
+    "reject when the keeper wants an email but does not enter an email address" in {
+      val errors = buildForm(keeperEmail = Some("")).errors
       errors.length should equal(1)
-      errors(0).key should equal(SupplyEmailId)
-      errors(0).message should equal("error.required")
+      errors.head.key should equal(KeeperEmailId)
+      errors.head.message should equal("error.email")
     }
   }
 
-  private def buildForm(keeperEmail: String = KeeperEmailValid.get,
-                        supplyEmail: String = supplyEmailTrue) = {
+  private def buildForm(keeperEmail: Option[String] = KeeperEmailValid) = {
     Form(ConfirmFormModel.Form.Mapping).bind(
       Map(
-        KeeperEmailId -> keeperEmail,
-        SupplyEmailId -> supplyEmail
-      )
+      ) ++ keeperEmail.fold(Map(SupplyEmailId -> OptionalToggle.Invisible)) { email =>
+        Map(SupplyEmailId -> OptionalToggle.Visible, KeeperEmailId -> email)
+      }
     )
   }
 
   private val keeperEmailEmpty = ""
-  private val supplyEmailTrue = "true"
-  private val supplyEmailFalse = "false"
-  private val supplyEmailEmpty = ""
 }

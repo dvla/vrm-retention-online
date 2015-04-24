@@ -4,7 +4,8 @@ import com.google.inject.Inject
 import play.api.Logger
 import play.api.Play.current
 import play.api.libs.json.Json
-import play.api.libs.ws.{WS, WSResponse}
+import play.api.libs.ws.WS
+import play.api.libs.ws.WSResponse
 import utils.helpers.Config
 
 import scala.concurrent.Future

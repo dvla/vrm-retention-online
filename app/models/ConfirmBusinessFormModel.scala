@@ -1,9 +1,11 @@
 package models
 
-import play.api.data.Forms.{boolean, mapping}
+import play.api.data.Forms.boolean
+import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
-import views.vrm_retention.ConfirmBusiness.{ConfirmBusinessCacheKey, StoreDetailsConsentId}
+import views.vrm_retention.ConfirmBusiness.ConfirmBusinessCacheKey
+import views.vrm_retention.ConfirmBusiness.StoreDetailsConsentId
 
 final case class ConfirmBusinessFormModel(storeBusinessDetails: Boolean)
 

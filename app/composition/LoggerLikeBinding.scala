@@ -1,11 +1,12 @@
 package composition
 
 import com.google.inject.name.Names
-import uk.gov.dvla.vehicles.presentation.common
-import common.filters.{AccessLoggingConfig, DefaultAccessLoggingConfig}
 import com.tzavellas.sse.guice.ScalaModule
-import play.api.{Logger, LoggerLike}
+import play.api.Logger
+import play.api.LoggerLike
+import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingConfig
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter._
+import uk.gov.dvla.vehicles.presentation.common.filters.DefaultAccessLoggingConfig
 
 final class LoggerLikeBinding extends ScalaModule {
 

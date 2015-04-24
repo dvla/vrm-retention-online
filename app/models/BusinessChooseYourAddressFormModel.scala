@@ -4,7 +4,8 @@ import play.api.data.Forms._
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.DropDown
-import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
+import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
+import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 
 final case class BusinessChooseYourAddressFormModel(uprnSelected: String)
 

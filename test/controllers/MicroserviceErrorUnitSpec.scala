@@ -1,10 +1,14 @@
 package controllers
 
-import composition.{TestConfig, WithApplication}
+import composition.TestConfig
+import composition.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{SERVICE_UNAVAILABLE, contentAsString, defaultAwaitTimeout, status}
+import play.api.test.Helpers.SERVICE_UNAVAILABLE
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.status
 
 final class MicroserviceErrorUnitSpec extends UnitSpec {
 

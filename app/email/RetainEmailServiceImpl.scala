@@ -1,22 +1,23 @@
 package email
 
-import java.io.{FileInputStream, File}
-import javax.activation.{CommandMap, MailcapCommandMap}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
 import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
-import org.apache.commons.mail.{Email, HtmlEmail}
 import pdf.PdfService
+import play.api.Logger
+import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages
-import play.api.{Logger, Play}
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
-import views.html.vrm_retention.{email_with_html, email_without_html}
-import webserviceclients.emailservice.{EmailService, EmailServiceSendRequest}
+import views.html.vrm_retention.email_with_html
+import views.html.vrm_retention.email_without_html
+import webserviceclients.emailservice.EmailService
+import webserviceclients.emailservice.EmailServiceSendRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.control.NonFatal
@@ -52,7 +53,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
           val plainTextMessage = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper)
           val message = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, retainModel, transactionId, confirmFormModel, businessDetailsModel, isKeeper).toString()
-          val subject = vehicleAndKeeperDetailsModel.registrationNumber.replace(" ","") + " " + Messages("email.email_service_impl.subject") + " " + eligibilityModel.replacementVRM.replace(" ","")
+          val subject = vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "") + " " + Messages("email.email_service_impl.subject") + " " + eligibilityModel.replacementVRM.replace(" ", "")
 
           val attachment: Option[Attachment] = {
             isKeeper match {
@@ -63,7 +64,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
           } // US1589: Do not send keeper a pdf
 
           val emailServiceSendRequest = new EmailServiceSendRequest(plainTextMessage, message, attachment,
-            from, subject, Option(List(emailAddress)),None)
+            from, subject, Option(List(emailAddress)), None)
 
           emailService.invoke(emailServiceSendRequest, trackingId).map {
             response =>
@@ -73,7 +74,6 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
             case NonFatal(e) =>
               Logger.error(s"Email Service web service call failed. Exception " + e.toString)
           }
-
       }
     } else {
       Logger.error("Email not sent as not in whitelist")
@@ -109,7 +109,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
-      keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
+      keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
       isKeeper = isKeeper,
@@ -133,7 +133,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmount.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
-      keeperEmail = if (confirmFormModel.isDefined) confirmFormModel.get.keeperEmail else None,
+      keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
       isKeeper

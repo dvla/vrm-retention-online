@@ -3,11 +3,13 @@ package composition.webserviceclients.addresslookup
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
 import com.tzavellas.sse.guice.ScalaModule
-import org.mockito.Matchers.{any, _}
+import org.mockito.Matchers.any
+import org.mockito.Matchers._
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.i18n.Lang
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.{AddressLookupService, AddressLookupWebService}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.AddressLookupWebService
 
 final class TestAddressLookupBinding extends ScalaModule with MockitoSugar {
 

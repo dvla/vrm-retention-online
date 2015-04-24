@@ -1,7 +1,8 @@
 package webserviceclients.audit2
 
-import composition.webserviceclients.audit2.{AuditMicroServiceCallFails, AuditMicroServiceCallNotOk}
-import composition.{TestConfig, WithApplication}
+import composition.WithApplication
+import composition.webserviceclients.audit2.AuditMicroServiceCallFails
+import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
 

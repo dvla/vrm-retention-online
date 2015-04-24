@@ -1,8 +1,11 @@
 package composition
 
-import _root_.webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
+import _root_.webserviceclients.fakes.DateServiceConstants.DayValid
+import _root_.webserviceclients.fakes.DateServiceConstants.MonthValid
+import _root_.webserviceclients.fakes.DateServiceConstants.YearValid
 import com.tzavellas.sse.guice.ScalaModule
-import org.joda.time.{DateTime, Instant}
+import org.joda.time.DateTime
+import org.joda.time.Instant
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.services.DateService

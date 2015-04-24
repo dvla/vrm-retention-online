@@ -1,7 +1,8 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import email.{RetainEmailService, RetainEmailServiceImpl}
+import email.RetainEmailService
+import email.RetainEmailServiceImpl
 
 final class RetainEmailServiceBinding extends ScalaModule {
 

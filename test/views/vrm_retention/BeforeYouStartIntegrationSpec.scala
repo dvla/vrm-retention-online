@@ -5,10 +5,12 @@ import controllers.routes
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import org.openqa.selenium.{By, WebDriver}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.vrm_retention.BeforeYouStartPage.footerItem
-import pages.vrm_retention.{BeforeYouStartPage, VehicleLookupPage}
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.VehicleLookupPage
 
 final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 

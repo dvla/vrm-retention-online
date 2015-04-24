@@ -4,8 +4,11 @@ import composition.TestConfig
 import helpers.UnitSpec
 import org.joda.time.DateTime
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
-import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
+import webserviceclients.fakes.DateServiceConstants.DayValid
+import webserviceclients.fakes.DateServiceConstants.MonthValid
+import webserviceclients.fakes.DateServiceConstants.YearValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid
 
 final class VRMRetentionRetainRequestSpec extends UnitSpec {

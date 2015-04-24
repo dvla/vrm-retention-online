@@ -752,6 +752,7 @@ text-v317 = V317
 common_feedback.title = Give Feedback
 common_feedback.message = Please don''t include any personal or financial information - for example your National Insurance number.
 common_feedback.label = What went wrong, if anything? What went well? How could we improve this service?
+common_feedback.charactersRemaining = characters remaining
 common_feedback.placeholder = (Limit is 500 characters)
 common_feedback.submit_button = Submit feedback
 common_feedback.thankyou = Thank you for your feedback

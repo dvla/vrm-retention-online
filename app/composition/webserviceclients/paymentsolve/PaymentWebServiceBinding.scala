@@ -1,7 +1,8 @@
 package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
-import webserviceclients.paymentsolve.{PaymentSolveWebService, PaymentSolveWebServiceImpl}
+import webserviceclients.paymentsolve.PaymentSolveWebService
+import webserviceclients.paymentsolve.PaymentSolveWebServiceImpl
 
 final class PaymentWebServiceBinding extends ScalaModule {
 

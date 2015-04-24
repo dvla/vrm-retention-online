@@ -6,15 +6,18 @@ import javax.crypto.BadPaddingException
 import com.google.inject.Inject
 import com.google.inject.name.Named
 import controllers.routes
+import play.api.Logger
+import play.api.LoggerLike
 import play.api.libs.Codecs
+import play.api.mvc.RequestHeader
+import play.api.mvc.Result
 import play.api.mvc.Results.Redirect
-import play.api.mvc.{RequestHeader, Result}
-import play.api.{Logger, LoggerLike}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.InvalidSessionException
 import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
 import uk.gov.dvla.vehicles.presentation.common.filters.ClfEntryBuilder
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
 
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
                               @Named(AccessLoggerName) accessLogger: LoggerLike) {

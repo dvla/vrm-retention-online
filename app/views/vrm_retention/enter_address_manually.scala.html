@@ -4,14 +4,15 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressAndPostcode
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
-@import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
-@import views.html.helper.form
-@import views.html.vrm_retention.main
-@import views.vrm_retention.EnterAddressManually.{ExitId, NextId}
 @import controllers.routes.BusinessChooseYourAddress
 @import controllers.routes.EnterAddressManually
+@import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressAndPostcode
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
+@import views.html.helper.form
+@import views.html.vrm_retention.main
+@import views.vrm_retention.EnterAddressManually.ExitId
+@import views.vrm_retention.EnterAddressManually.NextId
 
 @main(
     progress = Some(Messages("vrm_retention_progress_3")),

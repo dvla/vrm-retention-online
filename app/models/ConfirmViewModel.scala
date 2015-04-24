@@ -1,6 +1,7 @@
 package models
 
-import uk.gov.dvla.vehicles.presentation.common.model.{AddressModel, VehicleAndKeeperDetailsModel}
+import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 final case class ConfirmViewModel(registrationNumber: String,
                                   vehicleMake: Option[String],

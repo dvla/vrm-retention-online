@@ -1,7 +1,8 @@
 package webserviceclients.fakes
 
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnValid, traderUprnValid2}
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
+import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid2
 
 object AddressLookupServiceConstants {
 

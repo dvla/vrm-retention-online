@@ -2,24 +2,32 @@ package controllers
 
 import _root_.webserviceclients.audit2.AuditRequest
 import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants
-import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.{traderUprnInvalid, traderUprnValid}
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnInvalid
+import _root_.webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import com.tzavellas.sse.guice.ScalaModule
 import composition._
-import composition.webserviceclients.addresslookup.TestAddressLookupBinding
-import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import org.mockito.Mockito._
-import pages.vrm_retention.{ConfirmBusinessPage, SetupBusinessDetailsPage, UprnNotFoundPage}
+import pages.vrm_retention.ConfirmBusinessPage
+import pages.vrm_retention.SetupBusinessDetailsPage
+import pages.vrm_retention.UprnNotFoundPage
 import play.api.mvc.Cookies
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{BAD_REQUEST, LOCATION, OK, SET_COOKIE, contentAsString, _}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{CookieFlags, NoCookieFlags}
+import play.api.test.Helpers.BAD_REQUEST
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.SET_COOKIE
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieFlags
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.NoCookieFlags
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_retention.BusinessChooseYourAddress.{AddressSelectId, BusinessChooseYourAddressCacheKey}
+import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
+import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 

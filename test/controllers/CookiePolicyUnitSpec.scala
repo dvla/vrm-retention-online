@@ -4,7 +4,10 @@ import composition.WithApplication
 import helpers.UnitSpec
 import pages.vrm_retention.CookiePolicyPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{OK, contentAsString, defaultAwaitTimeout, status}
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.status
 
 final class CookiePolicyUnitSpec extends UnitSpec {
 

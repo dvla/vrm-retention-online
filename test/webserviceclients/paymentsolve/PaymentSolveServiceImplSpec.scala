@@ -1,12 +1,13 @@
 package webserviceclients.paymentsolve
 
+import composition.WithApplication
 import composition.webserviceclients.paymentsolve.PaymentCallFails
-import composition.{TestConfig, WithApplication}
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
 
 import scala.concurrent.Await
-import scala.concurrent.duration.{Duration, SECONDS}
+import scala.concurrent.duration.Duration
+import scala.concurrent.duration.SECONDS
 
 final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 

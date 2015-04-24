@@ -4,11 +4,19 @@ import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.By
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser._
 import pages.common.ErrorPanel
-import pages.vrm_retention.BusinessChooseYourAddressPage.{back, happyPath, sadPath}
-import pages.vrm_retention.{BeforeYouStartPage, BusinessChooseYourAddressPage, ConfirmBusinessPage, SetupBusinessDetailsPage, VehicleLookupPage}
+import pages.vrm_retention.BusinessChooseYourAddressPage.back
+import pages.vrm_retention.BusinessChooseYourAddressPage.happyPath
+import pages.vrm_retention.BusinessChooseYourAddressPage.sadPath
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.BusinessChooseYourAddressPage
+import pages.vrm_retention.ConfirmBusinessPage
+import pages.vrm_retention.SetupBusinessDetailsPage
+import pages.vrm_retention.VehicleLookupPage
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid

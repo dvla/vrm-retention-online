@@ -1,7 +1,9 @@
 package composition.webserviceclients.vrmretentioneligibility
 
 import _root_.webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
-import _root_.webserviceclients.vrmretentioneligibility.{VRMRetentionEligibilityRequest, VRMRetentionEligibilityResponse, VRMRetentionEligibilityWebService}
+import _root_.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
+import _root_.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
+import _root_.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when

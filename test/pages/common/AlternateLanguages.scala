@@ -1,6 +1,7 @@
 package pages.common
 
-import mappings.common.AlternateLanguages.{CyId, EnId}
+import mappings.common.AlternateLanguages.CyId
+import mappings.common.AlternateLanguages.EnId
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 

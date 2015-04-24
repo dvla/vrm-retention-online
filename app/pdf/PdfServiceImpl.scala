@@ -1,21 +1,30 @@
 package pdf
 
-import java.io.{ByteArrayOutputStream, File, OutputStream}
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.OutputStream
+
 import com.google.inject.Inject
 import models.EligibilityModel
 import org.apache.pdfbox.Overlay
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
-import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
-import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
+import org.apache.pdfbox.pdmodel.font.PDFont
+import org.apache.pdfbox.pdmodel.font.PDType1Font
 import org.apache.pdfbox.preflight.PreflightDocument
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
-import org.joda.time.{DateTimeZone, DateTime}
-import pdf.PdfServiceImpl.{blankPage, fontDefaultSize, v948Blank}
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import pdf.PdfServiceImpl.blankPage
+import pdf.PdfServiceImpl.fontDefaultSize
+import pdf.PdfServiceImpl.v948Blank
 import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

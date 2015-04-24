@@ -1,11 +1,16 @@
 package controllers
 
-import composition.{TestConfig, WithApplication}
+import composition.TestConfig
+import composition.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import pages.vrm_retention.BeforeYouStartPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.{LOCATION, OK, contentAsString, defaultAwaitTimeout, status}
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
+import play.api.test.Helpers.contentAsString
+import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.status
 
 final class ErrorUnitSpec extends UnitSpec {
 

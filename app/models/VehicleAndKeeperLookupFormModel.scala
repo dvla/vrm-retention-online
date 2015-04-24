@@ -8,7 +8,11 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupFormMod
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber.referenceNumber
 import uk.gov.dvla.vehicles.presentation.common.mappings.VehicleRegistrationNumber.registrationNumber
 import views.vrm_retention.KeeperConsent.keeperConsent
-import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, KeeperConsentId, PostcodeId, VehicleAndKeeperLookupFormModelCacheKey, VehicleRegistrationNumberId}
+import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
+import views.vrm_retention.VehicleLookup.KeeperConsentId
+import views.vrm_retention.VehicleLookup.PostcodeId
+import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
+import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 
 final case class VehicleAndKeeperLookupFormModel(referenceNumber: String,
                                                  registrationNumber: String,

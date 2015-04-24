@@ -5,7 +5,10 @@ import models.EnterAddressManuallyModel
 import models.EnterAddressManuallyModel.Form.AddressAndPostcodeId
 import play.api.data.Form
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel.Form._
-import webserviceclients.fakes.AddressLookupServiceConstants.{BuildingNameOrNumberValid, Line2Valid, Line3Valid, PostTownValid}
+import webserviceclients.fakes.AddressLookupServiceConstants.BuildingNameOrNumberValid
+import webserviceclients.fakes.AddressLookupServiceConstants.Line2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.Line3Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
 
 final class EnterAddressManuallyFormSpec extends UnitSpec {
 

@@ -1,7 +1,8 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import pdf.{PdfService, PdfServiceImpl}
+import pdf.PdfService
+import pdf.PdfServiceImpl
 
 final class PdfServiceBinding extends ScalaModule {
 

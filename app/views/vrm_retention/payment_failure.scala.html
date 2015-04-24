@@ -5,9 +5,10 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import views.html.vrm_retention.main
-@import views.vrm_retention.PaymentFailure.{TryAgainId, ExitId}
 @import controllers.routes.PaymentFailure
+@import views.html.vrm_retention.main
+@import views.vrm_retention.PaymentFailure.ExitId
+@import views.vrm_retention.PaymentFailure.TryAgainId
 
 @main(
     title =  Messages("paymentFailureErrorMessage.title")

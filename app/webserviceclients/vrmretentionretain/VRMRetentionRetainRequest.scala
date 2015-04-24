@@ -2,8 +2,12 @@ package webserviceclients.vrmretentionretain
 
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
-import play.api.libs.json.{JsString, JsValue, Json, Writes}
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
+import play.api.libs.json.JsString
+import play.api.libs.json.JsValue
+import play.api.libs.json.Json
+import play.api.libs.json.Writes
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 
 case class VRMRetentionRetainRequest(webHeader: VssWebHeaderDto, currentVRM: String, transactionTimestamp: DateTime)
 
