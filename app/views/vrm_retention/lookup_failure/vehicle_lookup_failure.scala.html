@@ -14,10 +14,8 @@
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
 ) {
     <div class="two-col">
-        @failure_playback(viewModel = viewModel)
         <div class="second-col">
             <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
-
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
@@ -30,5 +28,6 @@
                 <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
             </div>
         </div>
+        @failure_playback(viewModel = viewModel)
     </div>
 }
