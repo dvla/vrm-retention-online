@@ -2,7 +2,7 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarningV2
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
 @import views.html.common.footer
 @import views.html.common.header
 
@@ -19,7 +19,7 @@
     
         <a href="#main" class="visuallyhidden">Skip to main content</a>
 
-        @serviceClosingWarningV2(config.opening, config.closing, config.closingWarnPeriodMins, dateService)
+        @serviceClosingWarning(config.opening, config.closing, config.closingWarnPeriodMins)
 
         <div id="global-cookie-message">
             <div class="cookie-message-wrapper">
