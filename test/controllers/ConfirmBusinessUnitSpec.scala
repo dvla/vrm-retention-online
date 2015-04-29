@@ -196,9 +196,9 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
           BusinessDetailsCacheKey,
           SetupBusinessDetailsCacheKey
           )
-        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge should equal(Some(expected))
-        cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
-        cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
+        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge.get === expected +- 1
+        cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge.get === expected +- 1
+        cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
       }
     }
 
@@ -227,10 +227,10 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
           BusinessDetailsCacheKey,
           SetupBusinessDetailsCacheKey
           )
-        cookies.find(_.name == EnterAddressManuallyCacheKey).get.maxAge should equal(Some(expected))
-        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge should equal(Some(expected))
-        cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
-        cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
+        cookies.find(_.name == EnterAddressManuallyCacheKey).get.maxAge.get === expected +- 1
+        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge.get === expected +- 1
+        cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge.get === expected +- 1
+        cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
       }
     }
   }
