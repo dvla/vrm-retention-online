@@ -16,7 +16,7 @@ class AuditServiceImpl @Inject()(
 
   override def send(auditRequest: AuditRequest): Future[Unit] = {
     if (config.auditMicroServiceUrlBase == "NOT FOUND")
-      Future.successful(Logger.info(s"auditMicroServiceUrlBase not set in config. Audit request was: $auditRequest"))
+      Future.successful(Logger.error(s"auditMicroServiceUrlBase not set in config"))
     else ws.invoke(auditRequest).map { resp =>
       if (resp.status == Status.OK) {
         // Do nothing, it's a fire-and forget
