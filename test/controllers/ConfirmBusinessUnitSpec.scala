@@ -27,6 +27,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 
 import scala.concurrent.duration.DurationInt
+import org.scalactic.Tolerance.convertNumericToPlusOrMinusWrapper
 
 final class ConfirmBusinessUnitSpec extends UnitSpec {
 
@@ -110,7 +111,7 @@ final class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-        cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey).get.maxAge should equal(Some(expected))
+        cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
       }
     }
 
