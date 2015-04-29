@@ -1,3 +1,13 @@
+======= 1.12.2 ======
+Time of release binaries creation:
+Wed Apr 29 2015 10:30:00 GMT+0000 (GMT)
+
+567a977 Hotfix: make sure we are not logging audit local service messages
+a93d318 Hotfix: make sure we are not logging audit service messages
+892e109 more telephone fixes
+ac1ef83 fix to the missing telephone text
+a55c678 Revert "Fix: undo change to break up message, corrected position of break tag in html"
+
 ======= 1.12 ======
 Time of release binaries creation:
 Wed Apr 15 2015 13:30:00 GMT+0000 (GMT)
