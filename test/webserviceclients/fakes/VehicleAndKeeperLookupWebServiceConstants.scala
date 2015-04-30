@@ -3,7 +3,9 @@ package webserviceclients.fakes
 import play.api.http.Status.OK
 import play.api.http.Status.SERVICE_UNAVAILABLE
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -46,7 +48,7 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   def KeeperPostCodeValid = Some("SA11AA")
 
-  final val RecordMismatch = "vehicle_and_keeper_lookup_document_record_mismatch - 200"
+  final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(code = "vehicle_and_keeper_lookup_document_record_mismatch", message  = "200")
 
   private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,
@@ -66,30 +68,30 @@ object VehicleAndKeeperLookupWebServiceConstants {
     suppressedV5Flag = None
   )
 
-  def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
-    (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = None, vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails))))
+  def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
+    (OK, Some(VehicleAndKeeperLookupResponseV2(responseCode = None, vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails))))
   }
 
-  def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
-    (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = Some("vehicle_lookup_vrm_not_found - 200"), vehicleAndKeeperDetailsDto = None)))
+  def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
+    (OK, Some(VehicleAndKeeperLookupResponseV2(responseCode = Some(VehicleAndKeeperLookupErrorMessage(code = "vehicle_lookup_vrm_not_found", message =  "200")), vehicleAndKeeperDetailsDto = None)))
   }
 
-  def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
-    (OK, Some(VehicleAndKeeperDetailsResponse(
+  def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
+    (OK, Some(VehicleAndKeeperLookupResponseV2(
       responseCode = Some(RecordMismatch),
       vehicleAndKeeperDetailsDto = None
     )))
   }
 
-  def vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
-    (OK, Some(VehicleAndKeeperDetailsResponse(responseCode = None, vehicleAndKeeperDetailsDto = None)))
+  def vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
+    (OK, Some(VehicleAndKeeperLookupResponseV2(responseCode = None, vehicleAndKeeperDetailsDto = None)))
   }
 
-  def vehicleAndKeeperDetailsServerDown: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsServerDown: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
     (SERVICE_UNAVAILABLE, None)
   }
 
-  def vehicleAndKeeperDetailsNoResponse: (Int, Option[VehicleAndKeeperDetailsResponse]) = {
+  def vehicleAndKeeperDetailsNoResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
     (OK, None)
   }
 }

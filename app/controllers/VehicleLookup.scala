@@ -30,6 +30,7 @@ import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
 
 import scala.concurrent.Future
 
@@ -57,7 +58,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                 (implicit request: Request[_]): Result =
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
 
-  override def vehicleLookupFailure(responseCode: String, formModel: VehicleAndKeeperLookupFormModel)
+  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
     val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
@@ -81,10 +82,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       transactionId = txnId,
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(responseCode)))
+      rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")))
 
     // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
-    if (responseCode.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
+    if (responseCode.code.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
       addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId)
     } else {
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId)
