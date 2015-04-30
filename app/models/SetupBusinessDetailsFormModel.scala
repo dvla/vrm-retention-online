@@ -5,7 +5,7 @@ import play.api.data.validation.Constraints
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
 import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.email
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.emailConfirm
 import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode.postcode
 import views.vrm_retention.SetupBusinessDetails.BusinessContactId
 import views.vrm_retention.SetupBusinessDetails.BusinessEmailId
@@ -25,7 +25,7 @@ object SetupBusinessDetailsFormModel {
     final val Mapping = mapping(
       BusinessNameId -> BusinessName.businessNameMapping,
       BusinessContactId -> BusinessName.businessNameMapping,
-      BusinessEmailId -> email.verifying(Constraints.nonEmpty),
+      BusinessEmailId -> emailConfirm.verifying(Constraints.nonEmpty),
       BusinessPostcodeId -> postcode
     )(SetupBusinessDetailsFormModel.apply)(SetupBusinessDetailsFormModel.unapply)
   }

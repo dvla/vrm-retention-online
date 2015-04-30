@@ -23,12 +23,11 @@ import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-final class SetUpBusinessDetails @Inject()(
-                                            auditService2: audit2.AuditService
-                                            )
+final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                            config: Config,
-                                           dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                           dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+  extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
@@ -77,7 +76,6 @@ final class SetUpBusinessDetails @Inject()(
     (form /: List(
       (BusinessNameId, "error.validBusinessName"),
       (BusinessContactId, "error.validBusinessContact"),
-      (BusinessEmailId, "error.validEmail"),
       (BusinessPostcodeId, "error.restricted.validPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
