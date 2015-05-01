@@ -28,9 +28,9 @@ object SetupBusinessDetailsPage extends Page {
 
   def traderContact(implicit driver: WebDriver) = textField(id(BusinessContactId))
 
-  def traderEmail(implicit driver: WebDriver) = emailField(id(s"${BusinessEmailId}_$EmailId"))
+  def traderEmail(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailId"))
 
-  def traderEmailConfirm(implicit driver: WebDriver) = emailField(id(s"${BusinessEmailId}_$EmailVerifyId"))
+  def traderEmailConfirm(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailVerifyId"))
 
   def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessPostcodeId))
 
