@@ -6,6 +6,7 @@ import play.api.data.Form
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import webserviceclients.fakes.AddressLookupServiceConstants._
 
 final class ConfirmFormSpec extends UnitSpec {
@@ -36,7 +37,11 @@ final class ConfirmFormSpec extends UnitSpec {
     Form(ConfirmFormModel.Form.Mapping).bind(
       Map(
       ) ++ keeperEmail.fold(Map(SupplyEmailId -> OptionalToggle.Invisible)) { email =>
-        Map(SupplyEmailId -> OptionalToggle.Visible, KeeperEmailId -> email)
+        Map(
+          SupplyEmailId -> OptionalToggle.Visible,
+          s"$KeeperEmailId.$EmailId" -> email,
+          s"$KeeperEmailId.$EmailVerifyId" -> email
+        )
       }
     )
   }

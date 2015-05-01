@@ -4,6 +4,7 @@ import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser._
 import pages.ApplicationContext.applicationContext
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.SetupBusinessDetails.BusinessContactId
 import views.vrm_retention.SetupBusinessDetails.BusinessEmailId
@@ -27,7 +28,9 @@ object SetupBusinessDetailsPage extends Page {
 
   def traderContact(implicit driver: WebDriver) = textField(id(BusinessContactId))
 
-  def traderEmail(implicit driver: WebDriver) = emailField(id(BusinessEmailId))
+  def traderEmail(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailId"))
+
+  def traderEmailConfirm(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailVerifyId"))
 
   def traderPostcode(implicit driver: WebDriver) = textField(id(BusinessPostcodeId))
 
@@ -40,6 +43,7 @@ object SetupBusinessDetailsPage extends Page {
     go to SetupBusinessDetailsPage
     traderName.value = traderBusinessName
     traderEmail.value = traderBusinessEmail
+    traderEmailConfirm.value = traderBusinessEmail
     traderPostcode.value = traderBusinessPostcode
     click on lookup
   }

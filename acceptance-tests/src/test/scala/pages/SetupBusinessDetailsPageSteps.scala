@@ -33,6 +33,7 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
     traderName.value = "TRADER-NAME"
     traderContact.value = "Valtech"
     traderEmail.value = "business.example@test.com"
+    traderEmailConfirm.value = "business.example@test.com"
     traderPostcode.value = "QQ99QQ"
     click on lookup
     this
@@ -41,6 +42,7 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
   def `form is filled with the values I previously entered` = {
     traderContact.value should equal("VALTECH")
     traderEmail.value should equal("business.example@test.com")
+    traderEmailConfirm.value should equal("business.example@test.com")
     traderName.value should equal("TRADER-NAME")
     traderPostcode.value should equal("QQ99QQ")
     this
@@ -49,6 +51,7 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
   def `form is not filled` = {
     traderContact.value should equal("")
     traderEmail.value should equal("")
+    traderEmailConfirm.value should equal("")
     traderName.value should equal("")
     traderPostcode.value should equal("")
     this

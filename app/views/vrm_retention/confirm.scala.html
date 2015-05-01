@@ -7,6 +7,7 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
 @import views.html.helper.form
@@ -88,20 +89,17 @@
                     },
                     visibleLabel = Messages("supply-email-true"),
                     invisibleLable = Messages("supply-email-false"),
-                    optionalField = valtechInputText(confirmForm(KeeperEmailId),
+                    optionalField = email(
+                        confirmForm(KeeperEmailId),
+                        labelText = {
+                            if(isKeeper) Messages("vrm_retention_confirm.emailAddressKeeperLabel")
+                            else Messages("vrm_retention_confirm.emailAddressCustomerLabel")
+                        },
                         hintText = {
                             if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper"))
                             else Some(Messages("vrm_retention_confirm.emailTrade"))
                         },
-                        args = Map(
-                            '_label -> {
-                                if(isKeeper) Messages("vrm_retention_confirm.emailAddressKeeperLabel")
-                                else Messages("vrm_retention_confirm.emailAddressCustomerLabel")
-                            },
-                            '_showConstraints -> false,
-                            'maxLength -> KeeperEmailMaxLength,
-                            'NO_OPTIONAL_LABEL -> false
-                        )
+                        args = Map('maxLength -> KeeperEmailMaxLength)
                     )
                 )
 
