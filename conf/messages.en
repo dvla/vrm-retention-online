@@ -338,6 +338,7 @@ error.validEmail = Must be a valid email address
 error.email = Email address is required
 error.email.confirm.required = Please confirm the email address
 error.email.not.match = The email addresses did not match
+email.verify.label = Confirm email address
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Enter details
