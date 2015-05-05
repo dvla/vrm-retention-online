@@ -12,9 +12,9 @@ import org.apache.commons.codec.binary.Base64
 import org.mockito.Mockito.verify
 import pages.vrm_retention._
 import play.api.mvc.AnyContentAsEmpty
-import play.api.test.Helpers._
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
+import play.api.test.Helpers._
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import webserviceclients.paymentsolve.PaymentSolveBeginRequest
