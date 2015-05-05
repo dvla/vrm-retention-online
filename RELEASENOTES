@@ -1,3 +1,73 @@
+======= 1.13 ======
+Time of release binaries creation:
+Tue May 15 2015 17:05:00 GMT+0000 (GMT)
+
+707420c Set dependencies to release versions
+3a834c6 Set dependencies to release versions
+2b4a1f6 Remove extra logging
+4c336a5 Retain must only happen when payment is authorised and there is eligibility. Unit tests for the retain controller
+508e5c2 Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+83b2440 US2990 - [Assign, Retain] Settle payment after service timeout and fulfilment
+16f0734 Merge branch 'US3045' of /home/git/repositories/dvla/vrm-retention-online into develop
+1b2fd33 US3045 add missing message error.email.confirm.required = Please confirm the email address
+5ea4c07 US3045 email steps to use text field instead of email field
+78540e1 US3045 add email confirmation error messages
+a16a6ae 3045 upgrade to the latest version of microservices-sandbox and build-details-generator
+157b208 US3045 fix the cucumber tests for the email field
+7ba52b3 US3045 use the confirm email widget
+52b848a Merge branch 'US2610' of /home/git/repositories/dvla/vrm-retention-online into develop
+f571d24 Fix failing test on Jenkins that is a timing issues by adding a tolerance
+8287437 Bump audit sandbox version
+b6d30eb Fix hotfix merge
+6ea6d56 Fix failing test on Jenkins that is a timing issues by adding a tolerance
+7aa060c Merge branch 'IE7-bug-js' of /home/git/repositories/dvla/vrm-retention-online into develop
+5a4a1cf IE7 JS bug fix
+502618a Revert "US2802: pass date service"
+b322b34 US2802: pass date service
+97ecc4b Merge branch 'develop' of gitlab.preview-dvla.co.uk:dvla/vrm-retention-online into develop
+bd963c9 Merge branch 'US2802-in-widget' of /home/git/repositories/dvla/vrm-retention-online into develop
+164ac5c Merge branch 'master' into develop
+dfd9be8 Merge branch 'US2798' of /home/git/repositories/dvla/vrm-retention-online into develop
+26fdead US2798: use common please wait widget
+bf9ae08 US2798: use message file for please wait overlay
+e862d9d US2798 - WIP
+af4144b US2802: renamed widget
+bec34b3 Merge branch 'US2938' of /home/git/repositories/dvla/vrm-retention-online into develop
+c150d39 US2938
+ed05845 US2802 add data tag
+fee96f8 US2802 -WIP
+3136ec3 US2802: span around the dynamic text
+d31aafa Fix merge
+4f000b6 US2860 use a single require.js configuration file
+54b199f US3014: update gatling test not to test for the .js file that was removed
+39d8217 US3014: update gatling test not to test for the .js file that was remove
+7d605e5 US3014: add back the change in hint text depending on whther the user is a keeper or trader
+2deef32 Merge branch 'US3014' of /home/git/repositories/dvla/vrm-retention-online into develop
+8166933 US3014: remove unused .js files now that we are using common component's js
+448f6b6 US3014: remove comments
+be039a7 US3014: use common solution for the email show/hide functionality
+5ac309e US3020 changes to internationalise the feedback count down text
+23f267c Refactor: upgrade version of scoverage
+428a767 Refactor: remove unused help page
+9039ac9 Refactor: tidy-up, reformat code
+cf012af Refactor: Tidy up imports
+fd79a00 Merge branch 'moveJsToCommon' of /home/git/repositories/dvla/vrm-retention-online into develop
+acf4108 Merge branch 'develop' into moveJsToCommon
+8d34fe6 WIP
+c915978 US2802: corrected warning message
+b341d35 Merge branch 'US2883' of /home/git/repositories/dvla/vrm-retention-online into develop
+f48c6d0 US2883 fix tests after change of http status
+d846cf5 US2889 it looks like details-polyfill is not being used so added comment to the file to remove it after review
+357d8fd US2889 removed the js that has been moved into common
+1fd2f88 US2802: pass values to v2 of the service closing widget
+93a9680 US2610: clean up repository from vagrant and ansible code
+1b076e3 Merge hotfix back to develop
+d21ce25 more telephone fixes
+ddcbd2b fix to the missing telephone text
+d0b533d US2230: removed audit1 package, moved surviving code to live in the audit2 pacakge
+3f0214e US2230: remove webapp to rabbit code, still one piece of code that needs to move over
+3dc8e27 New development version 1.13-SNAPSHOT
+
 ======= 1.12.2 ======
 Time of release binaries creation:
 Wed Apr 29 2015 10:30:00 GMT+0000 (GMT)
