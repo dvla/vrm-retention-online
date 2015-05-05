@@ -10,6 +10,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.SetupBusinessDetails._
@@ -27,24 +28,39 @@
             <div class="second-col inline-form">
                 <h2>@Messages("vrm_retention_setupbusinessdetails.title")</h2>
                 <div class="uppercase-input">
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessContactId), hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessnamehelper")), args =
-                        Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
-                            '_showConstraints -> false,
-                            'maxLength -> BusinessName.MaxLength))
+                @valtechInputText(
+                  setupBusinessDetailsFormModel(BusinessContactId),
+                  hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessnamehelper")),
+                  args = Map(
+                    '_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
+                    '_showConstraints -> false,
+                    'maxLength -> BusinessName.MaxLength
+                  )
+                )
                 </div>
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessEmailId), hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessemailhelper")), args =
-                        Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
-                            '_showConstraints -> false,
-                            'maxLength -> BusinessEmailMaxLength))
+                @email(
+                  setupBusinessDetailsFormModel(BusinessEmailId),
+                  labelText = Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
+                  hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessemailhelper")),
+                  args = Map('maxLength -> BusinessEmailMaxLength)
+                )
                 <div class="uppercase-input">
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessNameId), args =
-                Map('_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
-                '_showConstraints -> false,
-                'maxLength -> BusinessName.MaxLength))
-                @valtechInputText(setupBusinessDetailsFormModel(BusinessPostcodeId), args =
-                        Map('_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
-                            '_showConstraints -> false,
-                            'maxLength -> Postcode.MaxLength))
+                @valtechInputText(
+                  setupBusinessDetailsFormModel(BusinessNameId),
+                  args = Map(
+                    '_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
+                    '_showConstraints -> false,
+                    'maxLength -> BusinessName.MaxLength
+                  )
+                )
+                @valtechInputText(
+                  setupBusinessDetailsFormModel(BusinessPostcodeId),
+                  args = Map(
+                    '_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
+                    '_showConstraints -> false,
+                    'maxLength -> Postcode.MaxLength
+                  )
+                )
                 </div>
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
