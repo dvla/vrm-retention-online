@@ -49,14 +49,6 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
           // Happy path for keeper keeper
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
         case _ =>
-          Logger.warn("*** Confirm present is missing cookies for either keeper or business")
-          Logger.warn("*** VehicleAndKeeperDetailsModel " + request.cookies.getModel[VehicleAndKeeperDetailsModel])
-          Logger.warn("*** VehicleAndKeeperLookupFormModel " + request.cookies.getModel[VehicleAndKeeperLookupFormModel])
-          Logger.warn("*** EligibilityModel " + request.cookies.getModel[EligibilityModel])
-          Logger.warn("*** RetainModel " + request.cookies.getModel[RetainModel])
-          Logger.warn("*** BusinessChooseYourAddressFormModel " + request.cookies.getModel[BusinessChooseYourAddressFormModel])
-          Logger.warn("*** EnterAddressManuallyModel " + request.cookies.getModel[EnterAddressManuallyModel])
-          Logger.warn("*** StoreBusinessDetailsCacheKey " + request.cookies.getString(StoreBusinessDetailsCacheKey))
           Redirect(routes.ConfirmBusiness.present())
       }
   }
