@@ -1,6 +1,13 @@
+======= 1.13.1 ======
+Time of release binaries creation:
+Wed May 06 2015 09:35:00 GMT+0000 (GMT)
+
+d8f8db2 Latest release of presentation-common with hotfix for open-closing
+
+
 ======= 1.13 ======
 Time of release binaries creation:
-Tue May 15 2015 17:05:00 GMT+0000 (GMT)
+Tue May 05 2015 17:05:00 GMT+0000 (GMT)
 
 707420c Set dependencies to release versions
 3a834c6 Set dependencies to release versions
