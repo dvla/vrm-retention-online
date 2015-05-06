@@ -45,7 +45,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       Some(eligibilityModel), Some(retainModel), Some(paymentModel)) =>
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
-        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap ( _.keeperEmail )
+        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
 
         val successViewModel =
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
@@ -85,39 +85,9 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
             )
         }
 
-        callUpdateWebPaymentService(
-          paymentModel.trxRef.get,
-          successViewModel,
-          isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper,
-          isPrimaryUrl = paymentModel.isPrimaryUrl
-        )
+        Future.successful(Redirect(routes.Success.present()))
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))
-    }
-  }
-
-  private def callUpdateWebPaymentService(trxRef: String,
-                                          successViewModel: SuccessViewModel,
-                                          isKeeper: Boolean,
-                                          isPrimaryUrl: Boolean)
-                                         (implicit request: Request[_]): Future[Result] = {
-
-    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
-
-    val paymentSolveUpdateRequest = PaymentSolveUpdateRequest(
-      transNo = transNo,
-      trxRef = trxRef,
-      authType = SuccessPayment.SETTLE_AUTH_CODE,
-      isPrimaryUrl = isPrimaryUrl
-    )
-    val trackingId = request.cookies.trackingId()
-
-    paymentSolveService.invoke(paymentSolveUpdateRequest, trackingId).map { response =>
-      Redirect(routes.Success.present())
-    }.recover {
-      case NonFatal(e) =>
-        Logger.error(s"SuccessPayment Payment Solve web service call with paymentSolveUpdateRequest failed. Exception " + e.toString)
-        Redirect(routes.Success.present())
     }
   }
 

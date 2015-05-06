@@ -3,18 +3,22 @@ package controllers
 import helpers.UnitSpec
 import models.SetupBusinessDetailsFormModel
 import play.api.data.Form
+import views.vrm_retention.Confirm._
 import views.vrm_retention.SetupBusinessDetails._
 import webserviceclients.fakes.AddressLookupServiceConstants._
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 final class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
   "form" should {
 
     "accept if form is valid with all fields filled in" in {
-      val model = formWithValidDefaults(traderBusinessName = TraderBusinessNameValid,
+      val model = formWithValidDefaults(
+        traderBusinessName = TraderBusinessNameValid,
         traderBusinessContact = TraderBusinessContactValid,
         traderBusinessEmail = TraderBusinessEmailValid,
-        traderPostcode = PostcodeValid).get
+        traderPostcode = PostcodeValid
+      ).get
       model.name should equal(TraderBusinessNameValid.toUpperCase)
       model.contact should equal(TraderBusinessContactValid.toUpperCase)
       model.email should equal(TraderBusinessEmailValid)
@@ -89,7 +93,8 @@ final class SetUpBusinessDetailsFormSpec extends UnitSpec {
       Map(
         BusinessNameId -> traderBusinessName,
         BusinessContactId -> traderBusinessContact,
-        BusinessEmailId -> traderBusinessEmail,
+        s"$BusinessEmailId.$EmailId" -> traderBusinessEmail,
+        s"$BusinessEmailId.$EmailVerifyId" -> traderBusinessEmail,
         BusinessPostcodeId -> traderPostcode
       )
     )

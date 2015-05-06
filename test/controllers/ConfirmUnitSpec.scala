@@ -11,11 +11,13 @@ import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email._
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId
 import views.vrm_retention.Confirm.SupplyEmail_true
+import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.audit2.AuditRequest
@@ -229,6 +231,8 @@ final class ConfirmUnitSpec extends UnitSpec {
 
   private def buildRequest(keeperEmail: String = KeeperEmailValid.get, supplyEmail: String = SupplyEmail_true) = {
     FakeRequest().withFormUrlEncodedBody(
+      s"$KeeperEmailId.$EmailId" -> keeperEmail,
+      s"$KeeperEmailId.$EmailVerifyId" -> keeperEmail,
       KeeperEmailId -> keeperEmail,
       SupplyEmailId -> supplyEmail
     )

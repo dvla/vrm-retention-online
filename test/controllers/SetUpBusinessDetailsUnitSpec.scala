@@ -26,6 +26,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
@@ -158,7 +159,8 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     FakeRequest().withFormUrlEncodedBody(
       BusinessNameId -> dealerName,
       BusinessContactId -> dealerContact,
-      BusinessEmailId -> dealerEmail,
+      s"$BusinessEmailId.$EmailId" -> dealerEmail,
+      s"$BusinessEmailId.$EmailVerifyId" -> dealerEmail,
       BusinessPostcodeId -> dealerPostcode)
   }
 }

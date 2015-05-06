@@ -25,11 +25,11 @@ import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-final class Confirm @Inject()(
-                               auditService2: audit2.AuditService
-                               )(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                 config: Config,
-                                 dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+final class Confirm @Inject()(auditService2: audit2.AuditService)
+                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                              config: Config,
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+  extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
@@ -49,14 +49,6 @@ final class Confirm @Inject()(
           // Happy path for keeper keeper
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
         case _ =>
-          Logger.warn("*** Confirm present is missing cookies for either keeper or business")
-          Logger.warn("*** VehicleAndKeeperDetailsModel " + request.cookies.getModel[VehicleAndKeeperDetailsModel])
-          Logger.warn("*** VehicleAndKeeperLookupFormModel " + request.cookies.getModel[VehicleAndKeeperLookupFormModel])
-          Logger.warn("*** EligibilityModel " + request.cookies.getModel[EligibilityModel])
-          Logger.warn("*** RetainModel " + request.cookies.getModel[RetainModel])
-          Logger.warn("*** BusinessChooseYourAddressFormModel " + request.cookies.getModel[BusinessChooseYourAddressFormModel])
-          Logger.warn("*** EnterAddressManuallyModel " + request.cookies.getModel[EnterAddressManuallyModel])
-          Logger.warn("*** StoreBusinessDetailsCacheKey " + request.cookies.getString(StoreBusinessDetailsCacheKey))
           Redirect(routes.ConfirmBusiness.present())
       }
   }
@@ -95,22 +87,14 @@ final class Confirm @Inject()(
   }
 
   private def formWithReplacedErrors(form: Form[ConfirmFormModel]) =
-    form.
-      replaceError(
+    form.replaceError(
+      key = "",
+      message = "email-not-supplied",
+      FormError(
         key = KeeperEmailId,
-        FormError(
-          key = KeeperEmailId,
-          message = "error.validEmail",
-          args = Seq.empty
-        )
-      ).replaceError(
-        key = "",
-        message = "email-not-supplied",
-        FormError(
-          key = KeeperEmailId,
-          message = "email-not-supplied"
-        )
-      ).distinctErrors
+        message = "email-not-supplied"
+      )
+    ).distinctErrors
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
