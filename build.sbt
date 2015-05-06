@@ -74,7 +74,6 @@ libraryDependencies ++= {
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
     "dvla" %% "vehicles-presentation-common" % "2.21" withSources() withJavadoc() exclude("junit", "junit-dep"),
     "dvla" %% "vehicles-presentation-common" % "2.21" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "uk.gov.dvla.iep" % "iep-messaging" % "2.0.0",
     "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
     "org.webjars" % "requirejs" % "2.1.16",
     "org.webjars" % "jquery" % "1.9.1",
