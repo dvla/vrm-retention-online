@@ -3,7 +3,8 @@ package controllers
 import java.io.ByteArrayInputStream
 
 import com.google.inject.Inject
-import email.RetainEmailService
+import email.ReceiptEmailMessageBuilder.BusinessDetails
+import email.{ReceiptEmailMessageBuilder, RetainEmailService}
 import models._
 import pdf.PdfService
 import play.api.Logger
@@ -14,11 +15,13 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.services.SEND
 import utils.helpers.Config
 import views.vrm_retention.Confirm.SupplyEmail_true
 import views.vrm_retention.Payment._
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import views.vrm_retention.VehicleLookup._
+import webserviceclients.emailservice.EmailService
 import webserviceclients.paymentsolve.PaymentSolveService
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
@@ -28,6 +31,7 @@ import scala.util.control.NonFatal
 
 final class SuccessPayment @Inject()(pdfService: PdfService,
                                      emailService: RetainEmailService,
+                                     emailReceiptService: EmailService,
                                      paymentSolveService: PaymentSolveService)
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
@@ -85,6 +89,11 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
             )
         }
 
+          //send email
+//          sendReceipt(businessDetailsModel, confirmFormModel, vehicleAndKeeperLookupForm, transactionId, trackingId)
+
+
+
         Future.successful(Redirect(routes.Success.present()))
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))
@@ -141,6 +150,45 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
       isKeeper = true
     ))
+  }
+
+
+  /**
+   * Sends a receipt for payment to both keeper and the business if present.
+   */
+  private def sendReceipt(businessDetailsModel: Option[BusinessDetailsModel],
+                          confirmFormModel: Option[ConfirmFormModel],
+                          vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                          transactionId: String,
+                          trackingId: String) = {
+
+    implicit val emailConfiguration = config.emailConfiguration
+    implicit val implicitEmailService = implicitly[EmailService](emailReceiptService)
+
+    val businessDetails = businessDetailsModel.map(model =>
+      ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
+
+    val paidFee = "80.00"
+
+    val template = ReceiptEmailMessageBuilder.buildWith(
+      vehicleAndKeeperLookupFormModel.registrationNumber,
+      paidFee,
+      transactionId,
+      businessDetails)
+
+    val title = s"""Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"""
+
+    //send keeper email if present
+    for {
+      model <- confirmFormModel
+      email <- model.keeperEmail
+    } SEND email template withSubject title to email send trackingId
+
+    //send business email if present
+    for {
+      model <- businessDetailsModel
+    } SEND email template withSubject title to model.email send trackingId
+
   }
 }
 

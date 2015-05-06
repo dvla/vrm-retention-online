@@ -1,7 +1,6 @@
 package controllers
 
-import composition.TestEmailService
-import composition.WithApplication
+import composition.{TestReceiptEmailService, TestEmailService, WithApplication}
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessChooseYourAddress
@@ -33,6 +32,7 @@ import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import views.vrm_retention.Confirm.SupplyEmail_false
+import webserviceclients.emailservice.EmailService
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 
@@ -230,9 +230,12 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
 
   private def build = {
     val emailService = new TestEmailService
+    val emailReceiptService = new TestReceiptEmailService
+
     val injector = testInjector(
       new ValidatedAuthorised(),
-      emailService
+      emailService,
+      emailReceiptService
     )
     (injector.getInstance(classOf[SuccessPayment]), emailService.stub)
   }
