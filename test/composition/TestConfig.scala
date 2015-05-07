@@ -49,10 +49,6 @@ final class TestConfig(
 
     when(config.isProgressBarEnabled).thenReturn(true)
 
-    when(config.rabbitmqHost).thenReturn(rabbitmqHost)
-    when(config.rabbitmqPort).thenReturn(rabbitmqPort)
-    when(config.rabbitmqQueue).thenReturn(rabbitmqQueue)
-
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(notFound)
 
