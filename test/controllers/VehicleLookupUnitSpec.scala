@@ -33,7 +33,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_retention.VehicleLookup.KeeperConsentId
@@ -43,7 +43,7 @@ import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 
-final class VehicleLookupUnitSpec extends UnitSpec {
+class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
 
@@ -374,7 +374,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupStubs(isPrototypeBannerVisible: Boolean = true,
                                  permitted: Boolean = true,
-                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
+                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
@@ -396,7 +396,7 @@ final class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
                                          permitted: Boolean = true,
-                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess) = {
+                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),

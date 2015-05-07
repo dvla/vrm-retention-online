@@ -4,8 +4,7 @@ import play.api.http.Status.OK
 import play.api.http.Status.SERVICE_UNAVAILABLE
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -68,30 +67,30 @@ object VehicleAndKeeperLookupWebServiceConstants {
     suppressedV5Flag = None
   )
 
-  def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
-    (OK, Some(VehicleAndKeeperLookupResponseV2(responseCode = None, vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails))))
+  def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = None, vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails))))
   }
 
-  def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
-    (OK, Some(VehicleAndKeeperLookupResponseV2(responseCode = Some(VehicleAndKeeperLookupErrorMessage(code = "vehicle_lookup_vrm_not_found", message =  "200")), vehicleAndKeeperDetailsDto = None)))
+  def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = Some(VehicleAndKeeperLookupErrorMessage(code = "vehicle_lookup_vrm_not_found", message =  "200")), vehicleAndKeeperDetailsDto = None)))
   }
 
-  def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
-    (OK, Some(VehicleAndKeeperLookupResponseV2(
+  def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(
       responseCode = Some(RecordMismatch),
       vehicleAndKeeperDetailsDto = None
     )))
   }
 
-  def vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
-    (OK, Some(VehicleAndKeeperLookupResponseV2(responseCode = None, vehicleAndKeeperDetailsDto = None)))
+  def vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = None, vehicleAndKeeperDetailsDto = None)))
   }
 
-  def vehicleAndKeeperDetailsServerDown: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
+  def vehicleAndKeeperDetailsServerDown: (Int, Option[VehicleAndKeeperLookupResponse]) = {
     (SERVICE_UNAVAILABLE, None)
   }
 
-  def vehicleAndKeeperDetailsNoResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = {
+  def vehicleAndKeeperDetailsNoResponse: (Int, Option[VehicleAndKeeperLookupResponse]) = {
     (OK, None)
   }
 }

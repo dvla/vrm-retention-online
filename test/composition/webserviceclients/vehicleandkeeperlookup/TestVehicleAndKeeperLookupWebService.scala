@@ -8,15 +8,15 @@ import org.scalatest.mock.MockitoSugar
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponseV2
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
 
 import scala.concurrent.Future
 
-final class TestVehicleAndKeeperLookupWebService(
-                                                  statusAndResponse: (Int, Option[VehicleAndKeeperLookupResponseV2]) = vehicleAndKeeperDetailsResponseSuccess
-                                                  ) extends ScalaModule with MockitoSugar {
+final class TestVehicleAndKeeperLookupWebService(statusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse])
+                                                  = vehicleAndKeeperDetailsResponseSuccess
+                                                ) extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
@@ -29,7 +29,7 @@ final class TestVehicleAndKeeperLookupWebService(
 
 object TestVehicleAndKeeperLookupWebService {
 
-  def createResponse(response: (Int, Option[VehicleAndKeeperLookupResponseV2])) = {
+  def createResponse(response: (Int, Option[VehicleAndKeeperLookupResponse])) = {
     val (status, dto) = response
     val asJson = Json.toJson(dto)
     new FakeResponse(status = status, fakeJson = Some(asJson))
