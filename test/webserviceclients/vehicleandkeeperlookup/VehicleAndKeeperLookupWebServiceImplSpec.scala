@@ -10,12 +10,12 @@ import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleAndKeeperLookupConfig
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceImpl
-import webserviceclients.fakes.DateServiceConstants._
+import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 
-final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
+class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callVehicleAndKeeperLookupService" should {
 
@@ -44,7 +44,7 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
     0,
     0)
 
-  private def request = VehicleAndKeeperDetailsRequest(
+  private def request = VehicleAndKeeperLookupRequest(
     dmsHeader = buildHeader(trackingId),
     referenceNumber = "ref number",
     registrationNumber = "reg number",
@@ -65,5 +65,5 @@ final class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireM
       endUser = None)
   }
 
-  private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperDetailsRequest]
+  private implicit val vehicleAndKeeperDetailsFormat = Json.format[VehicleAndKeeperLookupRequest]
 }

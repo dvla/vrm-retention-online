@@ -2,8 +2,8 @@ package controllers
 
 import com.google.inject.Inject
 import uk.gov.dvla.vehicles.presentation.common.controllers
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.OrdnanceSurveyConfig
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.config.VehicleAndKeeperLookupConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.OrdnanceSurveyConfig
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
 import utils.helpers.Config
 
 class Version @Inject()(vehiclesKeeperConfig: VehicleAndKeeperLookupConfig,

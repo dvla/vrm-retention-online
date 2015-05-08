@@ -4,10 +4,24 @@ import _root_.webserviceclients.audit2.AuditService
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import composition._
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValidForMicroService
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNotFoundResponseCode
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsServerDown
+import composition.{TestConfig, WithApplication}
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebService
-import composition.webserviceclients.vehicleandkeeperlookup._
+import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallDocRefNumberNotLatest
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallServerDown
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsCallVRMNotFound
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallFails
+import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallNoResponse
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
@@ -16,7 +30,7 @@ import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
-import org.mockito.Mockito._
+import org.mockito.Mockito.verify
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.CheckEligibilityPage
 import pages.vrm_retention.MicroServiceErrorPage
@@ -32,7 +46,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
@@ -288,7 +302,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
       whenReady(result, timeout) {
         r =>
-          val expectedRequest = VehicleAndKeeperDetailsRequest(
+          val expectedRequest = VehicleAndKeeperLookupRequest(
             dmsHeader = buildHeader(trackingId, dateService),
             referenceNumber = ReferenceNumberValid,
             registrationNumber = RegistrationNumberValid,
@@ -374,7 +388,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupStubs(isPrototypeBannerVisible: Boolean = true,
                                  permitted: Boolean = true,
-                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
+                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse])
+                                   = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
@@ -384,7 +399,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   private def vehicleLookupStubs = {
-    val vehicleAndKeeperLookupWebService = new TestVehicleAndKeeperLookupWebService(statusAndResponse = vehicleAndKeeperDetailsResponseSuccess)
+    val vehicleAndKeeperLookupWebService = new TestVehicleAndKeeperLookupWebService(statusAndResponse
+      = vehicleAndKeeperDetailsResponseSuccess)
     val injector = testInjector(
       new TestBruteForcePreventionWebService(permitted = true),
       new TestConfig(isPrototypeBannerVisible = true),
@@ -396,7 +412,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
                                          permitted: Boolean = true,
-                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse]) = vehicleAndKeeperDetailsResponseSuccess) = {
+                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse])
+                                           = vehicleAndKeeperDetailsResponseSuccess) = {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),

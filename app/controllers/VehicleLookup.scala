@@ -2,14 +2,14 @@ package controllers
 
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
-import models._
+import models.{CacheKeyPrefix, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
-import play.api.mvc._
+import play.api.mvc.{Action, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
@@ -18,16 +18,20 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber._
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
-import views.vrm_retention.Payment._
+import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
+import views.vrm_retention.VehicleLookup.PostcodeId
+import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
+import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
@@ -105,7 +109,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors(invalidForm)))
   }
 
-  override def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperDetailsDto,
+  override def vehicleFoundResult(vehicleAndKeeperDetailsDto: VehicleAndKeeperLookupDetailsDto,
                                   formModel: VehicleAndKeeperLookupFormModel)
                                  (implicit request: Request[_]): Result = {
 
@@ -170,7 +174,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {
     dtoPostcode match {
-      case Some(postcode) => {
+      case Some(postcode) =>
         Logger.info("formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
 
         def formatPartialPostcode(postcode: String): String = {
@@ -198,13 +202,12 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         }
 
         // strip the spaces before comparison
-        formatPostcode(formModelPostcode).filterNot(" " contains _).toUpperCase() ==
-          formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase()
-      }
-      case None => {
+        formatPostcode(formModelPostcode).filterNot(" " contains _).toUpperCase ==
+          formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
+
+      case None =>
         Logger.info("formModelPostcode = " + formModelPostcode)
         formModelPostcode.isEmpty
-      }
     }
   }
 }

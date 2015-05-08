@@ -3,7 +3,7 @@ package models
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
 
 final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar {
 
@@ -11,7 +11,7 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
 
     "return keeper title when keeper title starts with the letter 'M'" in {
       val keeperTitle = Some("MR")
-      val vehicleAndKeeperDetailsDto = VehicleAndKeeperDetailsDto(
+      val vehicleAndKeeperDetailsDto = VehicleAndKeeperLookupDetailsDto(
         registrationNumber = "stub-registrationNumber",
         vehicleMake = None,
         vehicleModel = None,
@@ -34,7 +34,7 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
 
     "return keeper title uppercased when keeper title starts with a lowercase letter 'M'" in {
       val keeperTitle = Some("mr")
-      val vehicleAndKeeperDetailsDto = VehicleAndKeeperDetailsDto(
+      val vehicleAndKeeperDetailsDto = VehicleAndKeeperLookupDetailsDto(
         registrationNumber = "stub-registrationNumber",
         vehicleMake = None,
         vehicleModel = None,
@@ -58,7 +58,7 @@ final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar 
 
     "return None when keeper title does not start with the letter 'M'" in {
       val keeperTitle = None
-      val vehicleAndKeeperDetailsDto = VehicleAndKeeperDetailsDto(
+      val vehicleAndKeeperDetailsDto = VehicleAndKeeperLookupDetailsDto(
         registrationNumber = "stub-registrationNumber",
         vehicleMake = None,
         vehicleModel = None,

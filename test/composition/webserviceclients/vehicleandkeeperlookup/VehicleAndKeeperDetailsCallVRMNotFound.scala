@@ -5,18 +5,17 @@ import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeper
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDetailsRequest
+import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
-
-import scala.concurrent.Future
 
 final class VehicleAndKeeperDetailsCallVRMNotFound extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[VehicleAndKeeperLookupWebService]
-    when(webService.invoke(any[VehicleAndKeeperDetailsRequest], any[String])).
-      thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsResponseVRMNotFound)))
+    when(webService.invoke(any[VehicleAndKeeperLookupRequest], any[String]))
+      .thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsResponseVRMNotFound)))
     webService
   }
 
