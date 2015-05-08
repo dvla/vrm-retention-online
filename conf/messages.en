@@ -624,9 +624,9 @@ vrm_retention_success.notice1.h3 = New vehicles
 vrm_retention_success.notice1.p1 = Now you have retained this registration number, you can use the Retention Certificate Number above to assign this number to a new vehicle in the AFRL system.
 
 vrm_retention_success.notice2.h3 = Used vehicles
-vrm_retention_success.notice2.p1 = To assign the retained registration to a used vehicle you will need to continue using
-vrm_retention_success.notice2.p2 = We are updating this service to make it available online soon.
-vrm_retention_success.notice2.p1.link = the current paper service.
+vrm_retention_success.notice2.p1 = You can now assign your retained registration online using the
+vrm_retention_success.notice2.p1.link = put a registration number on a vehicle service
+vrm_retention_success.notice2.p2 = .
 
 
 vrm_retention_success.p1 = What happens next?

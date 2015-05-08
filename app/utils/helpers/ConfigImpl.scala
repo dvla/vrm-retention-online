@@ -52,19 +52,6 @@ class ConfigImpl extends Config {
 
   override val isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)
 
-  // Rabbit-MQ
-  override val rabbitmqHost = getOptionalProperty[String]("rabbitmq.host").getOrElse("NOT FOUND")
-
-  override val rabbitmqPort = getOptionalProperty[Int]("rabbitmq.port").getOrElse(0)
-
-  override val rabbitmqQueue = getOptionalProperty[String]("rabbitmq.queue").getOrElse("NOT FOUND")
-
-  override val rabbitmqUsername = getOptionalProperty[String]("rabbitmq.username").getOrElse("NOT FOUND")
-
-  override val rabbitmqPassword = getOptionalProperty[String]("rabbitmq.password").getOrElse("NOT FOUND")
-
-  override val rabbitmqVirtualHost = getOptionalProperty[String]("rabbitmq.virtualHost").getOrElse("NOT FOUND")
-
   override val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
 
   override val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")

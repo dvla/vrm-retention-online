@@ -25,6 +25,7 @@ import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
+import controllers.Payment.AuthorisedStatus
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -42,10 +43,11 @@ final class Retain @Inject()(
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getString(PaymentTransNoCacheKey),
-      request.cookies.getModel[PaymentModel]) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentTransNo), Some(paymentModel)) =>
-        retainVrm(vehiclesLookupForm, transactionId, paymentTransNo, paymentModel)
-      case (_, Some(transactionId), _, _) => {
+      request.cookies.getModel[PaymentModel],
+      request.cookies.getModel[EligibilityModel]) match {
+      case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentTransNo), Some(paymentModel), Some(eligibility)) if paymentModel.paymentStatus == Some(AuthorisedStatus) =>
+        retainVrm(vehiclesLookupForm, transactionId, paymentTransNo, paymentModel, eligibility)
+      case (_, Some(transactionId), _, _, _) => {
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = transactionId,
@@ -63,7 +65,7 @@ final class Retain @Inject()(
   }
 
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                        transactionId: String, paymentTransNo: String, paymentModel: PaymentModel)
+                        transactionId: String, paymentTransNo: String, paymentModel: PaymentModel, eligibility: EligibilityModel)
                        (implicit request: Request[_]): Future[Result] = {
 
     def retainSuccess(certificateNumber: String) = {
@@ -77,13 +79,14 @@ final class Retain @Inject()(
 
       var paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.SettledStatus)
+      val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.PaymentToSuccess,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        replacementVrm = Some(eligibility.replacementVRM),
         keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
