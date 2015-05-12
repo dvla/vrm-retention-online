@@ -29,8 +29,8 @@ object ReceiptEmailMessageBuilder {
    private def buildBusinessHtml(business: BusinessDetails): String =
    s"""
       |<ul>
-      |<li>Business Name: ${business.name}</li>
-      |<li>Business Contact: ${business.contact}</li>
+      |<li>Business Name: <strong>${business.name}</strong></li>
+      |<li>Business Contact: <strong>${business.contact}</strong></li>
       |<li>Business Address: ${ (for {
            addr <- business.address
          } yield s"<li>$addr</li>").mkString("<ul>", "", "</ul>")  }</li>
@@ -58,24 +58,31 @@ object ReceiptEmailMessageBuilder {
        |p {
        |  line-height: 200%;
        |}
-       |li { list-style: none; padding: 0; margin:0;}
+       |ul { list-style: none; padding: 0; margin:0 0 32px 0;}
+       |li { margin-bottom: 8px}
+       |li > ul {
+       |	margin: 16px 0 0 16px;
+       |}
        |</style>
        |</head>
        |<body>
        |
-       |<p><b>THIS IS AN AUTOMATED EMAIL - PLEASE DO NOT REPLY.</b></p>
+       |<p>
+       |	<strong>THIS IS AN AUTOMATED EMAIL - PLEASE DO NOT REPLY.</strong>
+       |</p>
+       |
        |<p>Payment received.</p>
        |
        |<ul>
-       |<li>£$amountCharged DVLA Online Retention of $assignVrn</li>
-       |<li>Paid by Credit/Debit Card</li>
-       |<li>Date:  $dateStr</li>
-       |<li>Transaction Number:  $transactionId</li>
+       |	<li><strong>£$amountCharged</strong> DVLA Online Assignment of <strong>$assignVrn</strong></li>
+       |	<li>Paid by Credit/Debit Card</li>
+       |	<li>Date:  <strong>$dateStr</strong></li>
+       |	<li>Transaction Number:  <strong>$transactionId</strong></li>
        |</ul>
        |
        |$business
        |
-       |<p>DVLA, Swansea, SA6 7JL</p>
+       |<p><i>DVLA, Swansea, SA6 7JL</i></p>
       """.stripMargin
 
   private def buildText(assignVrn: String,
