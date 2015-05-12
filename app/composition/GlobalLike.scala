@@ -1,9 +1,9 @@
 package composition
 
-import java.io.File
-import java.util.UUID
-
 import com.typesafe.config.ConfigFactory
+import java.io.File
+import java.util.{TimeZone, UUID}
+import org.joda.time.DateTimeZone
 import play.api.Application
 import play.api.Configuration
 import play.api.GlobalSettings
@@ -15,11 +15,10 @@ import play.api.i18n.Lang
 import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.NotFound
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import utils.helpers.Config
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import utils.helpers.Config
 
 /**
  * Application configuration is in a hierarchy of files:
@@ -45,6 +44,9 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
 
   override def onStart(app: Application) {
     Logger.info("vrm-retention-online Started") // used for operations, do not remove
+    val localTimeZone = "Europe/London"
+    TimeZone.setDefault(TimeZone.getTimeZone(localTimeZone))
+    DateTimeZone.setDefault(DateTimeZone.forID(localTimeZone))
   }
 
   override def onLoadConfig(configuration: Configuration,
