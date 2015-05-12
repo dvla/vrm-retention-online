@@ -90,7 +90,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         }
 
           //send email
-//          sendReceipt(businessDetailsModel, confirmFormModel, vehicleAndKeeperLookupForm, transactionId, trackingId)
+         sendReceipt(businessDetailsModel, confirmFormModel, vehicleAndKeeperLookupForm, transactionId, trackingId)
 
 
 
