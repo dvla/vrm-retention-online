@@ -35,7 +35,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage

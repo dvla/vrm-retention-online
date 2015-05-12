@@ -105,7 +105,7 @@ final class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventual
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "delete the Confirm cookie" taggedAs UiTag in new WebBrowserForSelenium {
+    "delete the Confirm cookie" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup().confirmFormModel()
       go to ConfirmPage

@@ -23,7 +23,7 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
 
   "startAgain button" should {
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessChooseYourAddress().
