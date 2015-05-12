@@ -97,7 +97,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
   private def wrapText(words: List[String]): List[List[String]] = words match {
     case Nil => Nil
     case _ =>
-      val output = (words.inits.dropWhile { _.mkString(" ").length > 30 }) next;
+      val output = (words.inits.dropWhile { _.mkString(" ").length > 30 }).next
       output :: wrapText(words.drop(output.length))
   }
 
@@ -105,7 +105,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
 
     var positionY = 580
 
-    wrapText(name split(" ") toList) foreach {
+    wrapText(name.split(" ").toList) foreach {
       words => {
         contentStream.beginText()
         fontHelvetica(fontDefaultSize)
