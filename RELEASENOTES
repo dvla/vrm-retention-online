@@ -1,3 +1,27 @@
+======= 1.14 ======
+Time of release binaries creation:
+
+US3164  Business Receipt
+US3163  Cleanup the PR repositories from Ansible and Vagrant code
+US3162  Implement the new business details capture pattern
+US3161  Standardise the size of the buttons and drop downs on the pay page
+DE482   Business address pre-selecting  
+DE481   Postcode facility       
+US3123  Issue Cancel request from fulfil micro service  
+US3107  Link to Assign from Retain Summary page 
+US2938  Playback left hand column for error pages at the top on mobile devices  
+US2580  Make the response code from V&K lookup a two var case class     
+DE442   Disp - Invalid characters in date field 
+US2798  Show Please Wait spinner during eligibility and fulfil
+US2802  Make service shutdown warning dynamic   
+US3045  Apply Dual Email Entry pattern  
+US2990  Settle payment after service timeout and fulfilment     
+US3022  Remove Contact Centre Number from emails        
+US3018  Remove Application Details from Success page    
+US3025  Sentence case for What Happens Next?  Dispose Summary   
+DE473   Closing down banner with countdown doesn't work in IE7. 
+US3153  Upgrade play framework to version 2.3.9 
+
 ======= 1.13.1 ======
 Time of release binaries creation:
 Wed May 06 2015 09:35:00 GMT+0000 (GMT)
