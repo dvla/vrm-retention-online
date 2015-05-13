@@ -46,7 +46,7 @@ final class VrmLockedUiSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove redundant cookies" taggedAs UiTag in new WebBrowserForSelenium {
+    "remove redundant cookies" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup()
       go to VrmLockedPage
