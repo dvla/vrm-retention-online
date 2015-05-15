@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.html.vrm_assign.lookup_failure.ninety_day_rule_failure
+import views.html.vrm_retention.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_retention.lookup_failure._
 import views.vrm_retention.VehicleLookup._
 
