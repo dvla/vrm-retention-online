@@ -25,22 +25,30 @@ final class ConfirmBusiness @Inject()(
   private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 
   def present = Action { implicit request => {
-    val happyPath = for {
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-      setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
-      businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
-    } yield {
-        val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-        val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
-        val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
-        val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
-        val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
-        Ok(views.html.vrm_retention.confirm_business(viewModel, form.fill(formModel)))
+      val happyPath = for {
+        vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+        vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
+        setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
+        businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
+      } yield {
+          val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+          val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
+          val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
+          val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
+          val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
+          Ok(views.html.vrm_retention.confirm_business(viewModel, form.fill(formModel)))
+        }
+      val sadPath = Redirect(routes.BusinessChooseYourAddress.present())
+
+      // explicit check to find out if we are coming from the back browser button after we completed the transaction
+      // completing the transaction will create the RetainModel, and in that case we don't want to land here but go
+      // back to the start.
+      if ( request.cookies.getModel[RetainModel].isDefined) {
+        Redirect(routes.VehicleLookup.present())
+      } else {
+        happyPath.getOrElse(sadPath)
       }
-    val sadPath = Redirect(routes.BusinessChooseYourAddress.present())
-    happyPath.getOrElse(sadPath)
-  }
+    }
   }
 
   def submit = Action { implicit request =>
