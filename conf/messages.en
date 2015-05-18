@@ -388,6 +388,7 @@ vehicle-lookup-failure-postcode-mismatch-p1 = The Keeper’s Postcode entered do
 vehicle-lookup-failure-postcode-mismatch-p2 = Please make sure you have the keeper’s postcode as on the most recent V5C and try again.
 vehicle-lookup-failure-direct-to-paper-title = This registration number cannot be retained online
 vehicle-lookup-failure-direct-to-paper-p1 = You are unable to continue with this application on-line.
+vehicle-lookup-failure-ninety_day_rule_failure-p1 = We need to look into your application further due to the vehicle’s licensing history.
 vehicle-lookup-failure-direct-to-paper-p1a = You must
 direct-to-paper-text-v317 = complete and submit a V317 form
 vehicle-lookup-failure-direct-to-paper-p1b = to:
