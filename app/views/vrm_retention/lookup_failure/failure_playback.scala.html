@@ -7,14 +7,6 @@
         <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
     <dd class="reg-number">@viewModel.registrationNumber</dd>
-    @if(viewModel.make.isDefined) {
-        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-        <dd>@viewModel.make.get.take(20)</dd>
-    }
-    @if(viewModel.model.isDefined) {
-        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-        <dd>@viewModel.model.get.take(20)</dd>
-    }
     <br/>
     <br/>
     <p>@Messages("success-keeper-application-details-contact-us")</p>
