@@ -1,5 +1,7 @@
 package controllers
 
+import java.util.concurrent.TimeoutException
+
 import com.google.inject.Inject
 import models._
 import org.joda.time.DateTime
@@ -151,6 +153,7 @@ final class Retain @Inject()(
             }
         }
     }.recover {
+      case _: TimeoutException =>  Redirect(routes.TimeoutController.present())
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Retention Retain web service call failed. Exception " + e.toString)
     }

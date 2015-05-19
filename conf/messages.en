@@ -779,4 +779,12 @@ feedback = Feedback Form
 feedback_return = ◄ Return to your application
 feedback_close = Please close this page to return to your application
 
+# timeout
+vrm_retention_timeout.title = Please wait
+vrm_retention_timeout.p-1 = We are experiencing a delay in processing your application.
+vrm_retention_timeout.p-2 = We will update you via email when your application is processed.
+vrm_retention_timeout.playback-title = Vehicle details
+vrm_retention_timeout.playback-current = Current registration number:
+vrm_retention_timeout.playback-new = The registration number you want to put on:
+
 

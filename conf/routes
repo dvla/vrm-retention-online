@@ -86,6 +86,9 @@ GET         /success-payment                               @controllers.SuccessP
 GET         /success-payment/create-pdf                    @controllers.SuccessPayment.createPdf
 GET         /email-stub                                    @controllers.SuccessPayment.emailStub
 
+GET         /timeout                                       @controllers.TimeoutController.present
+GET         /timeout/exit                                  @controllers.TimeoutController.exit
+
 GET         /success                                       @controllers.Success.present
 GET         /success/create-pdf                            @controllers.Success.createPdf
 GET         /success/finish                                @controllers.Success.finish
