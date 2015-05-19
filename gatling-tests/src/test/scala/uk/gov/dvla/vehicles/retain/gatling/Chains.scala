@@ -361,8 +361,6 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
             .check(status.is(200))
             .check(regex(vehicleLookupToDirectToPaperTitle).exists) // Page title
             .check(regex("${expected_registrationNumberFormatted}").exists)
-            .check(regex("${expected_make}").exists)
-            .check(regex("${expected_model}").exists)
         )
     )
 
