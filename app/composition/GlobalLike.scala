@@ -44,9 +44,6 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
 
   override def onStart(app: Application) {
     Logger.info("vrm-retention-online Started") // used for operations, do not remove
-    val localTimeZone = "Europe/London"
-    TimeZone.setDefault(TimeZone.getTimeZone(localTimeZone))
-    DateTimeZone.setDefault(DateTimeZone.forID(localTimeZone))
   }
 
   override def onLoadConfig(configuration: Configuration,
