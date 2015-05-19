@@ -19,8 +19,6 @@ final class VRMRetentionRetainServiceImpl @Inject()(ws: VRMRetentionRetainWebSer
         s"VRM Retention Retain web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either vrm-retention-retain micro-service or the VSS"
       )
-    }.recover {
-      case NonFatal(e) => throw new RuntimeException("VRM Retention Retain call failed for an unknown reason", e)
     }
   }
 }
