@@ -68,7 +68,7 @@ class ConfigImpl extends Config {
   override val emailServiceMicroServiceUrlBase: String = getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse("NOT FOUND")
   override val emailServiceMsRequestTimeout: Int = getOptionalProperty[Int]("emailService.ms.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
   override val emailConfiguration: EmailConfiguration = EmailConfiguration(
-    From(getProperty[String]("email.senderAddress"), "DO-NOT-REPLY"),
+    From(getProperty[String]("email.senderAddress"), "DO NOT REPLY"),
     From(getProperty[String]("email.feedbackAddress"), "Feedback"),
     getStringListProperty("email.whitelist")
   )

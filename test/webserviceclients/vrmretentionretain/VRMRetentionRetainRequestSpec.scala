@@ -6,10 +6,13 @@ import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.fakes.DateServiceConstants.DayValid
 import webserviceclients.fakes.DateServiceConstants.MonthValid
 import webserviceclients.fakes.DateServiceConstants.YearValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 final class VRMRetentionRetainRequestSpec extends UnitSpec {
 
@@ -34,7 +37,8 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
 
   private def request = VRMRetentionRetainRequest(buildWebHeader("1234567890"),
     currentVRM = ReplacementRegistrationNumberValid, transactionTimestamp = dateTime,
-    paymentTransNo = "123456", paymentTrxRef = "123-456-789", isPaymentPrimaryUrl = true)
+    PaymentSolveUpdateRequest("", "", "", false,
+      List(EmailServiceSendRequest("", "", None, From("", ""), "", None, None))))
 
   private def toJson = Json.toJson(request)
 

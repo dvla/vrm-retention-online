@@ -4,9 +4,12 @@ import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat
 import play.api.libs.json.{JsString, JsValue, Json, Writes}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{VssWebEndUserDto, VssWebHeaderDto}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
+import webserviceclients.emailservice.EmailServiceSendRequest
+import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
 case class VRMRetentionRetainRequest(webHeader: VssWebHeaderDto, currentVRM: String, transactionTimestamp: DateTime,
-                                     paymentTransNo: String, paymentTrxRef: String, isPaymentPrimaryUrl: Boolean)
+                                     paymentSolveUpdateRequest: PaymentSolveUpdateRequest)
 
 object VRMRetentionRetainRequest {
 
@@ -18,6 +21,10 @@ object VRMRetentionRetainRequest {
     }
   }
 
+  implicit val JsonFormatFrom = Json.format[From]
+  implicit val JsonFormatAttachment = Json.format[Attachment]
+  implicit val JsonFormatEmailServiceSendRequest = Json.format[EmailServiceSendRequest]
+  implicit val JsonFormatPaymentSolveUpdateRequest = Json.format[PaymentSolveUpdateRequest]
   implicit val JsonFormatVssWebEndUserDto = Json.writes[VssWebEndUserDto]
   implicit val JsonFormatVssWebHeaderDto = Json.writes[VssWebHeaderDto]
   implicit val JsonFormat = Json.format[VRMRetentionRetainRequest]
