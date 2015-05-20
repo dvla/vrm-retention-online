@@ -1,0 +1,47 @@
+@(vehicleDetails: Option[uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel],
+        replacementVRN: Option[String])(implicit lang: Lang,
+        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+        config: utils.helpers.Config,
+        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import views.vrm_retention.Timeout._
+@import views.html.vrm_retention.main
+
+
+@main(
+    title = Messages("vrm_retention_timeout.title")
+) {
+    <div class="two-col">
+        <div class="second-col inline-form">
+            <h2>@Messages("vrm_retention_timeout.title")</h2>
+            <p>@Messages("vrm_retention_timeout.p-1")</p>
+            <p>@Messages("vrm_retention_timeout.p-2")</p>
+            <div class="form-steps">
+                <a id="@ExitId" class="exit" href="@controllers.routes.TimeoutController.exit()">@Messages("vrm_retention_exit.button")</a>
+            </div>
+        </div>
+
+        @vehicleDetails.map { details =>
+            <div id="vehicle-details" class="first-col trader-details">
+                <dl class="playback">
+                    <h3>@Messages("vrm_retention_timeout.playback-title")</h3>
+                    <dt>@Messages("vrm_retention_timeout.playback-current")</dt>
+                    <dd class="reg-number">@details.registrationNumber</dd>
+                    @details.make.map{ make =>
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@make.take(20)</dd>
+                    }
+                    @details.model.map{ model =>
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@model.take(20)</dd>
+                    }
+
+                    @replacementVRN.map { value =>
+                        <dt>@Messages("vrm_retention_timeout.playback-new")</dt>
+                        <dd class="reg-number">@value</dd>
+                    }
+                </dl>
+            </div>
+        }
+    </div>
+}

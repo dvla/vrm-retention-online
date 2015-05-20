@@ -55,9 +55,10 @@ libraryDependencies ++= {
   Seq(
     cache,
     filters,
-    "org.seleniumhq.selenium" % "selenium-java" % "2.45.0" % "test",
-//    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
+    // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
+    "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
+    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+//    "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
     "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
     "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
     "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),

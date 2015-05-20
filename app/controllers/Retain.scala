@@ -1,5 +1,7 @@
 package controllers
 
+import java.util.concurrent.TimeoutException
+
 import com.google.inject.Inject
 import email.ReceiptEmailMessageBuilder
 import models._
@@ -160,6 +162,7 @@ final class Retain @Inject()(
             }
         }
     }.recover {
+      case _: TimeoutException =>  Redirect(routes.TimeoutController.present())
       case NonFatal(e) =>
         microServiceErrorResult(s"VRM Retention Retain web service call failed. Exception " + e.toString)
     }

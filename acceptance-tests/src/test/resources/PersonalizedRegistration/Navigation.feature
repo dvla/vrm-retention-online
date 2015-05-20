@@ -68,6 +68,7 @@ Feature: Navigation
   Examples:
     | origin           | expected           | wiped   |
     | "vehicle-lookup" | "before-you-start" | "wiped" |
+    | "confirm"        | "vehicle-lookup"   | "wiped" |
 
   Scenario Outline: Pressing the browser's back button (keeper acting)
     Given that I am on the <origin> page
