@@ -18,7 +18,7 @@ object ReceiptEmailMessageBuilder {
                 business: Option[BusinessDetails]): Contents = {
 
     val now = Instant.now.toDateTime(DateTimeZone.forID("Europe/London"))
-    val dateStr = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(now.toDate)
+    val dateStr = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(now.toDate)
 
     Contents(
       buildHtml(assignVrn, amountCharged, transactionId, dateStr, business.map(buildBusinessHtml).getOrElse("")),

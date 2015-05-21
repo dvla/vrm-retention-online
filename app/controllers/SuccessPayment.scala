@@ -89,12 +89,6 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
             )
         }
 
-          //send email
-         sendReceipt(if (vehicleAndKeeperLookupForm.userType == UserType_Keeper) None else businessDetailsModel,
-           confirmFormModel, vehicleAndKeeperLookupForm, transactionId, trackingId)
-
-
-
         Future.successful(Redirect(routes.Success.present()))
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))
@@ -153,47 +147,4 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
     ))
   }
 
-
-  /**
-   * Sends a receipt for payment to both keeper and the business if present.
-   */
-  private def sendReceipt(businessDetailsModel: Option[BusinessDetailsModel],
-                          confirmFormModel: Option[ConfirmFormModel],
-                          vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                          transactionId: String,
-                          trackingId: String) = {
-
-    implicit val emailConfiguration = config.emailConfiguration
-    implicit val implicitEmailService = implicitly[EmailService](emailReceiptService)
-
-    val businessDetails = businessDetailsModel.map(model =>
-      ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
-
-    val paidFee = "80.00"
-
-    val template = ReceiptEmailMessageBuilder.buildWith(
-      vehicleAndKeeperLookupFormModel.registrationNumber,
-      paidFee,
-      transactionId,
-      businessDetails)
-
-    val title = s"""Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"""
-
-    //send keeper email if present
-    for {
-      model <- confirmFormModel
-      email <- model.keeperEmail
-    } SEND email template withSubject title to email send trackingId
-
-    //send business email if present
-    for {
-      model <- businessDetailsModel
-    } SEND email template withSubject title to model.email send trackingId
-
-  }
-}
-
-object SuccessPayment {
-
-  private val SETTLE_AUTH_CODE = "Settle"
 }

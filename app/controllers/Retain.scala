@@ -3,6 +3,7 @@ package controllers
 import java.util.concurrent.TimeoutException
 
 import com.google.inject.Inject
+import email.ReceiptEmailMessageBuilder
 import models._
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
@@ -16,15 +17,20 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.services.SEND
+import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{From, Attachment}
 import utils.helpers.Config
 import views.vrm_retention.Payment._
 import views.vrm_retention.Retain._
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
+import webserviceclients.emailservice.{EmailServiceSendRequest, EmailService}
+import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 import controllers.Payment.AuthorisedStatus
@@ -40,6 +46,8 @@ final class Retain @Inject()(
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config,
                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+
+  private val SETTLE_AUTH_CODE = "Settle"
 
   def retain = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -137,9 +145,10 @@ final class Retain @Inject()(
       webHeader = buildWebHeader(trackingId),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.today.toDateTimeMillis.get,
-      paymentTransNo = paymentTransNo,
-      paymentTrxRef = paymentModel.trxRef.get,
-      isPaymentPrimaryUrl = paymentModel.isPrimaryUrl)
+      paymentSolveUpdateRequest =
+        buildPaymentSolveUpdateRequest(paymentTransNo, paymentModel.trxRef.get,
+          SETTLE_AUTH_CODE, paymentModel.isPrimaryUrl, vehicleAndKeeperLookupFormModel, transactionId)
+    )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
       response =>
@@ -170,4 +179,60 @@ final class Retain @Inject()(
   private def buildEndUser(): VssWebEndUserDto = {
     VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
   }
+
+  private def buildPaymentSolveUpdateRequest(paymentTransNo: String, paymentTrxRef: String,
+                                             authType: String, isPaymentPrimaryUrl: Boolean,
+                                             vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                                             transactionId: String)(implicit request: Request[_]):
+  PaymentSolveUpdateRequest = {
+    PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
+      buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel, transactionId)
+    )
+  }
+
+  private def buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                            transactionId: String)(implicit request: Request[_]): List[EmailServiceSendRequest] = {
+
+    val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+    val businessDetails = businessDetailsModel.map(model =>
+      ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
+
+    val template = ReceiptEmailMessageBuilder.buildWith(
+      vehicleAndKeeperLookupFormModel.registrationNumber,
+      f"${config.purchaseAmount.toDouble / 100}%.2f",
+      transactionId,
+      businessDetails)
+
+    val title = s"""Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"""
+
+    val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
+
+    // send keeper email if present
+    val keeperEmail = for {
+      model <- confirmFormModel
+      email <- model.keeperEmail
+    } yield buildEmailServiceSendRequest(template, from, title, email)
+
+    // send business email if present
+    val businessEmail = for {
+      model <- businessDetailsModel
+    } yield buildEmailServiceSendRequest(template, from, title, model.email)
+
+    Seq(keeperEmail, businessEmail).flatten.toList
+  }
+
+  private def buildEmailServiceSendRequest(template: Contents, from: From, title: String, email: String) = {
+    EmailServiceSendRequest(
+      plainTextMessage = template.plainMessage,
+      htmlMessage = template.htmlMessage,
+      attachment = None,
+      from = from,
+      subject = title,
+      toReceivers = Some(List(email)),
+      ccReceivers = None
+    )
+  }
+
 }
