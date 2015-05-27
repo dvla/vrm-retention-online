@@ -196,8 +196,13 @@ final class Retain @Inject()(
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
-    val businessDetails = businessDetailsModel.map(model =>
-      ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
+    val businessDetails = vehicleAndKeeperLookupFormModel.userType match {
+      case UserType_Business => {
+        businessDetailsModel.map(model =>
+          ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
+      }
+      case _ => None
+    }
 
     val template = ReceiptEmailMessageBuilder.buildWith(
       vehicleAndKeeperLookupFormModel.registrationNumber,
