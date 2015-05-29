@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{ConfirmFormModel, CacheKeyPrefix, VehicleAndKeeperLookupFormModel}
+import models.{ConfirmFormModel, CacheKeyPrefix}
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -35,5 +35,4 @@ class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSid
   def exit = Action { implicit request =>
     Redirect(routes.LeaveFeedback.present())
   }
-
 }

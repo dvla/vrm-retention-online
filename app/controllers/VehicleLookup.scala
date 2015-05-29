@@ -10,6 +10,7 @@ import play.api.Logger
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
@@ -35,8 +36,6 @@ import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
-
-import scala.concurrent.Future
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,

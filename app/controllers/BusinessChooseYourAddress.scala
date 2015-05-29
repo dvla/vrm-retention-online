@@ -1,7 +1,6 @@
 package controllers
 
 import javax.inject.Inject
-
 import models.BusinessChooseYourAddressFormModel
 import models.BusinessChooseYourAddressViewModel
 import models.BusinessDetailsModel
@@ -14,6 +13,8 @@ import play.api.i18n.Lang
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSession
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -29,17 +30,12 @@ import views.html.vrm_retention.business_choose_your_address
 import views.vrm_retention.BusinessChooseYourAddress.AddressSelectId
 import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-
-final class BusinessChooseYourAddress @Inject()(
-                                                 addressLookupService: AddressLookupService,
-                                                 auditService2: audit2.AuditService
-                                                 )
+final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLookupService,
+                                                auditService2: audit2.AuditService)
                                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                                 config: Config,
                                                 dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -112,8 +108,8 @@ final class BusinessChooseYourAddress @Inject()(
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
 
-    Redirect(routes.LeaveFeedback.present()).
-      discardingCookies(removeCookiesOnExit)
+    Redirect(routes.LeaveFeedback.present())
+      .discardingCookies(removeCookiesOnExit)
   }
 
   private def index(addresses: Seq[(String, String)]) = {
@@ -127,13 +123,19 @@ final class BusinessChooseYourAddress @Inject()(
       FormError(
         key = AddressSelectId,
         message = "vrm_retention_businessChooseYourAddress.address.required",
-        args = Seq.empty)).
-      distinctErrors
+        args = Seq.empty))
+      .distinctErrors
 
-  private def fetchAddresses(model: SetupBusinessDetailsFormModel, showBusinessName: Option[Boolean])(implicit session: ClientSideSession, lang: Lang) =
-    addressLookupService.fetchAddressesForPostcode(model.postcode, session.trackingId, showBusinessName = showBusinessName)
+  private def fetchAddresses(model: SetupBusinessDetailsFormModel, showBusinessName: Option[Boolean])
+                            (implicit session: ClientSideSession, lang: Lang) =
+    addressLookupService.fetchAddressesForPostcode(model.postcode,
+      session.trackingId,
+      showBusinessName = showBusinessName
+    )
 
-  private def lookupUprn(model: BusinessChooseYourAddressFormModel, businessName: String, businessContact: String, businessEmail: String)
+  private def lookupUprn(model: BusinessChooseYourAddressFormModel,
+                         businessName: String, businessContact:
+                         String, businessEmail: String)
                         (implicit request: Request[_], session: ClientSideSession) = {
     val lookedUpAddress = addressLookupService.fetchAddressForUprn(model.uprnSelected.toString, session.trackingId)
     lookedUpAddress.map {
@@ -143,7 +145,8 @@ final class BusinessChooseYourAddress @Inject()(
     }
   }
 
-  private def lookupAddressByPostcodeThenIndex(model: BusinessChooseYourAddressFormModel, setupBusinessDetailsForm: SetupBusinessDetailsFormModel)
+  private def lookupAddressByPostcodeThenIndex(model: BusinessChooseYourAddressFormModel,
+                                               setupBusinessDetailsForm: SetupBusinessDetailsFormModel)
                                               (implicit request: Request[_], session: ClientSideSession) = {
     fetchAddresses(setupBusinessDetailsForm, showBusinessName = Some(false))(session, request2lang).map { addresses =>
       val indexSelected = model.uprnSelected.toInt
@@ -153,7 +156,11 @@ final class BusinessChooseYourAddress @Inject()(
           case (index, address) => address
         }
         val addressModel = AddressModel(uprn = None, address = lookedUpAddress.split(","))
-        nextPage(model, setupBusinessDetailsForm.name, setupBusinessDetailsForm.contact, setupBusinessDetailsForm.email, addressModel)
+        nextPage(model,
+          setupBusinessDetailsForm.name,
+          setupBusinessDetailsForm.contact,
+          setupBusinessDetailsForm.email, addressModel
+        )
       }
       else {
         // Guard against IndexOutOfBoundsException
@@ -175,7 +182,8 @@ final class BusinessChooseYourAddress @Inject()(
 
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.CaptureActorToConfirmBusiness,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = request.cookies.getString(TransactionIdCacheKey)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
