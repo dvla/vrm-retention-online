@@ -1,5 +1,4 @@
-@(confirmBusinessViewModel: models.ConfirmBusinessViewModel,
-        confirmBusinessForm: Form[models.ConfirmBusinessFormModel])(implicit lang: Lang,
+@(confirmBusinessViewModel: models.ConfirmBusinessViewModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -13,7 +12,7 @@
 
 @main(
     title = Messages("vrm_retention_confirm_business.title"),
-    currentForm = Some(confirmBusinessForm),
+    currentForm = None,
     backNavigation = Some(ConfirmBusiness.back())
 ) {
     <div class="two-col">
@@ -56,24 +55,11 @@
 
     @form(action = controllers.routes.ConfirmBusiness.submit()) {
         @csrfTokenHiddenField()
-        <div class="two-col">
-
-                @*<div class="form-declaration">*@
-                @valtechOptionalDeclareCheck(confirmBusinessForm(StoreDetailsConsentId),
-                    args = Map(
-                        '_name -> "",
-                        '_showConstraints -> false,
-                        '_label -> Messages("vrm_retention_confirm.storeDetailsConsent")
-                    )
-                )
-                @*</div>*@
-
-        </div>
-
-
         <div class="form-steps">
-            @if(confirmBusinessViewModel.businessName.isDefined && confirmBusinessForm.get.storeBusinessDetails) {
-                <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()" role="button">@Messages("vrm_retention_changedetails.button")</a>
+            @if(confirmBusinessViewModel.businessName.isDefined) {
+                <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()" role="button">
+                    @Messages("vrm_retention_changedetails.button")
+                </a>
             }
             <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm_business.button")</button>
             <br/>

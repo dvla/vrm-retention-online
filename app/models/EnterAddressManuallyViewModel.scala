@@ -27,7 +27,7 @@ object EnterAddressManuallyViewModel {
       businessName = businessDetailsForm.name,
       businessContact = businessDetailsForm.contact,
       businessEmail = businessDetailsForm.email,
-      businessPostCode = formatPostcode(businessDetailsForm.postcode),
+      businessPostCode = formatPostcode("QQ99QQ"),
       title = vehicleAndKeeperDetails.title,
       firstName = vehicleAndKeeperDetails.firstName,
       lastName = vehicleAndKeeperDetails.lastName,

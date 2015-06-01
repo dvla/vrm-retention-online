@@ -128,7 +128,7 @@ final class BusinessChooseYourAddress @Inject()(addressLookupService: AddressLoo
 
   private def fetchAddresses(model: SetupBusinessDetailsFormModel, showBusinessName: Option[Boolean])
                             (implicit session: ClientSideSession, lang: Lang) =
-    addressLookupService.fetchAddressesForPostcode(model.postcode,
+    addressLookupService.fetchAddressesForPostcode("QQ99QQ",
       session.trackingId,
       showBusinessName = showBusinessName
     )

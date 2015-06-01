@@ -7,14 +7,19 @@
 @import controllers.routes.SetUpBusinessDetails
 @import uk.gov.dvla.vehicles.presentation.common.ApplicationContext
 @import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
-@import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import views.html.helper.form
 @import views.html.vrm_retention.main
-@import views.vrm_retention.SetupBusinessDetails._
+@import views.vrm_retention.SetupBusinessDetails.BusinessAddressId
+@import views.vrm_retention.SetupBusinessDetails.BusinessContactId
+@import views.vrm_retention.SetupBusinessDetails.BusinessEmailId
+@import views.vrm_retention.SetupBusinessDetails.BusinessEmailMaxLength
+@import views.vrm_retention.SetupBusinessDetails.BusinessNameId
+@import views.vrm_retention.SetupBusinessDetails.ExitId
+@import views.vrm_retention.SetupBusinessDetails.SubmitId
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
 
 @main(
@@ -53,14 +58,6 @@
                     '_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
                     '_showConstraints -> false,
                     'maxLength -> BusinessName.MaxLength
-                  )
-                )
-                @valtechInputText(
-                  setupBusinessDetailsFormModel(BusinessPostcodeId),
-                  args = Map(
-                    '_label -> Messages("vrm_retention_setupbusinessdetails.businesspostcodelabel"),
-                    '_showConstraints -> false,
-                    'maxLength -> Postcode.MaxLength
                   )
                 )
                 </div>

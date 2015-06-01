@@ -40,7 +40,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
-  def present: Action[AnyContent] = Action {
+  def presentOld: Action[AnyContent] = Action {
     implicit request =>
       (request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -63,6 +63,31 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
               Some(vehicleAndKeeperLookupForm),
               Some(eligibilityModel),
               None, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+          // Happy path for keeper keeper
+          present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
+        case _ =>
+          Redirect(routes.ConfirmBusiness.present())
+      }
+  }
+
+  def present: Action[AnyContent] = Action {
+    implicit request =>
+      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
+        request.cookies.getModel[EligibilityModel],
+        request.cookies.getModel[RetainModel], // TODO: ian do we need to check that the setup business details has been entered????
+        request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
+        case (Some(vehicleAndKeeperDetails),
+              Some(vehicleAndKeeperLookupForm),
+              Some(eligibilityModel),
+              None,
+              Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business =>
+          // Happy path for a business user that has all the cookies
+          present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
+        case (Some(vehicleAndKeeperDetails),
+              Some(vehicleAndKeeperLookupForm),
+              Some(eligibilityModel),
+              None, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
           // Happy path for keeper keeper
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
         case _ =>

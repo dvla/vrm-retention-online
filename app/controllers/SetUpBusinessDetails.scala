@@ -18,17 +18,17 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
-//import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessNameId, BusinessPostcodeId}
+import views.vrm_retention.SetupBusinessDetails.{BusinessAddressId, BusinessContactId, BusinessNameId}
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                           config: Config,
-                                           dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                            config: Config,
+                                            dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
                                           ) extends Controller {
 
   private[controllers] val form = Form(
@@ -57,17 +57,14 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
             Redirect(routes.VehicleLookup.present())
         }
       },
-//      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
       validForm =>
         Redirect(routes.ConfirmBusiness.present()).withCookie(validForm)
           .withCookie(createBusinessDetailsModel(businessName = validForm.name,
-          businessContact = validForm.contact,
-          businessEmail = validForm.email,
-//          address = validForm.address)
-          address = createAddressDeleteMe())
+            businessContact = validForm.contact,
+            businessEmail = validForm.email,
+            address = validForm.address)
           )
-    // TODO: ian this needs to go in
-//          .withCookie(StoreBusinessDetailsCacheKey, validForm.address.searchFields.remember.toString)
+          .withCookie(StoreBusinessDetailsCacheKey, validForm.address.searchFields.remember.toString)
     )
   }
 
@@ -89,7 +86,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     (form /: List(
       (BusinessNameId, "error.validBusinessName"),
       (BusinessContactId, "error.validBusinessContact"),
-      (BusinessPostcodeId, "error.restricted.validPostcode"))) { (form, error) =>
+      (BusinessAddressId, "error.restricted.validPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
         message = error._2,
@@ -115,22 +112,5 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       address.postTown,
       address.postCode
     ).filter(_ != "")
-  }
-
-  private def createAddressDeleteMe() = {
-    val searchFields = new uk.gov.dvla.vehicles.presentation.common.model.SearchFields(showSearchFields = false,
-                            showAddressSelect = false,
-                            showAddressFields = false,
-                            postCode = None,
-                            listOption = None,
-                            remember = false)
-
-    new Address(searchFields = searchFields,
-      streetAddress1 = "HARD CODED LINE1",
-      streetAddress2 = Some("HARD CODED LINE2"),
-      streetAddress3 = None,
-      postTown = "HARD CODED POST TOWN",
-      postCode = "QQ99QQ"
-    )
   }
 }
