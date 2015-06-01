@@ -5,6 +5,7 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.SetUpBusinessDetails
+@import uk.gov.dvla.vehicles.presentation.common.ApplicationContext
 @import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
 @import uk.gov.dvla.vehicles.presentation.common.mappings.Postcode
 @import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
@@ -14,6 +15,7 @@
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.SetupBusinessDetails._
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
 
 @main(
     title = Messages("vrm_retention_setupbusinessdetails.title"),
@@ -62,6 +64,7 @@
                   )
                 )
                 </div>
+                @addressPicker(setupBusinessDetailsFormModel(BusinessAddressId), ApplicationContext())
                 <div class="form-steps">
                     <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
                     <br/>

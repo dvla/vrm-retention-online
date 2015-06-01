@@ -789,4 +789,24 @@ vrm_retention_timeout.playback-title = Vehicle details
 vrm_retention_timeout.playback-current = Current registration number:
 vrm_retention_timeout.playback-new = The registration number you want to put on:
 
-
+# Address picker
+address.picker.common.postcode = Postcode
+address.picker.common.findAddress = Find UK address
+address.picker.common.manualAddress = Enter address manually
+address.picker.common.pickAddress = Pick an address
+address.picker.common.pleaseSelect = Please select
+address.picker.common.street = Street
+address.picker.common.streetNameNumber = Street name and number
+address.picker.common.townCity = Town/City
+address.picker.common.townOrCity = Town or City
+address.picker.common.changeDetails = Change my details
+address.picker.common.rememberDetails = Remember these details
+address.picker.common.postCodeNotFound = Postcode not found
+address.picker.common.serverError = Error from the server:
+business-address.address-postcode-lookup = Business Postcode
+business-address.address-line-1 = Business Address line 1
+business-address.post-town = Business Town/City
+business-address.post-code = Business Postcode
+error.address.postCode = This field is mandatory
+error.address.addressLine1 = This field is mandatory
+error.required.address = Address is required

@@ -110,3 +110,5 @@ GET         /closed-stub                                   @controllers.Closed.p
 # feedback
 GET         /feedback                                      @controllers.FeedbackController.present
 POST        /feedback                                      @controllers.FeedbackController.submit
+
+GET         /address-lookup/postcode/:postcode             @controllers.AddressLookup.byPostcode(postcode)
