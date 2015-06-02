@@ -12,8 +12,8 @@ final class BeforeYouStart @Inject()()(implicit clientSideSessionFactory: Client
                                        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_retention.before_you_start()).
-      withNewSession.
-      discardingCookies(RelatedCacheKeys.RetainSet)
+    Ok(views.html.vrm_retention.before_you_start())
+      .withNewSession
+      .discardingCookies(RelatedCacheKeys.RetainSet)
   }
 }

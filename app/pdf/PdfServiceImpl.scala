@@ -31,13 +31,20 @@ import scala.concurrent.Future
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
-  def create(eligibilityModel: EligibilityModel, transactionId: String, name: String, address: Option[AddressModel]): Future[Array[Byte]] = Future {
+  def create(eligibilityModel: EligibilityModel,
+             transactionId: String,
+             name: String,
+             address: Option[AddressModel]): Array[Byte] = {
     val output = new ByteArrayOutputStream()
     v948(eligibilityModel, transactionId, name, address, output)
     output.toByteArray
   }
 
-  private def v948(eligibilityModel: EligibilityModel, transactionId: String, name: String, address: Option[AddressModel], output: OutputStream) = {
+  private def v948(eligibilityModel: EligibilityModel,
+                   transactionId: String,
+                   name: String,
+                   address: Option[AddressModel],
+                   output: OutputStream) = {
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
@@ -56,7 +63,11 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     documentWatermarked
   }
 
-  private def page1(implicit eligibilityModel: EligibilityModel, transactionId: String, name: String, address: Option[AddressModel], document: PDDocument): PDPage = {
+  private def page1(implicit eligibilityModel: EligibilityModel,
+                    transactionId: String,
+                    name: String,
+                    address: Option[AddressModel],
+                    document: PDDocument): PDPage = {
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
@@ -116,7 +127,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       }
     }
 
-    address.map { a =>
+    address.foreach { a =>
       for (line <- a.address) {
         contentStream.beginText()
         fontHelvetica(fontDefaultSize)
@@ -128,7 +139,9 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     }
   }
 
-  private def writeVrn(registrationNumber: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
+  private def writeVrn(registrationNumber: String)
+                      (implicit contentStream: PDPageContentStream,
+                       document: PDDocument): Unit = {
     contentStream.beginText()
     val size = 26
     val font = fontHelveticaBold(size = size)
@@ -138,7 +151,9 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     contentStream.endText()
   }
 
-  private def writeTransactionId(transactionId: String)(implicit contentStream: PDPageContentStream, document: PDDocument): Unit = {
+  private def writeTransactionId(transactionId: String)
+                                (implicit contentStream: PDPageContentStream,
+                                 document: PDDocument): Unit = {
     contentStream.beginText()
     val size = 18
     val font = fontHelveticaBold(size = 18)

@@ -18,7 +18,7 @@ import models.BusinessDetailsModel
 import models.ConfirmFormModel
 import models.EligibilityModel
 import models.RetainModel
-import org.mockito.Matchers
+import org.mockito.{Mockito, Matchers}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.never
 import org.mockito.Mockito.times
@@ -96,7 +96,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
       val (successPayment, emailService) = build
       val result = successPayment.present(request)
       whenReady(result) { r =>
-        verify(emailService, times(1)).sendEmail(
+        verify(emailService, never).sendEmail(
           any[String],
           any[VehicleAndKeeperDetailsModel],
           any[EligibilityModel],
@@ -107,6 +107,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           Matchers.eq(isKeeper),
           any[String]
         )
+        Mockito.verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -125,7 +126,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
       val (successPayment, emailService) = build
       val result = successPayment.present(request)
       whenReady(result) { r =>
-        verify(emailService, times(1)).sendEmail(
+        verify(emailService, never).sendEmail(
           any[String],
           any[VehicleAndKeeperDetailsModel],
           any[EligibilityModel],
@@ -136,6 +137,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           Matchers.eq(isKeeper),
           any[String]
         )
+        Mockito.verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -165,6 +167,7 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           Matchers.eq(isKeeper),
           any[String]
         )
+        Mockito.verifyNoMoreInteractions(emailService)
       }
     }
 
