@@ -1,33 +1,28 @@
 package controllers
 
-import java.io.ByteArrayInputStream
-
 import com.google.inject.Inject
-import email.ReceiptEmailMessageBuilder.BusinessDetails
-import email.{ReceiptEmailMessageBuilder, RetainEmailService}
-import models._
+import email.RetainEmailService
+import java.io.ByteArrayInputStream
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.ConfirmFormModel
+import models.EligibilityModel
+import models.PaymentModel
+import models.RetainModel
+import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
-import play.api.Logger
 import play.api.libs.iteratee.Enumerator
-import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.SEND
 import utils.helpers.Config
-import views.vrm_retention.Confirm.SupplyEmail_true
-import views.vrm_retention.Payment._
-import views.vrm_retention.VehicleLookup.UserType_Keeper
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.emailservice.EmailService
 import webserviceclients.paymentsolve.PaymentSolveService
-import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 
 final class SuccessPayment @Inject()(pdfService: PdfService,
                                      emailService: RetainEmailService,
@@ -50,10 +45,6 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
           filter(_ => vehicleAndKeeperLookupForm.userType == UserType_Business)
         val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
-
-        val successViewModel =
-          SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
-            keeperEmailOpt, retainModel, transactionId)
         val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
         val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
@@ -100,7 +91,10 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       (request.cookies.getModel[EligibilityModel], request.cookies.getString(TransactionIdCacheKey),
         request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
         case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
-          val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
+          val keeperName = Seq(vehicleAndKeeperDetails.title,
+            vehicleAndKeeperDetails.firstName,
+            vehicleAndKeeperDetails.lastName
+          ).flatten.mkString(" ")
 
           pdfService.create(eligibilityModel, transactionId, keeperName,
             vehicleAndKeeperDetails.address).map {
@@ -142,9 +136,16 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       retainModel = RetainModel(certificateNumber = "stub-certificateNumber", transactionTimestamp = "stub-transactionTimestamp"),
       transactionId = "stub-transactionId",
       confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),
-      businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name", contact = "stub-business-contact", email = "stub-business-email", address = AddressModel(address = Seq("stub-business-line1", "stub-business-line2", "stub-business-line3", "stub-business-line4", "stub-business-postcode")))),
+      businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name",
+        contact = "stub-business-contact",
+        email = "stub-business-email",
+        address = AddressModel(address = Seq("stub-business-line1",
+          "stub-business-line2",
+          "stub-business-line3",
+          "stub-business-line4",
+          "stub-business-postcode"))
+      )),
       isKeeper = true
     ))
   }
-
 }

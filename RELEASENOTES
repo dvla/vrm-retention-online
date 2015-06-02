@@ -1,3 +1,19 @@
+======= 1.15 ======
+Time of release binaries creation:
+Wed May 27 2015 15:12:32 GMT+0000 (GMT)
+
+9d8b03b DE528 payment receipt emails for keeper only txns should not contain business details
+25645dc US3140: Set default timezone to Europe/London.
+24608f3 US3157 - [PR] Send Payment Receipt email after successful payment
+5dff862 DE501: add error messages for email
+da9712a DE500: feedback opens in new page
+ed09717 DE499: remove contact center from email
+11fa1de US3113: add timeout page
+3d06436 DE503: Remove default timezone setting.
+2368c97 DE508: remove make and model from the failure playback pages
+bdaf579 US3124 - [Assign, Retain] Display error message for 90 day rule failure
+ba39eae DE479: fixed navigation from success page back to vehicle-and-keeper-lookup
+
 ======= 1.14 ======
 Time of release binaries creation:
 Wed May 13 2015 14:48:24 GMT+0000 (GMT)

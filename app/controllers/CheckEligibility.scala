@@ -8,7 +8,10 @@ import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -27,14 +30,8 @@ import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityService
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
-
-final class CheckEligibility @Inject()(
-                                        eligibilityService: VRMRetentionEligibilityService,
-                                        auditService2: audit2.AuditService
-                                        )
+final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
+                                       auditService2: audit2.AuditService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
                                        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {

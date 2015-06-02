@@ -4,12 +4,12 @@ import com.google.inject.Inject
 import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
-import play.api.mvc._
+import play.api.mvc.{Action, AnyContent, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,

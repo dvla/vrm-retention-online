@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.i18n.Messages
-import play.api.mvc._
+import play.api.mvc.{Action, AnyContent, Call, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackBase
@@ -17,9 +17,10 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import utils.helpers.Config
 import webserviceclients.emailservice.EmailService
 
-class FeedbackController @Inject()(val emailService: EmailService)(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                                                   config: Config,
-                                                                   dateService: DateService) extends Controller with FeedbackBase {
+class FeedbackController @Inject()(val emailService: EmailService)
+                                  (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                                   config: Config,
+                                   dateService: DateService) extends Controller with FeedbackBase {
 
   override val emailConfiguration = config.emailConfiguration
 

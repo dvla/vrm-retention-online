@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import play.api.mvc._
+import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.filters.DateTimeZoneService
 import utils.helpers.Config
 

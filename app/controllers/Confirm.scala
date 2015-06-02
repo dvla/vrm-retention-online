@@ -1,18 +1,25 @@
 package controllers
 
 import com.google.inject.Inject
-import models._
-import play.api.Logger
+import models.BusinessChooseYourAddressFormModel
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.ConfirmFormModel
+import models.ConfirmViewModel
+import models.EligibilityModel
+import models.EnterAddressManuallyModel
+import models.RetainModel
+import models.VehicleAndKeeperLookupFormModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, AnyContent, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId
@@ -42,10 +49,20 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
         request.cookies.getModel[BusinessChooseYourAddressFormModel],
         request.cookies.getModel[EnterAddressManuallyModel],
         request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(eligibilityModel), None, businessChooseYourAddress, enterAddressManually, Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
+        case (Some(vehicleAndKeeperDetails),
+              Some(vehicleAndKeeperLookupForm),
+              Some(eligibilityModel),
+              None,
+              businessChooseYourAddress,
+              enterAddressManually,
+              Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business
+                                          && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
           // Happy path for a business user that has all the cookies (and they either have entered address manually)
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
-        case (Some(vehicleAndKeeperDetails), Some(vehicleAndKeeperLookupForm), Some(eligibilityModel), None, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
+        case (Some(vehicleAndKeeperDetails),
+              Some(vehicleAndKeeperLookupForm),
+              Some(eligibilityModel),
+              None, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
           // Happy path for keeper keeper
           present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
         case _ =>
@@ -53,7 +70,9 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       }
   }
 
-  private def present(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel, vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel)(implicit request: Request[AnyContent]): Result = {
+  private def present(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
+                      vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel)
+                     (implicit request: Request[AnyContent]): Result = {
     val viewModel = ConfirmViewModel(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm.userType)
     val emptyForm = form // Always fill the form with empty values to force user to enter new details. Also helps
     // with the situation where payment fails and they come back to this page via either back button or coming
@@ -63,7 +82,11 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
     val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
     // always be hidden on first load
     val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
-    Ok(views.html.vrm_retention.confirm(confirmViewModel = viewModel, confirmForm = emptyForm, isKeeperEmailDisplayedOnLoad = isKeeperEmailDisplayedOnLoad, isKeeper = isKeeper))
+    Ok(views.html.vrm_retention.confirm(confirmViewModel = viewModel,
+      confirmForm = emptyForm,
+      isKeeperEmailDisplayedOnLoad = isKeeperEmailDisplayedOnLoad,
+      isKeeper = isKeeper)
+    )
   }
 
   def submit = Action { implicit request =>
@@ -101,7 +124,8 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.ConfirmToPayment,
         timestamp = dateService.dateTimeISOChronology,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        transactionId = request.cookies.getString(TransactionIdCacheKey)
+          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = model.keeperEmail,
@@ -134,7 +158,8 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = request.cookies.getString(TransactionIdCacheKey)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
