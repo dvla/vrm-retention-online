@@ -20,17 +20,15 @@ final class PdfServiceSpec extends UnitSpec {
     "return a non-empty output stream" in new WithApplication {
       val eligibilityModel = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
 
-      val result = pdfService.create(
+      val pdf = pdfService.create(
         eligibilityModel = eligibilityModel,
         transactionId = TransactionIdValid,
         name = "stub name",
         address = None
       )
 
-      whenReady(result, longTimeout) { r =>
-        r should not equal null
-        r.length > 0 should equal(true)
-      }
+      pdf should not equal null
+      pdf.length > 0 should equal(true)
     }
   }
 

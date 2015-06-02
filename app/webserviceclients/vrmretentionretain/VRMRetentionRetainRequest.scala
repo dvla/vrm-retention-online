@@ -8,8 +8,11 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{
 import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
-case class VRMRetentionRetainRequest(webHeader: VssWebHeaderDto, currentVRM: String, transactionTimestamp: DateTime,
-                                     paymentSolveUpdateRequest: PaymentSolveUpdateRequest)
+case class VRMRetentionRetainRequest(webHeader: VssWebHeaderDto,
+                                     currentVRM: String,
+                                     transactionTimestamp: DateTime,
+                                     paymentSolveUpdateRequest: PaymentSolveUpdateRequest,
+                                     successEmailRequests: Seq[EmailServiceSendRequest])
 
 object VRMRetentionRetainRequest {
 
