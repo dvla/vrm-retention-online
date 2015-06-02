@@ -56,6 +56,13 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
                         (implicit request: Request[_]): Result =
+    auditService2.send(AuditRequest.from(
+      pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
+      transactionId = txnId,
+      timestamp = dateService.dateTimeISOChronology,
+      vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
+      rejectionCode = Some(ErrorCodes.VrmLockedErrorCode + " - vrm_locked")))
+
     addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
 
   override def microServiceError(t: Throwable, formModel: VehicleAndKeeperLookupFormModel)
