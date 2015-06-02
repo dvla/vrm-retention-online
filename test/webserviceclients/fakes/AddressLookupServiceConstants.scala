@@ -17,7 +17,10 @@ object AddressLookupServiceConstants {
   final val PostcodeValid = "QQ99QQ"
   final val BusinessAddressLine1Valid = "business line1 stub"
   final val BusinessAddressLine2Valid = "business line2 stub"
+  final val BusinessAddressLine3Valid: String = ""
   final val BusinessAddressPostTownValid = "business postTown stub"
+  final val SearchPostcodeValid: String = "AA11AA"
+  final val AddressListSelectValid: String = "1"
 
   def addressWithUprn = AddressModel(
     uprn = Some(traderUprnValid),

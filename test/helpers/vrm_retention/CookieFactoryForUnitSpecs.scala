@@ -8,9 +8,7 @@ import play.api.mvc.Cookie
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{Address, SearchFields, AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
@@ -43,10 +41,23 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                            businessEmail: String = TraderBusinessEmailValid,
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
+
+    val searchFields = SearchFields(showSearchFields = true,
+      showAddressSelect = true,
+      showAddressFields = true,
+      postCode = None,
+      listOption = None,
+      remember = false)
+
     val value = SetupBusinessDetailsFormModel(name = businessName,
       contact = businessContact,
       email = businessEmail,
-      postcode = businessPostcode)
+      address = new Address(searchFields = searchFields,
+        streetAddress1 = "",
+        streetAddress2 = None,
+        streetAddress3 = None,
+        postTown = "",
+        postCode = businessPostcode))
     createCookie(key, value)
   }
 
