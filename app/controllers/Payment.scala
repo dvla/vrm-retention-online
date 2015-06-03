@@ -89,7 +89,17 @@ final class Payment @Inject()(
   def cancel = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
       case (Some(transactionId), Some(paymentDetails)) =>
-        callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get, paymentDetails.isPrimaryUrl)
+
+        auditService2.send(AuditRequest.from(
+          pageMovement = AuditRequest.PaymentToExit,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+
+        redirectToLeaveFeedback
       case _ => Future.successful {
         paymentFailure("Payment cancel missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
       }
@@ -204,41 +214,6 @@ final class Payment @Inject()(
     }.recover {
       case NonFatal(e) =>
         paymentFailure(message = "Payment Solve web service call with paymentSolveGetRequest failed: " + e.toString)
-    }
-  }
-
-  private def callCancelWebPaymentService(transactionId: String, trxRef: String, isPrimaryUrl: Boolean)
-                                         (implicit request: Request[_]): Future[Result] = {
-
-    val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
-
-    val paymentSolveCancelRequest = PaymentSolveCancelRequest(
-      transNo = transNo,
-      trxRef = trxRef,
-      isPrimaryUrl = isPrimaryUrl
-    )
-    val trackingId = request.cookies.trackingId()
-
-    paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map { response =>
-      if (response.response == Payment.CancelledStatus) {
-        Logger.error("The get web request to Solve was not validated.")
-      }
-
-      auditService2.send(AuditRequest.from(
-        pageMovement = AuditRequest.PaymentToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey)
-          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
-
-      redirectToLeaveFeedback
-    }.recover {
-      case NonFatal(e) =>
-        Logger.error(s"Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString)
-        redirectToLeaveFeedback
     }
   }
 
