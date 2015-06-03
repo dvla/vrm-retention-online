@@ -162,7 +162,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
           // TODO move the logic for generating email to the microservice
-          Seq(businessDetailsOpt.flatMap { businessDetails =>
+          val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
             emailService.emailRequest(
               businessDetails.email,
               vehicleAndKeeperDetails,
@@ -189,7 +189,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
               isKeeper = true,
               trackingId = trackingId
             )
-          }).flatten
+          })
+          emails.flatten
         case _ => Seq.empty
       }
     }
