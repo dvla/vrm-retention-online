@@ -402,9 +402,17 @@ unhandled_exception.p2 = Please make sure you have the most recent V5C and try a
 unhandled_exception.p3 = For each vehicle registration number, there will be limited attempts to retrieve the vehicle details.
 vehicle-lookup-failure-eligibility-failure-title = This registration number cannot be retained
 vehicle-lookup-failure-eligibility-failure-p1 = Our records show this registration number cannot be taken off this vehicle.
-#vrm_retention_eligibility_unknown_error_code.p1 = Unfortunately, our records won’t let you retain this registration number.
-#vrm_retention_eligibility_unknown_error_code.p2 = For further information you can telephone a member of our contact centre using the details opposite.
-#vrm_retention_eligibility_unknown_error_code.p3 = Some information may be sensitive and we wont be able to discuss this on the phone. We will however continue to try and sort out the issue preventing you from retaining your registration number.
+vrm_retention_eligibility_exported_failure = Our records show this vehicle has been exported.   To take a registration number off a vehicle, the vehicle needs to be registered and used in the UK
+vrm_retention_eligibility_scrapped_failure = Our records show this vehicle has been scrapped.  To take a registration number off a vehicle, the vehicle must be available for inspection.
+vrm_retention_eligibility_damaged_failure = Our records show this vehicle has been seriously damaged, your application needs further assessment. Please complete a V317 application and send to the DVLA.
+vrm_retention_eligibility_vic_failure = Our records show this vehicle requires  a vehicle identity check (VIC) further information can be found at
+vrm_retention_eligibility_vic_failure_link = https://www.gov.uk/vehicle-identity-check
+vrm_retention_eligibility_no_keeper_failure = Our records show there is no registered keeper for this vehicle.  Information on how to update a keeper can be found at
+vrm_retention_eligibility_no_keeper_failure_link = https://www.gov.uk/vehicle-registration-certificate-v5c-log-book
+vrm_retention_eligibility_not_mot_failure = Our records show this vehicle is not of a type that requires a MOT or we have been informed that its use does not require an MOT.  You cannot take this registration number of this vehicle.
+vrm_retention_eligibility_pre_1998_failure = As your vehicle was registered before 1998, we are currently unable to automatically issue a replacement number plate.  You will need to send your application to DVLA to process.
+vrm_retention_eligibility_q_plate_failure = You cannot take off a registration number that has been registered with a Q number plate.
+vrm_retention_eligibility_ninety_day_rule_failure = 90 day error message
 
 # Payment page
 vrm_retention_payment.title = Payment

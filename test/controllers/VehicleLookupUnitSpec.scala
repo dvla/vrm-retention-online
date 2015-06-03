@@ -4,16 +4,25 @@ import _root_.webserviceclients.audit2.AuditService
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValidForMicroService
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNotFoundResponseCode
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsServerDown
+import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants
+import VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
+import VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
+import VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValidForMicroService
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNotFoundResponseCode
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsServerDown
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDamagedFailure
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNoKeeperFailure
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseExportedFailure
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNotMotFailure
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseScrappedFailure
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVICFailure
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponsePre1998Failure
+import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseQFailure
 import composition.{TestConfig, WithApplication}
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebService
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
@@ -146,6 +155,78 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to VehicleAndKeeperLookupFailure after a submit and document reference number mismatch returned by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponseExportedFailure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseExportedFailure).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponseScrappedFailure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseScrappedFailure).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponseDamagedFailure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDamagedFailure).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponseVICFailure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseVICFailure).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponseNoKeeperFailure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNoKeeperFailure).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponseNotMotFailure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNotMotFailure).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponsePre1998Failure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponsePre1998Failure).submit(request)
+
+      whenReady(result, timeout) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
+      }
+    }
+
+    "redirect to VehicleAndKeeperLookupFailure after a submit and vehicleAndKeeperDetailsResponseQFailure returned by the fake microservice" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest()
+      val result = vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseQFailure).submit(request)
 
       whenReady(result, timeout) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))

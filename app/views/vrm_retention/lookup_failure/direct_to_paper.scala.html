@@ -1,5 +1,7 @@
 @(transactionId: String,
-    viewModel: models.VehicleLookupFailureViewModel)(implicit lang: Lang,
+    viewModel: models.VehicleLookupFailureViewModel,
+    responseMessage: Option[String] = None,
+    responseLink: Option[String] = None)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -18,6 +20,17 @@
             <h2>@Messages("vehicle-lookup-failure-direct-to-paper-title")</h2>
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
             <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p1")</p>
+
+            @if(responseMessage.isDefined) {
+                @if(responseLink.isDefined) {
+                    <p>@Messages(responseMessage.get)
+                        <a href="@{Messages("vrm_retention_eligibility_no_keeper_failure_link")}">
+                        @{Messages("vrm_retention_eligibility_no_keeper_failure_link")}</a></p>
+                } else {
+                    <p>@Messages(responseMessage.get)</p>
+                }
+            }
+
             <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p1a") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"vehicle-lookup-failure-direct-to-paper-p1b")</p>
             <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-address-line1")<br/>
             @Messages(s"vehicle-lookup-failure-direct-to-paper-address-line2")<br/>

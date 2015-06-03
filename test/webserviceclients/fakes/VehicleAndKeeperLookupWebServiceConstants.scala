@@ -48,6 +48,14 @@ object VehicleAndKeeperLookupWebServiceConstants {
   def KeeperPostCodeValid = Some("SA11AA")
 
   final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(code = "vehicle_and_keeper_lookup_document_record_mismatch", message  = "200")
+  final val ExportedFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_exported_failure", message  = "200")
+  final val ScrappedFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_scrapped_failure", message  = "200")
+  final val DamagedFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_damaged_failure", message  = "200")
+  final val VICFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_vic_failure", message  = "200")
+  final val NoKeeperFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_no_keeper_failure", message  = "200")
+  final val NotMotFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_not_mot_failure", message  = "200")
+  final val Pre1998Failure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_pre_1998_failure", message  = "200")
+  final val QFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_q_plate_failure", message  = "200")
 
   private def vehicleAndKeeperDetails = VehicleAndKeeperLookupDetailsDto(registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,
@@ -76,10 +84,39 @@ object VehicleAndKeeperLookupWebServiceConstants {
   }
 
   def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperLookupResponse]) = {
-    (OK, Some(VehicleAndKeeperLookupResponse(
-      responseCode = Some(RecordMismatch),
-      vehicleAndKeeperDetailsDto = None
-    )))
+    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = Some(RecordMismatch), vehicleAndKeeperDetailsDto = None)))
+  }
+
+  def vehicleAndKeeperDetailsResponseExportedFailure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(ExportedFailure), None)))
+  }
+
+  def vehicleAndKeeperDetailsResponseScrappedFailure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(ScrappedFailure), None)))
+  }
+
+  def vehicleAndKeeperDetailsResponseDamagedFailure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(DamagedFailure), None)))
+  }
+
+  def vehicleAndKeeperDetailsResponseVICFailure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(VICFailure), None)))
+  }
+
+  def vehicleAndKeeperDetailsResponseNoKeeperFailure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(NoKeeperFailure), None)))
+  }
+
+  def vehicleAndKeeperDetailsResponseNotMotFailure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(NotMotFailure), None)))
+  }
+
+  def vehicleAndKeeperDetailsResponsePre1998Failure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(Pre1998Failure), None)))
+  }
+
+  def vehicleAndKeeperDetailsResponseQFailure: (Int, Option[VehicleAndKeeperLookupResponse]) = {
+    (OK, Some(VehicleAndKeeperLookupResponse(Some(QFailure), None)))
   }
 
   def vehicleAndKeeperDetailsResponseNotFoundResponseCode: (Int, Option[VehicleAndKeeperLookupResponse]) = {
