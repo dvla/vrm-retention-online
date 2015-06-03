@@ -3,7 +3,6 @@ package controllers
 import composition.{TestReceiptEmailService, TestEmailService, WithApplication}
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessChooseYourAddress
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
@@ -43,7 +42,6 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
           businessDetailsModel(),
@@ -63,7 +61,6 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
           confirmFormModel(),
@@ -84,7 +81,6 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
         withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           businessDetailsModel(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),

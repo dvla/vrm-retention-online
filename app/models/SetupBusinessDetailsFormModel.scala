@@ -13,7 +13,16 @@ import views.vrm_retention.SetupBusinessDetails.BusinessEmailId
 import views.vrm_retention.SetupBusinessDetails.BusinessNameId
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 
-final case class SetupBusinessDetailsFormModel(name: String, contact: String, email: String, address: Address)
+final case class SetupBusinessDetailsFormModel(name: String, contact: String, email: String, address: Address) {
+
+  def toViewFormat: Seq[String] = Seq(
+    Some(address.postCode.toUpperCase),
+    Some(address.streetAddress1.toUpperCase),
+    address.streetAddress2.map(_.toUpperCase),
+    address.streetAddress3.map(_.toUpperCase),
+    Some(address.postTown.toUpperCase)
+  ).flatten
+}
 
 object SetupBusinessDetailsFormModel {
 

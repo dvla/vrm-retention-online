@@ -1,13 +1,11 @@
 package controllers
 
 import com.google.inject.Inject
-import models.BusinessChooseYourAddressFormModel
 import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.ConfirmBusinessFormModel
 import models.ConfirmBusinessViewModel
 import models.EligibilityModel
-import models.EnterAddressManuallyModel
 import models.RetainModel
 import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
@@ -47,7 +45,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
           Ok(views.html.vrm_retention.confirm_business(viewModel))
         }
-      val sadPath = Redirect(routes.BusinessChooseYourAddress.present())
+      val sadPath = Redirect(routes.SetUpBusinessDetails.present())
 
       // explicit check to find out if we are coming from the back browser button after we completed the transaction
       // completing the transaction will create the RetainModel, and in that case we don't want to land here but go
@@ -76,16 +74,12 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
           request.cookies.getModel[VehicleAndKeeperDetailsModel],
           request.cookies.getModel[EligibilityModel],
           request.cookies.getModel[BusinessDetailsModel],
-          request.cookies.getModel[EnterAddressManuallyModel],
-          request.cookies.getModel[BusinessChooseYourAddressFormModel],
           request.cookies.getModel[SetupBusinessDetailsFormModel]
           ) match {
           case (transactionId,
             vehicleAndKeeperDetailsModel,
             eligibilityModel,
             businessDetailsModel,
-            enterAddressManuallyModel,
-            businessChooseYourAddressFormModel,
             setupBusinessDetailsFormModel) =>
 
             auditService2.send(AuditRequest.from(
@@ -96,8 +90,6 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
               replacementVrm = Some(eligibilityModel.get.replacementVRM),
               businessDetailsModel = businessDetailsModel))
             Redirect(routes.Confirm.present())
-              .withCookie(enterAddressManuallyModel)
-              .withCookie(businessChooseYourAddressFormModel)
               .withCookie(businessDetailsModel)
               .withCookie(setupBusinessDetailsFormModel)
         }

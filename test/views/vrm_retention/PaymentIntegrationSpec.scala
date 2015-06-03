@@ -13,15 +13,13 @@ import pages.vrm_retention._
 import views.vrm_retention.RelatedCacheKeys.BusinessDetailsSet
 import views.vrm_retention.RelatedCacheKeys.RetainSet
 
-final class PaymentIntegrationSpec extends UiSpec with TestHarness {
+class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to PaymentPage
-
       currentUrl should equal(PaymentPage.url)
     }
 
@@ -36,9 +34,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "redirect to VehicleLookupPage page when retain cookie is present (the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().retainModel()
-
       go to PaymentPage
-
       currentUrl should equal(VehicleLookupPage.url)
     }
   }
@@ -51,9 +47,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
-
       click on PaymentPage.cancel
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
@@ -73,7 +67,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "remove RetainSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup().
-        businessChooseYourAddress().
         setupBusinessDetails().
         storeBusinessDetailsConsent(consent = "false")
       go to PaymentPage
@@ -93,9 +86,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "remove RetainSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup().
-        businessChooseYourAddress().
         setupBusinessDetails().
-        enterAddressManually().
         storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
 

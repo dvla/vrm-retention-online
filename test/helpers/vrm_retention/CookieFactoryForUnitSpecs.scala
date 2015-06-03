@@ -11,19 +11,16 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.model.{Address, SearchFields, AddressModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
-import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import views.vrm_retention.Confirm._
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Payment._
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants._
 import webserviceclients.fakes.PaymentSolveWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
@@ -112,33 +109,6 @@ object CookieFactoryForUnitSpecs extends TestComposition {
       registrationNumber = registrationNumber,
       postcode = postcode,
       userType = keeperConsent
-    )
-    createCookie(key, value)
-  }
-
-  def businessChooseYourAddressUseUprn(uprnSelected: String = traderUprnValid.toString): Cookie = {
-    val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
-    createCookie(key, value)
-  }
-
-  def businessChooseYourAddress(uprnSelected: String = "0"): Cookie = {
-    val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprnSelected)
-    createCookie(key, value)
-  }
-
-  def enterAddressManually(): Cookie = {
-    val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(
-      addressAndPostcodeViewModel = AddressAndPostcodeViewModel(
-        addressLinesModel = AddressLinesViewModel(
-          buildingNameOrNumber = BuildingNameOrNumberValid,
-          line2 = Some(Line2Valid),
-          line3 = Some(Line3Valid),
-          postTown = PostTownValid
-        )
-      )
     )
     createCookie(key, value)
   }

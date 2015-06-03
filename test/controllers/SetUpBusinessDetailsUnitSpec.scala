@@ -9,7 +9,7 @@ import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import models.SetupBusinessDetailsFormModel
-import pages.vrm_retention.{ConfirmBusinessPage, BusinessChooseYourAddressPage, VehicleLookupPage}
+import pages.vrm_retention.{ConfirmBusinessPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.contentAsString

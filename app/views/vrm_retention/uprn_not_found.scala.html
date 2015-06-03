@@ -4,7 +4,6 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_retention.main
-@import views.vrm_retention.UprnNotFound.ManualAddressId
 @import views.vrm_retention.UprnNotFound.SetupBusinessDetailsId
 
 @main(
@@ -15,8 +14,8 @@
 
     <div class="form-steps">
         @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@ManualAddressId" href="@controllers.routes.EnterAddressManually.present()" role="button">@Messages("vrm_retention_uprnnotfound.setuptradedetailsbutton")</a>
-        <br /><br />
-        <a id="@SetupBusinessDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">@Messages("vrm_retention_uprnnotfound.manualaddressbutton")</a>
+        <a id="@SetupBusinessDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()">
+            @Messages("vrm_retention_uprnnotfound.manualaddressbutton")
+        </a>
     </div>
 }

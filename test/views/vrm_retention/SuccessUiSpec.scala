@@ -5,16 +5,15 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage
 import pages.vrm_retention.SuccessPage
 import pages.vrm_retention.SuccessPage.finish
 
-final class SuccessUiSpec extends UiSpec with TestHarness {
+class SuccessUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
@@ -25,7 +24,6 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
   }
 
   "finish" should {
-
     "redirect to feedback page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
@@ -47,7 +45,6 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
   }
 
   "print button" should {
-
     "have the label 'Print this page'" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
@@ -58,6 +55,7 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
+  // TODO: ian resurrect this test
   //  "back button" should {
   //
   //    "redirect to the SuccessPayment page" taggedAs UiTag in new WebBrowserForSelenium {
@@ -72,17 +70,15 @@ final class SuccessUiSpec extends UiSpec with TestHarness {
   //  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
-      setupBusinessDetails().
-      businessChooseYourAddress().
-      vehicleAndKeeperDetailsModel().
-      enterAddressManually().
-      businessDetails().
-      eligibilityModel().
-      confirmFormModel().
-      retainModel().
-      transactionId().
-      paymentTransNo().
-      paymentModel()
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .setupBusinessDetails()
+      .vehicleAndKeeperDetailsModel()
+      .businessDetails()
+      .eligibilityModel()
+      .confirmFormModel()
+      .retainModel()
+      .transactionId()
+      .paymentTransNo()
+      .paymentModel()
 }

@@ -7,7 +7,7 @@ import helpers.UnitSpec
 import helpers.common.CookieHelper._
 import helpers.vrm_retention.CookieFactoryForUnitSpecs._
 import org.mockito.Mockito._
-import pages.vrm_retention.{SetupBusinessDetailsPage, BusinessChooseYourAddressPage, EnterAddressManuallyPage, LeaveFeedbackPage}
+import pages.vrm_retention.{SetupBusinessDetailsPage, LeaveFeedbackPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
@@ -15,10 +15,8 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.ConfirmBusiness._
-import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup._
 import webserviceclients.audit2.AuditRequest
@@ -35,11 +33,11 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to VehicleLookup when required cookies do not exist" in new WithApplication {
+    "redirect to setupBusinessDetailsPage when required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val result = confirmBusiness.present(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(SetupBusinessDetailsPage.address))
       }
     }
 

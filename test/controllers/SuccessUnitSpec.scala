@@ -19,7 +19,6 @@ final class SuccessUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
           businessDetailsModel(),
@@ -35,7 +34,6 @@ final class SuccessUnitSpec extends UnitSpec {
       val request = FakeRequest().
         withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
-          businessChooseYourAddress(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
           confirmFormModel(),

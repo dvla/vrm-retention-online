@@ -11,19 +11,16 @@ import uk.gov.dvla.vehicles.presentation.common.model.{Address, SearchFields, Ad
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
 import views.vrm_retention
-import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Payment._
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.AddressLookupWebServiceConstants.traderUprnValid
 import webserviceclients.fakes.BruteForcePreventionWebServiceConstants.MaxAttempts
 import webserviceclients.fakes.PaymentSolveWebServiceConstants._
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
@@ -63,24 +60,6 @@ object CookieFactoryForUISpecs {
         postTown = "",
         postCode = businessPostcode)
     )
-    addCookie(key, value)
-    this
-  }
-
-  def businessChooseYourAddress(uprn: Long = traderUprnValid)(implicit webDriver: WebDriver) = {
-    val key = BusinessChooseYourAddressCacheKey
-    val value = BusinessChooseYourAddressFormModel(uprnSelected = uprn.toString)
-    addCookie(key, value)
-    this
-  }
-
-  def enterAddressManually()(implicit webDriver: WebDriver) = {
-    val key = EnterAddressManuallyCacheKey
-    val value = EnterAddressManuallyModel(addressAndPostcodeViewModel = AddressAndPostcodeViewModel(
-      addressLinesModel = AddressLinesViewModel(buildingNameOrNumber = BuildingNameOrNumberValid,
-        line2 = Some(Line2Valid),
-        line3 = Some(Line3Valid),
-        postTown = PostTownValid)))
     addCookie(key, value)
     this
   }

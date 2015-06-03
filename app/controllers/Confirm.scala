@@ -1,13 +1,11 @@
 package controllers
 
 import com.google.inject.Inject
-import models.BusinessChooseYourAddressFormModel
 import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.ConfirmFormModel
 import models.ConfirmViewModel
 import models.EligibilityModel
-import models.EnterAddressManuallyModel
 import models.RetainModel
 import models.VehicleAndKeeperLookupFormModel
 import play.api.data.Form
@@ -34,41 +32,11 @@ import webserviceclients.audit2.AuditRequest
 
 final class Confirm @Inject()(auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                              config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-  extends Controller {
+                               config: Config,
+                               dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                             ) extends Controller {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
-
-  def presentOld: Action[AnyContent] = Action {
-    implicit request =>
-      (request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-        request.cookies.getModel[EligibilityModel],
-        request.cookies.getModel[RetainModel],
-        request.cookies.getModel[BusinessChooseYourAddressFormModel],
-        request.cookies.getModel[EnterAddressManuallyModel],
-        request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
-        case (Some(vehicleAndKeeperDetails),
-              Some(vehicleAndKeeperLookupForm),
-              Some(eligibilityModel),
-              None,
-              businessChooseYourAddress,
-              enterAddressManually,
-              Some(storeBusinessDetails)) if vehicleAndKeeperLookupForm.userType == UserType_Business
-                                          && (businessChooseYourAddress.isDefined || enterAddressManually.isDefined) =>
-          // Happy path for a business user that has all the cookies (and they either have entered address manually)
-          present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
-        case (Some(vehicleAndKeeperDetails),
-              Some(vehicleAndKeeperLookupForm),
-              Some(eligibilityModel),
-              None, _, _, _) if vehicleAndKeeperLookupForm.userType == UserType_Keeper =>
-          // Happy path for keeper keeper
-          present(vehicleAndKeeperDetails, vehicleAndKeeperLookupForm)
-        case _ =>
-          Redirect(routes.ConfirmBusiness.present())
-      }
-  }
 
   def present: Action[AnyContent] = Action {
     implicit request =>
