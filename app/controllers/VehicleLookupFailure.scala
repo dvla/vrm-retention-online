@@ -79,6 +79,56 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
             transactionId = transactionId,
             viewModel = viewModel
           )
+      case "vrm_retention_eligibility_exported_failure" =>
+        eligibility_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_exported_failure")
+        )
+      case "vrm_retention_eligibility_scrapped_failure" =>
+        eligibility_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_scrapped_failure")
+        )
+      case "vrm_retention_eligibility_damaged_failure" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_damaged_failure")
+        )
+      case "vrm_retention_eligibility_vic_failure" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_vic_failure"),
+          responseLink = Some("vrm_retention_eligibility_vic_failure_link")
+        )
+      case "vrm_retention_eligibility_no_keeper_failure" =>
+        eligibility_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_no_keeper_failure"),
+          responseLink = Some("vrm_retention_eligibility_no_keeper_failure_link")
+        )
+      case "vrm_retention_eligibility_not_mot_failure" =>
+        eligibility_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_not_mot_failure")
+        )
+      case "vrm_retention_eligibility_pre_1998_failure" =>
+        direct_to_paper(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_pre_1998_failure")
+        )
+      case "vrm_retention_eligibility_q_plate_failure" =>
+        eligibility_failure(
+          transactionId = transactionId,
+          viewModel = viewModel,
+          responseMessage = Some("vrm_retention_eligibility_q_plate_failure")
+        )
       case _ =>
         vehicle_lookup_failure(
           transactionId = transactionId,
