@@ -35,10 +35,19 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
 
   private val config = new TestConfig().build
 
-  private def request = VRMRetentionRetainRequest(buildWebHeader("1234567890"),
-    currentVRM = ReplacementRegistrationNumberValid, transactionTimestamp = dateTime,
-    PaymentSolveUpdateRequest("", "", "", false,
-      List(EmailServiceSendRequest("", "", None, From("", ""), "", None, None))))
+  private def request = VRMRetentionRetainRequest(
+    buildWebHeader("1234567890"),
+    currentVRM = ReplacementRegistrationNumberValid,
+    transactionTimestamp = dateTime,
+    PaymentSolveUpdateRequest(
+      "",
+      "",
+      "",
+      false,
+      List(EmailServiceSendRequest("", "", None, From("", ""), "", None, None))
+    ),
+    Seq.empty
+  )
 
   private def toJson = Json.toJson(request)
 

@@ -1,51 +1,54 @@
 package controllers
 
-import java.util.concurrent.TimeoutException
-
 import com.google.inject.Inject
-import email.ReceiptEmailMessageBuilder
-import models._
+import email.{RetainEmailService, ReceiptEmailMessageBuilder}
+import java.util.concurrent.TimeoutException
+import models.CacheKeyPrefix
+import models.ConfirmFormModel
+import models.BusinessDetailsModel
+import models.EligibilityModel
+import models.PaymentModel
+import models.RetainModel
+import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
 import play.api.mvc.Result
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.SEND
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{From, Attachment}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
-import views.vrm_retention.Payment._
-import views.vrm_retention.Retain._
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.Payment.PaymentTransNoCacheKey
+import views.vrm_retention.Retain.RetainResponseCodeCacheKey
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.emailservice.{EmailServiceSendRequest, EmailService}
+import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
 import webserviceclients.vrmretentionretain.VRMRetentionRetainService
 import controllers.Payment.AuthorisedStatus
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
-
-final class Retain @Inject()(
-                              vrmRetentionRetainService: VRMRetentionRetainService,
-                              auditService2: audit2.AuditService
-                              )
+final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainService,
+                             auditService2: audit2.AuditService,
+                             emailService: RetainEmailService)
                             (implicit clientSideSessionFactory: ClientSideSessionFactory,
                              config: Config,
-                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                             dateService: DateService) extends Controller {
 
   private val SETTLE_AUTH_CODE = "Settle"
 
@@ -55,9 +58,13 @@ final class Retain @Inject()(
       request.cookies.getString(PaymentTransNoCacheKey),
       request.cookies.getModel[PaymentModel],
       request.cookies.getModel[EligibilityModel]) match {
-      case (Some(vehiclesLookupForm), Some(transactionId), Some(paymentTransNo), Some(paymentModel), Some(eligibility)) if paymentModel.paymentStatus == Some(AuthorisedStatus) =>
+      case (Some(vehiclesLookupForm),
+            Some(transactionId),
+            Some(paymentTransNo),
+            Some(paymentModel),
+            Some(eligibility)) if paymentModel.paymentStatus == Some(AuthorisedStatus) =>
         retainVrm(vehiclesLookupForm, transactionId, paymentTransNo, paymentModel, eligibility)
-      case (_, Some(transactionId), _, _, _) => {
+      case (_, Some(transactionId), _, _, _) =>
         auditService2.send(AuditRequest.from(
           pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = transactionId,
@@ -66,7 +73,6 @@ final class Retain @Inject()(
         Future.successful {
           Redirect(routes.MicroServiceError.present())
         }
-      }
       case _ =>
         Future.successful {
           Redirect(routes.Error.present("user went to Retain retainMark without correct cookies"))
@@ -75,21 +81,24 @@ final class Retain @Inject()(
   }
 
   private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                        transactionId: String, paymentTransNo: String, paymentModel: PaymentModel, eligibility: EligibilityModel)
+                        transactionId: String,
+                        paymentTransNo: String,
+                        paymentModel: PaymentModel,
+                        eligibility: EligibilityModel)
                        (implicit request: Request[_]): Future[Result] = {
 
+    // create the transaction timestamp
+    val transactionTimestamp =
+      DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+      ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
+    val transactionTimestampWithZone = s"$isoDateTimeString"
+
     def retainSuccess(certificateNumber: String) = {
-
-      // create the transaction timestamp
-      val transactionTimestamp =
-        DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
-      val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-        ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
-      val transactionTimestampWithZone = s"$isoDateTimeString"
-
-      var paymentModel = request.cookies.getModel[PaymentModel].get
+      val paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.SettledStatus)
-      val transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
+      val transactionId = request.cookies.getString(TransactionIdCacheKey)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.PaymentToSuccess,
@@ -114,7 +123,7 @@ final class Retain @Inject()(
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
         s" redirect to VehicleLookupFailure")
 
-      var paymentModel = request.cookies.getModel[PaymentModel].get
+      val paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
       auditService2.send(AuditRequest.from(
@@ -138,16 +147,68 @@ final class Retain @Inject()(
       Redirect(routes.MicroServiceError.present())
     }
 
-
     val trackingId = request.cookies.trackingId()
+
+    def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
+      val certNumSubstitute = "${retention-certificate-number}"
+
+      request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+
+        case Some(vehicleAndKeeperDetails) =>
+          val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
+            filter(_ => vehicleAndKeeperLookupFormModel.userType == UserType_Business)
+          val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
+          val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+          val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+          // TODO move the logic for generating email to the microservice
+          val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
+            emailService.emailRequest(
+              businessDetails.email,
+              vehicleAndKeeperDetails,
+              eligibility,
+              certNumSubstitute,
+              transactionTimestampWithZone,
+              transactionId,
+              confirmFormModel,
+              businessDetailsModel,
+              isKeeper = false, // US1589: Do not send keeper a pdf
+              trackingId = trackingId
+            )
+          },
+          keeperEmailOpt.flatMap { keeperEmail =>
+            emailService.emailRequest(
+              keeperEmail,
+              vehicleAndKeeperDetails,
+              eligibility,
+              certNumSubstitute,
+              transactionTimestampWithZone,
+              transactionId,
+              confirmFormModel,
+              businessDetailsModel,
+              isKeeper = true,
+              trackingId = trackingId
+            )
+          })
+          emails.flatten
+        case _ => Seq.empty
+      }
+    }
+
 
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
       webHeader = buildWebHeader(trackingId),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.today.toDateTimeMillis.get,
-      paymentSolveUpdateRequest =
-        buildPaymentSolveUpdateRequest(paymentTransNo, paymentModel.trxRef.get,
-          SETTLE_AUTH_CODE, paymentModel.isPrimaryUrl, vehicleAndKeeperLookupFormModel, transactionId)
+      paymentSolveUpdateRequest = buildPaymentSolveUpdateRequest(
+        paymentTransNo,
+        paymentModel.trxRef.get,
+        SETTLE_AUTH_CODE,
+        paymentModel.isPrimaryUrl,
+        vehicleAndKeeperLookupFormModel,
+        transactionId
+      ),
+      fulfillConfirmEmail
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
@@ -197,10 +258,9 @@ final class Retain @Inject()(
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
     val businessDetails = vehicleAndKeeperLookupFormModel.userType match {
-      case UserType_Business => {
+      case UserType_Business =>
         businessDetailsModel.map(model =>
           ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
-      }
       case _ => None
     }
 
@@ -239,5 +299,4 @@ final class Retain @Inject()(
       ccReceivers = None
     )
   }
-
 }

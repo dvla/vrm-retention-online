@@ -1,7 +1,12 @@
 package controllers
 
 import com.google.inject.Inject
-import models._
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.EligibilityModel
+import models.EnterAddressManuallyModel
+import models.EnterAddressManuallyViewModel
+import models.SetupBusinessDetailsFormModel
 import play.api.Logger
 import play.api.data.Form
 import play.api.data.FormError
@@ -18,13 +23,11 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import utils.helpers.Config
 import views.html.vrm_retention.enter_address_manually
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-final class EnterAddressManually @Inject()(
-                                            auditService2: audit2.AuditService
-                                            )
+final class EnterAddressManually @Inject()(auditService2: audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                            config: Config,
                                            dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -61,7 +64,8 @@ final class EnterAddressManually @Inject()(
 
             auditService2.send(AuditRequest.from(
               pageMovement = AuditRequest.CaptureActorToConfirmBusiness,
-              transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+              transactionId = request.cookies.getString(TransactionIdCacheKey)
+                .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
               replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
@@ -80,7 +84,8 @@ final class EnterAddressManually @Inject()(
   def exit = Action { implicit request =>
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.CaptureActorToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = request.cookies.getString(TransactionIdCacheKey)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),

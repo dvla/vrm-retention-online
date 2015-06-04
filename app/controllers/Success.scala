@@ -1,13 +1,20 @@
 package controllers
 
-import java.io.ByteArrayInputStream
-
 import com.google.inject.Inject
-import models._
+import java.io.ByteArrayInputStream
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.ConfirmFormModel
+import models.EligibilityModel
+import models.PaymentModel
+import models.RetainModel
+import models.SuccessViewModel
+import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
 import play.api.Logger
 import play.api.libs.iteratee.Enumerator
-import play.api.mvc._
+import play.api.mvc.{Action, Controller}
+import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
@@ -15,11 +22,8 @@ import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
 import webserviceclients.paymentsolve.PaymentSolveService
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
 
 final class Success @Inject()(pdfService: PdfService,
                               paymentSolveService: PaymentSolveService)
@@ -52,32 +56,31 @@ final class Success @Inject()(pdfService: PdfService,
     }
   }
 
-  def createPdf = Action.async { implicit request =>
+  def createPdf = Action { implicit request =>
     (request.cookies.getModel[EligibilityModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
 
         val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
-
-        pdfService.create(eligibilityModel, transactionId, keeperName,
-          vehicleAndKeeperDetails.address).map {
-          pdf =>
-            val inputStream = new ByteArrayInputStream(pdf)
-            val dataContent = Enumerator.fromStream(inputStream)
-            // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
-            // and manually test after making any change.
-            val newVRM = eligibilityModel.replacementVRM.replace(" ", "")
-            val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
-            Ok.feed(dataContent).
-              withHeaders(
-                CONTENT_TYPE -> "application/pdf",
-                CONTENT_DISPOSITION -> contentDisposition
-              )
-        }
-      case _ => Future.successful {
+        val pdf = pdfService.create(
+          eligibilityModel,
+          transactionId,
+          keeperName,
+          vehicleAndKeeperDetails.address
+        )
+        val inputStream = new ByteArrayInputStream(pdf)
+        val dataContent = Enumerator.fromStream(inputStream)
+        // IMPORTANT: be very careful adding/changing any header information. You will need to run ALL tests after
+        // and manually test after making any change.
+        val newVRM = eligibilityModel.replacementVRM.replace(" ", "")
+        val contentDisposition = "attachment;filename=" + newVRM + "-eV948.pdf"
+        Ok.feed(dataContent).withHeaders(
+          CONTENT_TYPE -> "application/pdf",
+          CONTENT_DISPOSITION -> contentDisposition
+        )
+      case _ =>
         BadRequest("You are missing the cookies required to create a pdf")
-      }
     }
   }
 

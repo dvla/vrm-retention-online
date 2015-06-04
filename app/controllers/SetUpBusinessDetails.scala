@@ -8,18 +8,18 @@ import models.SetupBusinessDetailsFormModel
 import models.SetupBusinessDetailsViewModel
 import play.api.data.Form
 import play.api.data.FormError
-import play.api.mvc._
+import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.SetupBusinessDetails._
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessNameId, BusinessPostcodeId}
+import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
@@ -63,7 +63,8 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     implicit request =>
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.CaptureActorToExit,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        transactionId = request.cookies.getString(TransactionIdCacheKey)
+          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)))
