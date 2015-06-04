@@ -233,7 +233,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "back" should {
     "redirect to SetupBusinessDetails page when navigating back" in new WithApplication {
-      val request = buildRequest(storeDetailsConsent = false)
+      val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
@@ -248,8 +248,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "exit" should {
     "redirect to mock feedback page" in new WithApplication {
-      val request = buildRequest(storeDetailsConsent = false).
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
@@ -264,17 +264,11 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
     }
   }
 
-  private def buildRequest(storeDetailsConsent: Boolean = false) = {
-    FakeRequest().withFormUrlEncodedBody(
-      StoreDetailsConsentId -> storeDetailsConsent.toString
-    )
-  }
-
   private def confirmBusiness = testInjector(new TestDateService).getInstance(classOf[ConfirmBusiness])
 
   private def present = {
-    val request = FakeRequest().
-      withCookies(
+    val request = FakeRequest()
+      .withCookies(
         vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
         vehicleAndKeeperDetailsModel(),
         setupBusinessDetails(),

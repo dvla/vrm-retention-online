@@ -6,12 +6,6 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.EnterAddressManuallyPage
-import pages.vrm_retention.EnterAddressManuallyPage.addressBuildingNameOrNumber
-import pages.vrm_retention.EnterAddressManuallyPage.addressLine2
-import pages.vrm_retention.EnterAddressManuallyPage.addressLine3
-import pages.vrm_retention.EnterAddressManuallyPage.addressPostTown
-import pages.vrm_retention.EnterAddressManuallyPage.url
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import webserviceclients.fakes.AddressLookupServiceConstants.BuildingNameOrNumberValid
 import webserviceclients.fakes.AddressLookupServiceConstants.Line2Valid
@@ -19,7 +13,8 @@ import webserviceclients.fakes.AddressLookupServiceConstants.Line3Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
 
 final class EnterAddressManually_PageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
-
+// TODO: ian delete this class
+/*
   def `happy path` = {
     `is displayed`
     EnterAddressManuallyPage.happyPath()
@@ -48,4 +43,5 @@ final class EnterAddressManually_PageSteps(implicit webDriver: WebBrowserDriver,
     addressPostTown.value should equal("")
     this
   }
+*/
 }

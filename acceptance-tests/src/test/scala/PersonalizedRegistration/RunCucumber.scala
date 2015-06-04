@@ -15,4 +15,3 @@ import org.junit.runner.RunWith
   //  tags = Array("~@browser", "~@live-payment")
 )
 class RunCucumber
-

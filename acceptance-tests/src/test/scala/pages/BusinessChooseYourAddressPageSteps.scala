@@ -7,11 +7,10 @@ import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.BusinessChooseYourAddressPage
-import pages.vrm_retention.BusinessChooseYourAddressPage.url
 
 class BusinessChooseYourAddressPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
-
+// TODO: ian delete this class
+/*
   def `choose address from the drop-down` = {
     `is displayed`
     BusinessChooseYourAddressPage.chooseAddress.value = "0"
@@ -41,4 +40,5 @@ class BusinessChooseYourAddressPageSteps(implicit webDriver: EventFiringWebDrive
     BusinessChooseYourAddressPage.chooseAddress.value should equal("")
     this
   }
+*/
 }

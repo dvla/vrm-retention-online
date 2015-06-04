@@ -11,9 +11,10 @@ import pages.vrm_retention.SetupBusinessDetailsPage._
 import pages.vrm_retention.SetupBusinessDetailsPage.traderContact
 import pages.vrm_retention.SetupBusinessDetailsPage.traderEmail
 import pages.vrm_retention.SetupBusinessDetailsPage.traderName
-import pages.vrm_retention.SetupBusinessDetailsPage.traderPostcode
+//import pages.vrm_retention.SetupBusinessDetailsPage.traderPostcode
 
-class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.
@@ -34,7 +35,11 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
     traderContact.value = "Valtech"
     traderEmail.value = "business.example@test.com"
     traderEmailConfirm.value = "business.example@test.com"
-    traderPostcode.value = "QQ99QQ"
+    businessAddressWidget.addressLine1.value = "Forester House, Flat 45"
+    businessAddressWidget.addressLine2.value = "Great Hitch Str."
+    businessAddressWidget.town.value = "London"
+    businessAddressWidget.postcode.value = "SA11AA"
+    click on businessAddressWidget.remember.underlying
     click on lookup
     this
   }
@@ -44,7 +49,10 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
     traderEmail.value should equal("business.example@test.com")
     traderEmailConfirm.value should equal("business.example@test.com")
     traderName.value should equal("TRADER-NAME")
-    traderPostcode.value should equal("QQ99QQ")
+    businessAddressWidget.addressLine1.value should equal("Forester House, Flat 45")
+    businessAddressWidget.addressLine2.value should equal("Great Hitch Str.")
+    businessAddressWidget.town.value should equal("London")
+    businessAddressWidget.postcode.value should equal("SA11AA")
     this
   }
 
@@ -53,7 +61,10 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
     traderEmail.value should equal("")
     traderEmailConfirm.value should equal("")
     traderName.value should equal("")
-    traderPostcode.value should equal("")
+    businessAddressWidget.addressLine1.value should equal("")
+    businessAddressWidget.addressLine2.value should equal("")
+    businessAddressWidget.town.value should equal("")
+    businessAddressWidget.postcode.value should equal("")
     this
   }
 }

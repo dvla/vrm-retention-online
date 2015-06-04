@@ -5,10 +5,9 @@
 
 @import controllers.routes.ConfirmBusiness
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechOptionalDeclareCheck
 @import views.html.helper.form
 @import views.html.vrm_retention.main
-@import views.vrm_retention.ConfirmBusiness._
+@import views.vrm_retention.ConfirmBusiness.{ChangeDetailsId, ConfirmId, ExitId}
 
 @main(
     title = Messages("vrm_retention_confirm_business.title"),
@@ -31,7 +30,7 @@
                 @confirmBusinessViewModel.businessAddress.map { addressModel =>
                     @for(businessAddressLine <- addressModel.address) {
                         <strong>@businessAddressLine</strong> <br>
-                        }
+                    }
                 }
                 </dt>
             </dl>
@@ -66,11 +65,13 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
-
+@* TODO:ian delete this - it should be moved to the previous page*@
+@*
     @if(config.googleAnalyticsTrackingId.isDefined) {
         <script type="text/javascript">
             trackChange(['@StoreDetailsConsentId']);
             trackClick(['@ConfirmId', '@ExitId']);
         </script>
     }
+*@
 }

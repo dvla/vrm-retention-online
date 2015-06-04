@@ -3,7 +3,6 @@ package controllers
 import com.google.inject.Inject
 import models.BusinessDetailsModel
 import models.CacheKeyPrefix
-import models.ConfirmBusinessFormModel
 import models.ConfirmBusinessViewModel
 import models.EligibilityModel
 import models.RetainModel
@@ -22,14 +21,11 @@ import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Busine
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-// TODO: ian need to remove the form submission from this page
 final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
                                        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
                                      ) extends Controller {
-
-//  private[controllers] val form = Form(ConfirmBusinessFormModel.Form.Mapping)
 
   def present = Action { implicit request => {
       val happyPath = for {
@@ -38,10 +34,11 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
         setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
         businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
       } yield {
-          val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
+          // TODO: ian this should move to the previous page
+//          val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
           val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
           val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
-          val formModel = ConfirmBusinessFormModel(storeBusinessDetails)
+          println(s">>>>>> $verifiedBusinessDetails")
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
           Ok(views.html.vrm_retention.confirm_business(viewModel))
         }
@@ -94,14 +91,16 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
               .withCookie(setupBusinessDetailsFormModel)
         }
       }
-    val sadPath = Redirect(routes.Error.present("user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"))
+    val msg = "user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"
+    val sadPath = Redirect(routes.Error.present(msg))
     happyPath.getOrElse(sadPath)
   }
 
   def exit = Action { implicit request =>
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.ConfirmBusinessToExit,
-      transactionId = request.cookies.getString(TransactionIdCacheKey).getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+      transactionId = request.cookies.getString(TransactionIdCacheKey)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
