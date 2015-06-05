@@ -6,26 +6,27 @@ import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.VehicleLookupPage._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource}
+import pages.vrm_retention.VehicleLookupPage.{currentKeeperNo, currentKeeperYes, findVehicleDetails, url}
 import pages.vrm_retention.VehicleLookupPage.documentReferenceNumber
 import pages.vrm_retention.VehicleLookupPage.keeperPostcode
 import pages.vrm_retention.VehicleLookupPage.vehicleRegistrationNumber
 
-class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `happy path for business` = {
-    `is displayed`.
-      enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA").
-      `keeper is not acting`.
-      `find vehicle`
+    `is displayed`
+      .enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA")
+      .`keeper is not acting`
+      .`find vehicle`
     this
   }
 
   def `happy path for keeper` = {
-    enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA").
-      `keeper is acting`.
-      `find vehicle`
+    enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA")
+      .`keeper is acting`
+      .`find vehicle`
     this
   }
 

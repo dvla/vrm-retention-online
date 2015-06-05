@@ -1,4 +1,3 @@
-@browser
 Feature: Vehicles Personalized Registration
 
   As a User

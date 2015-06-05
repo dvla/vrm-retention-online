@@ -6,8 +6,8 @@ import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.SetupBusinessDetailsPage._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource}
+import pages.vrm_retention.SetupBusinessDetailsPage.{businessAddressWidget, lookup, title, traderEmailConfirm, url}
 import pages.vrm_retention.SetupBusinessDetailsPage.traderContact
 import pages.vrm_retention.SetupBusinessDetailsPage.traderEmail
 import pages.vrm_retention.SetupBusinessDetailsPage.traderName
@@ -17,8 +17,8 @@ class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, ti
   extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
-    `is displayed`.
-      `enter business details`
+    `is displayed`
+      .`enter business details`
     this
   }
 

@@ -26,7 +26,6 @@ import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 
-
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
   private val timeout = PatienceConfig(timeout = 5.seconds)
@@ -36,10 +35,8 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
   private val payment = new PaymentPageSteps()(webDriver, timeout)
   private val paymentPreventBack = new PaymentPreventBack_PageSteps()(webDriver, timeout)
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
   private val success = new SuccessPageSteps()(webDriver, timeout)
-  private val enterAddressManually = new EnterAddressManually_PageSteps()(webDriver, timeout)
 
   @Given( """^that I am on the "(.*?)" page$""")
   def `that I am on the <origin> page`(origin: String) {
@@ -63,12 +60,12 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
         setupBusinessDetails.`happy path`
 //        businessChooseYourAddress.`choose address from the drop-down`
         confirmBusiness.`is displayed`
-      case "confirm-business (entered address manually)" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
+//      case "confirm-business (entered address manually)" =>
+//        vehicleLookup.`happy path for business`
+//        setupBusinessDetails.`happy path`
 //        businessChooseYourAddress.`click manual address entry`
 //        enterAddressManually.`happy path`
-        confirmBusiness.`is displayed`
+//        confirmBusiness.`is displayed`
       case "confirm" =>
         vehicleLookup.`happy path for keeper`
         confirm.`is displayed`
@@ -78,13 +75,13 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
 //        businessChooseYourAddress.`choose address from the drop-down`
         confirmBusiness.`happy path`
         confirm.`is displayed`
-      case "confirm (business acting) (entered address manually)" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
+//      case "confirm (business acting) (entered address manually)" =>
+//        vehicleLookup.`happy path for business`
+//        setupBusinessDetails.`happy path`
 //        businessChooseYourAddress.`click manual address entry`
 //        enterAddressManually.`happy path`
-        confirmBusiness.`happy path`
-        confirm.`is displayed`
+//        confirmBusiness.`happy path`
+//        confirm.`is displayed`
       case "payment (keeper acting)" =>
         vehicleLookup.`happy path for keeper`
         confirm.`happy path`
@@ -96,14 +93,14 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
         confirmBusiness.`happy path`
         confirm.`happy path`
         payment.`is displayed`
-      case "payment (business acting) (entered address manually)" =>
-        vehicleLookup.`happy path for business`
-        setupBusinessDetails.`happy path`
+//      case "payment (business acting) (entered address manually)" =>
+//        vehicleLookup.`happy path for business`
+//        setupBusinessDetails.`happy path`
 //        businessChooseYourAddress.`click manual address entry`
 //        enterAddressManually.`happy path`
-        confirmBusiness.`happy path`
-        confirm.`happy path`
-        payment.`is displayed`
+//        confirmBusiness.`happy path`
+//        confirm.`happy path`
+//        payment.`is displayed`
       case "success" => vehicleLookup.`happy path for keeper`
         confirm.`happy path`
         payment.`happy path`

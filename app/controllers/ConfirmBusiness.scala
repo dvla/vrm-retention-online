@@ -38,7 +38,6 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
 //          val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
           val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
           val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
-          println(s">>>>>> $verifiedBusinessDetails")
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
           Ok(views.html.vrm_retention.confirm_business(viewModel))
         }
