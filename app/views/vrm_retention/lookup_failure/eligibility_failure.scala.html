@@ -23,8 +23,7 @@
             @if(responseMessage.isDefined) {
                 @if(responseLink.isDefined) {
                     <p>@Messages(responseMessage.get)
-                        <a href="@{Messages("vrm_retention_eligibility_no_keeper_failure_link")}">
-                        @{Messages("vrm_retention_eligibility_no_keeper_failure_link")}</a></p>
+                        <a href="@{Messages(responseLink.get)}"> @{Messages(responseLink.get)}</a></p>
                 } else {
                     <p>@Messages(responseMessage.get)</p>
                 }
