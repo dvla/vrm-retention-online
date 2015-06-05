@@ -5,11 +5,12 @@ import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.ConfirmPage._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl}
+import pages.vrm_retention.ConfirmPage.{confirm, url, `don't supply keeper email`, `supply keeper email`}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
-final class ConfirmPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+final class ConfirmPageSteps(implicit webDriver: WebBrowserDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `happy path` = {
     `is displayed`.

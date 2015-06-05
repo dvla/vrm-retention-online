@@ -11,7 +11,6 @@ import pages.vrm_retention.SetupBusinessDetailsPage.{businessAddressWidget, look
 import pages.vrm_retention.SetupBusinessDetailsPage.traderContact
 import pages.vrm_retention.SetupBusinessDetailsPage.traderEmail
 import pages.vrm_retention.SetupBusinessDetailsPage.traderName
-//import pages.vrm_retention.SetupBusinessDetailsPage.traderPostcode
 
 class SetupBusinessDetailsPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
   extends ScalaDsl with EN with Matchers {

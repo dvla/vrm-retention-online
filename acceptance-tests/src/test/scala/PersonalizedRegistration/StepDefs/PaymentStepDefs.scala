@@ -10,11 +10,17 @@ import cucumber.api.scala.ScalaDsl
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
-import pages._
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
-
+import org.scalatest.selenium.WebBrowser.{pageSource, pageTitle}
+import pages.BeforeYouStartPageSteps
+import pages.ConfirmBusinessPageSteps
+import pages.ConfirmPageSteps
+import pages.PaymentPageSteps
+import pages.SetupBusinessDetailsPageSteps
+import pages.VehicleLookupPageSteps
+import pages.VehicleNotFoundPageSteps
+import pages.VrmLockedPageSteps
 import scala.concurrent.duration.DurationInt
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 
 final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
@@ -33,7 +39,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
   private val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)
   private val vrmLocked = new VrmLockedPageSteps()(webDriver, timeout)
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val businessChooseYourAddress = new BusinessChooseYourAddressPageSteps()(webDriver, timeout)
   private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
   private val confirm = new ConfirmPageSteps()(webDriver, timeout)
   private val user = new CommonStepDefs(
@@ -43,7 +48,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaD
     vrmLocked,
     confirmBusiness,
     setupBusinessDetails,
-    businessChooseYourAddress,
     confirm
   )(webDriver, timeout)
 
