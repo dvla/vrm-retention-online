@@ -132,7 +132,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "vehicle-lookup" => vehicleLookup.`form is filled with the values I previously entered`()
       case "setup-business-details" => setupBusinessDetails.`form is filled with the values I previously entered`
-      case "confirm-business" => confirmBusiness.`form is filled with the values I previously entered`()
+      case "confirm-business" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields") //confirmBusiness.`form is filled with the values I previously entered`()
       case "confirm" => throw new RuntimeException(s"this page cannot be 'filled' as the fields are reset each time the user visits the page")
       case "confirm (business acting)" => throw new RuntimeException(s"this page cannot be 'filled' as the fields are reset each time the user visits the page")
       case "payment" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
@@ -148,7 +148,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends Sca
       case "before-you-start" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "vehicle-lookup" => vehicleLookup.`form is not filled`()
       case "setup-business-details" => setupBusinessDetails.`form is not filled`
-      case "confirm-business" => confirmBusiness.`form is not filled`()
+      case "confirm-business" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "confirm" => confirm.`form is not filled`()
       case "confirm (business acting)" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")
       case "payment" => throw new RuntimeException(s"this page cannot be 'filled' as it has no fields")

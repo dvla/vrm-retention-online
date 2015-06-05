@@ -41,10 +41,8 @@ Feature: Navigation
     | "confirm-business"                                                         | "setup-business-details"       | "setup-business-details"       | "filled"     |
     | "confirm (business acting)"                                                | "vehicle-lookup"               | "vehicle-lookup"               | "filled"     |
     | "confirm (business acting)"                                                | "setup-business-details"       | "setup-business-details"       | "filled"     |
-    | "confirm (business acting)"                                                | "confirm-business"             | "confirm-business"             | "filled"     |
     | "payment (business acting)"                                                | "vehicle-lookup"               | "vehicle-lookup"               | "filled"     |
     | "payment (business acting)"                                                | "setup-business-details"       | "setup-business-details"       | "filled"     |
-    | "payment (business acting)"                                                | "confirm-business"             | "confirm-business"             | "filled"     |
     | "payment (business acting)"                                                | "confirm"                      | "confirm"                      | "not filled" |
 
   Scenario Outline: Pressing the browser's back button back to the start page
