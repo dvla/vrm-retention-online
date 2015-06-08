@@ -15,7 +15,6 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicit
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
-import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.audit2
@@ -34,8 +33,6 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
         setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
         businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
       } yield {
-          // TODO: ian this should move to the previous page
-//          val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
           val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
           val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)

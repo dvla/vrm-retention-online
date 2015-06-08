@@ -43,7 +43,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       (request.cookies.getModel[VehicleAndKeeperDetailsModel],
         request.cookies.getModel[VehicleAndKeeperLookupFormModel],
         request.cookies.getModel[EligibilityModel],
-        request.cookies.getModel[RetainModel], // TODO: ian do we need to check that the setup business details has been entered????
+        request.cookies.getModel[RetainModel],
         request.cookies.getString(StoreBusinessDetailsCacheKey)) match {
         case (Some(vehicleAndKeeperDetails),
               Some(vehicleAndKeeperLookupForm),

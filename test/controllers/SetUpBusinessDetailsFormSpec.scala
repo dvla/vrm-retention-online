@@ -4,15 +4,22 @@ import helpers.UnitSpec
 import models.SetupBusinessDetailsFormModel
 import play.api.data.Form
 import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker
-//import views.vrm_retention.Confirm._
-import views.vrm_retention.SetupBusinessDetails._
-import webserviceclients.fakes.AddressLookupServiceConstants._
+import views.vrm_retention.SetupBusinessDetails.{BusinessAddressId, BusinessContactId, BusinessEmailId, BusinessNameId}
+import webserviceclients.fakes.AddressLookupServiceConstants.AddressListSelectValid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine3Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
+import webserviceclients.fakes.AddressLookupServiceConstants.SearchPostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
 class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
   "form" should {
-
     "accept if form is valid with all fields filled in" in {
       val model = formWithValidDefaults(
         traderBusinessName = TraderBusinessNameValid,
@@ -30,22 +37,9 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
       model.address.streetAddress3 should equal(None)
       model.address.postTown should equal(PostTownValid)
     }
-/*
-      val model = formWithValidDefaults(
-        traderBusinessName = TraderBusinessNameValid,
-        traderBusinessContact = TraderBusinessContactValid,
-        traderBusinessEmail = TraderBusinessEmailValid,
-        traderPostcode = PostcodeValid
-      ).get
-      model.name should equal(TraderBusinessNameValid.toUpperCase)
-      model.contact should equal(TraderBusinessContactValid.toUpperCase)
-      model.email should equal(TraderBusinessEmailValid)
-      model.postcode should equal(PostcodeValid)
-*/
   }
 
   "dealerName" should {
-
     "reject if trader business name is blank" in {
       // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderBusinessName = "").errors
@@ -71,19 +65,13 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
         get.name should equal(TraderBusinessNameValid.toUpperCase)
     }
   }
-/*
-  "postcode" should {
 
+  "postcode" should {
     "reject if trader postcode is empty" in {
-      // IMPORTANT: The messages being returned by the form validation are overridden by the Controller
       val errors = formWithValidDefaults(traderPostcode = "").errors
-      errors should have length 3
-      errors(0).key should equal(BusinessPostcodeId)
-      errors(0).message should equal("error.minLength")
-      errors(1).key should equal(BusinessPostcodeId)
-      errors(1).message should equal("error.required")
-      errors(2).key should equal(BusinessPostcodeId)
-      errors(2).message should equal("error.restricted.validPostcode")
+      errors should have length 1
+      errors.head.key should equal(s"$BusinessAddressId.post-code")
+      errors.head.message should equal("error.address.postCode")
     }
 
     "reject if trader postcode is less than the minimum length" in {
@@ -102,24 +90,6 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
       formWithValidDefaults(traderPostcode = "SAR99").errors should have length 1
     }
   }
-*/
-  // TODO: ian delete this
-/*
-  private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
-                                    traderBusinessContact: String = TraderBusinessContactValid,
-                                    traderBusinessEmail: String = TraderBusinessEmailValid,
-                                    traderPostcode: String = PostcodeValid) = {
-    Form(SetupBusinessDetailsFormModel.Form.Mapping).bind(
-      Map(
-        BusinessNameId -> traderBusinessName,
-        BusinessContactId -> traderBusinessContact,
-        s"$BusinessEmailId.$EmailId" -> traderBusinessEmail,
-        s"$BusinessEmailId.$EmailVerifyId" -> traderBusinessEmail,
-        BusinessPostcodeId -> traderPostcode
-      )
-    )
-  }
- */
 
   private def formWithValidDefaults(traderBusinessName: String = TraderBusinessNameValid,
                                     traderBusinessContact: String = TraderBusinessContactValid,
@@ -155,5 +125,4 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
 
     Form(SetupBusinessDetailsFormModel.Form.Mapping).bind(data)
   }
-
 }

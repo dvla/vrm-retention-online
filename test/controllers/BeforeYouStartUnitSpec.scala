@@ -11,10 +11,9 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 
-final class BeforeYouStartUnitSpec extends UnitSpec {
+class BeforeYouStartUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       val result = beforeYouStart.present(FakeRequest())
       status(result) should equal(OK)

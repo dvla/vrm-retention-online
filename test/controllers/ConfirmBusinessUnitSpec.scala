@@ -4,9 +4,16 @@ import composition.TestDateService
 import composition.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
-import helpers.common.CookieHelper._
-import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import org.mockito.Mockito._
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import org.mockito.Mockito.verify
 import pages.vrm_retention.{SetupBusinessDetailsPage, LeaveFeedbackPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
@@ -16,17 +23,20 @@ import play.api.test.Helpers.defaultAwaitTimeout
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
-import views.vrm_retention.ConfirmBusiness._
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
-import views.vrm_retention.VehicleLookup._
+import views.vrm_retention.VehicleLookup.UserType_Business
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.fakes.AddressLookupServiceConstants._
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
 
 class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page when required cookies are cached" in new WithApplication {
       whenReady(present, timeout) { r =>
         r.header.status should equal(OK)
@@ -53,80 +63,6 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    // TODO: ian restore these tests
-/*
-    "write StoreBusinessDetails cookie when user type is Business and consent is true" in new WithApplication {
-      val injector = testInjector()
-      val confirmBusiness = injector.getInstance(classOf[ConfirmBusiness])
-      val dateService = injector.getInstance(classOf[DateService])
-
-      val data = Seq(("transactionId", "ABC123123123123"),
-        ("timestamp", dateService.dateTimeISOChronology),
-        ("replacementVrm", "SA11AA"),
-        ("currentVrm", "AB12AWR"),
-        ("make", "Alfa Romeo"),
-        ("model", "Alfasud ti"),
-        ("keeperName", "Mr David Jones"),
-        ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
-        ("businessName", "example trader contact"),
-        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
-        ("businessEmail", "business.example@test.com"))
-      val request = buildRequest(storeDetailsConsent = true).
-        withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-          vehicleAndKeeperDetailsModel(),
-          businessDetailsModel(),
-          confirmFormModel(),
-          transactionId(),
-          eligibilityModel()
-        )
-
-      val result = confirmBusiness.submit(request)
-
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-      }
-    }
-
-    "write StoreBusinessDetails cookie with a maxAge 7 days in the future" in new WithApplication {
-      val expected = 7.days.toSeconds.toInt
-      val request = buildRequest(storeDetailsConsent = true).
-        withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-          vehicleAndKeeperDetailsModel(),
-          businessDetailsModel(),
-          transactionId(),
-          eligibilityModel(),
-          storeBusinessDetailsConsent()
-        )
-
-      val result = confirmBusiness.submit(request)
-
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-        cookies.find(cookie => cookie.name == StoreBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
-      }
-    }
-
-    "write StoreBusinessDetails cookie when user type is Business and consent is false" in new WithApplication {
-      val request = buildRequest(storeDetailsConsent = false).
-        withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-          vehicleAndKeeperDetailsModel(),
-          businessDetailsModel(),
-          confirmFormModel(),
-          transactionId(),
-          eligibilityModel()
-        )
-      val result = confirmBusiness.submit(request)
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
-      }
-    }
-
     "call the audit service" in new WithApplication {
       val auditService2 = new AuditServiceDoesNothing
 
@@ -149,8 +85,8 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
         ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
       val auditRequest = new AuditRequest(AuditRequest.ConfirmBusinessToConfirm, AuditRequest.PersonalisedRegServiceType, data)
-      val request = buildRequest(storeDetailsConsent = true).
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           businessDetailsModel(),
@@ -162,21 +98,18 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       val result = confirmBusiness.submit(request)
 
       whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(StoreBusinessDetailsCacheKey)
         verify(auditService2.stub).send(auditRequest)
       }
     }
 
     "refresh all of the business details cookies to have a maxAge that is 7 days in the future if user is a business" in new WithApplication {
       val expected = 7.days.toSeconds.toInt
-      val request = buildRequest(storeDetailsConsent = true).
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
           vehicleAndKeeperDetailsModel(),
           transactionId(),
           eligibilityModel(),
-          businessChooseYourAddress(),
           businessDetailsModel(),
           setupBusinessDetails(),
           storeBusinessDetailsConsent()
@@ -187,48 +120,13 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain allOf(
-          BusinessChooseYourAddressCacheKey,
           BusinessDetailsCacheKey,
           SetupBusinessDetailsCacheKey
           )
-        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge.get === expected +- 1
         cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge.get === expected +- 1
         cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
       }
     }
-
-    "refresh all of the business details cookies to have a maxAge that is 7 days in the future if user is a business and entered address manually" in new WithApplication {
-      val expected = 7.days.toSeconds.toInt
-      val request = buildRequest(storeDetailsConsent = true).
-        withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Business),
-          vehicleAndKeeperDetailsModel(),
-          transactionId(),
-          eligibilityModel(),
-          enterAddressManually(),
-          businessChooseYourAddress(),
-          businessDetailsModel(),
-          setupBusinessDetails(),
-          storeBusinessDetailsConsent()
-        )
-
-      val result = confirmBusiness.submit(request)
-
-      whenReady(result) { r =>
-        val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain allOf(
-          EnterAddressManuallyCacheKey,
-          BusinessChooseYourAddressCacheKey,
-          BusinessDetailsCacheKey,
-          SetupBusinessDetailsCacheKey
-          )
-        cookies.find(_.name == EnterAddressManuallyCacheKey).get.maxAge.get === expected +- 1
-        cookies.find(_.name == BusinessChooseYourAddressCacheKey).get.maxAge.get === expected +- 1
-        cookies.find(_.name == BusinessDetailsCacheKey).get.maxAge.get === expected +- 1
-        cookies.find(_.name == SetupBusinessDetailsCacheKey).get.maxAge.get === expected +- 1
-      }
-    }
-*/
   }
 
   "back" should {

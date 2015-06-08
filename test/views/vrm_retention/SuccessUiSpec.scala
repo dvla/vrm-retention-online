@@ -55,7 +55,6 @@ class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
-  // TODO: ian resurrect this test
   //  "back button" should {
   //
   //    "redirect to the SuccessPayment page" taggedAs UiTag in new WebBrowserForSelenium {

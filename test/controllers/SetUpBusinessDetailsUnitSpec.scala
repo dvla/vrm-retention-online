@@ -23,6 +23,7 @@ import views.vrm_retention.SetupBusinessDetails.BusinessEmailId
 import views.vrm_retention.SetupBusinessDetails.BusinessNameId
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.SearchPostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
@@ -150,24 +151,11 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       new TestConfig(isPrototypeBannerVisible = false)
     ).getInstance(classOf[SetUpBusinessDetails])
   }
-  // TODO: ian delete this
-/*
+
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
                                              dealerContact: String = TraderBusinessContactValid,
                                              dealerEmail: String = TraderBusinessEmailValid,
-                                             dealerPostcode: String = PostcodeValid) = {
-    FakeRequest().withFormUrlEncodedBody(
-      BusinessNameId -> dealerName,
-      BusinessContactId -> dealerContact,
-      s"$BusinessEmailId.$EmailId" -> dealerEmail,
-      s"$BusinessEmailId.$EmailVerifyId" -> dealerEmail,
-      BusinessPostcodeId -> dealerPostcode)
-  }
-*/
-  private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
-                                             dealerContact: String = TraderBusinessContactValid,
-                                             dealerEmail: String = TraderBusinessEmailValid,
-                                             searchPostCode: String = "AA11AA",
+                                             searchPostCode: String = SearchPostcodeValid,
                                              addressListSelect: String = "1",
                                              showSearchFields: Boolean = true,
                                              showAddressSelect: Boolean = true,

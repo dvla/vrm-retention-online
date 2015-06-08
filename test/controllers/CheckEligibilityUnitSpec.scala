@@ -2,29 +2,41 @@ package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
 import composition.WithApplication
-import composition.webserviceclients.vrmretentioneligibility._
+import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallFails
+import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
+import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndEmptyReplacement
+import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndReplacement
+import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithEmptyCurrentAndEmptyReplacement
+import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithEmptyCurrentAndReplacement
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.vrm_retention.CookieFactoryForUnitSpecs._
-import org.mockito.Mockito._
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import org.mockito.Mockito.{times, verify}
 import pages.vrm_retention.ConfirmPage
 import pages.vrm_retention.ErrorPage
 import pages.vrm_retention.MicroServiceErrorPage
 import pages.vrm_retention.SetupBusinessDetailsPage
 import pages.vrm_retention.VehicleLookupFailurePage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.LOCATION
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.audit2.AuditService
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
-import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants._
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 
-final class CheckEligibilityUnitSpec extends UnitSpec {
+class CheckEligibilityUnitSpec extends UnitSpec {
 
   "present" should {
-
     "redirect to error page when VehicleAndKeeperLookupFormModel cookie does not exist" in new WithApplication {
       val result = checkEligibility().present(FakeRequest())
       whenReady(result) { r =>
