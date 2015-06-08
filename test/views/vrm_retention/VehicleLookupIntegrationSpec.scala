@@ -99,6 +99,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      bruteForcePreventionViewModel(permitted = false, attempts = 3).vehicleAndKeeperDetailsModel().vehicleAndKeeperLookupFormModel()
+    CookieFactoryForUISpecs
+      .bruteForcePreventionViewModel(permitted = false, attempts = 3)
+      .vehicleAndKeeperDetailsModel().vehicleAndKeeperLookupFormModel()
 }

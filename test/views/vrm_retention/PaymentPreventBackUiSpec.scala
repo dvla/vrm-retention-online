@@ -16,7 +16,6 @@ class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
   "go to the page" should {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to PaymentPreventBackPage
-
       currentUrl should equal(PaymentPreventBackPage.url)
     }
   }
@@ -27,20 +26,19 @@ class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
       cacheSetup()
       go to PaymentPreventBackPage
       click on returnToSuccess
-
       currentUrl should equal(SuccessPage.url)
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      transactionId().
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel().
-      eligibilityModel().
-      retainModel().
-      businessDetails().
-      confirmFormModel().
-      paymentTransNo().
-      paymentModel()
+    CookieFactoryForUISpecs
+      .transactionId()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
+      .eligibilityModel()
+      .retainModel()
+      .businessDetails()
+      .confirmFormModel()
+      .paymentTransNo()
+      .paymentModel()
 }

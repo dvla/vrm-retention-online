@@ -34,15 +34,15 @@ class SuccessPaymentUiSpec extends UiSpec with TestHarness {
   //  }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
-      setupBusinessDetails().
-      vehicleAndKeeperDetailsModel().
-      businessDetails().
-      eligibilityModel().
-      confirmFormModel().
-      retainModel().
-      transactionId().
-      paymentTransNo().
-      paymentModel()
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .setupBusinessDetails()
+      .vehicleAndKeeperDetailsModel()
+      .businessDetails()
+      .eligibilityModel()
+      .confirmFormModel()
+      .retainModel()
+      .transactionId()
+      .paymentTransNo()
+      .paymentModel()
 }

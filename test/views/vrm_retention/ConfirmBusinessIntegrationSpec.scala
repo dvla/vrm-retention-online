@@ -21,9 +21,7 @@ class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to ConfirmBusinessPage
-
       currentUrl should equal(ConfirmBusinessPage.url)
     }
   }
@@ -33,9 +31,7 @@ class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage
-
       click on confirm
-
       currentUrl should equal(ConfirmPage.url)
     }
   }
@@ -45,9 +41,7 @@ class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage
-
       click on exit
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
@@ -55,22 +49,19 @@ class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
   "back button" should {
     "redirect to SetupBusinessDetails page when we navigate back" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      cacheSetup().
-        setupBusinessDetails()
+      cacheSetup().setupBusinessDetails()
       go to ConfirmBusinessPage
-
       click on back
-
       currentUrl should equal(SetupBusinessDetailsPage.url)
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel().
-      businessDetails().
-      eligibilityModel().
-      transactionId().
-      setupBusinessDetails()
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
+      .businessDetails()
+      .eligibilityModel()
+      .transactionId()
+      .setupBusinessDetails()
 }

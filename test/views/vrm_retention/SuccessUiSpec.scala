@@ -48,22 +48,17 @@ class SuccessUiSpec extends UiSpec with TestHarness {
     "have the label 'Print this page'" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to SuccessPage
-
       SuccessPage.print.text should equal("Print this page")
     }
   }
 
   //  "back button" should {
-  //
   //    "redirect to the SuccessPayment page" taggedAs UiTag in new WebBrowserForSelenium {
   //      go to BeforeYouStartPage
   //      cacheSetup()
   //      go to SuccessPage
-  //
   //      click on back
-  //
   //      currentUrl should equal(SuccessPaymentPage.url)
   //    }
   //  }

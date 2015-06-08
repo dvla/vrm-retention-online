@@ -15,11 +15,8 @@ class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
     "display the payment failure page for an invalid begin web payment request" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheInvalidBeginRequestSetup()
-
       go to PaymentFailurePage
-
       currentUrl should equal(PaymentFailurePage.url)
     }
   }
@@ -27,13 +24,9 @@ class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
   "try again button" should {
     "redirect to confirm page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheInvalidBeginRequestSetup()
-
       go to PaymentFailurePage
-
       click on tryAgain
-
       currentUrl should equal(VehicleLookupPage.url)
     }
   }
@@ -41,20 +34,16 @@ class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
   "exit button" should {
     "redirect to feedback page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       cacheInvalidBeginRequestSetup()
-
       go to PaymentFailurePage
-
       click on exit
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
   private def cacheInvalidBeginRequestSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      transactionId().
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel()
+    CookieFactoryForUISpecs
+      .transactionId()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
 }

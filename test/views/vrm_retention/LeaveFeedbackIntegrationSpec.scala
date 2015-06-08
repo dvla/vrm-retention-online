@@ -12,7 +12,6 @@ class LeaveFeedbackIntegrationSpec extends UiSpec with TestHarness {
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to LeaveFeedbackPage
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
@@ -20,9 +19,7 @@ class LeaveFeedbackIntegrationSpec extends UiSpec with TestHarness {
   "Exit button" should {
     "go to before you start page" taggedAs UiTag in new WebBrowserForSelenium {
       go to LeaveFeedbackPage
-
       click on LeaveFeedbackPage.exit
-
       currentUrl should equal(BeforeYouStartPage.url)
     }
   }

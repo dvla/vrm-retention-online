@@ -63,26 +63,26 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
   }
 
   private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      transactionId().
-      bruteForcePreventionViewModel().
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_document_reference_mismatch").
-      vehicleAndKeeperDetailsModel()
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_document_reference_mismatch")
+      .vehicleAndKeeperDetailsModel()
 
   private def cacheDirectToPaperSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      transactionId().
-      bruteForcePreventionViewModel().
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_direct_to_paper").
-      vehicleAndKeeperDetailsModel()
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_direct_to_paper")
+      .vehicleAndKeeperDetailsModel()
 
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      transactionId().
-      bruteForcePreventionViewModel().
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_failure").
-      vehicleAndKeeperDetailsModel()
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_failure")
+      .vehicleAndKeeperDetailsModel()
 }
