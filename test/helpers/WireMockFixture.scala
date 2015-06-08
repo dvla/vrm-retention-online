@@ -1,17 +1,15 @@
 package helpers
 
-import java.net.ServerSocket
-
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig
 import com.github.tomakehurst.wiremock.http.Request
 import com.github.tomakehurst.wiremock.http.RequestListener
 import com.github.tomakehurst.wiremock.http.Response
+import java.net.ServerSocket
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.Suite
 import org.scalatest.SuiteMixin
-
 import scala.collection.mutable
 
 trait WireMockFixture extends Suite with SuiteMixin with BeforeAndAfterEach {

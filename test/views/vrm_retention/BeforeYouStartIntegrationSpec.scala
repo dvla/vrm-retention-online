@@ -7,7 +7,7 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageSource}
 import pages.vrm_retention.BeforeYouStartPage.footerItem
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.VehicleLookupPage

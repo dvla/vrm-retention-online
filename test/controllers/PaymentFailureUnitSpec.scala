@@ -6,12 +6,11 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.{LOCATION, OK}
 
-final class PaymentFailureUnitSpec extends UnitSpec {
+class PaymentFailureUnitSpec extends UnitSpec {
 
   "present" should {
-
     "redirect to BeforeYouStart page when TransactionId cookie not present" in new WithApplication {
       val result = paymentFailure.present(FakeRequest())
       whenReady(result) { r =>
@@ -40,7 +39,6 @@ final class PaymentFailureUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-
     "redirect to VehicleLookup page when VehicleAndKeeperLookupFormModel cookie not present" in new WithApplication {
       val request = FakeRequest()
       val result = paymentFailure.submit(request)

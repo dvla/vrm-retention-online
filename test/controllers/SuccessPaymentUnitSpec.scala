@@ -16,11 +16,9 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFor
 import models.BusinessDetailsModel
 import models.ConfirmFormModel
 import models.EligibilityModel
-import models.RetainModel
 import org.mockito.{Mockito, Matchers}
 import org.mockito.Matchers.any
 import org.mockito.Mockito.never
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.scalatest.mock.MockitoSugar
 import pages.vrm_retention.SuccessPage
@@ -30,12 +28,10 @@ import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import views.vrm_retention.Confirm.SupplyEmail_false
-import webserviceclients.emailservice.EmailService
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 
-final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
+class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
 
   "present" should {
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
@@ -242,6 +238,4 @@ final class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
     )
     (injector.getInstance(classOf[SuccessPayment]), emailService.stub)
   }
-
-  private val supplyEmailTrue = "true"
 }

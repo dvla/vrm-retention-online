@@ -16,10 +16,9 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
-final class VrmLockedUnitSpec extends UnitSpec {
+class VrmLockedUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -42,7 +41,6 @@ final class VrmLockedUnitSpec extends UnitSpec {
   }
 
   "exit" should {
-
     "redirect to correct next page after the exit button is clicked" in new WithApplication {
       val request = FakeRequest()
       val result = vrmLocked.exit(request)

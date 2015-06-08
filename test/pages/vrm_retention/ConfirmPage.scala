@@ -3,7 +3,7 @@ package pages.vrm_retention
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, find, go, id}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.Confirm.ConfirmId
@@ -36,9 +36,11 @@ object ConfirmPage extends Page {
     }
   }
 
-  def `supply keeper email`(implicit driver: WebDriver): WebBrowser.Element = find(id(s"${SupplyEmailId}_$SupplyEmail_true")).get
+  def `supply keeper email`(implicit driver: WebDriver): WebBrowser.Element =
+    find(id(s"${SupplyEmailId}_$SupplyEmail_true")).get
 
-  def `don't supply keeper email`(implicit driver: WebDriver): WebBrowser.Element = find(id(s"${SupplyEmailId}_$SupplyEmail_false")).get
+  def `don't supply keeper email`(implicit driver: WebDriver): WebBrowser.Element =
+    find(id(s"${SupplyEmailId}_$SupplyEmail_false")).get
 
   def happyPath(implicit driver: WebDriver) = {
     go to ConfirmPage

@@ -31,7 +31,6 @@ import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameV
 class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -68,7 +67,6 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-
     "redirect to VehicleLookup page is required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val result = setUpBusinessDetails().submit(request)

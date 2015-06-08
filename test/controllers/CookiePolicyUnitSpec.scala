@@ -9,10 +9,9 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 
-final class CookiePolicyUnitSpec extends UnitSpec {
+class CookiePolicyUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       val result = cookiePolicy.present(FakeRequest())
       status(result) should equal(OK)

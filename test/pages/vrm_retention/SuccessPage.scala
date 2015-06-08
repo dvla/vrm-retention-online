@@ -1,10 +1,9 @@
 package pages.vrm_retention
 
-import java.util.concurrent.TimeUnit
-
 import helpers.webbrowser.Page
+import java.util.concurrent.TimeUnit
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{find, id}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.Success.FinishId

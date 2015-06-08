@@ -5,13 +5,13 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_retention.PaymentPreventBackPage.returnToSuccess
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.PaymentPreventBackPage
 import pages.vrm_retention.SuccessPage
 
-final class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
+class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
 
   "go to the page" should {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {

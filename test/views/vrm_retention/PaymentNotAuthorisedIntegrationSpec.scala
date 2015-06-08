@@ -5,14 +5,13 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, LeaveFeedbackPage, PaymentNotAuthorisedPage}
 import pages.vrm_retention.PaymentNotAuthorisedPage.exit
-import pages.vrm_retention._
 
-final class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
+class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the payment not authorised page for a not authorised payment response" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
 

@@ -4,20 +4,26 @@ import composition.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
-import helpers.vrm_retention.CookieFactoryForUnitSpecs._
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import org.mockito.Mockito.verify
 import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.VehicleLookupPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email._
+import play.api.test.Helpers.{BAD_REQUEST, OK, LOCATION}
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId
 import views.vrm_retention.Confirm.SupplyEmail_true
-import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.audit2.AuditRequest
@@ -25,10 +31,9 @@ import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
 
-final class ConfirmUnitSpec extends UnitSpec {
+class ConfirmUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page when required cookies are cached" in new WithApplication {
       whenReady(present, timeout) { r =>
           r.header.status should equal(OK)
@@ -60,7 +65,6 @@ final class ConfirmUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-
     "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
       val auditService2 = new AuditServiceDoesNothing
 

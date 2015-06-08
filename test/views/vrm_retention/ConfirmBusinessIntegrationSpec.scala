@@ -5,13 +5,17 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.common.MainPanel.back
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.ConfirmBusinessPage.confirm
 import pages.vrm_retention.ConfirmBusinessPage.exit
-import pages.vrm_retention._
+import pages.vrm_retention.ConfirmPage
+import pages.vrm_retention.LeaveFeedbackPage
+import pages.vrm_retention.SetupBusinessDetailsPage
 
-final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
+class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {

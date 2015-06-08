@@ -3,10 +3,10 @@ package views.vrm_retention
 import composition.TestHarness
 import helpers.UiSpec
 import helpers.tags.UiTag
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{currentUrl, go}
 import pages.vrm_retention.CookiePolicyPage
 
-final class CookiePolicyUiSpec extends UiSpec with TestHarness {
+class CookiePolicyUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
 

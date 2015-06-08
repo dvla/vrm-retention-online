@@ -9,10 +9,9 @@ import play.api.test.Helpers.OK
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 
-final class UprnNotFoundUnitSpec extends UnitSpec {
+class UprnNotFoundUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
