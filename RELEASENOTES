@@ -1,3 +1,16 @@
+======= 1.16 ======
+Time of release binaries creation:
+Wed Jun 10 2015 13:57:12 GMT+0000 (GMT)
+
+DE541   Cancel should not send a cancel payment msg, just redirect to leave feedback page
+DE537   Vehicle Lookup to VRM Locked does not generate an Audit message
+DE497   All Services (IE8) - Selecting address from drop down menu
+DE361   Acquire and K2K- 1st line of Address with under 3 Alph Characters on the manual address screen
+US3007  Display meaningful error messages in certain circumstances
+US3187  Implement Business Address Capture in Retain
+US3158  Send the Transaction email after successful fulfilment
+US3244  Heading hierarchy
+
 ======= 1.15 ======
 Time of release binaries creation:
 Wed May 27 2015 15:12:32 GMT+0000 (GMT)
