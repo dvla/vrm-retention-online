@@ -80,6 +80,8 @@ final class TestConfig(
     when(config.opening).thenReturn(0)
     when(config.closing).thenReturn(23)
 
+    // Survey url
+    when(config.surveyUrl).thenReturn(None)
     config
   }
 

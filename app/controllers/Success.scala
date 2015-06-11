@@ -29,7 +29,8 @@ final class Success @Inject()(pdfService: PdfService,
                               paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                             extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
