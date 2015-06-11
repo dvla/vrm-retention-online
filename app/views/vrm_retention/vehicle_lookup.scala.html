@@ -34,16 +34,17 @@
                     )
                 )
 
-                @valtechInputText(vehicleAndKeeperLookupForm(DocumentReferenceNumberId), hintText = Some(Messages("vrm_retention_vehiclelookup.refnumHint")),
-                    args = Map(
-                        '_label -> Messages("vrm_retention_vehiclelookup.refnumlabel"),
-                        '_showConstraints -> false,
-                        //'pattern -> ReferenceNumber.Pattern, // [SKW] Taken off HTML5 validation - for accessibility Tony removed have 'title text as the screen reader reads it twice, the knock-on effect is that our custom validation messages aren't displayed so the user has no idea what is wrong.
-                        'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                        //'title -> Messages("error.validDocumentReferenceNumber")
-                        'title -> Messages("")
-                    )
-                )
+                @helper.input(vehicleAndKeeperLookupForm(DocumentReferenceNumberId)) { (id, name, value, args) =>
+                    <div class="form-item">
+                        <label for="@id">@Messages("vrm_retention_vehiclelookup.refnumlabel")<span class="js-has-tooltip" data-tooltip="v5c">i</span></label>
+                        <div class="js-tooltip" data-tooltip="v5c">
+                            <p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
+                            <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="@Messages("vrm_retention_vehiclelookup.refnumlabel")">
+                        </div>
+                        <input id="@id" name="@name" value="@value" maxLength="@DocumentReferenceNumber.MaxLength" aria-describedby="document-reference-number-hint" aria-required="true" type="text" autocomplete="off" >
+                        <span class="form-hint" id="document-reference-number-hint">@Messages("vrm_retention_vehiclelookup.refnumHint")</span>
+                    </div>
+                }
 
                 @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId), hintText = Some(Messages("vrm_retention_vehiclelookup.postcodeHint")),
                     args = Map(
@@ -72,13 +73,10 @@
                 </div>
             </div>
             <div class="first-col">
-                <div class="img-wrap related">
-                    <h3>@Messages("vrm_retention_vehiclelookup.intro")</h3>
-                    <p>@Messages("vrm_retention_vehiclelookup.v5c")</p>
-                    <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="@Messages("document-reference-number-alt")">
-                </div>
             </div>
         </div>
 
     }
 }
+
+@*<img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/document-reference-number.png")" alt="@Messages("document-reference-number-alt")">*@
