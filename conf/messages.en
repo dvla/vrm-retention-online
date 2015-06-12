@@ -519,6 +519,15 @@ vrm_retention_uprnnotfound.setuptradedetailsbutton = Manually enter address
 vrm_retention_success_payment.title = Payment Successful
 vrm_retention_success_payment.h1 = Thank you for your payment, your Registration Number can now be taken off your vehicle
 vrm_retention_success_payment.h2 = What to do next
+vrm_retention_success_payment.what-next-1 = If you have the number plates already, you should put these on your vehicle as soon as possible.
+vrm_retention_success_payment.what-next-2 = If you need to have your new plates made up, you can do this once you have received your new V5C
+vrm_retention_success_payment.what-next-3 = at your nearest, DVLA approved number plate supplier.
+vrm_retention_success_payment.what-next-4 = You can now put
+vrm_retention_success_payment.what-next-5 = on vehicle using
+vrm_retention_success_payment.what-next-6 = our online service
+vrm_retention_success_payment.what-next-7 = and the retention certificate number in the green box above.
+vrm_retention_success_payment.what-next-8 = Advice your insurance company about your change of registration number.
+
 vrm_retention_success_payment.p1 = Your replacement registration:
 vrm_retention_success_payment.p1business = Keeper’s replacement registration:
 vrm_retention_success_payment.p2 = You will receive a new V5C within 2 weeks. When this arrives, your registration number,
@@ -556,11 +565,12 @@ vrm_retention_success_payment.aboutTransactionEmployeeLabel = Employee name (opt
 vrm_retention_success_payment.button = Next
 
 #Success page
-vrm_retention_success.title = Summary
-vrm_retention_success.subtitle = Take a Registration Number off a Vehicle complete for
+vrm_retention_success.title = Application successful
+vrm_retention_success.subtitle = Can now be taken off the vehicle
 vrm_retention_success.replacementRegNumberLabel = Registration number
 vrm_retention_success.yourCert = Your Retention Certificate Number is:
 success-cert-warning = We strongly advise you to keep your certificate number confidential until the registration number is ready to be sold or assigned to a vehicle.
+success-cert-warning-1 = Your current Vehicle Tax and MOT certificate will remain valid until their expiry dates. DVLA will NOT send you a replacement MOT certificate.
 success-replacement-registration-number = Your replacement Registration Number is:
 vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
 vrm_retention_success.replacementTitle = Your replacement registration number
@@ -605,7 +615,10 @@ vrm_retention_success.notice2.p1.link = put a registration number on a vehicle s
 vrm_retention_success.notice2.p2 = .
 
 vrm_retention_success.p1 = What happens next?
-vrm_retention_success.p2 = We will send the following to the keeper at their registered address:
+vrm_retention_success.p2 = DVLA will send a new registration certificate (V5C) for the registration number
+vrm_retention_success.p3 = to the keeper at their registered address.
+vrm_retention_success.p4 = This will arrive within 3 to 5 days.
+vrm_retention_success.p5 = Please destroy your old V5C once you have received it.
 vrm_retention_success.listItem1 = A new registration certificate (V5C) with the replacement registration number
 vrm_retention_success.listItem2 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
 vrm_retention_success.listItem3 = A Certificate of Retention document (V778) providing the mark has not been assigned to a new vehicle on the same day as this retention.
