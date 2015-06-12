@@ -69,7 +69,6 @@ import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 class VehicleLookupUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       present.futureValue.header.status should equal(play.api.http.Status.OK)
     }
@@ -451,7 +450,6 @@ class VehicleLookupUnitSpec extends UnitSpec {
   }
 
   "back" should {
-
     "redirect to Before You Start page when back button is pressed" in new WithApplication {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = vehicleLookupStubs().back(request)

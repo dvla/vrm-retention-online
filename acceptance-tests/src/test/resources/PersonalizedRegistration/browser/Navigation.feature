@@ -26,8 +26,8 @@ Feature: Navigation
     | origin    | target                         | expected         | filled       | wiped   |
     | "success" | "vehicle-lookup"               | "vehicle-lookup" | "not filled" | "wiped" |
     | "success" | "setup-business-details"       | "vehicle-lookup" | "not filled" | "wiped" |
-    | "success" | "business-choose-your-address" | "vehicle-lookup" | "not filled" | "wiped" |
-    | "success" | "enter-address-manually"       | "vehicle-lookup" | "not filled" | "wiped" |
+#    | "success" | "business-choose-your-address" | "vehicle-lookup" | "not filled" | "wiped" |
+#    | "success" | "enter-address-manually"       | "vehicle-lookup" | "not filled" | "wiped" |
     | "success" | "confirm-business"             | "vehicle-lookup" | "not filled" | "wiped" |
     | "success" | "confirm"                      | "vehicle-lookup" | "not filled" | "wiped" |
     | "success" | "payment"                      | "vehicle-lookup" | "not filled" | "wiped" |

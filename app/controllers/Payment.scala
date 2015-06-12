@@ -24,6 +24,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
@@ -37,11 +38,9 @@ import webserviceclients.paymentsolve.PaymentSolveCancelRequest
 import webserviceclients.paymentsolve.PaymentSolveGetRequest
 import webserviceclients.paymentsolve.PaymentSolveService
 
-final class Payment @Inject()(
-                               paymentSolveService: PaymentSolveService,
+final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                refererFromHeader: RefererFromHeader,
-                               auditService2: audit2.AuditService
-                               )
+                               auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
                               dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
@@ -129,7 +128,7 @@ final class Payment @Inject()(
 
   private def callBeginWebPaymentService(transactionId: String, vrm: String)
                                         (implicit request: Request[_],
-                                         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken): Future[Result] = {
+                                         token: CsrfPreventionToken): Future[Result] = {
     refererFromHeader.fetch match {
       case Some(referer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)

@@ -2,19 +2,24 @@ package controllers
 
 import composition.WithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.loadBalancerUrl
-import composition.webserviceclients.paymentsolve._
+import composition.webserviceclients.paymentsolve.{RefererFromHeaderBinding, ValidatedCardDetails}
 import controllers.Payment.AuthorisedStatus
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs._
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentTransNo
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.FakeHeaders
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.{LOCATION, REFERER}
 
-final class RetainUnitSpec extends UnitSpec {
+class RetainUnitSpec extends UnitSpec {
 
   "retain" should {
-
     "redirect to ErrorPage when cookies do not exist" in new WithApplication {
       val request = FakeRequest()
 
@@ -46,7 +51,8 @@ final class RetainUnitSpec extends UnitSpec {
     }
   }
 
-  private def request(referer: String = loadBalancerUrl, paymentStatus: Option[String] = Some(AuthorisedStatus)): FakeRequest[AnyContentAsEmpty.type] = {
+  private def request(referer: String = loadBalancerUrl,
+                      paymentStatus: Option[String] = Some(AuthorisedStatus)): FakeRequest[AnyContentAsEmpty.type] = {
     val refererHeader = (REFERER, Seq(referer))
     val headers = FakeHeaders(data = Seq(refererHeader))
     FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).

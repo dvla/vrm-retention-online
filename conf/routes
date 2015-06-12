@@ -43,15 +43,7 @@ GET         /setup-business-details                        @controllers.SetUpBus
 POST        /setup-business-details                        @controllers.SetUpBusinessDetails.submit
 GET         /setup-business-details/exit                   @controllers.SetUpBusinessDetails.exit
 
-GET         /business-choose-your-address                  @controllers.BusinessChooseYourAddress.present
-POST        /business-choose-your-address                  @controllers.BusinessChooseYourAddress.submit
-GET         /business-choose-your-address/exit             @controllers.BusinessChooseYourAddress.exit
-
 GET         /uprn-not-found                                @controllers.UprnNotFound.present
-
-GET         /enter-address-manually                        @controllers.EnterAddressManually.present
-POST        /enter-address-manually                        @controllers.EnterAddressManually.submit
-GET         /enter-address-manually/exit                   @controllers.EnterAddressManually.exit
 
 GET         /confirm-business                              @controllers.ConfirmBusiness.present
 POST        /confirm-business                              @controllers.ConfirmBusiness.submit
@@ -110,3 +102,5 @@ GET         /closed-stub                                   @controllers.Closed.p
 # feedback
 GET         /feedback                                      @controllers.FeedbackController.present
 POST        /feedback                                      @controllers.FeedbackController.submit
+
+GET         /address-lookup/postcode/:postcode             @controllers.AddressLookup.byPostcode(postcode)

@@ -9,7 +9,7 @@ object SetupBusinessDetails {
   final val BusinessNameId = "business-name"
   final val BusinessContactId = "contact-name"
   final val BusinessEmailId = "contact-email"
-  final val BusinessPostcodeId = "business-postcode"
+  final val BusinessAddressId = "business-address"
   final val SetupBusinessDetailsCacheKey = s"${PrScopedCacheKeyPrefix}setup-business-details"
   final val SubmitId = "submit"
   final val ExitId = "exit"

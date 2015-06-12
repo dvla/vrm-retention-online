@@ -26,7 +26,11 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       request.cookies.getString(VehicleAndKeeperLookupResponseCodeCacheKey),
       request.cookies.getModel[VehicleAndKeeperDetailsModel]
       ) match {
-      case (Some(transactionId), Some(vehicleAndKeeperLookupForm), Some(vehicleLookupResponseCode), vehicleAndKeeperDetails) =>
+      case (Some(transactionId),
+        Some(vehicleAndKeeperLookupForm),
+        Some(vehicleLookupResponseCode),
+        vehicleAndKeeperDetails) =>
+
         displayVehicleLookupFailure(
           transactionId,
           vehicleAndKeeperLookupForm,
@@ -52,7 +56,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
-                                          vehicleAndKeeperLookupResponseCode: String)(implicit request: Request[AnyContent]) = {
+                                          vehicleAndKeeperLookupResponseCode: String)
+                                         (implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)

@@ -8,12 +8,10 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSess
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
-import views.vrm_retention.BusinessChooseYourAddress.BusinessChooseYourAddressCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
 import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
-import views.vrm_retention.EnterAddressManually.EnterAddressManuallyCacheKey
 import views.vrm_retention.Payment.PaymentDetailsCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.Retain.RetainResponseCodeCacheKey
@@ -45,8 +43,6 @@ object RelatedCacheKeys {
   )
 
   val BusinessDetailsSet = Set(
-    EnterAddressManuallyCacheKey,
-    BusinessChooseYourAddressCacheKey,
     BusinessDetailsCacheKey,
     SetupBusinessDetailsCacheKey,
     StoreBusinessDetailsCacheKey

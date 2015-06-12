@@ -10,10 +10,9 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 
-final class MicroserviceErrorUnitSpec extends UnitSpec {
+class MicroserviceErrorUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       status(present) should equal(SERVICE_UNAVAILABLE)
     }

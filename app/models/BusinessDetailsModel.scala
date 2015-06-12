@@ -14,11 +14,9 @@ object BusinessDetailsModel {
   implicit val Key = CacheKey[BusinessDetailsModel](value = BusinessDetailsCacheKey)
 
   def from(businessDetailsForm: SetupBusinessDetailsFormModel,
-           vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-           enterAddressManually: EnterAddressManuallyModel): BusinessDetailsModel = {
+           vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): BusinessDetailsModel = {
 
-    val formattedPostcode = EnterAddressManuallyViewModel(businessDetailsForm, vehicleAndKeeperDetails).businessPostCode
-    val businessAddress = AddressModel.from(enterAddressManually.addressAndPostcodeViewModel, formattedPostcode)
+    val businessAddress = new AddressModel(address = businessDetailsForm.toViewFormat)
 
     BusinessDetailsModel(
       name = businessDetailsForm.name,

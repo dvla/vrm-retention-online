@@ -5,83 +5,63 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.common.MainPanel.back
+import pages.vrm_retention.BeforeYouStartPage
+import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.ConfirmBusinessPage.confirm
 import pages.vrm_retention.ConfirmBusinessPage.exit
-import pages.vrm_retention._
+import pages.vrm_retention.ConfirmPage
+import pages.vrm_retention.LeaveFeedbackPage
+import pages.vrm_retention.SetupBusinessDetailsPage
 
-final class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
+class ConfirmBusinessIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to ConfirmBusinessPage
-
       currentUrl should equal(ConfirmBusinessPage.url)
     }
   }
 
   "confirm button" should {
-
     "redirect to Confirm business page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage
-
       click on confirm
-
       currentUrl should equal(ConfirmPage.url)
     }
   }
 
   "exit button" should {
-
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to ConfirmBusinessPage
-
       click on exit
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
 
   "back button" should {
-
-    "redirect to BusinessChooseYourAddress page when we didn't enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to SetupBusinessDetails page when we navigate back" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      cacheSetup().
-        businessChooseYourAddress() // EnterAddressManually cookie does not exist therefore we did not come via the EnterAddressManually Page
+      cacheSetup().setupBusinessDetails()
       go to ConfirmBusinessPage
-
       click on back
-
-      currentUrl should equal(BusinessChooseYourAddressPage.url)
-    }
-
-    "redirect to EnterAddressManually page when we did enter address manually" taggedAs UiTag in new WebBrowserForSelenium {
-      go to BeforeYouStartPage
-      cacheSetup().
-        enterAddressManually() // EnterAddressManually cookie exists therefore we came via the EnterAddressManually Page
-      go to ConfirmBusinessPage
-
-      click on back
-
-      currentUrl should equal(EnterAddressManuallyPage.url)
+      currentUrl should equal(SetupBusinessDetailsPage.url)
     }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel().
-      businessDetails().
-      eligibilityModel().
-      transactionId().
-      setupBusinessDetails()
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
+      .businessDetails()
+      .eligibilityModel()
+      .transactionId()
+      .setupBusinessDetails()
 }

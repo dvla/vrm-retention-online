@@ -34,7 +34,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                                        auditService2: audit2.AuditService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
-                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                      ) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],

@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import models.BusinessDetailsModel
 import models.CacheKeyPrefix
 import models.EligibilityModel
 import models.RetainModel
@@ -9,25 +10,26 @@ import models.SetupBusinessDetailsViewModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.{Action, Controller, Request}
+import uk.gov.dvla.vehicles.presentation.common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
+import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessNameId, BusinessPostcodeId}
+import views.vrm_retention.SetupBusinessDetails.{BusinessAddressId, BusinessContactId, BusinessNameId}
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                           config: Config,
-                                           dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
-  extends Controller {
+                                            config: Config,
+                                            dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                          ) extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
@@ -55,7 +57,14 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
             Redirect(routes.VehicleLookup.present())
         }
       },
-      validForm => Redirect(routes.BusinessChooseYourAddress.present()).withCookie(validForm)
+      validForm =>
+        Redirect(routes.ConfirmBusiness.present()).withCookie(validForm)
+          .withCookie(createBusinessDetailsModel(businessName = validForm.name,
+            businessContact = validForm.contact,
+            businessEmail = validForm.email,
+            address = validForm.address)
+          )
+          .withCookie(StoreBusinessDetailsCacheKey, validForm.address.searchFields.remember.toString)
     )
   }
 
@@ -77,11 +86,31 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
     (form /: List(
       (BusinessNameId, "error.validBusinessName"),
       (BusinessContactId, "error.validBusinessContact"),
-      (BusinessPostcodeId, "error.restricted.validPostcode"))) { (form, error) =>
+      (BusinessAddressId, "error.restricted.validPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
         message = error._2,
         args = Seq.empty
       ))
     }.distinctErrors
+
+  private def createBusinessDetailsModel(businessName: String,
+                                         businessContact: String,
+                                         businessEmail: String,
+                                         address: Address): BusinessDetailsModel = {
+    BusinessDetailsModel(name = businessName,
+      contact = businessContact,
+      email = businessEmail,
+      address = new AddressModel(address = convertAddressToSeq(address)).formatPostcode)
+  }
+
+  // TODO: consider putting this on the Address object
+  private def convertAddressToSeq(address: Address): Seq[String] = {
+    Seq(address.streetAddress1,
+      address.streetAddress2.getOrElse(""),
+      address.streetAddress3.getOrElse(""),
+      address.postTown,
+      address.postCode
+    ).filter(_ != "")
+  }
 }

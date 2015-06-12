@@ -24,6 +24,7 @@ import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.for
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
@@ -35,7 +36,6 @@ import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCache
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -53,7 +53,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   )
   override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
 
-  override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel, formModel: VehicleAndKeeperLookupFormModel)
+  override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel,
+                         formModel: VehicleAndKeeperLookupFormModel)
                         (implicit request: Request[_]): Result = {
 
     val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
@@ -84,7 +85,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                 (implicit request: Request[_]): Result =
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
 
-  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage, formModel: VehicleAndKeeperLookupFormModel)
+  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage,
+                                    formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
     val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(

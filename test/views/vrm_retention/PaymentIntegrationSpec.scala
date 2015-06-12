@@ -7,21 +7,18 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.scalatest.selenium.WebBrowser._
-import pages.vrm_retention.VehicleLookupPage
-import pages.vrm_retention._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
+import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, PaymentPage, VehicleLookupPage}
 import views.vrm_retention.RelatedCacheKeys.BusinessDetailsSet
 import views.vrm_retention.RelatedCacheKeys.RetainSet
 
-final class PaymentIntegrationSpec extends UiSpec with TestHarness {
+class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
-
       go to PaymentPage
-
       currentUrl should equal(PaymentPage.url)
     }
 
@@ -30,15 +27,13 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
-      csrf.getAttribute("value").size > 0 should equal(true)
+      csrf.getAttribute("value").length > 0 should equal(true)
     }
 
     "redirect to VehicleLookupPage page when retain cookie is present (the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().retainModel()
-
       go to PaymentPage
-
       currentUrl should equal(VehicleLookupPage.url)
     }
   }
@@ -51,9 +46,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
-
       click on PaymentPage.cancel
-
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
@@ -73,7 +66,6 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "remove RetainSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup().
-        businessChooseYourAddress().
         setupBusinessDetails().
         storeBusinessDetailsConsent(consent = "false")
       go to PaymentPage
@@ -93,9 +85,7 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
     "remove RetainSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup().
-        businessChooseYourAddress().
         setupBusinessDetails().
-        enterAddressManually().
         storeBusinessDetailsConsent(consent = "true")
       go to PaymentPage
 
@@ -113,12 +103,12 @@ final class PaymentIntegrationSpec extends UiSpec with TestHarness {
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs.
-      vehicleAndKeeperLookupFormModel().
-      vehicleAndKeeperDetailsModel().
-      businessDetails().
-      eligibilityModel().
-      confirmFormModel().
-      transactionId().
-      paymentTransNo()
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
+      .businessDetails()
+      .eligibilityModel()
+      .confirmFormModel()
+      .transactionId()
+      .paymentTransNo()
 }

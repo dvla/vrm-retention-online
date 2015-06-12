@@ -3,35 +3,34 @@ package controllers
 import composition.TestConfig
 import composition.WithApplication
 import controllers.Common.PrototypeHtml
+import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import models.SetupBusinessDetailsFormModel
-import pages.vrm_retention.BusinessChooseYourAddressPage
-import pages.vrm_retention.VehicleLookupPage
+import pages.vrm_retention.{ConfirmBusinessPage, VehicleLookupPage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
-import play.api.test.Helpers._
-import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
+import play.api.test.Helpers.{BAD_REQUEST, OK}
+import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
+import views.vrm_retention.SetupBusinessDetails.BusinessAddressId
 import views.vrm_retention.SetupBusinessDetails.BusinessContactId
 import views.vrm_retention.SetupBusinessDetails.BusinessEmailId
 import views.vrm_retention.SetupBusinessDetails.BusinessNameId
-import views.vrm_retention.SetupBusinessDetails.BusinessPostcodeId
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import webserviceclients.fakes.AddressLookupServiceConstants.SearchPostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 
-final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
+class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
@@ -44,7 +43,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
           setupBusinessDetails(),
           vehicleAndKeeperDetailsModel()
         )
-      val result = setUpBusinessDetails.present(request)
+      val result = setUpBusinessDetails().present(request)
       val content = contentAsString(result)
       content should include(TraderBusinessNameValid)
       content should include(PostcodeValid)
@@ -68,10 +67,9 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-
     "redirect to VehicleLookup page is required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
-      val result = setUpBusinessDetails.submit(request)
+      val result = setUpBusinessDetails().submit(request)
       whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
@@ -80,10 +78,10 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
     "redirect to next page when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = setUpBusinessDetails.submit(request)
+      val result = setUpBusinessDetails().submit(request)
       whenReady(result) {
         r =>
-          r.header.headers.get(LOCATION) should equal(Some(BusinessChooseYourAddressPage.address))
+          r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
           val cookies = fetchCookiesFromHeaders(r)
           val cookieName = SetupBusinessDetailsCacheKey
           cookies.find(_.name == cookieName) match {
@@ -91,7 +89,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
               val json = cookie.value
               val model = deserializeJsonToModel[SetupBusinessDetailsFormModel](json)
               model.name should equal(TraderBusinessNameValid.toUpperCase)
-              model.postcode should equal(PostcodeValid.toUpperCase)
+              model.address.postCode should equal(PostcodeValid.toUpperCase)
             case None => fail(s"$cookieName cookie not found")
           }
       }
@@ -100,7 +98,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     "return a bad request if no details are entered" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "").
         withCookies(vehicleAndKeeperDetailsModel())
-      val result = setUpBusinessDetails.submit(request)
+      val result = setUpBusinessDetails().submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
       }
@@ -109,7 +107,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1)).
         withCookies(vehicleAndKeeperDetailsModel())
-      val result = setUpBusinessDetails.submit(request)
+      val result = setUpBusinessDetails().submit(request)
       val content = contentAsString(result)
       val count = "Must be between two and 58 characters and only contain valid characters".
         r.findAllIn(content).length
@@ -120,7 +118,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "").
         withCookies(vehicleAndKeeperDetailsModel())
-      val result = setUpBusinessDetails.submit(request)
+      val result = setUpBusinessDetails().submit(request)
       val content = contentAsString(result)
       val count = "Must be between two and 58 characters and only contain valid characters".
         r.findAllIn(content).length
@@ -130,7 +128,7 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
     "write cookie when the form is completed successfully" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
-      val result = setUpBusinessDetails.submit(request)
+      val result = setUpBusinessDetails().submit(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
         cookies.map(_.name) should contain(SetupBusinessDetailsCacheKey)
@@ -138,12 +136,12 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
   }
 
-  private def setUpBusinessDetails = testInjector().getInstance(classOf[SetUpBusinessDetails])
+  private def setUpBusinessDetails() = testInjector().getInstance(classOf[SetUpBusinessDetails])
 
   private def present = {
     val request = FakeRequest().
       withCookies(vehicleAndKeeperDetailsModel())
-    setUpBusinessDetails.present(request)
+    setUpBusinessDetails().present(request)
   }
 
   private def setUpBusinessDetailsPrototypeNotVisible() = {
@@ -155,12 +153,34 @@ final class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   private def buildCorrectlyPopulatedRequest(dealerName: String = TraderBusinessNameValid,
                                              dealerContact: String = TraderBusinessContactValid,
                                              dealerEmail: String = TraderBusinessEmailValid,
-                                             dealerPostcode: String = PostcodeValid) = {
-    FakeRequest().withFormUrlEncodedBody(
+                                             searchPostCode: String = SearchPostcodeValid,
+                                             addressListSelect: String = "1",
+                                             showSearchFields: Boolean = true,
+                                             showAddressSelect: Boolean = true,
+                                             showAddressFields: Boolean = true,
+                                             addressLine1: String = "543 Great Nortfort St.",
+                                             addressLine2: String = "Flat 12, Forest House,",
+                                             addressLine3: String = "",
+                                             postTown: String = "London",
+                                             dealerPostcode: String = PostcodeValid,
+                                             saveDetails: Boolean = true) = {
+    val data = Seq(
       BusinessNameId -> dealerName,
       BusinessContactId -> dealerContact,
       s"$BusinessEmailId.$EmailId" -> dealerEmail,
       s"$BusinessEmailId.$EmailVerifyId" -> dealerEmail,
-      BusinessPostcodeId -> dealerPostcode)
+      s"$BusinessAddressId.${AddressPicker.SearchByPostcodeField}" -> searchPostCode,
+      s"$BusinessAddressId.${AddressPicker.AddressListSelect}" -> addressListSelect,
+      s"$BusinessAddressId.${AddressPicker.ShowSearchFields}" -> showSearchFields.toString,
+      s"$BusinessAddressId.${AddressPicker.ShowAddressSelect}" -> showAddressSelect.toString,
+      s"$BusinessAddressId.${AddressPicker.ShowAddressFields}" -> showAddressFields.toString,
+      s"$BusinessAddressId.${AddressPicker.AddressLine1Id}" -> addressLine1,
+      s"$BusinessAddressId.${AddressPicker.AddressLine2Id}" -> addressLine2,
+      s"$BusinessAddressId.${AddressPicker.AddressLine3Id}" -> addressLine3,
+      s"$BusinessAddressId.${AddressPicker.PostTownId}" -> postTown,
+      s"$BusinessAddressId.${AddressPicker.PostcodeId}" -> dealerPostcode
+    ) ++ (if (saveDetails) Seq(s"$BusinessAddressId.${AddressPicker.RememberId}" -> "true")
+          else Seq.empty[(String, String)])
+    FakeRequest().withFormUrlEncodedBody(data:_*)
   }
 }

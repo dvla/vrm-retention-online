@@ -6,10 +6,11 @@ import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.currentUrl
 import pages.vrm_retention.SuccessPage.url
 
-class SuccessPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers {
+class SuccessPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers {
 
   def `is displayed` = {
     eventually {

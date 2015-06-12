@@ -12,10 +12,9 @@ import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
 
-final class ErrorUnitSpec extends UnitSpec {
+class ErrorUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       val result = error.present(exceptionDigest)(FakeRequest())
       status(result) should equal(OK)
@@ -33,7 +32,6 @@ final class ErrorUnitSpec extends UnitSpec {
   }
 
   "startAgain" should {
-
     "redirect to next page after the button is clicked" in new WithApplication {
       val result = error.startAgain(exceptionDigest)(FakeRequest())
       whenReady(result) { r =>

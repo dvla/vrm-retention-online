@@ -12,10 +12,9 @@ import pages.ApplicationContext.applicationContext
 import play.mvc.Http.Status
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 
-final class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
+class HealthCheckIntegrationSpec extends UiSpec with TestHarness {
 
   "Accessing the /healthcheck url" should {
-
     "return 200 for GET" in new WebBrowserForSelenium {
       val httpResponse = execute(new HttpGet(WebDriverFactory.testUrl + s"$applicationContext/healthcheck"))
       try httpResponse.getStatusLine.getStatusCode should be(Status.OK)

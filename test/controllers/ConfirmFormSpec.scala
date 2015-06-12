@@ -3,16 +3,15 @@ package controllers
 import helpers.UnitSpec
 import models.ConfirmFormModel
 import play.api.data.Form
+import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import uk.gov.dvla.vehicles.presentation.common.mappings.OptionalToggle
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId
-import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
-import webserviceclients.fakes.AddressLookupServiceConstants._
+import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 
-final class ConfirmFormSpec extends UnitSpec {
+class ConfirmFormSpec extends UnitSpec {
 
   "form" should {
-
     "accept when the keeper wants an email and does provide an email address" in {
       val model = buildForm().get
 
@@ -45,6 +44,4 @@ final class ConfirmFormSpec extends UnitSpec {
       }
     )
   }
-
-  private val keeperEmailEmpty = ""
 }

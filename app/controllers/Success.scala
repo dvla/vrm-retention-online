@@ -29,7 +29,8 @@ final class Success @Inject()(pdfService: PdfService,
                               paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                             extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -49,7 +50,9 @@ final class Success @Inject()(pdfService: PdfService,
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
             keeperEmailOpt, retainModel, transactionId)
 
-        Ok(views.html.vrm_retention.success(successViewModel, isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper))
+        Ok(views.html.vrm_retention.success(successViewModel,
+          isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
+        )
       case _ =>
         Logger.warn("Success present user arrived without all of the required cookies")
         Redirect(routes.Confirm.present())
@@ -62,7 +65,10 @@ final class Success @Inject()(pdfService: PdfService,
       request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
 
-        val keeperName = Seq(vehicleAndKeeperDetails.title, vehicleAndKeeperDetails.firstName, vehicleAndKeeperDetails.lastName).flatten.mkString(" ")
+        val keeperName = Seq(vehicleAndKeeperDetails.title,
+          vehicleAndKeeperDetails.firstName,
+          vehicleAndKeeperDetails.lastName
+        ).flatten.mkString(" ")
         val pdf = pdfService.create(
           eligibilityModel,
           transactionId,

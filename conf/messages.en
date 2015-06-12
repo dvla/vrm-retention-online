@@ -1,3 +1,4 @@
+#TODO: this whole first section is redundant and needs to be removed
 ##
 # CHANGE OF ADDRESS
 ##
@@ -139,7 +140,6 @@ v5csearch.v5cinputlabel.refNumIncorrect = You must enter a number with a length 
 v5csearch.postcode.label = Post code
 v5csearch.postcode.validation = You must enter a valid postcode
 
-
 #page 10
 confirm_vehicle_details.title = Change of keeper address10
 confirm_vehicle_details.name = 5. Confirm vehicle details
@@ -182,10 +182,8 @@ datePlaceholder.December=December
 select_default = Please select
 error.invalid = Invalid value
 
-
 traderName = Trader name
 traderPostcode = Postcode
-
 
 addressAndPostcode_addressLines = Address
 address.lines.label = Building/number and street
@@ -267,7 +265,6 @@ language.en.button = YAGNI
 
 mandatory = Fields not labelled (optional) are mandatory
 
-
 #
 # vrm retention messages
 #
@@ -327,9 +324,6 @@ vrm_retention_setupbusinessdetails.businesscontacthelper =
 contact-email = Contact e-mail
 vrm_retention_setupbusinessdetails.businessemaillabel = Contact e-mail
 vrm_retention_setupbusinessdetails.businessemailhelper = E-mail address for confirmation of this transaction
-business-postcode = Business postcode
-vrm_retention_setupbusinessdetails.businesspostcodelabel = Business postcode
-vrm_retention_setupbusinessdetails.businesspostcodehelper =
 vrm_retention_setupbusinessdetails.businesspostcodelabel.validation = Must be between 5 and 8 characters and in a valid format, eg. SA1 2FA or SA12FA
 vrm_retention_setupbusinessdetails.button = Next
 error.validBusinessName = Must be between two and 58 characters and only contain valid characters (a-z, A-Z, 0-9, -, ', and ,)
@@ -350,7 +344,7 @@ vrm_retention_vehiclelookup.p2 = Vehicle will be sold to
 vrm_retention_vehiclelookup.warning.p1 = Do not dispose of a vehicle with a personal registration unless the current keeper understands that the registration will be disposed of along with the vehicle.
 vrm_retention_vehiclelookup.warning.p2 = Retain or transfer personal registrations before disposing to the trade.
 vrm_retention_vehiclelookup.refnumlabel = Latest V5C document reference number
-vrm_retention_vehiclelookup.refnumHint = The 11 digit number found on the V5C (shown in the example)
+vrm_retention_vehiclelookup.refnumHint = The 11 digit number found on the V5C registration certificate (logbook)
 vrm_retention_vehiclelookup.vrninputlabel = Vehicle registration number
 vrm_retention_vehiclelookup.vrnHint = The registration number you want to keep
 vrm_retention_vehiclelookup.backbutton = Back
@@ -515,45 +509,25 @@ supply-email-true = Yes
 supply-email-false = No
 email-not-supplied = You must supply an email address to receive a summary of the transaction
 
-# choose business address
-vrm_retention_businessChooseYourAddress_title = Select your business address
-vrm_retention_businessChooseYourAddress_legend = Set up business details
-vrm_retention_businessChooseYourAddress_businessName_label = Business name
-vrm_retention_businessChooseYourAddress_businessContact_label =  Contact name
-vrm_retention_businessChooseYourAddress_businessEmail_label = Email address
-vrm_retention_businessChooseYourAddress_businessName = {0}
-vrm_retention_businessChooseYourAddress_businessContact = {0}
-vrm_retention_businessChooseYourAddress_businessEmail = {0}
-vrm_retention_businessChooseYourAddress_postcode_label = Postcode
-vrm_retention_businessChooseYourAddress_businessAddress_label = Business address
-address-select =
-vrm_retention_businessChooseYourAddress_addressSelect_label =
-vrm_retention_businessChooseYourAddress.backbutton = Back
-vrm_retention_businessChooseYourAddress.submitbutton = Next
-manual-address-entry = My address is not in the list
-manual-address-entry-2 = Enter address
-error.dropDownInvalid = Please select a value from the drop down list.
-vrm_retention_businessChooseYourAddress_noaddressesfound.h2.1 = No addresses found for that postcode.
-vrm_retention_businessChooseYourAddress_noaddressesfound.h2.2 = Please either ‘Enter address’ or click ‘Back’ to try again.
-vrm_retention_businessChooseYourAddress.address.required = Select an address from the drop down or enter it manually
-
 #page 3 - uprn not found
 vrm_retention_uprnnotfound.title = Error confirming post code
 vrm_retention_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
 vrm_retention_uprnnotfound.manualaddressbutton = Set-up business details
 vrm_retention_uprnnotfound.setuptradedetailsbutton = Manually enter address
 
-# enter address manually
-vrm_retention_enteraddressmanually.title = Enter address
-vrm_retention_enteraddressmanually.submitbutton = Next
-vrm_retention_enteraddressmanually.backbutton = Back
-address.buildingNameOrNumber.hint = e.g. 1 HIGH STREET
-addressAndPostcode.addressLines.postTown.hint = e.g. SWANSEA
-
 #Success payment page
 vrm_retention_success_payment.title = Payment Successful
 vrm_retention_success_payment.h1 = Thank you for your payment, your Registration Number can now be taken off your vehicle
 vrm_retention_success_payment.h2 = What to do next
+vrm_retention_success_payment.what-next-1 = If you have the number plates already, you should put these on your vehicle as soon as possible.
+vrm_retention_success_payment.what-next-2 = If you need to have your new plates made up, you can do this once you have received your new V5C
+vrm_retention_success_payment.what-next-3 = at your nearest, DVLA approved number plate supplier.
+vrm_retention_success_payment.what-next-4 = You can now put
+vrm_retention_success_payment.what-next-5 = on vehicle using
+vrm_retention_success_payment.what-next-6 = our online service
+vrm_retention_success_payment.what-next-7 = and the retention certificate number in the green box above.
+vrm_retention_success_payment.what-next-8 = Advice your insurance company about your change of registration number.
+
 vrm_retention_success_payment.p1 = Your replacement registration:
 vrm_retention_success_payment.p1business = Keeper’s replacement registration:
 vrm_retention_success_payment.p2 = You will receive a new V5C within 2 weeks. When this arrives, your registration number,
@@ -591,11 +565,12 @@ vrm_retention_success_payment.aboutTransactionEmployeeLabel = Employee name (opt
 vrm_retention_success_payment.button = Next
 
 #Success page
-vrm_retention_success.title = Summary
-vrm_retention_success.subtitle = Take a Registration Number off a Vehicle complete for
+vrm_retention_success.title = Application successful
+vrm_retention_success.subtitle = Can now be taken off the vehicle
 vrm_retention_success.replacementRegNumberLabel = Registration number
 vrm_retention_success.yourCert = Your Retention Certificate Number is:
 success-cert-warning = We strongly advise you to keep your certificate number confidential until the registration number is ready to be sold or assigned to a vehicle.
+success-cert-warning-1 = Your current Vehicle Tax and MOT certificate will remain valid until their expiry dates. DVLA will NOT send you a replacement MOT certificate.
 success-replacement-registration-number = Your replacement Registration Number is:
 vrm_retention_success.infoMsg = The certificate will be sent to the registered keeper at their address on the latest V5C.
 vrm_retention_success.replacementTitle = Your replacement registration number
@@ -639,9 +614,11 @@ vrm_retention_success.notice2.p1 = You can now assign your retained registration
 vrm_retention_success.notice2.p1.link = put a registration number on a vehicle service
 vrm_retention_success.notice2.p2 = .
 
-
 vrm_retention_success.p1 = What happens next?
-vrm_retention_success.p2 = We will send the following to the keeper at their registered address:
+vrm_retention_success.p2 = DVLA will send a new registration certificate (V5C) for the registration number
+vrm_retention_success.p3 = to the keeper at their registered address.
+vrm_retention_success.p4 = This will arrive within 3 to 5 days.
+vrm_retention_success.p5 = Please destroy your old V5C once you have received it.
 vrm_retention_success.listItem1 = A new registration certificate (V5C) with the replacement registration number
 vrm_retention_success.listItem2 = A replacement MOT certificate (for cars and motorcycles over 3 years old and heavy goods vehicles over 1 year old)
 vrm_retention_success.listItem3 = A Certificate of Retention document (V778) providing the mark has not been assigned to a new vehicle on the same day as this retention.
@@ -819,4 +796,24 @@ vrm_retention_timeout.playback-title = Vehicle details
 vrm_retention_timeout.playback-current = Current registration number:
 vrm_retention_timeout.playback-new = The registration number you want to put on:
 
-
+# Address picker
+address.picker.common.postcode = Postcode
+address.picker.common.findAddress = Find UK address
+address.picker.common.manualAddress = Enter address manually
+address.picker.common.pickAddress = Pick an address
+address.picker.common.pleaseSelect = Please select
+address.picker.common.street = Street
+address.picker.common.streetNameNumber = Street name and number
+address.picker.common.townCity = Town/City
+address.picker.common.townOrCity = Town or City
+address.picker.common.changeDetails = Change my details
+address.picker.common.rememberDetails = Remember these details
+address.picker.common.postCodeNotFound = Postcode not found
+address.picker.common.serverError = Error from the server:
+business-address.address-postcode-lookup = Business Postcode
+business-address.address-line-1 = Business Address line 1
+business-address.post-town = Business Town/City
+business-address.post-code = Business Postcode
+error.address.postCode = This field is mandatory
+error.address.addressLine1 = This field is mandatory
+error.required.address = Address is required

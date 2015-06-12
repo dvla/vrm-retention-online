@@ -5,15 +5,14 @@ import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_retention.ErrorPage.startAgain
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.ErrorPage
 
-final class ErrorUiSpec extends UiSpec with TestHarness {
+class ErrorUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to ErrorPage
 
@@ -22,12 +21,9 @@ final class ErrorUiSpec extends UiSpec with TestHarness {
   }
 
   "startAgain button" should {
-
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
-          businessChooseYourAddress().
-          enterAddressManually().
           businessDetails().
           vehicleAndKeeperDetailsModel()
 

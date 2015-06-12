@@ -7,26 +7,22 @@ import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageSource}
 import pages.vrm_retention.BeforeYouStartPage.footerItem
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.VehicleLookupPage
 
-final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
+class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       currentUrl should equal(BeforeYouStartPage.url)
     }
 
     "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
-          businessChooseYourAddress().
-          enterAddressManually().
           businessDetails().
           vehicleAndKeeperDetailsModel()
 
@@ -40,24 +36,19 @@ final class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 
     "display the global cookie message when cookie 'seen_cookie_message' does not exist" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       pageSource should include("Find out more about cookies")
     }
 
     "display a link to the cookie policy" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       footerItem(index = 0).findElement(By.tagName("a")).getAttribute("href") should include(routes.CookiePolicy.present().toString())
     }
   }
 
   "startNow button" should {
-
     "go to next page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-
       click on BeforeYouStartPage.startNow
-
       currentUrl should equal(VehicleLookupPage.url)
     }
   }

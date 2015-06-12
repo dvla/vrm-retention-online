@@ -6,21 +6,26 @@ import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.Matchers
 import org.scalatest.concurrent.Eventually.PatienceConfig
-import org.scalatest.selenium.WebBrowser._
-import pages._
-import pages.vrm_retention._
+import org.scalatest.selenium.WebBrowser.{click, cookie, cookies, delete, go}
+import pages.BeforeYouStartPageSteps
+import pages.ConfirmBusinessPageSteps
+import pages.ConfirmPageSteps
+import pages.SetupBusinessDetailsPageSteps
+import pages.VehicleLookupPageSteps
+import pages.VehicleNotFoundPageSteps
+import pages.VrmLockedPageSteps
+import pages.vrm_retention.{ConfirmBusinessPage, VehicleLookupPage}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory.TrackingIdCookieName
 
-class CommonStepDefs(
-                      beforeYouStart: BeforeYouStartPageSteps,
+class CommonStepDefs(beforeYouStart: BeforeYouStartPageSteps,
                       vehicleLookup: VehicleLookupPageSteps,
                       vehicleNotFound: VehicleNotFoundPageSteps,
                       vrmLocked: VrmLockedPageSteps,
                       confirmBusiness: ConfirmBusinessPageSteps,
                       setupBusinessDetails: SetupBusinessDetailsPageSteps,
-                      businessChooseYourAddress: BusinessChooseYourAddressPageSteps,
                       confirm: ConfirmPageSteps
-                      )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig) extends ScalaDsl with EN with Matchers with TestHarness {
+                      )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
+  extends ScalaDsl with EN with Matchers with TestHarness {
 
   def `start the PR service` = {
     //    import com.typesafe.config.ConfigFactory
@@ -62,9 +67,8 @@ class CommonStepDefs(
     setupBusinessDetails.
       `is displayed`.
       `enter business details`
-    businessChooseYourAddress.`choose address from the drop-down`
     confirmBusiness.`is displayed`
-    click on ConfirmBusinessPage.rememberDetails
+//    click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
     this
   }

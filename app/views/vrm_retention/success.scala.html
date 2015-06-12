@@ -20,15 +20,16 @@
 		<div class="second-col">
 
 			<div class="alert-complete">
-				<h2>@Messages("vrm_retention_success.subtitle")</h2>
 				<span class="reg-number">@successViewModel.registrationNumber</span>
-                <p>@Messages("vrm_retention_success.yourCert") <br /> <strong>@successViewModel.retentionCertificationNumber </strong></p>
+				<h2>@Messages("vrm_retention_success.subtitle")</h2>
+                <p>@Messages("vrm_retention_success.yourCert") <br />
+					<strong>@successViewModel.retentionCertificationNumber</strong>
+				</p>
 			</div>
 
+			<p>@Messages("success-cert-warning")</p>
 
-            <div class="alert-warning"><h3>@Messages("success-cert-warning")</h3></div>
-
-            @Messages("success-replacement-registration-number") <span class="reg-number">@successViewModel.replacementRegistrationNumber</span>
+            <div class="alert-warning"><h3>@Messages("success-cert-warning-1")</h3></div>
 
 			@if(!isKeeper) {
             <div class="info-highlight two-col">
@@ -48,25 +49,23 @@
 
 			<h2>@Messages("vrm_retention_success_payment.h2")</h2>
 
-            <h3>@Messages("vrm_retention_success.notice1.h3")</h3>
-			<div class="info-notice">
-				<p>@Messages("vrm_retention_success.notice1.p1")</p>
-			</div>
-
-			<h3>@Messages("vrm_retention_success.notice2.h3")</h3>
-			<div class="info-notice">
-				<p>@Messages("vrm_retention_success.notice2.p1")
-					<a href="https://www.personalisedvehicleregistration.service.gov.uk/assign/before-you-start" target="_blank">@Messages("vrm_retention_success.notice2.p1.link")</a>@Messages("vrm_retention_success.notice2.p2")
-				</p>
-			</div>
-
-			<h3>@Messages("vrm_retention_success.p1")</h3>
-			<p>@Messages("vrm_retention_success.p2")</p>
 			<ul>
-				<li>@Messages("vrm_retention_success.listItem1") <strong>@successViewModel.replacementRegistrationNumber</strong></li>
-				@*<li>@Messages("vrm_retention_success.listItem2")</li>*@
-				<li>@Messages("vrm_retention_success.listItem3")</li>
+				<li>@Messages("vrm_retention_success_payment.what-next-1")</li>
+				<li>@Messages("vrm_retention_success_payment.what-next-2")
+					<a href="https://www.gov.uk/number-plate-supplier" target="_blank"> @Messages("vrm_retention_success_payment.what-next-3")</a></li>
+				<li>@Messages("vrm_retention_success_payment.what-next-4") <strong>@successViewModel.replacementRegistrationNumber</strong> @Messages("vrm_retention_success_payment.what-next-5")
+					<a href="https://www.personalisedvehicleregistration.service.gov.uk/assign/before-you-start" target="_blank">@Messages("vrm_retention_success_payment.what-next-6")</a>
+					@Messages("vrm_retention_success_payment.what-next-7")</li>
+				<li>@Messages("vrm_retention_success_payment.what-next-8")</li>
+				<li>@Messages("success-replacement-registration-number") <span class="reg-number">@successViewModel.replacementRegistrationNumber</span>
+				</li>
 			</ul>
+
+			<h2>@Messages("vrm_retention_success.p1")</h2>
+			<p>@Messages("vrm_retention_success.p2") <strong>@successViewModel.replacementRegistrationNumber</strong> @Messages("vrm_retention_success.p3")</p>
+			<p>@Messages("vrm_retention_success.p4")</p>
+			<p>@Messages("vrm_retention_success.p5")</p>
+
 		</div>
 		<div class="first-col">
 

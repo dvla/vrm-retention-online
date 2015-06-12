@@ -4,15 +4,20 @@ import composition.TestConfig
 import composition.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs._
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentTransNo
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import pages.vrm_retention.SuccessPaymentPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers._
+import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, LOCATION, OK, status}
 
-final class PaymentPreventBackUnitSpec extends UnitSpec {
+class PaymentPreventBackUnitSpec extends UnitSpec {
 
   "present" should {
-
     "display the page" in new WithApplication {
       val result = paymentPreventBack.present()(FakeRequest())
       status(result) should equal(OK)
