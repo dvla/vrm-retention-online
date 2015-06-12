@@ -12,7 +12,8 @@ case class VRMRetentionRetainRequest(webHeader: VssWebHeaderDto,
                                      currentVRM: String,
                                      transactionTimestamp: DateTime,
                                      paymentSolveUpdateRequest: PaymentSolveUpdateRequest,
-                                     successEmailRequests: Seq[EmailServiceSendRequest])
+                                     successEmailRequests: Seq[EmailServiceSendRequest],
+                                     failureEmailRequests: Seq[EmailServiceSendRequest])
 
 object VRMRetentionRetainRequest {
 

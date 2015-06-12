@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import email.{RetainEmailService, ReceiptEmailMessageBuilder}
+import email.{FailureEmailMessageBuilder, RetainEmailService, ReceiptEmailMessageBuilder}
 import java.util.concurrent.TimeoutException
 import models.CacheKeyPrefix
 import models.ConfirmFormModel
@@ -14,6 +14,7 @@ import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
 import play.api.Logger
+import play.api.i18n.Messages
 import play.api.mvc.Result
 import play.api.mvc.{Action, Controller, Request}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -195,7 +196,6 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       }
     }
 
-
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
       webHeader = buildWebHeader(trackingId),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
@@ -208,7 +208,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         vehicleAndKeeperLookupFormModel,
         transactionId
       ),
-      fulfillConfirmEmail
+      fulfillConfirmEmail,
+      failureEmailRequests = buildFailureEmailRequests
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
@@ -251,8 +252,33 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     )
   }
 
+  private def buildFailureEmailRequests(implicit request: Request[_]): List[EmailServiceSendRequest] = {
+
+    val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+    val template = FailureEmailMessageBuilder.buildWith
+
+    val title = Messages("email.failure.title")
+
+    val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
+
+    // send keeper email if present
+    val keeperEmail = for {
+      model <- confirmFormModel
+      email <- model.keeperEmail
+    } yield buildEmailServiceSendRequest(template, from, title, email)
+
+    // send business email if present
+    val businessEmail = for {
+      model <- businessDetailsModel
+    } yield buildEmailServiceSendRequest(template, from, title, model.email)
+
+    Seq(keeperEmail, businessEmail).flatten.toList
+  }
+
   private def buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                            transactionId: String)(implicit request: Request[_]): List[EmailServiceSendRequest] = {
+                                                transactionId: String)(implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
@@ -264,11 +290,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       case _ => None
     }
 
-    val template = ReceiptEmailMessageBuilder.buildWith(
-      vehicleAndKeeperLookupFormModel.registrationNumber,
-      f"${config.purchaseAmount.toDouble / 100}%.2f",
-      transactionId,
-      businessDetails)
+    val template = FailureEmailMessageBuilder.buildWith
 
     val title = s"""Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"""
 

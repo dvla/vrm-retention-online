@@ -46,6 +46,7 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
       false,
       List(EmailServiceSendRequest("", "", None, From("", ""), "", None, None))
     ),
+    Seq.empty,
     Seq.empty
   )
 

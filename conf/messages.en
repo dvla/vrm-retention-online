@@ -699,6 +699,28 @@ vrm_retention_failure.title = Transaction not successful
 vrm_retention_failure.text = This transaction has not been successful, no payment has been taken and no changes have been made to the vehicle details.
 vehicle-lookup-failure-transaction-id = Transaction Id
 
+# failure email
+email.failure.title = Put a registration number on a vehicle
+email.failure.line0 =
+email.failure.line1 = THIS IS AN AUTOMATED EMAIL
+email.failure.line2 = PLEASE DO NOT REPLY AS EMAILS RECEIVED AT THIS ADDRESS CANNOT BE RESPONDED TO.
+email.failure.line3 =
+email.failure.line4 =Thank you for your application to 'Put a registration number on a vehicle'. Your application was \
+  unsuccessful at this time and your credit/debit card has not been charged.
+email.failure.line5 =
+email.failure.line6 = If you wish to contact DVLA regarding this application please contact us using the \
+  following details:
+email.failure.line7 = Telephone:
+email.failure.line8 = 0300 790 6802
+email.failure.line9 = (please enter extension 662 when prompted)
+email.failure.line10 =
+email.failure.line11 = Monday to Friday: 08:00 to 18:00
+email.failure.line12 = Saturday: 08:00 to 14:00
+email.failure.line13 = Sunday: Closed
+email.failure.line14 =
+email.failure.line15 = Textphone:
+email.failure.line16 = 18001 0300 123 1379
+
 # progress messages
 vrm_retention_progress_1 = Step 1 of 6
 vrm_retention_progress_2 = Step 2 of 6
