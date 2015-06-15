@@ -24,7 +24,7 @@
             @if(responseMessage.isDefined) {
                 @if(responseLink.isDefined) {
                     <p>@Messages(responseMessage.get)
-                        <a href="@{Messages(responseLink.get)}"> @{Messages(responseLink.get)}</a></p>
+                        <a href="@{Messages(responseLink.get)}"> @{Messages(responseLink.get)}</a>.</p>
                 } else {
                     <p>@Messages(responseMessage.get)</p>
                 }
