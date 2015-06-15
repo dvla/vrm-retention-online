@@ -30,17 +30,6 @@
                 }
             }
 
-            @if(responseMessage.isDefined) {
-                @if(responseLink.isDefined) {
-                    <p>@Messages(responseLink.get)</p>
-                    <p>@Messages(responseMessage.get)
-                        <a href="@{Messages(responseLink.get)}"> @{Messages(responseLink.get)}</a></p>
-                } else {
-                    <p>@Messages(responseMessage.get)</p>
-                }
-            }
-
-
             <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-p1a") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("direct-to-paper-text-v317")</a> @Messages(s"vehicle-lookup-failure-direct-to-paper-p1b")</p>
             <p>@Messages(s"vehicle-lookup-failure-direct-to-paper-address-line1")<br/>
             @Messages(s"vehicle-lookup-failure-direct-to-paper-address-line2")<br/>
