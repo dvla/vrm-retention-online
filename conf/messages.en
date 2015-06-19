@@ -677,7 +677,7 @@ vrm_retention_failure.text = This transaction has not been successful, no paymen
 vehicle-lookup-failure-transaction-id = Transaction Id
 
 # failure email
-email.failure.title = Put a registration number on a vehicle
+email.failure.title = Take a registration number off a vehicle
 email.failure.line0 =
 email.failure.line1 = THIS IS AN AUTOMATED EMAIL
 email.failure.line2 = PLEASE DO NOT REPLY AS EMAILS RECEIVED AT THIS ADDRESS CANNOT BE RESPONDED TO.
