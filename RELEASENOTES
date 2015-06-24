@@ -1,3 +1,13 @@
+======= 1.17 ======
+Time of release binaries creation:
+Wed Jun 24 12:13:36 UTC 2015
+
+US3240  Remove copy from User Feedback page
+US3353  Revisit the current architecture Accepted
+US3376  Define the Queue/Subscribe API   Accepted
+US3378  Create RabbitMQ Implementation for Queue/Subscribe API   Accepted
+DE564   Failed email message blocks email queue Accepted
+
 ======= 1.16 ======
 Time of release binaries creation:
 Wed Jun 10 2015 13:57:12 GMT+0000 (GMT)
