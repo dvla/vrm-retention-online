@@ -278,7 +278,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
   }
 
   private def buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                                transactionId: String)(implicit request: Request[_]): List[EmailServiceSendRequest] = {
+                            transactionId: String)(implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
@@ -290,7 +290,11 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       case _ => None
     }
 
-    val template = FailureEmailMessageBuilder.buildWith
+    val template = ReceiptEmailMessageBuilder.buildWith(
+      vehicleAndKeeperLookupFormModel.registrationNumber,
+      f"${config.purchaseAmount.toDouble / 100}%.2f",
+      transactionId,
+      businessDetails)
 
     val title = s"""Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"""
 
