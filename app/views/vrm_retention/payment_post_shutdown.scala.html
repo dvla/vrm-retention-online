@@ -16,7 +16,7 @@
                 <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</dd>
+                    <dd><span class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</span></dd>
                     @if(vehicleLookupFailureViewModel.make.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                         <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>

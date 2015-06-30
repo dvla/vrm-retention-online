@@ -26,7 +26,7 @@
                 <dl class="playback">
                     <h3>@Messages("vrm_retention_timeout.playback-title")</h3>
                     <dt>@Messages("vrm_retention_timeout.playback-current")</dt>
-                    <dd class="reg-number">@details.registrationNumber</dd>
+                    <dd><span class="reg-number">@details.registrationNumber</span></dd>
                     @details.make.map{ make =>
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                         <dd>@make.take(20)</dd>
@@ -38,7 +38,7 @@
 
                     @replacementVRN.map { value =>
                         <dt>@Messages("vrm_retention_timeout.playback-new")</dt>
-                        <dd class="reg-number">@value</dd>
+                        <dd><span class="reg-number">@value</span></dd>
                     }
                 </dl>
             </div>

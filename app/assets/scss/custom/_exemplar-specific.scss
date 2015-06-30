@@ -20,7 +20,6 @@
 #{$htmlNamespace} {
 
   .reg-number {
-    padding: 4px 10px 0px;
     font-family: 'mandatoryregular';
   }
     .beta-info {
@@ -47,17 +46,12 @@
         }
     }
 
-    .playback {
-      .reg-number {
-        font-family: 'mandatoryregular';
-        font-size: 30px !important;
-      }
-    }
 
   .alert-complete {
     h1, h2, h3 {
       &:before {
         content: "";
+        width: 0;
         background: none;
       }
     }
@@ -148,15 +142,6 @@ summary {
   }
 }
 
-
-.vrm-retention-online .alert-complete {
-    .reg-number {
-        margin-left: auto;
-        font-family: 'mandatoryregular';
-        margin-right: auto;
-        font-size: 27px;
-    }
-}
 
 .renewalFee {
     float:right;
