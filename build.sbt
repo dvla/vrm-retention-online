@@ -137,13 +137,13 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.15").disablePlugins(PlayScala, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.14").disablePlugins(PlayScala, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.13").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.13").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.13").disablePlugins(PlayScala, SbtWeb)
-lazy val emailServiceProject = emailService("0.8").disablePlugins(PlayScala, SbtWeb)
-//lazy val auditProject = audit("0.6-SNAPSHOT").disablePlugins(PlayScala, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
+lazy val osAddressLookupProject = osAddressLookup("0.16-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.15-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.14-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+//lazy val auditProject = audit("0.8-SNAPSHOT").disablePlugins(PlayScala, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 18000
