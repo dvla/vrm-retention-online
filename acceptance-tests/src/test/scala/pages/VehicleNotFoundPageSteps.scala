@@ -37,7 +37,7 @@ class VehicleNotFoundPageSteps(implicit webDriver: EventFiringWebDriver, timeout
 
   def `has 'direct to paper' message` = {
     pageSource should include("This registration number cannot be retained online")
-    pageSource should include("complete and submit a V317 form")
+    pageSource should include("V317 application")
     this
   }
 
