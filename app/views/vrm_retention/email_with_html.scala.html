@@ -180,6 +180,15 @@ govUkContentId: String)(implicit lang: Lang)
                 </tr>
                 <tr>
                     <td class="replacementInfo" style="border-collapse: collapse; text-align: center;" align="center">
+                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                            @Messages("email.line28")
+                            <br/>
+                            <a href="https://www.gov.uk/put-registration-number-vehicle?utm_source=retention-online&utm_medium=email-confirmation&utm_term=email-assign-link&utm_campaign=retain-assign-link">Put a registration number of a vehicle</a>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="replacementInfo" style="border-collapse: collapse; text-align: center;" align="center">
                         <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line9")</h1>
 
@@ -197,14 +206,6 @@ govUkContentId: String)(implicit lang: Lang)
                                 @Messages("email.line12")
                             </p>
                         }
-                    </td>
-                </tr>
-                <tr>
-                    <td class="replacementInfo" style="border-collapse: collapse; text-align: center;" align="center">
-                        <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                            You can assign your registration online using your retention certificate ID at:
-                            <a href="https://www.gov.uk/put-registration-number-vehicle?utm_source=retention-online&utm_medium=email-confirmation&utm_term=email-assign-link&utm_campaign=retain-assign-link">Put a registration number of a vehicle</a>
-                        </p>
                     </td>
                 </tr>
                 <tr>
@@ -261,12 +262,13 @@ govUkContentId: String)(implicit lang: Lang)
                             <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                 @Messages("email.line23")
                             </li>
-                            @*<li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">*@
-                                @*@Messages("email.line24")*@
-                            @*</li>*@
+                            <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
+                                @Messages("email.line24")
+                            </li>
                             <li style="line-height: 150%; list-style: none; font-family: Helvetica, Arial, sans, sans-serif;">
                                 @Messages("email.line25")
                             </li>
+
                         </ul>
 
                         @*<p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
