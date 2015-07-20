@@ -14,6 +14,9 @@
     @form(action = controllers.routes.Error.startAgain(exceptionDigest)) {
         @csrfTokenHiddenField()
 
+        <h2>@Messages("error.title")</h2>
+        <p>@Messages("error.text")</p>
+
         <div class="form-steps">
             <button id="@StartAgainId" type="submit" name="action" class="button">@Messages("error.button")</button>
         </div>
