@@ -14,7 +14,7 @@ import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
 import io.gatling.sbt.GatlingPlugin
 import GatlingPlugin.Gatling
-import scoverage.ScoverageSbtPlugin.ScoverageKeys
+import scoverage.ScoverageSbtPlugin.ScoverageKeys 
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
