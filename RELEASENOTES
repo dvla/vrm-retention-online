@@ -1,3 +1,28 @@
+======= 1.19 =======
+Time of release binaries creation:
+Wed Jul 22 08:43:41 UTC 2015
+
+DE611   Space in email domain doesn't display the correct error message.
+DE613   Summary page, no info on posting V778
+DE614   Email confirmation wording in green banner
+DE620   Vehicle not testable error page
+DE621   VIC marker set - error page
+DE624   Error page wording
+DE626   Seriously damaged vehicle wording error page
+DE634   Defective cookie results in call back loop
+DE470   Invaild payment fulfil scenario, landing on the wrong page.
+
+US3453  Link to assign and MOT cert warning in retention email
+US3458  Current V5C is void warning
+
+======= 1.18 ======
+Time of release binaries creation:
+Wed Jul 08 12:26:57 UTC 2015
+
+DE588   Failure Email
+DE591   Seriously damaged vehicle error page
+US3416  Standardise the skeuomorphic number plate to match that in the right hand column
+
 ======= 1.17.2 ======
 Time of release binaries creation:
 Mon Jun 29 14:36:13 UTC 2015
