@@ -2,7 +2,7 @@ package pages.vrm_retention
 
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, textField}
+import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, textField,telField}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
@@ -27,7 +27,7 @@ object VehicleLookupPage extends Page {
 
   def vehicleRegistrationNumber(implicit driver: WebDriver) = textField(id(VehicleRegistrationNumberId))
 
-  def documentReferenceNumber(implicit driver: WebDriver) = textField(id(DocumentReferenceNumberId))
+  def documentReferenceNumber(implicit driver: WebDriver) = telField(id(DocumentReferenceNumberId))
 
   def keeperPostcode(implicit driver: WebDriver) = textField(id(PostcodeId))
 
@@ -43,8 +43,10 @@ object VehicleLookupPage extends Page {
                 isCurrentKeeper: Boolean = true)
                (implicit driver: WebDriver) = {
     go to VehicleLookupPage
-    documentReferenceNumber.value = referenceNumber
+
+
     vehicleRegistrationNumber.value = registrationNumber
+    documentReferenceNumber.value = referenceNumber
     keeperPostcode.value = postcode
     if (isCurrentKeeper) click on currentKeeperYes
     else click on currentKeeperNo
