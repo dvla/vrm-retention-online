@@ -118,7 +118,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
         pageMovement = AuditRequest.ConfirmToPayment,
         timestamp = dateService.dateTimeISOChronology,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
-          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = model.keeperEmail,
@@ -152,7 +152,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       pageMovement = AuditRequest.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
-        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),

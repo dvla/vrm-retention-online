@@ -77,7 +77,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
 
             auditService2.send(AuditRequest.from(
               pageMovement = AuditRequest.ConfirmBusinessToConfirm,
-              transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+              transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               replacementVrm = Some(eligibilityModel.get.replacementVRM),
@@ -96,7 +96,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
-        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId),
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),

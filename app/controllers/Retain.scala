@@ -99,7 +99,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       val paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.SettledStatus)
       val transactionId = request.cookies.getString(TransactionIdCacheKey)
-        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId)
+        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
 
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.PaymentToSuccess,

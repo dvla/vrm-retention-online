@@ -146,7 +146,7 @@ class PaymentUnitSpec extends UnitSpec {
       )
       verify(paymentSolveWebService.stub)
         .invoke(request = expectedPaymentSolveBeginRequest,
-          tracking = ClearTextClientSideSessionFactory.DefaultTrackingId
+          tracking = ClearTextClientSideSessionFactory.DefaultTrackingId.value
         )
     }
   }
