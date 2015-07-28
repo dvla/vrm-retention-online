@@ -47,7 +47,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) &&
          inputEmailAddressDomain != "test.com") {
 
-      Logger.debug("About to send email")
+      Logger.debug(s"About to send email - trackingId $trackingId")
 
       val keeperName = Seq(
         vehicleAndKeeperDetailsModel.title,
@@ -109,11 +109,10 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         None)
       )
     } else {
-      Logger.error("Email not sent as not in whitelist")
+      Logger.error(s"Email not sent as not in whitelist - trackingId $trackingId")
       None
     }
   }
-
 
   override def sendEmail(emailAddress: String,
                          vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -147,7 +146,6 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       }
     }
   }
-
 
   override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                            eligibilityModel: EligibilityModel,
@@ -219,7 +217,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
   private def formatAddress(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
     vehicleAndKeeperDetailsModel.address match {
-      case Some(adressModel) => adressModel.address.mkString(", ")
+      case Some(addressModel) => addressModel.address.mkString(", ")
       case None => ""
     }
   }

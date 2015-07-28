@@ -11,13 +11,19 @@ import views.vrm_retention.KeeperConsent.keeperConsent
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_retention.VehicleLookup.KeeperConsentId
 import views.vrm_retention.VehicleLookup.PostcodeId
+import views.vrm_retention.VehicleLookup.UserType_Business
+import views.vrm_retention.VehicleLookup.UserType_Keeper
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 
 final case class VehicleAndKeeperLookupFormModel(referenceNumber: String,
                                                  registrationNumber: String,
                                                  postcode: String,
-                                                 userType: String) extends VehicleLookupFormModelBase
+                                                 userType: String) extends VehicleLookupFormModelBase {
+
+  def isBusinessUserType = userType == UserType_Business
+  def isKeeperUserType = userType == UserType_Keeper
+}
 
 object VehicleAndKeeperLookupFormModel {
 
@@ -33,5 +39,4 @@ object VehicleAndKeeperLookupFormModel {
       KeeperConsentId -> keeperConsent
     )(VehicleAndKeeperLookupFormModel.apply)(VehicleAndKeeperLookupFormModel.unapply)
   }
-
 }

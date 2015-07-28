@@ -206,10 +206,11 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         SETTLE_AUTH_CODE,
         paymentModel.isPrimaryUrl,
         vehicleAndKeeperLookupFormModel,
-        transactionId
+        transactionId,
+        trackingId
       ),
       fulfillConfirmEmail,
-      failureEmailRequests = buildFailureEmailRequests
+      failureEmailRequests = buildFailureEmailRequests(vehicleAndKeeperLookupFormModel, trackingId)
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
@@ -245,42 +246,73 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
   private def buildPaymentSolveUpdateRequest(paymentTransNo: String, paymentTrxRef: String,
                                              authType: String, isPaymentPrimaryUrl: Boolean,
                                              vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                             transactionId: String)(implicit request: Request[_]):
-  PaymentSolveUpdateRequest = {
-    PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
-      buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel, transactionId)
-    )
-  }
+                                             transactionId: String,
+                                             trackingId: String)
+                                            (implicit request: Request[_]):
+    PaymentSolveUpdateRequest = {
+      PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
+        buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel, transactionId, trackingId)
+      )
+    }
 
-  private def buildFailureEmailRequests(implicit request: Request[_]): List[EmailServiceSendRequest] = {
-
-    val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
-    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+  private def buildFailureEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                                        trackingId: String)
+                                       (implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
     val template = FailureEmailMessageBuilder.buildWith
-
+    val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
     val title = Messages("email.failure.title")
 
-    val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
+    val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
+    Logger.debug(s"isKeeperUserType = $isKeeperUserType, trackingId: $trackingId")
+
+    val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
 
     // send keeper email if present
-    val keeperEmail = for {
-      model <- confirmFormModel
-      email <- model.keeperEmail
-    } yield buildEmailServiceSendRequest(template, from, title, email)
+    val keeperEmail = if (isKeeperUserType) {
+      for {
+        model <- confirmFormModel
+        email <- model.keeperEmail
+      } yield {
+        Logger.debug(s"We are going to create a failure email for the keeper user type, trackingId: $trackingId")
+        buildEmailServiceSendRequest(template, from, title, email)
+      }
+    } else {
+      Logger.debug(s"We are not going to create a failure email for the keeper user type " +
+        s"because we are not dealing with the keeper user type, trackingId: $trackingId")
+      None
+    }
+
+    if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
+      Logger.debug(s"We are not going to create a failure email for the keeper user type " +
+        s"because no email was supplied, trackingId: $trackingId")
+    }
+
+    val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+    val isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType
+    Logger.debug(s"isBusinessUserType = $isBusinessUserType, trackingId: $trackingId")
 
     // send business email if present
-    val businessEmail = for {
-      model <- businessDetailsModel
-    } yield buildEmailServiceSendRequest(template, from, title, model.email)
-
+    val businessEmail = if (isBusinessUserType) {
+      for {
+        model <- businessDetailsModel
+      } yield {
+        Logger.debug(s"We are going to create a failure email for the business user type, trackingId: $trackingId")
+        buildEmailServiceSendRequest(template, from, title, model.email)
+      }
+    } else {
+      Logger.debug(s"We are not going to create a failure email for the business user type " +
+        s"because we are not dealing with the business user type, trackingId: $trackingId")
+      None
+    }
     Seq(keeperEmail, businessEmail).flatten.toList
   }
 
   private def buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                            transactionId: String)(implicit request: Request[_]): List[EmailServiceSendRequest] = {
+                                                transactionId: String,
+                                                trackingId: String)
+                                               (implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
-    val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
     val businessDetails = vehicleAndKeeperLookupFormModel.userType match {
@@ -300,16 +332,47 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
 
+    val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
+    Logger.debug(s"isKeeperUserType = $isKeeperUserType, trackingId: $trackingId")
+
+    val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+
     // send keeper email if present
-    val keeperEmail = for {
-      model <- confirmFormModel
-      email <- model.keeperEmail
-    } yield buildEmailServiceSendRequest(template, from, title, email)
+    val keeperEmail = if (isKeeperUserType) {
+      for {
+        model <- confirmFormModel
+        email <- model.keeperEmail
+      } yield {
+        Logger.debug(s"We are going to create a business receipt email for the keeper user type, trackingId: $trackingId")
+        buildEmailServiceSendRequest(template, from, title, email)
+      }
+    } else {
+      Logger.debug(s"We are not going to create a business receipt email for the keeper user type " +
+        s"because we are not dealing with the keeper user type, trackingId: $trackingId")
+      None
+    }
+
+    if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
+      Logger.debug(s"We are not going to create a business receipt email for the keeper user type " +
+        s"because no email was supplied, trackingId: $trackingId")
+    }
+
+    val isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType
+    Logger.debug(s"isBusinessUserType = $isBusinessUserType, trackingId: $trackingId")
 
     // send business email if present
-    val businessEmail = for {
-      model <- businessDetailsModel
-    } yield buildEmailServiceSendRequest(template, from, title, model.email)
+    val businessEmail = if (isBusinessUserType) {
+      for {
+        model <- businessDetailsModel
+      } yield {
+        Logger.debug(s"We are going to create a business receipt email for the business user type, trackingId: $trackingId")
+        buildEmailServiceSendRequest(template, from, title, model.email)
+      }
+    } else {
+      Logger.debug(s"We are not going to create a business receipt email for the business user type " +
+        s"because we are not dealing with the business user type, trackingId: $trackingId")
+      None
+    }
 
     Seq(keeperEmail, businessEmail).flatten.toList
   }
