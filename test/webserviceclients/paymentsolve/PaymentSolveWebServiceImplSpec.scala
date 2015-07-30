@@ -8,6 +8,7 @@ import composition.WithApplication
 import helpers.UnitSpec
 import helpers.WireMockFixture
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 
 final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
@@ -19,7 +20,7 @@ final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/payment/solve/beginWebPayment")
-        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)).
+        ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)).
           withRequestBody(equalTo(Json.toJson(request).toString())))
       }
     }
@@ -29,7 +30,7 @@ final class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture
     config = new TestConfig(paymentSolveMicroServiceUrlBase = s"http://localhost:$wireMockPort").build
   )
 
-  private val trackingId = "track-id-test"
+  private val trackingId =TrackingId("track-id-test")
 
   private def request = PaymentSolveBeginRequest(
     transactionId = "transaction id",

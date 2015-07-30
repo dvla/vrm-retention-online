@@ -14,13 +14,14 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeep
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceImpl
 import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callVehicleAndKeeperLookupService" should {
 
     "send the serialised json request" in new WithApplication {
-      val resultFuture = lookupService.invoke(request, trackingId)
+      val resultFuture = lookupService.invoke(request, TrackingId(trackingId))
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicleandkeeper/lookup/v1")

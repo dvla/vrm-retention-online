@@ -18,12 +18,13 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResp
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[VRMRetentionRetainWebService]
-    when(webService.invoke(any[VRMRetentionRetainRequest], any[String])).
+    when(webService.invoke(any[VRMRetentionRetainRequest], any[TrackingId])).
       thenAnswer(
         new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {

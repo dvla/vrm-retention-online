@@ -9,12 +9,13 @@ import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class VehicleAndKeeperDetailsCallDocRefNumberNotLatest extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[VehicleAndKeeperLookupWebService]
-    when(webService.invoke(any[VehicleAndKeeperLookupRequest], any[String]))
+    when(webService.invoke(any[VehicleAndKeeperLookupRequest], any[TrackingId]))
       .thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsResponseDocRefNumberNotLatest)))
     webService
   }

@@ -6,6 +6,7 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve._
 
@@ -15,7 +16,7 @@ final class CancelValidated extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[PaymentSolveWebService]
-    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[String])).
+    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[TrackingId])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
     webService
   }

@@ -4,6 +4,7 @@ import composition.WithApplication
 import composition.webserviceclients.paymentsolve.PaymentCallFails
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
@@ -43,7 +44,7 @@ final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
     }
   }
 
-  private val trackingId = "stub-tracking-id"
+  private val trackingId = TrackingId("stub-tracking-id")
 
   private def paymentCallFails = testInjector(
     new PaymentCallFails

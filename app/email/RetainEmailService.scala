@@ -2,6 +2,7 @@ package email
 
 import models._
 import play.twirl.api.HtmlFormat
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import webserviceclients.emailservice.EmailServiceSendRequest
 
@@ -15,7 +16,7 @@ trait RetainEmailService {
                    confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel],
                    isKeeper: Boolean,
-                   trackingId: String): Option[EmailServiceSendRequest]
+                   trackingId: TrackingId): Option[EmailServiceSendRequest]
 
   def sendEmail(emailAddress: String,
                 vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
@@ -26,7 +27,7 @@ trait RetainEmailService {
                 confirmFormModel: Option[ConfirmFormModel],
                 businessDetailsModel: Option[BusinessDetailsModel],
                 isKeeper: Boolean,
-                trackingId: String)
+                trackingId: TrackingId)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,

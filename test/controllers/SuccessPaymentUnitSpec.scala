@@ -27,6 +27,7 @@ import play.api.test.Helpers.BAD_REQUEST
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.status
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
@@ -98,7 +99,7 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
           Matchers.eq(isKeeper),
-          any[String]
+          any[TrackingId]
         )
         Mockito.verifyNoMoreInteractions(emailService)
       }
@@ -129,7 +130,7 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
           Matchers.eq(isKeeper),
-          any[String]
+          any[TrackingId]
         )
         Mockito.verifyNoMoreInteractions(emailService)
       }
@@ -160,7 +161,7 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
           Matchers.eq(isKeeper),
-          any[String]
+          any[TrackingId]
         )
         Mockito.verifyNoMoreInteractions(emailService)
       }
@@ -191,7 +192,7 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           any[Option[ConfirmFormModel]],
           any[Option[BusinessDetailsModel]],
           Matchers.eq(isKeeper),
-          any[String]
+          any[TrackingId]
         )
       }
     }

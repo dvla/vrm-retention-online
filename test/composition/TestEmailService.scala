@@ -6,6 +6,7 @@ import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 final class TestEmailService extends ScalaModule with MockitoSugar {
@@ -21,7 +22,7 @@ final class TestEmailService extends ScalaModule with MockitoSugar {
     any[Option[ConfirmFormModel]],
     any[Option[BusinessDetailsModel]],
     any[Boolean],
-    any[String]
+    any[TrackingId]
   )).thenReturn(None)
 
   def configure() = bind[RetainEmailService].toInstance(stub)

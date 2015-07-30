@@ -12,7 +12,7 @@ import models.VehicleAndKeeperLookupFormModel
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
@@ -68,7 +68,7 @@ import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.Transaction
 
 object CookieFactoryForUnitSpecs extends TestComposition {
 
-  private final val TrackingIdValue = "trackingId"
+  private final val TrackingIdValue = TrackingId("trackingId")
   private lazy val session = testInjector().getInstance(classOf[ClientSideSessionFactory]).getSession(Array.empty[Cookie])
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
@@ -165,8 +165,8 @@ object CookieFactoryForUnitSpecs extends TestComposition {
     createCookie(key, value)
   }
 
-  def trackingIdModel(value: String = TrackingIdValue): Cookie = {
-    createCookie(ClientSideSessionFactory.TrackingIdCookieName, value)
+  def trackingIdModel(trackingId: TrackingId = TrackingIdValue): Cookie = {
+    createCookie(ClientSideSessionFactory.TrackingIdCookieName, trackingId.value)
   }
 
   private def createCookie[A](key: String, value: String): Cookie = {

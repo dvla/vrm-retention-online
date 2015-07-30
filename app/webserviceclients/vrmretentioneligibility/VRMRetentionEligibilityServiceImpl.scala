@@ -3,6 +3,7 @@ package webserviceclients.vrmretentioneligibility
 import javax.inject.Inject
 
 import play.api.http.Status
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -12,7 +13,7 @@ final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibi
   extends VRMRetentionEligibilityService {
 
   override def invoke(cmd: VRMRetentionEligibilityRequest,
-                      trackingId: String): Future[VRMRetentionEligibilityResponse] =
+                      trackingId: TrackingId): Future[VRMRetentionEligibilityResponse] =
     ws.invoke(cmd, trackingId).map { resp =>
       if (resp.status == Status.OK) resp.json.as[VRMRetentionEligibilityResponse]
       else throw new RuntimeException(

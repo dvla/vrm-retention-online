@@ -14,22 +14,23 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResp
 import webserviceclients.paymentsolve._
 
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[PaymentSolveWebService]
 
-    when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[String])).
+    when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[TrackingId])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = beginResponseWithValidDefaults())))
 
-    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[String])).
+    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[TrackingId])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults())))
 
-    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[String])).
+    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[TrackingId])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
 
-    when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[String])).
+    when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[TrackingId])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
 
     webService

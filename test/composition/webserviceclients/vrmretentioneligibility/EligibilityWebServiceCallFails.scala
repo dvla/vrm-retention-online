@@ -8,12 +8,13 @@ import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class EligibilityWebServiceCallFails extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[VRMRetentionEligibilityWebService]
-    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
+    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId])).
       thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")))
     webService
   }

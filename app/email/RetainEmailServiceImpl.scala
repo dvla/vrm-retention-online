@@ -9,6 +9,7 @@ import play.api.Play
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
@@ -20,6 +21,7 @@ import webserviceclients.emailservice.EmailService
 import webserviceclients.emailservice.EmailServiceSendRequest
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.dvla.vehicles.presentation.common.LogFormats._
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 
@@ -40,14 +42,14 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                    confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel],
                    isKeeper: Boolean,
-                   trackingId: String): Option[EmailServiceSendRequest] = {
+                   trackingId: TrackingId): Option[EmailServiceSendRequest] = {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if ((!config.emailWhitelist.isDefined) ||
         (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) &&
          inputEmailAddressDomain != "test.com") {
 
-      Logger.debug(s"About to send email - trackingId $trackingId")
+      Logger.debug(logMessage(s"About to send email",trackingId))
 
       val keeperName = Seq(
         vehicleAndKeeperDetailsModel.title,
@@ -109,7 +111,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         None)
       )
     } else {
-      Logger.error(s"Email not sent as not in whitelist - trackingId $trackingId")
+      Logger.error(logMessage(s"Email not sent as not in whitelist",trackingId))
       None
     }
   }
@@ -123,7 +125,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                          confirmFormModel: Option[ConfirmFormModel],
                          businessDetailsModel: Option[BusinessDetailsModel],
                          isKeeper: Boolean,
-                         trackingId: String): Unit = Future {
+                         trackingId: TrackingId): Unit = Future {
     emailRequest(
       emailAddress,
       vehicleAndKeeperDetailsModel,
@@ -138,11 +140,11 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
     ).map { emailRequest =>
       emailService.invoke(emailRequest, trackingId).map {
         response =>
-          if (isKeeper) Logger.info(s"Keeper email sent - trackingId $trackingId")
-          else Logger.info(s"Non-keeper email sent - trackingId $trackingId")
+          if (isKeeper) Logger.info(logMessage(s"Keeper email sent", trackingId))
+          else Logger.info(logMessage(s"Non-keeper email sent",trackingId))
       }.recover {
         case NonFatal(e) =>
-          Logger.error(s"Email Service web service call failed. Exception " + e.toString)
+          Logger.error(logMessage(s"Email Service web service call failed. Exception " + e.toString,trackingId))
       }
     }
   }

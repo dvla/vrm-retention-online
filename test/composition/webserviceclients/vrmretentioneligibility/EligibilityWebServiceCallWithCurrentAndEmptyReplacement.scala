@@ -11,6 +11,7 @@ import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class EligibilityWebServiceCallWithCurrentAndEmptyReplacement() extends ScalaModule with MockitoSugar {
 
@@ -20,7 +21,7 @@ final class EligibilityWebServiceCallWithCurrentAndEmptyReplacement() extends Sc
 
   val stub = {
     val webService = mock[VRMRetentionEligibilityWebService]
-    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[String])).
+    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId])).
       thenReturn(Future.successful(createResponse(withCurrentAndEmptyReplacement)))
     webService
   }

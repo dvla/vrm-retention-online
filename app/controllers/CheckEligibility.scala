@@ -13,7 +13,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -145,8 +145,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
   }
 
-  private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
-    VssWebHeaderDto(transactionId = trackingId,
+  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto = {
+    VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,

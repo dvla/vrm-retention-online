@@ -20,8 +20,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken
@@ -129,6 +128,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   private def callBeginWebPaymentService(transactionId: String, vrm: String)
                                         (implicit request: Request[_],
                                          token: CsrfPreventionToken): Future[Result] = {
+
+
     refererFromHeader.fetch match {
       case Some(referer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)

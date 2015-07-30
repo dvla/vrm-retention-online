@@ -13,14 +13,15 @@ import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.paymentsolve.PaymentSolveWebService
 
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class ValidatedAuthorised extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[PaymentSolveWebService]
-    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[String])).
+    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[TrackingId])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults())))
-    when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[String])).
+    when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[TrackingId])).
       thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
     webService
   }
