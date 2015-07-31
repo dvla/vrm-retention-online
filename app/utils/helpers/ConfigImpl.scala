@@ -17,7 +17,8 @@ class ConfigImpl extends Config {
   val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
 
   // Payment Service
-  override val purchaseAmount: String =
+  // TODO: this should not be optional
+  override val purchaseAmountInPence: String =
     getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
 
   override val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)

@@ -138,7 +138,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           transactionId = transactionId,
           transNo = transNo,
           vrm = vrm,
-          purchaseAmount = config.purchaseAmount.toInt,
+          purchaseAmount = config.purchaseAmountInPence.toInt,
           paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()

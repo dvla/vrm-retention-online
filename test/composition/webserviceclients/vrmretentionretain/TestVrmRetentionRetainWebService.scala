@@ -14,10 +14,9 @@ import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 
 final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSugar {
 

@@ -8,7 +8,7 @@ trait Config extends VehicleLookupConfig {
   val assetsUrl: Option[String]
 
   // Payment Service
-  val purchaseAmount: String
+  val purchaseAmountInPence: String
 
   //  // Micro-service config
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String

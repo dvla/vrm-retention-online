@@ -162,6 +162,12 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
           val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
+          businessDetailsOpt.fold {Logger.debug("No business details cookie found or user type not business so will " +
+            "not create a fulfil confirm email for the business")}
+            {keeperEmail => Logger.debug("Business details cookie found and user type is business so will " +
+              "create a fulfil confirm email for the business")}
+          keeperEmailOpt.fold {Logger.debug("No keeper email supplied so will not create a fulfil confirm email for the keeper")}
+            {keeperEmail => Logger.debug("Keeper email supplied so will create a fulfil confirm email for the keeper")}
           // TODO move the logic for generating email to the microservice
           val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
             emailService.emailRequest(
@@ -210,7 +216,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         trackingId
       ),
       fulfillConfirmEmail,
-      failureEmailRequests = buildFailureEmailRequests(vehicleAndKeeperLookupFormModel, trackingId)
+      failureEmailRequests = buildPaymentFailureEmailRequests(vehicleAndKeeperLookupFormModel, trackingId)
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
@@ -248,14 +254,12 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
                                              vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                              transactionId: String,
                                              trackingId: String)
-                                            (implicit request: Request[_]):
-    PaymentSolveUpdateRequest = {
+                                            (implicit request: Request[_]): PaymentSolveUpdateRequest =
       PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
-        buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel, transactionId, trackingId)
+        buildPaymentSuccessReceiptEmailRequests(vehicleAndKeeperLookupFormModel, transactionId, trackingId)
       )
-    }
 
-  private def buildFailureEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+  private def buildPaymentFailureEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                         trackingId: String)
                                        (implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
@@ -274,17 +278,17 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         model <- confirmFormModel
         email <- model.keeperEmail
       } yield {
-        Logger.debug(s"We are going to create a failure email for the keeper user type, trackingId: $trackingId")
+        Logger.debug(s"We are going to create a payment failure email for the keeper user type, trackingId: $trackingId")
         buildEmailServiceSendRequest(template, from, title, email)
       }
     } else {
-      Logger.debug(s"We are not going to create a failure email for the keeper user type " +
+      Logger.debug(s"We are not going to create a payment failure email for the keeper user type " +
         s"because we are not dealing with the keeper user type, trackingId: $trackingId")
       None
     }
 
     if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
-      Logger.debug(s"We are not going to create a failure email for the keeper user type " +
+      Logger.debug(s"We are not going to create a payment failure email for the keeper user type " +
         s"because no email was supplied, trackingId: $trackingId")
     }
 
@@ -297,18 +301,18 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       for {
         model <- businessDetailsModel
       } yield {
-        Logger.debug(s"We are going to create a failure email for the business user type, trackingId: $trackingId")
+        Logger.debug(s"We are going to create a payment failure email for the business user type, trackingId: $trackingId")
         buildEmailServiceSendRequest(template, from, title, model.email)
       }
     } else {
-      Logger.debug(s"We are not going to create a failure email for the business user type " +
+      Logger.debug(s"We are not going to create a payment failure email for the business user type " +
         s"because we are not dealing with the business user type, trackingId: $trackingId")
       None
     }
     Seq(keeperEmail, businessEmail).flatten.toList
   }
 
-  private def buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+  private def buildPaymentSuccessReceiptEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                                 transactionId: String,
                                                 trackingId: String)
                                                (implicit request: Request[_]): List[EmailServiceSendRequest] = {
@@ -324,7 +328,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
     val template = ReceiptEmailMessageBuilder.buildWith(
       vehicleAndKeeperLookupFormModel.registrationNumber,
-      f"${config.purchaseAmount.toDouble / 100}%.2f",
+      f"${config.purchaseAmountInPence.toDouble / 100}%.2f",
       transactionId,
       businessDetails)
 
@@ -343,17 +347,18 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         model <- confirmFormModel
         email <- model.keeperEmail
       } yield {
-        Logger.debug(s"We are going to create a business receipt email for the keeper user type, trackingId: $trackingId")
+        Logger.debug(s"We are going to create a payment success receipt email for the keeper user type" +
+          s", trackingId: $trackingId")
         buildEmailServiceSendRequest(template, from, title, email)
       }
     } else {
-      Logger.debug(s"We are not going to create a business receipt email for the keeper user type " +
+      Logger.debug(s"We are not going to create a payment success receipt email for the keeper user type " +
         s"because we are not dealing with the keeper user type, trackingId: $trackingId")
       None
     }
 
     if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
-      Logger.debug(s"We are not going to create a business receipt email for the keeper user type " +
+      Logger.debug(s"We are not going to create a payment success receipt email for the keeper user type " +
         s"because no email was supplied, trackingId: $trackingId")
     }
 
@@ -365,11 +370,12 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       for {
         model <- businessDetailsModel
       } yield {
-        Logger.debug(s"We are going to create a business receipt email for the business user type, trackingId: $trackingId")
+        Logger.debug(s"We are going to create a payment success receipt email for the business user type" +
+          s", trackingId: $trackingId")
         buildEmailServiceSendRequest(template, from, title, model.email)
       }
     } else {
-      Logger.debug(s"We are not going to create a business receipt email for the business user type " +
+      Logger.debug(s"We are not going to create a payment success receipt email for the business user type " +
         s"because we are not dealing with the business user type, trackingId: $trackingId")
       None
     }

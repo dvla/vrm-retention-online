@@ -30,7 +30,7 @@ final class TestConfig(
     val config: Config = mock[Config]
 
     when(config.assetsUrl).thenReturn(None)
-    when(config.purchaseAmount).thenReturn("42")
+    when(config.purchaseAmountInPence).thenReturn("42")
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
     when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
