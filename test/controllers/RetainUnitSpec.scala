@@ -165,11 +165,15 @@ class RetainUnitSpec extends UnitSpec {
       )
   }
 
+  // This method returns a retain controller with all of its dependencies mocked
+  // and no references to those mocks
   private def retain: Retain = testInjector(
     new ValidatedCardDetails(),
     new RefererFromHeaderBinding
   ).getInstance(classOf[Retain])
 
+  // This method returns a retain controller as well as a reference to the mock VRMRetentionRetainWebService that
+  // ultimately makes the network call to the vrm-retention-retain web service.
   private def retainControllerAndWebServiceMock: (Retain, VRMRetentionRetainWebService) = {
     val webServiceMock = new TestVrmRetentionRetainWebService
     val mock = webServiceMock.stub
@@ -184,7 +188,7 @@ class RetainUnitSpec extends UnitSpec {
       },
       // By default the testInjector mocks the RetainEmailService. However, we want a real instance of the
       // RetainEmailService because it contains logic that needs to be tested. So we bind a real instance
-      // that has mocks for all it dependencies
+      // that has mocks for all its dependencies
       new ScalaModule() {
         override def configure(): Unit = bind[RetainEmailService].toInstance(retainEmailServiceInstance)
       }
