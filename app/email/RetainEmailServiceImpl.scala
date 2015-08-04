@@ -4,8 +4,7 @@ import com.google.inject.Inject
 import models._
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
-import play.api.Logger
-import play.api.Play
+import play.api.{LoggerLike, Logger, Play}
 import play.api.Play.current
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
@@ -28,7 +27,8 @@ import scala.util.control.NonFatal
 final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                                              dateService: DateService,
                                              pdfService: PdfService,
-                                             config: Config) extends RetainEmailService {
+                                             config: Config) extends RetainEmailService  with DVLALogger  {
+
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Some("public/images/gov-uk-email.jpg")
@@ -49,7 +49,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) &&
          inputEmailAddressDomain != "test.com") {
 
-      Logger.debug(logMessage(s"About to send email",trackingId))
+      logMessage(trackingId,Debug,s"About to send email")
 
       val keeperName = Seq(
         vehicleAndKeeperDetailsModel.title,
@@ -61,7 +61,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         eligibilityModel,
         transactionId,
         keeperName,
-        vehicleAndKeeperDetailsModel.address
+        vehicleAndKeeperDetailsModel.address,
+        trackingId
       )
 
       val plainTextMessage = populateEmailWithoutHtml(
@@ -111,7 +112,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         None)
       )
     } else {
-      Logger.error(logMessage(s"Email not sent as not in whitelist",trackingId))
+      logMessage(trackingId,Error,s"Email not sent as not in whitelist")
       None
     }
   }
@@ -140,11 +141,11 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
     ).map { emailRequest =>
       emailService.invoke(emailRequest, trackingId).map {
         response =>
-          if (isKeeper) Logger.info(logMessage(s"Keeper email sent", trackingId))
-          else Logger.info(logMessage(s"Non-keeper email sent",trackingId))
+          if (isKeeper) logMessage(trackingId,Info,s"Keeper email sent")
+          else logMessage(trackingId,Info,s"Non-keeper email sent")
       }.recover {
         case NonFatal(e) =>
-          Logger.error(logMessage(s"Email Service web service call failed. Exception " + e.toString,trackingId))
+          logMessage(trackingId,Error,s"Email Service web service call failed. Exception " + e.toString)
       }
     }
   }

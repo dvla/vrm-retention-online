@@ -9,6 +9,7 @@ import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc.{Action, Controller, Request}
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -35,7 +36,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
                                        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                      ) extends Controller {
+                                      ) extends Controller with DVLALogger {
 
   def present = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -60,7 +61,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                                  (implicit request: Request[_]): Future[Result] = {
 
     def microServiceErrorResult(message: String) = {
-      Logger.error(message)
+      logMessage(request.cookies.trackingId(), Error, message)
+
       auditService2.send(AuditRequest.from(
         pageMovement = AuditRequest.VehicleLookupToMicroServiceError,
         transactionId = transactionId,
@@ -105,7 +107,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
 
     def eligibilityFailure(responseCode: String) = {
-      Logger.debug(s"VRMRetentionEligibility encountered a problem with request" +
+      logMessage(request.cookies.trackingId(), Debug, s"VRMRetentionEligibility encountered a problem with request" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 

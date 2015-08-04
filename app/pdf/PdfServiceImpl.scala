@@ -1,8 +1,6 @@
 package pdf
 
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.OutputStream
+import java.io.{FileNotFoundException, ByteArrayOutputStream, File, OutputStream}
 
 import com.google.inject.Inject
 import models.EligibilityModel
@@ -21,6 +19,8 @@ import pdf.PdfServiceImpl.blankPage
 import pdf.PdfServiceImpl.fontDefaultSize
 import pdf.PdfServiceImpl.v948Blank
 import play.api.Logger
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
@@ -28,15 +28,16 @@ import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import scala.util.{Success, Failure, Try}
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
   def create(eligibilityModel: EligibilityModel,
              transactionId: String,
              name: String,
-             address: Option[AddressModel]): Array[Byte] = {
+             address: Option[AddressModel], trackingId: TrackingId): Array[Byte] = {
     val output = new ByteArrayOutputStream()
-    v948(eligibilityModel, transactionId, name, address, output)
+    v948(eligibilityModel, transactionId, name, address, output, trackingId)
     output.toByteArray
   }
 
@@ -44,19 +45,23 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
                    transactionId: String,
                    name: String,
                    address: Option[AddressModel],
-                   output: OutputStream) = {
+                   output: OutputStream, trackingId: TrackingId) = {
     // Create a document and add a page to it
     implicit val document = new PDDocument()
 
-    document.addPage(page1(eligibilityModel, transactionId, name, address, document))
-    document.addPage(blankPage)
+    document.addPage(page1(eligibilityModel, transactionId, name, address, document, trackingId))
+    blankPage match {
+      case Success( pdPage) => document.addPage(pdPage)
+      case Failure (ex) => logMessage(trackingId, Error, ex.getMessage)
+    }
+
     var documentWatermarked: PDDocument = null
     try {
-      documentWatermarked = combineWithOriginal
+      documentWatermarked = combineWithOriginal(trackingId)
       // Save the results and ensure that the document is properly closed:
       documentWatermarked.save(output)
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTrace}")
+      case e: Exception => logMessage(trackingId, Error, s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTrace}")
     } finally {
       documentWatermarked.close()
     }
@@ -67,7 +72,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
                     transactionId: String,
                     name: String,
                     address: Option[AddressModel],
-                    document: PDDocument): PDPage = {
+                    document: PDDocument, trackingId: TrackingId): PDPage = {
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
@@ -78,7 +83,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       writeTransactionId(transactionId)
       writeDateOfRetention()
     } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}")
+      case e: Exception => logMessage(trackingId, Error,s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}")
     } finally {
       // Make sure that the content stream is closed:
       contentStream.close()
@@ -188,39 +193,45 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     contentStream.endText()
   }
 
-  private def combineWithOriginal(implicit document: PDDocument): PDDocument = {
+  private def combineWithOriginal(trackingId: TrackingId)(implicit document: PDDocument): PDDocument = {
     // https://stackoverflow.com/questions/8929954/watermarking-with-pdfbox
     // Caution: You should make sure you match the number of pages in both document. Otherwise, you would end up with a
     // document with number of pages matching the one which has least number of pages.
     v948Blank match {
-      case Some(blankFile) =>
+      case Success(blankFile) =>
         // Load document containing just the watermark image.
         val blankDoc = PDDocument.load(blankFile)
         val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
-      case None => document // Other file was not found so cannot combine with it.
+      case Failure(ex) => {
+        logMessage(trackingId, Error, ex.getMessage)
+        document
+      } // Other file was not found so cannot combine with it.
     }
   }
 }
 
-object PdfServiceImpl {
+object PdfServiceImpl extends DVLALogger {
 
   private val fontDefaultSize = 12
 
-  private val v948Blank: Option[File] = {
+  private val v948Blank: Try[File] = {
     val filename = "vrm-retention-online-v948-blank.pdf"
-    val file = new File(filename)
-    if (file.exists()) {
-      //`PDF/A validation`(file, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
-      Some(file)
-    }
-    else {
-      Logger.error("PdfService could not find blank file for v948")
-      None // If we move the service into a micro-service this should throw an error as the micro-service is in a bad state.
+    try {
+      val file = new File(filename)
+      if (file.exists()) {
+        //`PDF/A validation`(file, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
+        Success(file)
+      }
+      else {
+        Failure(new FileNotFoundException("PdfService could not find blank file for v948"))
+      }
+    } catch {
+      case ex: Exception => Failure(ex)
     }
   }
 
-  private def `PDF/A validation`(file: File, docName: String): Unit = {
+  private def `PDF/A validation`(file: File, docName: String, trackingId: TrackingId): Unit = {
     val parser = new PreflightParser(file)
     var document: PreflightDocument = null
     try {
@@ -247,7 +258,7 @@ object PdfServiceImpl {
         val errors = result.getErrorsList.toList.
           map(error => s"PDF/A error code ${error.getErrorCode}, error details: ${error.getDetails}").
           mkString(", ")
-        Logger.warn(s"Document '$docName' does not meet the PDF/A standard because of the following errors - $errors")
+        logMessage(trackingId, Error, s"Document '$docName' does not meet the PDF/A standard because of the following errors - $errors")
       }
     } catch {
       case e: SyntaxValidationException =>
@@ -261,17 +272,22 @@ object PdfServiceImpl {
     }
   }
 
-  private def blankPage(implicit document: PDDocument): PDPage = {
-    val page = new PDPage()
-    // Start a new content stream which will "hold" the to be created content
+  private def blankPage(implicit document: PDDocument): Try[PDPage] = {
+
     var contentStream: PDPageContentStream = null
     try {
+
+      val page = new PDPage()
+      // Start a new content stream which will "hold" the to be created content
       contentStream = new PDPageContentStream(document, page)
-    } catch {
-      case e: Exception => Logger.error(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}")
+      Success(page)
+
+      //case e: Exception => Logger.error()
+    }
+    catch {
+      case e: Exception => Failure(new Exception(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}"))
     } finally {
       contentStream.close() // Make sure that the content stream is closed.
     }
-    page
   }
 }

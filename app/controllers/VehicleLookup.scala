@@ -6,7 +6,7 @@ import models.{CacheKeyPrefix, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
-import play.api.Logger
+import play.api.{LoggerLike, Logger}
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
@@ -43,6 +43,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     auditService2: audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
+
 
   val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
   val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
@@ -196,10 +197,11 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     .withCookie(TransactionIdCacheKey, transactionId)
     .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
 
-  private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String]) = {
+  private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])
+                                (implicit request: Request[_]) = {
     dtoPostcode match {
       case Some(postcode) =>
-        Logger.info("formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
+        logMessage(request.cookies.trackingId, Info, "formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
 
         def formatPartialPostcode(postcode: String): String = {
           val SpaceCharDelimiter = " "
@@ -230,7 +232,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
 
       case None =>
-        Logger.info("formModelPostcode = " + formModelPostcode)
+        logMessage(request.cookies.trackingId,Info,"formModelPostcode = " + formModelPostcode)
         formModelPostcode.isEmpty
     }
   }

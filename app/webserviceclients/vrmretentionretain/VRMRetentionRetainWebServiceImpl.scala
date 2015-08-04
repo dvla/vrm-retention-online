@@ -1,7 +1,7 @@
 package webserviceclients.vrmretentionretain
 
 import com.google.inject.Inject
-import play.api.Logger
+import play.api.{LoggerLike, Logger}
 import play.api.Play.current
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
@@ -16,14 +16,15 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats._
 
 final class VRMRetentionRetainWebServiceImpl @Inject()(
                                                         config: Config
-                                                        ) extends VRMRetentionRetainWebService {
+                                                        ) extends VRMRetentionRetainWebService with DVLALogger  {
+
 
   private val endPoint: String = s"${config.vrmRetentionRetainMicroServiceUrlBase}/vrm/retention/retain"
 
   override def invoke(request: VRMRetentionRetainRequest, trackingId: TrackingId): Future[WSResponse] = {
     val vrm = LogFormats.anonymize(request.currentVRM)
 
-    Logger.debug(logMessage(s"Calling vrm retention retain micro-service with request $vrm",trackingId))
+    logMessage(trackingId, Debug, s"Calling vrm retention retain micro-service with request $vrm")
     WS.url(endPoint).
       withHeaders(HttpHeaders.TrackingId -> trackingId.value).
       withRequestTimeout(config.vrmRetentionRetainMsRequestTimeout). // Timeout is in milliseconds

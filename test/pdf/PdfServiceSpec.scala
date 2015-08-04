@@ -6,6 +6,7 @@ import models.EligibilityModel
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
 import org.scalatest.time.Seconds
 import org.scalatest.time.Span
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 
@@ -24,7 +25,8 @@ final class PdfServiceSpec extends UnitSpec {
         eligibilityModel = eligibilityModel,
         transactionId = TransactionIdValid,
         name = "stub name",
-        address = None
+        address = None,
+        TrackingId("")
       )
 
       pdf should not equal null

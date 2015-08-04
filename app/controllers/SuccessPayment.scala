@@ -63,7 +63,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
             eligibilityModel,
             transactionId,
             keeperName,
-            vehicleAndKeeperDetails.address
+            vehicleAndKeeperDetails.address,
+            request.cookies.trackingId()
           )
           val inputStream = new ByteArrayInputStream(pdf)
           val dataContent = Enumerator.fromStream(inputStream)

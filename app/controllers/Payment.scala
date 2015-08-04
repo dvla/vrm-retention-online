@@ -16,6 +16,7 @@ import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.mvc.Request
 import play.api.mvc.Result
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
@@ -42,7 +43,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                      extends Controller with DVLALogger {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -108,8 +110,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   }
 
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
-    Logger.error(message)
 
+    logMessage(request.cookies.trackingId(),Error, message)
     auditService2.send(AuditRequest.from(
       pageMovement = AuditRequest.PaymentToPaymentFailure,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
@@ -166,7 +168,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                       (implicit request: Request[_]): Future[Result] = {
 
     def paymentNotAuthorised = {
-      Logger.debug(s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
+
+      logMessage(request.cookies.trackingId(),Debug, s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
@@ -211,7 +214,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           .discardingCookie(REFERER) // Not used again.
           .withCookie(paymentModel)
       } else {
-        Logger.debug("The payment was not authorised.")
+        logMessage(request.cookies.trackingId(), Debug, "The payment was not authorised.")
         paymentNotAuthorised
       }
     }.recover {
@@ -234,7 +237,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map { response =>
       if (response.response == Payment.CancelledStatus) {
-        Logger.error("The get web request to Solve was not validated.")
+        logMessage(trackingId, Error, "The get web request to Solve was not validated.")
       }
 
       auditService2.send(AuditRequest.from(
@@ -250,7 +253,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       redirectToLeaveFeedback
     }.recover {
       case NonFatal(e) =>
-        Logger.error(s"Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString)
+        logMessage(trackingId, Error, s"Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString)
         redirectToLeaveFeedback
     }
   }
