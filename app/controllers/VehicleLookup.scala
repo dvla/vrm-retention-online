@@ -73,6 +73,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     )
 
     auditService2.send(AuditRequest.from(
+      trackingId = request.cookies.trackingId(),
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
       transactionId = transactionId(formModel),
       timestamp = dateService.dateTimeISOChronology,
@@ -107,6 +108,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     val txnId = transactionId(formModel)
 
     auditService2.send(AuditRequest.from(
+      trackingId = request.cookies.trackingId(),
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
       transactionId = txnId,
       timestamp = dateService.dateTimeISOChronology,
@@ -145,6 +147,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId(),
         pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
         transactionId = txnId,
         timestamp = dateService.dateTimeISOChronology,

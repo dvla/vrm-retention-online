@@ -266,7 +266,7 @@ object PdfServiceImpl extends DVLALogger {
          *if the PDF file can't be parsed.
          * In this case, the exception contains an instance of ValidationResult
          */
-        Logger.error(s"PDF/A validation SyntaxValidationException: ${e.getResult}")
+        logMessage(trackingId, Error, s"PDF/A validation SyntaxValidationException: ${e.getResult}")
     } finally {
       document.close() // Make sure that the document is closed.
     }

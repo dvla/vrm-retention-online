@@ -67,6 +67,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         retainVrm(vehiclesLookupForm, transactionId, paymentTransNo, paymentModel, eligibility)
       case (_, Some(transactionId), _, _, _) =>
         auditService2.send(AuditRequest.from(
+          trackingId = request.cookies.trackingId(),
           pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology
@@ -102,6 +103,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
 
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId(),
         pageMovement = AuditRequest.PaymentToSuccess,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
@@ -128,6 +130,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId(),
         pageMovement = AuditRequest.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         timestamp = dateService.dateTimeISOChronology,

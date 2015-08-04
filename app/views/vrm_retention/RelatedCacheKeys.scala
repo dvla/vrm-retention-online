@@ -4,6 +4,7 @@ import models.CacheKeyPrefix
 import play.api.Logger
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
@@ -19,7 +20,7 @@ import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 
-object RelatedCacheKeys {
+object RelatedCacheKeys extends DVLALogger {
 
   final val SeenCookieMessageKey = "seen_cookie_message"
 
@@ -50,7 +51,8 @@ object RelatedCacheKeys {
 
   def removeCookiesOnExit(implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory) = {
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
-    Logger.debug(s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails")
+
+    logMessage(request.cookies.trackingId, Debug, s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails")
     RelatedCacheKeys.RetainSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }

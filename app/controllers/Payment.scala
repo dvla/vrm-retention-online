@@ -91,6 +91,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       case (Some(transactionId), Some(paymentDetails)) =>
 
         auditService2.send(AuditRequest.from(
+          trackingId = request.cookies.trackingId(),
           pageMovement = AuditRequest.PaymentToExit,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology,
@@ -113,6 +114,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     logMessage(request.cookies.trackingId(),Error, message)
     auditService2.send(AuditRequest.from(
+      trackingId = request.cookies.trackingId(),
       pageMovement = AuditRequest.PaymentToPaymentFailure,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
@@ -174,6 +176,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId(),
         pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
           .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
@@ -241,6 +244,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       }
 
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId(),
         pageMovement = AuditRequest.PaymentToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
           .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),

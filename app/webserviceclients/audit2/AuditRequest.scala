@@ -4,6 +4,7 @@ import models.BusinessDetailsModel
 import models.PaymentModel
 import play.api.libs.json.Json._
 import play.api.libs.json._
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
 case class AuditRequest(name: String, serviceType: String, data: Seq[(String, Any)])
@@ -54,6 +55,7 @@ object AuditRequest {
   def from(pageMovement: String,
            transactionId: String,
            timestamp: String,
+           trackingId: TrackingId,
            vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
            replacementVrm: Option[String] = None,
            keeperEmail: Option[String] = None,

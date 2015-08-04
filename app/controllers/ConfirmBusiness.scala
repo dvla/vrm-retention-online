@@ -76,6 +76,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
             setupBusinessDetailsFormModel) =>
 
             auditService2.send(AuditRequest.from(
+              trackingId = request.cookies.trackingId,
               pageMovement = AuditRequest.ConfirmBusinessToConfirm,
               transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
               timestamp = dateService.dateTimeISOChronology,
@@ -94,6 +95,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
 
   def exit = Action { implicit request =>
     auditService2.send(AuditRequest.from(
+      trackingId = request.cookies.trackingId,
       pageMovement = AuditRequest.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),

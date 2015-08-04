@@ -64,6 +64,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       logMessage(request.cookies.trackingId(), Error, message)
 
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId(),
         pageMovement = AuditRequest.VehicleLookupToMicroServiceError,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology
@@ -75,6 +76,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
           auditService2.send(AuditRequest.from(
+            trackingId = request.cookies.trackingId(),
             pageMovement = AuditRequest.VehicleLookupToConfirm,
             transactionId = transactionId,
             timestamp = dateService.dateTimeISOChronology,
@@ -85,6 +87,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
           if (storeBusinessDetails && businessDetailsModel.isDefined) {
             auditService2.send(AuditRequest.from(
+              trackingId = request.cookies.trackingId(),
               pageMovement = AuditRequest.VehicleLookupToConfirmBusiness,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
@@ -94,6 +97,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
             routes.ConfirmBusiness.present()
           } else {
             auditService2.send(AuditRequest.from(
+              trackingId = request.cookies.trackingId(),
               pageMovement = AuditRequest.VehicleLookupToCaptureActor,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
@@ -112,6 +116,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId(),
         pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,

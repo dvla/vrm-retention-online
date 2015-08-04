@@ -71,6 +71,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
   def exit = Action {
     implicit request =>
       auditService2.send(AuditRequest.from(
+        trackingId = request.cookies.trackingId,
         pageMovement = AuditRequest.CaptureActorToExit,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
           .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),

@@ -15,6 +15,10 @@ import play.api.i18n.Lang
 import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.NotFound
+import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -34,7 +38,7 @@ import utils.helpers.Config
  * To override and stipulate a particular "conf" e.g.
  * play -Dconfig.file=conf/application.test.conf run
  */
-trait GlobalLike extends WithFilters with GlobalSettings with Composition {
+trait GlobalLike extends WithFilters with GlobalSettings with Composition with DVLALogger {
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings
@@ -77,6 +81,7 @@ trait GlobalLike extends WithFilters with GlobalSettings with Composition {
       val lang: Lang = Lang(value)
       val config = injector.getInstance(classOf[Config])
       val dateService =  injector.getInstance(classOf[DateService])
+      // Cannot get trackingId in this method
       Logger.warn(s"Broken link returning http code 404. uri: ${request.uri}")
       NotFound(views.html.errors.onHandlerNotFound(request)(lang, config, dateService))
     }
