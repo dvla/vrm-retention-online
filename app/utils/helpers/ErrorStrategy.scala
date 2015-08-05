@@ -19,10 +19,10 @@ import utils.helpers.CookieHelper._
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
                               @Named(AccessLoggerName) accessLogger: LoggerLike,
                               dateService: DateService )(implicit clientSideSessionFactory: ClientSideSessionFactory)
-  extends ErrorStrategyBase(clfEntryBuilder, clfEntry => accessLogger.info(clfEntry), dateService) with DVLALogger {
+  extends ErrorStrategyBase(clfEntryBuilder, clfEntry => accessLogger.info(clfEntry), accessLogger, dateService) with DVLALogger {
 
   protected override def sessionExceptionResult(request: RequestHeader) = {
-    logMessage(request.cookies.trackingId(),Warn,"Removing all cookies except seen cookie." )
+//    logMessage(request.cookies.trackingId(),Warn,"Removing all cookies except seen cookie." )
     CookieHelper.discardAllCookies(request)
   }
 

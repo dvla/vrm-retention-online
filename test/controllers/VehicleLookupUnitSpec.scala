@@ -49,7 +49,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, ClearTextClientSideSessionFactory, TrackingId}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -375,7 +375,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     }
 
     "send a request and a trackingId to the vehicleAndKeeperLookupWebService" in new WithApplication {
-      val trackingId = TrackingId("x" * 20)
+      val trackingId = TrackingId("default_test_tracking_id")
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService).
         withCookies(CookieFactoryForUnitSpecs.trackingIdModel(trackingId))
       val (vehicleLookup, dateService, vehicleAndKeeperLookupWebService) = vehicleLookupStubs
