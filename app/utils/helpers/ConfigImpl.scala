@@ -98,6 +98,8 @@ class ConfigImpl extends Config {
 
   override val opening: Int = getOptionalProperty[Int]("openingTime").getOrElse(8)
   override val closing: Int = getOptionalProperty[Int]("closingTime").getOrElse(18)
+  override val openingTimeMinOfDay: Int = getProperty[Int]("openingTimeMinOfDay")
+  override val closingTimeMinOfDay: Int = getProperty[Int]("closingTimeMinOfDay")
   override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(15)
 
   override val surveyUrl: Option[String] = getOptionalProperty[String]("survey.url")
