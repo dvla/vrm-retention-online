@@ -1,4 +1,4 @@
-@(title: String)(content: Html)(implicit lang: Lang,
+@(title: String, showLanguageSwitch: Boolean)(content: Html)(implicit lang: Lang,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
@@ -55,7 +55,7 @@
             @content
         </div>
 
-        @footer()
+        @footer(showLanguageSwitch)
 
         @pleaseWait()
 

@@ -1,7 +1,8 @@
 @(progress: Option[String] = None,
     title: String,
     currentForm: Option[Form[_]] = None,
-    backNavigation: Option[Call] = None)(content: Html)(implicit lang: Lang,
+    backNavigation: Option[Call] = None,
+    showLanguageSwitch: Boolean = false)(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
@@ -12,7 +13,7 @@
 @import views.html.common.protoType
 @import views.vrm_retention.Main.BackId
 
-@govMainDefault(title) {
+@govMainDefault(title, showLanguageSwitch) {
     <div class="app vrm-retention-online">
 
         @protoType(config.closing, config.closingWarnPeriodMins, dateService)

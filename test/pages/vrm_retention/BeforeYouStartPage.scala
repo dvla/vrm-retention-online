@@ -14,7 +14,7 @@ object BeforeYouStartPage extends Page {
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Take a Registration Number off a Vehicle"
-  final val titleCy: String = "Cael gwared cerbyd i mewn i'r fasnach foduron"
+  final val titleCy: String = "Tynnu Rhif Cofrestru oddi ar Gerbyd"
 
   def startNow(implicit driver: WebDriver) = find(id(NextId)).get
 

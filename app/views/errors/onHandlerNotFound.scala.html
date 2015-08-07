@@ -6,7 +6,7 @@
 @import views.html.common.protoType
 @import views.vrm_retention.OnHandlerNotFound.ExitId
 
-@govMainDefault(Messages("onHandlerNotFound.title")) {
+@govMainDefault(Messages("onHandlerNotFound.title"), showLanguageSwitch = true) {
     <div class="app vrm-retention-online">
 
         @protoType(config.closing, config.closingWarnPeriodMins, dateService)
