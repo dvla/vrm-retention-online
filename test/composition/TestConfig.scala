@@ -78,10 +78,8 @@ final class TestConfig(
     ))
 
     // Closing
-    when(config.opening).thenReturn(0)
-    when(config.closing).thenReturn(23)
     when(config.openingTimeMinOfDay).thenReturn(0)
-    when(config.closingTimeMinOfDay).thenReturn(1440)
+    when(config.closingTimeMinOfDay).thenReturn(1439)
 
     // Survey url
     when(config.surveyUrl).thenReturn(None)
