@@ -16,11 +16,11 @@
 
     @header(title = title)
 
-    <body data-closing-time="@config.closing">
+    <body data-closing-time="@config.closingTimeMinOfDay">
     
         <a href="#main" class="visuallyhidden">Skip to main content</a>
 
-        @serviceClosingWarning(config.opening, config.closing, config.closingWarnPeriodMins)
+        @serviceClosingWarning(config.openingTimeMinOfDay, config.closingTimeMinOfDay, config.closingWarnPeriodMins)
 
         <div id="global-cookie-message">
             <div class="cookie-message-wrapper">

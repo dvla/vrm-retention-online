@@ -9,8 +9,8 @@ class ServiceOpenFilter @Inject()(implicit config: Config,
                                   timeZone: DateTimeZoneService,
                                   dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends EnsureServiceOpenFilter {
 
-  protected lazy val opening = config.opening
-  protected lazy val closing = config.closing
+  protected lazy val opening = config.openingTimeMinOfDay
+  protected lazy val closing = config.closingTimeMinOfDay
   protected lazy val dateTimeZone = timeZone
   protected lazy val html = views.html.vrm_retention.closed("", "")
 

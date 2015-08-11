@@ -9,7 +9,7 @@
 @govMainDefault(Messages("onHandlerNotFound.title"), showLanguageSwitch = true) {
     <div class="app vrm-retention-online">
 
-        @protoType(config.closing, config.closingWarnPeriodMins, dateService)
+        @protoType(config.closingTimeMinOfDay, config.closingWarnPeriodMins, dateService)
 
         <div class="section-content">
             <h2>@Messages("onHandlerNotFound.header")</h2>
