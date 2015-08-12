@@ -13,7 +13,6 @@ import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
-import play.api.{LoggerLike, Logger}
 import play.api.i18n.Messages
 import play.api.mvc.Result
 import play.api.mvc.{Action, Controller, Request}
@@ -165,6 +164,12 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
           val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
+          businessDetailsOpt.fold { logMessage(request.cookies.trackingId,Debug,"No business details cookie found or user type not business so will " +
+            "not create a fulfil confirm email for the business")}
+            {keeperEmail => logMessage(request.cookies.trackingId,Debug,"Business details cookie found and user type is business so will " +
+              "create a fulfil confirm email for the business")}
+          keeperEmailOpt.fold {logMessage(request.cookies.trackingId,Debug,"No keeper email supplied so will not create a fulfil confirm email for the keeper")}
+            {keeperEmail => logMessage(request.cookies.trackingId,Debug,"Keeper email supplied so will create a fulfil confirm email for the keeper")}
           // TODO move the logic for generating email to the microservice
           val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
             emailService.emailRequest(
@@ -213,7 +218,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         trackingId
       ),
       fulfillConfirmEmail,
-      failureEmailRequests = buildFailureEmailRequests(vehicleAndKeeperLookupFormModel, trackingId)
+      failureEmailRequests = buildPaymentFailureEmailRequests(vehicleAndKeeperLookupFormModel, trackingId)
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
@@ -254,11 +259,11 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
                                             (implicit request: Request[_]):
     PaymentSolveUpdateRequest = {
       PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
-        buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel, transactionId, trackingId)
+        buildPaymentSuccessEmailRequests(vehicleAndKeeperLookupFormModel, transactionId, trackingId)
       )
     }
 
-  private def buildFailureEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+  private def buildPaymentFailureEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                         trackingId: TrackingId)
                                        (implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
@@ -311,7 +316,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     Seq(keeperEmail, businessEmail).flatten.toList
   }
 
-  private def buildBusinessReceiptEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+  private def buildPaymentSuccessEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                                 transactionId: String,
                                                 trackingId: TrackingId)
                                                (implicit request: Request[_]): List[EmailServiceSendRequest] = {
@@ -327,7 +332,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
     val template = ReceiptEmailMessageBuilder.buildWith(
       vehicleAndKeeperLookupFormModel.registrationNumber,
-      f"${config.purchaseAmount.toDouble / 100}%.2f",
+      f"${config.purchaseAmountInPence.toDouble / 100}%.2f",
       transactionId,
       businessDetails)
 

@@ -63,7 +63,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   // The token is checked in the common project, we do nothing with it here.
   def callback(token: String) = Action.async { implicit request =>
     // check whether it is past the closing time
-    if (new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).getHourOfDay >= config.closing)
+    if (new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).getMinuteOfDay >= config.closingTimeMinOfDay)
       (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
         case (Some(transactionId), Some(paymentDetails)) =>
           callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get, paymentDetails.isPrimaryUrl).map { _ =>
@@ -143,7 +143,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           transactionId = transactionId,
           transNo = transNo,
           vrm = vrm,
-          purchaseAmount = config.purchaseAmount.toInt,
+          purchaseAmount = config.purchaseAmountInPence.toInt,
           paymentCallback = paymentCallback
         )
         val trackingId = request.cookies.trackingId()

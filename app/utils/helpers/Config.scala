@@ -8,7 +8,7 @@ trait Config extends VehicleLookupConfig {
   val assetsUrl: Option[String]
 
   // Payment Service
-  val purchaseAmount: String
+  val purchaseAmountInPence: String
 
   //  // Micro-service config
   val vehicleAndKeeperLookupMicroServiceBaseUrl: String
@@ -61,9 +61,8 @@ trait Config extends VehicleLookupConfig {
 
   val auditMsRequestTimeout: Int
 
-  val opening: Int
-
-  val closing: Int
+  val openingTimeMinOfDay: Int
+  val closingTimeMinOfDay: Int
 
   val closingWarnPeriodMins: Int
 

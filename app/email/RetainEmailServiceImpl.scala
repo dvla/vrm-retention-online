@@ -1,7 +1,7 @@
 package email
 
 import com.google.inject.Inject
-import models._
+import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
 import play.api.{LoggerLike, Logger, Play}
@@ -9,8 +9,10 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
@@ -25,10 +27,8 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 
 final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
-                                             dateService: DateService,
                                              pdfService: PdfService,
                                              config: Config) extends RetainEmailService  with DVLALogger  {
-
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Some("public/images/gov-uk-email.jpg")
@@ -46,8 +46,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if ((!config.emailWhitelist.isDefined) ||
-        (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase) &&
-         inputEmailAddressDomain != "test.com") {
+        (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+      Logger.debug(s"Email address passes the white list check, now going to create EmailServiceSendRequest - trackingId $trackingId")
 
       logMessage(trackingId,Debug,s"About to send email")
 
@@ -65,7 +65,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         trackingId
       )
 
-      val plainTextMessage = populateEmailWithoutHtml(
+      val plainTextContent = populateEmailWithoutHtml(
         vehicleAndKeeperDetailsModel,
         eligibilityModel,
         certificateNumber,
@@ -75,7 +75,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       )
-      val message = htmlMessage(
+
+      val htmlContent = htmlMessage(
         vehicleAndKeeperDetailsModel,
         eligibilityModel,
         certificateNumber,
@@ -85,6 +86,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       ).toString()
+
       val subject = vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
         " " + eligibilityModel.replacementVRM.replace(" ", "")
@@ -103,8 +105,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       } // US1589: Do not send keeper a pdf
 
       Some(new EmailServiceSendRequest(
-        plainTextMessage,
-        message,
+        plainTextContent,
+        htmlContent,
         attachment,
         from,
         subject,
@@ -113,6 +115,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       )
     } else {
       logMessage(trackingId,Error,s"Email not sent as not in whitelist")
+      Logger.error(s"EmailServiceSendRequest not created as email address domain not in white list - trackingId $trackingId")
       None
     }
   }
@@ -178,7 +181,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.purchaseAmount.toDouble / 100.0).toString,
+      amount = (config.purchaseAmountInPence.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
       keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,
@@ -203,7 +206,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       transactionTimestamp = transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
-      amount = (config.purchaseAmount.toDouble / 100.0).toString,
+      amount = (config.purchaseAmountInPence.toDouble / 100.0).toString,
       replacementVRM = eligibilityModel.replacementVRM,
       keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,

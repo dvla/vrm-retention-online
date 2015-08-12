@@ -6,16 +6,16 @@
     @import views.common.ProtoType.FeedbackId
 
     @if(config.isPrototypeBannerVisible) {
-
         @if(
             Some((closingHour, new org.joda.time.DateTime(
                 dateService.now.toDateTime.getYear,
                 dateService.now.toDateTime.getMonthOfYear,
                 dateService.now.toDateTime.getDayOfMonth,
-                if(closingHour == 24) 0 else closingHour,
-                0, DateTimeZone.forID("Europe/London"))
+                if(closingHour / 60 == 24) 0 else closingHour / 60 ,
+                closingHour % 60,
+                DateTimeZone.forID("Europe/London"))
                     )).map { case (closingHour, closingTime) =>
-                val closingT = if(closingHour == 24) closingTime.plusDays(1) else closingTime
+                val closingT = if(closingHour / 60 == 24) closingTime.plusDays(1) else closingTime
                 val currentTime = new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))
                 currentTime.isBefore(closingT)
             }.get

@@ -3,6 +3,7 @@ package composition
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
+import uk.gov.dvla.vehicles.presentation.common.ConfigProperties._
 import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import utils.helpers.Config
@@ -30,7 +31,7 @@ final class TestConfig(
     val config: Config = mock[Config]
 
     when(config.assetsUrl).thenReturn(None)
-    when(config.purchaseAmount).thenReturn("42")
+    when(config.purchaseAmountInPence).thenReturn("42")
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(notFound)
     when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(1000)
@@ -77,8 +78,8 @@ final class TestConfig(
     ))
 
     // Closing
-    when(config.opening).thenReturn(0)
-    when(config.closing).thenReturn(23)
+    when(config.openingTimeMinOfDay).thenReturn(0)
+    when(config.closingTimeMinOfDay).thenReturn(1439)
 
     // Survey url
     when(config.surveyUrl).thenReturn(None)
