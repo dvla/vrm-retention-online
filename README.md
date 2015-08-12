@@ -24,6 +24,7 @@ separate projects:
 -   `vehicles-lookup`
 -   `vrm-retention-eligibility`
 -   `vrm-retention-retain`
+-   `email-service`
 
 These services are mocked for automated testing, but must be running locally for manual testing/development of dependant
 components within the presentation layer.
@@ -75,7 +76,7 @@ Running the application
 1.  Run the `vrm-retention-online` application:
 
         cd vrm-retention-online
-        sbt run
+        sbt sandbox
 
 2.  Open in Web browser:
 
@@ -100,6 +101,7 @@ To emulate production-level logging:
 
 Testing the application
 -----------------------
+Gatling and acceptance tests can be run using `sbt accept`
 
 Unit and Selenium tests written using Scalatest can be run using `sbt test`
 
