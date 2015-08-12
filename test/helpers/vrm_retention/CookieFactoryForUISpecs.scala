@@ -10,8 +10,10 @@ import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
+import play.Play
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
+import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
@@ -71,6 +73,20 @@ object CookieFactoryForUISpecs {
     val manage = webDriver.manage()
     val cookie = new Cookie(key, valueAsString)
     manage.addCookie(cookie)
+  }
+
+  def withLanguageCy()(implicit webDriver: WebDriver) = {
+    val key = Play.langCookieName
+    val value = CyId
+    addCookie(key, value)
+    this
+  }
+
+  def withLanguageEn()(implicit webDriver: WebDriver) = {
+    val key = Play.langCookieName
+    val value = EnId
+    addCookie(key, value)
+    this
   }
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
