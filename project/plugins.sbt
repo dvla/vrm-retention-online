@@ -10,7 +10,7 @@ resolvers += Resolver.url("GitHub repository", url("http://shaggyyeti.github.io/
 
 addSbtPlugin("dvla" % "build-details-generator" % "1.3.2-SNAPSHOT")
 
-addSbtPlugin("dvla" % "microservices-sandbox" % "1.3.6-SNAPSHOT")
+addSbtPlugin("dvla" % "microservices-sandbox" % "1.3.7-SNAPSHOT")
 
 // The Typesafe repository 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
