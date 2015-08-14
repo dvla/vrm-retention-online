@@ -9,9 +9,9 @@ gov-uk = GOV.UK
 global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y safle’n fwy syml.
 global.cookiefindoutmore = Dysgwch fwy am gwcis
 
-global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0}:00 to {1}:00, rhaid i chi
+global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0} to {1}, rhaid i chi
 global.serviceCloseWarning.p2 = gwblhau’r gwasanaeth hwn.
-global.serviceClosed = Mae’r gwasanaeth wedi cau yn awr. Gwasanaeth ar gael o {0}:00 to {1}:00
+global.serviceClosed = Mae’r gwasanaeth wedi cau yn awr. Gwasanaeth ar gael o {0} to {1}
 
 global-please-wait-header = Arhoswch os gwelwch yn dda
 global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac mae ein gwasanaeth yn arafach na’r arfer yn sgil hynny.
