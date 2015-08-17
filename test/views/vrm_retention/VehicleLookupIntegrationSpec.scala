@@ -7,6 +7,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 import org.scalatest.selenium.WebBrowser.{currentUrl, go}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BeforeYouStartPage
@@ -31,6 +32,21 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       csrf.getAttribute("type") should equal("hidden")
       csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").length > 0 should equal(true)
+    }
+
+    "display the v5c image on the page with Javascript disabled" taggedAs UiTag in new WebBrowserForSelenium {
+      go to VehicleLookupPage
+      new WebDriverWait(webDriver, 3).until(ExpectedConditions.visibilityOfElementLocated(
+        By.xpath("//div[@data-tooltip='tooltip_document-reference-number']"))
+      )
+    }
+
+    "put the v5c image in a tooltip with Javascript enabled" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+      go to VehicleLookupPage
+      val v5c = By.xpath("//div[@data-tooltip='tooltip_document-reference-number']")
+      val waiting = new WebDriverWait(webDriver, 3)
+      waiting.until(ExpectedConditions.presenceOfElementLocated(v5c))
+      waiting.until(ExpectedConditions.invisibilityOfElementLocated(v5c))
     }
   }
 
