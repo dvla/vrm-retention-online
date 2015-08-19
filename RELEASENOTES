@@ -1,15 +1,25 @@
+======= 1.21 ========
+Time of release binaries creation:
+TODO: FILL ME IN
+
+DE661	Java Script disabled - V5C image not being displayed
+US3663	Extend service hours for trial run
+US3560	Address sorting
+US1031	Welsh Language Support
+US3670  Redirect out and err to a separate file and add verbous GC
+
 ======= 1.20 =======
 Time of release binaries creation:
 Tue Aug 04 13:53:11 
 
-DE630 retrospectively added email unit tests that should have been created when this code was first written
-DE630 fix for retention incorrectly sending emails to the business address when the user type is keeper
-US3035 Amended unit test to pass given the field type has changed from type text to type tel
-US3451: add messages on success page
-US3544 Make Enter Vehicle Details hints consistent with Assign
-US3535: shuffle messages in success page
-US3035 Implimented DocReferenceID help image using an i button
-US3451: add messages on success page
+DE630   retrospectively added email unit tests that should have been created when this code was first written
+DE630   fix for retention incorrectly sending emails to the business address when the user type is keeper
+US3035  Amended unit test to pass given the field type has changed from type text to type tel
+US3451  add messages on success page
+US3544  Make Enter Vehicle Details hints consistent with Assign
+US3535  shuffle messages in success page
+US3035  Implimented DocReferenceID help image using an i button
+US3451  add messages on success page
 
 ======= 1.19 =======
 Time of release binaries creation:
