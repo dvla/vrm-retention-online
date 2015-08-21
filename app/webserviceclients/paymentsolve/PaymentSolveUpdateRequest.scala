@@ -1,10 +1,13 @@
 package webserviceclients.paymentsolve
 
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{From, Attachment}
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.{Attachment, From}
 import webserviceclients.emailservice.EmailServiceSendRequest
 
-case class PaymentSolveUpdateRequest(transNo: String, trxRef: String, authType: String, isPrimaryUrl: Boolean,
+case class PaymentSolveUpdateRequest(transNo: String,
+                                     trxRef: String,
+                                     authType: String,
+                                     isPrimaryUrl: Boolean,
                                      businessReceiptEmails: List[EmailServiceSendRequest])
 
 object PaymentSolveUpdateRequest {

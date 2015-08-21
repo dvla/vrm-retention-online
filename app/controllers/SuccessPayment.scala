@@ -29,7 +29,8 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
                                      paymentSolveService: PaymentSolveService)
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
-                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                    ) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -90,8 +91,13 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         firstName = Some("stub-firstName"),
         lastName = Some("stub-lastName"),
         address = Some(AddressModel(
-          address = Seq("stub-business-line1", "stub-business-line2",
-          "stub-business-line3", "stub-business-line4", "stub-business-postcode")
+          address = Seq(
+            "stub-business-line1",
+            "stub-business-line2",
+            "stub-business-line3",
+            "stub-business-line4",
+            "stub-business-postcode"
+          )
         )),
         disposeFlag = None,
         keeperEndDate = None,
@@ -105,11 +111,15 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
       businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name",
         contact = "stub-business-contact",
         email = "stub-business-email",
-        address = AddressModel(address = Seq("stub-business-line1",
-          "stub-business-line2",
-          "stub-business-line3",
-          "stub-business-line4",
-          "stub-business-postcode"))
+        address = AddressModel(
+          address = Seq(
+            "stub-business-line1",
+            "stub-business-line2",
+            "stub-business-line3",
+            "stub-business-line4",
+            "stub-business-postcode"
+          )
+        )
       )),
       isKeeper = true
     ))

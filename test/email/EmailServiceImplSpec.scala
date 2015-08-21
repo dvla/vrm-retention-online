@@ -7,7 +7,8 @@ final class EmailServiceImplSpec extends UnitSpec {
   //  "sendEmail" should {
   //
   //    "send an email with an attachment to a business email address" in new WithApplication {
-  //      val vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
+  //      val vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(
+  //        registrationNumber = RegistrationNumberValid,
   //        make = VehicleMakeValid,
   //        model = VehicleModelValid,
   //        title = None,
@@ -80,7 +81,8 @@ final class EmailServiceImplSpec extends UnitSpec {
 //    }
 //  }
 //
-//  private def emailService: RetainEmailService = testInjector(new RetainEmailServiceBinding).getInstance(classOf[RetainEmailService])
+//  private def emailService: RetainEmailService =
+//    testInjector(new RetainEmailServiceBinding).getInstance(classOf[RetainEmailService])
 //
 //  private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
 //    make = VehicleMakeValid,
@@ -102,6 +104,11 @@ final class EmailServiceImplSpec extends UnitSpec {
 //
 //  private def confirmFormModel = Some(ConfirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = "true"))
 //
-//  private def businessDetailsModel = Some(BusinessDetailsModel(name = TraderBusinessNameValid, contact = TraderBusinessContactValid, email = TraderBusinessEmailValid, address = addressWithUprn))
+//  private def businessDetailsModel = Some(BusinessDetailsModel(
+//    name = TraderBusinessNameValid,
+//    contact = TraderBusinessContactValid,
+//    email = TraderBusinessEmailValid,
+//    address = addressWithUprn
+//  ))
 
 }

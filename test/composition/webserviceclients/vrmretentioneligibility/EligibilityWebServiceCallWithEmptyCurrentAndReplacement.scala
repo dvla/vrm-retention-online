@@ -6,18 +6,21 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
+import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 
-import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-
 final class EligibilityWebServiceCallWithEmptyCurrentAndReplacement() extends ScalaModule with MockitoSugar {
 
   private val withEmptyCurrentAndReplacement: (Int, VRMRetentionEligibilityResponse) = {
-    (OK, VRMRetentionEligibilityResponse(currentVRM = None, replacementVRM = Some(ReplacementRegistrationNumberValid), responseCode = None))
+    (OK, VRMRetentionEligibilityResponse(
+      currentVRM = None,
+      replacementVRM = Some(ReplacementRegistrationNumberValid),
+      responseCode = None)
+    )
   }
 
   val stub = {

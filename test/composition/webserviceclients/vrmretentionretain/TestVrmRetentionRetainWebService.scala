@@ -6,9 +6,9 @@ import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
 import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainResponse
 import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainWebService
 import com.tzavellas.sse.guice.ScalaModule
+import org.mockito.invocation.InvocationOnMock
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
-import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK

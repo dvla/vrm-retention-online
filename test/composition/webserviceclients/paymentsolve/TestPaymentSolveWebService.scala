@@ -10,11 +10,14 @@ import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-import webserviceclients.paymentsolve._
-
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
+import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveBeginResponse}
+import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveCancelResponse}
+import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveGetResponse}
+import webserviceclients.paymentsolve.{PaymentSolveUpdateRequest, PaymentSolveUpdateResponse}
+import webserviceclients.paymentsolve.PaymentSolveWebService
 
 final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
 

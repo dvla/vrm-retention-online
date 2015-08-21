@@ -5,9 +5,9 @@ import composition.WithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import play.api.test.FakeRequest
-import play.api.test.Helpers.SERVICE_UNAVAILABLE
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.SERVICE_UNAVAILABLE
 import play.api.test.Helpers.status
 
 class MicroserviceErrorUnitSpec extends UnitSpec {

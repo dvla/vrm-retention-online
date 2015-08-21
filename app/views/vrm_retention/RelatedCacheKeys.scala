@@ -1,12 +1,11 @@
 package views.vrm_retention
 
 import models.CacheKeyPrefix
-import play.api.Logger
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
@@ -52,7 +51,11 @@ object RelatedCacheKeys extends DVLALogger {
   def removeCookiesOnExit(implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory) = {
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
 
-    logMessage(request.cookies.trackingId, Debug, s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails")
+    logMessage(
+      request.cookies.trackingId,
+      Debug,
+      s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails"
+    )
     RelatedCacheKeys.RetainSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
     }

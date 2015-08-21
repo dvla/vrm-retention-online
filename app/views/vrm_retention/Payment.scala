@@ -10,7 +10,7 @@ object Payment {
   final val PaymentDetailsCacheKey = s"${CacheKeyPrefix}payment-details"
   final val PaymentTransNoCacheKey = s"${CacheKeyPrefix}payment-trans-no"
 
-  //Logica Group Iframe
+  //Logic Group Iframe
   final val CardholderName = "cardholderName"
   final val CardNumber = "cardNumber"
   final val CardSecurityCode ="csc"

@@ -5,16 +5,20 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[VehicleAndKeeperLookupWebService]
     when(webService.invoke(any[VehicleAndKeeperLookupRequest], any[TrackingId]))
-      .thenReturn(Future.failed(new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")))
+      .thenReturn(
+        Future.failed(
+          new RuntimeException("This error is generated deliberately by a stub for VehicleAndKeeperLookupWebService")
+        )
+      )
     webService
   }
 

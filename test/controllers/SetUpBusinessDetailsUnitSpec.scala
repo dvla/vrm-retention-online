@@ -11,10 +11,10 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsMo
 import models.SetupBusinessDetailsFormModel
 import pages.vrm_retention.{ConfirmBusinessPage, VehicleLookupPage}
 import play.api.test.FakeRequest
-import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.BAD_REQUEST
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
-import play.api.test.Helpers.{BAD_REQUEST, OK}
+import play.api.test.Helpers.{LOCATION, OK}
 import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import views.vrm_retention.SetupBusinessDetails.BusinessAddressId
@@ -104,7 +104,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       }
     }
 
-    "replace max length error message for traderBusinessName with standard error message (US158)" in new WithApplication {
+    "replace max length error message for traderBusinessName " +
+      "with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1)).
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
@@ -115,7 +116,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
       // the page and once above the field.
     }
 
-    "replace required and min length error messages for traderBusinessName with standard error message (US158)" in new WithApplication {
+    "replace required and min length error messages for traderBusinessName " +
+      "with standard error message (US158)" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(dealerName = "").
         withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)

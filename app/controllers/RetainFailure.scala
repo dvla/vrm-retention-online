@@ -14,7 +14,8 @@ import webserviceclients.paymentsolve.PaymentSolveService
 final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
                                    (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config,
-                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                   ) extends Controller {
 
   def present = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),

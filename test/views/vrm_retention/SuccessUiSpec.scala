@@ -1,8 +1,8 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
@@ -33,7 +33,8 @@ class SuccessUiSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    "remove redundant cookies (needed for when a user exits the service " +
+      "and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup()
       go to SuccessPage

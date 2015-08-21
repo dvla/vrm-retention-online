@@ -11,7 +11,6 @@ import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import composition.webserviceclients.paymentsolve.ValidatedNotCardDetails
 import composition.webserviceclients.paymentsolve.ValidatedNotAuthorised
 import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentModel
@@ -89,7 +88,8 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to PaymentFailure page when required cookies and referer exist and payment service status is not 'CARD_DETAILS'" in new WithApplication {
+    "redirect to PaymentFailure page when required cookies and referer exist and " +
+      "payment service status is not 'CARD_DETAILS'" in new WithApplication {
       val payment = testInjector(
         new ValidatedNotCardDetails
       ).getInstance(classOf[Payment])
@@ -106,7 +106,8 @@ class PaymentUnitSpec extends UnitSpec {
       }
     }
 
-    "display the Payment page when required cookies and referer exist and payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
+    "display the Payment page when required cookies and referer exist and " +
+      "payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val result = payment.begin(requestWithValidDefaults())
       whenReady(result) { r =>
         r.header.status should equal(OK)
@@ -138,8 +139,8 @@ class PaymentUnitSpec extends UnitSpec {
       }
       val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.getBytes)
       val expectedPaymentSolveBeginRequest = PaymentSolveBeginRequest(
-        transactionId = CookieFactoryForUnitSpecs.transactionId().value,
-        transNo = CookieFactoryForUnitSpecs.paymentTransNo().value,
+        transactionId = transactionId().value,
+        transNo = paymentTransNo().value,
         vrm = RegistrationNumberValid,
         purchaseAmount = 42,
         paymentCallback = s"$loadBalancerUrl/payment/callback/$tokenBase64URLSafe"

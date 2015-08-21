@@ -8,7 +8,8 @@ import utils.helpers.Config
 
 final class MicroServiceError @Inject()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                         config: Config,
-                                        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                       ) extends Controller {
 
   def present = Action { implicit request =>
     ServiceUnavailable(views.html.vrm_retention.micro_service_error())

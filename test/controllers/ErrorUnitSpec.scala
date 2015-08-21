@@ -6,10 +6,10 @@ import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import pages.vrm_retention.BeforeYouStartPage
 import play.api.test.FakeRequest
-import play.api.test.Helpers.LOCATION
-import play.api.test.Helpers.OK
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.LOCATION
+import play.api.test.Helpers.OK
 import play.api.test.Helpers.status
 
 class ErrorUnitSpec extends UnitSpec {

@@ -10,8 +10,7 @@ import models.RetainModel
 import models.VehicleAndKeeperLookupFormModel
 import play.api.data.Form
 import play.api.data.FormError
-import play.api.mvc.Result
-import play.api.mvc.{Action, AnyContent, Controller, Request}
+import play.api.mvc.{Action, AnyContent, Controller, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -92,10 +91,11 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
   def back = Action { implicit request =>
     // If the user is a business actor, then navigate to the previous page in the business journey,
     // Else the user is a keeper actor, then navigate to the previous page in the keeper journey
-    val businessPath = for {
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      if vehicleAndKeeperLookupForm.userType == UserType_Business
-    } yield {
+    val businessPath =
+      for {
+        vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+        if vehicleAndKeeperLookupForm.userType == UserType_Business
+      } yield {
         Redirect(routes.ConfirmBusiness.present())
       }
     val keeperPath = Redirect(routes.VehicleLookup.present())
@@ -128,23 +128,25 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       Redirect(routes.Payment.begin()).
         withCookie(model)
     }
-    val sadPath = Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
+    val sadPath =
+      Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
     happyPath.getOrElse(sadPath)
   }
 
   private def handleInvalid(form: Form[ConfirmFormModel])(implicit request: Request[_]): Result = {
-    val happyPath = for {
-      vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-    }
-      yield {
+    val happyPath =
+      for {
+        vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+        vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
+      } yield {
         val viewModel = ConfirmViewModel(vehicleAndKeeper, vehicleAndKeeperLookupForm.userType)
         val updatedForm = formWithReplacedErrors(form)
         val isKeeperEmailDisplayedOnLoad = updatedForm.apply(SupplyEmailId).value == Some(SupplyEmail_true)
         val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
         BadRequest(views.html.vrm_retention.confirm(viewModel, updatedForm, isKeeperEmailDisplayedOnLoad, isKeeper))
       }
-    val sadPath = Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
+    val sadPath =
+      Redirect(routes.Error.present("user went to Confirm handleInvalid without one of the required cookies"))
     happyPath.getOrElse(sadPath)
   }
 

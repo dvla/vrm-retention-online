@@ -1,7 +1,7 @@
 package mappings.common.vrm_retention
 
 import play.api.data.Mapping
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions._
+import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.textWithTransform
 import views.constraints.Postcode.validPostcode
 
 object Postcode {

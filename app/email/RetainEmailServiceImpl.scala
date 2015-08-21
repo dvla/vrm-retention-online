@@ -4,14 +4,14 @@ import com.google.inject.Inject
 import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
-import play.api.{LoggerLike, Logger, Play}
-import play.api.Play.current
+import play.api.{Logger, Play}
 import play.api.i18n.Messages
+import play.api.Play.current
 import play.twirl.api.HtmlFormat
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
@@ -20,15 +20,11 @@ import views.html.vrm_retention.email_with_html
 import views.html.vrm_retention.email_without_html
 import webserviceclients.emailservice.EmailService
 import webserviceclients.emailservice.EmailServiceSendRequest
-
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.dvla.vehicles.presentation.common.LogFormats._
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 
 final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                                              pdfService: PdfService,
-                                             config: Config) extends RetainEmailService  with DVLALogger  {
+                                             config: Config) extends RetainEmailService with DVLALogger  {
 
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Some("public/images/gov-uk-email.jpg")
@@ -47,9 +43,12 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
     if ((!config.emailWhitelist.isDefined) ||
         (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
-      Logger.debug(s"Email address passes the white list check, now going to create EmailServiceSendRequest - trackingId $trackingId")
+      Logger.debug(
+        "Email address passes the white list check, " +
+        s"now going to create EmailServiceSendRequest - trackingId $trackingId"
+      )
 
-      logMessage(trackingId,Debug,s"About to send email")
+      logMessage(trackingId, Debug, "About to send email")
 
       val keeperName = Seq(
         vehicleAndKeeperDetailsModel.title,
@@ -114,8 +113,10 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         None)
       )
     } else {
-      logMessage(trackingId,Error,s"Email not sent as not in whitelist")
-      Logger.error(s"EmailServiceSendRequest not created as email address domain not in white list - trackingId $trackingId")
+      logMessage(trackingId, Error, "Email not sent as not in whitelist")
+      Logger.error(
+        s"EmailServiceSendRequest not created as email address domain not in white list - trackingId $trackingId"
+      )
       None
     }
   }
@@ -144,11 +145,11 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
     ).map { emailRequest =>
       emailService.invoke(emailRequest, trackingId).map {
         response =>
-          if (isKeeper) logMessage(trackingId,Info,s"Keeper email sent")
-          else logMessage(trackingId,Info,s"Non-keeper email sent")
+          if (isKeeper) logMessage(trackingId, Info, "Keeper email sent")
+          else logMessage(trackingId, Info, "Non-keeper email sent")
       }.recover {
         case NonFatal(e) =>
-          logMessage(trackingId,Error,s"Email Service web service call failed. Exception " + e.toString)
+          logMessage(trackingId, Error, "Email Service web service call failed. Exception " + e.toString)
       }
     }
   }
@@ -216,8 +217,11 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
   }
 
   private def formatName(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel): String = {
-    Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName, vehicleAndKeeperDetailsModel.lastName).
-      flatten.
+    Seq(
+      vehicleAndKeeperDetailsModel.title,
+      vehicleAndKeeperDetailsModel.firstName,
+      vehicleAndKeeperDetailsModel.lastName
+    ).flatten.
       mkString(" ")
   }
 

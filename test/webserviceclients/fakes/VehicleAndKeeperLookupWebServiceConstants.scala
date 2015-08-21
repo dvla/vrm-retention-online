@@ -47,17 +47,45 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   def KeeperPostCodeValid = Some("SA11AA")
 
-  final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(code = "vehicle_and_keeper_lookup_document_record_mismatch", message  = "200")
-  final val ExportedFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_exported_failure", message  = "200")
-  final val ScrappedFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_scrapped_failure", message  = "200")
-  final val DamagedFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_damaged_failure", message  = "200")
-  final val VICFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_vic_failure", message  = "200")
-  final val NoKeeperFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_no_keeper_failure", message  = "200")
-  final val NotMotFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_not_mot_failure", message  = "200")
-  final val Pre1998Failure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_pre_1998_failure", message  = "200")
-  final val QFailure = VehicleAndKeeperLookupErrorMessage(code = "vrm_retention_eligibility_q_plate_failure", message  = "200")
+  final val RecordMismatch = VehicleAndKeeperLookupErrorMessage(
+    code = "vehicle_and_keeper_lookup_document_record_mismatch",
+    message  = "200"
+  )
+  final val ExportedFailure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_exported_failure",
+    message  = "200"
+  )
+  final val ScrappedFailure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_scrapped_failure",
+    message  = "200"
+  )
+  final val DamagedFailure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_damaged_failure",
+    message  = "200"
+  )
+  final val VICFailure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_vic_failure",
+    message  = "200"
+  )
+  final val NoKeeperFailure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_no_keeper_failure",
+    message  = "200"
+  )
+  final val NotMotFailure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_not_mot_failure",
+    message  = "200"
+  )
+  final val Pre1998Failure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_pre_1998_failure",
+    message  = "200"
+  )
+  final val QFailure = VehicleAndKeeperLookupErrorMessage(
+    code = "vrm_retention_eligibility_q_plate_failure",
+    message  = "200"
+  )
 
-  private def vehicleAndKeeperDetails = VehicleAndKeeperLookupDetailsDto(registrationNumber = RegistrationNumberValid,
+  private def vehicleAndKeeperDetails = VehicleAndKeeperLookupDetailsDto(
+    registrationNumber = RegistrationNumberValid,
     vehicleMake = VehicleMakeValid,
     vehicleModel = VehicleModelValid,
     keeperTitle = KeeperTitleValid,
@@ -76,11 +104,20 @@ object VehicleAndKeeperLookupWebServiceConstants {
   )
 
   def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[VehicleAndKeeperLookupResponse]) = {
-    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = None, vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails))))
+    (OK, Some(VehicleAndKeeperLookupResponse(
+      responseCode = None,
+      vehicleAndKeeperDetailsDto = Some(vehicleAndKeeperDetails)
+    )))
   }
 
   def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[VehicleAndKeeperLookupResponse]) = {
-    (OK, Some(VehicleAndKeeperLookupResponse(responseCode = Some(VehicleAndKeeperLookupErrorMessage(code = "vehicle_lookup_vrm_not_found", message =  "200")), vehicleAndKeeperDetailsDto = None)))
+    (OK, Some(VehicleAndKeeperLookupResponse(
+      responseCode = Some(VehicleAndKeeperLookupErrorMessage(
+        code = "vehicle_lookup_vrm_not_found",
+        message =  "200")
+      ),
+      vehicleAndKeeperDetailsDto = None)
+    ))
   }
 
   def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[VehicleAndKeeperLookupResponse]) = {

@@ -2,7 +2,7 @@ package pages.vrm_retention
 
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, textField,telField}
+import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, textField, telField}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
@@ -43,7 +43,6 @@ object VehicleLookupPage extends Page {
                 isCurrentKeeper: Boolean = true)
                (implicit driver: WebDriver) = {
     go to VehicleLookupPage
-
 
     vehicleRegistrationNumber.value = registrationNumber
     documentReferenceNumber.value = referenceNumber

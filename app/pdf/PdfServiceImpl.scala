@@ -1,15 +1,14 @@
 package pdf
 
-import java.io.{FileNotFoundException, ByteArrayOutputStream, File, OutputStream}
-
 import com.google.inject.Inject
+import java.io.{ByteArrayOutputStream, File, FileNotFoundException, OutputStream}
 import models.EligibilityModel
 import org.apache.pdfbox.Overlay
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.PDFont
 import org.apache.pdfbox.pdmodel.font.PDType1Font
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.preflight.PreflightDocument
 import org.apache.pdfbox.preflight.exception.SyntaxValidationException
 import org.apache.pdfbox.preflight.parser.PreflightParser
@@ -18,17 +17,13 @@ import org.joda.time.DateTimeZone
 import pdf.PdfServiceImpl.blankPage
 import pdf.PdfServiceImpl.fontDefaultSize
 import pdf.PdfServiceImpl.v948Blank
-import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import scala.collection.JavaConversions.asScalaBuffer
+import scala.util.{Failure, Success, Try}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-
-import scala.collection.JavaConversions._
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Success, Failure, Try}
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
@@ -61,7 +56,11 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
       // Save the results and ensure that the document is properly closed:
       documentWatermarked.save(output)
     } catch {
-      case e: Exception => logMessage(trackingId, Error, s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTrace}")
+      case e: Exception => logMessage(
+        trackingId,
+        Error,
+        s"PdfServiceImpl v948 error when combining and saving: ${e.getStackTrace}"
+      )
     } finally {
       documentWatermarked.close()
     }
@@ -76,14 +75,19 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     val page = new PDPage()
     implicit var contentStream: PDPageContentStream = null
     try {
-      contentStream = new PDPageContentStream(document, page) // Start a new content stream which will "hold" the to be created content
+      // Start a new content stream which will "hold" the to be created content
+      contentStream = new PDPageContentStream(document, page)
 
       writeCustomerNameAndAddress(name, address)
       writeVrn(eligibilityModel.replacementVRM)
       writeTransactionId(transactionId)
       writeDateOfRetention()
     } catch {
-      case e: Exception => logMessage(trackingId, Error,s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}")
+      case e: Exception => logMessage(
+        trackingId,
+        Error,
+        s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}"
+      )
     } finally {
       // Make sure that the content stream is closed:
       contentStream.close()
@@ -113,11 +117,12 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
   private def wrapText(words: List[String]): List[List[String]] = words match {
     case Nil => Nil
     case _ =>
-      val output = (words.inits.dropWhile { _.mkString(" ").length > 30 }).next
+      val output = words.inits.dropWhile { _.mkString(" ").length > 30 }.next()
       output :: wrapText(words.drop(output.length))
   }
 
-  private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])(implicit contentStream: PDPageContentStream): Unit = {
+  private def writeCustomerNameAndAddress(name: String, address: Option[AddressModel])
+                                         (implicit contentStream: PDPageContentStream): Unit = {
 
     var positionY = 580
 
@@ -151,7 +156,8 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     val size = 26
     val font = fontHelveticaBold(size = size)
     contentStream.moveTextPositionByAmount(45, 385)
-    contentStream.moveTextPositionByAmount((180 - width(font, registrationNumber, fontSize = size)) / 2, 0) // Centre the text.
+    // Centre the text.
+    contentStream.moveTextPositionByAmount((180 - width(font, registrationNumber, fontSize = size)) / 2, 0)
     contentStream.drawString(registrationNumber)
     contentStream.endText()
   }
@@ -163,7 +169,8 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     val size = 18
     val font = fontHelveticaBold(size = 18)
     contentStream.moveTextPositionByAmount(340, 390)
-    contentStream.moveTextPositionByAmount((200 - width(font, transactionId, fontSize = size)) / 2, 0) // Centre the text.
+    // Centre the text.
+    contentStream.moveTextPositionByAmount((200 - width(font, transactionId, fontSize = size)) / 2, 0)
     contentStream.drawString(transactionId) // Transaction ID
     contentStream.endText()
   }
@@ -220,7 +227,6 @@ object PdfServiceImpl extends DVLALogger {
     try {
       val file = new File(filename)
       if (file.exists()) {
-        //`PDF/A validation`(file, "v948Blank") // Validate that the file we have loaded meets the specification, otherwise we are writing on top of existing problems.
         Success(file)
       }
       else {
@@ -256,9 +262,12 @@ object PdfServiceImpl extends DVLALogger {
       // display validation result
       if (!result.isValid) {
         val errors = result.getErrorsList.toList.
-          map(error => s"PDF/A error code ${error.getErrorCode}, error details: ${error.getDetails}").
-          mkString(", ")
-        logMessage(trackingId, Error, s"Document '$docName' does not meet the PDF/A standard because of the following errors - $errors")
+          map(error => s"PDF/A error code ${error.getErrorCode}, error details: ${error.getDetails}").mkString(", ")
+        logMessage(
+          trackingId,
+          Error,
+          s"Document '$docName' does not meet the PDF/A standard because of the following errors - $errors"
+        )
       }
     } catch {
       case e: SyntaxValidationException =>
@@ -285,7 +294,9 @@ object PdfServiceImpl extends DVLALogger {
       //case e: Exception => Logger.error()
     }
     catch {
-      case e: Exception => Failure(new Exception(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}"))
+      case e: Exception => Failure(new Exception(
+        s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}"
+      ))
     } finally {
       contentStream.close() // Make sure that the content stream is closed.
     }

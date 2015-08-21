@@ -2,16 +2,15 @@ package pages.vrm_retention
 
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser
-import org.scalatest.selenium.WebBrowser.{click, find, go, id}
+import org.scalatest.selenium.WebBrowser.{click, Element, find, go, id}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
 import views.vrm_retention.Confirm.ConfirmId
 import views.vrm_retention.Confirm.ExitId
 import views.vrm_retention.Confirm.KeeperEmailWrapper
-import views.vrm_retention.Confirm.SupplyEmailId
 import views.vrm_retention.Confirm.SupplyEmail_false
 import views.vrm_retention.Confirm.SupplyEmail_true
+import views.vrm_retention.Confirm.SupplyEmailId
 
 object ConfirmPage extends Page {
 
@@ -36,10 +35,10 @@ object ConfirmPage extends Page {
     }
   }
 
-  def `supply keeper email`(implicit driver: WebDriver): WebBrowser.Element =
+  def `supply keeper email`(implicit driver: WebDriver): Element =
     find(id(s"${SupplyEmailId}_$SupplyEmail_true")).get
 
-  def `don't supply keeper email`(implicit driver: WebDriver): WebBrowser.Element =
+  def `don't supply keeper email`(implicit driver: WebDriver): Element =
     find(id(s"${SupplyEmailId}_$SupplyEmail_false")).get
 
   def happyPath(implicit driver: WebDriver) = {

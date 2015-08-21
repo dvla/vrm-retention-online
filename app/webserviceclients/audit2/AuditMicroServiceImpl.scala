@@ -1,10 +1,10 @@
 package webserviceclients.audit2
 
 import com.google.inject.Inject
-import play.api.Play.current
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
 import play.api.libs.ws.WSResponse
+import play.api.Play.current
 import utils.helpers.Config
 
 import scala.concurrent.Future

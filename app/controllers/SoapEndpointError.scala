@@ -8,7 +8,8 @@ import utils.helpers.Config
 
 final class SoapEndpointError @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                           config: Config,
-                                          dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                          dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                         ) extends Controller {
 
   def present = Action { implicit request =>
     Ok(views.html.vrm_retention.soap_endpoint_error())

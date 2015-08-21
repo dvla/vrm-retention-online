@@ -60,4 +60,3 @@ trait TestComposition extends Composition {
     Guice.createInjector(overriddenDevModule)
   }
 }
-

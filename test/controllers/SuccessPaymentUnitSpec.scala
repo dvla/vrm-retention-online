@@ -16,16 +16,17 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFor
 import models.BusinessDetailsModel
 import models.ConfirmFormModel
 import models.EligibilityModel
-import org.mockito.{Mockito, Matchers}
+import org.mockito.Matchers
 import org.mockito.Matchers.any
 import org.mockito.Mockito.never
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.verifyNoMoreInteractions
 import org.scalatest.mock.MockitoSugar
 import pages.vrm_retention.SuccessPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.BAD_REQUEST
-import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.status
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -101,7 +102,7 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           Matchers.eq(isKeeper),
           any[TrackingId]
         )
-        Mockito.verifyNoMoreInteractions(emailService)
+        verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -132,7 +133,7 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           Matchers.eq(isKeeper),
           any[TrackingId]
         )
-        Mockito.verifyNoMoreInteractions(emailService)
+        verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -163,7 +164,7 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
           Matchers.eq(isKeeper),
           any[TrackingId]
         )
-        Mockito.verifyNoMoreInteractions(emailService)
+        verifyNoMoreInteractions(emailService)
       }
     }
 
@@ -218,7 +219,10 @@ class SuccessPaymentUnitSpec extends UnitSpec with MockitoSugar {
     "return a pdf when the cookie exists" in pending
 
     /*
-    //TODO commented out as when running sbt console it will pass all tests the first time but when you run test again ALL controller test complain. It is something to do with the chunked response as the problem does not happen if you call the service directly. I notice that a java icon stays in my Mac dock after the first test run finishes, so something is not closing.
+     TODO: commented out as when running sbt console it will pass all tests the first time but
+     when you run test again ALL controller test complain.
+     It is something to do with the chunked response as the problem does not happen if you call the service directly.
+     I notice that a java icon stays in my Mac dock after the first test run finishes, so something is not closing.
     "return status OK when creation succeeded" in {
       val request = FakeRequest().
         withCookies(vehicleDetailsModel()).

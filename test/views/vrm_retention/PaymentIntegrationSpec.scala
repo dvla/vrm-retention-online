@@ -1,8 +1,8 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -24,13 +24,17 @@ class PaymentIntegrationSpec extends UiSpec with TestHarness {
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to VehicleLookupPage
-      val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(
+        By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      )
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should
+        equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").length > 0 should equal(true)
     }
 
-    "redirect to VehicleLookupPage page when retain cookie is present (the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to VehicleLookupPage page when retain cookie is present " +
+      "(the user has manually changed the url to get here)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup().retainModel()
       go to PaymentPage
@@ -50,7 +54,8 @@ class PaymentIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(LeaveFeedbackPage.url)
     }
 
-    "remove RetainSet cookies when storeBusinessDetailsConsent cookie does not exist" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    "remove RetainSet cookies when storeBusinessDetailsConsent cookie " +
+      "does not exist" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPage
@@ -63,7 +68,8 @@ class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove RetainSet and BusinessDetailsSet cookies when storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    "remove RetainSet and BusinessDetailsSet cookies when " +
+      "storeBusinessDetailsConsent cookie is false" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup().
         setupBusinessDetails().
@@ -82,7 +88,8 @@ class PaymentIntegrationSpec extends UiSpec with TestHarness {
       })
     }
 
-    "remove RetainSet cookies when storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    "remove RetainSet cookies when " +
+      "storeBusinessDetailsConsent cookie contains true" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       go to BeforeYouStartPage
       cacheSetup().
         setupBusinessDetails().

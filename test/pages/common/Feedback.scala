@@ -2,7 +2,7 @@ package pages.common
 
 import mappings.common.Feedback.FeedbackId
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser._
+import org.scalatest.selenium.WebBrowser.{find, id}
 
 object Feedback {
 

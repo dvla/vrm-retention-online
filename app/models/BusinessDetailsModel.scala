@@ -22,6 +22,7 @@ object BusinessDetailsModel {
       name = businessDetailsForm.name,
       contact = businessDetailsForm.contact,
       email = businessDetailsForm.email,
-      address = businessAddress)
+      address = businessAddress
+    )
   }
 }

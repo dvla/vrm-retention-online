@@ -22,5 +22,4 @@ object ConfirmFormModel {
       SupplyEmailId -> OptionalToggle.optional(emailConfirm.withPrefix(KeeperEmailId))
     )(ConfirmFormModel.apply)(ConfirmFormModel.unapply)
   }
-
 }

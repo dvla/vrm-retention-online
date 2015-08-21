@@ -44,7 +44,8 @@ class RetainUnitSpec extends UnitSpec {
 
       val result = retain.retain(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/error/user%20went%20to%20Retain%20retainMark%20without%20correct%20cookies"))
+        r.header.headers.get(LOCATION) should
+          equal(Some("/error/user%20went%20to%20Retain%20retainMark%20without%20correct%20cookies"))
       }
     }
 
@@ -69,7 +70,8 @@ class RetainUnitSpec extends UnitSpec {
       }
     }
 
-    "send a payment email to the registered keeper only and not to the business when registered keeper is chosen and keeper email is supplied" in new WithApplication {
+    "send a payment email to the registered keeper only and " +
+      "not to the business when registered keeper is chosen and keeper email is supplied" in new WithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
@@ -88,13 +90,16 @@ class RetainUnitSpec extends UnitSpec {
         paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(keeperEmail)))
 
         val retentionSuccessEmailRequests = retentionRetainRequestArg.getValue.successEmailRequests
-        // Email for the keeper because the keeper email is specified in confirmModel. No business email because the user type is keeper
+        // Email for the keeper because the keeper email is specified in confirmModel.
+        // No business email because the user type is keeper
         retentionSuccessEmailRequests.size should equal(1)
         retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(keeperEmail)))
       }
     }
 
-    "send a payment email to the business acting on behalf of the keeper and not to the keeper when business is chosen and send retention success emails to both business and keeper when keeper email is supplied" in new WithApplication {
+    "send a payment email to the business acting on behalf of the keeper and " +
+      "not to the keeper when business is chosen and send retention success emails " +
+      "to both business and keeper when keeper email is supplied" in new WithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
@@ -121,7 +126,8 @@ class RetainUnitSpec extends UnitSpec {
       }
     }
 
-    "send a payment email and a retention success email to the business acting on behalf of the keeper when business is chosen and no keeper email is supplied" in new WithApplication {
+    "send a payment email and a retention success email to the business acting on behalf of the keeper when " +
+      "business is chosen and no keeper email is supplied" in new WithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
@@ -140,7 +146,8 @@ class RetainUnitSpec extends UnitSpec {
         paymentSuccessReceiptEmails.head.toReceivers should equal(Some(List(businessEmail)))
 
         val retentionSuccessEmailRequests = retentionRetainRequestArg.getValue.successEmailRequests
-        // Email for the business because the user type is business. No keeper email because no keeper email supplied in ConfirmModel
+        // Email for the business because the user type is business.
+        // No keeper email because no keeper email supplied in ConfirmModel
         retentionSuccessEmailRequests.size should equal(1)
         retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
       }
@@ -201,8 +208,14 @@ class RetainUnitSpec extends UnitSpec {
     val emailServiceMock = mock[EmailService]
 
     val pdfServiceMock = mock[PdfService]
-    when(pdfServiceMock.create(any[EligibilityModel], any[String], any[String], any[Option[AddressModel]], any[TrackingId]))
-      .thenReturn(Array.ofDim[Byte](0))
+    when(pdfServiceMock.create(
+      any[EligibilityModel],
+      any[String],
+      any[String],
+      any[Option[AddressModel]],
+      any[TrackingId])
+    )
+    .thenReturn(Array.ofDim[Byte](0))
 
     val configMock = mock[Config]
     when(configMock.emailWhitelist).thenReturn(Some(List("@test.com")))

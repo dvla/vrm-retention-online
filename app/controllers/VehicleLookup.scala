@@ -6,7 +6,6 @@ import models.{CacheKeyPrefix, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
-import play.api.{LoggerLike, Logger}
 import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
@@ -34,13 +33,12 @@ import views.vrm_retention.VehicleLookup.PostcodeId
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
-import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
-                                    auditService2: audit2.AuditService,
+                                    auditService2: webserviceclients.audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
@@ -204,7 +202,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                 (implicit request: Request[_]) = {
     dtoPostcode match {
       case Some(postcode) =>
-        logMessage(request.cookies.trackingId, Info, "formModelPostcode = " + formModelPostcode + " dtoPostcode " + postcode)
+        logMessage(request.cookies.trackingId, Info, s"formModelPostcode = $formModelPostcode dtoPostcode $postcode")
 
         def formatPartialPostcode(postcode: String): String = {
           val SpaceCharDelimiter = " "

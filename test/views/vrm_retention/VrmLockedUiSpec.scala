@@ -1,17 +1,17 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
-import pages.vrm_retention.VrmLockedPage.exit
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage
 import pages.vrm_retention.VrmLockedPage
+import pages.vrm_retention.VrmLockedPage.exit
 
 class VrmLockedUiSpec extends UiSpec with TestHarness {
 
@@ -25,9 +25,12 @@ class VrmLockedUiSpec extends UiSpec with TestHarness {
 
     "contain the hidden csrfToken field" taggedAs UiTag in new WebBrowserForSelenium {
       go to VrmLockedPage
-      val csrf: WebElement = webDriver.findElement(By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName))
+      val csrf: WebElement = webDriver.findElement(
+        By.name(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      )
       csrf.getAttribute("type") should equal("hidden")
-      csrf.getAttribute("name") should equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
+      csrf.getAttribute("name") should
+        equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").length > 0 should equal(true)
     }
   }

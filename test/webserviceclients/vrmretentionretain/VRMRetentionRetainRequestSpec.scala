@@ -8,9 +8,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebE
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 import webserviceclients.emailservice.EmailServiceSendRequest
-import webserviceclients.fakes.DateServiceConstants.DayValid
-import webserviceclients.fakes.DateServiceConstants.MonthValid
-import webserviceclients.fakes.DateServiceConstants.YearValid
+import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
@@ -31,7 +29,8 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
     MonthValid.toInt,
     DayValid.toInt,
     0,
-    0)
+    0
+  )
 
   private val config = new TestConfig().build
 
@@ -53,11 +52,13 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
   private def toJson = Json.toJson(request)
 
   private def buildWebHeader(trackingId: String): VssWebHeaderDto = {
-    VssWebHeaderDto(transactionId = trackingId,
+    VssWebHeaderDto(
+      transactionId = trackingId,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
-      buildEndUser())
+      buildEndUser()
+    )
   }
 
   private def buildEndUser(): VssWebEndUserDto = {

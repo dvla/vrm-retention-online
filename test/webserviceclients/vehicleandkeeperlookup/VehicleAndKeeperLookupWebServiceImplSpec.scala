@@ -1,15 +1,13 @@
 package webserviceclients.vehicleandkeeperlookup
 
-import com.github.tomakehurst.wiremock.client.WireMock.equalTo
-import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
-import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
+import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import composition.WithApplication
 import helpers.UnitSpec
 import helpers.WireMockFixture
 import org.joda.time.DateTime
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceImpl
@@ -43,7 +41,8 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
     MonthValid.toInt,
     DayValid.toInt,
     0,
-    0)
+    0
+  )
 
   private def request = VehicleAndKeeperLookupRequest(
     dmsHeader = buildHeader(trackingId),

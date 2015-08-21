@@ -1,8 +1,7 @@
 package webserviceclients.paymentsolve
 
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 trait PaymentSolveService {
 

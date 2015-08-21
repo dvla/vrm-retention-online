@@ -2,14 +2,11 @@ package utils.helpers
 
 import controllers.routes
 import models.SeenCookieMessageCacheKey
-import play.api.Logger
 import play.api.mvc.DiscardingCookie
 import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.Redirect
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
-import scala.concurrent.Future
 
 object CookieHelper extends DVLALogger {
 

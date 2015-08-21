@@ -5,19 +5,18 @@ import _root_.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityR
 import _root_.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
 import _root_.webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 import com.tzavellas.sse.guice.ScalaModule
+import org.mockito.invocation.InvocationOnMock
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
-import org.mockito.invocation.InvocationOnMock
 import org.mockito.stubbing.Answer
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 
 final class TestVRMRetentionEligibilityWebService extends ScalaModule with MockitoSugar {
 

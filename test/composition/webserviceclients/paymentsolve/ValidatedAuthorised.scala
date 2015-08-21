@@ -7,13 +7,12 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
+import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
 import webserviceclients.paymentsolve.PaymentSolveGetRequest
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 import webserviceclients.paymentsolve.PaymentSolveWebService
-
-import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class ValidatedAuthorised extends ScalaModule with MockitoSugar {
 

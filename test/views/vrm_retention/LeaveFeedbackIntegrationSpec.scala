@@ -1,8 +1,8 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage

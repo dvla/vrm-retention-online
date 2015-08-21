@@ -11,9 +11,9 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFor
 import pages.vrm_retention.LeaveFeedbackPage
 import play.api.http.Status.OK
 import play.api.test.FakeRequest
-import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
+import play.api.test.Helpers.LOCATION
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 
 class VrmLockedUnitSpec extends UnitSpec {

@@ -12,7 +12,7 @@ import models.VehicleAndKeeperLookupFormModel
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
 import play.api.mvc.Cookie
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClientSideSessionFactory, TrackingId}
 import uk.gov.dvla.vehicles.presentation.common.model.Address
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
@@ -69,7 +69,9 @@ import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.Transaction
 object CookieFactoryForUnitSpecs extends TestComposition {
 
   private final val TrackingIdValue = TrackingId("trackingId")
-  private lazy val session = testInjector().getInstance(classOf[ClientSideSessionFactory]).getSession(Array.empty[Cookie])
+  private lazy val session = testInjector()
+    .getInstance(classOf[ClientSideSessionFactory])
+    .getSession(Array.empty[Cookie])
 
   def setupBusinessDetails(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
@@ -77,22 +79,28 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                            businessPostcode: String = PostcodeValid): Cookie = {
     val key = SetupBusinessDetailsCacheKey
 
-    val searchFields = SearchFields(showSearchFields = true,
+    val searchFields = SearchFields(
+      showSearchFields = true,
       showAddressSelect = true,
       showAddressFields = true,
       postCode = None,
       listOption = None,
-      remember = false)
+      remember = false
+    )
 
-    val value = SetupBusinessDetailsFormModel(name = businessName,
+    val value = SetupBusinessDetailsFormModel(
+      name = businessName,
       contact = businessContact,
       email = businessEmail,
-      address = new Address(searchFields = searchFields,
+      address = new Address(
+        searchFields = searchFields,
         streetAddress1 = "",
         streetAddress2 = None,
         streetAddress3 = None,
         postTown = "",
-        postCode = businessPostcode))
+        postCode = businessPostcode
+      )
+    )
     createCookie(key, value)
   }
 
@@ -233,7 +241,8 @@ object CookieFactoryForUnitSpecs extends TestComposition {
                    rejectionCode: Option[String] = None,
                    isPrimaryUrl: Boolean = true): Cookie = {
     val key = PaymentDetailsCacheKey
-    val value = PaymentModel(trxRef = trxRef,
+    val value = PaymentModel(
+      trxRef = trxRef,
       paymentStatus = paymentStatus,
       maskedPAN = maskedPAN,
       authCode = authCode,

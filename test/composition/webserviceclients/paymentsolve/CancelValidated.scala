@@ -6,11 +6,10 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.OK
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-import webserviceclients.paymentsolve._
-
-import scala.concurrent.Future
+import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveWebService}
 
 final class CancelValidated extends ScalaModule with MockitoSugar {
 

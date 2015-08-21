@@ -2,8 +2,8 @@ package views.vrm_retention
 
 import composition.TestHarness
 import controllers.routes.CookiePolicy
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -23,7 +23,8 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(BeforeYouStartPage.url)
     }
 
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    "remove redundant cookies (needed for when a user exits the service and " +
+      "comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessDetails().
@@ -37,19 +38,22 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
       RelatedCacheKeys.RetainSet.foreach(cacheKey => webDriver.manage().getCookieNamed(cacheKey) should equal(null))
     }
 
-    "display the global cookie message when cookie 'seen_cookie_message' does not exist" taggedAs UiTag in new WebBrowserForSelenium {
+    "display the global cookie message when cookie 'seen_cookie_message' " +
+      "does not exist" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       pageSource should include("Find out more about cookies")
     }
 
     "display a link to the cookie policy" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      footerItem(index = 0).findElement(By.tagName("a")).getAttribute("href") should include(CookiePolicy.present().toString())
+      footerItem(index = 0).findElement(By.tagName("a")).getAttribute("href") should
+        include(CookiePolicy.present().toString())
     }
 
     "display a Cymraeg link" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      footerItem(index = 1).findElement(By.tagName("a")).getAttribute("href") should include(AlternateLanguages.withLanguage(CyId).toString())
+      footerItem(index = 1).findElement(By.tagName("a")).getAttribute("href") should
+        include(AlternateLanguages.withLanguage(CyId).toString())
     }
 
     "change language to welsh when Cymraeg link clicked" taggedAs UiTag in new WebBrowserForSelenium {
@@ -59,7 +63,8 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     }
   }
 
-  "display the 'Cymraeg' language button and not the 'English' language button when the play language cookie has value 'en'" taggedAs UiTag in new WebBrowserForSelenium {
+  "display the 'Cymraeg' language button and not the 'English' language button when " +
+    "the play language cookie has value 'en'" taggedAs UiTag in new WebBrowserForSelenium {
     go to BeforeYouStartPage // By default will load in English.
     CookieFactoryForUISpecs.withLanguageEn()
     go to BeforeYouStartPage
@@ -68,7 +73,8 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     isEnglishDisplayed should equal(false)
   }
 
-  "display the 'English' language button and not the 'Cymraeg' language button when the play language cookie has value 'cy'" taggedAs UiTag in new WebBrowserForSelenium {
+  "display the 'English' language button and not the 'Cymraeg' language button when " +
+    "the play language cookie has value 'cy'" taggedAs UiTag in new WebBrowserForSelenium {
     go to BeforeYouStartPage // By default will load in English.
     CookieFactoryForUISpecs.withLanguageCy()
     go to BeforeYouStartPage
@@ -78,7 +84,9 @@ class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
     pageTitle should equal(BeforeYouStartPage.titleCy)
   }
 
-  "display the 'Cymraeg' language button and not the 'English' language button and mailto when the play language cookie does not exist (assumption that the browser default language is English)" taggedAs UiTag in new WebBrowserForSelenium {
+  "display the 'Cymraeg' language button and not the 'English' language button and mailto when " +
+    "the play language cookie does not exist " +
+    "(assumption that the browser default language is English)" taggedAs UiTag in new WebBrowserForSelenium {
     go to BeforeYouStartPage
 
     isCymraegDisplayed should equal(true)

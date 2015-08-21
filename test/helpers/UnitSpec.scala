@@ -8,8 +8,8 @@ import org.scalatest.time.Second
 import org.scalatest.time.Span
 import org.scalatest.Matchers
 import org.scalatest.WordSpec
-
-import scala.concurrent.duration._
+import scala.concurrent.duration.FiniteDuration
+import scala.concurrent.duration.SECONDS
 
 abstract class UnitSpec extends WordSpec with Matchers with MockitoSugar with ScalaFutures with TestComposition {
 

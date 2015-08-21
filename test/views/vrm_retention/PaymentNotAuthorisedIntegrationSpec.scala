@@ -1,8 +1,8 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
@@ -12,7 +12,8 @@ import pages.vrm_retention.PaymentNotAuthorisedPage.exit
 class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-    "display the payment not authorised page for a not authorised payment response" taggedAs UiTag in new WebBrowserForSelenium {
+    "display the payment not authorised page for a " +
+      "not authorised payment response" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheNotAuthorisedSetup()
       go to PaymentNotAuthorisedPage
@@ -21,7 +22,8 @@ class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
   }
 
   "try again button" should {
-    "redirect to confirm page (it is the last valid page before the payment page)" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to confirm page " +
+      "(it is the last valid page before the payment page)" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheNotAuthorisedSetup()
       go to PaymentNotAuthorisedPage

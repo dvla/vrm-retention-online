@@ -1,7 +1,7 @@
 package views.constraints
 
 import play.api.data.validation.Constraint
-import play.api.data.validation.Constraints._
+import play.api.data.validation.Constraints.pattern
 
 /**
  * Postcode constraint for VPDS keeper postcodes ie exactly what is on the V5C

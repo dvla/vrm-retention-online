@@ -12,11 +12,10 @@ import org.scalatest.mock.MockitoSugar
 import play.api.http.Status.FORBIDDEN
 import play.api.http.Status.OK
 import play.api.libs.ws.WSResponse
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionWebService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-
-import scala.concurrent.Future
 
 final class TestBruteForcePreventionWebService(permitted: Boolean = true) extends ScalaModule with MockitoSugar {
 
@@ -24,15 +23,23 @@ final class TestBruteForcePreventionWebService(permitted: Boolean = true) extend
     val bruteForceStatus = if (permitted) OK else FORBIDDEN
     val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
-    //TrackingId("default_test_tracking_id")
-    when(bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid, TrackingId("default_test_tracking_id"))).
-      thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
+    when(
+      bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid, TrackingId("default_test_tracking_id"))
+    ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
 
-    when(bruteForcePreventionWebService.callBruteForce(BruteForcePreventionWebServiceConstants.VrmAttempt2, TrackingId("default_test_tracking_id"))).
-      thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseSecondAttempt)))
+    when(
+      bruteForcePreventionWebService.callBruteForce(
+        BruteForcePreventionWebServiceConstants.VrmAttempt2,
+        TrackingId("default_test_tracking_id")
+      )
+    ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseSecondAttempt)))
 
-    when(bruteForcePreventionWebService.callBruteForce(BruteForcePreventionWebServiceConstants.VrmLocked, TrackingId("default_test_tracking_id"))).
-      thenReturn(Future.successful(new FakeResponse(status = FORBIDDEN)))
+    when(
+      bruteForcePreventionWebService.callBruteForce(
+        BruteForcePreventionWebServiceConstants.VrmLocked,
+        TrackingId("default_test_tracking_id")
+      )
+    ).thenReturn(Future.successful(new FakeResponse(status = FORBIDDEN)))
 
     when(bruteForcePreventionWebService.callBruteForce(VrmThrows, TrackingId("default_test_tracking_id"))).
       thenReturn(responseThrows)
@@ -44,5 +51,7 @@ final class TestBruteForcePreventionWebService(permitted: Boolean = true) extend
 
   def configure() = bind[BruteForcePreventionWebService].toInstance(stub)
 
-  private def responseThrows: Future[WSResponse] = Future.failed(new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService"))
+  private def responseThrows: Future[WSResponse] = Future.failed(
+    new RuntimeException("This error is generated deliberately by a stub for BruteForcePreventionWebService")
+  )
 }

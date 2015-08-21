@@ -27,9 +27,10 @@ final class RefererFromHeaderImplSpec extends UnitSpec {
       isRefererFetched(referer)
     }
 
-    "return expected value when request contains referer with hyphens, full stops and port number" in new WithApplication {
-      val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}"
-      isRefererFetched(referer)
+    "return expected value when request contains referer with hyphens, full stops and port number" in
+      new WithApplication {
+        val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}"
+        isRefererFetched(referer)
     }
   }
 
@@ -39,21 +40,31 @@ final class RefererFromHeaderImplSpec extends UnitSpec {
       val referer = s"$loadBalancer${routes.Confirm.present()}"
       val tokenBase64URLSafe = "01234"
       val refererFromHeader = new RefererFromHeaderImpl
-      refererFromHeader.paymentCallbackUrl(referer = referer, tokenBase64URLSafe = tokenBase64URLSafe) should equal(s"$loadBalancer/payment/callback/01234")
+      refererFromHeader.paymentCallbackUrl(
+        referer = referer,
+        tokenBase64URLSafe = tokenBase64URLSafe
+      ) should equal(s"$loadBalancer/payment/callback/01234")
     }
 
     "return expected value when request contains referer with hyphens and full stops" in new WithApplication {
       val referer = s"$loadBalancer.co.uk${routes.Confirm.present()}"
       val tokenBase64URLSafe = "01234"
       val refererFromHeader = new RefererFromHeaderImpl
-      refererFromHeader.paymentCallbackUrl(referer = referer, tokenBase64URLSafe = tokenBase64URLSafe) should equal(s"$loadBalancer.co.uk/payment/callback/01234")
+      refererFromHeader.paymentCallbackUrl(
+        referer = referer,
+        tokenBase64URLSafe = tokenBase64URLSafe
+      ) should equal(s"$loadBalancer.co.uk/payment/callback/01234")
     }
 
-    "return expected value when request contains referer with hyphens, full stops and port number" in new WithApplication {
-      val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}.co.uk"
-      val tokenBase64URLSafe = "01234"
-      val refererFromHeader = new RefererFromHeaderImpl
-      refererFromHeader.paymentCallbackUrl(referer = referer, tokenBase64URLSafe = tokenBase64URLSafe) should equal(s"$loadBalancer.co.uk:443/payment/callback/01234")
+    "return expected value when request contains referer with hyphens, full stops and port number" in
+      new WithApplication {
+        val referer = s"$loadBalancer.co.uk:443${routes.Confirm.present()}.co.uk"
+        val tokenBase64URLSafe = "01234"
+        val refererFromHeader = new RefererFromHeaderImpl
+        refererFromHeader.paymentCallbackUrl(
+          referer = referer,
+          tokenBase64URLSafe = tokenBase64URLSafe
+        ) should equal(s"$loadBalancer.co.uk:443/payment/callback/01234")
     }
   }
 

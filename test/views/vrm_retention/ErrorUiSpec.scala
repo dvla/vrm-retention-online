@@ -1,14 +1,14 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
-import pages.vrm_retention.ErrorPage.startAgain
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.ErrorPage
+import pages.vrm_retention.ErrorPage.startAgain
 
 class ErrorUiSpec extends UiSpec with TestHarness {
 
@@ -21,7 +21,8 @@ class ErrorUiSpec extends UiSpec with TestHarness {
   }
 
   "startAgain button" should {
-    "remove redundant cookies (needed for when a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
+    "remove redundant cookies (needed for when " +
+      "a user exits the service and comes back)" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
       def cacheSetup()(implicit webDriver: WebDriver) =
         CookieFactoryForUISpecs.setupBusinessDetails().
           businessDetails().

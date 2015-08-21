@@ -1,7 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{ConfirmFormModel, CacheKeyPrefix}
+import models.{CacheKeyPrefix, ConfirmFormModel}
 import play.api.mvc.{Action, Controller}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
@@ -12,8 +12,9 @@ import utils.helpers.Config
  * Shows a timeout page to inform the end user when the fulfil service timeouts.
  */
 class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
-                          config: Config,
-                          dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService) extends Controller {
+                                    config: Config,
+                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                   ) extends Controller {
 
   /**
    * presents the end use with the timeout page.
@@ -26,7 +27,6 @@ class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSid
     } yield {
 
       val vehicleDetails = request.cookies.getModel[VehicleAndKeeperDetailsModel]
-      //val vehicleAndKeeperForm = request.cookies.getModel[VehicleAndKeeperLookupFormModel]
       Ok(views.html.vrm_retention.timeout(vehicleDetails, None))
 
     }) getOrElse Redirect(routes.VehicleLookup.present())

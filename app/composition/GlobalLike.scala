@@ -15,12 +15,9 @@ import play.api.i18n.Lang
 import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.NotFound
-import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 
@@ -28,8 +25,8 @@ import utils.helpers.Config
  * Application configuration is in a hierarchy of files:
  *
  * application.conf
- * /             |            \
- * application.prod.conf    application.dev.conf    application.test.conf <- these can override and add to application.conf
+ * /                       |                     \
+ * application.prod.conf  application.dev.conf  application.test.conf <- these can override and add to application.conf
  *
  * play test  <- test mode picks up application.test.conf
  * play run   <- dev mode picks up application.dev.conf

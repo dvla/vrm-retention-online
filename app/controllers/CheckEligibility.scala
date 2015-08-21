@@ -6,35 +6,32 @@ import models.CacheKeyPrefix
 import models.EligibilityModel
 import models.VehicleAndKeeperLookupFormModel
 import org.joda.time.DateTime
-import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc.{Action, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.anonymize
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
-import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
-import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityService
 
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
-                                       auditService2: audit2.AuditService)
+                                       auditService2: webserviceclients.audit2.AuditService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                       config: Config,
+                                       config: utils.helpers.Config,
                                        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
                                       ) extends Controller with DVLALogger {
 
@@ -57,7 +54,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
    */
   private def checkVrmEligibility(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
                                   vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel],
-                                  storeBusinessDetails: Boolean, transactionId: String)
+                                  storeBusinessDetails: Boolean,
+                                  transactionId: String)
                                  (implicit request: Request[_]): Future[Result] = {
 
     def microServiceErrorResult(message: String) = {
@@ -112,8 +110,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     def eligibilityFailure(responseCode: String) = {
       logMessage(request.cookies.trackingId(), Debug, s"VRMRetentionEligibility encountered a problem with request" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-        s" ${LogFormats.anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+        s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
+        s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
       auditService2.send(AuditRequest.from(
         trackingId = request.cookies.trackingId(),
@@ -136,12 +134,14 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     eligibilityService.invoke(eligibilityRequest, trackingId).map { response =>
       response.responseCode match {
-        case Some(responseCode) => eligibilityFailure(responseCode) // There is only a response code when there is a problem.
+        // There is only a response code when there is a problem.
+        case Some(responseCode) => eligibilityFailure(responseCode)
         case None =>
           // Happy path when there is no response code therefore no problem.
           (response.currentVRM, response.replacementVRM) match {
             case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, formatVrm(replacementVRM))
-            case (None, None) => microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
+            case (None, None) =>
+              microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
             case (_, None) => microServiceErrorResult(message = "No replacement VRM found")
             case (None, _) => microServiceErrorResult(message = "No current VRM found")
           }

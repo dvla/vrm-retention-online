@@ -1,8 +1,8 @@
 package pdf
 
 import models.EligibilityModel
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 
 import scala.concurrent.Future

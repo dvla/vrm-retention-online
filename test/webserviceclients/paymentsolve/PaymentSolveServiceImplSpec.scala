@@ -4,11 +4,9 @@ import composition.WithApplication
 import composition.webserviceclients.paymentsolve.PaymentCallFails
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-
 import scala.concurrent.Await
-import scala.concurrent.duration.Duration
-import scala.concurrent.duration.SECONDS
+import scala.concurrent.duration.{Duration, SECONDS}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 
@@ -16,7 +14,9 @@ final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 
     "throw a RuntimeException when webservice call fails" in new WithApplication {
       val request = mock[PaymentSolveBeginRequest]
-      a[RuntimeException] must be thrownBy Await.result(paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS))
+      a[RuntimeException] must be thrownBy Await.result(
+        paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS)
+      )
     }
   }
 
@@ -24,7 +24,9 @@ final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 
     "throw a RuntimeException when webservice call fails" in new WithApplication {
       val request = mock[PaymentSolveGetRequest]
-      a[RuntimeException] must be thrownBy Await.result(paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS))
+      a[RuntimeException] must be thrownBy Await.result(
+        paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS)
+      )
     }
   }
 
@@ -32,7 +34,9 @@ final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 
     "throw a RuntimeException when webservice call fails" in new WithApplication {
       val request = mock[PaymentSolveCancelRequest]
-      a[RuntimeException] must be thrownBy Await.result(paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS))
+      a[RuntimeException] must be thrownBy Await.result(
+        paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS)
+      )
     }
   }
 
@@ -40,7 +44,9 @@ final class PaymentSolveServiceImplSpec extends UnitSpec with MockitoSugar {
 
     "throw a RuntimeException when webservice call fails" in new WithApplication {
       val request = mock[PaymentSolveUpdateRequest]
-      a[RuntimeException] must be thrownBy Await.result(paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS))
+      a[RuntimeException] must be thrownBy Await.result(
+        paymentCallFails.invoke(request, trackingId), Duration(1, SECONDS)
+      )
     }
   }
 

@@ -5,7 +5,6 @@ import composition.webserviceclients.audit2.AuditMicroServiceCallFails
 import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar
-
 import scala.concurrent.Await
 
 final class AuditServiceImplSpec extends UnitSpec with MockitoSugar {

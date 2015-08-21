@@ -1,8 +1,8 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
@@ -13,7 +13,8 @@ import pages.vrm_retention.PaymentFailurePage.tryAgain
 class PaymentFailureIntegrationSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-    "display the payment failure page for an invalid begin web payment request" taggedAs UiTag in new WebBrowserForSelenium {
+    "display the payment failure page for " +
+      "an invalid begin web payment request" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheInvalidBeginRequestSetup()
       go to PaymentFailurePage

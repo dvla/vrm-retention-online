@@ -27,12 +27,13 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      ) extends Controller {
 
   def present = Action { implicit request => {
-      val happyPath = for {
-        vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-        vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
-        setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
-        businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
-      } yield {
+      val happyPath =
+        for {
+          vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+          vehicleAndKeeper <- request.cookies.getModel[VehicleAndKeeperDetailsModel]
+          setupBusinessDetailsFormModel <- request.cookies.getModel[SetupBusinessDetailsFormModel]
+          businessDetailsModel <- request.cookies.getModel[BusinessDetailsModel]
+        } yield {
           val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
           val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
@@ -60,9 +61,10 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
   }
 
   private def handleValid()(implicit request: Request[_]): Result = {
-    val happyPath = for {
-      vehicleAndKeeperLookup <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-    } yield {
+    val happyPath =
+      for {
+        vehicleAndKeeperLookup <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
+      } yield {
         (request.cookies.getString(TransactionIdCacheKey),
           request.cookies.getModel[VehicleAndKeeperDetailsModel],
           request.cookies.getModel[EligibilityModel],

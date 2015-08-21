@@ -10,22 +10,21 @@ import models.SetupBusinessDetailsViewModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.{Action, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails.{BusinessAddressId, BusinessContactId, BusinessNameId}
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
-import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 
-final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
+final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                             config: Config,
                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -59,10 +58,13 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
       },
       validForm =>
         Redirect(routes.ConfirmBusiness.present()).withCookie(validForm)
-          .withCookie(createBusinessDetailsModel(businessName = validForm.name,
-            businessContact = validForm.contact,
-            businessEmail = validForm.email,
-            address = validForm.address)
+          .withCookie(
+            createBusinessDetailsModel(
+              businessName = validForm.name,
+              businessContact = validForm.contact,
+              businessEmail = validForm.email,
+              address = validForm.address
+            )
           )
           .withCookie(StoreBusinessDetailsCacheKey, validForm.address.searchFields.remember.toString)
     )
@@ -107,7 +109,8 @@ final class SetUpBusinessDetails @Inject()(auditService2: audit2.AuditService)
 
   // TODO: consider putting this on the Address object
   private def convertAddressToSeq(address: Address): Seq[String] = {
-    Seq(address.streetAddress1,
+    Seq(
+      address.streetAddress1,
       address.streetAddress2.getOrElse(""),
       address.streetAddress3.getOrElse(""),
       address.postTown,

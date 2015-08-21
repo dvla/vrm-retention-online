@@ -2,8 +2,9 @@ package webserviceclients.audit2
 
 import models.BusinessDetailsModel
 import models.PaymentModel
-import play.api.libs.json.Json._
-import play.api.libs.json._
+import play.api.libs.json.{JsBoolean, JsNull, JsNumber, JsString, JsValue}
+import play.api.libs.json.Json.{JsValueWrapper, obj, writes}
+import play.api.libs.json.Writes
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 
@@ -46,11 +47,11 @@ object AuditRequest {
             case _ => throw new RuntimeException("no match, you need to tell it how to cast this type to json")
           }
           ret
-      }.toSeq: _*
+      }: _*
     )
   }
 
-  implicit val auditMessageFormat = Json.writes[AuditRequest]
+  implicit val auditMessageFormat = writes[AuditRequest]
 
   def from(pageMovement: String,
            transactionId: String,

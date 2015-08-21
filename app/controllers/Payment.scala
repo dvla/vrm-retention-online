@@ -11,26 +11,22 @@ import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import play.api.Logger
-import play.api.mvc.Action
-import play.api.mvc.Controller
-import play.api.mvc.Request
-import play.api.mvc.Result
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import play.api.mvc.{Action, Controller, Request, Result}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.LogFormats
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
 import uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.anonymize
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
-import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.paymentsolve.RefererFromHeader
 import webserviceclients.paymentsolve.PaymentSolveBeginRequest
@@ -40,7 +36,7 @@ import webserviceclients.paymentsolve.PaymentSolveService
 
 final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                refererFromHeader: RefererFromHeader,
-                               auditService2: audit2.AuditService)
+                               auditService2: webserviceclients.audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
                               dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -81,7 +77,9 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       case (Some(transactionId), Some(paymentDetails)) =>
         callGetWebPaymentService(transactionId, paymentDetails.trxRef.get, paymentDetails.isPrimaryUrl)
       case _ => Future.successful {
-        paymentFailure("Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie")
+        paymentFailure(
+          "Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie"
+        )
       }
     }
   }
@@ -133,11 +131,13 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                         (implicit request: Request[_],
                                          token: CsrfPreventionToken): Future[Result] = {
 
-
     refererFromHeader.fetch match {
       case Some(referer) =>
         val tokenBase64URLSafe = Base64.encodeBase64URLSafeString(token.value.getBytes)
-        val paymentCallback = refererFromHeader.paymentCallbackUrl(referer = referer, tokenBase64URLSafe = tokenBase64URLSafe)
+        val paymentCallback = refererFromHeader.paymentCallbackUrl(
+          referer = referer,
+          tokenBase64URLSafe = tokenBase64URLSafe
+        )
         val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
         val paymentSolveBeginRequest = PaymentSolveBeginRequest(
           transactionId = transactionId,
@@ -152,15 +152,18 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           if (response.status == Payment.CardDetailsStatus) {
             Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               .withCookie(PaymentModel.from(trxRef = response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl))
-              .withCookie(REFERER, routes.Payment.begin().url) // The POST from payment service will not contain a REFERER in the header, so use a cookie.
+              // The POST from payment service will not contain a REFERER in the header, so use a cookie.
+              .withCookie(REFERER, routes.Payment.begin().url)
           } else {
-            val msg = s"The begin web request to Solve was not validated. Payment Solve encountered a problem " +
-              s"with request ${LogFormats.anonymize(vrm)}, redirect to PaymentFailure"
+            val msg = "The begin web request to Solve was not validated. Payment Solve encountered a problem " +
+              s"with request ${anonymize(vrm)}, redirect to PaymentFailure"
             paymentFailure(msg)
           }
         }.recover {
           case NonFatal(e) =>
-            paymentFailure(message = s"Payment Solve web service call with paymentSolveBeginRequest failed. Exception " + e.toString)
+            paymentFailure(
+              message = s"Payment Solve web service call with paymentSolveBeginRequest failed. Exception " + e.toString
+            )
         }
       case _ => Future.successful(paymentFailure(message = "Payment callBeginWebPaymentService no referer"))
     }
@@ -171,7 +174,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     def paymentNotAuthorised = {
 
-      logMessage(request.cookies.trackingId(),Debug, s"Payment not authorised for ${LogFormats.anonymize(trxRef)}, redirect to PaymentNotAuthorised")
+      logMessage(
+        request.cookies.trackingId(),
+        Debug,
+        s"Payment not authorised for ${anonymize(trxRef)}, redirect to PaymentNotAuthorised"
+      )
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
@@ -257,7 +264,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
       redirectToLeaveFeedback
     }.recover {
       case NonFatal(e) =>
-        logMessage(trackingId, Error, s"Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString)
+        logMessage(
+          trackingId,
+          Error,
+          "Payment Solve web service call with paymentSolveCancelRequest failed. Exception " + e.toString
+        )
         redirectToLeaveFeedback
     }
   }

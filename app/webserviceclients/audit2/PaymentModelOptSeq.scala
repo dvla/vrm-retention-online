@@ -9,8 +9,8 @@ object PaymentModelOptSeq {
       case Some(paymentModel) =>
         val paymentTrxRefOpt = paymentModel.trxRef.map(trxRef => ("paymentTrxRef", trxRef))
         val paymentStatusOpt = paymentModel.paymentStatus.map(paymentStatus => ("paymentStatus", paymentStatus))
-        val paymentMaskedPanOpt = Some(("paymentMaskedPan", "****************")) //paymentModel.maskedPAN.map(maskedPan => ("paymentMaskedPan", maskedPan))
-      val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
+        val paymentMaskedPanOpt = Some(("paymentMaskedPan", "****************"))
+        val paymentAuthCodeOpt = paymentModel.authCode.map(authCode => ("paymentAuthCode", authCode))
         val paymentMerchantIdOpt = paymentModel.merchantId.map(merchantId => ("paymentMerchantId", merchantId))
         val paymentTypeOpt = paymentModel.paymentType.map(paymentType => ("paymentType", paymentType))
         val paymentCardTypeOpt = paymentModel.cardType.map(cardType => ("cardType", cardType))

@@ -1,8 +1,8 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.tags.UiTag
+import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
@@ -21,7 +21,7 @@ class PaymentPreventBackUiSpec extends UiSpec with TestHarness {
   }
 
   "returnToSuccess" should {
-    "redirect to the PayemntSuccess page" taggedAs UiTag in new WebBrowserForSelenium {
+    "redirect to the PaymentSuccess page" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheSetup()
       go to PaymentPreventBackPage

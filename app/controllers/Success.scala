@@ -11,14 +11,13 @@ import models.RetainModel
 import models.SuccessViewModel
 import models.VehicleAndKeeperLookupFormModel
 import pdf.PdfService
-import play.api.Logger
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import scala.concurrent.ExecutionContext.Implicits.global
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
@@ -55,7 +54,11 @@ final class Success @Inject()(pdfService: PdfService,
           isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
         )
       case _ =>
-        logMessage(request.cookies.trackingId(),Warn,"Success present user arrived without all of the required cookies")
+        logMessage(
+          request.cookies.trackingId(),
+          Warn,
+          "Success present user arrived without all of the required cookies"
+        )
         Redirect(routes.Confirm.present())
     }
   }

@@ -40,7 +40,8 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "display the page when required cookies are cached and StoreBusinessDetails cookie exists and is true" in new WithApplication {
+    "display the page when required cookies are cached " +
+      "and StoreBusinessDetails cookie exists and is true" in new WithApplication {
       val request = FakeRequest().
         withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -85,7 +86,8 @@ class ConfirmUnitSpec extends UnitSpec {
         ("keeperName", "Mr David Jones"),
         ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA"),
         ("businessName", "example trader contact"),
-        ("businessAddress", "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
+        ("businessAddress",
+          "example trader name, business line1 stub, business line2 stub, business postTown stub, QQ99QQ"),
         ("businessEmail", "business.example@test.com"))
       val auditMessage = new AuditRequest(AuditRequest.ConfirmToPayment, AuditRequest.PersonalisedRegServiceType, data)
 
