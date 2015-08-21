@@ -7,18 +7,19 @@ import models.VrmLockedViewModel
 import org.joda.time.DateTime
 import play.api.mvc.Action
 import play.api.mvc.Controller
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.CookieImplicits.RichResult
+import common.LogFormats.DVLALogger
+import common.model.BruteForcePreventionModel
+import common.model.VehicleAndKeeperDetailsModel
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: utils.helpers.Config,
-                                  dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                                  dateService: common.services.DateService)
                       extends Controller with DVLALogger {
 
   def present = Action { implicit request =>

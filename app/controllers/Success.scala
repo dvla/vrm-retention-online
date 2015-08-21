@@ -14,12 +14,12 @@ import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
+import common.LogFormats.DVLALogger
+import common.model.AddressModel
+import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Business, UserType_Keeper}
@@ -29,7 +29,7 @@ final class Success @Inject()(pdfService: PdfService,
                               paymentSolveService: PaymentSolveService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+                              dateService: common.services.DateService)
                              extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
@@ -65,8 +65,8 @@ final class Success @Inject()(pdfService: PdfService,
 
   def createPdf = Action { implicit request =>
     (request.cookies.getModel[EligibilityModel],
-      request.cookies.getString(TransactionIdCacheKey),
-      request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
+     request.cookies.getString(TransactionIdCacheKey),
+     request.cookies.getModel[VehicleAndKeeperDetailsModel]) match {
       case (Some(eligibilityModel), Some(transactionId), Some(vehicleAndKeeperDetails)) =>
 
         val keeperName = Seq(vehicleAndKeeperDetails.title,

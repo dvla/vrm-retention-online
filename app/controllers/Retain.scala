@@ -20,20 +20,21 @@ import play.api.mvc.{Action, Controller, Request}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.anonymize
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.services.SEND.Contents
-import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.TrackingId
+import common.clientsidesession.ClearTextClientSideSessionFactory
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.CookieImplicits.RichResult
+import common.LogFormats.anonymize
+import common.LogFormats.DVLALogger
+import common.model.VehicleAndKeeperDetailsModel
+import common.services.SEND.Contents
+import common.views.models.DayMonthYear
+import common.webserviceclients.common.VssWebEndUserDto
+import common.webserviceclients.common.VssWebHeaderDto
+import common.webserviceclients.emailservice.From
+import common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.Retain.RetainResponseCodeCacheKey
@@ -113,7 +114,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
-        retentionCertId = Some(certificateNumber)))
+        retentionCertId = Some(certificateNumber)
+      ))
 
       Redirect(routes.SuccessPayment.present()).
         withCookie(paymentModel).
@@ -140,7 +142,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
-        rejectionCode = Some(responseCode)))
+        rejectionCode = Some(responseCode)
+      ))
 
       Redirect(routes.RetainFailure.present()).
         withCookie(paymentModel).
@@ -166,16 +169,13 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
           val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
-          businessDetailsOpt.fold {
-            logMessage(
+          businessDetailsOpt.fold(logMessage(
               request.cookies.trackingId,
               Debug,
               "No business details cookie found or user type not business so will " +
               "not create a fulfil confirm email for the business"
-            )
-          }
-          {
-            keeperEmail => logMessage(
+          )) { keeperEmail =>
+            logMessage(
               request.cookies.trackingId,
               Debug,
               "Business details cookie found and user type is business so will " +
@@ -183,15 +183,14 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
             )
           }
 
-          keeperEmailOpt.fold {
+          keeperEmailOpt.fold (
             logMessage(
               request.cookies.trackingId,
               Debug,
               "No keeper email supplied so will not create a fulfil confirm email for the keeper"
             )
-          }
-          {
-            keeperEmail => logMessage(
+          ) { keeperEmail =>
+            logMessage(
               request.cookies.trackingId,
               Debug,
               "Keeper email supplied so will create a fulfil confirm email for the keeper"
@@ -368,8 +367,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
     val businessDetails = vehicleAndKeeperLookupFormModel.userType match {
       case UserType_Business =>
-        businessDetailsModel.map(model =>
-          ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address))
+        businessDetailsModel.map( model =>
+          ReceiptEmailMessageBuilder.BusinessDetails(model.name, model.contact, model.address.address)
+        )
       case _ => None
     }
 
@@ -377,7 +377,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       vehicleAndKeeperLookupFormModel.registrationNumber,
       f"${config.purchaseAmountInPence.toDouble / 100}%.2f",
       transactionId,
-      businessDetails)
+      businessDetails
+    )
 
     val title = s"""Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"""
 
@@ -408,8 +409,10 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     }
 
     if (keeperEmail.isEmpty && isKeeperUserType &&
-        confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
-      logMessage(trackingId,
+        confirmFormModel.nonEmpty &&
+        confirmFormModel.get.keeperEmail.isEmpty) {
+      logMessage(
+        trackingId,
         Debug,
         "We are not going to create a business receipt email for the keeper user type because no email was supplied"
       )
@@ -427,7 +430,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         buildEmailServiceSendRequest(template, from, title, model.email)
       }
     } else {
-      logMessage(trackingId,
+      logMessage(
+        trackingId,
         Debug,
         "We are not going to create a business receipt email for the business user type " +
         "because we are not dealing with the business user type"

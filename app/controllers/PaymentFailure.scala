@@ -5,17 +5,18 @@ import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
 import play.api.mvc.{Action, AnyContent, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.CookieImplicits.RichResult
+import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
-                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                       dateService: common.services.DateService
                                       ) extends Controller {
 
   def present = Action { implicit request =>

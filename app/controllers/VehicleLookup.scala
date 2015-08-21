@@ -10,21 +10,22 @@ import play.api.data.FormError
 import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.Postcode.formatPostcode
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
-import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.CookieImplicits.RichForm
+import common.clientsidesession.CookieImplicits.RichResult
+import common.controllers.VehicleLookupBase
+import common.model.BruteForcePreventionModel
+import common.model.VehicleAndKeeperDetailsModel
+import common.views.constraints.Postcode.formatPostcode
+import common.views.constraints.RegistrationNumber.formatVrm
+import common.views.helpers.FormExtensions.formBinding
+import common.views.models.DayMonthYear
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
@@ -37,11 +38,10 @@ import webserviceclients.audit2.AuditRequest
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
-                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService,
+                                    dateService: common.services.DateService,
                                     auditService2: webserviceclients.audit2.AuditService,
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
-
 
   val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
   val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
@@ -76,7 +76,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       transactionId = transactionId(formModel),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(ErrorCodes.VrmLockedErrorCode + " - vrm_locked")))
+      rejectionCode = Some(ErrorCodes.VrmLockedErrorCode + " - vrm_locked")
+    ))
 
     addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
   }
@@ -111,14 +112,14 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       transactionId = txnId,
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")))
+      rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")
+    ))
 
     // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
-    if (responseCode.code.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode)) {
+    if (responseCode.code.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode))
       addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
-    } else {
+    else
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
-    }
   }
 
   override def presentResult(implicit request: Request[_]) =
@@ -141,7 +142,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     val txnId = transactionId(formModel)
 
     if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
-
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
 
       auditService2.send(AuditRequest.from(
@@ -177,12 +177,12 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       (VehicleRegistrationNumberId, "error.restricted.validVrnOnly"),
       (DocumentReferenceNumberId, "error.validDocumentReferenceNumber"),
       (PostcodeId, "error.restricted.validV5CPostcode"))) { (form, error) =>
-      form.replaceError(error._1, FormError(
-        key = error._1,
-        message = error._2,
-        args = Seq.empty
-      ))
-    }.distinctErrors
+        form.replaceError(error._1, FormError(
+          key = error._1,
+          message = error._2,
+          args = Seq.empty
+        ))
+      }.distinctErrors
 
   // payment solve requires (for each day) a unique six digit number
   // use time from midnight in tenths of a second units
@@ -199,7 +199,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
 
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])
-                                (implicit request: Request[_]) = {
+                            (implicit request: Request[_]) = {
     dtoPostcode match {
       case Some(postcode) =>
         logMessage(request.cookies.trackingId, Info, s"formModelPostcode = $formModelPostcode dtoPostcode $postcode")

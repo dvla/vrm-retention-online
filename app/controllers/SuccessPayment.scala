@@ -14,10 +14,11 @@ import pdf.PdfService
 import play.api.libs.iteratee.Enumerator
 import play.api.mvc.{Action, Controller}
 import scala.concurrent.ExecutionContext.Implicits.global
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.model.AddressModel
+import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.emailservice.EmailService
@@ -29,8 +30,7 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
                                      paymentSolveService: PaymentSolveService)
                                     (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
-                                     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                    ) extends Controller {
+                                     dateService: common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -102,13 +102,15 @@ final class SuccessPayment @Inject()(pdfService: PdfService,
         disposeFlag = None,
         keeperEndDate = None,
         keeperChangeDate = None,
-        suppressedV5Flag = None),
+        suppressedV5Flag = None
+      ),
       eligibilityModel = EligibilityModel(replacementVRM = "stub-replacementVRM"),
       certificateNumber = "stub-certificateNumber",
       transactionTimestamp = "stub-transactionTimestamp",
       transactionId = "stub-transactionId",
       confirmFormModel = Some(ConfirmFormModel(keeperEmail = Some("stub-keeper-email"))),
-      businessDetailsModel = Some(BusinessDetailsModel(name = "stub-business-name",
+      businessDetailsModel = Some(BusinessDetailsModel(
+        name = "stub-business-name",
         contact = "stub-business-contact",
         email = "stub-business-email",
         address = AddressModel(

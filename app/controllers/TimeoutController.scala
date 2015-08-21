@@ -3,9 +3,10 @@ package controllers
 import com.google.inject.Inject
 import models.{CacheKeyPrefix, ConfirmFormModel}
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 
 /**
@@ -13,8 +14,7 @@ import utils.helpers.Config
  */
 class TimeoutController @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config,
-                                    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                   ) extends Controller {
+                                    dateService: common.services.DateService) extends Controller {
 
   /**
    * presents the end use with the timeout page.

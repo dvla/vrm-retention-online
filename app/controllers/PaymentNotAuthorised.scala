@@ -5,16 +5,16 @@ import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import models.VehicleLookupFailureViewModel
 import play.api.mvc.{Action, AnyContent, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
-                                             dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                            ) extends Controller {
+                                             dateService: common.services.DateService) extends Controller {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -36,8 +36,8 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
 
   private def displayPaymentNotAuthorised(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
-                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
-                                           )(implicit request: Request[AnyContent]) = {
+                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel])
+                                         (implicit request: Request[AnyContent]) = {
     val viewModel = vehicleAndKeeperDetails match {
       case Some(details) => VehicleLookupFailureViewModel(details)
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
@@ -46,7 +46,7 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
     Ok(views.html.vrm_retention.payment_not_authorised(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm)
-    )
+      data = vehicleAndKeeperLookupForm
+    ))
   }
 }

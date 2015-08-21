@@ -10,13 +10,11 @@ import models.SetupBusinessDetailsViewModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.{Action, Controller, Request}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichForm
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
+import common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
@@ -27,8 +25,7 @@ import webserviceclients.audit2.AuditRequest
 final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                             config: Config,
-                                            dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                          ) extends Controller {
+                                            dateService: common.services.DateService) extends Controller {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
@@ -57,7 +54,8 @@ final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audi
         }
       },
       validForm =>
-        Redirect(routes.ConfirmBusiness.present()).withCookie(validForm)
+        Redirect(routes.ConfirmBusiness.present())
+          .withCookie(validForm)
           .withCookie(
             createBusinessDetailsModel(
               businessName = validForm.name,
