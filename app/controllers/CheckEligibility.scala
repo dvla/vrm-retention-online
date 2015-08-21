@@ -11,15 +11,16 @@ import play.api.mvc.{Action, Controller, Request}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{TrackingId, ClientSideSessionFactory}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.anonymize
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{TrackingId, ClientSideSessionFactory}
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.CookieImplicits.RichResult
+import common.LogFormats.anonymize
+import common.LogFormats.DVLALogger
+import common.model.VehicleAndKeeperDetailsModel
+import common.views.constraints.RegistrationNumber.formatVrm
+import common.webserviceclients.common.VssWebEndUserDto
+import common.webserviceclients.common.VssWebHeaderDto
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Keeper
@@ -32,8 +33,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                                        auditService2: webserviceclients.audit2.AuditService)
                                       (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: utils.helpers.Config,
-                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                      ) extends Controller with DVLALogger {
+                                       dateService: common.services.DateService) extends Controller with DVLALogger {
 
   def present = Action.async { implicit request =>
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
@@ -61,46 +61,57 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     def microServiceErrorResult(message: String) = {
       logMessage(request.cookies.trackingId(), Error, message)
 
-      auditService2.send(AuditRequest.from(
-        trackingId = request.cookies.trackingId(),
-        pageMovement = AuditRequest.VehicleLookupToMicroServiceError,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology
-      ))
+      auditService2.send(
+        AuditRequest.from(
+          trackingId = request.cookies.trackingId(),
+          pageMovement = AuditRequest.VehicleLookupToMicroServiceError,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology
+        )
+      )
       Redirect(routes.MicroServiceError.present())
     }
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
       val redirectLocation = {
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
-          auditService2.send(AuditRequest.from(
-            trackingId = request.cookies.trackingId(),
-            pageMovement = AuditRequest.VehicleLookupToConfirm,
-            transactionId = transactionId,
-            timestamp = dateService.dateTimeISOChronology,
-            vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-            replacementVrm = Some(replacementVRM)))
+          auditService2.send(
+            AuditRequest.from(
+              trackingId = request.cookies.trackingId(),
+              pageMovement = AuditRequest.VehicleLookupToConfirm,
+              transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+              replacementVrm = Some(replacementVRM)
+            )
+          )
           routes.Confirm.present()
         } else {
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
           if (storeBusinessDetails && businessDetailsModel.isDefined) {
-            auditService2.send(AuditRequest.from(
-              trackingId = request.cookies.trackingId(),
-              pageMovement = AuditRequest.VehicleLookupToConfirmBusiness,
-              transactionId = transactionId,
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-              replacementVrm = Some(replacementVRM),
-              businessDetailsModel = businessDetailsModel))
+            auditService2.send(
+              AuditRequest.from(
+                trackingId = request.cookies.trackingId(),
+                pageMovement = AuditRequest.VehicleLookupToConfirmBusiness,
+                transactionId = transactionId,
+                timestamp = dateService.dateTimeISOChronology,
+                vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+                replacementVrm = Some(replacementVRM),
+                businessDetailsModel = businessDetailsModel
+              )
+            )
             routes.ConfirmBusiness.present()
           } else {
-            auditService2.send(AuditRequest.from(
-              trackingId = request.cookies.trackingId(),
-              pageMovement = AuditRequest.VehicleLookupToCaptureActor,
-              transactionId = transactionId,
-              timestamp = dateService.dateTimeISOChronology,
-              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-              replacementVrm = Some(replacementVRM)))
+            auditService2.send(
+              AuditRequest.from(
+                trackingId = request.cookies.trackingId(),
+                pageMovement = AuditRequest.VehicleLookupToCaptureActor,
+                transactionId = transactionId,
+                timestamp = dateService.dateTimeISOChronology,
+                vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+                replacementVrm = Some(replacementVRM)
+              )
+            )
             routes.SetUpBusinessDetails.present()
           }
         }
@@ -113,13 +124,16 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
         s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
 
-      auditService2.send(AuditRequest.from(
-        trackingId = request.cookies.trackingId(),
-        pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-        rejectionCode = Some(responseCode)))
+      auditService2.send(
+        AuditRequest.from(
+          trackingId = request.cookies.trackingId(),
+          pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
+          transactionId = transactionId,
+          timestamp = dateService.dateTimeISOChronology,
+          vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+          rejectionCode = Some(responseCode)
+        )
+      )
       Redirect(routes.VehicleLookupFailure.present()).
         withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
     }

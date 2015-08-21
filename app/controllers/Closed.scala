@@ -2,12 +2,13 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common.filters.DateTimeZoneService
+import uk.gov.dvla.vehicles.presentation.common
+import common.filters.DateTimeZoneService
 import utils.helpers.Config
 
 final class Closed @Inject()()(implicit config: Config,
                                timeZone: DateTimeZoneService,
-                               dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                               dateService: common.services.DateService
                               ) extends Controller {
 
   def present = Action { implicit request =>

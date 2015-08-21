@@ -4,9 +4,10 @@ import com.google.inject.name.Names
 import com.tzavellas.sse.guice.ScalaModule
 import play.api.Logger
 import play.api.LoggerLike
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingConfig
-import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.AccessLoggerName
-import uk.gov.dvla.vehicles.presentation.common.filters.DefaultAccessLoggingConfig
+import uk.gov.dvla.vehicles.presentation.common
+import common.filters.AccessLoggingConfig
+import common.filters.AccessLoggingFilter.AccessLoggerName
+import common.filters.DefaultAccessLoggingConfig
 
 final class LoggerLikeBinding extends ScalaModule {
 

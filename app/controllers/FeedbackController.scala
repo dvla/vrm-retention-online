@@ -5,17 +5,18 @@ import play.api.data.Form
 import play.api.data.FormError
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent, Call, Controller}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.controllers.FeedbackBase
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.emailMapping
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.feedback
-import uk.gov.dvla.vehicles.presentation.common.model.FeedbackForm.Form.nameMapping
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common
 import utils.helpers.Config
 import webserviceclients.emailservice.EmailService
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.controllers.FeedbackBase
+import common.model.FeedbackForm
+import common.model.FeedbackForm.Form.emailMapping
+import common.model.FeedbackForm.Form.feedback
+import common.model.FeedbackForm.Form.nameMapping
+import common.services.DateService
+import common.views.helpers.FormExtensions.formBinding
 
 class FeedbackController @Inject()(val emailService: EmailService)
                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
@@ -47,13 +48,12 @@ class FeedbackController @Inject()(val emailService: EmailService)
     )
   }
 
-  private def formWithReplacedErrors(form: Form[FeedbackForm]) = {
+  private def formWithReplacedErrors(form: Form[FeedbackForm]) =
     form.replaceError(
       feedback, FormError(key = feedback, message = "error.feedback", args = Seq.empty)
     ).replaceError(
-        nameMapping, FormError(key = nameMapping, message = "error.feedbackName", args = Seq.empty)
-      ).replaceError(
-        emailMapping, FormError(key = emailMapping, message = "error.email", args = Seq.empty)
-      ).distinctErrors
-  }
+      nameMapping, FormError(key = nameMapping, message = "error.feedbackName", args = Seq.empty)
+    ).replaceError(
+      emailMapping, FormError(key = emailMapping, message = "error.email", args = Seq.empty)
+    ).distinctErrors
 }

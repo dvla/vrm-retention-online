@@ -9,11 +9,12 @@ import models.RetainModel
 import models.SetupBusinessDetailsFormModel
 import models.VehicleAndKeeperLookupFormModel
 import play.api.mvc.{Action, Controller, Request, Result}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClearTextClientSideSessionFactory
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.RichCookies
+import common.clientsidesession.CookieImplicits.RichResult
+import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
@@ -23,7 +24,7 @@ import webserviceclients.audit2.AuditRequest
 final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
-                                       dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                       dateService: common.services.DateService
                                      ) extends Controller {
 
   def present = Action { implicit request => {
@@ -44,11 +45,10 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
       // explicit check to find out if we are coming from the back browser button after we completed the transaction
       // completing the transaction will create the RetainModel, and in that case we don't want to land here but go
       // back to the start.
-      if ( request.cookies.getModel[RetainModel].isDefined) {
+      if ( request.cookies.getModel[RetainModel].isDefined)
         Redirect(routes.VehicleLookup.present())
-      } else {
+      else
         happyPath.getOrElse(sadPath)
-      }
     }
   }
 
@@ -64,7 +64,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
     val happyPath =
       for {
         vehicleAndKeeperLookup <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
-      } yield {
+      } yield
         (request.cookies.getString(TransactionIdCacheKey),
           request.cookies.getModel[VehicleAndKeeperDetailsModel],
           request.cookies.getModel[EligibilityModel],
@@ -89,7 +89,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
               .withCookie(businessDetailsModel)
               .withCookie(setupBusinessDetailsFormModel)
         }
-      }
+
     val msg = "user went to ConfirmBusiness handleValid without VehicleAndKeeperLookupFormModel cookie"
     val sadPath = Redirect(routes.Error.present(msg))
     happyPath.getOrElse(sadPath)

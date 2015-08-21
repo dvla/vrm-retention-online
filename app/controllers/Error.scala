@@ -3,15 +3,16 @@ package controllers
 import com.google.inject.Inject
 import play.api.mvc.Action
 import play.api.mvc.Controller
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import utils.helpers.Config
 import utils.helpers.CookieHelper
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.ClientSideSessionFactory
+import common.LogFormats.DVLALogger
+import common.clientsidesession.CookieImplicits.RichCookies
 
 final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                              dateService: common.services.DateService
                              ) extends Controller with DVLALogger {
 
   def present(exceptionDigest: String) = Action { implicit request =>

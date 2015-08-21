@@ -95,9 +95,9 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       for {
         vehicleAndKeeperLookupForm <- request.cookies.getModel[VehicleAndKeeperLookupFormModel]
         if vehicleAndKeeperLookupForm.userType == UserType_Business
-      } yield {
+      } yield
         Redirect(routes.ConfirmBusiness.present())
-      }
+
     val keeperPath = Redirect(routes.VehicleLookup.present())
     businessPath.getOrElse(keeperPath)
   }
