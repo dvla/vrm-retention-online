@@ -11,9 +11,8 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats.{anonymize, DVLALogge
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 
-final class VRMRetentionEligibilityWebServiceImpl @Inject()(
-                                                             config: Config
-                                                           ) extends VRMRetentionEligibilityWebService with DVLALogger {
+final class VRMRetentionEligibilityWebServiceImpl @Inject()(config: Config)
+  extends VRMRetentionEligibilityWebService with DVLALogger {
 
   private val endPoint = s"${config.vrmRetentionEligibilityMicroServiceUrlBase}/vrm/retention/eligibility"
 

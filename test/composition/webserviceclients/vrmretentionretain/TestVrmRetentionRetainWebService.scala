@@ -30,10 +30,11 @@ final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSug
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VRMRetentionRetainRequest] // Cast first argument.
             val vrmRetentionRetainResponse = VRMRetentionRetainResponse(
-                certificateNumber = Some(CertificateNumberValid),
-                currentVRM = request.currentVRM,
-                replacementVRM = Some(ReplacementRegistrationNumberValid),
-                responseCode = None)
+              certificateNumber = Some(CertificateNumberValid),
+              currentVRM = request.currentVRM,
+              replacementVRM = Some(ReplacementRegistrationNumberValid),
+              responseCode = None
+            )
             val asJson = Json.toJson(vrmRetentionRetainResponse)
             new FakeResponse(status = OK, fakeJson = Some(asJson))
           }

@@ -12,6 +12,5 @@ case class PaymentSolveGetResponse(response: String,
                                    purchaseAmount: Option[Long])
 
 object PaymentSolveGetResponse {
-
   implicit val JsonFormat = Json.format[PaymentSolveGetResponse]
 }

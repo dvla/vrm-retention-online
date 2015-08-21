@@ -32,7 +32,8 @@ class SuccessUnitSpec extends UnitSpec {
           confirmFormModel(),
           retainModel(),
           transactionId(),
-          paymentModel())
+          paymentModel()
+        )
       val result = success.present(request)
       status(result) should equal(OK)
     }
@@ -46,7 +47,8 @@ class SuccessUnitSpec extends UnitSpec {
           confirmFormModel(),
           retainModel(),
           transactionId(),
-          paymentModel())
+          paymentModel()
+        )
       val result = success.present(request)
       status(result) should equal(OK)
     }

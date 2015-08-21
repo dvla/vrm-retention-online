@@ -5,9 +5,10 @@ import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.TrackingId
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
 
 final class VehicleAndKeeperLookupCallFails extends ScalaModule with MockitoSugar {
 

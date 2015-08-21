@@ -1,13 +1,14 @@
 package filters
 
 import com.google.inject.Inject
-import uk.gov.dvla.vehicles.presentation.common.filters.DateTimeZoneService
-import uk.gov.dvla.vehicles.presentation.common.filters.EnsureServiceOpenFilter
+import uk.gov.dvla.vehicles.presentation.common
+import common.filters.DateTimeZoneService
+import common.filters.EnsureServiceOpenFilter
 import utils.helpers.Config
 
 class ServiceOpenFilter @Inject()(implicit config: Config,
                                   timeZone: DateTimeZoneService,
-                                  dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
+                                  dateService: common.services.DateService
                                  ) extends EnsureServiceOpenFilter {
 
   protected lazy val opening = config.openingTimeMinOfDay

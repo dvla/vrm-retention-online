@@ -23,11 +23,11 @@ final class ValidatedNotCardDetails extends ScalaModule with MockitoSugar {
         tracking = any[TrackingId]
       )
     ).thenReturn(
-        Future.successful(new FakeResponse(
-          status = OK,
-          fakeJson = beginResponseWithValidDefaults(status = invalidStatus)
-        ))
-      )
+      Future.successful(new FakeResponse(
+        status = OK,
+        fakeJson = beginResponseWithValidDefaults(status = invalidStatus)
+      ))
+    )
     webService
   }
 

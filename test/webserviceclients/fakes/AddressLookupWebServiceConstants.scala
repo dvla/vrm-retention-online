@@ -5,10 +5,11 @@ import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.UprnAddressPairDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.addresslookup.ordnanceservey.UprnToAddressResponseDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
+import uk.gov.dvla.vehicles.presentation.common
+import common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
+import common.webserviceclients.addresslookup.ordnanceservey.UprnAddressPairDto
+import common.webserviceclients.addresslookup.ordnanceservey.UprnToAddressResponseDto
+import common.webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 
 object AddressLookupWebServiceConstants {

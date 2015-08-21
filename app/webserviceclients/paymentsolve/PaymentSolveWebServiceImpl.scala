@@ -12,9 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 import utils.helpers.Config
 
-final class PaymentSolveWebServiceImpl @Inject()(
-                                                  config: Config
-                                                  ) extends PaymentSolveWebService with DVLALogger {
+final class PaymentSolveWebServiceImpl @Inject()(config: Config) extends PaymentSolveWebService with DVLALogger {
 
   override def invoke(request: PaymentSolveBeginRequest, trackingId: TrackingId): Future[WSResponse] = {
     val vrm = anonymize(request.vrm)

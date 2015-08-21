@@ -1,7 +1,8 @@
 package models
 
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common
+import common.model.AddressModel
+import common.model.VehicleAndKeeperDetailsModel
 
 final case class SetupBusinessDetailsViewModel(registrationNumber: String,
                                                vehicleMake: Option[String],
@@ -12,7 +13,6 @@ final case class SetupBusinessDetailsViewModel(registrationNumber: String,
                                                address: Option[AddressModel])
 
 object SetupBusinessDetailsViewModel {
-
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
     SetupBusinessDetailsViewModel(
       registrationNumber = vehicleAndKeeperDetails.registrationNumber,

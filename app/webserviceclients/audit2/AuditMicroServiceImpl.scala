@@ -9,8 +9,7 @@ import utils.helpers.Config
 
 import scala.concurrent.Future
 
-final class AuditMicroServiceImpl @Inject()(
-                                             config: Config) extends AuditMicroService {
+final class AuditMicroServiceImpl @Inject()(config: Config) extends AuditMicroService {
 
   override def invoke(request: AuditRequest): Future[WSResponse] = {
     val endPoint: String = s"${config.auditMicroServiceUrlBase}/audit/v1"

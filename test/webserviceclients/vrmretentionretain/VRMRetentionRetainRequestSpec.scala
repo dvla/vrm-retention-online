@@ -4,9 +4,10 @@ import composition.TestConfig
 import helpers.UnitSpec
 import org.joda.time.DateTime
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebEndUserDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.VssWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import uk.gov.dvla.vehicles.presentation.common
+import common.webserviceclients.common.VssWebEndUserDto
+import common.webserviceclients.common.VssWebHeaderDto
+import common.webserviceclients.emailservice.From
 import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid

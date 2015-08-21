@@ -14,7 +14,6 @@ final case class PaymentModel(trxRef: Option[String] = None,
                               var totalAmountPaid: Option[Long] = None,
                               var rejectionCode: Option[String] = None,
                               isPrimaryUrl: Boolean)
-
 object PaymentModel {
 
   def from(trxRef: String, isPrimaryUrl: Boolean) = {

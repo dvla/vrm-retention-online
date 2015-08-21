@@ -6,13 +6,14 @@ import helpers.UnitSpec
 import helpers.WireMockFixture
 import org.joda.time.DateTime
 import play.api.libs.json.Json
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceImpl
+import uk.gov.dvla.vehicles.presentation.common
+import common.webserviceclients.common.DmsWebHeaderDto
+import common.webserviceclients.HttpHeaders
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebServiceImpl
+import common.clientsidesession.TrackingId
 import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 

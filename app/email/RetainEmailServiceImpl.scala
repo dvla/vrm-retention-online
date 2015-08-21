@@ -10,11 +10,12 @@ import play.api.Play.current
 import play.twirl.api.HtmlFormat
 import scala.concurrent.Future
 import scala.util.control.NonFatal
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.Attachment
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.TrackingId
+import common.LogFormats.DVLALogger
+import common.model.VehicleAndKeeperDetailsModel
+import common.webserviceclients.emailservice.Attachment
+import common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.html.vrm_retention.email_with_html
 import views.html.vrm_retention.email_without_html
