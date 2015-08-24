@@ -11,6 +11,8 @@ class Version @Inject()(vehiclesKeeperConfig: VehicleAndKeeperLookupConfig,
                         config: Config) extends common.controllers.Version (
   osAddressLookupConfig.baseUrl + "/version",
   vehiclesKeeperConfig.vehicleAndKeeperLookupMicroServiceBaseUrl + "/version",
+  config.paymentSolveMicroServiceUrlBase + "/version",
   config.vrmRetentionEligibilityMicroServiceUrlBase + "/version",
-  config.vrmRetentionRetainMicroServiceUrlBase + "/version"
+  config.vrmRetentionRetainMicroServiceUrlBase + "/version",
+  config.auditMicroServiceUrlBase + "/version"
 )
