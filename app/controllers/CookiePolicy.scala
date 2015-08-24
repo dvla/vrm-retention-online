@@ -2,13 +2,13 @@ package controllers
 
 import com.google.inject.Inject
 import play.api.mvc.{Action, Controller}
-import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import utils.helpers.Config
 
 final class CookiePolicy @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
-                                     dateService: common.services.DateService
+                                     dateService: DateService
                                     ) extends Controller {
 
   def present = Action { implicit request =>

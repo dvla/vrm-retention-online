@@ -31,8 +31,8 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
   }
 
   def submit = Action { implicit request =>
-    Redirect(routes.VehicleLookup.present()).
-      discardingCookies(removeCookiesOnExit)
+    Redirect(routes.VehicleLookup.present())
+      .discardingCookies(removeCookiesOnExit)
   }
 
   private def displayPaymentFailure(transactionId: String,
@@ -48,7 +48,6 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
       data = vehicleAndKeeperLookupForm)
-    ).
-      discardingCookies(removeCookiesOnExit)
+    ).discardingCookies(removeCookiesOnExit)
   }
 }

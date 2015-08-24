@@ -48,7 +48,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
   }
 
   def exit = Action { implicit request =>
-    Redirect(routes.LeaveFeedback.present()).
-      discardingCookies(removeCookiesOnExit)
+    Redirect(routes.LeaveFeedback.present())
+      .discardingCookies(removeCookiesOnExit)
   }
 }
