@@ -8,6 +8,7 @@ import play.api.{Logger, Play}
 import play.api.i18n.Messages
 import play.api.Play.current
 import play.twirl.api.HtmlFormat
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
@@ -15,13 +16,12 @@ import common.clientsidesession.TrackingId
 import common.LogFormats.DVLALogger
 import common.model.VehicleAndKeeperDetailsModel
 import common.webserviceclients.emailservice.Attachment
+import common.webserviceclients.emailservice.EmailService
+import common.webserviceclients.emailservice.EmailServiceSendRequest
 import common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.html.vrm_retention.email_with_html
 import views.html.vrm_retention.email_without_html
-import webserviceclients.emailservice.EmailService
-import webserviceclients.emailservice.EmailServiceSendRequest
-import scala.concurrent.ExecutionContext.Implicits.global
 
 final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                                              pdfService: PdfService,

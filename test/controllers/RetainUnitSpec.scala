@@ -26,8 +26,8 @@ import play.api.test.{FakeHeaders, FakeRequest}
 import play.api.test.Helpers.{LOCATION, REFERER}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailService
 import utils.helpers.Config
-import webserviceclients.emailservice.EmailService
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid}
 import webserviceclients.vrmretentionretain.VRMRetentionRetainRequest

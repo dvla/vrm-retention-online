@@ -19,9 +19,9 @@ import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.AddressModel
 import common.model.VehicleAndKeeperDetailsModel
+import common.webserviceclients.emailservice.EmailService
 import utils.helpers.Config
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
-import webserviceclients.emailservice.EmailService
 import webserviceclients.paymentsolve.PaymentSolveService
 
 final class SuccessPayment @Inject()(pdfService: PdfService,

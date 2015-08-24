@@ -16,7 +16,7 @@ import common.model.FeedbackForm.Form.feedback
 import common.model.FeedbackForm.Form.nameMapping
 import common.services.DateService
 import common.views.helpers.FormExtensions.formBinding
-import webserviceclients.emailservice.EmailService
+import common.webserviceclients.emailservice.EmailService
 
 class FeedbackController @Inject()(val emailService: EmailService)
                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
