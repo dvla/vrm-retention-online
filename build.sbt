@@ -9,12 +9,13 @@ import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionEligibility
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionRetain
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
 import io.gatling.sbt.GatlingPlugin
 import GatlingPlugin.Gatling
-import scoverage.ScoverageSbtPlugin.ScoverageKeys 
+import scoverage.ScoverageSbtPlugin.ScoverageKeys
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -143,7 +144,7 @@ lazy val paymentSolveProject = paymentSolve("0.17-SNAPSHOT").disablePlugins(Play
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.15-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.16-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val emailServiceProject = emailService("0.12-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-//lazy val auditProject = audit("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb) // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
+lazy val auditProject = audit("0.9-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 18000
@@ -164,7 +165,7 @@ SandboxSettings.vrmRetentionEligibilityProject := vrmRetentionEligibilityProject
 
 SandboxSettings.vrmRetentionRetainProject := vrmRetentionRetainProject
 
-//SandboxSettings.auditProject := auditProject // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
+SandboxSettings.auditProject := auditProject
 
 SandboxSettings.legacyStubsProject := legacyStubsProject
 
@@ -176,7 +177,7 @@ SandboxSettings.runAllMicroservices := {
   Tasks.runVrmRetentionEligibility.value
   Tasks.runVrmRetentionRetain.value
   Tasks.runEmailService.value
-//  Tasks.runAudit.value // Disabled for now due to it needing to be in scala 2.11 but the webapp is still scala 2.10.
+  Tasks.runAudit.value
 }
 
 SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
