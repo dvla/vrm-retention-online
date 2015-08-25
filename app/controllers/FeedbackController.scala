@@ -5,9 +5,8 @@ import play.api.data.Form
 import play.api.data.FormError
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent, Call, Controller}
-import uk.gov.dvla.vehicles.presentation.common
 import utils.helpers.Config
-import webserviceclients.emailservice.EmailService
+import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.controllers.FeedbackBase
@@ -17,6 +16,7 @@ import common.model.FeedbackForm.Form.feedback
 import common.model.FeedbackForm.Form.nameMapping
 import common.services.DateService
 import common.views.helpers.FormExtensions.formBinding
+import common.webserviceclients.emailservice.EmailService
 
 class FeedbackController @Inject()(val emailService: EmailService)
                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,

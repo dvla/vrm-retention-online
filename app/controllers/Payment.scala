@@ -40,8 +40,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                auditService2: webserviceclients.audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
-                              dateService: common.services.DateService)
-                      extends Controller with DVLALogger {
+                              dateService: common.services.DateService) extends Controller with DVLALogger {
 
   def begin = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -176,11 +175,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                       (implicit request: Request[_]): Future[Result] = {
 
     def paymentNotAuthorised = {
-      logMessage(
-        request.cookies.trackingId(),
-        Debug,
-        s"Payment not authorised for ${anonymize(trxRef)}, redirect to PaymentNotAuthorised"
-      )
+      val msg = s"Payment not authorised for ${anonymize(trxRef)}, redirect to PaymentNotAuthorised"
+      logMessage(request.cookies.trackingId(), Debug, msg)
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
@@ -205,11 +201,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
 
-    val paymentSolveGetRequest = PaymentSolveGetRequest(
-      transNo = transNo,
-      trxRef = trxRef,
-      isPrimaryUrl = isPrimaryUrl
-    )
+    val paymentSolveGetRequest = PaymentSolveGetRequest(transNo = transNo, trxRef = trxRef, isPrimaryUrl = isPrimaryUrl)
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map { response =>

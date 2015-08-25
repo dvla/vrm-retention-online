@@ -1,8 +1,8 @@
 package composition.webserviceclients.emailservice
 
 import com.tzavellas.sse.guice.ScalaModule
-import webserviceclients.emailservice.EmailServiceWebService
-import webserviceclients.emailservice.EmailServiceWebServiceImpl
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceWebService
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceWebServiceImpl
 
 final class EmailServiceWebServiceBinding extends ScalaModule {
 

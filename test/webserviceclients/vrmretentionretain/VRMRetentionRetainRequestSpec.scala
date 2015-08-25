@@ -7,8 +7,8 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.webserviceclients.common.VssWebEndUserDto
 import common.webserviceclients.common.VssWebHeaderDto
+import common.webserviceclients.emailservice.EmailServiceSendRequest
 import common.webserviceclients.emailservice.From
-import webserviceclients.emailservice.EmailServiceSendRequest
 import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearValid}
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
@@ -43,7 +43,7 @@ final class VRMRetentionRetainRequestSpec extends UnitSpec {
       "",
       "",
       "",
-      false,
+      isPrimaryUrl = false,
       List(EmailServiceSendRequest("", "", None, From("", ""), "", None, None))
     ),
     Seq.empty,
