@@ -1,3 +1,12 @@
+======= 1.22 ========
+TIME OF RELEASE BINARIES CREATION:
+
+US3731  Remove openingTime, closingTime properties from all exemplars
+US3736  Audit service build-details-generator enable
+US3741  Code review and clean up on vrm-retention-online e.g. logMessage, wildcard on imports, line length
+US3742  Timeout is too short for unit test VehicleLookupIntegrationSpec
+US3755  Support improvement - vrm-retention-retain micro service improve the loggi
+
 ======= 1.21 ========
 Time of release binaries creation:
 Wed Aug 19 2015 12:39:05 GMT+0100 (BST)
