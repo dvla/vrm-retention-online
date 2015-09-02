@@ -1,5 +1,6 @@
 ======= 1.22 ========
 TIME OF RELEASE BINARIES CREATION:
+Wed Sep 02 15:01:37 UTC 2015
 
 US3731  Remove openingTime, closingTime properties from all exemplars
 US3736  Audit service build-details-generator enable
