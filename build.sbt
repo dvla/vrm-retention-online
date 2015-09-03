@@ -1,21 +1,20 @@
 import Common._
 import com.typesafe.sbt.web.SbtWeb
+import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
+import scoverage.ScoverageSbtPlugin.ScoverageKeys
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionEligibility
 import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionRetain
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
 import uk.gov.dvla.vehicles.sandbox.Sandbox
 import uk.gov.dvla.vehicles.sandbox.SandboxSettings
 import uk.gov.dvla.vehicles.sandbox.Tasks
-import io.gatling.sbt.GatlingPlugin
-import GatlingPlugin.Gatling
-import scoverage.ScoverageSbtPlugin.ScoverageKeys
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
