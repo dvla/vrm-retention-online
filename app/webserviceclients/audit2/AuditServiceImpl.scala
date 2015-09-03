@@ -8,10 +8,7 @@ import scala.concurrent.Future
 import scala.util.control.NonFatal
 import utils.helpers.Config
 
-class AuditServiceImpl @Inject()(
-                                  ws: AuditMicroService,
-                                  config: Config
-                                  ) extends AuditService {
+class AuditServiceImpl @Inject()(ws: AuditMicroService, config: Config) extends AuditService {
 
   override def send(auditRequest: AuditRequest): Future[Unit] = {
     if (config.auditMicroServiceUrlBase == "NOT FOUND")
