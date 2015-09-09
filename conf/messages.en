@@ -161,7 +161,7 @@ vrm_retention_vehiclelookup.v5c = Vehicle Registration Certificate (V5C)
 vrm_retention_vehiclelookup.refnumlabel = Latest V5C document reference number
 vrm_retention_vehiclelookup.refnumHint = The 11 digit number found on the V5C (logbook) with no spaces
 vrm_retention_vehiclelookup.vrninputlabel = Current vehicle registration number
-vrm_retention_vehiclelookup.vrnHint = The registration number you want to replace
+vrm_retention_vehiclelookup.vrnHint = The registration number you want to take off
 vrm_retention_vehiclelookup.button = Next
 vrm_retention_vehiclelookup.postcodelabel = Keeper postcode
 
