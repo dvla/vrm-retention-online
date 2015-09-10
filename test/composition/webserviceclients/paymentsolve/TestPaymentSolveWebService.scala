@@ -24,17 +24,17 @@ final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
   val stub = {
     val webService = mock[PaymentSolveWebService]
 
-    when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[TrackingId])).
-      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = beginResponseWithValidDefaults())))
+    when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[TrackingId]))
+      .thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = beginResponseWithValidDefaults())))
 
-    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[TrackingId])).
-      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults())))
+    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[TrackingId]))
+      .thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults())))
 
-    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[TrackingId])).
-      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
+    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[TrackingId]))
+      .thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
 
-    when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[TrackingId])).
-      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
+    when(webService.invoke(request = any[PaymentSolveUpdateRequest], tracking = any[TrackingId]))
+      .thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = updateResponseWithValidDefaults())))
 
     webService
   }

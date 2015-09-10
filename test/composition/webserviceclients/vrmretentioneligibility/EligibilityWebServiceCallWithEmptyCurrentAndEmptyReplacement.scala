@@ -20,8 +20,8 @@ final class EligibilityWebServiceCallWithEmptyCurrentAndEmptyReplacement() exten
 
   val stub = {
     val webService = mock[VRMRetentionEligibilityWebService]
-    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId])).
-      thenReturn(Future.successful(createResponse(withEmptyCurrentAndEmptyReplacement)))
+    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId]))
+      .thenReturn(Future.successful(createResponse(withEmptyCurrentAndEmptyReplacement)))
     webService
   }
 

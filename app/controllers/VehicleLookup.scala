@@ -70,14 +70,15 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       suppressedV5Flag = None
     )
 
+    val trackingId = request.cookies.trackingId()
     auditService2.send(AuditRequest.from(
-      trackingId = request.cookies.trackingId(),
+      trackingId = trackingId,
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
       transactionId = transactionId(formModel),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(ErrorCodes.VrmLockedErrorCode + " - vrm_locked")
-    ))
+    ), trackingId)
 
     addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
   }
@@ -105,6 +106,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     )
 
     val txnId = transactionId(formModel)
+    val trackingId = request.cookies.trackingId()
 
     auditService2.send(AuditRequest.from(
       trackingId = request.cookies.trackingId(),
@@ -113,7 +115,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")
-    ))
+    ), trackingId)
 
     // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
     if (responseCode.code.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode))
@@ -143,14 +145,16 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
     if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
+      val trackingId = request.cookies.trackingId()
 
       auditService2.send(AuditRequest.from(
-        trackingId = request.cookies.trackingId(),
+        trackingId = trackingId,
         pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
         transactionId = txnId,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)))
+        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)
+      ), trackingId)
 
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
         withCookie(responseCodeCacheKey, postcodeMismatchResponseCodeText)

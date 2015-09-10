@@ -16,8 +16,8 @@ final class NotValidatedCardDetails extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[PaymentSolveWebService]
-    when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[TrackingId])).
-      thenReturn(Future.successful(
+    when(webService.invoke(request = any[PaymentSolveBeginRequest], tracking = any[TrackingId]))
+      .thenReturn(Future.successful(
       new FakeResponse(
         status = OK,
         fakeJson = beginResponseWithValidDefaults(response = invalidResponse)

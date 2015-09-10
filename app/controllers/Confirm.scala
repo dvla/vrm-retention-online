@@ -114,8 +114,9 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
 
   private def handleValid(model: ConfirmFormModel)(implicit request: Request[_]): Result = {
     val happyPath = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map { vehicleAndKeeperLookup =>
+      val trackingId = request.cookies.trackingId
       auditService2.send(AuditRequest.from(
-        trackingId = request.cookies.trackingId,
+        trackingId = trackingId,
         pageMovement = AuditRequest.ConfirmToPayment,
         timestamp = dateService.dateTimeISOChronology,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
@@ -123,10 +124,10 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = model.keeperEmail,
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+      )
 
-      Redirect(routes.Payment.begin()).
-        withCookie(model)
+      Redirect(routes.Payment.begin()).withCookie(model)
     }
     val sadPath =
       Redirect(routes.Error.present("user went to Confirm handleValid without VehicleAndKeeperLookupFormModel cookie"))
@@ -151,8 +152,9 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
   }
 
   def exit = Action { implicit request =>
+    val trackingId = request.cookies.trackingId
     auditService2.send(AuditRequest.from(
-      trackingId = request.cookies.trackingId,
+      trackingId = trackingId,
       pageMovement = AuditRequest.ConfirmToExit,
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
@@ -160,7 +162,8 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId
+    )
 
     Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)

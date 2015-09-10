@@ -244,7 +244,6 @@ class PaymentUnitSpec extends UnitSpec {
   }
 
   "cancel" should {
-
     "redirect to LeaveFeedbackPage when TransactionId cookie does not exist" in new WithApplication {
       val result = paymentCancelValidated.cancel(requestWithValidDefaults())
       whenReady(result) { r =>
@@ -253,8 +252,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to PaymentFailurePage when paymentModel cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -269,8 +268,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to LeaveFeedback page when payment service call throws an exception" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -287,8 +286,8 @@ class PaymentUnitSpec extends UnitSpec {
     }
 
     "redirect to LeaveFeedback page when required cookies exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           transactionId(),
           paymentTransNo(),
           vehicleAndKeeperLookupFormModel(),
@@ -319,8 +318,8 @@ class PaymentUnitSpec extends UnitSpec {
   private def requestWithValidDefaults(referer: String = loadBalancerUrl): FakeRequest[AnyContentAsEmpty.type] = {
     val refererHeader = (REFERER, Seq(referer))
     val headers = FakeHeaders(data = Seq(refererHeader))
-    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty)
-      .withCookies(
+    FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
+      withCookies(
         transactionId(),
         paymentTransNo(),
         vehicleAndKeeperLookupFormModel(),

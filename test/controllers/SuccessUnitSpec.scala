@@ -23,8 +23,8 @@ class SuccessUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(vehicleAndKeeperLookupFormModel(),
+      val request = FakeRequest()
+        .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),
@@ -39,8 +39,8 @@ class SuccessUnitSpec extends UnitSpec {
     }
 
     "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(vehicleAndKeeperLookupFormModel(),
+      val request = FakeRequest()
+        .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
           vehicleAndKeeperDetailsModel(),
           eligibilityModel(),

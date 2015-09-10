@@ -11,6 +11,7 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import org.mockito.Mockito.verify
@@ -20,6 +21,7 @@ import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
@@ -96,13 +98,14 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
           businessDetailsModel(),
           confirmFormModel(),
           transactionId(),
-          eligibilityModel()
+          eligibilityModel(),
+          trackingIdModel()
         )
 
       val result = confirmBusiness.submit(request)
 
       whenReady(result) { r =>
-        verify(auditService2.stub).send(auditRequest)
+        verify(auditService2.stub).send(auditRequest, TrackingId("trackingId"))
       }
     }
 

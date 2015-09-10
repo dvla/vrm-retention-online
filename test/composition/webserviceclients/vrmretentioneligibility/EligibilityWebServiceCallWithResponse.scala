@@ -20,8 +20,8 @@ final class EligibilityWebServiceCallWithResponse extends ScalaModule with Mocki
 
   val stub = {
     val webService = mock[VRMRetentionEligibilityWebService]
-    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId])).
-      thenReturn(Future.successful(createResponse(withResponseCode)))
+    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId]))
+      .thenReturn(Future.successful(createResponse(withResponseCode)))
     webService
   }
 

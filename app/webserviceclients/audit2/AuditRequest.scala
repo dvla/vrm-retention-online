@@ -63,7 +63,7 @@ object AuditRequest {
            businessDetailsModel: Option[BusinessDetailsModel] = None,
            paymentModel: Option[PaymentModel] = None,
            retentionCertId: Option[String] = None,
-           rejectionCode: Option[String] = None) = {
+           rejectionCode: Option[String] = None): AuditRequest = {
 
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))

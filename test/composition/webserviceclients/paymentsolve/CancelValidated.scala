@@ -15,8 +15,8 @@ final class CancelValidated extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[PaymentSolveWebService]
-    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[TrackingId])).
-      thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
+    when(webService.invoke(request = any[PaymentSolveCancelRequest], tracking = any[TrackingId]))
+      .thenReturn(Future.successful(new FakeResponse(status = OK, fakeJson = cancelResponseWithValidDefaults())))
     webService
   }
 

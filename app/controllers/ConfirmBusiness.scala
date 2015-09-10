@@ -77,14 +77,15 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
             businessDetailsModel,
             setupBusinessDetailsFormModel) =>
 
+            val trackingId = request.cookies.trackingId
             auditService2.send(AuditRequest.from(
-              trackingId = request.cookies.trackingId,
+              trackingId = trackingId,
               pageMovement = AuditRequest.ConfirmBusinessToConfirm,
               transactionId = transactionId.getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
               timestamp = dateService.dateTimeISOChronology,
               vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               replacementVrm = Some(eligibilityModel.get.replacementVRM),
-              businessDetailsModel = businessDetailsModel))
+              businessDetailsModel = businessDetailsModel), trackingId)
             Redirect(routes.Confirm.present())
               .withCookie(businessDetailsModel)
               .withCookie(setupBusinessDetailsFormModel)
@@ -96,15 +97,16 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
   }
 
   def exit = Action { implicit request =>
+    val trackingId = request.cookies.trackingId
     auditService2.send(AuditRequest.from(
-      trackingId = request.cookies.trackingId,
+      trackingId = trackingId,
       pageMovement = AuditRequest.ConfirmBusinessToExit,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]))
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]), trackingId)
 
     Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)

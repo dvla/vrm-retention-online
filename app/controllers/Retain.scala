@@ -68,12 +68,13 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
             Some(eligibility)) if paymentModel.paymentStatus == Some(AuthorisedStatus) =>
         retainVrm(vehiclesLookupForm, transactionId, paymentTransNo, paymentModel, eligibility)
       case (_, Some(transactionId), _, _, _) =>
+        val trackingId = request.cookies.trackingId()
         auditService2.send(AuditRequest.from(
-          trackingId = request.cookies.trackingId(),
+          trackingId = trackingId,
           pageMovement = AuditRequest.PaymentToMicroServiceError,
           transactionId = transactionId,
           timestamp = dateService.dateTimeISOChronology
-        ))
+        ), trackingId)
         Future.successful {
           Redirect(routes.MicroServiceError.present())
         }
@@ -104,8 +105,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       val transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
 
+      val trackingId = request.cookies.trackingId()
       auditService2.send(AuditRequest.from(
-        trackingId = request.cookies.trackingId(),
+        trackingId = trackingId,
         pageMovement = AuditRequest.PaymentToSuccess,
         transactionId = transactionId,
         timestamp = dateService.dateTimeISOChronology,
@@ -115,7 +117,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
         retentionCertId = Some(certificateNumber)
-      ))
+      ), trackingId)
 
       Redirect(routes.SuccessPayment.present()).
         withCookie(paymentModel).
@@ -124,16 +126,17 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
     def retainFailure(responseCode: String) = {
 
-      logMessage(request.cookies.trackingId, Error, s"VRMRetentionRetain encountered a problem with request" +
+      logMessage(request.cookies.trackingId, Error, "VRMRetentionRetain encountered a problem with request" +
         s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
         s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
-        s" redirect to VehicleLookupFailure")
+        " redirect to VehicleLookupFailure")
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
+      val trackingId = request.cookies.trackingId()
       auditService2.send(AuditRequest.from(
-        trackingId = request.cookies.trackingId(),
+        trackingId = trackingId,
         pageMovement = AuditRequest.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey).get,
         timestamp = dateService.dateTimeISOChronology,
@@ -143,7 +146,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = Some(paymentModel),
         rejectionCode = Some(responseCode)
-      ))
+      ), trackingId)
 
       Redirect(routes.RetainFailure.present()).
         withCookie(paymentModel).

@@ -8,18 +8,17 @@ import composition.WithApplication
 import helpers.UnitSpec
 import helpers.WireMockFixture
 import play.api.libs.json.Json
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 final class AuditMicroServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "invoke" should {
-
     "send the serialised json request" in new WithApplication {
-      val resultFuture = auditMicroService.invoke(request)
+      val resultFuture = auditMicroService.invoke(request, TrackingId("testTrackingId"))
       whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/audit/v1")
-        ).
-          withRequestBody(equalTo(Json.toJson(request).toString())))
+        ).withRequestBody(equalTo(Json.toJson(request).toString())))
       }
     }
   }

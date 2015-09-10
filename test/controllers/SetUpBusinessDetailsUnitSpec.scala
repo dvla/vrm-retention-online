@@ -38,8 +38,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
 
     "display populated fields when cookie exists" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           setupBusinessDetails(),
           vehicleAndKeeperDetailsModel()
         )
@@ -96,8 +96,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     }
 
     "return a bad request if no details are entered" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "").
-        withCookies(vehicleAndKeeperDetailsModel())
+      val request = buildCorrectlyPopulatedRequest(dealerName = "", dealerPostcode = "")
+        .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
       whenReady(result) { r =>
         r.header.status should equal(BAD_REQUEST)
@@ -106,8 +106,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
     "replace max length error message for traderBusinessName " +
       "with standard error message (US158)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1)).
-        withCookies(vehicleAndKeeperDetailsModel())
+      val request = buildCorrectlyPopulatedRequest(dealerName = "a" * (BusinessName.MaxLength + 1))
+        .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
       val content = contentAsString(result)
       val count = "Must be between two and 58 characters and only contain valid characters".
@@ -118,8 +118,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
 
     "replace required and min length error messages for traderBusinessName " +
       "with standard error message (US158)" in new WithApplication {
-      val request = buildCorrectlyPopulatedRequest(dealerName = "").
-        withCookies(vehicleAndKeeperDetailsModel())
+      val request = buildCorrectlyPopulatedRequest(dealerName = "")
+        .withCookies(vehicleAndKeeperDetailsModel())
       val result = setUpBusinessDetails().submit(request)
       val content = contentAsString(result)
       val count = "Must be between two and 58 characters and only contain valid characters".
@@ -141,8 +141,7 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
   private def setUpBusinessDetails() = testInjector().getInstance(classOf[SetUpBusinessDetails])
 
   private def present = {
-    val request = FakeRequest().
-      withCookies(vehicleAndKeeperDetailsModel())
+    val request = FakeRequest().withCookies(vehicleAndKeeperDetailsModel())
     setUpBusinessDetails().present(request)
   }
 

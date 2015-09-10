@@ -16,8 +16,8 @@ final class ValidatedNotAuthorised extends ScalaModule with MockitoSugar {
 
   val stub = {
     val webService = mock[PaymentSolveWebService]
-    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[TrackingId])).
-      thenReturn(
+    when(webService.invoke(request = any[PaymentSolveGetRequest], tracking = any[TrackingId]))
+      .thenReturn(
         Future.successful(new FakeResponse(status = OK, fakeJson = getResponseWithValidDefaults(status = invalidStatus))
         )
       )

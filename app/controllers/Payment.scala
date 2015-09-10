@@ -87,9 +87,10 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
   def cancel = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
       case (Some(transactionId), Some(paymentDetails)) =>
+        val trackingId = request.cookies.trackingId()
         auditService2.send(
           AuditRequest.from(
-            trackingId = request.cookies.trackingId(),
+            trackingId = trackingId,
             pageMovement = AuditRequest.PaymentToExit,
             transactionId = transactionId,
             timestamp = dateService.dateTimeISOChronology,
@@ -97,7 +98,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
             replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
             keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
             businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-          )
+          ), trackingId
         )
 
         Future.successful {
@@ -111,9 +112,10 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
   private def paymentFailure(message: String)(implicit request: Request[_]) = {
     logMessage(request.cookies.trackingId(),Error, message)
+    val trackingId = request.cookies.trackingId()
     auditService2.send(
       AuditRequest.from(
-        trackingId = request.cookies.trackingId(),
+        trackingId = trackingId,
         pageMovement = AuditRequest.PaymentToPaymentFailure,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
           .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
@@ -124,7 +126,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
         paymentModel = request.cookies.getModel[PaymentModel],
         rejectionCode = Some(message)
-      )
+      ), trackingId
     )
 
     Redirect(routes.PaymentFailure.present())
@@ -180,9 +182,10 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
 
+      val trackingId = request.cookies.trackingId()
       auditService2.send(
         AuditRequest.from(
-          trackingId = request.cookies.trackingId(),
+          trackingId = trackingId,
           pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
           transactionId = request.cookies.getString(TransactionIdCacheKey)
             .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
@@ -192,7 +195,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
           paymentModel = Some(paymentModel)
-        )
+        ), trackingId
       )
 
       Redirect(routes.PaymentNotAuthorised.present())
@@ -249,7 +252,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
       auditService2.send(
         AuditRequest.from(
-          trackingId = request.cookies.trackingId(),
+          trackingId = trackingId,
           pageMovement = AuditRequest.PaymentToExit,
           transactionId = request.cookies.getString(TransactionIdCacheKey)
             .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
@@ -258,7 +261,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-        )
+        ), trackingId
       )
 
       redirectToLeaveFeedback

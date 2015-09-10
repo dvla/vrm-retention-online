@@ -44,8 +44,8 @@ class PaymentPreventBackUnitSpec extends UnitSpec {
   }
 
   private def request = {
-    FakeRequest().
-      withCookies(
+    FakeRequest()
+      .withCookies(
         transactionId(),
         paymentTransNo(),
         vehicleAndKeeperLookupFormModel(),

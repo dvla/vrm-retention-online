@@ -3,6 +3,7 @@ package controllers
 import com.tzavellas.sse.guice.ScalaModule
 import composition.WithApplication
 import composition.webserviceclients.vrmretentioneligibility
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import vrmretentioneligibility.EligibilityWebServiceCallFails
 import vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndEmptyReplacement
@@ -13,6 +14,7 @@ import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.trackingIdModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import org.mockito.Mockito.{times, verify}
@@ -80,8 +82,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to micro-service error page when web service call fails" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent(),
@@ -94,8 +96,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to VehicleLookupFailure page when web service returns with a response code" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent(),
@@ -108,8 +110,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "write cookie when web service returns with a response code" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent(),
@@ -124,8 +126,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
 
     "redirect to Confirm page when response has empty response, " +
       "current and replacement vrm, and user type is Keeper" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = KeeperConsentValid),
           vehicleAndKeeperDetailsModel(),
           transactionId()
@@ -139,8 +141,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     "redirect to SetUpBusinessDetails response has empty response, " +
       "current and replacement vrm, and user type is Business" in
       new WithApplication {
-        val request = FakeRequest().
-          withCookies(
+        val request = FakeRequest()
+          .withCookies(
             vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
             vehicleAndKeeperDetailsModel(),
             transactionId()
@@ -153,8 +155,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
 
     "redirect to MicroServiceError page when response has empty response, " +
       "empty current and empty replacement vrm" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent(),
@@ -169,8 +171,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
 
     "redirect to MicroServiceError page when response has empty response, " +
       "current and empty replacement vrm" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent(),
@@ -184,8 +186,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
 
     "redirect to MicroServiceError page when response has empty response, " +
       "empty current and replacement vrm" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent(),
@@ -213,16 +215,17 @@ class CheckEligibilityUnitSpec extends UnitSpec {
           ("keeperAddress", "1 HIGH STREET, SKEWEN, POSTTOWN STUB, SA11AA")
         )
       )
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = KeeperConsentValid),
           vehicleAndKeeperDetailsModel(),
-          transactionId()
+          transactionId(),
+          trackingIdModel()
         )
       val result = checkEligibility.present(request)
 
       whenReady(result, timeout) { r =>
-        verify(auditService, times(1)).send(expected)
+        verify(auditService, times(1)).send(expected, TrackingId("trackingId"))
       }
     }
   }
