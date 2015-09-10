@@ -1,0 +1,10 @@
+/opt/vrm-retention-online/logs/*.log {
+        missingok
+        copytruncate
+        notifempty
+        dateext
+        daily
+        create 644 vrm-retention-online vrm-retention-online
+        compress
+        rotate 35
+}
