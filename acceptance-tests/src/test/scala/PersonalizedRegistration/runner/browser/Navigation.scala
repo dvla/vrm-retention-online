@@ -1,4 +1,4 @@
-package PersonalizedRegistration
+package PersonalizedRegistration.runner.browser
 
 import cucumber.api.CucumberOptions
 import cucumber.api.junit.Cucumber
