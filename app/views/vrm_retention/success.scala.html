@@ -66,7 +66,7 @@
 			<h2>@Messages("vrm_retention_success.p1")</h2>
 			<p>@Messages("vrm_retention_success.p2") <strong>@successViewModel.replacementRegistrationNumber</strong> @Messages("vrm_retention_success.p3")</p>
 			<p>@Messages("vrm_retention_success.p4")</p>
-			<p>@Messages("vrm_retention_success.p5") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p6")</p>
+                        <div class="alert-warning"><h3>@Messages("vrm_retention_success.p5") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p6")</h3></div>
 			<p>@Messages("vrm_retention_success.p7") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p8")</p>
 			@if(successViewModel.businessEmail.isDefined || successViewModel.keeperEmail.isDefined) {
 				<p>@Messages("vrm_retention_success_payment.what-next-9")</p>
