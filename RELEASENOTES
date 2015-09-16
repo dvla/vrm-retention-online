@@ -1,3 +1,16 @@
+
+======= 1.23 ========
+
+
+
+US3800	Better Emphasize 'Destroy V5C' on all VM & PR Services
+US2870	Speed up the build and the running of acceptance tests
+US3731	Remove openingTime, closingTime properties from all exemplars
+US3798	PR - when calling the audit service add the tracking id header to the request
+US3797	[Retain} Change the word 'replace' to 'take off' on retain service
+DE693	Retain & Assign - Payment receipt email character error
+US3789	Tidy up the upstart scripts for all microservices and apps
+
 ======= 1.22 ========
 TIME OF RELEASE BINARIES CREATION:
 Wed Sep 02 15:01:37 UTC 2015
