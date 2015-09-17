@@ -5,11 +5,11 @@
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.Success
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Success.CreatePdfId
 @import views.vrm_retention.Success.FinishId
 @import views.vrm_retention.Success.PrintId
-
 
 @main(
     title = Messages("vrm_retention_success.title")
@@ -29,7 +29,7 @@
 
 			<p>@Messages("success-cert-warning")</p>
 
-            <div class="alert-warning"><h3>@Messages("success-cert-warning-1")</h3></div>
+                        @alertWarning() { <h3>@Messages("success-cert-warning-1")</h3> }
 
 			@if(!isKeeper) {
             <div class="info-highlight two-col">
@@ -66,7 +66,9 @@
 			<h2>@Messages("vrm_retention_success.p1")</h2>
 			<p>@Messages("vrm_retention_success.p2") <strong>@successViewModel.replacementRegistrationNumber</strong> @Messages("vrm_retention_success.p3")</p>
 			<p>@Messages("vrm_retention_success.p4")</p>
-                        <div class="alert-warning"><h3>@Messages("vrm_retention_success.p5") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p6")</h3></div>
+                        @alertWarning() {
+                          <h3>@Messages("vrm_retention_success.p5") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p6")</h3>
+                        }
 			<p>@Messages("vrm_retention_success.p7") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p8")</p>
 			@if(successViewModel.businessEmail.isDefined || successViewModel.keeperEmail.isDefined) {
 				<p>@Messages("vrm_retention_success_payment.what-next-9")</p>
