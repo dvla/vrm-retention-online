@@ -6,6 +6,7 @@
 
 @import controllers.routes.Success
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Success.CreatePdfId
 @import views.vrm_retention.Success.FinishId
@@ -20,7 +21,7 @@
 		<div class="second-col">
 
 			<div class="alert-complete">
-				<span class="reg-number">@successViewModel.registrationNumber</span>
+				@registrationNumber() { @successViewModel.registrationNumber }
 				<h2>@Messages("vrm_retention_success.subtitle")</h2>
                 <p>@Messages("vrm_retention_success.yourCert") <br />
 					<strong>@successViewModel.retentionCertificationNumber</strong>
@@ -53,7 +54,7 @@
 				<li>@Messages("vrm_retention_success_payment.what-next-4") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.what-next-5")
 					<a href="https://www.personalisedvehicleregistration.service.gov.uk/assign/before-you-start" target="_blank">@Messages("vrm_retention_success_payment.what-next-6")</a>
 					@Messages("vrm_retention_success_payment.what-next-7")</li>
-				<li>@Messages("success-replacement-registration-number") <br/> <span class="reg-number">@successViewModel.replacementRegistrationNumber</span></li>
+				<li>@Messages("success-replacement-registration-number") <br/> @registrationNumber() { @successViewModel.replacementRegistrationNumber }</li>
 
 				<li>@Messages("vrm_retention_success_payment.what-next-1")</li>
 				<li>@Messages("vrm_retention_success_payment.what-next-2")

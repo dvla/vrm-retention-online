@@ -21,6 +21,7 @@
 @import views.vrm_retention.SetupBusinessDetails.ExitId
 @import views.vrm_retention.SetupBusinessDetails.SubmitId
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 
 @main(
     title = Messages("vrm_retention_setupbusinessdetails.title"),
@@ -72,7 +73,7 @@
                     <dl class="playback">
                 <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
                         <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                        <dd><span class="reg-number">@viewModel.registrationNumber</span></dd>
+                        <dd>@registrationNumber() { @viewModel.registrationNumber }</dd>
                         @if(viewModel.vehicleMake.isDefined) {
                             <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                             <dd>@viewModel.vehicleMake.get.take(20)</dd>
