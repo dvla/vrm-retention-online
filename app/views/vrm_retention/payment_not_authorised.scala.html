@@ -5,6 +5,7 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import views.html.vrm_retention.main
 @import views.vrm_retention.PaymentNotAuthorised.ExitId
 @import views.vrm_retention.PaymentNotAuthorised.TryAgainId
@@ -17,7 +18,7 @@
                 <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
                 <dl class="playback">
                     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd><span class="reg-number">@vehicleLookupFailureViewModel.registrationNumber</span></dd>
+                    <dd>@registrationNumber() { @vehicleLookupFailureViewModel.registrationNumber }</dd>
                     @if(vehicleLookupFailureViewModel.make.isDefined) {
                         <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                         <dd>@vehicleLookupFailureViewModel.make.get.take(20)</dd>
