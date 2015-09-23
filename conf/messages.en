@@ -148,6 +148,9 @@ contact-email = Contact e-mail
 vrm_retention_setupbusinessdetails.businessemaillabel = Contact e-mail
 vrm_retention_setupbusinessdetails.businessemailhelper = E-mail address for confirmation of this transaction
 vrm_retention_setupbusinessdetails.button = Next
+vrm_retention_setupbusinessdetails.addresswarning = If your address is missing from this postcode package or is showing incorrect details then please select this link to
+vrm_retention_setupbusinessdetails.addresswarninglinktext = inform the Royal Mail.
+
 error.validBusinessName = Must be between two and 58 characters and only contain valid characters (a-z, A-Z, 0-9, -, ', and ,)
 error.validBusinessContact = Must be between two and 58 characters and only contain valid characters (a-z, A-Z, 0-9, -, ', and ,)
 error.email = Must be a valid email address

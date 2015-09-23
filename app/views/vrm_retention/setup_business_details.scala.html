@@ -21,6 +21,7 @@
 @import views.vrm_retention.SetupBusinessDetails.ExitId
 @import views.vrm_retention.SetupBusinessDetails.SubmitId
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
 
 @main(
     title = Messages("vrm_retention_setupbusinessdetails.title"),
@@ -69,19 +70,28 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                    <dl class="playback">
-                <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
-                        <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                        <dd><span class="reg-number">@viewModel.registrationNumber</span></dd>
-                        @if(viewModel.vehicleMake.isDefined) {
-                            <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                            <dd>@viewModel.vehicleMake.get.take(20)</dd>
-                        }
-                        @if(viewModel.vehicleModel.isDefined) {
-                            <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                            <dd>@viewModel.vehicleModel.get.take(20)</dd>
-                        }
-                    </dl>
+                <dl class="playback">
+                    <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
+                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
+                    <dd><span class="reg-number">@viewModel.registrationNumber</span></dd>
+                    @if(viewModel.vehicleMake.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
+                        <dd>@viewModel.vehicleMake.get.take(20)</dd>
+                    }
+                    @if(viewModel.vehicleModel.isDefined) {
+                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
+                        <dd>@viewModel.vehicleModel.get.take(20)</dd>
+                    }
+                </dl>
+                @if(Messages("vrm_retention_setupbusinessdetails.addresswarning")) {
+                    @alertWarning() {
+                        <p>@Messages("vrm_retention_setupbusinessdetails.addresswarning")
+                            <a href="http://www3.royalmail.com/find-a-postcode/nojs/enquiry" target="_blank">
+                                @Messages("vrm_retention_setupbusinessdetails.addresswarninglinktext")</a>
+                        </p>
+                    }
+                }
+
             </div>
 
         </div>

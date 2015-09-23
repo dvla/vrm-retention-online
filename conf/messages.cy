@@ -149,6 +149,9 @@ contact-email = Cyswllt e-bost
 vrm_retention_setupbusinessdetails.businessemaillabel = Cyswllt e-bost
 vrm_retention_setupbusinessdetails.businessemailhelper = Cyfeiriad e-bost i gadarnhau’r trafodion hyn
 vrm_retention_setupbusinessdetails.button = Nesaf
+vrm_retention_setupbusinessdetails.addresswarning =
+vrm_retention_setupbusinessdetails.addresswarninglinktext =
+
 error.validBusinessName = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
 error.validBusinessContact = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
 error.email = Mae angen cyfeiriad e-bost
