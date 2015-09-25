@@ -100,7 +100,7 @@
                             if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper"))
                             else Some(Messages("vrm_retention_confirm.emailTrade"))
                         },
-                        args = Map('maxLength -> KeeperEmailMaxLength)
+                        args = Map('maxLength -> KeeperEmailMaxLength, 'validityMessage -> Messages("error.email"))
                     )
                 )
 

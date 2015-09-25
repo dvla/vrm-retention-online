@@ -50,7 +50,7 @@
                   setupBusinessDetailsFormModel(BusinessEmailId),
                   labelText = Messages("vrm_retention_setupbusinessdetails.businessemaillabel"),
                   hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessemailhelper")),
-                  args = Map('maxLength -> BusinessEmailMaxLength)
+                  args = Map('maxLength -> BusinessEmailMaxLength, 'validityMessage -> Messages("error.email"))
                 )
                 <div class="uppercase-input">
                 @valtechInputText(
