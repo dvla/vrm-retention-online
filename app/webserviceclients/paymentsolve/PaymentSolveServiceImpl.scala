@@ -18,7 +18,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("Payment Solve call failed for an unknown reason", e)
+      case NonFatal(e) => throw e
     }
   }
 
@@ -31,7 +31,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("Payment Solve call failed for an unknown reason", e)
+      case NonFatal(e) => throw e
     }
   }
 
@@ -44,7 +44,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("Payment Solve call failed for an unknown reason", e)
+      case NonFatal(e) => throw e
     }
   }
 
@@ -57,7 +57,7 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("Payment Solve call failed for an unknown reason", e)
+      case NonFatal(e) => throw e
     }
   }
 }
