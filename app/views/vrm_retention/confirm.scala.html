@@ -11,6 +11,7 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.optionalToggle
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
@@ -42,7 +43,7 @@
             <dl class="playback">
                 <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
                 <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                <dd><span  class="reg-number">@confirmViewModel.registrationNumber</span></dd>
+                <dd>@registrationNumber() { @confirmViewModel.registrationNumber }</span></dd>
                 @if(confirmViewModel.vehicleMake.isDefined) {
                     <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
                     <dd>@confirmViewModel.vehicleMake.get.take(20)</dd>
@@ -99,7 +100,7 @@
                             if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper"))
                             else Some(Messages("vrm_retention_confirm.emailTrade"))
                         },
-                        args = Map('maxLength -> KeeperEmailMaxLength)
+                        args = Map('maxLength -> KeeperEmailMaxLength, 'validityMessage -> Messages("error.email"))
                     )
                 )
 

@@ -2,11 +2,13 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+
 <div id="vehicle-details" class="first-col trader-details">
     <dl class="playback">
         <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
     <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-    <dd><span class="reg-number">@viewModel.registrationNumber</span></dd>
+    <dd>@registrationNumber() { @viewModel.registrationNumber }</dd>
     <br/>
     <br/>
     <p>@Messages("success-keeper-application-details-contact-us")</p>

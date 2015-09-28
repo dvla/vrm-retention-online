@@ -2,7 +2,7 @@ package pages.vrm_retention
 
 import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
-import org.scalatest.selenium.WebBrowser.{click, find, go, id, textField}
+import org.scalatest.selenium.WebBrowser.{click, find, go, id, textField, emailField}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
@@ -32,9 +32,9 @@ object SetupBusinessDetailsPage extends Page {
 
   def traderContact(implicit driver: WebDriver) = textField(id(BusinessContactId))
 
-  def traderEmail(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailId"))
+  def traderEmail(implicit driver: WebDriver) = emailField(id(s"${BusinessEmailId}_$EmailId"))
 
-  def traderEmailConfirm(implicit driver: WebDriver) = textField(id(s"${BusinessEmailId}_$EmailVerifyId"))
+  def traderEmailConfirm(implicit driver: WebDriver) = emailField(id(s"${BusinessEmailId}_$EmailVerifyId"))
 
   def businessAddressWidget(implicit driver: WebDriver) = new AddressPickerDriver(BusinessAddressId)
 
