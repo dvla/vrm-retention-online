@@ -21,6 +21,7 @@
 @import views.vrm_retention.SetupBusinessDetails.ExitId
 @import views.vrm_retention.SetupBusinessDetails.SubmitId
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 
 @main(
@@ -83,6 +84,14 @@
                             <dd>@viewModel.vehicleModel.get.take(20)</dd>
                         }
                     </dl>
+                @if(Messages("vrm_retention_setupbusinessdetails.addresswarning")) {
+                    @alertWarning() {
+                        <p>@Messages("vrm_retention_setupbusinessdetails.addresswarning")
+                            <a href="http://www3.royalmail.com/find-a-postcode/nojs/enquiry" target="_blank">
+                                @Messages("vrm_retention_setupbusinessdetails.addresswarninglinktext")</a>
+                        </p>
+                    }
+                }
             </div>
 
         </div>
