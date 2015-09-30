@@ -1,7 +1,8 @@
 ======= 1.24 ========
 Time of release binaries creation:
+Wed Sep 30 09:38:38 UTC 2015
 
-US2440 Stop using Sion's WebBorwser DSL, use the real Selenium DSL
+US2440 Stop using Sion's WebBrowser DSL, use the real Selenium DSL
 US3804 Add Royal Mail link to Manual Address Entry Screen
 US3813 Create and implement alert-warning as a common widget in vehicles-presentation-common
 US3815 Create (or modify valtechInputText) so that the type parameter can be set to Email
