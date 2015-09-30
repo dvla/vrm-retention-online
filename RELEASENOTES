@@ -1,8 +1,17 @@
+======= 1.24 ========
+Time of release binaries creation:
+
+US2440 Stop using Sion's WebBorwser DSL, use the real Selenium DSL
+US3804 Add Royal Mail link to Manual Address Entry Screen
+US3813 Create and implement alert-warning as a common widget in vehicles-presentation-common
+US3815 Create (or modify valtechInputText) so that the type parameter can be set to Email
+US3816 Create and implement Reg-Number as a common widget in vehicles-presentation-common
+US3852 Intercept HTML5 form validation and render as in the style of server side errors
+US3856 Review the logging in the payment micro service
 
 ======= 1.23 ========
 Time of release binaries creation:
 Wed Sep 16 10:31:40 UTC 2015
-
 
 US3800	Better Emphasize 'Destroy V5C' on all VM & PR Services
 US2870	Speed up the build and the running of acceptance tests
