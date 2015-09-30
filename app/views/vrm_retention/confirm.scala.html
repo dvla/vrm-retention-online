@@ -12,6 +12,8 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.optionalToggle
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.summaryWrapper
+
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
@@ -60,27 +62,20 @@
         @csrfTokenHiddenField()
         <div class="two-col clearfix">
             <div class="second-col">
-                <div class="summary-wrapper">
-
-                    <span id="@SummaryId" class="summary"><strong>@Messages("vrm_retention_confirm.emailWarn")</strong></span>
-                    <div class="details">
-                        <div class="panel-indent">
-                            <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
-                            <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
-                            <p>@Messages("vrm_retention_confirm.emailWarnp4")
-                                <a href="https://www.gov.uk/change-name-address-v5c">
-                                    @Messages("vrm_retention_confirm.emailWarnp4link")
-                                </a>.
-                            </p>
-                            <p>@Messages("vrm_retention_confirm.emailWarnp2")
-                                <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">
-                                    @Messages("vrm_retention_confirm.emailWarnp2.link")
-                                </a>.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <br/>
+                @summaryWrapper(Messages("vrm_retention_confirm.emailWarn")) {
+                    <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
+                    <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
+                    <p>@Messages("vrm_retention_confirm.emailWarnp4")
+                        <a href="https://www.gov.uk/change-name-address-v5c">
+                            @Messages("vrm_retention_confirm.emailWarnp4link")
+                        </a>.
+                    </p>
+                    <p>@Messages("vrm_retention_confirm.emailWarnp2")
+                        <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">
+                            @Messages("vrm_retention_confirm.emailWarnp2.link")
+                        </a>
+                    </p>
+                }
 
                 @optionalToggle(
                     field = confirmForm(SupplyEmailId),

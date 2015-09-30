@@ -115,34 +115,6 @@ but may want to be moved to common*/
     border-bottom:1px solid #DCDCDC;
 }
 
-summary {
-    &:focus {
-        border: none;
-        outline: 0;
-    }
-}
-
-.summary-wrapper {
-  .summary {
-    color:#005EA5;
-    margin-bottom:15px;
-    cursor: pointer;
-    strong {
-      text-decoration:underline;
-    }
-    &::before {
-      content: "\25BA";
-      margin-right: 8px;
-    }
-    &.active {
-      &::before {
-        content: "\25BC";
-      }
-    }
-  }
-}
-
-
 .renewalFee {
     float:right;
     font-weight:bold;
