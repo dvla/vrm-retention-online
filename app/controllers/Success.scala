@@ -50,15 +50,16 @@ final class Success @Inject()(pdfService: PdfService,
           SuccessViewModel(vehicleAndKeeperDetails, eligibilityModel, businessDetailsOpt,
             keeperEmailOpt, retainModel, transactionId)
 
+        logMessage(request.cookies.trackingId(), Info,
+          "User transaction completed successfully - now displaying the retention success view"
+        )
         Ok(views.html.vrm_retention.success(successViewModel,
           isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper)
         )
       case _ =>
-        logMessage(
-          request.cookies.trackingId(),
-          Warn,
-          "Success present user arrived without all of the required cookies"
-        )
+        val msg = "User transaction completed successfully but not displaying the success view " +
+          "because the user arrived without all of the required cookies"
+        logMessage(request.cookies.trackingId(), Warn, msg)
         Redirect(routes.Confirm.present())
     }
   }
