@@ -5,20 +5,23 @@ import composition.webserviceclients.vrmretentioneligibility.Helper.createRespon
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import play.api.http.Status.OK
+import play.api.http.Status.INTERNAL_SERVER_ERROR
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
+import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponseDto
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 
 final class EligibilityWebServiceCallWithCurrentAndEmptyReplacement() extends ScalaModule with MockitoSugar {
 
-  private val withCurrentAndEmptyReplacement: (Int, VRMRetentionEligibilityResponse) = {
-    (OK, VRMRetentionEligibilityResponse(
-      currentVRM = Some("stub-currentVRM"),
-      replacementVRM = None,
-      responseCode = None)
+  private val withCurrentAndEmptyReplacement: (Int, VRMRetentionEligibilityResponseDto) = {
+    (INTERNAL_SERVER_ERROR, VRMRetentionEligibilityResponseDto(
+      None,
+      VRMRetentionEligibilityResponse(
+        currentVRM = "stub-currentVRM",
+        replacementVRM = None
+      ))
     )
   }
 

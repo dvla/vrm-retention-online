@@ -10,11 +10,12 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extends PaymentSolveService {
 
   override def invoke(cmd: PaymentSolveBeginRequest,
-                      trackingId: TrackingId): Future[PaymentSolveBeginResponse] = {
+                      trackingId: TrackingId): Future[(Int, PaymentSolveBeginResponse)] = {
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) resp.json.as[PaymentSolveBeginResponse]
+      if (resp.status == Status.OK) (resp.status, resp.json.as[PaymentSolveBeginResponse])
+      else if (resp.status == Status.INTERNAL_SERVER_ERROR) (resp.status, resp.json.as[PaymentSolveBeginResponse])
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
@@ -23,11 +24,12 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
   }
 
   override def invoke(cmd: PaymentSolveGetRequest,
-                      trackingId: TrackingId): Future[PaymentSolveGetResponse] = {
+                      trackingId: TrackingId): Future[(Int, PaymentSolveGetResponse)] = {
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) resp.json.as[PaymentSolveGetResponse]
+      if (resp.status == Status.OK) (resp.status, resp.json.as[PaymentSolveGetResponse])
+      else if (resp.status == Status.INTERNAL_SERVER_ERROR) (resp.status, resp.json.as[PaymentSolveGetResponse])
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
@@ -36,11 +38,12 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
   }
 
   override def invoke(cmd: PaymentSolveCancelRequest,
-                      trackingId: TrackingId): Future[PaymentSolveCancelResponse] = {
+                      trackingId: TrackingId): Future[(Int, PaymentSolveCancelResponse)] = {
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) resp.json.as[PaymentSolveCancelResponse]
+      if (resp.status == Status.OK) (resp.status, resp.json.as[PaymentSolveCancelResponse])
+      else if (resp.status == Status.INTERNAL_SERVER_ERROR) (resp.status, resp.json.as[PaymentSolveCancelResponse])
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {
@@ -49,11 +52,12 @@ final class PaymentSolveServiceImpl @Inject()(ws: PaymentSolveWebService) extend
   }
 
   override def invoke(cmd: PaymentSolveUpdateRequest,
-                      trackingId: TrackingId): Future[PaymentSolveUpdateResponse] = {
+                      trackingId: TrackingId): Future[(Int, PaymentSolveUpdateResponse)] = {
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) resp.json.as[PaymentSolveUpdateResponse]
+      if (resp.status == Status.OK) (resp.status, resp.json.as[PaymentSolveUpdateResponse])
+      else if (resp.status == Status.INTERNAL_SERVER_ERROR) (resp.status, resp.json.as[PaymentSolveUpdateResponse])
       else throw new RuntimeException(
-        s"Payment Solve web service call http status not OK, it " +
+        "Payment Solve web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either payment-solve micro-service or Solve"
       )
     }.recover {

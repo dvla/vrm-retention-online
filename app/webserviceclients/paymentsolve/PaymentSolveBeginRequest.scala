@@ -9,5 +9,6 @@ case class PaymentSolveBeginRequest(transactionId: String,
                                     paymentCallback: String)
 
 object PaymentSolveBeginRequest {
+
   implicit val JsonFormat = Json.format[PaymentSolveBeginRequest]
 }

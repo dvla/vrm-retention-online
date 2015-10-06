@@ -24,7 +24,7 @@ import common.views.helpers.FormExtensions.formBinding
 import common.views.models.DayMonthYear
 import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupErrorMessage
+import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupService
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
@@ -87,9 +87,11 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                 (implicit request: Request[_]): Result =
     addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
 
-  override def vehicleLookupFailure(responseCode: VehicleAndKeeperLookupErrorMessage,
+  override def vehicleLookupFailure(failure: VehicleAndKeeperLookupFailureResponse,
                                     formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
+
+    val responseCode = failure.response
 
     val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
       registrationNumber = formatVrm(formModel.registrationNumber),

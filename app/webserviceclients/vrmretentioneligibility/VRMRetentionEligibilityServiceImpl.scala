@@ -11,9 +11,12 @@ final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibi
   extends VRMRetentionEligibilityService {
 
   override def invoke(cmd: VRMRetentionEligibilityRequest,
-                      trackingId: TrackingId): Future[VRMRetentionEligibilityResponse] =
+                      trackingId: TrackingId): Future[(Int, VRMRetentionEligibilityResponseDto)] =
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) resp.json.as[VRMRetentionEligibilityResponse]
+      if (resp.status == Status.OK)
+        (resp.status, resp.json.as[VRMRetentionEligibilityResponseDto])
+      else if (resp.status == Status.INTERNAL_SERVER_ERROR)
+        (resp.status, resp.json.as[VRMRetentionEligibilityResponseDto])
       else throw new RuntimeException(
         s"VRM Retention Eligibility web service call http status not OK, it " +
           s"was: ${resp.status}. Problem may come from either vrm-retention-eligibility micro-service or the VSS"

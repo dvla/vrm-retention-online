@@ -5,13 +5,11 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.A
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.EmailServiceSendRequest
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
 
-case class PaymentSolveUpdateRequest(transNo: String,
-                                     trxRef: String,
-                                     authType: String,
-                                     isPrimaryUrl: Boolean,
+case class PaymentSolveUpdateRequest(transNo: String, trxRef: String, authType: String, isPrimaryUrl: Boolean,
                                      businessReceiptEmails: List[EmailServiceSendRequest])
 
 object PaymentSolveUpdateRequest {
+
   implicit val JsonFormatFrom = Json.format[From]
   implicit val JsonFormatAttachment = Json.format[Attachment]
   implicit val JsonFormatEmailServiceSendRequest = Json.format[EmailServiceSendRequest]

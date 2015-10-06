@@ -152,17 +152,16 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         )
         val trackingId = request.cookies.trackingId()
 
-        paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map { response =>
-          if (response.status == Payment.CardDetailsStatus) {
+        paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
+          case (OK, response) if response.beginResponse.status == Payment.CardDetailsStatus =>
             Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               .withCookie(PaymentModel.from(trxRef = response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl))
               // The POST from payment service will not contain a REFERER in the header, so use a cookie.
               .withCookie(REFERER, routes.Payment.begin().url)
-          } else {
-            val msg = "The begin web request to Solve was not validated. Payment Solve encountered a problem " +
-              s"with request ${anonymize(vrm)}, redirect to PaymentFailure"
-            paymentFailure(msg)
-          }
+          case (_, response) =>
+            paymentFailure(s"The begin web request to Solve encountered a problem with request " +
+              s"${anonymize(vrm)}, response: ${response.beginResponse.response}, " +
+              s"status: ${response.beginResponse.status}, redirect to PaymentFailure")
         }.recover {
           case NonFatal(e) =>
             paymentFailure(
@@ -207,9 +206,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
     val paymentSolveGetRequest = PaymentSolveGetRequest(transNo = transNo, trxRef = trxRef, isPrimaryUrl = isPrimaryUrl)
     val trackingId = request.cookies.trackingId()
 
-    paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map { response =>
-      if (response.status == Payment.AuthorisedStatus) {
-
+    paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map {
+      case (OK, response) if response.getResponse.status == Payment.AuthorisedStatus =>
         val paymentModel = request.cookies.getModel[PaymentModel].get
 
         paymentModel.authCode = response.authcode
@@ -223,10 +221,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         Redirect(routes.Retain.retain())
           .discardingCookie(REFERER) // Not used again.
           .withCookie(paymentModel)
-      } else {
-        logMessage(request.cookies.trackingId(), Debug, "The payment was not authorised.")
+      case (_, response) =>
+        logMessage(request.cookies.trackingId(), Error,
+          "The payment was not authorised, " +
+          s"response: ${response.getResponse.response}, status: ${response.getResponse.status}.")
         paymentNotAuthorised
-      }
     }.recover {
       case NonFatal(e) =>
         paymentFailure(message = "Payment Solve web service call with paymentSolveGetRequest failed: " + e.toString)
@@ -246,8 +245,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveCancelRequest, trackingId).map { response =>
-      if (response.response == Payment.CancelledStatus) {
-        logMessage(trackingId, Error, "The get web request to Solve was not validated.")
+      if (response._2.status == Payment.CancelledStatus) {
+        logMessage(trackingId, Info, "The web request to Solve was cancelled.")
+      } else {
+        logMessage(trackingId, Error, "The cancel was not successful, " +
+          s"response: ${response._2.response}, status: ${response._2.status}.")
       }
 
       auditService2.send(
@@ -261,7 +263,8 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
           replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
           keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
           businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-        ), trackingId
+        ),
+        trackingId
       )
 
       redirectToLeaveFeedback

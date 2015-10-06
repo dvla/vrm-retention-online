@@ -39,8 +39,10 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
+import vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
+import vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
+import vehicleandkeeperlookup.VehicleAndKeeperLookupSuccessResponse
 import VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
 import VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValidForMicroService
 import VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
@@ -529,8 +531,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupStubs(isPrototypeBannerVisible: Boolean = true,
                                  permitted: Boolean = true,
-                                 vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse])
-                                   = vehicleAndKeeperDetailsResponseSuccess) = {
+                                 vehicleAndKeeperLookupStatusAndResponse:
+                                 (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
+                                                     VehicleAndKeeperLookupSuccessResponse]])
+                                                                          = vehicleAndKeeperDetailsResponseSuccess) = {
     testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),
@@ -556,8 +560,10 @@ class VehicleLookupUnitSpec extends UnitSpec {
 
   private def vehicleLookupAndAuditStubs(isPrototypeBannerVisible: Boolean = true,
                                          permitted: Boolean = true,
-                                         vehicleAndKeeperLookupStatusAndResponse: (Int, Option[VehicleAndKeeperLookupResponse])
-                                           = vehicleAndKeeperDetailsResponseSuccess) = {
+                                         vehicleAndKeeperLookupStatusAndResponse:
+                                         (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
+                                                             VehicleAndKeeperLookupSuccessResponse]])
+                                                                          = vehicleAndKeeperDetailsResponseSuccess) = {
     val ioc = testInjector(
       new TestBruteForcePreventionWebService(permitted = permitted),
       new TestConfig(isPrototypeBannerVisible = isPrototypeBannerVisible),

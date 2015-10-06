@@ -4,6 +4,7 @@ import _root_.webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants
 import _root_.webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
 import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainRequest
 import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainResponse
+import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainResponseDto
 import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainWebService
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.invocation.InvocationOnMock
@@ -29,11 +30,13 @@ final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSug
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VRMRetentionRetainRequest] // Cast first argument.
-            val vrmRetentionRetainResponse = VRMRetentionRetainResponse(
-              certificateNumber = Some(CertificateNumberValid),
-              currentVRM = request.currentVRM,
-              replacementVRM = Some(ReplacementRegistrationNumberValid),
-              responseCode = None
+            val vrmRetentionRetainResponse = VRMRetentionRetainResponseDto(
+                None,
+                VRMRetentionRetainResponse(
+                  certificateNumber = Some(CertificateNumberValid),
+                  currentVRM = request.currentVRM,
+                  replacementVRM = Some(ReplacementRegistrationNumberValid)
+                )
             )
             val asJson = Json.toJson(vrmRetentionRetainResponse)
             new FakeResponse(status = OK, fakeJson = Some(asJson))

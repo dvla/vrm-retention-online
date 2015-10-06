@@ -21,12 +21,14 @@ import common.model.VehicleAndKeeperDetailsModel
 import common.views.constraints.RegistrationNumber.formatVrm
 import common.webserviceclients.common.VssWebEndUserDto
 import common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
+import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponseDto
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityService
 
 final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibilityService,
@@ -121,24 +123,37 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       Redirect(redirectLocation).withCookie(EligibilityModel.from(replacementVRM))
     }
 
-    def eligibilityFailure(responseCode: String) = {
-      logMessage(request.cookies.trackingId(), Debug, s"VRMRetentionEligibility encountered a problem with request" +
-        s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-        s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+    def eligibilityFailure(failure: VRMRetentionEligibilityResponseDto) = {
+      val response = failure.response.get
 
-      val trackingId = request.cookies.trackingId()
-      auditService2.send(
-        AuditRequest.from(
-          trackingId = trackingId,
-          pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
-          transactionId = transactionId,
-          timestamp = dateService.dateTimeISOChronology,
-          vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
-          rejectionCode = Some(responseCode)
-        ), trackingId
-      )
-      Redirect(routes.VehicleLookupFailure.present()).
-        withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+      response.message match {
+        case "vrm_retention_eligibility_no_error_code" => (failure.vrmRetentionEligibilityResponse.currentVRM,
+          failure.vrmRetentionEligibilityResponse.replacementVRM) match {
+          case (_, None) => microServiceErrorResult(message = "No replacement VRM found")
+          case (_, Some(replacementVRM)) => eligibilitySuccess(
+            failure.vrmRetentionEligibilityResponse.currentVRM,
+            formatVrm(replacementVRM)
+          )
+        }
+        case _ =>
+          logMessage(request.cookies.trackingId(), Debug, "VRMRetentionEligibility encountered a problem with request" +
+            s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
+            s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+
+          val trackingId = request.cookies.trackingId()
+          auditService2.send(
+            AuditRequest.from(
+              trackingId = trackingId,
+              pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
+              transactionId = transactionId,
+              timestamp = dateService.dateTimeISOChronology,
+              vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
+              rejectionCode = Some(s"${response.code} - ${response.message}")
+            ), trackingId
+          )
+          Redirect(routes.VehicleLookupFailure.present()).
+            withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
+      }
     }
 
     val trackingId = request.cookies.trackingId()
@@ -150,18 +165,12 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     )
 
     eligibilityService.invoke(eligibilityRequest, trackingId).map { response =>
-      response.responseCode match {
-        // There is only a response code when there is a problem.
-        case Some(responseCode) => eligibilityFailure(responseCode)
-        case None =>
-          // Happy path when there is no response code therefore no problem.
-          (response.currentVRM, response.replacementVRM) match {
-            case (Some(currentVRM), Some(replacementVRM)) => eligibilitySuccess(currentVRM, formatVrm(replacementVRM))
-            case (None, None) =>
-              microServiceErrorResult(message = "Current VRM and replacement VRM not found in response")
-            case (_, None) => microServiceErrorResult(message = "No replacement VRM found")
-            case (None, _) => microServiceErrorResult(message = "No current VRM found")
-          }
+      response match {
+        case (INTERNAL_SERVER_ERROR, failure) => eligibilityFailure(failure)
+        case (OK, success) => eligibilitySuccess(
+          success.vrmRetentionEligibilityResponse.currentVRM,
+          formatVrm(success.vrmRetentionEligibilityResponse.replacementVRM.get)
+        )
       }
     }.recover {
       case NonFatal(e) =>

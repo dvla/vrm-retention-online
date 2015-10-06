@@ -12,15 +12,18 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Registr
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
+import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponseDto
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 
 final class EligibilityWebServiceCallWithCurrentAndReplacement() extends ScalaModule with MockitoSugar {
 
-  private val withCurrentAndReplacement: (Int, VRMRetentionEligibilityResponse) = {
-    (OK, VRMRetentionEligibilityResponse(
-      currentVRM = Some(RegistrationNumberValid),
-      replacementVRM = Some(ReplacementRegistrationNumberValid),
-      responseCode = None)
+  private val withCurrentAndReplacement: (Int, VRMRetentionEligibilityResponseDto) = {
+    (OK, VRMRetentionEligibilityResponseDto(
+      None,
+      VRMRetentionEligibilityResponse(
+        currentVRM = RegistrationNumberValid,
+        replacementVRM = Some(ReplacementRegistrationNumberValid)
+      ))
     )
   }
 

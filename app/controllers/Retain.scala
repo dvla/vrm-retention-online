@@ -36,6 +36,7 @@ import common.webserviceclients.common.VssWebEndUserDto
 import common.webserviceclients.common.VssWebHeaderDto
 import common.webserviceclients.emailservice.EmailServiceSendRequest
 import common.webserviceclients.emailservice.From
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.Retain.RetainResponseCodeCacheKey
@@ -124,33 +125,37 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
     }
 
-    def retainFailure(responseCode: String) = {
+    def retainFailure(response: MicroserviceResponse) = {
+      response.message match {
+        case "vrm_retention_retain_no_error_code" =>
+          microServiceErrorResult(message = "Certificate number not found in response")
+        case _ =>
+          logMessage(request.cookies.trackingId, Error, "VRMRetentionRetain encountered a problem with request" +
+            s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
+            s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
+            " redirect to VehicleLookupFailure")
 
-      logMessage(request.cookies.trackingId, Error, "VRMRetentionRetain encountered a problem with request" +
-        s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-        s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
-        " redirect to VehicleLookupFailure")
+          val paymentModel = request.cookies.getModel[PaymentModel].get
+          paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
-      val paymentModel = request.cookies.getModel[PaymentModel].get
-      paymentModel.paymentStatus = Some(Payment.CancelledStatus)
+          val trackingId = request.cookies.trackingId()
+          auditService2.send(AuditRequest.from(
+            trackingId = trackingId,
+            pageMovement = AuditRequest.PaymentToPaymentFailure,
+            transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+            timestamp = dateService.dateTimeISOChronology,
+            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+            replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+            keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
+            businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+            paymentModel = Some(paymentModel),
+            rejectionCode = Some(s"${response.code} - ${response.message}")
+          ), trackingId)
 
-      val trackingId = request.cookies.trackingId()
-      auditService2.send(AuditRequest.from(
-        trackingId = trackingId,
-        pageMovement = AuditRequest.PaymentToPaymentFailure,
-        transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-        timestamp = dateService.dateTimeISOChronology,
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = Some(paymentModel),
-        rejectionCode = Some(responseCode)
-      ), trackingId)
-
-      Redirect(routes.RetainFailure.present()).
-        withCookie(paymentModel).
-        withCookie(key = RetainResponseCodeCacheKey, value = responseCode.split(" - ")(1))
+          Redirect(routes.RetainFailure.present()).
+            withCookie(paymentModel).
+            withCookie(key = RetainResponseCodeCacheKey, value = response.message)
+      }
     }
 
     def microServiceErrorResult(message: String) = {
@@ -253,15 +258,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
       response =>
-        response.responseCode match {
-          // There is only a response code when there is a problem.
-          case Some(responseCode) => retainFailure(responseCode)
-          case None =>
-            // Happy path when there is no response code therefore no problem.
-            response.certificateNumber match {
-              case Some(certificateNumber) => retainSuccess(certificateNumber)
-              case _ => microServiceErrorResult(message = "Certificate number not found in response")
-            }
+        response match {
+          case (INTERNAL_SERVER_ERROR, failure) => retainFailure(failure.response.get)
+          case (OK, success) => retainSuccess(success.vrmRetentionRetainResponse.certificateNumber.get)
         }
     }.recover {
       case _: TimeoutException =>  Redirect(routes.TimeoutController.present())

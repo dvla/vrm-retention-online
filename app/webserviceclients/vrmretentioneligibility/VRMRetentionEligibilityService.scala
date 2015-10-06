@@ -7,5 +7,5 @@ import scala.concurrent.Future
 trait VRMRetentionEligibilityService {
 
   def invoke(cmd: VRMRetentionEligibilityRequest,
-             trackingId: TrackingId): Future[VRMRetentionEligibilityResponse]
+             trackingId: TrackingId): Future[(Int, VRMRetentionEligibilityResponseDto)]
 }

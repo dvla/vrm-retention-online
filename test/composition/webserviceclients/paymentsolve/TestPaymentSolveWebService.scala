@@ -13,10 +13,15 @@ import play.api.libs.json.Json
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveBeginResponse}
-import webserviceclients.paymentsolve.{PaymentSolveCancelRequest, PaymentSolveCancelResponse}
-import webserviceclients.paymentsolve.{PaymentSolveGetRequest, PaymentSolveGetResponse}
-import webserviceclients.paymentsolve.{PaymentSolveUpdateRequest, PaymentSolveUpdateResponse}
+import webserviceclients.paymentsolve.PaymentSolveBeginRequest
+import webserviceclients.paymentsolve.PaymentSolveBeginResponse
+import webserviceclients.paymentsolve.PaymentSolveCancelRequest
+import webserviceclients.paymentsolve.PaymentSolveCancelResponse
+import webserviceclients.paymentsolve.PaymentSolveGetRequest
+import webserviceclients.paymentsolve.PaymentSolveGetResponse
+import webserviceclients.paymentsolve.PaymentSolveResponse
+import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
+import webserviceclients.paymentsolve.PaymentSolveUpdateResponse
 import webserviceclients.paymentsolve.PaymentSolveWebService
 
 final class TestPaymentSolveWebService extends ScalaModule with MockitoSugar {
@@ -52,8 +57,7 @@ object TestPaymentSolveWebService {
   private[paymentsolve] def beginResponseWithValidDefaults(response: String = "validated",
                                                            status: String = "CARD_DETAILS") = {
     val paymentSolveBeginResponse = PaymentSolveBeginResponse(
-      response = response,
-      status = status,
+      PaymentSolveResponse(response = response, status = status),
       trxRef = Some("TODO"),
       redirectUrl = Some(beginWebPaymentUrl),
       isPrimaryUrl = true
@@ -65,8 +69,7 @@ object TestPaymentSolveWebService {
   private[paymentsolve] def getResponseWithValidDefaults(response: String = "validated",
                                                          status: String = "AUTHORISED") = {
     val paymentSolveGetResponse = PaymentSolveGetResponse(
-      response = response,
-      status = status,
+      PaymentSolveResponse(response = response, status = status),
       authcode = Some("TODO"),
       maskedPAN = Some("TODO"),
       merchantTransactionId = Some("TODO"),

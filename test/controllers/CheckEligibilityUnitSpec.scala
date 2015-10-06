@@ -8,8 +8,6 @@ import vrmretentioneligibility.EligibilityWebServiceCallFails
 import vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndEmptyReplacement
 import vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndReplacement
-import vrmretentioneligibility.EligibilityWebServiceCallWithEmptyCurrentAndEmptyReplacement
-import vrmretentioneligibility.EligibilityWebServiceCallWithEmptyCurrentAndReplacement
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
@@ -154,22 +152,6 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to MicroServiceError page when response has empty response, " +
-      "empty current and empty replacement vrm" in new WithApplication {
-      val request = FakeRequest()
-        .withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
-          vehicleAndKeeperDetailsModel(),
-          storeBusinessDetailsConsent(),
-          transactionId()
-        )
-      val result = checkEligibility(
-        new EligibilityWebServiceCallWithEmptyCurrentAndEmptyReplacement()).present(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-      }
-    }
-
-    "redirect to MicroServiceError page when response has empty response, " +
       "current and empty replacement vrm" in new WithApplication {
       val request = FakeRequest()
         .withCookies(
@@ -179,21 +161,6 @@ class CheckEligibilityUnitSpec extends UnitSpec {
           transactionId()
         )
       val result = checkEligibility(new EligibilityWebServiceCallWithCurrentAndEmptyReplacement()).present(request)
-      whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
-      }
-    }
-
-    "redirect to MicroServiceError page when response has empty response, " +
-      "empty current and replacement vrm" in new WithApplication {
-      val request = FakeRequest()
-        .withCookies(
-          vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
-          vehicleAndKeeperDetailsModel(),
-          storeBusinessDetailsConsent(),
-          transactionId()
-        )
-      val result = checkEligibility(new EligibilityWebServiceCallWithEmptyCurrentAndReplacement()).present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
