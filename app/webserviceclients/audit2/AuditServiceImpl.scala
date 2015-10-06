@@ -24,8 +24,8 @@ class AuditServiceImpl @Inject()(ws: AuditMicroService, config: Config) extends 
       }
     }.recover {
       case NonFatal(e) =>
-        logMessage(trackingId, Error, s"Audit call failed for an unknown reason: $e")
-        throw new RuntimeException(s"Audit call failed for an unknown reason: $e")
+        logMessage(trackingId, Error, s"Audit call failed because of: $e")
+        throw e
     }
   }
 }
