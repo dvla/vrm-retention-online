@@ -464,6 +464,7 @@ text-v317 = V317
 # feedback
 common_feedback.title = Rhowch adborth
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
+common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch e-bost
 common_feedback.label = Beth aeth o’i le os o gwbl Beth weithiodd yn dda? Sut allen ni wella ar y gwasanaeth hwn?
 common_feedback.charactersRemaining = nodau’n weddill
 common_feedback.submit_button = Cyflwyno adborth
