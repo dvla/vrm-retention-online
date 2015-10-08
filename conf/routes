@@ -43,8 +43,6 @@ GET         /setup-business-details                        @controllers.SetUpBus
 POST        /setup-business-details                        @controllers.SetUpBusinessDetails.submit
 GET         /setup-business-details/exit                   @controllers.SetUpBusinessDetails.exit
 
-GET         /uprn-not-found                                @controllers.UprnNotFound.present
-
 GET         /confirm-business                              @controllers.ConfirmBusiness.present
 POST        /confirm-business                              @controllers.ConfirmBusiness.submit
 GET         /confirm-business/exit                         @controllers.ConfirmBusiness.exit

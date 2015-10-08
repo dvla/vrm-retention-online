@@ -29,9 +29,6 @@ trait Config extends VehicleLookupConfig {
   val emailServiceMsRequestTimeout: Int
   val emailConfiguration: EmailConfiguration
 
-  // Ordnance survey config
-  val ordnanceSurveyUseUprn: Boolean
-
   val vehicleAndKeeperLookupRequestTimeout: Int
 
   // Prototype message in html
