@@ -25,8 +25,6 @@ class ConfigImpl extends Config {
 
   override val encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)
 
-  override val ordnanceSurveyUseUprn: Boolean = getOptionalProperty[Boolean]("ordnancesurvey.useUprn").getOrElse(false)
-
   override val applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")
 
   override val channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse("NOT FOUND")

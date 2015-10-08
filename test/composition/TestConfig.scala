@@ -10,7 +10,6 @@ import utils.helpers.Config
 import scala.concurrent.duration.DurationInt
 
 final class TestConfig(isPrototypeBannerVisible: Boolean = true,
-                       ordnanceSurveyUseUprn: Boolean = false,
                        rabbitmqHost: String = "NOT FOUND",
                        rabbitmqPort: Int = 0,
                        rabbitmqQueue: String = "NOT FOUND",
@@ -38,8 +37,6 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = true,
     when(config.paymentSolveMsRequestTimeout).thenReturn(5.seconds.toMillis.toInt)
 
     when(config.googleAnalyticsTrackingId).thenReturn(None)
-
-    when(config.ordnanceSurveyUseUprn).thenReturn(ordnanceSurveyUseUprn)
 
     when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(30.seconds.toMillis.toInt)
 
