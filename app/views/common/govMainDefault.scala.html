@@ -60,15 +60,20 @@
         @pleaseWait()
 
         <div id="global-app-error" class="app-error hidden"></div>
+        <script>
+            document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+            window.onerror = function(err) {
+                if (err.indexOf('timeout') > 0) {
+                    // failed to download a require asset, or a timeout occured, so we go to no-js mode
+                    document.body.className = document.body.className.replace('js-enabled','');
+                }
+            }
+        </script>
 
-        <script data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
+        <script id="mainscript" data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
 
         <!--[if (lt IE 9) & (!IEMobile)]>
         <script src='@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/lib/respond.min.js")'></script>
         <![endif]-->
-
-        <script type="text/javascript">
-            document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
-        </script>
     </body>
 </html>
