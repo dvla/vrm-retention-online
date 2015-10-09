@@ -4,6 +4,8 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.helper.form
@@ -32,36 +34,37 @@
             </div>
         </div>
         <div id="vehicle-details" class="first-col trader-details">
-                <dl class="playback">
-                    <h3>@Messages("vrm_retention_vehicle_callback.title")</h3>
-                    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                    <dd>@registrationNumber() { @vrmLockedViewModel.registrationNumber }</dd>
-                    @if(vrmLockedViewModel.vehicleMake.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@vrmLockedViewModel.vehicleMake.get.take(20)</dd>
-                    }
-                    @if(vrmLockedViewModel.vehicleModel.isDefined) {
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@vrmLockedViewModel.vehicleModel.get.take(20)</dd>
-                    }
-
-                    <br/>
-                    <p>@Messages("success-keeper-application-details-contact-us")</p>
-                    <div style="line-height : 75 % ;">
-                        <br>
-                    </div>
-                    <p>@Messages("success-keeper-application-details-telephone")</p>
-                    <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong>
-                        <strong><small>@Messages("success-keeper-application-details-telephone-number-extension1") @Messages("success-keeper-application-details-telephone-number-extension2") @Messages("success-keeper-application-details-telephone-number-extension3")</small></strong>
-                    </p>
-                    <br/>
-                    <p>@Messages("success-keeper-application-details-monday-to-friday")</p>
-                    <p>@Messages("success-keeper-application-details-saturday")</p>
-                    <p>@Messages("success-keeper-application-details-sunday")</p>
-                    <br/>
-                    <p>@Messages("success-keeper-application-details-textphone")</p>
-                    <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
-                </dl>
+        @playbackList(
+            Messages("vrm_retention_vehicle_callback.title"),
+            {
+                val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_vehicle_callback.regNumLabel")
+                playbackItems += (flaggedRegNumberLabel -> vrmLockedViewModel.registrationNumber)
+                if(vrmLockedViewModel.vehicleMake.isDefined)
+                    playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> vrmLockedViewModel.vehicleMake.get.take(20))
+                if(vrmLockedViewModel.vehicleModel.isDefined)
+                    playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> vrmLockedViewModel.vehicleModel.get.take(20))
+                else
+                    playbackItems
+            }
+        ) {
+            <br/>
+            <p>@Messages("success-keeper-application-details-contact-us")</p>
+            <div style="line-height : 75 % ;">
+                <br>
+            </div>
+            <p>@Messages("success-keeper-application-details-telephone")</p>
+            <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong>
+                <strong><small>@Messages("success-keeper-application-details-telephone-number-extension1") @Messages("success-keeper-application-details-telephone-number-extension2") @Messages("success-keeper-application-details-telephone-number-extension3")</small></strong>
+            </p>
+            <br/>
+            <p>@Messages("success-keeper-application-details-monday-to-friday")</p>
+            <p>@Messages("success-keeper-application-details-saturday")</p>
+            <p>@Messages("success-keeper-application-details-sunday")</p>
+            <br/>
+            <p>@Messages("success-keeper-application-details-textphone")</p>
+            <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
+        }
         </div>
     </div>
 

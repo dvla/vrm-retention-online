@@ -7,7 +7,7 @@ import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common
 import common.webserviceclients.addresslookup.ordnanceservey.PostcodeToAddressResponseDto
-import common.webserviceclients.addresslookup.ordnanceservey.UprnAddressPairDto
+import common.webserviceclients.addresslookup.ordnanceservey.AddressResponseDto
 import common.webserviceclients.addresslookup.ordnanceservey.UprnToAddressResponseDto
 import common.webserviceclients.fakes.FakeResponse
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -25,7 +25,7 @@ object AddressLookupWebServiceConstants {
   def uprnAddressPairWithDefaults(uprn: String = traderUprnValid.toString,
                                   houseName: String = "presentationProperty stub",
                                   houseNumber: String = "123") =
-    UprnAddressPairDto(uprn, address = addressSeq(houseName, houseNumber).mkString(", "))
+    AddressResponseDto(address = addressSeq(houseName, houseNumber).mkString(", "), Some(uprn), None)
 
   def postcodeToAddressResponseValid: PostcodeToAddressResponseDto = {
     val results = Seq(
@@ -59,12 +59,15 @@ object AddressLookupWebServiceConstants {
 
   def uprnToAddressResponseValid = {
     val uprnAddressPair = uprnAddressPairWithDefaults()
+
+    val uprnOpt = uprnAddressPair.uprn match{
+      case Some(u) => Some(u.toLong)
+      case _ => None
+    }
+
     UprnToAddressResponseDto(addressViewModel = Some(
-      AddressModel(
-        uprn = Some(uprnAddressPair.uprn.toLong),
-        address = uprnAddressPair.address.split(", ")
-      )
-    ))
+      AddressModel(uprn = uprnOpt, address = uprnAddressPair.address.split(", ")))
+    )
   }
 
   def responseValidForUprnToAddress: Future[WSResponse] = {

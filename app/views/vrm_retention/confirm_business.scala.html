@@ -4,8 +4,9 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.ConfirmBusiness
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.ConfirmBusiness.{ChangeDetailsId, ConfirmId, ExitId}
@@ -37,19 +38,20 @@
             </dl>
         </div>
         <div class="first-col">
-            <dl class="playback">
-                <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
-                <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-                <dd>@registrationNumber() { @confirmBusinessViewModel.registrationNumber }</span></dd>
-                @if(confirmBusinessViewModel.vehicleMake.isDefined) {
-                    <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                    <dd>@confirmBusinessViewModel.vehicleMake.get.take(20)</dd>
+            @playbackList(
+                Messages("vrm_retention_vehicle_callback.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_vehicle_callback.regNumLabel")
+                    playbackItems += (flaggedRegNumberLabel -> confirmBusinessViewModel.registrationNumber)
+                    if(confirmBusinessViewModel.vehicleMake.isDefined)
+                        playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> confirmBusinessViewModel.vehicleMake.get.take(20))
+                    if(confirmBusinessViewModel.vehicleModel.isDefined)
+                        playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> confirmBusinessViewModel.vehicleModel.get.take(20))
+                    else
+                        playbackItems
                 }
-                @if(confirmBusinessViewModel.vehicleModel.isDefined) {
-                    <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                    <dd>@confirmBusinessViewModel.vehicleModel.get.take(20)</dd>
-                }
-            </dl>
+            )()
         </div>
     </div>
 

@@ -4,7 +4,8 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
 @import views.vrm_retention.Timeout._
 @import views.html.vrm_retention.main
 
@@ -24,24 +25,29 @@
 
         @vehicleDetails.map { details =>
             <div id="vehicle-details" class="first-col trader-details">
-                <dl class="playback">
-                    <h3>@Messages("vrm_retention_timeout.playback-title")</h3>
-                    <dt>@Messages("vrm_retention_timeout.playback-current")</dt>
-                    <dd>@registrationNumber() {@details.registrationNumber }</dd>
-                    @details.make.map{ make =>
-                        <dt>@Messages("vrm_retention_vehicle_callback.makeLabel")</dt>
-                        <dd>@make.take(20)</dd>
-                    }
-                    @details.model.map{ model =>
-                        <dt>@Messages("vrm_retention_vehicle_callback.modelLabel")</dt>
-                        <dd>@model.take(20)</dd>
-                    }
+                @playbackList(
+                    Messages("vrm_retention_timeout.playback-title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_timeout.playback-current")
+                        playbackItems += (flaggedRegNumberLabel -> details.registrationNumber)
 
-                    @replacementVRN.map { value =>
-                        <dt>@Messages("vrm_retention_timeout.playback-new")</dt>
-                        <dd>@registrationNumber() { @value }</dd>
+                        details.make match {
+                            case Some(make) => playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> make.take(20))
+                            case None => playbackItems
+                        }
+
+                        details.model match {
+                            case Some(model) => playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> model.take(20))
+                            case None => playbackItems
+                        }
+
+                        replacementVRN match {
+                            case Some(replacementVRN) => playbackItems += (Messages("vrm_retention_timeout.playback-new") -> replacementVRN)
+                            case None => playbackItems
+                        }
                     }
-                </dl>
+                )()
             </div>
         }
     </div>

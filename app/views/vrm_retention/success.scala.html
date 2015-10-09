@@ -6,6 +6,7 @@
 
 @import controllers.routes.Success
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertSuccess
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Success.CreatePdfId
@@ -20,13 +21,13 @@
 	<div class="two-col retention-success">
 		<div class="second-col">
 
-			<div class="alert-complete">
+			@alertSuccess(){
 				@registrationNumber() { @successViewModel.registrationNumber }
 				<h2>@Messages("vrm_retention_success.subtitle")</h2>
-                <p>@Messages("vrm_retention_success.yourCert") <br />
+				<p>@Messages("vrm_retention_success.yourCert") <br />
 					<strong>@successViewModel.retentionCertificationNumber</strong>
 				</p>
-			</div>
+			}
 
 			<p>@Messages("success-cert-warning")</p>
 

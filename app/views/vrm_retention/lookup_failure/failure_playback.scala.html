@@ -2,29 +2,34 @@
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import scala.collection.mutable.LinkedHashMap
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
 
 <div id="vehicle-details" class="first-col trader-details">
-    <dl class="playback">
-        <dt><h3>@Messages("vrm_retention_vehicle_callback.title")</h3></dt>
-    <dt>@Messages("vrm_retention_vehicle_callback.regNumLabel")</dt>
-    <dd>@registrationNumber() { @viewModel.registrationNumber }</dd>
-    <br/>
-    <br/>
-    <p>@Messages("success-keeper-application-details-contact-us")</p>
-    <div style="line-height : 75 % ;">
-        <br>
-    </div>
-    <p>@Messages("success-keeper-application-details-telephone")</p>
-    <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong>
-        <strong><small>@Messages("success-keeper-application-details-telephone-number-extension1") @Messages("success-keeper-application-details-telephone-number-extension2") @Messages("success-keeper-application-details-telephone-number-extension3")</small></strong>
-    </p>
-    <br/>
-    <p>@Messages("success-keeper-application-details-monday-to-friday")</p>
-    <p>@Messages("success-keeper-application-details-saturday")</p>
-    <p>@Messages("success-keeper-application-details-sunday")</p>
-    <br/>
-    <p>@Messages("success-keeper-application-details-textphone")</p>
-    <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
-    </dl>
+    @playbackList(
+        Messages("vrm_retention_vehicle_callback.title"),
+        {
+            val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+            val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_vehicle_callback.regNumLabel")
+            playbackItems += (flaggedRegNumberLabel -> viewModel.registrationNumber)
+        }
+    ) {
+        <br/>
+        <br/>
+        <p>@Messages("success-keeper-application-details-contact-us")</p>
+        <div style="line-height : 75 % ;">
+            <br>
+        </div>
+        <p>@Messages("success-keeper-application-details-telephone")</p>
+        <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong>
+            <strong><small>@Messages("success-keeper-application-details-telephone-number-extension1") @Messages("success-keeper-application-details-telephone-number-extension2") @Messages("success-keeper-application-details-telephone-number-extension3")</small></strong>
+        </p>
+        <br/>
+        <p>@Messages("success-keeper-application-details-monday-to-friday")</p>
+        <p>@Messages("success-keeper-application-details-saturday")</p>
+        <p>@Messages("success-keeper-application-details-sunday")</p>
+        <br/>
+        <p>@Messages("success-keeper-application-details-textphone")</p>
+        <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
+    }
 </div>
