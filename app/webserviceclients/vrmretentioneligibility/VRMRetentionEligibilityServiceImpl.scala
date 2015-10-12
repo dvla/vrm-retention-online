@@ -18,10 +18,10 @@ final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibi
       else if (resp.status == Status.INTERNAL_SERVER_ERROR)
         (resp.status, resp.json.as[VRMRetentionEligibilityResponseDto])
       else throw new RuntimeException(
-        s"VRM Retention Eligibility web service call http status not OK, it " +
-          s"was: ${resp.status}. Problem may come from either vrm-retention-eligibility micro-service or the VSS"
+        s"VRM retention eligibility web service called - http status not OK, it " +
+          s"was: ${resp.status}. Problem may come from either vrm-retention-eligibility micro-service or VSS"
       )
     }.recover {
-      case NonFatal(e) => throw new RuntimeException("VRM Retention Eligibility call failed for an unknown reason", e)
+      case NonFatal(e) => throw e
     }
 }

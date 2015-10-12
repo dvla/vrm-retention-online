@@ -154,6 +154,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           case (OK, response) if response.beginResponse.status == Payment.CardDetailsStatus =>
+            logMessage(request.cookies.trackingId(), Info, s"Presenting payment view")
             Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               .withCookie(PaymentModel.from(trxRef = response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl))
               // The POST from payment service will not contain a REFERER in the header, so use a cookie.

@@ -129,8 +129,10 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override def presentResult(implicit request: Request[_]) =
     request.cookies.getModel[RetainModel] match {
       case Some(fulfilModel) =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view")
         Ok(views.html.vrm_retention.vehicle_lookup(form)).discardingCookies(removeCookiesOnExit)
       case None =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view")
         Ok(views.html.vrm_retention.vehicle_lookup(form.fill()))
     }
 

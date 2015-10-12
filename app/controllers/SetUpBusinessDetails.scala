@@ -13,6 +13,7 @@ import play.api.mvc.{Action, Controller, Request}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import common.LogFormats.DVLALogger
 import common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
 import common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
@@ -25,7 +26,8 @@ import webserviceclients.audit2.AuditRequest
 final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audit2.AuditService)
                                           (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                             config: Config,
-                                            dateService: common.services.DateService) extends Controller {
+                                            dateService: common.services.DateService
+                                          ) extends Controller with DVLALogger {
 
   private[controllers] val form = Form(
     SetupBusinessDetailsFormModel.Form.Mapping
@@ -36,6 +38,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audi
       request.cookies.getModel[RetainModel]) match {
       case (Some(vehicleAndKeeperDetails), None) =>
         val viewModel = SetupBusinessDetailsViewModel(vehicleAndKeeperDetails)
+        logMessage(request.cookies.trackingId(), Info, s"Presenting setup business details view")
         Ok(views.html.vrm_retention.setup_business_details(form.fill(), viewModel))
       case _ => Redirect(routes.VehicleLookup.present())
     }

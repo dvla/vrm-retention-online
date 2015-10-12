@@ -1,6 +1,7 @@
 @(transactionId: String,
         vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel,
-        data: models.VehicleAndKeeperLookupFormModel)(implicit lang: Lang,
+        data: models.VehicleAndKeeperLookupFormModel,
+        trackingId: uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -57,7 +58,7 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages("paymentFailureErrorMessage.p1")</p>
             <p>@Messages("paymentFailureErrorMessage.p2")</p>
-            <p>@Messages("paymentFailureErrorMessage.p3")</p>
+            <p>@Messages("paymentFailureErrorMessage.p3", trackingId)</p>
 
             @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
             <div class="form-steps">

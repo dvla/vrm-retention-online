@@ -15,6 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClearTextClien
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichResult
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
 import utils.helpers.Config
@@ -33,7 +34,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
                              (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                config: Config,
                                dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                             ) extends Controller {
+                             ) extends Controller with DVLALogger {
 
   private[controllers] val form = Form(ConfirmFormModel.Form.Mapping)
 
@@ -74,6 +75,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
     val isKeeperEmailDisplayedOnLoad = false // Due to the form always being empty, the keeper email field will
     // always be hidden on first load
     val isKeeper = vehicleAndKeeperLookupForm.userType == UserType_Keeper
+    logMessage(request.cookies.trackingId(), Info, s"Presenting confirm view")
     Ok(views.html.vrm_retention.confirm(confirmViewModel = viewModel,
       confirmForm = emptyForm,
       isKeeperEmailDisplayedOnLoad = isKeeperEmailDisplayedOnLoad,

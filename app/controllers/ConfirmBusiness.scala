@@ -14,6 +14,7 @@ import common.clientsidesession.ClearTextClientSideSessionFactory
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.clientsidesession.CookieImplicits.RichResult
+import common.LogFormats.DVLALogger
 import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
@@ -25,7 +26,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
                                      (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
                                        dateService: common.services.DateService
-                                     ) extends Controller {
+                                     ) extends Controller with DVLALogger {
 
   def present = Action { implicit request => {
       val happyPath =
@@ -38,6 +39,7 @@ final class ConfirmBusiness @Inject()(auditService2: audit2.AuditService)
           val isBusinessUser = vehicleAndKeeperLookupForm.userType == UserType_Business
           val verifiedBusinessDetails = request.cookies.getModel[BusinessDetailsModel].filter(o => isBusinessUser)
           val viewModel = ConfirmBusinessViewModel(vehicleAndKeeper, verifiedBusinessDetails)
+          logMessage(request.cookies.trackingId(), Info, s"Presenting confirm business view")
           Ok(views.html.vrm_retention.confirm_business(viewModel))
         }
       val sadPath = Redirect(routes.SetUpBusinessDetails.present())

@@ -9,15 +9,17 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.clientsidesession.CookieImplicits.RichResult
+import common.LogFormats.DVLALogger
 import common.model.VehicleAndKeeperDetailsModel
+import common.services.DateService
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                        config: Config,
-                                       dateService: common.services.DateService
-                                      ) extends Controller {
+                                       dateService: DateService
+                                      ) extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -44,10 +46,13 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
     }
 
+    val trackingId = request.cookies.trackingId()
+    logMessage(trackingId, Info, s"Presenting payment failure view")
     Ok(views.html.vrm_retention.payment_failure(
       transactionId = transactionId,
       vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm)
+      data = vehicleAndKeeperLookupForm,
+      trackingId = trackingId)
     ).discardingCookies(removeCookiesOnExit)
   }
 }

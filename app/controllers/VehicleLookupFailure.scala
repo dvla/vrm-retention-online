@@ -7,6 +7,7 @@ import models.VehicleLookupFailureViewModel
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.html.vrm_retention.lookup_failure.direct_to_paper
@@ -19,7 +20,7 @@ import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeepe
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
                                              dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService
-                                            ) extends Controller {
+                                            ) extends Controller with DVLALogger {
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -66,44 +67,52 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
 
     val failurePage = vehicleAndKeeperLookupResponseCode match {
       case "vrm_retention_eligibility_direct_to_paper" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel
         )
       case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting postcode mismatch view")
         postcode_mismatch(
           transactionId = transactionId,
           viewModel = viewModel
         )
       case "vrm_retention_eligibility_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel
         )
       case "vrm_retention_eligibility_ninety_day_rule_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting ninety day rule failure view")
         ninety_day_rule_failure(
             transactionId = transactionId,
             viewModel = viewModel
           )
       case "vrm_retention_eligibility_exported_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_exported_failure")
         )
       case "vrm_retention_eligibility_scrapped_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_scrapped_failure")
         )
       case "vrm_retention_eligibility_damaged_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_damaged_failure")
         )
       case "vrm_retention_eligibility_vic_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -111,6 +120,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseLink = Some("vrm_retention_eligibility_vic_failure_link")
         )
       case "vrm_retention_eligibility_no_keeper_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
@@ -118,24 +128,28 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           responseLink = Some("vrm_retention_eligibility_no_keeper_failure_link")
         )
       case "vrm_retention_eligibility_not_mot_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_not_mot_failure")
         )
       case "vrm_retention_eligibility_pre_1998_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_pre_1998_failure")
         )
       case "vrm_retention_eligibility_q_plate_failure" =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_q_plate_failure")
         )
       case _ =>
+        logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup failure view")
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
