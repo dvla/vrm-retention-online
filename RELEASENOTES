@@ -1,3 +1,19 @@
+======= 1.25 ========
+Time of release binaries creation:
+
+
+DE752 Email confirmation
+DE757 Several Customers Complaining that they cannot enter an email address (box not appearing)
+US3792 Fix the error handling in some microservices (vehicles-and-keeper)
+US3814 Create and impliment Alert-Complete as a common widget in vehicles-presentation-common
+US3817 Create and impliment Summary-wrapper as a common widget in vehicles-presentation-common
+US3819 Create and implement playback and playback-list as common widgets in vehicles-presentation-common
+US3861 Message on Feedback Screen to Tell Customers that we wont reply to their questions
+US3866 Revisit os-address-lookup to improve the microservice return response
+US3890 Add transaction completed logging in each exemplar
+US3893 Review the logging in the vrm-retention-retain micro service
+US3905 Audit what we log
+
 ======= 1.24 ========
 Time of release binaries creation:
 Wed Sep 30 10:21:26 UTC 2015
