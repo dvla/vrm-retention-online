@@ -238,7 +238,7 @@ vrm_retention_vehicle_callback.modelLabel = Model:
 paymentFailureErrorMessage.title = Payment Failure
 paymentFailureErrorMessage.p1 = No payment was taken.
 paymentFailureErrorMessage.p2 = Please either try again or exit the service.
-paymentFailureErrorMessage.p3 = If you need to contact support please quote reference {0}
+paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment Cancelled or Not Authorised
@@ -349,7 +349,7 @@ vrm_retention_success.buttonnavprint = Print this page
 
 micro_service_error.title=We are sorry
 micro_service_error.text1=The service is temporarily unavailable. Please try again later.
-micro_service_error.text2=If you need to contact support please quote reference {0}
+micro_service_error.text2=
 micro_service_error.back.button=Try again
 micro_service_error.exit.button=Exit
 
