@@ -40,13 +40,13 @@ isKeeper: Boolean)(implicit lang: Lang)
         @Messages("email.line14")
         @businessDetails.name
         @businessAddress
-        @businessDetails.email
+        @businessDetails.email.toLowerCase
     }
 }
 @Messages("email.line20")
 @keeperName
 @keeperAddress
-@keeperEmail.getOrElse("")
+@keeperEmail.getOrElse("").toLowerCase
 @Messages("email.line21")
 @Messages("email.line22")
 @Messages("email.line23")

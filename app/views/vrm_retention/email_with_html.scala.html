@@ -226,7 +226,7 @@ govUkContentId: String)(implicit lang: Lang)
                                             @businessAddress <br>
                                         </p>
 
-                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@businessDetails.email</p>
+                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ; text-transform: lowercase ;">@businessDetails.email</p>
                                     </div>
                                 </div>
                             }
@@ -242,7 +242,7 @@ govUkContentId: String)(implicit lang: Lang)
                                     @keeperAddress</p>
 
                                 @keeperEmail.map { email =>
-                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">@email</p>
+                                    <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ; text-transform: lowercase ;">@email</p>
                                 }
                             </div>
                         </div>
