@@ -121,9 +121,10 @@ object CookieFactoryForUnitSpecs extends TestComposition {
         line2 = addressLine2,
         line3 = None,
         postTown = PostTownValid
-      )
+      ),
+      postCode = postCode.get
     )
-    val addressViewModel = AddressModel.from(addressAndPostcodeModel, postCode.get)
+    val addressViewModel = AddressModel.from(addressAndPostcodeModel)
     val value = VehicleAndKeeperDetailsModel(registrationNumber = registrationNumber,
       make = vehicleMake,
       model = vehicleModel,
