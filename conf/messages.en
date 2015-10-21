@@ -61,6 +61,7 @@ address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
 addressAndPostcode.addressLines.postTown = Town or city
+error.address.characterInvalid = Must contain valid characters from the following A-Z, 0-9, hyphen, apostrophe, full stop and space.
 error.postTown.characterInvalid = Post town contains invalid characters
 
 vehicle-registration-number = Vehicle registration number

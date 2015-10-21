@@ -61,6 +61,7 @@ address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
 addressAndPostcode.addressLines.postTown = Tref neu ddinas
+error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
 error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
 vehicle-registration-number = Rhif Cofrestru Cerbyd
