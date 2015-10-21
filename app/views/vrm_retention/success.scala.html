@@ -86,12 +86,12 @@
 					<dt>@Messages("success-keeper-details-name")</dt>
 					<dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
 					<dt>@Messages("success-keeper-details-address")</dt>
-					<dt>
+					<dd>
 						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
 							<strong>@keeperAddressLine</strong><br/>
 					    }
 
-					</dt>
+					</dd>
 				</dl>
 			</div>
 
@@ -105,12 +105,12 @@
                         <dt>@Messages("success-business-details-email")</dt>
                         <dd><span class="lowercase-text">@successViewModel.businessEmail</span></dd>
                         <dt>@Messages("success-business-details-address")</dt>
-                        <dt>
+                        <dd>
 							<strong>@successViewModel.businessName</strong><br/>
                         @for(keeperAddressLine <- successViewModel.businessAddress.get.address) {
                             <strong>@keeperAddressLine</strong><br/>
                         }
-                        </dt>
+                        </dd>
                     </dl>
                 </div>
             }
