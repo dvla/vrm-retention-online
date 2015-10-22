@@ -90,8 +90,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audi
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =
     (form /: List(
       (BusinessNameId, "error.validBusinessName"),
-      (BusinessContactId, "error.validBusinessContact"),
-      (BusinessAddressId + ".address-postcode-lookup", "error.restricted.validPostcode"))) { (form, error) =>
+      (BusinessContactId, "error.validBusinessContact"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
         message = error._2,

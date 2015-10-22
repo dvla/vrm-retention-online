@@ -169,7 +169,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
     val size = 18
     val font = fontHelveticaBold(size = 18)
     contentStream.moveTextPositionByAmount(321, 388)
-    // Centre the text.
+    // Centre the text. 
     contentStream.moveTextPositionByAmount((200 - width(font, transactionId, fontSize = size)) / 2, 0)
     contentStream.drawString(transactionId) // Transaction ID
     contentStream.endText()
