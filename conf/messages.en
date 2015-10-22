@@ -331,6 +331,8 @@ success-keeper-application-details-textphone-number = 18001 0300 123 1379
 
 success-keeper-details = Keeper details
 success-keeper-details-name = Name:
+success-keeper-details-email = Email:
+success-keeper-details-email-not-entered = Not Entered
 success-keeper-details-address = Address:
 success-business-details = Business details
 success-business-details-name = Name:

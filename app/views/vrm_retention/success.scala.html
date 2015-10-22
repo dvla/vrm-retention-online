@@ -85,6 +85,13 @@
 				<dl class="playback bg-plain">
 					<dt>@Messages("success-keeper-details-name")</dt>
 					<dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
+					<dt>@Messages("success-keeper-details-email")</dt>
+                                        <dd>
+                                        @if(successViewModel.keeperEmail.isEmpty) {
+                                          @Messages("success-keeper-details-email-not-entered")
+                                        } else {
+                                          <span class="lowercase-text">@successViewModel.keeperEmail.get</span>
+                                        }
 					<dt>@Messages("success-keeper-details-address")</dt>
 					<dd>
 						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {

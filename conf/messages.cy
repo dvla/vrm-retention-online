@@ -332,6 +332,8 @@ success-keeper-application-details-textphone-number = 18001 0300 123 1379
 
 success-keeper-details = Manylion y ceidwad
 success-keeper-details-name = Enw:
+success-keeper-details-email = E-bost:
+success-keeper-details-email-not-entered = HEB EI ROI
 success-keeper-details-address = Cyfeiriad:
 success-business-details = Manylion busnes
 success-business-details-name = Enw:
