@@ -1,7 +1,7 @@
 package controllers
 
 import composition.TestDateService
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.common.CookieHelper.fetchCookiesFromHeaders

@@ -1,6 +1,6 @@
 package webserviceclients.paymentsolve
 
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.PaymentCallFails
 import helpers.UnitSpec
 import org.scalatest.mock.MockitoSugar

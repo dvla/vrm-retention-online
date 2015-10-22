@@ -1,10 +1,9 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{find, id}
 import pages.ApplicationContext.applicationContext
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_retention.ConfirmBusiness.ConfirmId
 import views.vrm_retention.ConfirmBusiness.ExitId
 

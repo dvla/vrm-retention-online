@@ -1,6 +1,6 @@
 package controllers
 
-import composition.WithApplication
+import helpers.WithApplication
 import helpers.UnitSpec
 import pages.vrm_retention.CookiePolicyPage
 import play.api.test.FakeRequest

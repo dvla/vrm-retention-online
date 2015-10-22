@@ -1,6 +1,6 @@
 package webserviceclients.audit2
 
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.audit2.AuditMicroServiceCallFails
 import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import helpers.UnitSpec

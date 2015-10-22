@@ -1,11 +1,10 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, find, go, id, textField, emailField}
 import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.AddressPickerDriver
 import views.vrm_retention.SetupBusinessDetails.BusinessAddressId
 import views.vrm_retention.SetupBusinessDetails.BusinessContactId

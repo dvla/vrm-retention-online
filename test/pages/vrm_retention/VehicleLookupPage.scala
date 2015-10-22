@@ -1,10 +1,9 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.Page
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, textField, telField}
 import pages.ApplicationContext.applicationContext
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_retention.VehicleLookup.KeeperConsentId
 import views.vrm_retention.VehicleLookup.PostcodeId

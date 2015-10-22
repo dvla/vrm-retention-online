@@ -1,6 +1,6 @@
 package pdf
 
-import composition.WithApplication
+import helpers.WithApplication
 import helpers.UnitSpec
 import models.EligibilityModel
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
