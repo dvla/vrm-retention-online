@@ -1,7 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.WithApplication
+import helpers.WithApplication
 import helpers.UnitSpec
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest

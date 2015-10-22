@@ -1,6 +1,6 @@
 package controllers
 
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.CancelValidated
 import composition.webserviceclients.paymentsolve.PaymentCallFails
 import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding

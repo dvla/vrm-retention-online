@@ -1,7 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import composition.WithApplication
+import helpers.WithApplication
 import composition.webserviceclients.vrmretentioneligibility
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import vrmretentioneligibility.EligibilityWebServiceCallFails

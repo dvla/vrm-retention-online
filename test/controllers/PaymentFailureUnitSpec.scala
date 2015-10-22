@@ -1,6 +1,6 @@
 package controllers
 
-import composition.WithApplication
+import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import pages.vrm_retention.BeforeYouStartPage

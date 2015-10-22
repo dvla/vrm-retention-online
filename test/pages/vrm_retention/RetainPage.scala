@@ -1,8 +1,7 @@
 package pages.vrm_retention
 
-import helpers.webbrowser.Page
 import pages.ApplicationContext.applicationContext
-import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebDriverFactory
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 
 object RetainPage extends Page {
 
