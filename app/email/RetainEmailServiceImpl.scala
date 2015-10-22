@@ -4,7 +4,7 @@ import com.google.inject.Inject
 import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
-import play.api.{Logger, Play}
+import play.api.Play
 import play.api.i18n.Messages
 import play.api.Play.current
 import play.twirl.api.HtmlFormat
@@ -44,12 +44,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
     if ((!config.emailWhitelist.isDefined) ||
         (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
-      Logger.debug(
-        "Email address passes the white list check, " +
-        s"now going to create EmailServiceSendRequest - trackingId $trackingId"
-      )
-
-      logMessage(trackingId, Debug, "About to send email")
+      val msg = "Email address passes the white list check, now going to create EmailServiceSendRequest to send an email"
+      logMessage(trackingId, Debug, msg)
 
       val keeperName = Seq(
         vehicleAndKeeperDetailsModel.title,
@@ -114,10 +110,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         None)
       )
     } else {
-      logMessage(trackingId, Error, "Email not sent as not in whitelist")
-      Logger.error(
-        s"EmailServiceSendRequest not created as email address domain not in white list - trackingId $trackingId"
-      )
+      logMessage(trackingId, Error, "EmailServiceSendRequest not created as email address domain not in white list")
       None
     }
   }
