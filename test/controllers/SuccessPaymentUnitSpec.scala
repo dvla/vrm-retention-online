@@ -1,6 +1,7 @@
 package controllers
 
-import composition.{TestReceiptEmailService, TestEmailService, WithApplication}
+import composition.{TestReceiptEmailService, TestEmailService}
+import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
