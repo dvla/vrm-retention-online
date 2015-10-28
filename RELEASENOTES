@@ -1,7 +1,8 @@
 ======= 1.26 ========
 Time of release binaries creation:
+Wed Oct 28 10:20:14 UTC 2015
 
-DE787 Ensure messages file for all exemplars contains a message for error.address.characterInvalid
+DE78 Ensure messages file for all exemplars contains a message for error.address.characterInvalid
 DE789 Tidy up print summary
 DE790 eV948 Transaction Identification Number
 DE792 Application successful playback of applicant's email
