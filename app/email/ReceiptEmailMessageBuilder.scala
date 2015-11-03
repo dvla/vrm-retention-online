@@ -74,7 +74,7 @@ object ReceiptEmailMessageBuilder {
        |<p>Payment received.</p>
        |
        |<ul>
-       |	<li><strong>&pound;$amountCharged</strong> DVLA Online Assignment of <strong>$assignVrn</strong></li>
+       |	<li><strong>&pound;$amountCharged</strong> DVLA Online Retention of <strong>$assignVrn</strong></li>
        |	<li>Paid by Credit/Debit Card</li>
        |	<li>Date:  <strong>$dateStr</strong></li>
        |	<li>Transaction Number:  <strong>$transactionId</strong></li>
