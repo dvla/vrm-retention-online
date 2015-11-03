@@ -1,3 +1,5 @@
+@import "../../target/web/web-modules/main/webjars/lib/vehicles-presentation-common/scss/_print.scss";
+
 @media print{@page {size: portrait}}
 
 @font-face {
@@ -216,21 +218,6 @@ img {
   > div {
       margin-bottom:20px;
   }
-}
-
-dl.playback {
-    display:inline-block;
-    vertical-align:top;
-    width:100%;
-    margin-top:0;
-    dt {
-        float:left;
-        clear:both;
-        min-width:165px;
-    }
-    dd {
-        float:left;
-    }
 }
 
 .enter-address-manually form {
