@@ -4,10 +4,13 @@
 	config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import scala.collection.mutable.LinkedHashMap
 @import controllers.routes.Success
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertSuccess
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.alertWarning
+@import common.views.html.widgets.alertSuccess
+@import common.views.html.widgets.playbackList
+@import common.views.html.widgets.registrationNumber
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Success.CreatePdfId
 @import views.vrm_retention.Success.FinishId
@@ -78,48 +81,55 @@
 
 		</div>
 		<div class="first-col">
+			@playbackList(
+				Messages("success-keeper-details"),
+				{
+					val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+					playbackItems += (
+						Messages("success-keeper-details-name") ->
+						(successViewModel.keeperTitle.get + " " + successViewModel.keeperFirstName.get + " " + successViewModel.keeperLastName.get)
+					)
+					playbackItems += (
+						Messages("success-keeper-details-email") ->
+						(successViewModel.keeperEmail match {
+							case Some(keeperEmail) => "<span class=\"lowercase-text\">" + keeperEmail + "</span>"
+							case None => Messages("success-keeper-details-email-not-entered")
+						})
+					)
+					playbackItems += (
+						Messages("success-keeper-details-address") ->
+						successViewModel.keeperAddress.get.address.mkString("<br/>")
+					)
+				},
+				List("related bg-plain")
+			)()
 
-            @* Keeper details *@
-			<div class="related">
-				<h2>@Messages("success-keeper-details")</h2>
-				<dl class="playback bg-plain">
-					<dt>@Messages("success-keeper-details-name")</dt>
-					<dd>@successViewModel.keeperTitle @successViewModel.keeperFirstName @successViewModel.keeperLastName</dd>
-					<dt>@Messages("success-keeper-details-email")</dt>
-                                        <dd>
-                                        @if(successViewModel.keeperEmail.isEmpty) {
-                                          @Messages("success-keeper-details-email-not-entered")
-                                        } else {
-                                          <span class="lowercase-text">@successViewModel.keeperEmail.get</span>
-                                        }
-					<dt>@Messages("success-keeper-details-address")</dt>
-					<dd>
-						@for(keeperAddressLine <- successViewModel.keeperAddress.get.address) {
-							<strong>@keeperAddressLine</strong><br/>
-					    }
-
-					</dd>
-				</dl>
-			</div>
-
-            @* Business details *@
             @if(!isKeeper) {
-                <div class="related">
-                    <h2>@Messages("success-business-details")</h2>
-                    <dl class="playback bg-plain">
-                        <dt>@Messages("success-business-details-name")</dt>
-                        <dd>@successViewModel.businessContact</dd>
-                        <dt>@Messages("success-business-details-email")</dt>
-                        <dd><span class="lowercase-text">@successViewModel.businessEmail</span></dd>
-                        <dt>@Messages("success-business-details-address")</dt>
-                        <dd>
-							<strong>@successViewModel.businessName</strong><br/>
-                        @for(keeperAddressLine <- successViewModel.businessAddress.get.address) {
-                            <strong>@keeperAddressLine</strong><br/>
-                        }
-                        </dd>
-                    </dl>
-                </div>
+				@playbackList(
+					Messages("success-business-details"),
+					{
+						val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+						playbackItems += (
+							Messages("success-business-details-name") ->
+							(successViewModel.businessContact match {
+								case Some(businessContact) => businessContact
+								case None => Messages("success-application-details-contact-not-entered")
+							})
+						)
+						playbackItems += (
+							Messages("success-business-details-email") ->
+							(successViewModel.businessEmail match {
+								case Some(businessEmail) => "<span class=\"lowercase-text\">" + businessEmail + "</span>"
+								case None => Messages("success-application-details-email-not-entered")
+							})
+						)
+						playbackItems += (
+							Messages("success-business-details-address") ->
+							(successViewModel.businessName.get + "<br/>" + successViewModel.businessAddress.get.address.mkString("<br/>"))
+						)
+					},
+					List("related bg-plain")
+				)()
             }
 		</div>
 	</div>
