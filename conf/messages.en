@@ -60,21 +60,22 @@ address.lines.label = Building/number and street
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
-addressAndPostcode.addressLines.postTown = Town or city
-error.address.characterInvalid = Must contain valid characters from the following A-Z, 0-9, hyphen, apostrophe, full stop and space.
 error.postTown.characterInvalid = Post town contains invalid characters
 
 vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
 
+addressAndPostcode.addressLines.postTown = Town or city
 addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
-error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
+
+error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
 error.address.postTown = Post town - Requires a minimum length of three characters
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
+error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
 
 # micro-service response codes
 soap_endpoint_error.title=We are sorry
