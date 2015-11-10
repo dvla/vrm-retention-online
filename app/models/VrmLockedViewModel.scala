@@ -7,7 +7,8 @@ final case class VrmLockedViewModel(registrationNumber: String,
                                     vehicleMake: Option[String],
                                     vehicleModel: Option[String],
                                     timeString: String,
-                                    javascriptTimestamp: Long)
+                                    javascriptTimestamp: Long,
+                                    vehicleDetails: VehicleAndKeeperDetailsModel)
 
 object VrmLockedViewModel {
 
@@ -19,7 +20,8 @@ object VrmLockedViewModel {
       vehicleMake = vehicleAndKeeperDetails.make,
       vehicleModel = vehicleAndKeeperDetails.model,
       timeString,
-      javascriptTimestamp
+      javascriptTimestamp,
+      vehicleDetails = vehicleAndKeeperDetails
     )
 
   def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
@@ -30,6 +32,19 @@ object VrmLockedViewModel {
       vehicleMake = None,
       vehicleModel = None,
       timeString,
-      javascriptTimestamp
+      javascriptTimestamp,
+      VehicleAndKeeperDetailsModel(
+        registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
+        make = None,
+        model = None,
+        title = None,
+        firstName = None,
+        lastName = None,
+        address = None,
+        disposeFlag = None,
+        keeperEndDate = None,
+        keeperChangeDate = None,
+        suppressedV5Flag = None
+      )
     )
 }

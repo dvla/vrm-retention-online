@@ -10,7 +10,8 @@ final case class ConfirmBusinessViewModel(registrationNumber: String,
                                           businessName: Option[String],
                                           businessContact: Option[String],
                                           businessEmail: Option[String],
-                                          businessAddress: Option[AddressModel])
+                                          businessAddress: Option[AddressModel],
+                                          vehicleDetails: VehicleAndKeeperDetailsModel)
 
 object ConfirmBusinessViewModel {
 
@@ -23,6 +24,7 @@ object ConfirmBusinessViewModel {
       businessName = businessDetailsOpt.map(_.name),
       businessContact = businessDetailsOpt.map(_.contact),
       businessEmail = businessDetailsOpt.map(_.email),
-      businessAddress = businessDetailsOpt.map(_.address)
+      businessAddress = businessDetailsOpt.map(_.address),
+      vehicleDetails = vehicleAndKeeperDetails
     )
 }

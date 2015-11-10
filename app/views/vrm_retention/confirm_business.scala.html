@@ -5,8 +5,10 @@
 
 @import controllers.routes.ConfirmBusiness
 @import scala.collection.mutable.LinkedHashMap
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.base.csrfTokenHiddenField
+@import common.views.html.widgets.playbackList
+@import common.views.html.widgets.vehicleDetailPlayback
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.ConfirmBusiness.{ChangeDetailsId, ConfirmId, ExitId}
@@ -38,20 +40,7 @@
             </dl>
         </div>
         <div class="first-col">
-            @playbackList(
-                Messages("vrm_retention_vehicle_callback.title"),
-                {
-                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_vehicle_callback.regNumLabel")
-                    playbackItems += (flaggedRegNumberLabel -> confirmBusinessViewModel.registrationNumber)
-                    if(confirmBusinessViewModel.vehicleMake.isDefined)
-                        playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> confirmBusinessViewModel.vehicleMake.get.take(20))
-                    if(confirmBusinessViewModel.vehicleModel.isDefined)
-                        playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> confirmBusinessViewModel.vehicleModel.get.take(20))
-                    else
-                        playbackItems
-                }
-            )()
+            @vehicleDetailPlayback(confirmBusinessViewModel.vehicleDetails)()
         </div>
     </div>
 

@@ -6,15 +6,14 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.optionalToggle
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.summaryWrapper
-@import scala.collection.mutable.LinkedHashMap
-
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.base.csrfTokenHiddenField
+@import common.views.html.widgets.base.valtechInputText
+@import common.views.html.widgets.email
+@import common.views.html.widgets.optionalToggle
+@import common.views.html.widgets.summaryWrapper
+@import common.views.html.widgets.vehicleDetailPlayback
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
@@ -43,20 +42,7 @@
             @*</dl>*@
         </div>
         <div class="first-col">
-            @playbackList(
-                Messages("vrm_retention_vehicle_callback.title"),
-                {
-                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_vehicle_callback.regNumLabel")
-                    playbackItems += (flaggedRegNumberLabel -> confirmViewModel.registrationNumber)
-                    if(confirmViewModel.vehicleMake.isDefined)
-                        playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> confirmViewModel.vehicleMake.get.take(20))
-                    if(confirmViewModel.vehicleModel.isDefined)
-                        playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> confirmViewModel.vehicleModel.get.take(20))
-                    else
-                        playbackItems
-                }
-            )()
+            @vehicleDetailPlayback(confirmViewModel.vehicleDetails)()
         </div>
     </div>
 

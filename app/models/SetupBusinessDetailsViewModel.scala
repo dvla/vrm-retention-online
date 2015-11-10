@@ -10,7 +10,8 @@ final case class SetupBusinessDetailsViewModel(registrationNumber: String,
                                                title: Option[String],
                                                firstName: Option[String],
                                                lastName: Option[String],
-                                               address: Option[AddressModel])
+                                               address: Option[AddressModel],
+                                               vehicleDetails: VehicleAndKeeperDetailsModel)
 
 object SetupBusinessDetailsViewModel {
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): SetupBusinessDetailsViewModel =
@@ -21,6 +22,7 @@ object SetupBusinessDetailsViewModel {
       title = vehicleAndKeeperDetails.title,
       firstName = vehicleAndKeeperDetails.firstName,
       lastName = vehicleAndKeeperDetails.lastName,
-      address = vehicleAndKeeperDetails.address
+      address = vehicleAndKeeperDetails.address,
+      vehicleDetails = vehicleAndKeeperDetails
     )
 }

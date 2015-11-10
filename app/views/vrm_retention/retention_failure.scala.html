@@ -12,9 +12,9 @@
 @main(
     title =  Messages("vrm_retention_failure.title")
 ) {
-
     <div class="two-col">
-        @failure_playback(viewModel = vehicleLookupFailureViewModel)
+        @failure_playback(vehicleLookupFailureViewModel.vehicleDetails)
+
         <div class="second-col">
             <h2>@Messages("vrm_retention_failure.title")</h2>
             <p>Transaction Id @transactionId</p>
