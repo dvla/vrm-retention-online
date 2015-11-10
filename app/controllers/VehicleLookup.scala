@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import mappings.common.ErrorCodes
-import models.{CacheKeyPrefix, RetainModel, VehicleAndKeeperLookupFormModel}
+import models.{CacheKeyPrefix, IdentifierCacheKey, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.ISODateTimeFormat
@@ -126,13 +126,21 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
   }
 
-  override def presentResult(implicit request: Request[_]) =
+  override def presentResult(implicit request: Request[_]) = {
+    request.cookies.getString(IdentifierCacheKey) match {
+      case Some(c) =>
+        Redirect(routes.VehicleLookup.ceg())
+      case None =>
+        logMessage(request.cookies.trackingId(), Info, "Presenting vehicle lookup view")
+        vehicleLookup
+    }
+  }
+
+  def vehicleLookup(implicit request: Request[_]) =
     request.cookies.getModel[RetainModel] match {
       case Some(fulfilModel) =>
-        logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view")
         Ok(views.html.vrm_retention.vehicle_lookup(form)).discardingCookies(removeCookiesOnExit)
       case None =>
-        logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view")
         Ok(views.html.vrm_retention.vehicle_lookup(form.fill()))
     }
 
@@ -169,6 +177,12 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   def back = Action { implicit request =>
     Redirect(routes.BeforeYouStart.present())
+  }
+
+  val identifier = "ceg"
+  def ceg = Action { implicit request =>
+    logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view for identifier ${identifier}")
+    vehicleLookup.withCookie(IdentifierCacheKey, identifier)
   }
 
   private def transactionId(validForm: VehicleAndKeeperLookupFormModel): String = {

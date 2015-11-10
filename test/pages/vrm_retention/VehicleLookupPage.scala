@@ -22,6 +22,8 @@ object VehicleLookupPage extends Page {
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 
+  lazy val cegUrl = WebDriverFactory.testUrl + address.substring(1) + "/ceg"
+
   final override val title: String = "Enter details"
 
   def vehicleRegistrationNumber(implicit driver: WebDriver) = textField(id(VehicleRegistrationNumberId))

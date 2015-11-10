@@ -20,6 +20,7 @@ GET         /before-you-start                              @controllers.BeforeYo
 GET         /                                              @controllers.BeforeYouStart.present
 
 GET         /vehicle-lookup                                @controllers.VehicleLookup.present
+GET         /vehicle-lookup/ceg                            @controllers.VehicleLookup.ceg
 POST        /vehicle-lookup                                @controllers.VehicleLookup.submit
 GET         /vehicle-lookup-back                           @controllers.VehicleLookup.back
 
