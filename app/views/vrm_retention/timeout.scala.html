@@ -4,11 +4,9 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import scala.collection.mutable.LinkedHashMap
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.vehicleDetailPlayback
 @import views.vrm_retention.Timeout._
 @import views.html.vrm_retention.main
-
 
 @main(
     title = Messages("vrm_retention_timeout.title")
@@ -25,29 +23,7 @@
 
         @vehicleDetails.map { details =>
             <div id="vehicle-details" class="first-col trader-details">
-                @playbackList(
-                    Messages("vrm_retention_timeout.playback-title"),
-                    {
-                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_timeout.playback-current")
-                        playbackItems += (flaggedRegNumberLabel -> details.registrationNumber)
-
-                        details.make match {
-                            case Some(make) => playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> make.take(20))
-                            case None => playbackItems
-                        }
-
-                        details.model match {
-                            case Some(model) => playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> model.take(20))
-                            case None => playbackItems
-                        }
-
-                        replacementVRN match {
-                            case Some(replacementVRN) => playbackItems += (Messages("vrm_retention_timeout.playback-new") -> replacementVRN)
-                            case None => playbackItems
-                        }
-                    }
-                )()
+                @vehicleDetailPlayback(details)()
             </div>
         }
     </div>

@@ -118,7 +118,6 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       ErrorPanel.numberOfErrors should equal(1)
     }
 
-    // TODO need to revisit after store business consent check box change
     "redirect to vrm locked when " +
       "too many attempting to lookup a locked vrm" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage

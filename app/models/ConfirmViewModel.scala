@@ -10,7 +10,8 @@ final case class ConfirmViewModel(registrationNumber: String,
                                   keeperFirstName: Option[String],
                                   keeperLastName: Option[String],
                                   keeperAddress: Option[AddressModel],
-                                  userType: String)
+                                  userType: String,
+                                  vehicleDetails: VehicleAndKeeperDetailsModel)
 
 object ConfirmViewModel {
 
@@ -23,6 +24,7 @@ object ConfirmViewModel {
       keeperFirstName = vehicleAndKeeperDetails.firstName,
       keeperLastName = vehicleAndKeeperDetails.lastName,
       keeperAddress = vehicleAndKeeperDetails.address,
-      userType = userType
+      userType = userType,
+      vehicleDetails = vehicleAndKeeperDetails
     )
 }

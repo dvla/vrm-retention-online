@@ -1,6 +1,7 @@
 package views.vrm_retention
 
 import models.CacheKeyPrefix
+import models.IdentifierCacheKey
 import play.api.http.HeaderNames.REFERER
 import play.api.mvc.Request
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -56,8 +57,9 @@ object RelatedCacheKeys extends DVLALogger {
       Debug,
       s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails"
     )
+
     RelatedCacheKeys.RetainSet ++ {
       if (storeBusinessDetails) Set.empty else RelatedCacheKeys.BusinessDetailsSet
-    }
+    } + IdentifierCacheKey
   }
 }

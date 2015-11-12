@@ -5,16 +5,16 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.SetUpBusinessDetails
-@import scala.collection.mutable.LinkedHashMap
-@import uk.gov.dvla.vehicles.presentation.common.ApplicationContext
-@import uk.gov.dvla.vehicles.presentation.common.mappings.BusinessName
-@import uk.gov.dvla.vehicles.presentation.common.views.helpers.BaseTemplate.fieldConstructor
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.addressPicker
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alertWarning
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.valtechInputText
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.email
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.ApplicationContext
+@import common.mappings.BusinessName
+@import common.views.helpers.BaseTemplate.fieldConstructor
+@import common.views.html.widgets.addressPicker
+@import common.views.html.widgets.alertWarning
+@import common.views.html.widgets.base.csrfTokenHiddenField
+@import common.views.html.widgets.base.valtechInputText
+@import common.views.html.widgets.email
+@import common.views.html.widgets.vehicleDetailPlayback
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.SetupBusinessDetails.BusinessAddressId
@@ -72,20 +72,8 @@
                 </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
-                @playbackList(
-                    Messages("vrm_retention_vehicle_callback.title"),
-                    {
-                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                        val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_vehicle_callback.regNumLabel")
-                        playbackItems += (flaggedRegNumberLabel -> viewModel.registrationNumber)
-                        if(viewModel.vehicleMake.isDefined)
-                            playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> viewModel.vehicleMake.get.take(20))
-                        if(viewModel.vehicleModel.isDefined)
-                            playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> viewModel.vehicleModel.get.take(20))
-                        else
-                            playbackItems
-                    }
-                )()
+                @vehicleDetailPlayback(viewModel.vehicleDetails)()
+
                 @if(Messages("vrm_retention_setupbusinessdetails.addresswarning")) {
                     @alertWarning() {
                         <p>@Messages("vrm_retention_setupbusinessdetails.addresswarning")

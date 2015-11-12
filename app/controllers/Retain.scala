@@ -205,7 +205,6 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
             )
           }
 
-          // TODO move the logic for generating email to the microservice
           val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
             emailService.emailRequest(
               businessDetails.email,

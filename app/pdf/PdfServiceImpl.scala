@@ -1,29 +1,21 @@
 package pdf
 
-import com.google.inject.Inject
 import java.io.{ByteArrayOutputStream, File, FileNotFoundException, OutputStream}
+
+import com.google.inject.Inject
 import models.EligibilityModel
 import org.apache.pdfbox.Overlay
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream
-import org.apache.pdfbox.pdmodel.font.PDFont
-import org.apache.pdfbox.pdmodel.font.PDType1Font
-import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.pdmodel.PDPage
-import org.apache.pdfbox.preflight.PreflightDocument
-import org.apache.pdfbox.preflight.exception.SyntaxValidationException
-import org.apache.pdfbox.preflight.parser.PreflightParser
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
-import pdf.PdfServiceImpl.blankPage
-import pdf.PdfServiceImpl.fontDefaultSize
-import pdf.PdfServiceImpl.v948Blank
-import scala.collection.JavaConversions.asScalaBuffer
-import scala.util.{Failure, Success, Try}
+import org.apache.pdfbox.pdmodel.font.{PDFont, PDType1Font}
+import org.apache.pdfbox.pdmodel.{PDDocument, PDPage}
+import org.joda.time.{DateTime, DateTimeZone}
+import pdf.PdfServiceImpl.{blankPage, fontDefaultSize, v948Blank}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.views.models.DayMonthYear
+
+import scala.util.{Failure, Success, Try}
 
 final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfService {
 
@@ -210,15 +202,15 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
         val blankDoc = PDDocument.load(blankFile)
         val overlay = new Overlay()
         overlay.overlay(document, blankDoc)
-      case Failure(ex) => {
+      case Failure(ex) =>
         logMessage(trackingId, Error, ex.getMessage)
         document
-      } // Other file was not found so cannot combine with it.
+       // Other file was not found so cannot combine with it.
     }
   }
 }
 
-object PdfServiceImpl extends DVLALogger {
+object PdfServiceImpl {
 
   private val fontDefaultSize = 12
 
@@ -237,50 +229,6 @@ object PdfServiceImpl extends DVLALogger {
     }
   }
 
-  private def `PDF/A validation`(file: File, docName: String, trackingId: TrackingId): Unit = {
-    val parser = new PreflightParser(file)
-    var document: PreflightDocument = null
-    try {
-      /* Parse the PDF file with PreflightParser that inherits from the NonSequentialParser.
-       * Some additional controls are present to check a set of PDF/A requirements.
-       * (Stream length consistency, EOL after some Keyword...)
-       */
-      parser.parse()
-
-      /* Once the syntax validation is done,
-       * the parser can provide a PreflightDocument
-       * (that inherits from PDDocument)
-       * This document process the end of PDF/A validation.
-       */
-      document = parser.getPreflightDocument
-      document.validate()
-
-      // Get validation result
-      val result = document.getResult
-
-
-      // display validation result
-      if (!result.isValid) {
-        val errors = result.getErrorsList.toList.
-          map(error => s"PDF/A error code ${error.getErrorCode}, error details: ${error.getDetails}").mkString(", ")
-        logMessage(
-          trackingId,
-          Error,
-          s"Document '$docName' does not meet the PDF/A standard because of the following errors - $errors"
-        )
-      }
-    } catch {
-      case e: SyntaxValidationException =>
-        /* the parse method can throw a SyntaxValidationException
-         *if the PDF file can't be parsed.
-         * In this case, the exception contains an instance of ValidationResult
-         */
-        logMessage(trackingId, Error, s"PDF/A validation SyntaxValidationException: ${e.getResult}")
-    } finally {
-      document.close() // Make sure that the document is closed.
-    }
-  }
-
   private def blankPage(implicit document: PDDocument): Try[PDPage] = {
 
     var contentStream: PDPageContentStream = null
@@ -290,15 +238,14 @@ object PdfServiceImpl extends DVLALogger {
       // Start a new content stream which will "hold" the to be created content
       contentStream = new PDPageContentStream(document, page)
       Success(page)
-
-      //case e: Exception => Logger.error()
     }
     catch {
-      case e: Exception => Failure(new Exception(
-        s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}"
-      ))
+      case e: Exception => Failure(
+        new Exception(s"PdfServiceImpl v948 page1 error when writing vrn and dateOfRetention: ${e.getStackTrace}")
+      )
     } finally {
       contentStream.close() // Make sure that the content stream is closed.
     }
   }
+
 }

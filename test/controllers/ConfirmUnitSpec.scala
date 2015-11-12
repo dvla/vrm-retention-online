@@ -205,7 +205,7 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Confirm Business page when the user is a keeper" in new WithApplication {
+    "redirect to Confirm Business page when the user is a business" in new WithApplication {
       whenReady(back(BusinessConsentValid)) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }

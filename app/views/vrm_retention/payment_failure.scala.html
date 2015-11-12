@@ -7,9 +7,7 @@
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.PaymentFailure
-@import scala.collection.mutable.LinkedHashMap
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.playbackList
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
+@import views.html.vrm_retention.lookup_failure.failure_playback
 @import views.html.vrm_retention.main
 @import views.vrm_retention.PaymentFailure.ExitId
 @import views.vrm_retention.PaymentFailure.TryAgainId
@@ -17,42 +15,9 @@
 @main(
     title =  Messages("paymentFailureErrorMessage.title")
 ) {
-
     <div class="two-col">
-        <div id="vehicle-details" class="first-col trader-details">
-            @playbackList(
-                Messages("vrm_retention_vehicle_callback.title"),
-                {
-                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    val flaggedRegNumberLabel: String = "REG_" + Messages("vrm_retention_vehicle_callback.regNumLabel")
-                    playbackItems += (flaggedRegNumberLabel -> vehicleLookupFailureViewModel.registrationNumber)
-                    if(vehicleLookupFailureViewModel.make.isDefined)
-                        playbackItems += (Messages("vrm_retention_vehicle_callback.makeLabel") -> vehicleLookupFailureViewModel.make.get.take(20))
-                    if(vehicleLookupFailureViewModel.model.isDefined)
-                        playbackItems += (Messages("vrm_retention_vehicle_callback.modelLabel") -> vehicleLookupFailureViewModel.model.get.take(20))
-                    else
-                        playbackItems
-                }
-            ) {
-                <br/>
-                <p>@Messages("success-keeper-application-details-contact-us")</p>
-                <div style="line-height : 75 % ;">
-                    <br>
-                </div>
-                <p>@Messages("success-keeper-application-details-telephone")</p>
-                <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong>
-                    <strong><small>@Messages("success-keeper-application-details-telephone-number-extension1") @Messages("success-keeper-application-details-telephone-number-extension2") @Messages("success-keeper-application-details-telephone-number-extension3")</small></strong>
-                </p>
-                <br/>
-                <p>@Messages("success-keeper-application-details-monday-to-friday")</p>
-                <p>@Messages("success-keeper-application-details-saturday")</p>
-                <p>@Messages("success-keeper-application-details-sunday")</p>
-                <br/>
-                <p>@Messages("success-keeper-application-details-textphone")</p>
-                <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
-            }
+        @failure_playback(vehicleLookupFailureViewModel.vehicleDetails)
 
-        </div>
         <div class="second-col">
             <h1>@Messages("paymentFailureErrorMessage.title")</h1>
             <p>Transaction Id @transactionId</p>

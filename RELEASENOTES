@@ -1,5 +1,14 @@
 ======= 1.26.1 ========
 Time of release binaries creation:
+
+DE814 	1st line of address validation
+US3921 	Re-Format Printed outputs to standardise look and feel
+US3941 	Capture CEG Identifier to Distinguish Assisted Digital Transactions from Others
+US3955 	Amend implementation of feedback link and remove its associated javascript
+US3975 	Create and implement Vehicle Detail Playback as common widget in vehicles-presentation-common
+
+======= 1.26.1 ========
+Time of release binaries creation:
 Tue Nov 03 12:30:03 UTC 2015
 
 DE815 Retain - Payment confirmation email reworded to refer to Retention
