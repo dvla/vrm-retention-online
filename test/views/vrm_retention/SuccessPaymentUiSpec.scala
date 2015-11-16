@@ -19,40 +19,6 @@ class SuccessPaymentUiSpec extends UiSpec with TestHarness {
       go to SuccessPaymentPage
       currentUrl should equal(SuccessPage.url)
     }
-
-    "display the page with blank keeper title" taggedAs UiTag in new WebBrowserForSelenium {
-      go to BeforeYouStartPage
-      CookieFactoryForUISpecs
-        .vehicleAndKeeperLookupFormModel()
-        .setupBusinessDetails()
-        .vehicleAndKeeperDetailsModel(lastName = None)
-        .businessDetails()
-        .eligibilityModel()
-        .confirmFormModel()
-        .retainModel()
-        .transactionId()
-        .paymentTransNo()
-        .paymentModel()
-      go to SuccessPaymentPage
-      currentUrl should equal(SuccessPage.url)
-    }
-
-    "display the page blank keeper surname" taggedAs UiTag in new WebBrowserForSelenium {
-      go to BeforeYouStartPage
-        CookieFactoryForUISpecs
-          .vehicleAndKeeperLookupFormModel()
-          .setupBusinessDetails()
-          .vehicleAndKeeperDetailsModel(title = None)
-          .businessDetails()
-          .eligibilityModel()
-          .confirmFormModel()
-          .retainModel()
-          .transactionId()
-          .paymentTransNo()
-          .paymentModel()
-      go to SuccessPaymentPage
-      currentUrl should equal(SuccessPage.url)
-    }
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =

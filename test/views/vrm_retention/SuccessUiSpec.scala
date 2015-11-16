@@ -52,15 +52,39 @@ class SuccessUiSpec extends UiSpec with TestHarness {
     }
   }
 
-  //  "back button" should {
-  //    "redirect to the SuccessPayment page" taggedAs UiTag in new WebBrowserForSelenium {
-  //      go to BeforeYouStartPage
-  //      cacheSetup()
-  //      go to SuccessPage
-  //      click on back
-  //      currentUrl should equal(SuccessPaymentPage.url)
-  //    }
-  //  }
+  "display the page with blank keeper title" taggedAs UiTag in new WebBrowserForSelenium {
+    go to BeforeYouStartPage
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .setupBusinessDetails()
+      .vehicleAndKeeperDetailsModel(title = None)
+      .businessDetails()
+      .eligibilityModel()
+      .confirmFormModel()
+      .retainModel()
+      .transactionId()
+      .paymentTransNo()
+      .paymentModel()
+    go to SuccessPage
+    currentUrl should equal(SuccessPage.url)
+  }
+
+  "display the page blank keeper surname" taggedAs UiTag in new WebBrowserForSelenium {
+    go to BeforeYouStartPage
+    CookieFactoryForUISpecs
+      .vehicleAndKeeperLookupFormModel()
+      .setupBusinessDetails()
+      .vehicleAndKeeperDetailsModel(lastName = None)
+      .businessDetails()
+      .eligibilityModel()
+      .confirmFormModel()
+      .retainModel()
+      .transactionId()
+      .paymentTransNo()
+      .paymentModel()
+    go to SuccessPage
+    currentUrl should equal(SuccessPage.url)
+  }
 
   private def finishToSuccess(ceg: Boolean = false)(implicit webDriver: WebDriver) = {
     go to BeforeYouStartPage
