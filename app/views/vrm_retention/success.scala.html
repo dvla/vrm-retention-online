@@ -97,7 +97,7 @@
                     val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
                     playbackItems += (
                         Messages("success-keeper-details-name") ->
-                        (successViewModel.keeperTitle.get + " " + successViewModel.keeperFirstName.get + " " + successViewModel.keeperLastName.get)
+                        (successViewModel.keeperTitle.getOrElse("") + " " + successViewModel.keeperFirstName.getOrElse("") + " " + successViewModel.keeperLastName.getOrElse(""))
                     )
                     playbackItems += (
                         Messages("success-keeper-details-email") ->
