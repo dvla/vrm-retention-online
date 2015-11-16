@@ -30,8 +30,6 @@ GET         /vehicle-lookup-failure/try-again              @controllers.VehicleL
 
 GET         /micro-service-error                           @controllers.MicroServiceError.present
 
-GET         /soap-endpoint-error                           @controllers.SoapEndpointError.present
-
 GET         /vrm-locked                                    @controllers.VrmLocked.present
 POST        /vrm-locked/exit                               @controllers.VrmLocked.exit
 

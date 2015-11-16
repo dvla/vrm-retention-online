@@ -77,12 +77,6 @@ error.address.postTown = Post town - Requires a minimum length of three characte
 error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
 
-# micro-service response codes
-soap_endpoint_error.title=We are sorry
-soap-endpoint-error-text1=The service is temporarily unavailable. Please try again later or send a completed
-soap-endpoint-error-text2= to DVLA Swansea, SA99 1DS.
-soap_endpoint_error.exit.button=Exit
-
 vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2=Locked at

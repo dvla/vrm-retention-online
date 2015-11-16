@@ -78,11 +78,6 @@ error.address.postcode.invalid = Rhaid iddo fod rhwng pump ac wyth digid ac ar f
 
 # micro-service response codes
 
-soap_endpoint_error.title=Ymddiheurwn
-soap-endpoint-error-text1=Nid yw’r gwasanaeth ar gael ar hyn o bryd. Rhowch gynnig arall arni yn nes ymlaen neu anfonwch wedi ei chwblhau
-soap-endpoint-error-text2= i’r DVLA Abertawe SA99 1DS
-soap_endpoint_error.exit.button=Gadael
-
 vrm_locked.title=Mae’r rhif cofrestru wedi ei gloi
 vrm_locked.text1=Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
 vrm_locked.text2=Wedi cloi am
