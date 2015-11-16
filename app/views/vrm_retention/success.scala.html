@@ -1,7 +1,7 @@
 @(successViewModel: models.SuccessViewModel,
     isKeeper: Boolean)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-	config: utils.helpers.Config,
+    config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import scala.collection.mutable.LinkedHashMap
@@ -20,126 +20,140 @@
     title = Messages("vrm_retention_success.title")
 ) {
 
-	<h2>@Messages("vrm_retention_success.title")</h2>
-	<div class="two-col retention-success">
-		<div class="second-col">
+    <h2>@Messages("vrm_retention_success.title")</h2>
+    <div class="two-col retention-success">
+        <div class="second-col">
 
-			@alertSuccess(){
-				@registrationNumber() { @successViewModel.registrationNumber }
-				<h2>@Messages("vrm_retention_success.subtitle")</h2>
-				<p>@Messages("vrm_retention_success.yourCert") <br />
-					<strong>@successViewModel.retentionCertificationNumber</strong>
-				</p>
-			}
+            @alertSuccess(){
+                @registrationNumber() { @successViewModel.registrationNumber }
+                <h2>@Messages("vrm_retention_success.subtitle")</h2>
+                <p>@Messages("vrm_retention_success.yourCert") <br />
+                    <strong>@successViewModel.retentionCertificationNumber</strong>
+                </p>
+            }
 
-			<p>@Messages("success-cert-warning")</p>
+            <p>@Messages("success-cert-warning")</p>
 
                         @alertWarning() { <h3>@Messages("success-cert-warning-1")</h3> }
 
-			@if(!isKeeper) {
+            @if(!isKeeper) {
             <div class="info-highlight two-col">
-				<div class="second-col">
-					<h3>@Messages("vrm_retention_success_payment.p6")</h3>
-					<p>@Messages("vrm_retention_success_payment.p7")</p>
-				</div>
-				<div class="first-col">
-					<a id="@CreatePdfId" class="pdf-link" href="@Success.createPdf()">
-						<img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")" alt="@Messages("vrm_retention_success.newPlateLink")">
-						@Messages("vrm_retention_success.newPlateLink")
-					</a>
-				</div>
-			</div>
+                <div class="second-col">
+                    <h3>@Messages("vrm_retention_success_payment.p6")</h3>
+                    <p>@Messages("vrm_retention_success_payment.p7")</p>
+                </div>
+                <div class="first-col">
+                    <a id="@CreatePdfId" class="pdf-link" href="@Success.createPdf()">
+                        <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")"
+                             alt="@Messages("vrm_retention_success.newPlateLink")">
+                        @Messages("vrm_retention_success.newPlateLink")
+                    </a>
+                </div>
+            </div>
+            }
 
-			}
+            <h2>@Messages("vrm_retention_success_payment.h2")</h2>
 
-			<h2>@Messages("vrm_retention_success_payment.h2")</h2>
+            <ul>
+                <li>@Messages("vrm_retention_success_payment.what-next-4") <strong>@successViewModel.registrationNumber</strong>
+                    @Messages("vrm_retention_success_payment.what-next-5")
+                    <a href="https://www.personalisedvehicleregistration.service.gov.uk/assign/before-you-start" target="_blank">
+                        @Messages("vrm_retention_success_payment.what-next-6")
+                    </a>
+                    @Messages("vrm_retention_success_payment.what-next-7")</li>
+                <li>@Messages("success-replacement-registration-number") <br/> @registrationNumber() { @successViewModel.replacementRegistrationNumber }</li>
 
-			<ul>
-				<li>@Messages("vrm_retention_success_payment.what-next-4") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success_payment.what-next-5")
-					<a href="https://www.personalisedvehicleregistration.service.gov.uk/assign/before-you-start" target="_blank">@Messages("vrm_retention_success_payment.what-next-6")</a>
-					@Messages("vrm_retention_success_payment.what-next-7")</li>
-				<li>@Messages("success-replacement-registration-number") <br/> @registrationNumber() { @successViewModel.replacementRegistrationNumber }</li>
+                <li>@Messages("vrm_retention_success_payment.what-next-1")</li>
+                <li>@Messages("vrm_retention_success_payment.what-next-2")
+                    <a href="https://www.gov.uk/number-plate-supplier" target="_blank">
+                        @Messages("vrm_retention_success_payment.what-next-3")
+                    </a>
+                </li>
+                <li>@Messages("vrm_retention_success_payment.what-next-8")</li>
+            </ul>
 
-				<li>@Messages("vrm_retention_success_payment.what-next-1")</li>
-				<li>@Messages("vrm_retention_success_payment.what-next-2")
-					<a href="https://www.gov.uk/number-plate-supplier" target="_blank"> @Messages("vrm_retention_success_payment.what-next-3")</a></li>
-
-				<li>@Messages("vrm_retention_success_payment.what-next-8")</li>
-
-			</ul>
-
-			<h2>@Messages("vrm_retention_success.p1")</h2>
-			<p>@Messages("vrm_retention_success.p2") <strong>@successViewModel.replacementRegistrationNumber</strong> @Messages("vrm_retention_success.p3")</p>
-			<p>@Messages("vrm_retention_success.p4")</p>
+            <h2>@Messages("vrm_retention_success.p1")</h2>
+            <p>@Messages("vrm_retention_success.p2") <strong>@successViewModel.replacementRegistrationNumber</strong>
+                @Messages("vrm_retention_success.p3")
+            </p>
+            <p>@Messages("vrm_retention_success.p4")</p>
                         @alertWarning() {
-                          <h3>@Messages("vrm_retention_success.p5") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p6")</h3>
+                          <h3>@Messages("vrm_retention_success.p5") <strong>@successViewModel.registrationNumber</strong>
+                              @Messages("vrm_retention_success.p6")
+                          </h3>
                         }
-			<p>@Messages("vrm_retention_success.p7") <strong>@successViewModel.registrationNumber</strong> @Messages("vrm_retention_success.p8")</p>
-			@if(successViewModel.businessEmail.isDefined || successViewModel.keeperEmail.isDefined) {
-				<p>@Messages("vrm_retention_success_payment.what-next-9")</p>
-			}
+            <p>@Messages("vrm_retention_success.p7") <strong>@successViewModel.registrationNumber</strong>
+                @Messages("vrm_retention_success.p8")
+            </p>
+            @if(successViewModel.businessEmail.isDefined || successViewModel.keeperEmail.isDefined) {
+                <p>@Messages("vrm_retention_success_payment.what-next-9")</p>
+            }
 
-		</div>
-		<div class="first-col">
-			@playbackList(
-				Messages("success-keeper-details"),
-				{
-					val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-					playbackItems += (
-						Messages("success-keeper-details-name") ->
-						(successViewModel.keeperTitle.get + " " + successViewModel.keeperFirstName.get + " " + successViewModel.keeperLastName.get)
-					)
-					playbackItems += (
-						Messages("success-keeper-details-email") ->
-						(successViewModel.keeperEmail match {
-							case Some(keeperEmail) => "<span class=\"lowercase-text\">" + keeperEmail + "</span>"
-							case None => Messages("success-keeper-details-email-not-entered")
-						})
-					)
-					playbackItems += (
-						Messages("success-keeper-details-address") ->
-						successViewModel.keeperAddress.get.address.mkString("<br/>")
-					)
-				},
-				List("related bg-plain")
-			)()
+        </div>
+        <div class="first-col">
+            @playbackList(
+                Messages("success-keeper-details"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    playbackItems += (
+                        Messages("success-keeper-details-name") ->
+                        (successViewModel.keeperTitle.getOrElse("") + " " + successViewModel.keeperFirstName.getOrElse("") + " " + successViewModel.keeperLastName.getOrElse(""))
+                    )
+                    playbackItems += (
+                        Messages("success-keeper-details-email") ->
+                        (successViewModel.keeperEmail match {
+                            case Some(keeperEmail) => "<span class=\"lowercase-text\">" + keeperEmail + "</span>"
+                            case None => Messages("success-keeper-details-email-not-entered")
+                        })
+                    )
+                    playbackItems += (
+                        Messages("success-keeper-details-address") ->
+                        successViewModel.keeperAddress.get.address.mkString("<br/>")
+                    )
+                },
+                List("related bg-plain")
+            )()
 
             @if(!isKeeper) {
-				@playbackList(
-					Messages("success-business-details"),
-					{
-						val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-						playbackItems += (
-							Messages("success-business-details-name") ->
-							(successViewModel.businessContact match {
-								case Some(businessContact) => businessContact
-								case None => Messages("success-application-details-contact-not-entered")
-							})
-						)
-						playbackItems += (
-							Messages("success-business-details-email") ->
-							(successViewModel.businessEmail match {
-								case Some(businessEmail) => "<span class=\"lowercase-text\">" + businessEmail + "</span>"
-								case None => Messages("success-application-details-email-not-entered")
-							})
-						)
-						playbackItems += (
-							Messages("success-business-details-address") ->
-							(successViewModel.businessName.get + "<br/>" + successViewModel.businessAddress.get.address.mkString("<br/>"))
-						)
-					},
-					List("related bg-plain")
-				)()
+                @playbackList(
+                    Messages("success-business-details"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                        playbackItems += (
+                            Messages("success-business-details-name") ->
+                            (successViewModel.businessContact match {
+                                case Some(businessContact) => businessContact
+                                case None => Messages("success-application-details-contact-not-entered")
+                            })
+                        )
+                        playbackItems += (
+                            Messages("success-business-details-email") ->
+                            (successViewModel.businessEmail match {
+                                case Some(businessEmail) => "<span class=\"lowercase-text\">" + businessEmail + "</span>"
+                                case None => Messages("success-application-details-email-not-entered")
+                            })
+                        )
+                        playbackItems += (
+                            Messages("success-business-details-address") ->
+                            (successViewModel.businessName.get + "<br/>" + successViewModel.businessAddress.get.address.mkString("<br/>"))
+                        )
+                    },
+                    List("related bg-plain")
+                )()
             }
-		</div>
-	</div>
+        </div>
+    </div>
 
     <div class="form-steps">
-	  <div class="step">
-	    <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">@Messages("vrm_retention_success.buttonnavprint")</button>
-	    <br /><br />
-        <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">@Messages("vrm_retention_finish.button")</a>
-	  </div>
+        <div class="step">
+            <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">
+                @Messages("vrm_retention_success.buttonnavprint")
+            </button>
+            <br /><br />
+            <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">
+                @Messages("vrm_retention_finish.button")
+            </a>
+        </div>
     </div>
 
     @if(config.googleAnalyticsTrackingId.isDefined) {
