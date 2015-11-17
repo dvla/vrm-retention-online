@@ -179,7 +179,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     Redirect(routes.BeforeYouStart.present())
   }
 
-  val identifier = "ceg"
+  val identifier = "CEG"
   def ceg = Action { implicit request =>
     logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view for identifier ${identifier}")
     vehicleLookup.withCookie(IdentifierCacheKey, identifier)

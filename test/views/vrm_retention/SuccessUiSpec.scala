@@ -89,7 +89,7 @@ class SuccessUiSpec extends UiSpec with TestHarness {
   private def finishToSuccess(ceg: Boolean = false)(implicit webDriver: WebDriver) = {
     go to BeforeYouStartPage
     val cache = cacheSetup()
-    if (ceg) cache.withIdentifier("ceg")
+    if (ceg) cache.withIdentifier("CEG")
     go to SuccessPage
     click on finish
     // Verify the cookies identified by the full set of cache keys have been removed

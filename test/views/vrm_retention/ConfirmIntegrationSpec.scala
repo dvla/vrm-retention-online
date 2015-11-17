@@ -110,7 +110,7 @@ class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually wit
 
     "redirect to VehicleLookupPage page with ceg identifier" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      cacheSetup().withIdentifier("ceg")
+      cacheSetup().withIdentifier("CEG")
       go to ConfirmPage
       click on back
       currentUrl should equal(VehicleLookupPage.cegUrl)

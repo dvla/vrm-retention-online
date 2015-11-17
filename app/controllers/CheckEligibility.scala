@@ -159,7 +159,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     val trackingId = request.cookies.trackingId()
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(
-      buildWebHeader(trackingId),
+      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
@@ -178,15 +178,16 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
   }
 
-  private def buildWebHeader(trackingId: TrackingId): VssWebHeaderDto = {
+  private def buildWebHeader(trackingId: TrackingId,
+                             identifier: Option[String]): VssWebHeaderDto = {
     VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
-      buildEndUser())
+      buildEndUser(identifier))
   }
 
-  private def buildEndUser(): VssWebEndUserDto = {
-    VssWebEndUserDto(endUserId = config.orgBusinessUnit, orgBusUnit = config.orgBusinessUnit)
+  private def buildEndUser(identifier: Option[String]): VssWebEndUserDto = {
+    VssWebEndUserDto(endUserId = identifier.getOrElse(config.orgBusinessUnit), orgBusUnit = config.orgBusinessUnit)
   }
 }
