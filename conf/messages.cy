@@ -18,7 +18,6 @@ global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac 
 global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, felly peidiwch â chau eich porwr.
 global-please-wait-close = Ceuwch y neges hon
 
-footer.cookies = Cwcis
 footer.builtbyintro = Adeiladwyd gan
 footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
@@ -404,57 +403,6 @@ email.failure.line13 = Dydd Sul: Ar gau
 email.failure.line14 =
 email.failure.line15 = Ffôn testun:
 email.failure.line16 = 18001 0300 123 1379
-
-# Cookie policy
-cookie-policy-title = Cwcis
-cookie-policy-p1 = Rhoddir ffeiliau bach (a elwir yn ‘cwcis’) ar eich cyfrifiadur i gasglu gwybodaeth ar sut y porwch drwy’r wefan.
-cookie-policy-p2 = Defnyddir cwcis i:
-cookie-policy-p3 = fesur sut rydych yn defnyddio'r wefan fel y gellir ei diweddaru a gwella yn seiliedig ar eich anghenion
-cookie-policy-p4 = cofio’r hysbysiadau yr ydych wedi eu gweld fel nad ydym yn eu dangos i chi eto
-cookie-policy-p5 = Ni ddefnyddir cwcis GOV.UK i’ch adnabod yn bersonol.
-cookie-policy-p6 = Fel arfer fe welwch neges ar y safle cyn y byddwn yn storio cwci ar eich cyfrifiadur.
-cookie-policy-p7 = Dysgwch ragor am
-cookie-policy-p8 = sut i reoli cwcis
-cookie-policy-p9 = Sut y defnyddir cwcis
-cookie-policy-p10 = Mesur defnydd o'r wefan (Google Analytics)
-cookie-policy-p11 = Defnyddir meddalwedd Google Analytics i gasglu gwybodaeth ynghylch sut rydych yn defnyddio’r safle. Gwneir hyn i helpu i sicrhau bod y safle'n diwallu anghenion ei ddefnyddwyr ac i'n helpu i wneud gwelliannau.
-cookie-policy-p12 = Mae Google Analytics yn cadw gwybodaeth ynghylch:
-cookie-policy-p13 = y tudalennau y byddwch yn ymweld â nhw - faint o amser ydych chi’n ei dreulio ar bob tudalen
-cookie-policy-p14 = sut y cyrhaeddoch y wefan
-cookie-policy-p15 = beth rydych yn cilicio arno tra'ch bod yn ymweld â'r safle
-cookie-policy-p16 = Nid ydym yn casglu na chadw'ch gwybodaeth bersonol (e.e. eich enw neu gyfeiriad) felly ni ellir defnyddio'r wybodaeth hon i nodi pwy ydych chi.
-cookie-policy-p17 = Ni chaiff Google ddefnyddio na rhannu ein data dadansoddi.
-cookie-policy-p18 = Defnyddir y cwcis canlynol:
-cookie-policy-p19 = Enw
-cookie-policy-p20 = Pwrpas
-cookie-policy-p21 = Yn dod i ben
-cookie-policy-p22 = Yn pennu’r nifer o ymwelwyr unigryw i’r safle
-cookie-policy-p23 = 2 flynedd
-cookie-policy-p24 = Mae hwn yn gweithio gyda _utmc i gyfrifo cyfartaledd hyd yr amser a dreuliwch ar ein safle
-cookie-policy-p25 = 30 munud
-cookie-policy-p26 = Mae hwn yn gweithio gydag _utmb i gyfrifo pryd fyddwch yn cau eich porwr
-cookie-policy-p27 = pan fyddwch yn cau eich porwr
-cookie-policy-p28 = Mae hyn yn darparu gwybodaeth am sut y cyrhaeddoch y safle (e.e. o wefan arall neu beiriant chwilio)
-cookie-policy-p29 = 6 mis
-cookie-policy-p30 = Mae hyn yn cadw data i'w anfon at Google ar y dudalen nesaf rydych yn gofyn amdani
-cookie-policy-p31 = pan fyddwch yn cau eich porwr
-cookie-policy-p32 = GDS_successEvents a GDS_analyticsTokens
-cookie-policy-p33 = Mae'r rhain yn ein helpu i nodi sut rydych yn defnyddio GOV.UK fel y gwllwn wella'r wefan
-cookie-policy-p34 = 4 mis
-cookie-policy-p35 = Gallwch
-cookie-policy-p36 = optio allan o gwcis Google Analytics
-cookie-policy-p37 = Sesiynau
-cookie-policy-p38 = Gosodir cwci i gofnodi gweithgarwch eich sesiwn.
-cookie-policy-p42 = Yn cadw data’r sesiwn
-cookie-policy-p43 = Ar ôl 15 munud o ddim gweithgarwch neu pan fyddwch yn cau eich porwr
-cookie-policy-p44 = Ein neges gyflwynol
-cookie-policy-p45 = Efallai y gwelwch neges ffenestr naid o groeso pan ymwelwch am y tro cyntaf. Storir cwci fel bod eich cyfrifiadur yn gwybod eich bod wedi ei weld ac yn gwybod i beidio â'i ddangos eto.
-cookie-policy-p46 = Yn cadw neges i roi gwybod i ni eich bod wedi gweld ein neges cwci
-cookie-policy-p47 = 1 mis
-cookie-policy-p48 = Yr Iaith Gymraeg
-cookie-policy-p49 = Rydym yn logio cwci er mwyn cofio'r iaith a ddewiswyd gennych fel nad oes angen i chi ei newid y tro nesaf y byddwch yn ymweld.
-cookie-policy-p50 = Gosodwch i gofio'ch dewis iaith
-cookie-policy-p51 = 1 flwyddyn
 
 # closed
 closed.title = Nid yw’r Gwasanaeth ar gael

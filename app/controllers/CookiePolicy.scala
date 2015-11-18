@@ -8,10 +8,10 @@ import utils.helpers.Config
 
 final class CookiePolicy @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                      config: Config,
-                                     dateService: DateService
-                                    ) extends Controller {
+                                     dateService: DateService)
+                                     extends uk.gov.dvla.vehicles.presentation.common.controllers.CookiePolicy {
 
   def present = Action { implicit request =>
-    Ok(views.html.vrm_retention.cookie_policy())
+    Ok(views.html.vrm_retention.cookie_policy(cookies))
   }
 }
