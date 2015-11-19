@@ -10,6 +10,8 @@
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.ConfirmBusiness.{ChangeDetailsId, ConfirmId, ExitId}
+@import common.views.html.widgets.playbackList
+@import scala.collection.mutable.LinkedHashMap
 
 @main(
     title = Messages("vrm_retention_confirm_business.title"),
@@ -18,24 +20,23 @@
 ) {
     <div class="two-col">
         <div class="second-col">
-            <h2>@Messages("vrm_retention_confirm_business.title")</h2>
-
-            <dl class="playback">
-                <dt>@Messages("vrm_retention_confirm.businessNameLabel")</dt>
-                <dd>@confirmBusinessViewModel.businessName</dd>
-                <dt>@Messages("vrm_retention_confirm.businessContactLabel")</dt>
-                <dd>@confirmBusinessViewModel.businessContact</dd>
-                <dt>@Messages("vrm_retention_confirm.businessEmailLabel")</dt>
-                <dd><span class="lowercase-text">@confirmBusinessViewModel.businessEmail</span></dd>
-                <dt>@Messages("vrm_retention_confirm.businessAddressLabel")</dt>
-                <dt>
-                @confirmBusinessViewModel.businessAddress.map { addressModel =>
-                    @for(businessAddressLine <- addressModel.address) {
-                        <strong>@businessAddressLine</strong> <br>
-                    }
+                @playbackList(
+                Messages("vrm_retention_confirm_business.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    playbackItems += Messages("vrm_retention_confirm.businessNameLabel") -> (if(confirmBusinessViewModel.businessName == None) ""
+                        else confirmBusinessViewModel.businessName.get)
+                    playbackItems += Messages("vrm_retention_confirm.businessContactLabel") -> (if(confirmBusinessViewModel.businessContact == None) ""
+                        else confirmBusinessViewModel.businessContact.get)
+                    playbackItems += Messages("vrm_retention_confirm.businessEmailLabel") -> (confirmBusinessViewModel.businessEmail match {
+                            case Some(email) => ("<span class=\"lowercase-text\">" + email + "</span>")
+                            case None => Messages("success-keeper-details-email-not-entered")
+                        })
+                    playbackItems += Messages("vrm_retention_confirm.businessAddressLabel") -> (if(confirmBusinessViewModel.businessAddress == None) ""
+                        else confirmBusinessViewModel.businessAddress.get.address.mkString("<br/>"))
                 }
-                </dt>
-            </dl>
+            )()
+
         </div>
         <div class="first-col">
             @vehicleDetailPlayback(confirmBusinessViewModel.vehicleDetails)()
@@ -55,13 +56,4 @@
             <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
         </div>
     }
-@* TODO:ian delete this - it should be moved to the previous page*@
-@*
-    @if(config.googleAnalyticsTrackingId.isDefined) {
-        <script type="text/javascript">
-            trackChange(['@StoreDetailsConsentId']);
-            trackClick(['@ConfirmId', '@ExitId']);
-        </script>
-    }
-*@
 }

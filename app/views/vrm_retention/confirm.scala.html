@@ -12,11 +12,13 @@
 @import common.views.html.widgets.base.valtechInputText
 @import common.views.html.widgets.email
 @import common.views.html.widgets.optionalToggle
+@import common.views.html.widgets.playbackList
 @import common.views.html.widgets.summaryWrapper
 @import common.views.html.widgets.vehicleDetailPlayback
 @import views.html.helper.form
 @import views.html.vrm_retention.main
 @import views.vrm_retention.Confirm._
+@import scala.collection.mutable.LinkedHashMap
 
 @main(
     title = Messages("vrm_retention_confirm.title"),
@@ -25,21 +27,15 @@
 ) {
     <div class="two-col">
         <div class="second-col">
-            <h2>@Messages("vrm_retention_confirm.title")</h2>
-            <dl>
-                <dt>@Messages("vrm_retention_confirm.keeperLabel")</dt>
-                <dt><strong>@confirmViewModel.keeperTitle @confirmViewModel.keeperFirstName @confirmViewModel.keeperLastName </strong></dt>
-            </dl>
-            <dl>
-                <dt>@Messages("vrm_retention_confirm.keeperAddressLabel")</dt>
-                <dt>@for(keeperAddressLine <- confirmViewModel.keeperAddress.get.address) {
-                    <strong>@keeperAddressLine </strong><br>
-                    }</dt>
-            </dl>
-            @*<dl>*@
-                @*<dt>@Messages("vrm_retention_confirm.keeperPostcodeLabel")</dt>*@
-                @*<dt><strong>@confirmViewModel.keeperAddress.get.address.last</strong></dt>*@
-            @*</dl>*@
+            @playbackList(
+                Messages("vrm_retention_confirm.title"),
+                {
+                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                    playbackItems += (Messages("vrm_retention_confirm.keeperLabel") -> (confirmViewModel.keeperTitle.get
+                            + " " + confirmViewModel.keeperFirstName.get + " " + confirmViewModel.keeperLastName.get) )
+                    playbackItems += (Messages("vrm_retention_confirm.keeperAddressLabel") -> confirmViewModel.keeperAddress.get.address.mkString("<br/>"))
+                }
+            )()
         </div>
         <div class="first-col">
             @vehicleDetailPlayback(confirmViewModel.vehicleDetails)()
