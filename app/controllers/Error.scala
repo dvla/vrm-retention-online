@@ -7,8 +7,8 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.LogFormats.DVLALogger
 import common.clientsidesession.CookieImplicits.RichCookies
+import common.utils.helpers.CookieHelper
 import utils.helpers.Config
-import utils.helpers.CookieHelper
 
 final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                               config: Config,
@@ -26,6 +26,6 @@ final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessi
       Error,
       "Start again called - now removing full set of cookies and redirecting to Start page"
     )
-    CookieHelper.discardAllCookies
+    CookieHelper.discardAllCookies(routes.BeforeYouStart.present)
   }
 }

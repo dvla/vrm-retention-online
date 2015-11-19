@@ -9,7 +9,6 @@ import vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndEmptyReplacement
 import vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndReplacement
 import helpers.UnitSpec
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.trackingIdModel
@@ -24,6 +23,7 @@ import pages.vrm_retention.VehicleLookupFailurePage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.audit2.AuditService

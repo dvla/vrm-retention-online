@@ -3,7 +3,6 @@ package controllers
 import composition.TestConfig
 import helpers.WithApplication
 import controllers.Common.PrototypeHtml
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
@@ -17,6 +16,7 @@ import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.{LOCATION, OK}
 import uk.gov.dvla.vehicles.presentation.common.mappings.{AddressPicker, BusinessName}
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import views.vrm_retention.SetupBusinessDetails.BusinessAddressId
 import views.vrm_retention.SetupBusinessDetails.BusinessContactId
 import views.vrm_retention.SetupBusinessDetails.BusinessEmailId

@@ -16,7 +16,6 @@ import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLook
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import helpers.WithApplication
 import controllers.Common.PrototypeHtml
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -39,6 +38,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 import vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse

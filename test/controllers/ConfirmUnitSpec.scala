@@ -3,7 +3,6 @@ package controllers
 import helpers.WithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
-import helpers.common.CookieHelper.fetchCookiesFromHeaders
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
@@ -22,6 +21,7 @@ import play.api.test.Helpers.{BAD_REQUEST, OK, LOCATION}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.mappings.Email.{EmailId, EmailVerifyId}
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.Confirm.KeeperEmailId
 import views.vrm_retention.Confirm.SupplyEmailId

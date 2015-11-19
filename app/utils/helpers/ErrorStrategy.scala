@@ -12,6 +12,7 @@ import uk.gov.dvla.vehicles.presentation.common.filters.AccessLoggingFilter.Acce
 import uk.gov.dvla.vehicles.presentation.common.filters.ClfEntryBuilder
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import uk.gov.dvla.vehicles.presentation.common.utils.helpers.CookieHelper
 
 class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
                               @Named(AccessLoggerName) accessLogger: LoggerLike,
@@ -20,7 +21,7 @@ class ErrorStrategy @Inject()(clfEntryBuilder: ClfEntryBuilder,
   with DVLALogger {
 
   protected override def sessionExceptionResult(request: RequestHeader) = {
-    CookieHelper.discardAllCookies(request)
+    CookieHelper.discardAllCookies(routes.BeforeYouStart.present)(request)
   }
 
   protected override def errorPageResult(exceptionDigest: String) =
