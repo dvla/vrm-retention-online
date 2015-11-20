@@ -5,13 +5,12 @@ import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import models.VrmLockedViewModel
 import org.joda.time.DateTime
-import play.api.mvc.Action
-import play.api.mvc.Controller
+import play.api.mvc.{Action, Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.clientsidesession.CookieImplicits.RichResult
-import common.LogFormats.DVLALogger
+import common.controllers.VrmLockedBase
 import common.model.BruteForcePreventionModel
 import common.model.VehicleAndKeeperDetailsModel
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
@@ -20,19 +19,18 @@ import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                   config: utils.helpers.Config,
                                   dateService: common.services.DateService)
-                      extends Controller with DVLALogger {
+                      extends VrmLockedBase {
 
-  def present = Action { implicit request =>
+  protected override def presentResult(model: BruteForcePreventionModel)(implicit request: Request[_]): Result = {
     val happyPath = for {
       transactionId <- request.cookies.getString(TransactionIdCacheKey)
-      bruteForcePreventionModel <- request.cookies.getModel[BruteForcePreventionModel]
       viewModel <- List(
         request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(m => VrmLockedViewModel(m, _: String, _: Long)),
         request.cookies.getModel[VehicleAndKeeperDetailsModel].map(m => VrmLockedViewModel(m, _: String, _: Long))
       ).flatten.headOption
     } yield {
         logMessage(request.cookies.trackingId, Debug, "VrmLocked - Displaying the vrm locked error page")
-        val timeString = bruteForcePreventionModel.dateTimeISOChronology
+        val timeString = model.dateTimeISOChronology
         val javascriptTimestamp = DateTime.parse(timeString).getMillis
         Ok(views.html.vrm_retention.vrm_locked(transactionId, viewModel(timeString, javascriptTimestamp)))
       }
@@ -47,8 +45,19 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
     }
   }
 
-  def exit = Action { implicit request =>
+  protected override def missingBruteForcePreventionCookie(implicit request: Request[_]): Result = {
+    logMessage(request.cookies.trackingId(), Debug,
+      s"Missing BruceForcePreventionCookie. Redirecting to ${routes.VehicleLookup.present()}")
+    Redirect(routes.VehicleLookup.present())
+  }
+
+  protected override def exitResult(implicit request: Request[_]): Result = {
+    logMessage(request.cookies.trackingId(), Debug,
+      s"Exiting VrmLocked. Redirecting to ${routes.BeforeYouStart.present()}")
     Redirect(routes.LeaveFeedback.present())
       .discardingCookies(removeCookiesOnExit)
   }
+
+  // Not used for Retention
+  protected override def tryAnotherResult(implicit request: Request[_]): Result = NotFound
 }
