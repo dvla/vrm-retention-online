@@ -18,6 +18,8 @@ Feature: Vehicles Personalized Registration
     | "A1"                        | "11111111111"             | "AA11AA" |
     | "S11"                       | "11111111111"             | "SA1" |
     | "S13"                       | "11111111111"             | "" |
+    | "S101"                      | "11111111111"             | "SA222AA" |
+    | "S102"                      | "11111111111"             | "SA222AA" |
 
   @UnHappyPath
   Scenario Outline: Invalid Data in Vehicle Registration Number, Doc Ref ID and postcode
