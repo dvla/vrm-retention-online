@@ -28,10 +28,9 @@
                         else confirmBusinessViewModel.businessName.get)
                     playbackItems += Messages("vrm_retention_confirm.businessContactLabel") -> (if(confirmBusinessViewModel.businessContact == None) ""
                         else confirmBusinessViewModel.businessContact.get)
-                    playbackItems += Messages("vrm_retention_confirm.businessEmailLabel") -> (confirmBusinessViewModel.businessEmail match {
-                            case Some(email) => ("<span class=\"lowercase-text\">" + email + "</span>")
-                            case None => Messages("success-keeper-details-email-not-entered")
-                        })
+                    confirmBusinessViewModel.businessEmail match {
+                            case Some(email) => playbackItems += ("EMAIL_" + Messages("vrm_retention_confirm.businessEmailLabel") -> email)
+                            case None => playbackItems += (Messages("vrm_retention_confirm.businessEmailLabel") -> Messages("success-keeper-details-email-not-entered") )}
                     playbackItems += Messages("vrm_retention_confirm.businessAddressLabel") -> (if(confirmBusinessViewModel.businessAddress == None) ""
                         else confirmBusinessViewModel.businessAddress.get.address.mkString("<br/>"))
                 }
