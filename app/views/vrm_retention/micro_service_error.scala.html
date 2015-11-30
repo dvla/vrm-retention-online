@@ -1,27 +1,15 @@
-@(trackingId: uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId)(implicit lang: Lang,
-        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config,
-        dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+@(tryAgainTarget: play.api.mvc.Call,
+    exitTarget: play.api.mvc.Call,
+    trackingId: uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId)(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_retention.main
-@import views.vrm_retention.MicroserviceError.ExitId
-@import views.vrm_retention.MicroserviceError.TryAgainId
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.microServiceError
 
 @main(
     title = Messages("micro_service_error.title")
 ){
-    <h2>@Messages("micro_service_error.title")</h2>
-    <p>@Messages("micro_service_error.text1")</p>
-    <p>@Messages("micro_service_error.text2", trackingId)</p>
-
-    <div class="form-steps">
-        @* Note the reverse routing syntax for the hyperlink *@
-        <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookup.present()" role="button">
-            @Messages("micro_service_error.back.button")
-        </a>
-        <br/>
-        <a class="exit" id="@ExitId" href="@controllers.routes.BeforeYouStart.present()">
-            @Messages("micro_service_error.exit.button")
-        </a>
-    </div>
+    @microServiceError(tryAgainTarget, exitTarget, trackingId)
 }
