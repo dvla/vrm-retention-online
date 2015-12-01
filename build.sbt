@@ -80,8 +80,8 @@ libraryDependencies ++= {
     "org.webjars" % "jquery" % "1.9.1",
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
-    "junit" % "junit" % "4.11",
-    "junit" % "junit-dep" % "4.11"
+    "junit" % "junit" % "4.11" % "test",
+    "junit" % "junit-dep" % "4.11" % "test"
   )
 }
 
