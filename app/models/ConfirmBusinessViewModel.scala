@@ -4,27 +4,22 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.model.AddressModel
 import common.model.VehicleAndKeeperDetailsModel
 
-final case class ConfirmBusinessViewModel(registrationNumber: String,
-                                          vehicleMake: Option[String],
-                                          vehicleModel: Option[String],
+final case class ConfirmBusinessViewModel(vehicleDetails: VehicleAndKeeperDetailsModel,
                                           businessName: Option[String],
                                           businessContact: Option[String],
                                           businessEmail: Option[String],
-                                          businessAddress: Option[AddressModel],
-                                          vehicleDetails: VehicleAndKeeperDetailsModel)
+                                          businessAddress: Option[AddressModel]
+                                           )
 
 object ConfirmBusinessViewModel {
 
   def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
             businessDetailsOpt: Option[BusinessDetailsModel]): ConfirmBusinessViewModel =
     ConfirmBusinessViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.make,
-      vehicleModel = vehicleAndKeeperDetails.model,
+      vehicleDetails = vehicleAndKeeperDetails,
       businessName = businessDetailsOpt.map(_.name),
       businessContact = businessDetailsOpt.map(_.contact),
       businessEmail = businessDetailsOpt.map(_.email),
-      businessAddress = businessDetailsOpt.map(_.address),
-      vehicleDetails = vehicleAndKeeperDetails
+      businessAddress = businessDetailsOpt.map(_.address)
     )
 }

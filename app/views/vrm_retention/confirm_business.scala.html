@@ -24,15 +24,16 @@
                 Messages("vrm_retention_confirm_business.title"),
                 {
                     val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    playbackItems += Messages("vrm_retention_confirm.businessNameLabel") -> (if(confirmBusinessViewModel.businessName == None) ""
-                        else confirmBusinessViewModel.businessName.get)
-                    playbackItems += Messages("vrm_retention_confirm.businessContactLabel") -> (if(confirmBusinessViewModel.businessContact == None) ""
-                        else confirmBusinessViewModel.businessContact.get)
+                    playbackItems += Messages("vrm_retention_confirm.businessNameLabel") -> confirmBusinessViewModel.businessName.getOrElse("")
+                    playbackItems += Messages("vrm_retention_confirm.businessContactLabel") -> confirmBusinessViewModel.businessContact.getOrElse("")
                     confirmBusinessViewModel.businessEmail match {
-                            case Some(email) => playbackItems += ("EMAIL_" + Messages("vrm_retention_confirm.businessEmailLabel") -> email)
-                            case None => playbackItems += (Messages("vrm_retention_confirm.businessEmailLabel") -> Messages("success-keeper-details-email-not-entered") )}
-                    playbackItems += Messages("vrm_retention_confirm.businessAddressLabel") -> (if(confirmBusinessViewModel.businessAddress == None) ""
-                        else confirmBusinessViewModel.businessAddress.get.address.mkString("<br/>"))
+                        case Some(email) => playbackItems += ("EMAIL_" + Messages("vrm_retention_confirm.businessEmailLabel") -> email)
+                        case None => playbackItems += (Messages("vrm_retention_confirm.businessEmailLabel") -> Messages("success-keeper-details-email-not-entered") )
+                    }
+                    confirmBusinessViewModel.businessAddress match {
+                        case Some(businessAddress) => playbackItems += (Messages("vrm_retention_confirm.businessAddressLabel") -> businessAddress.address.mkString("<br/>"))
+                        case None => playbackItems += (Messages("vrm_retention_confirm.businessAddressLabel") -> "")
+                    }
                 }
             )()
 
