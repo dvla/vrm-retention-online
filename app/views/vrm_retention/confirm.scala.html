@@ -31,9 +31,9 @@
                 Messages("vrm_retention_confirm.title"),
                 {
                     val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    playbackItems += (Messages("vrm_retention_confirm.keeperLabel") -> (confirmViewModel.keeperTitle.get
-                            + " " + confirmViewModel.keeperFirstName.get + " " + confirmViewModel.keeperLastName.get) )
-                    playbackItems += (Messages("vrm_retention_confirm.keeperAddressLabel") -> confirmViewModel.keeperAddress.get.address.mkString("<br/>"))
+                    playbackItems += (Messages("vrm_retention_confirm.keeperLabel") -> (confirmViewModel.vehicleDetails.title.getOrElse("")
+                            + " " + confirmViewModel.vehicleDetails.firstName.getOrElse("") + " " + confirmViewModel.vehicleDetails.lastName.getOrElse("")) )
+                    playbackItems += (Messages("vrm_retention_confirm.keeperAddressLabel") -> confirmViewModel.vehicleDetails.address.get.address.mkString("<br/>"))
                 }
             )()
         </div>

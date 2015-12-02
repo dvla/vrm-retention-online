@@ -1,3 +1,25 @@
+======= 1.28.1 ========
+Time of release binaries creation:
+Fri Nov 27 12:25:40 UTC 2015
+
+Fixed confirm page to accept keeper with no title or surname
+
+======= 1.28 ========
+Time of release binaries creation:
+Wed Nov 25 15:48:58 UTC 2015
+
+DE815 	Retain - Payment confirmation email
+DE824 	Retain & Assign - Completing a transaction
+US3942 	Record CEG Identifier to Distinguish Assisted Digital Transactions from Others
+US3959 	Ensure all widgets in vehicles-presentation-common that use javascript have the javascript behaviour under unit testing
+US3976 	Create and implement a closed widget in vehicles-presentation-common
+US3977 	Create a CookiePolicy controller in vehicles-presentation-common
+US3979 	Remove SoapEndpointError controllers, messages, routes and views
+US3980 	Use VrmLockedBase as per VMs
+US3986 	Consolidate CookieHelpers object
+US3992 	Apply PlaybackList widget to all playbacks in the ""second-col""
+US4005 	Review payment service failover mechanism and improve logging
+
 ======= 1.27 ========
 Time of release binaries creation:
 Thu Nov 12 15:30:39 UTC 2015

@@ -74,6 +74,9 @@ govUkContentId: String)(implicit lang: Lang)
     h6 a:visited {
     color: purple !important;
     }
+    .transDetails td {
+    display: default; width: 33%;
+    }
     @@media only screen and (max-device-width: 480px) {
     a[href^="tel"] {
     text-decoration: none; color: blue; pointer-events: none; cursor: default;
@@ -86,6 +89,9 @@ govUkContentId: String)(implicit lang: Lang)
     }
     .mobile_link a[href^="sms"] {
     text-decoration: default; color: orange !important; pointer-events: auto; cursor: default;
+    }
+    .transDetails td {
+    display: block; width: 100%;
     }
     }
     @@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
@@ -142,17 +148,17 @@ govUkContentId: String)(implicit lang: Lang)
                         <table class="transDetails"
                                style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
                             <tr>
-                                <td style="border-collapse: collapse; width: 33%; text-align: center; padding: 30px 0; font-family: Helvetica, Arial, sans, serif;"
+                                <td style="border-collapse: collapse; text-align: center; font-family: Helvetica, Arial, sans, serif; padding: 30px 0;"
                                     align="center">
                                     @Messages("email.line3")
                                     <br/><strong>@retentionCertId</strong>
                                 </td>
-                                <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, serif; width: 33%; text-align: center; padding: 30px 0;"
+                                <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, serif; text-align: center; padding: 30px 0;"
                                     align="center">
                                     @Messages("email.line4")
                                     <br/><strong>@transactionTimestamp</strong>
                                 </td>
-                                <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, serif; width: 33%; text-align: center; padding: 30px 0;"
+                                <td style="border-collapse: collapse; font-family: Helvetica, Arial, sans, serif; text-align: center; padding: 30px 0;"
                                     align="center">
                                     @Messages("email.line5")
                                     <br/><strong>@transactionId</strong>

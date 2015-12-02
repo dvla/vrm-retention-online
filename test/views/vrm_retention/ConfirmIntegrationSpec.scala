@@ -38,6 +38,30 @@ class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually wit
       csrf.getAttribute("value").length > 0 should equal(true)
     }
 
+    "display the page with blank keeper title" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs
+        .vehicleAndKeeperLookupFormModel()
+        .vehicleAndKeeperDetailsModel(title = None)
+        .businessDetails()
+        .transactionId()
+        .eligibilityModel()
+      go to ConfirmPage
+      currentUrl should equal(ConfirmPage.url)
+    }
+
+    "display the page with blank keeper surname" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs
+        .vehicleAndKeeperLookupFormModel()
+        .vehicleAndKeeperDetailsModel(lastName = None)
+        .businessDetails()
+        .transactionId()
+        .eligibilityModel()
+      go to ConfirmPage
+      currentUrl should equal(ConfirmPage.url)
+    }
+
     // [SW] tests commented out as we need Ops to add a line to the build scripts to install phantom-js
     //    "not display the keeper email field when neither yes or no has been selected on " +
     //      "the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {

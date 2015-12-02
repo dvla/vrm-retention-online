@@ -97,13 +97,9 @@
                         Messages("success-keeper-details-name") ->
                         (successViewModel.keeperTitle.getOrElse("") + " " + successViewModel.keeperFirstName.getOrElse("") + " " + successViewModel.keeperLastName.getOrElse(""))
                     )
-                    playbackItems += (
-                        Messages("success-keeper-details-email") ->
-                        (successViewModel.keeperEmail match {
-                            case Some(keeperEmail) => "<span class=\"lowercase-text\">" + keeperEmail + "</span>"
-                            case None => Messages("success-keeper-details-email-not-entered")
-                        })
-                    )
+                    successViewModel.keeperEmail match {
+                        case Some(keeperEmail) => playbackItems += ("EMAIL_" + Messages("success-keeper-details-email") -> keeperEmail)
+                        case None => playbackItems += (Messages("success-keeper-details-email") -> Messages("success-keeper-details-email-not-entered") )}
                     playbackItems += (
                         Messages("success-keeper-details-address") ->
                         successViewModel.keeperAddress.get.address.mkString("<br/>")
@@ -124,13 +120,9 @@
                                 case None => Messages("success-application-details-contact-not-entered")
                             })
                         )
-                        playbackItems += (
-                            Messages("success-business-details-email") ->
-                            (successViewModel.businessEmail match {
-                                case Some(businessEmail) => "<span class=\"lowercase-text\">" + businessEmail + "</span>"
-                                case None => Messages("success-application-details-email-not-entered")
-                            })
-                        )
+                        successViewModel.businessEmail match {
+                            case Some(businessEmail) => playbackItems += ("EMAIL_" + Messages("success-business-details-email") -> businessEmail)
+                            case None => playbackItems += (Messages("success-business-details-email") -> Messages("success-application-details-email-not-entered") )}
                         playbackItems += (
                             Messages("success-business-details-address") ->
                             (successViewModel.businessName.get + "<br/>" + successViewModel.businessAddress.get.address.mkString("<br/>"))
