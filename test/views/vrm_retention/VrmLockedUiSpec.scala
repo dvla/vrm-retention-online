@@ -7,7 +7,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageSource}
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage
 import pages.vrm_retention.VrmLockedPage
@@ -32,6 +32,14 @@ class VrmLockedUiSpec extends UiSpec with TestHarness {
       csrf.getAttribute("name") should
         equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").length > 0 should equal(true)
+    }
+    "page should not contain contact informatio" should {
+      "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
+        go to BeforeYouStartPage
+        cacheSetup()
+        go to VrmLockedPage
+        pageSource should include("Telephone")
+      }
     }
   }
 

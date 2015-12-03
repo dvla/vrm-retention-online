@@ -7,7 +7,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.concurrent.Eventually
 import org.scalatest.concurrent.IntegrationPatience
-import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle}
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle, pageSource}
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage
 import pages.vrm_retention.VehicleLookupFailurePage
@@ -39,7 +39,14 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       pageTitle should equal(VehicleLookupFailurePage.failureTitle)
     }
   }
-
+  "page should not contain contact informatio" should {
+    "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
+      go to BeforeYouStartPage
+      cacheFailureSetup()
+      go to VehicleLookupFailurePage
+      pageSource should not include("Telephone")
+    }
+  }
   "try again button" should {
     "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage

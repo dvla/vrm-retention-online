@@ -1,12 +1,29 @@
-@(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel)(implicit lang: Lang,
-        token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-        config: utils.helpers.Config)
+@(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
+    showContactDetails : Boolean = false)(implicit lang: Lang,
+    token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
+    config: utils.helpers.Config)
 
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.vehicleDetailPlayback
 
 <div id="vehicle-details" class="first-col trader-details">
     @vehicleDetailPlayback(vehicleDetails) {
+    <br/>
+    @if(showContactDetails) {
+    <div class="contact-info-wrapper" id ="contact-info-wrapper" name="contact-info-wrapper" style ="...">
         <br/>
-
+    <p>@Messages("success-keeper-application-details-contact-us")</p>
+    <p>@Messages("success-keeper-application-details-telephone")</p>
+    <p><strong>@Messages("success-keeper-application-details-telephone-number")</strong>
+        <strong><small>@Messages("success-keeper-application-details-telephone-number-extension1") @Messages("success-keeper-application-details-telephone-number-extension2") @Messages("success-keeper-application-details-telephone-number-extension3")</small></strong>
+    </p>
+    <br/>
+    <p>@Messages("success-keeper-application-details-monday-to-friday")</p>
+    <p>@Messages("success-keeper-application-details-saturday")</p>
+    <p>@Messages("success-keeper-application-details-sunday")</p>
+    <br/>
+    <p>@Messages("success-keeper-application-details-textphone")</p>
+    <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
+    </div>
+    }
     }
 </div>
