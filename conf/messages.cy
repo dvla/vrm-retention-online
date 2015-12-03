@@ -461,3 +461,4 @@ business-address.post-code = Cod Post Busnes
 error.address.postCode = Mae’r maes hwn yn orfodol
 error.address.addressLine1 = Mae’r maes hwn yn orfodol
 error.required.address = Mae angen cyfeiriad
+error.threeAlphas = Must have at least 3 alpha characters
