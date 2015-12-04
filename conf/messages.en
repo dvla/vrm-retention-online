@@ -213,7 +213,7 @@ vrm_retention_eligibility_ninety_day_rule_failure = 90 day error message
 # Payment page
 vrm_retention_payment.title = Payment
 vrm_retention_payment.iframe.title = Payment iframe
-vrm_retention_payment.cancel.button = Cancel
+vrm_retention_payment.cancel.button = Exit
 vrm_retention_payment.title2 = Pay by credit or debit card
 vrm_retention_payment.p2 = Only Maestro, Visa Debit, Mastercard Debit, Electron debit cards, VISA, and Mastercard credit cards are accepted.
 vrm_retention_paymentfailure.tryagainbutton = Try again
