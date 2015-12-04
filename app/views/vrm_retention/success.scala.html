@@ -20,10 +20,9 @@
     title = Messages("vrm_retention_success.title")
 ) {
 
-    <h2>@Messages("vrm_retention_success.title")</h2>
     <div class="two-col retention-success">
         <div class="second-col">
-            @alertSuccess(){
+            @alertSuccess(Some(Messages("vrm_retention_success.title"))){
                 @registrationNumber() { @successViewModel.registrationNumber }
                 <h2>@Messages("vrm_retention_success.subtitle")</h2>
                 <p>@Messages("vrm_retention_success.yourCert") <br />
