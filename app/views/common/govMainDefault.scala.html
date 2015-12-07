@@ -60,19 +60,13 @@
         @pleaseWait()
 
         <div id="global-app-error" class="app-error hidden"></div>
-        <script>
-            window.onerror = function(err) {
-                if (err.indexOf('timeout') > 0) {
-                    // failed to download a require asset, or a timeout occured, so we go to no-js mode
-                    document.body.className = document.body.className.replace('js-enabled','');
-                }
+        <script type="text/javascript" src="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/jquery/jquery.min.js")"></script>
+        <script type="text/javascript" src="@controllers.StaticAssets.versioned(config.assetsUrl)("lib/vehicles-presentation-common/javascripts/common.js")"></script>
+        <script type="text/javascript">
+            if (typeof $ !== "function" || $('html').hasClass('js-ready') === false) {
+                // Either Jquery or common are not available so revert to the no-js view
+                document.body.className = document.body.className.replace('js-enabled','js-disabled');
             }
         </script>
-
-        <script id="mainscript" data-main="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js")).url"></script>
-
-        <!--[if (lt IE 9) & (!IEMobile)]>
-        <script src='@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/lib/respond.min.js")'></script>
-        <![endif]-->
     </body>
 </html>
