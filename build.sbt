@@ -53,7 +53,6 @@ pipelineStages := Seq(rjs, digest, gzip)
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
   Seq(
-    cache,
     filters,
     // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
     "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
@@ -81,7 +80,12 @@ libraryDependencies ++= {
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
     "junit" % "junit" % "4.11" % "test",
-    "junit" % "junit-dep" % "4.11" % "test"
+    "junit" % "junit-dep" % "4.11" % "test",
+    "net.sourceforge.htmlunit" % "htmlunit" % "2.13" exclude("commons-collections", "commons-collections"),
+    // Note that commons-collections transitive dependency of htmlunit has been excluded above.
+    // We need to use version 3.2.2 of commons-collections to avoid the following in 3.2.1:
+    // https://commons.apache.org/proper/commons-collections/security-reports.html#Apache_Commons_Collections_Security_Vulnerabilities
+    "commons-collections" % "commons-collections" % "3.2.2" withSources() withJavadoc()
   )
 }
 
