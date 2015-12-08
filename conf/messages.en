@@ -291,14 +291,14 @@ vrm_retention_uprnnotfound.p1 = An error has occurred validating your postcode. 
 vrm_retention_uprnnotfound.manualaddressbutton = Set-up business details
 
 vrm_retention_success_payment.h2 = What to do next
-vrm_retention_success_payment.what-next-1 = If you have the number plates already, you should put these on your vehicle as soon as possible.
-vrm_retention_success_payment.what-next-2 = If you need to have your new plates made up, you can do this once you have received your new V5C
+vrm_retention_success_payment.what-next-1 = if you have the number plates already, you should put these on your vehicle as soon as possible.
+vrm_retention_success_payment.what-next-2 = if you need to have your new plates made up, you can do this once you have received your new V5C
 vrm_retention_success_payment.what-next-3 = at your nearest, DVLA approved number plate supplier.
-vrm_retention_success_payment.what-next-4 = You can now put
+vrm_retention_success_payment.what-next-4 = you can now put
 vrm_retention_success_payment.what-next-5 = onto another vehicle using our online service:
 vrm_retention_success_payment.what-next-6 = Put a registration number on a vehicle.
 vrm_retention_success_payment.what-next-7 = You will need the retention certificate number in the green box above.
-vrm_retention_success_payment.what-next-8 = Advise your insurance company about your change of registration number.
+vrm_retention_success_payment.what-next-8 = advise your insurance company about your change of registration number.
 vrm_retention_success_payment.what-next-9 = You will receive an email confirmation of your retention and a payment receipt.
 
 vrm_retention_success_payment.p6 = You’ll need this to make up the replacement plates
@@ -309,7 +309,7 @@ vrm_retention_success.subtitle = Can now be taken off the vehicle
 vrm_retention_success.yourCert = Your Retention Certificate Number is:
 success-cert-warning = We strongly advise you to keep your certificate number confidential until the registration number is ready to be sold or assigned to a vehicle.
 success-cert-warning-1 = Your current Vehicle Tax and MOT certificate will remain valid until their expiry dates. DVLA will NOT send you a replacement MOT certificate.
-success-replacement-registration-number = Your replacement Registration Number is:
+success-replacement-registration-number = your replacement Registration Number is:
 vrm_retention_success.newPlateLink = Download the eV948
 success-keeper-application-details-contact-us = To contact us:
 success-keeper-application-details-telephone = Telephone

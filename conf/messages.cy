@@ -292,14 +292,14 @@ vrm_retention_uprnnotfound.p1 = Cafwyd gwall wrth ddilysu’ch cod post. Rhowch 
 vrm_retention_uprnnotfound.manualaddressbutton = Gosod manylion busnes
 
 vrm_retention_success_payment.h2 = Beth i’w wneud nesaf
-vrm_retention_success_payment.what-next-1 = Os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
-vrm_retention_success_payment.what-next-2 = Os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich V5C newydd
+vrm_retention_success_payment.what-next-1 = os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
+vrm_retention_success_payment.what-next-2 = os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich V5C newydd
 vrm_retention_success_payment.what-next-3 = yn eich cyflenwr lleol a gymeradwyir gan y DVLA.
-vrm_retention_success_payment.what-next-4 = Gallwch yn awr ei roi ar
+vrm_retention_success_payment.what-next-4 = gallwch yn awr ei roi ar
 vrm_retention_success_payment.what-next-5 = gerbyd arall drwy ddefnyddio
 vrm_retention_success_payment.what-next-6 = ein gwasanaeth ar-lein
 vrm_retention_success_payment.what-next-7 = a’r rhif cadw tystysgrif yn y blwch gwyrdd uchod.
-vrm_retention_success_payment.what-next-8 = Cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
+vrm_retention_success_payment.what-next-8 = cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
 vrm_retention_success_payment.what-next-9 = You will receive an email confirmation of your retention and a payment receipt.
 
 vrm_retention_success_payment.p6 = Byddwch angen hon i gael platiau cofrestru newydd
@@ -310,7 +310,7 @@ vrm_retention_success.subtitle = Gellir ei dynnu oddi ar y cerbyd nawr
 vrm_retention_success.yourCert = Rhif eich Tystysgrif Gadw yw:
 success-cert-warning = Fe’ch cynghorwn yn gryf i gadw rhif eich tystysgrif yn gyfrinachol hyd nes y bydd y rhif cofrestru’n barod i’w werthu neu ei ddynodi ar gyfer cerbyd.
 success-cert-warning-1 = Bydd eich Treth Gerbyd a thystysgrif MOT yn parhau’n ddilys hyd nes y bydd eu dyddiadau’n dirwyn i ben. Ni fydd y DVLA yn anfon tystysgrif MOT newydd atoch.
-success-replacement-registration-number = Eich Rhif Cofrestru newydd yw:
+success-replacement-registration-number = eich Rhif Cofrestru newydd yw:
 vrm_retention_success.newPlateLink = Lawrlwythwch y eV948
 success-keeper-application-details-contact-us = I gysylltu â ni:
 success-keeper-application-details-telephone = Ffôn
