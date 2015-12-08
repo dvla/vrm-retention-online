@@ -1,9 +1,12 @@
 @(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
     showContactDetails : Boolean = false)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
-    config: utils.helpers.Config)
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.vehicleDetailPlayback
+@import uk.gov.dvla.vehicles.presentation.common
+@import common.views.html.widgets.vehicleDetailPlayback
+@import common.views.html.widgets.xmasOpeningTimes
 
 <div id="vehicle-details" class="first-col trader-details">
     @vehicleDetailPlayback(vehicleDetails) {
@@ -20,6 +23,7 @@
     <p>@Messages("success-keeper-application-details-monday-to-friday")</p>
     <p>@Messages("success-keeper-application-details-saturday")</p>
     <p>@Messages("success-keeper-application-details-sunday")</p>
+    @xmasOpeningTimes()
     <br/>
     <p>@Messages("success-keeper-application-details-textphone")</p>
     <p><strong>@Messages("success-keeper-application-details-textphone-number")</strong></p>
