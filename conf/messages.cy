@@ -60,20 +60,27 @@ address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
 addressAndPostcode.addressLines.postTown = Tref neu ddinas
-error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
-error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
 vehicle-registration-number = Rhif Cofrestru Cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw neu rif yr adeilad
-error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod Post
-error.address.buildingNameOrNumber.invalid = Enw neu rif yr adeilad - Rhaid iddo gynnwys isafswm o bedwar nod
+
+# common to both addressPicker widget and addressAndPostcode widget
+error.address.buildingNameOrNumber.invalid = Rhaid i adeilad/ rhif a stryd gynnwys rhwng 4 a 30 o nodau
+error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
+#error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
 error.address.postTown = Tref bost - Rhaid cael tri nod o leiaf
-error.address.postcode.invalid = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
+error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
+error.address.threeAlphas = Must have at least 3 alpha characters
+
+# addressPicker widget
+error.address.addressLine1 = Mae’r maes hwn yn orfodol
+error.address.postCode = Mae’r maes hwn yn orfodol
+error.address.required = Mae angen cyfeiriad
 
 # micro-service response codes
 
@@ -458,7 +465,3 @@ business-address.address-postcode-lookup = Cod Post Busnes
 business-address.address-line-1 = Cyfeiriad Busnes llinell 1
 business-address.post-town = Tref/Dinas Busnes
 business-address.post-code = Cod Post Busnes
-error.address.postCode = Mae’r maes hwn yn orfodol
-error.address.addressLine1 = Mae’r maes hwn yn orfodol
-error.required.address = Mae angen cyfeiriad
-error.threeAlphas = Must have at least 3 alpha characters

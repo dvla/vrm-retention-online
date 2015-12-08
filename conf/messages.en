@@ -59,7 +59,6 @@ address.lines.label = Building/number and street
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
-error.postTown.characterInvalid = Post town contains invalid characters
 
 vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
@@ -70,11 +69,18 @@ addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
 addressAndPostcode.addressLines = Address
 addressAndPostcode.postcode = Postcode
 
-error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
-error.address.buildingNameOrNumber.invalid = Building name or number - Must contain a minimum of four characters
-error.address.postTown = Post town - Requires a minimum length of three characters
-error.address.postcode.invalid = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
+# common to both addressPicker widget and addressAndPostcode widget
+error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
 error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
+#error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
+error.address.postTown = Post town - Requires a minimum length of three characters
+error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
+error.address.threeAlphas = Must have at least 3 alpha characters
+
+# addressPicker widget
+error.address.addressLine1 = This field is mandatory
+error.address.postCode = This field is mandatory
+error.address.required = Address is required
 
 vrm_locked.title=Registration number is locked
 vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
@@ -457,7 +463,3 @@ business-address.address-postcode-lookup = Business Postcode
 business-address.address-line-1 = Business Address line 1
 business-address.post-town = Business Town/City
 business-address.post-code = Business Postcode
-error.address.postCode = This field is mandatory
-error.address.addressLine1 = This field is mandatory
-error.required.address = Address is required
-error.threeAlphas = Must have at least 3 alpha characters
