@@ -1,3 +1,22 @@
+======= 1.29 ========
+Time of release binaries creation:
+
+DE828 	Confirmation email on mobile devices
+US3973 	Enhance playbackList widget to handle lower case email
+US3984 	Consolidate VM and PR address validation
+US3987 	Remove dependencies on jquery-migrate
+US3990 	Review *ViewModel classes
+US4018 	Ensure consistent use of the word 'email' across all VMPR services
+US4032 	Summary Page Green box needs to include a tick and Application successful text
+US4033 	All Bullet point entries to be followed by lower case letters (not capitals)
+US4034 	Remove CEG's Phone number from first two screens of unsuccessful vehicle lookup
+US4039 	Create and implement a microserviceerror widget and controller, part 2
+US4051 	Xmas Opening Times Link for CEG
+US4052 	Address picker add three alphas constraint
+US4059 	Change the version of Apache Commons Collections to the one that has fixed security vulnerabilities or exclude it altogether
+US4061 	Change 2nd 'Cancel' control to 'Exit'
+US4077 	Logging postcodes in a non-anonymised way in the vehicle lookup controller
+
 ======= 1.28.1 ========
 Time of release binaries creation:
 Fri Nov 27 12:25:40 UTC 2015
