@@ -15,7 +15,9 @@ import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.clientsidesession.CookieImplicits.RichForm
 import common.clientsidesession.CookieImplicits.RichResult
+import common.clientsidesession.TrackingId
 import common.controllers.VehicleLookupBase
+import common.LogFormats
 import common.model.BruteForcePreventionModel
 import common.model.VehicleAndKeeperDetailsModel
 import common.views.constraints.Postcode.formatPostcode
@@ -154,8 +156,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                  (implicit request: Request[_]): Result = {
 
     val txnId = transactionId(formModel)
+    val trackingId = request.cookies.trackingId()
 
-    if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)) {
+    if (!postcodesMatch(formModel.postcode, vehicleAndKeeperDetailsDto.keeperPostcode)(trackingId)) {
       val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto)
       val trackingId = request.cookies.trackingId()
 
@@ -221,10 +224,12 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     .withCookie(PaymentTransNoCacheKey, calculatePaymentTransNo)
 
   private def postcodesMatch(formModelPostcode: String, dtoPostcode: Option[String])
-                            (implicit request: Request[_]) = {
+                            (trackingId: TrackingId) = {
     dtoPostcode match {
       case Some(postcode) =>
-        logMessage(request.cookies.trackingId, Info, s"formModelPostcode = $formModelPostcode dtoPostcode $postcode")
+        val msg = s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}, " +
+        s"dtoPostcode = ${LogFormats.anonymize(postcode)}"
+        logMessage(trackingId, Info, msg)
 
         def formatPartialPostcode(postcode: String): String = {
           val SpaceCharDelimiter = " "
@@ -255,7 +260,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           formatPartialPostcode(postcode).filterNot(" " contains _).toUpperCase
 
       case None =>
-        logMessage(request.cookies.trackingId,Info,"formModelPostcode = " + formModelPostcode)
+        logMessage(trackingId, Info, s"formModelPostcode = ${LogFormats.anonymize(formModelPostcode)}")
         formModelPostcode.isEmpty
     }
   }

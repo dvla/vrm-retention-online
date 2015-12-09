@@ -60,20 +60,27 @@ address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
 addressAndPostcode.addressLines.postTown = Tref neu ddinas
-error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
-error.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 
 vehicle-registration-number = Rhif Cofrestru Cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
 
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw neu rif yr adeilad
-error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod Post
-error.address.buildingNameOrNumber.invalid = Enw neu rif yr adeilad - Rhaid iddo gynnwys isafswm o bedwar nod
+
+# common to both addressPicker widget and addressAndPostcode widget
+error.address.buildingNameOrNumber.invalid = Rhaid i adeilad/ rhif a stryd gynnwys rhwng 4 a 30 o nodau
+error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
+#error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
 error.address.postTown = Tref bost - Rhaid cael tri nod o leiaf
-error.address.postcode.invalid = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
+error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
+error.address.threeAlphas = Must have at least 3 alpha characters
+
+# addressPicker widget
+error.address.addressLine1 = Mae’r maes hwn yn orfodol
+error.address.postCode = Mae’r maes hwn yn orfodol
+error.address.required = Mae angen cyfeiriad
 
 # micro-service response codes
 
@@ -140,19 +147,19 @@ vrm_retention_setupbusinessdetails.businessnamelabel = Enw busnes
 vrm_retention_setupbusinessdetails.businessnamehelper = Enw’r unigolyn sy’n cwblhau’r trafodion hyn
 contact-name = Enw cyswllt
 vrm_retention_setupbusinessdetails.businesscontactlabel = Enw cyswllt
-contact-email = Cyswllt e-bost
-vrm_retention_setupbusinessdetails.businessemaillabel = Cyswllt e-bost
-vrm_retention_setupbusinessdetails.businessemailhelper = Cyfeiriad e-bost i gadarnhau’r trafodion hyn
+contact-email = Cyswllt ebost
+vrm_retention_setupbusinessdetails.businessemaillabel = Cyswllt ebost
+vrm_retention_setupbusinessdetails.businessemailhelper = Cyfeiriad ebost i gadarnhau’r trafodion hyn
 vrm_retention_setupbusinessdetails.button = Nesaf
 vrm_retention_setupbusinessdetails.addresswarning =
 vrm_retention_setupbusinessdetails.addresswarninglinktext =
 
 error.validBusinessName = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
 error.validBusinessContact = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
-error.email = Mae angen cyfeiriad e-bost
-error.email.confirm.required = Cadarnhewch y cyfeiriad e-bost
-error.email.not.match = Nid oedd y cyfeiriadau e-bost yn cyfateb
-email.verify.label = Cadarnhau cyfeiriad e-bost
+error.email = Mae angen cyfeiriad ebost
+error.email.confirm.required = Cadarnhewch y cyfeiriad ebost
+error.email.not.match = Nid oedd y cyfeiriadau ebost yn cyfateb
+email.verify.label = Cadarnhau cyfeiriad ebost
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Rhoi manylion
@@ -260,15 +267,15 @@ vrm_retention_confirm.keeperAddressLabel = Cyfeiriad
 vrm_retention_confirm.keeperPostcodeLabel = Cod Post
 vrm_retention_confirm.businessNameLabel = Enw busnes
 vrm_retention_confirm.businessContactLabel = Enw cyswllt
-vrm_retention_confirm.businessEmailLabel = Cyswllt e-bost
+vrm_retention_confirm.businessEmailLabel = Cyswllt ebost
 vrm_retention_confirm.businessAddressLabel = Cyfeiriad
-keeper-email = E-bost
-supply-email = Opsiynau E-bost
-mandatory-alternative.not-selected = Rhowch wybod inni a oes angen e-bost cadarnhau arnoch
-vrm_retention_confirm.emailAddressKeeperLabel = E-bost y Ceidwad
-vrm_retention_confirm.emailAddressCustomerLabel = E-bost y Cwsmer
-vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad e-bost i gael derbynneb taliad a chrynodeb o’r trafodion
-vrm_retention_confirm.emailTrade = Rhowch gyfeiriad e-bost eich cwsmer i gael crynodeb o’r trafodion
+keeper-email = Ebost
+supply-email = Opsiynau ebost
+mandatory-alternative.not-selected = Rhowch wybod inni a oes angen ebost cadarnhau arnoch
+vrm_retention_confirm.emailAddressKeeperLabel = Ebost y Ceidwad
+vrm_retention_confirm.emailAddressCustomerLabel = Ebost y Cwsmer
+vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodion
+vrm_retention_confirm.emailTrade = Rhowch gyfeiriad ebost eich cwsmer i gael crynodeb o’r trafodion
 vrm_retention_confirm.emailWarnp4 = Am ragor o wybodaeth ar sut i ddiweddaru’ch manylion, ewch i
 vrm_retention_confirm.emailWarnp4link = “Newid manylion cerbyd ar dystysgrif cofrestru V5C (llyfr log)”
 vrm_retention_confirm.button = Nesaf
@@ -281,25 +288,25 @@ vrm_retention_confirm.emailWarnp3 = Yn ddibynnol ar y newidiadau, efallai y bydd
 vrm_retention_exit.button = Gadael
 vrm_retention_finish.button = Gorffen
 vrm_retention_changedetails.button = Newid Manylion
-supply-email-keeper-acting = Ydych chi’n dymuno derbyn e-bost gyda chrynodeb o’r trafodion?
-supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn e-bost gyda chrynodeb o’r trafodion?
+supply-email-keeper-acting = Ydych chi’n dymuno derbyn ebost gyda chrynodeb o’r trafodion?
+supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn ebost gyda chrynodeb o’r trafodion?
 supply-email-true = Byddwn
 supply-email-false = Na fyddwn
-email-not-supplied = Rhaid i chi gynnig cyfeiriad e-bost er mwyn cael crynodeb o’r trafodion
+email-not-supplied = Rhaid i chi gynnig cyfeiriad ebost er mwyn cael crynodeb o’r trafodion
 
 vrm_retention_uprnnotfound.title = Gwall wrth gadarnhau cod post
 vrm_retention_uprnnotfound.p1 = Cafwyd gwall wrth ddilysu’ch cod post. Rhowch eich manylion eto neu cyflwynwch nhw â llaw
 vrm_retention_uprnnotfound.manualaddressbutton = Gosod manylion busnes
 
 vrm_retention_success_payment.h2 = Beth i’w wneud nesaf
-vrm_retention_success_payment.what-next-1 = Os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
-vrm_retention_success_payment.what-next-2 = Os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich V5C newydd
+vrm_retention_success_payment.what-next-1 = os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
+vrm_retention_success_payment.what-next-2 = os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich V5C newydd
 vrm_retention_success_payment.what-next-3 = yn eich cyflenwr lleol a gymeradwyir gan y DVLA.
-vrm_retention_success_payment.what-next-4 = Gallwch yn awr ei roi ar
+vrm_retention_success_payment.what-next-4 = gallwch yn awr ei roi ar
 vrm_retention_success_payment.what-next-5 = gerbyd arall drwy ddefnyddio
 vrm_retention_success_payment.what-next-6 = ein gwasanaeth ar-lein
 vrm_retention_success_payment.what-next-7 = a’r rhif cadw tystysgrif yn y blwch gwyrdd uchod.
-vrm_retention_success_payment.what-next-8 = Cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
+vrm_retention_success_payment.what-next-8 = cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
 vrm_retention_success_payment.what-next-9 = You will receive an email confirmation of your retention and a payment receipt.
 
 vrm_retention_success_payment.p6 = Byddwch angen hon i gael platiau cofrestru newydd
@@ -310,7 +317,7 @@ vrm_retention_success.subtitle = Gellir ei dynnu oddi ar y cerbyd nawr
 vrm_retention_success.yourCert = Rhif eich Tystysgrif Gadw yw:
 success-cert-warning = Fe’ch cynghorwn yn gryf i gadw rhif eich tystysgrif yn gyfrinachol hyd nes y bydd y rhif cofrestru’n barod i’w werthu neu ei ddynodi ar gyfer cerbyd.
 success-cert-warning-1 = Bydd eich Treth Gerbyd a thystysgrif MOT yn parhau’n ddilys hyd nes y bydd eu dyddiadau’n dirwyn i ben. Ni fydd y DVLA yn anfon tystysgrif MOT newydd atoch.
-success-replacement-registration-number = Eich Rhif Cofrestru newydd yw:
+success-replacement-registration-number = eich Rhif Cofrestru newydd yw:
 vrm_retention_success.newPlateLink = Lawrlwythwch y eV948
 success-keeper-application-details-contact-us = I gysylltu â ni:
 success-keeper-application-details-telephone = Ffôn
@@ -326,12 +333,12 @@ success-keeper-application-details-textphone-number = 18001 0300 123 1379
 
 success-keeper-details = Manylion y ceidwad
 success-keeper-details-name = Enw:
-success-keeper-details-email = E-bost:
+success-keeper-details-email = Ebost:
 success-keeper-details-email-not-entered = HEB EI ROI
 success-keeper-details-address = Cyfeiriad:
 success-business-details = Manylion busnes
 success-business-details-name = Enw:
-success-business-details-email = E-bost:
+success-business-details-email = Ebost:
 success-business-details-address = Cyfeiriad:
 
 vrm_retention_success.p1 = Beth fydd yn digwydd nesaf?
@@ -355,7 +362,7 @@ vrm_retention_leave_feedback.title=Diolch
 vrm_retention_leave_feedback.feedback = rhoi adborth
 vrm_retention_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
 
-email.withoutHtml = Nid yw’ch cleient e-bost yn cefnogi negeseuon HTML.
+email.withoutHtml = Nid yw’ch cleient ebost yn cefnogi negeseuon HTML.
 email.title = Tynnu Rhif Cofrestru oddi ar Gerbyd i gwblhau ar gyfer {0}
 email.line2 = Eich cais i dynnu rhif cofrestru oddi ar gerbyd
 email.line3 = Rhif Tystysgrif Cadw
@@ -385,8 +392,8 @@ vehicle-lookup-failure-transaction-id = ID Trafodion
 
 # failure email
 email.failure.title = Tynnu rhif cofrestru oddi ar Gerbyd
-email.failure.line1 = DYMA E-BOST AWTOMATIG
-email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON E-BOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
+email.failure.line1 = DYMA EBOST AWTOMATIG
+email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
 email.failure.line3 =
 email.failure.line4 =Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerbyd’. Roedd eich cais yn \
   unsuccessful at this time and your credit/debit card has not been charged.
@@ -415,18 +422,18 @@ text-v317 = V317
 # feedback
 common_feedback.title = Rhowch adborth
 common_feedback.message = Peidiwch â chynnwys unrhyw wybodaeth bersonol neu ariannol.
-common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch e-bost
+common_feedback.warning = Mae'r dudalen hon ar gyfer adborth yn unig ac ni allwn gynnig ateb personol i'ch ebost
 common_feedback.label = Beth aeth o’i le os o gwbl Beth weithiodd yn dda? Sut allen ni wella ar y gwasanaeth hwn?
 common_feedback.charactersRemaining = nodau’n weddill
 common_feedback.submit_button = Cyflwyno adborth
 common_feedback.thankyou = Diolch i chi am eich adborth
 common_feedback.subject = Tynnu rhif cofrestru oddi ar gerbyd -Adborth
 common_feedback.name = Enw
-common_feedback.email = E-bost
-common_feedback.feedbackTitle = Gadewch eich enw a’ch cyfeiriad e-bost rhag ofn y bydd angen i ni gysylltu â chi
+common_feedback.email = Ebost
+common_feedback.feedbackTitle = Gadewch eich enw a’ch cyfeiriad ebost rhag ofn y bydd angen i ni gysylltu â chi
 error.feedback = Ni all yr adborth fod yn fwy na 500 o nodau
 error.feedbackName = Ni all yr enw fod yn fwy na 60 o nodau
-feedbackEmail = E-bost
+feedbackEmail = Ebost
 feedbackName = Enw
 feedback = Ffurflen adborth
 feedback_return = ◄ Dychwelyd at eich cais
@@ -435,7 +442,7 @@ feedback_close = Caewch y dudalen er mwyn dychwelyd at eich cais
 # timeout
 vrm_retention_timeout.title = Arhoswch os gwelwch yn dda
 vrm_retention_timeout.p-1 = Rydym yn profi oedi wrth brosesu’ch cais.
-vrm_retention_timeout.p-2 = Byddwn yn eich diweddaru drwy e-bost pan brosesir eich cais.
+vrm_retention_timeout.p-2 = Byddwn yn eich diweddaru drwy ebost pan brosesir eich cais.
 vrm_retention_timeout.playback-title = Manylion y cerbyd
 vrm_retention_timeout.playback-current = Rhif cofrestru presennol:
 vrm_retention_timeout.playback-new = Y rhif cofrestru y dymunwch ei roi ymlaen:
@@ -458,7 +465,3 @@ business-address.address-postcode-lookup = Cod Post Busnes
 business-address.address-line-1 = Cyfeiriad Busnes llinell 1
 business-address.post-town = Tref/Dinas Busnes
 business-address.post-code = Cod Post Busnes
-error.address.postCode = Mae’r maes hwn yn orfodol
-error.address.addressLine1 = Mae’r maes hwn yn orfodol
-error.required.address = Mae angen cyfeiriad
-error.threeAlphas = Must have at least 3 alpha characters

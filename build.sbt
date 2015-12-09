@@ -53,7 +53,6 @@ pipelineStages := Seq(rjs, digest, gzip)
 libraryDependencies ++= {
   val akkaVersion = "2.3.4"
   Seq(
-    cache,
     filters,
     // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
     "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
@@ -73,15 +72,20 @@ libraryDependencies ++= {
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.38-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.38-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.39-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.39-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
     "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
     "org.webjars" % "requirejs" % "2.1.16",
     "org.webjars" % "jquery" % "1.9.1",
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
     "junit" % "junit" % "4.11" % "test",
-    "junit" % "junit-dep" % "4.11" % "test"
+    "junit" % "junit-dep" % "4.11" % "test",
+    "net.sourceforge.htmlunit" % "htmlunit" % "2.13" exclude("commons-collections", "commons-collections"),
+    // Note that commons-collections transitive dependency of htmlunit has been excluded above.
+    // We need to use version 3.2.2 of commons-collections to avoid the following in 3.2.1:
+    // https://commons.apache.org/proper/commons-collections/security-reports.html#Apache_Commons_Collections_Security_Vulnerabilities
+    "commons-collections" % "commons-collections" % "3.2.2" withSources() withJavadoc()
   )
 }
 
@@ -137,7 +141,7 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
-lazy val osAddressLookupProject = osAddressLookup("0.25-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.26-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.20-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val paymentSolveProject = paymentSolve("0.23-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.19-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
