@@ -7,7 +7,7 @@ import Headers.{headers_accept_html, headers_x_www_form_urlencoded}
 
 class Chains(data: RecordSeqFeederBuilder[String]) {
 
-  private val beforeYouStartPageTitle = "Take a Registration Number off a Vehicle"
+  private val beforeYouStartPageTitle = "Take a registration number off a vehicle"
   private val vehicleLookupPageTitle = "Enter details"
   private val setupBusinessDetailsPageTitle = "Provide your business details"
   private val businessChooseYourAddressPageTitle = "Select your business address"

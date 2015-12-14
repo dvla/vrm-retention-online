@@ -12,8 +12,8 @@ object BeforeYouStartPage extends Page {
   def address = s"$applicationContext/before-you-start"
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
-  final override val title: String = "Take a Registration Number off a Vehicle"
-  final val titleCy: String = "Tynnu Rhif Cofrestru oddi ar Gerbyd"
+  final override val title: String = "Take a registration number off a vehicle"
+  final val titleCy: String = "Tynnu rhif cofrestru oddi ar gerbyd"
 
   def startNow(implicit driver: WebDriver) = find(id(NextId)).get
 
