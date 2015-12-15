@@ -22,14 +22,6 @@ import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
 final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
 
-  //  private implicit val webDriver: EventFiringWebDriver = {
-  //    import com.typesafe.config.ConfigFactory
-  //    val conf = ConfigFactory.load()
-  //    conf.getString("browser.type") match {
-  //      case "firefox" => new WebBrowserFirefoxDriver
-  //      case _ => new WebBrowserDriver
-  //    }
-  //  }
   private val timeout = PatienceConfig(timeout = 30.seconds)
   private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
   private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
@@ -180,7 +172,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     confirmBusiness.`is displayed`
   }
 
-  @Then( """^reset the "(.*?)" so it won't be locked next time we run the tests$""")
+  @Then( """^reset the \"(.*?)\" so it won't be locked next time we run the tests$""")
   def `reset the <Vehicle-Registration-Number> so it won't be locked next time we run the tests`(vehicleRegistrationNumber: String) = {
     user.
       goToVehicleLookupPage.
