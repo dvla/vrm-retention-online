@@ -11,20 +11,25 @@ import pages.vrm_retention.VehicleLookupPage.{currentKeeperNo, currentKeeperYes,
 import pages.vrm_retention.VehicleLookupPage.documentReferenceNumber
 import pages.vrm_retention.VehicleLookupPage.keeperPostcode
 import pages.vrm_retention.VehicleLookupPage.vehicleRegistrationNumber
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
 class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
   extends ScalaDsl with EN with Matchers {
 
+  private val registrationNumber = RandomVrmGenerator.vrm
+  private val docRef = "11111111111"
+  private val postCode = "SA11AA"
+
   def `happy path for business` = {
     `is displayed`
-      .enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA")
+      .enter(registrationNumber = registrationNumber, docRefNumber = docRef, postcode = postCode)
       .`keeper is not acting`
       .`find vehicle`
     this
   }
 
   def `happy path for keeper` = {
-    enter(registrationNumber = "A1", docRefNumber = "11111111111", postcode = "AA11AA")
+    enter(registrationNumber = registrationNumber, docRefNumber = docRef, postcode = postCode)
       .`keeper is acting`
       .`find vehicle`
     this
@@ -66,9 +71,9 @@ class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: 
   }
 
   def `form is filled with the values I previously entered`() = {
-    vehicleRegistrationNumber.value should equal("A1")
-    documentReferenceNumber.value should equal("11111111111")
-    keeperPostcode.value should equal("AA11AA")
+    vehicleRegistrationNumber.value should equal(registrationNumber)
+    documentReferenceNumber.value should equal(docRef)
+    keeperPostcode.value should equal(postCode)
     this
   }
 
