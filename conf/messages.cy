@@ -1,7 +1,7 @@
 main.back = Yn ôl
 main.banner.feedback = eich adborth
 crown-copyright = Hawlfraint y Goron
-open-government-licence = Trwydded Llywodraeth Agored v2.0
+open-government-licence = trwydded llywodraeth agored v2.0
 open-government-licence-p1 = Mae’r holl gynnwys ar gael dan y
 open-government-licence-p2 = , oni bai y nodir fel arall
 gov-uk = GOV.UK
@@ -73,7 +73,7 @@ addressAndPostcode.postcode = Cod post
 error.address.buildingNameOrNumber.invalid = Rhaid i adeilad/ rhif a stryd gynnwys rhwng 4 a 30 o nodau
 error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
 #error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
-error.address.postTown = Tref bost - Rhaid cael tri nod o leiaf
+error.address.postTown = Tref bost - rhaid cael tri nod o leiaf
 error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
 error.address.threeAlphas = Must have at least 3 alpha characters
 
@@ -244,7 +244,7 @@ paymentFailureErrorMessage.p2 = Un ai rhowch gynnig arall arni neu gadewch y gwa
 paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
-paymentNotAuthorisedErrorMessage.title = Taliad wedi ei Ganslo neu Heb ei Awdurdodi
+paymentNotAuthorisedErrorMessage.title = Taliad wedi ei ganslo neu heb ei awdurdodi
 paymentNotAuthorisedErrorMessage.p1 = Ni awdurdodwyd y taliad wrth ddefnyddio’r cerdyn hwn gan gyhoeddwr y cerdyn ac ni chymerwyd unrhyw daliad yn y trafodion.
 paymentNotAuthorisedErrorMessage.p2 = Efallai na roesoch eich manylion i mewn yn gywir.  Os hoffech roi cynnig arall ar roi manylion eich cerdyn neu dalu gyda cherdyn arall, gwnewch hynny nawr.
 paymentNotAuthorisedErrorMessage.p3 = Os byddwch yn parhau i weld y gwall hwn cysylltwch â chyhoeddwr eich cerdyn am gyngor.
@@ -325,7 +325,7 @@ success-keeper-application-details-telephone-number = 0300 123 1350
 success-keeper-application-details-telephone-number-extension1 = (Rhowch y cod
 success-keeper-application-details-telephone-number-extension2 = 662
 success-keeper-application-details-telephone-number-extension3 = pan ofynnir amdano)
-success-keeper-application-details-monday-to-friday = Dydd Llun i Ddydd Gwener: 08.00 - 19.00
+success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08.00 - 19.00
 success-keeper-application-details-saturday = Dydd Sadwrn: 08.00 - 14.00
 success-keeper-application-details-sunday = Dydd Sul: Ar gau
 success-keeper-application-details-textphone = Ffôn testun
@@ -365,7 +365,7 @@ vrm_retention_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drw
 email.withoutHtml = Nid yw’ch cleient ebost yn cefnogi negeseuon HTML.
 email.title = Tynnu rhif cofrestru oddi ar gerbyd i gwblhau ar gyfer {0}
 email.line2 = Eich cais i dynnu rhif cofrestru oddi ar gerbyd
-email.line3 = Rhif Tystysgrif cadw
+email.line3 = Rhif tystysgrif cadw
 email.line4 = Cwblhawyd y trafodion
 email.line5 = Eich ID trafodion yw:
 email.line7 = Cyhoeddir tystysgrif gadw yn awr i’r ceidwad cofrestredig.
@@ -395,7 +395,7 @@ email.failure.title = Tynnu rhif cofrestru oddi ar Gerbyd
 email.failure.line1 = DYMA EBOST AWTOMATIG
 email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
 email.failure.line3 =
-email.failure.line4 =Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerbyd’. Roedd eich cais yn \
+email.failure.line4 =Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerbyd’. roedd eich cais yn \
   unsuccessful at this time and your credit/debit card has not been charged.
 email.failure.line5 =
 email.failure.line6 = Os dymunwch gysylltu â’r DVLA ynglŷn â’r cais hwn, yna cysylltwch â ni drwy ddefnyddio’r \
@@ -404,7 +404,7 @@ email.failure.line7 = Ffôn:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (rhowch estyniad 662 pan ofynnir amdano)
 email.failure.line10 =
-email.failure.line11 = Dydd Llun i Ddydd Gwener: 08:00 to 18:00
+email.failure.line11 = Dydd llun i Ddydd Gwener: 08:00 to 18:00
 email.failure.line12 = Dydd Sadwrn: 08:00 to 14:00
 email.failure.line13 = Dydd Sul: Ar gau
 email.failure.line14 =
@@ -412,7 +412,7 @@ email.failure.line15 = Ffôn testun:
 email.failure.line16 = 18001 0300 123 1379
 
 # closed
-closed.title = Nid yw’r Gwasanaeth ar gael
+closed.title = Nid yw’r gwasanaeth ar gael
 closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd Sadwrn yn unig {0} to {1}
 closed.exit_button = Gadael
 
