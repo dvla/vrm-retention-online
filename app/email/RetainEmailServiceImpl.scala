@@ -1,5 +1,7 @@
 package email
 
+import java.io.FileWriter
+
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.apache.commons.codec.binary.Base64
@@ -82,6 +84,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         businessDetailsModel,
         isKeeper
       ).toString()
+
 
       val subject = vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
