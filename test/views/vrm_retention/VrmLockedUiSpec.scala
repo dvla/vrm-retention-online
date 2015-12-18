@@ -33,13 +33,32 @@ class VrmLockedUiSpec extends UiSpec with TestHarness {
         equal(uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.TokenName)
       csrf.getAttribute("value").length > 0 should equal(true)
     }
-    "page should not contain contact informatio" should {
+
+    "page should not contain contact information" should {
       "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
         go to BeforeYouStartPage
-        cacheSetup()
+        cacheSetup
         go to VrmLockedPage
         pageSource should include("Telephone")
       }
+    }
+
+    "contain the time of locking" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup
+      go to VrmLockedPage
+      val localTime: WebElement = webDriver.findElement(By.id("localTimeOfVrmLock"))
+      localTime.isDisplayed should equal(true)
+      localTime.getText.contains("UTC") should equal (true)
+    }
+
+    "contain the time of locking when JavaScript is disabled" taggedAs UiTag in new WebBrowserWithJsDisabled {
+      go to BeforeYouStartPage
+      cacheSetup
+      go to VrmLockedPage
+      val localTime: WebElement = webDriver.findElement(By.id("localTimeOfVrmLock"))
+      localTime.isDisplayed should equal(true)
+      localTime.getText.contains("UTC") should equal (true)
     }
   }
 

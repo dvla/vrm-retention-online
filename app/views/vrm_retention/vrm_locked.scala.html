@@ -4,6 +4,8 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import org.joda.time.DateTime
+@import org.joda.time.format.DateTimeFormat
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.registrationNumber
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.base.csrfTokenHiddenField
 @import views.html.helper.form
@@ -21,7 +23,7 @@
             <h2>@Messages("vrm_locked.title")</h2>
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_locked.text1")</p>
-            <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock' >@vrmLockedViewModel.timeString</span></p>
+            <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock'>@DateTime.parse(vrmLockedViewModel.timeString).toString(DateTimeFormat.longTime.withLocale(lang.toLocale))</span></p>
             <p>@Messages("vrm_locked.text3") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("text-v317")</a> @Messages("vrm-locked-text4")</p>
             <div class="form-steps">
                 <div class="step">
@@ -34,16 +36,4 @@
         </div>
         @failure_playback(vrmLockedViewModel.vehicleDetails,true)
     </div>
-
-    <script type="text/javascript">
-        function localize(milliseconds)
-        {
-            var date = new Date();
-            date.setTime(milliseconds);
-            var localTime = date.toLocaleTimeString();
-            document.getElementById('localTimeOfVrmLock').innerHTML = localTime;
-        }
-
-        localize(@vrmLockedViewModel.javascriptTimestamp);
-    </script>
 }
