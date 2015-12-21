@@ -34,14 +34,14 @@ class VrmLockedUiSpec extends UiSpec with TestHarness {
       csrf.getAttribute("value").length > 0 should equal(true)
     }
 
-    "page should not contain contact information" should {
+
       "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
         go to BeforeYouStartPage
         cacheSetup
         go to VrmLockedPage
         pageSource should include("Telephone")
       }
-    }
+
 
     "contain the time of locking" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
