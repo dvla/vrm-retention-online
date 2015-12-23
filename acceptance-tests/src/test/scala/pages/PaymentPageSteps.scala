@@ -53,7 +53,7 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver, timeout: Patien
 
   def `expiryDate` = {
     singleSel(expiryMonth()).value = "08"
-    singleSel(expiryYear()).value = "2018"
+    singleSel(expiryYear()).value = org.joda.time.LocalDate.now.plusYears(3).getYear.toString
     this
   }
 
