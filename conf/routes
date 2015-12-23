@@ -99,4 +99,7 @@ GET         /version                                       @controllers.Version.
 GET         /feedback                                      @controllers.FeedbackController.present
 POST        /feedback                                      @controllers.FeedbackController.submit
 
+GET         /healthcheck                                   @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.respond
+GET         /healthcheck/debug                             @uk.gov.dvla.vehicles.presentation.common.controllers.HealthCheck.debug
+
 GET         /address-lookup/postcode/:postcode             @controllers.AddressLookup.byPostcode(postcode)
