@@ -109,7 +109,7 @@ class PaymentUnitSpec extends UnitSpec {
     "display the Payment page when required cookies and referer exist and " +
       "payment service response is 'validated' and status is 'CARD_DETAILS'" in new WithApplication {
       val result = payment.begin(requestWithValidDefaults())
-      whenReady(result) { r =>
+      whenReady(result, timeout) { r =>
         r.header.status should equal(OK)
       }
     }

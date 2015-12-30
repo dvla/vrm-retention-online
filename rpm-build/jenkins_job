@@ -6,7 +6,7 @@ export SBT_OPTS="-Dspecs2.color=false -Dsbt.log.format=true -Dsbt.log.noformat=t
  -Xms1024M -Xmx3096M -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+UseParNewGC \
  -XX:PermSize=1024M -XX:MaxPermSize=2048M -Dtest.port=9003 \
  -Dws.timeout.request=30000 -DpaymentSolve.ms.requesttimeout=30000 -DvrmRetentionEligibility.requestTimeout=30000 \
- -DvrmRetentionRetain.requestTimeou=30000 -DtimeoutInMillisSoap=30000 -Dspray.can.server.request-timeout=30s $SBT_OPTS"
+ -DvrmRetentionRetain.requestTimeout=30000 -DtimeoutInMillisSoap=30000 -Dspray.can.server.request-timeout=30s -DspanScaleFactor=5.0 $SBT_OPTS"
 
 sbt clean test accept dist publish
 

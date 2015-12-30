@@ -1,21 +1,17 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{currentUrl, pageSource}
 import pages.vrm_retention.VehicleLookupFailurePage.url
 
-class VehicleNotFoundPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+class VehicleNotFoundPageSteps(implicit webDriver: EventFiringWebDriver)
+  extends helpers.AcceptanceTestHelper {
 
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }(timeout)
+    }
     this
   }
 

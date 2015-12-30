@@ -1,16 +1,12 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{currentUrl, pageSource, pageTitle}
 import pages.vrm_retention.VehicleLookupFailurePage.{downloadLink, exitLink, tryAgainButton, url}
 
-class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver)
+  extends helpers.AcceptanceTestHelper {
 
   def `direct to paper channel message is displayed` = {
     eventually {
@@ -20,7 +16,7 @@ class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver, ti
       pageTitle contains "This registration number cannot be retained online"
       downloadLink.isDisplayed should equal(true)
       exitLink.isDisplayed should equal(true)
-    }(timeout)
+    }
     this
   }
 
@@ -32,7 +28,7 @@ class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver, ti
       pageTitle contains "Transaction Id"
       tryAgainButton.isEnabled should equal(true)
       exitLink.isDisplayed should equal(true)
-    }(timeout)
+    }
     this
   }
 }

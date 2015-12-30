@@ -1,10 +1,6 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource}
 import pages.vrm_retention.VehicleLookupPage.{currentKeeperNo, currentKeeperYes, findVehicleDetails, url}
@@ -13,8 +9,8 @@ import pages.vrm_retention.VehicleLookupPage.keeperPostcode
 import pages.vrm_retention.VehicleLookupPage.vehicleRegistrationNumber
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
-class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver)
+  extends helpers.AcceptanceTestHelper {
 
   private val registrationNumber = RandomVrmGenerator.vrm
   private val docRef = "11111111111"
@@ -38,7 +34,7 @@ class VehicleLookupPageSteps(implicit webDriver: EventFiringWebDriver, timeout: 
   def `is displayed` = {
     eventually {
       currentUrl should equal(url)
-    }(timeout)
+    }
     this
   }
 

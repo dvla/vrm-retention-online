@@ -1,17 +1,13 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource, singleSel, submit}
 import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.PaymentPage.{expiryMonth, expiryYear, payNow, url}
 
-class PaymentPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+class PaymentPageSteps(implicit webDriver: EventFiringWebDriver)
+  extends helpers.AcceptanceTestHelper {
 
   def `happy path` = {
     `is displayed`.

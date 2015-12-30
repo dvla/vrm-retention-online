@@ -1,11 +1,7 @@
 package common
 
 import composition.TestHarness
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.selenium.WebBrowser.{click, cookie, cookies, delete, go}
 import pages.BeforeYouStartPageSteps
 import pages.ConfirmBusinessPageSteps
@@ -24,17 +20,10 @@ class CommonStepDefs(beforeYouStart: BeforeYouStartPageSteps,
                       confirmBusiness: ConfirmBusinessPageSteps,
                       setupBusinessDetails: SetupBusinessDetailsPageSteps,
                       confirm: ConfirmPageSteps
-                      )(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers with TestHarness {
+                      )(implicit webDriver: EventFiringWebDriver)
+  extends helpers.AcceptanceTestHelper with TestHarness {
 
   def `start the PR service` = {
-    //    import com.typesafe.config.ConfigFactory
-    //    val conf = ConfigFactory.load()
-    //    val testEnvValue = conf.getString("test.env")
-    //    val testUrlKey = s"test.url"
-    //    val testUrlValue = conf.getString(s"$testUrlKey.$testEnvValue")
-    //    sys.props += ((testUrlKey, testUrlValue))
-
     beforeYouStart.`go to BeforeYouStart page`.
       `is displayed`
     delete all cookies
@@ -68,7 +57,6 @@ class CommonStepDefs(beforeYouStart: BeforeYouStartPageSteps,
       `is displayed`.
       `enter business details`
     confirmBusiness.`is displayed`
-//    click on ConfirmBusinessPage.rememberDetails
     click on ConfirmBusinessPage.confirm
     this
   }

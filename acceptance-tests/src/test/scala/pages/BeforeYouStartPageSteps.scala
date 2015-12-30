@@ -1,16 +1,12 @@
 package pages
 
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_retention.BeforeYouStartPage
 
-class BeforeYouStartPageSteps(implicit webDriver: EventFiringWebDriver, timeout: PatienceConfig)
-  extends ScalaDsl with EN with Matchers {
+class BeforeYouStartPageSteps(implicit webDriver: EventFiringWebDriver)
+  extends helpers.AcceptanceTestHelper {
 
   def `go to BeforeYouStart page` = {
     go to BeforeYouStartPage
@@ -25,7 +21,7 @@ class BeforeYouStartPageSteps(implicit webDriver: EventFiringWebDriver, timeout:
   def `is displayed` = {
     eventually {
       currentUrl should include(BeforeYouStartPage.address)
-    }(timeout)
+    }
     this
   }
 }

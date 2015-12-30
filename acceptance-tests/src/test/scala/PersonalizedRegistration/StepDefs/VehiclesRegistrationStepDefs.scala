@@ -5,10 +5,6 @@ import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
-import cucumber.api.scala.EN
-import cucumber.api.scala.ScalaDsl
-import org.scalatest.Matchers
-import org.scalatest.concurrent.Eventually.PatienceConfig
 import pages.BeforeYouStartPageSteps
 import pages.ConfirmBusinessPageSteps
 import pages.ConfirmPageSteps
@@ -16,20 +12,18 @@ import pages.SetupBusinessDetailsPageSteps
 import pages.VrmLockedPageSteps
 import pages.VehicleLookupPageSteps
 import pages.VehicleNotFoundPageSteps
-import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.RandomVrmGenerator
 
-final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends ScalaDsl with EN with Matchers {
+final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
 
-  private val timeout = PatienceConfig(timeout = 30.seconds)
-  private val beforeYouStart = new BeforeYouStartPageSteps()(webDriver, timeout)
-  private val vehicleLookup = new VehicleLookupPageSteps()(webDriver, timeout)
-  private val vehicleNotFound = new VehicleNotFoundPageSteps()(webDriver, timeout)
-  private val vrmLocked = new VrmLockedPageSteps()(webDriver, timeout)
-  private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()(webDriver, timeout)
-  private val confirmBusiness = new ConfirmBusinessPageSteps()(webDriver, timeout)
-  private val confirm = new ConfirmPageSteps()(webDriver, timeout)
+  private val beforeYouStart = new BeforeYouStartPageSteps()
+  private val vehicleLookup = new VehicleLookupPageSteps()
+  private val vehicleNotFound = new VehicleNotFoundPageSteps()
+  private val vrmLocked = new VrmLockedPageSteps()
+  private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()
+  private val confirmBusiness = new ConfirmBusinessPageSteps()
+  private val confirm = new ConfirmPageSteps()
   private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -38,7 +32,7 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     confirmBusiness,
     setupBusinessDetails,
     confirm
-  )(webDriver, timeout)
+  )
 
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
@@ -174,9 +168,10 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
 
   @Then( """^reset the \"(.*?)\" so it won't be locked next time we run the tests$""")
   def `reset the <Vehicle-Registration-Number> so it won't be locked next time we run the tests`(vehicleRegistrationNumber: String) = {
+    // This combination of doc ref and postcode should always appear valid to the legacy stubs, so will reset the brute force count.
     user.
       goToVehicleLookupPage.
-      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "11111111111", "SA11AA") // This combination of doc ref and postcode should always appear valid to the legacy stubs, so will reset the brute force count.
+      `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "11111111111", "SA11AA")
   }
 
   /** DO NOT REMOVE **/
