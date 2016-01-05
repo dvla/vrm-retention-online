@@ -25,15 +25,15 @@
             <p>@Messages("vrm_locked.text1")</p>
             <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock'>@DateTime.parse(vrmLockedViewModel.timeString).toString(DateTimeFormat.longTime.withLocale(lang.toLocale))</span></p>
             <p>@Messages("vrm_locked.text3") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("text-v317")</a> @Messages("vrm-locked-text4")</p>
-            <div class="form-steps">
-                <div class="step">
-                    @form(action = controllers.routes.VrmLocked.exit()) {
-                        @csrfTokenHiddenField()
-                        <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button" role="button">@Messages("vrm_locked.exit.button")</button>
-                    }
-                </div>
-            </div>
         </div>
         @failure_playback(vrmLockedViewModel.vehicleDetails,true)
+        <div class="form-steps">
+            <div class="step">
+                @form(action = controllers.routes.VrmLocked.exit()) {
+                @csrfTokenHiddenField()
+                <button id="@ExitRetentionId" type="submit" name="action" value="@ExitAction" class="button" role="button">@Messages("vrm_locked.exit.button")</button>
+                }
+            </div>
+        </div>
     </div>
 }

@@ -18,42 +18,42 @@
     currentForm = None,
     backNavigation = Some(ConfirmBusiness.back())
 ) {
-    <div class="two-col">
-        <div class="second-col">
-                @playbackList(
-                Messages("vrm_retention_confirm_business.title"),
-                {
-                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    playbackItems += Messages("vrm_retention_confirm.businessNameLabel") -> confirmBusinessViewModel.businessName.getOrElse("")
-                    playbackItems += Messages("vrm_retention_confirm.businessContactLabel") -> confirmBusinessViewModel.businessContact.getOrElse("")
-                    confirmBusinessViewModel.businessEmail match {
-                        case Some(email) => playbackItems += ("EMAIL_" + Messages("vrm_retention_confirm.businessEmailLabel") -> email)
-                        case None => playbackItems += (Messages("vrm_retention_confirm.businessEmailLabel") -> Messages("success-keeper-details-email-not-entered") )
-                    }
-                    confirmBusinessViewModel.businessAddress match {
-                        case Some(businessAddress) => playbackItems += (Messages("vrm_retention_confirm.businessAddressLabel") -> businessAddress.address.mkString("<br/>"))
-                        case None => playbackItems += (Messages("vrm_retention_confirm.businessAddressLabel") -> "")
-                    }
-                }
-            )()
-
-        </div>
-        <div class="first-col">
-            @vehicleDetailPlayback(confirmBusinessViewModel.vehicleDetails)()
-        </div>
-    </div>
 
     @form(action = controllers.routes.ConfirmBusiness.submit()) {
         @csrfTokenHiddenField()
-        <div class="form-steps">
-            @if(confirmBusinessViewModel.businessName.isDefined) {
+        <div class="two-col">
+            <div class="second-col">
+                    @playbackList(
+                    Messages("vrm_retention_confirm_business.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                        playbackItems += Messages("vrm_retention_confirm.businessNameLabel") -> confirmBusinessViewModel.businessName.getOrElse("")
+                        playbackItems += Messages("vrm_retention_confirm.businessContactLabel") -> confirmBusinessViewModel.businessContact.getOrElse("")
+                        confirmBusinessViewModel.businessEmail match {
+                            case Some(email) => playbackItems += ("EMAIL_" + Messages("vrm_retention_confirm.businessEmailLabel") -> email)
+                            case None => playbackItems += (Messages("vrm_retention_confirm.businessEmailLabel") -> Messages("success-keeper-details-email-not-entered") )
+                        }
+                        confirmBusinessViewModel.businessAddress match {
+                            case Some(businessAddress) => playbackItems += (Messages("vrm_retention_confirm.businessAddressLabel") -> businessAddress.address.mkString("<br/>"))
+                            case None => playbackItems += (Messages("vrm_retention_confirm.businessAddressLabel") -> "")
+                        }
+                    }
+                )()
+
+            </div>
+            <div class="first-col">
+                @vehicleDetailPlayback(confirmBusinessViewModel.vehicleDetails)()
+            </div>
+            <div class="form-steps">
+                @if(confirmBusinessViewModel.businessName.isDefined) {
                 <a class="button" id="@ChangeDetailsId" href="@controllers.routes.SetUpBusinessDetails.present()" role="button">
                     @Messages("vrm_retention_changedetails.button")
                 </a>
-            }
-            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm_business.button")</button>
-            <br/>
-            <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
+                }
+                <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm_business.button")</button>
+                <br/>
+                <a id="@ExitId" class="exit" href="@controllers.routes.ConfirmBusiness.exit()">@Messages("vrm_retention_exit.button")</a>
+            </div>
         </div>
     }
 }

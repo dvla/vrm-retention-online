@@ -34,19 +34,18 @@
         @csrfTokenHiddenField()
 
         <div class="two-col">
-
             <div class="second-col inline-form">
                 <h2>@Messages("vrm_retention_setupbusinessdetails.title")</h2>
                 <div class="uppercase-input">
-                @valtechInputText(
-                  setupBusinessDetailsFormModel(BusinessContactId),
-                  hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessnamehelper")),
-                  args = Map(
-                    '_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
-                    '_showConstraints -> false,
-                    'maxLength -> BusinessName.MaxLength
-                  )
-                )
+                    @valtechInputText(
+                      setupBusinessDetailsFormModel(BusinessContactId),
+                      hintText = Some(Messages("vrm_retention_setupbusinessdetails.businessnamehelper")),
+                      args = Map(
+                        '_label -> Messages("vrm_retention_setupbusinessdetails.businesscontactlabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> BusinessName.MaxLength
+                      )
+                    )
                 </div>
                 @email(
                   setupBusinessDetailsFormModel(BusinessEmailId),
@@ -55,21 +54,16 @@
                   args = Map('maxLength -> BusinessEmailMaxLength, 'validityMessage -> Messages("error.email"))
                 )
                 <div class="uppercase-input">
-                @valtechInputText(
-                  setupBusinessDetailsFormModel(BusinessNameId),
-                  args = Map(
-                    '_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
-                    '_showConstraints -> false,
-                    'maxLength -> BusinessName.MaxLength
-                  )
-                )
+                    @valtechInputText(
+                      setupBusinessDetailsFormModel(BusinessNameId),
+                      args = Map(
+                        '_label -> Messages("vrm_retention_setupbusinessdetails.businessnamelabel"),
+                        '_showConstraints -> false,
+                        'maxLength -> BusinessName.MaxLength
+                      )
+                    )
                 </div>
                 @addressPicker(setupBusinessDetailsFormModel(BusinessAddressId), ApplicationContext())
-                <div class="form-steps">
-                    <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
-                    <br/>
-                    <a id="@ExitId" class="exit" href="@controllers.routes.SetUpBusinessDetails.exit()">@Messages("vrm_retention_exit.button")</a>
-                </div>
             </div>
             <div id="vehicle-details" class="first-col trader-details">
                 @vehicleDetailPlayback(vehicleAndKeeperDetails)()
@@ -83,7 +77,11 @@
                     }
                 }
             </div>
-
+            <div class="form-steps">
+                <button id="@SubmitId" type="submit" name="action" class="button">@Messages("vrm_retention_setupbusinessdetails.button")</button>
+                <br/>
+                <a id="@ExitId" class="exit" href="@controllers.routes.SetUpBusinessDetails.exit()">@Messages("vrm_retention_exit.button")</a>
+            </div>
         </div>
     }
 }

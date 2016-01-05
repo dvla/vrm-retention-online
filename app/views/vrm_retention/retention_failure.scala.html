@@ -13,18 +13,16 @@
     title =  Messages("vrm_retention_failure.title")
 ) {
     <div class="two-col">
-        @failure_playback(vehicleLookupFailureViewModel.vehicleDetails)
-
         <div class="second-col">
             <h2>@Messages("vrm_retention_failure.title")</h2>
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_retention_failure.text")</p>
-
-            <div class="form-steps">
-                @csrfTokenHiddenField()
-                @* Note the reverse routing syntax for the hyperlink *@
-                <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()" role="button">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
-            </div>
+        </div>
+        @failure_playback(vehicleLookupFailureViewModel.vehicleDetails)
+        <div class="form-steps">
+            @csrfTokenHiddenField()
+            @* Note the reverse routing syntax for the hyperlink *@
+            <a class="button" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()" role="button">@Messages("vrm_retention_paymentfailure.exitbutton")</a>
         </div>
     </div>
 }

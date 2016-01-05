@@ -28,13 +28,12 @@
                     <p>@Messages(responseMessage.get)</p>
                 }
             }
-
-            <div class="form-steps">
-                <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
-                <br/>
-                <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
-            </div>
         </div>
         @failure_playback(viewModel.vehicleDetails)
+        <div class="form-steps">
+            <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
+            <br/>
+            <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
+        </div>
     </div>
 }

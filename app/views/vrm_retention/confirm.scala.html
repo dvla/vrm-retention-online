@@ -25,40 +25,33 @@
     currentForm = Some(confirmForm),
     backNavigation = Some(controllers.routes.Confirm.back())
 ) {
-    <div class="two-col">
-        <div class="second-col">
-            @playbackList(
-                Messages("vrm_retention_confirm.title"),
-                {
-                    val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
-                    playbackItems += (Messages("vrm_retention_confirm.keeperLabel") -> (confirmViewModel.vehicleDetails.title.getOrElse("")
-                            + " " + confirmViewModel.vehicleDetails.firstName.getOrElse("") + " " + confirmViewModel.vehicleDetails.lastName.getOrElse("")) )
-                    playbackItems += (Messages("vrm_retention_confirm.keeperAddressLabel") -> confirmViewModel.vehicleDetails.address.get.address.mkString("<br/>"))
-                }
-            )()
-        </div>
-        <div class="first-col">
-            @vehicleDetailPlayback(confirmViewModel.vehicleDetails)()
-        </div>
-    </div>
-
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()
-        <div class="two-col clearfix">
+        <div class="two-col">
             <div class="second-col">
+                @playbackList(
+                    Messages("vrm_retention_confirm.title"),
+                    {
+                        val playbackItems: LinkedHashMap[String, String] = LinkedHashMap()
+                        playbackItems += (Messages("vrm_retention_confirm.keeperLabel") -> (confirmViewModel.vehicleDetails.title.getOrElse("")
+                                + " " + confirmViewModel.vehicleDetails.firstName.getOrElse("") + " " + confirmViewModel.vehicleDetails.lastName.getOrElse("")) )
+                        playbackItems += (Messages("vrm_retention_confirm.keeperAddressLabel") -> confirmViewModel.vehicleDetails.address.get.address.mkString("<br/>"))
+                    }
+                )()
+
                 @summaryWrapper(Messages("vrm_retention_confirm.emailWarn")) {
-                    <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
-                    <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
-                    <p>@Messages("vrm_retention_confirm.emailWarnp4")
-                        <a href="https://www.gov.uk/change-name-address-v5c">
-                            @Messages("vrm_retention_confirm.emailWarnp4link")
-                        </a>.
-                    </p>
-                    <p>@Messages("vrm_retention_confirm.emailWarnp2")
-                        <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">
-                            @Messages("vrm_retention_confirm.emailWarnp2.link")
-                        </a>
-                    </p>
+                <p>@Messages("vrm_retention_confirm.emailWarnp1")</p>
+                <p>@Messages("vrm_retention_confirm.emailWarnp3")</p>
+                <p>@Messages("vrm_retention_confirm.emailWarnp4")
+                    <a href="https://www.gov.uk/change-name-address-v5c">
+                        @Messages("vrm_retention_confirm.emailWarnp4link")
+                    </a>.
+                </p>
+                <p>@Messages("vrm_retention_confirm.emailWarnp2")
+                    <a href="https://www.gov.uk/personalised-vehicle-registration-numbers/renewing-updating-or-replacing-a-v778-retention-document">
+                        @Messages("vrm_retention_confirm.emailWarnp2.link")
+                    </a>
+                </p>
                 }
 
                 @optionalToggle(
@@ -82,15 +75,15 @@
                         args = Map('maxLength -> KeeperEmailMaxLength, 'validityMessage -> Messages("error.email"))
                     )
                 )
-
-
             </div>
-        </div>
-
-        <div class="form-steps">
-            <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
-            <br/>
-            <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
+            <div class="first-col">
+                @vehicleDetailPlayback(confirmViewModel.vehicleDetails)()
+            </div>
+            <div class="form-steps">
+                <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
+                <br/>
+                <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
+            </div>
         </div>
     }
 
