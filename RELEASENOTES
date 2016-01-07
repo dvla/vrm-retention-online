@@ -1,3 +1,18 @@
+======= 1.30 ========
+Time of release binaries creation:
+Wed Jan 06 17:18:38 UTC 2016
+
+DE812	Amend all views to render correctly in mobile format
+DE828	Confirmation email on mobile devices
+US2400	Override spanScaleFactor to scale test timeouts
+US3671	Add VRM to failure email title
+US4008	Remove localize Javascript function in vrm-locked
+US4045	Review and correct tests with hard coded date values
+US4062	Ensure sentence case consistency for all headings and sub-headings across all services
+US4074	Remove require.js, call javascript resources directly, and fallback to no-js if a file does not load
+US4076	Update acceptance tests to reset locked VRMs
+US4140	Extend the health check to all web apps
+
 ======= 1.29 ========
 Time of release binaries creation:
 Wed Dec 09 11:51:42 UTC 2015
