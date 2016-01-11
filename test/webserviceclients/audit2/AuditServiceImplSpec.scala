@@ -7,7 +7,7 @@ import helpers.WithApplication
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
-final class AuditServiceImplSpec extends UnitSpec with MockitoSugar {
+class AuditServiceImplSpec extends UnitSpec with MockitoSugar {
 
   "invoke" should {
     "re-throw exception when micro-service response returns an exception" in new WithApplication {

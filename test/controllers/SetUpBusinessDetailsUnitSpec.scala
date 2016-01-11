@@ -70,9 +70,8 @@ class SetUpBusinessDetailsUnitSpec extends UnitSpec {
     "redirect to VehicleLookup page is required cookies do not exist" in new WithApplication {
       val request = FakeRequest()
       val result = setUpBusinessDetails().submit(request)
-      whenReady(result) {
-        r =>
-          r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 

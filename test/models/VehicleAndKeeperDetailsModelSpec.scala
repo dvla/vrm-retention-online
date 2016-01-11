@@ -5,7 +5,7 @@ import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
 
-final class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar {
+class VehicleAndKeeperDetailsModelSpec extends UnitSpec with MockitoSugar {
 
   "from" should {
 

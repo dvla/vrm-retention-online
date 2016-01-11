@@ -7,10 +7,9 @@ import play.api.mvc.Request
 import play.api.test.FakeRequest
 import play.api.test.Helpers.REFERER
 
-final class RefererFromHeaderImplSpec extends UnitSpec {
+class RefererFromHeaderImplSpec extends UnitSpec {
 
   "fetch" should {
-
     "return none when request does not contain a referer" in new WithApplication {
       val refererFromHeader = new RefererFromHeaderImpl
       val request: Request[_] = FakeRequest()
@@ -35,7 +34,6 @@ final class RefererFromHeaderImplSpec extends UnitSpec {
   }
 
   "paymentCallbackUrl" should {
-
     "return expected value when request contains referer with hyphens" in new WithApplication {
       val referer = s"$loadBalancer${routes.Confirm.present()}"
       val tokenBase64URLSafe = "01234"

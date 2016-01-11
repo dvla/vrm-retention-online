@@ -10,7 +10,7 @@ import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearV
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.TrackingIdValid
 
-final class VRMRetentionEligibilityRequestSpec extends UnitSpec {
+class VRMRetentionEligibilityRequestSpec extends UnitSpec {
 
   "format" should {
     "write json with currentVRM" in {

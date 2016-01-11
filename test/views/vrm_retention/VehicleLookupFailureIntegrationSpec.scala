@@ -44,7 +44,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       go to BeforeYouStartPage
       cacheFailureSetup()
       go to VehicleLookupFailurePage
-      pageSource should not include("Telephone")
+      pageSource should not include "Telephone"
     }
   }
   "try again button" should {

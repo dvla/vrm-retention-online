@@ -13,7 +13,7 @@ import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearV
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.paymentsolve.PaymentSolveUpdateRequest
 
-final class VRMRetentionRetainRequestSpec extends UnitSpec {
+class VRMRetentionRetainRequestSpec extends UnitSpec {
 
   "format" should {
     "write json with currentVRM" in {

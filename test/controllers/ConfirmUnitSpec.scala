@@ -38,7 +38,7 @@ class ConfirmUnitSpec extends UnitSpec {
   "present" should {
     "display the page when required cookies are cached" in new WithApplication {
       whenReady(present, timeout) { r =>
-          r.header.status should equal(OK)
+        r.header.status should equal(OK)
       }
     }
 
@@ -54,7 +54,7 @@ class ConfirmUnitSpec extends UnitSpec {
         )
       val result = confirm.present(request)
       whenReady(result, timeout) { r =>
-          r.header.status should equal(OK)
+        r.header.status should equal(OK)
       }
     }
 
@@ -62,7 +62,7 @@ class ConfirmUnitSpec extends UnitSpec {
       val request = FakeRequest()
       val result = confirm.present(request)
       whenReady(result) { r =>
-          r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
+        r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }
     }
   }
@@ -104,10 +104,9 @@ class ConfirmUnitSpec extends UnitSpec {
           trackingIdModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) {
-        r =>
-          r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
-          verify(auditService2.stub).send(auditMessage, TrackingId("trackingId"))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
+        verify(auditService2.stub).send(auditMessage, TrackingId("trackingId"))
       }
     }
 
@@ -122,9 +121,8 @@ class ConfirmUnitSpec extends UnitSpec {
           eligibilityModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) {
-        r =>
-          r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(PaymentPage.address))
       }
     }
 
@@ -138,10 +136,9 @@ class ConfirmUnitSpec extends UnitSpec {
           eligibilityModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should be(empty)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should be(empty)
       }
     }
 
@@ -156,10 +153,9 @@ class ConfirmUnitSpec extends UnitSpec {
           eligibilityModel()
         )
       val result = confirm.submit(request)
-      whenReady(result) {
-        r =>
-          val cookies = fetchCookiesFromHeaders(r)
-          cookies.map(_.name) should contain(ConfirmCacheKey)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain(ConfirmCacheKey)
       }
     }
 

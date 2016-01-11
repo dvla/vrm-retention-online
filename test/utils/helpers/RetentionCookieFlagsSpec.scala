@@ -8,7 +8,7 @@ import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 
 import scala.concurrent.duration.DurationInt
 
-final class RetentionCookieFlagsSpec extends UnitSpec {
+class RetentionCookieFlagsSpec extends UnitSpec {
 
   "applyToCookie (no key passed in)" should {
     "return cookie with max age and secure flag when key is not for a BusinessDetails cookie" in new WithApplication {
