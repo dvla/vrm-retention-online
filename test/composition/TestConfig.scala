@@ -42,8 +42,6 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = true,
 
     when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible) // Stub this config value.
 
-    when(config.isProgressBarEnabled).thenReturn(true)
-
     when(config.emailWhitelist).thenReturn(None)
     when(config.emailSenderAddress).thenReturn(notFound)
 

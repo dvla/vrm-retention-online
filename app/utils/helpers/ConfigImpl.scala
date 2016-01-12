@@ -66,8 +66,6 @@ class ConfigImpl extends Config {
 
   override val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.retention")
 
-  override val isProgressBarEnabled: Boolean = getOptionalProperty[Boolean]("progressBar.enabled").getOrElse(true)
-
   override val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
 
   override val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")

@@ -1,5 +1,4 @@
-@(progress: Option[String] = None,
-    title: String,
+@(title: String,
     currentForm: Option[Form[_]] = None,
     backNavigation: Option[Call] = None,
     showLanguageSwitch: Boolean = false)(content: Html)(implicit lang: Lang,
@@ -9,7 +8,6 @@
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
 @import views.html.common.govMainDefault
-@import views.html.common.progressBar
 @import views.html.common.protoType
 @import views.vrm_retention.Main.BackId
 
@@ -19,8 +17,6 @@
         @protoType(config.closingTimeMinOfDay, config.closingWarnPeriodMins, dateService)
 
         <div class="section-content">
-
-            @progressBar(progress)
 
             @backNavigation.map { call =>
                 <div class="back-navigation">
