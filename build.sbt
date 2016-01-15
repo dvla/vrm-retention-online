@@ -3,18 +3,8 @@ import com.typesafe.sbt.web.SbtWeb
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
-import scoverage.ScoverageSbtPlugin.ScoverageKeys
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionEligibility
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionRetain
-import uk.gov.dvla.vehicles.sandbox.Sandbox
-import uk.gov.dvla.vehicles.sandbox.SandboxSettings
-import uk.gov.dvla.vehicles.sandbox.Tasks
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.{audit, emailService, legacyStubs, osAddressLookup, paymentSolve, vehicleAndKeeperLookup, vrmRetentionEligibility, vrmRetentionRetain}
+import uk.gov.dvla.vehicles.sandbox.{Sandbox, SandboxSettings, Tasks}
 
 publishTo <<= version { v: String =>
   if (v.trim.endsWith("SNAPSHOT"))
@@ -119,21 +109,11 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
-//////////////////
-// Scoverage
-//
-// Code coverage plugin
+coverageExcludedPackages := "<empty>;Reverse.*"
 
-ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;"
+coverageMinimum := 70
 
-ScoverageKeys.coverageMinimum := 65
-
-ScoverageKeys.coverageFailOnMinimum := true
-
-ScoverageKeys.coverageHighlighting := true
-
-// End Scoverage
-//////////////////
+coverageFailOnMinimum := false
 
 resolvers ++= projectResolvers
 
