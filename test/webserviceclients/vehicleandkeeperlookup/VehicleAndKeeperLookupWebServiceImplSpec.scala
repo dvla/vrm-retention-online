@@ -20,7 +20,7 @@ class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFix
   "callVehicleAndKeeperLookupService" should {
     "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.invoke(request, TrackingId(trackingId))
-      whenReady(resultFuture, timeout) { result =>
+      whenReady(resultFuture) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicleandkeeper/lookup/v1")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)))

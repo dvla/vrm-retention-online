@@ -15,7 +15,7 @@ class AuditMicroServiceImplSpec extends IntegrationTestHelper with WireMockFixtu
   "invoke" should {
     "send the serialised json request" in new WithApplication {
       val resultFuture = auditMicroService.invoke(request, TrackingId("testTrackingId"))
-      whenReady(resultFuture, timeout) { result =>
+      whenReady(resultFuture) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/audit/v1")
         ).withRequestBody(equalTo(Json.toJson(request).toString())))

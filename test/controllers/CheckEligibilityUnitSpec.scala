@@ -191,7 +191,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
         )
       val result = checkEligibility.present(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         verify(auditService, times(1)).send(expected, TrackingId("trackingId"))
       }
     }

@@ -37,8 +37,8 @@ class ConfirmUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page when required cookies are cached" in new WithApplication {
-      whenReady(present, timeout) { r =>
-        r.header.status should equal(OK)
+      whenReady(present) { r =>
+          r.header.status should equal(OK)
       }
     }
 
@@ -53,8 +53,8 @@ class ConfirmUnitSpec extends UnitSpec {
           storeBusinessDetailsConsent()
         )
       val result = confirm.present(request)
-      whenReady(result, timeout) { r =>
-        r.header.status should equal(OK)
+      whenReady(result) { r =>
+          r.header.status should equal(OK)
       }
     }
 

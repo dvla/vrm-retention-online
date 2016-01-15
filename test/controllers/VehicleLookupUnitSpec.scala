@@ -118,7 +118,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookupStubs().submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(CheckEligibilityPage.address))
           val cookies = fetchCookiesFromHeaders(r)
@@ -147,7 +147,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = RegistrationNumberWithSpaceValid)
       val result = vehicleLookupStubs().submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
@@ -161,7 +161,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse =
           vehicleAndKeeperDetailsResponseNotFoundResponseCode).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
@@ -173,7 +173,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse =
           vehicleAndKeeperDetailsResponseVRMNotFound).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -185,7 +185,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse =
           vehicleAndKeeperDetailsResponseDocRefNumberNotLatest).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -197,7 +197,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse =
           vehicleAndKeeperDetailsResponseExportedFailure).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -209,7 +209,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleLookupStubs(vehicleAndKeeperLookupStatusAndResponse =
           vehicleAndKeeperDetailsResponseScrappedFailure).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -221,7 +221,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDamagedFailure
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -233,7 +233,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseVICFailure
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -245,7 +245,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNoKeeperFailure
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -257,7 +257,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseNotMotFailure
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -269,7 +269,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponsePre1998Failure
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -281,7 +281,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseQFailure
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -293,7 +293,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsServerDown
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
@@ -345,7 +345,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
@@ -355,7 +355,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperLookupCallFails.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
           val cookies = fetchCookiesFromHeaders(r)
@@ -368,7 +368,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallNoResponse.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
@@ -378,7 +378,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallServerDown.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain(VehicleAndKeeperLookupFormModelCacheKey)
@@ -388,7 +388,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "write cookie when vrm not found by the fake microservice" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallVRMNotFound.submit(request)
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(
@@ -400,7 +400,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
     "redirect to vrm locked when valid submit and brute force prevention returns not permitted" in new WithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = VrmLocked)
       val result = vehicleLookupStubs(permitted = false).submit(request)
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VrmLockedPage.address))
       }
     }
@@ -411,7 +411,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest()
       val result = vehicleAndKeeperDetailsCallDocRefNumberNotLatest.submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -440,7 +440,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
       ).submit(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupFailurePage.address))
       }
     }
@@ -452,7 +452,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val (vehicleLookup, dateService, vehicleAndKeeperLookupWebService) = vehicleLookupStubs
       val result = vehicleLookup.submit(request)
 
-      whenReady(result, timeout) {
+      whenReady(result) {
         r =>
           val expectedRequest = VehicleAndKeeperLookupRequest(
             dmsHeader = buildHeader(trackingId, dateService),
@@ -470,7 +470,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 //      val (vehicleLookup, dateService, vehicleAndKeeperLookupWebService) = vehicleLookupStubs
 //      val result = vehicleLookup.submit(request)
 //
-//      whenReady(result, timeout) {
+//      whenReady(result) {
 //        r =>
 //          val expectedRequest = VehicleAndKeeperDetailsRequest(
 //            dmsHeader = buildHeader(ClearTextClientSideSessionFactory.DefaultTrackingId, dateService),
@@ -501,7 +501,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 //      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
 //      val result = vehicleLookup.submit(request)
 //
-//      whenReady(result, timeout) { r =>
+//      whenReady(result) { r =>
 //        verify(auditService, times(1)).send(expected)
 //      }
 //    }
@@ -523,7 +523,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
 //      val request = buildCorrectlyPopulatedRequest(postcode = PostcodeInvalid)
 //      val result = vehicleLookup.submit(request)
 //
-//      whenReady(result, timeout) { r =>
+//      whenReady(result) { r =>
 //        verify(auditService, times(1)).send(expected)
 //      }
 //    }
@@ -534,7 +534,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = FakeRequest().withFormUrlEncodedBody()
       val result = vehicleLookupStubs().back(request)
 
-      whenReady(result, timeout) { r =>
+      whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(BeforeYouStartPage.address))
       }
     }

@@ -40,7 +40,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
 
   "present" should {
     "display the page when required cookies are cached" in new WithApplication {
-      whenReady(present, timeout) { r =>
+      whenReady(present) { r =>
         r.header.status should equal(OK)
       }
     }

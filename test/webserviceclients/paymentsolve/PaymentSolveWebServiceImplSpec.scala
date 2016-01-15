@@ -16,7 +16,7 @@ class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
   "invoke Begin" should {
     "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.invoke(request, trackingId)
-      whenReady(resultFuture, timeout) { result =>
+      whenReady(resultFuture) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/payment/solve/beginWebPayment")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)).
