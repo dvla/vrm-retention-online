@@ -1,11 +1,5 @@
 #!/bin/bash
 
-set -o errexit
-
-export SBT_OPTS="-Dspecs2.color=false -Dsbt.log.format=true -Dsbt.log.noformat=true \
- -Xms1024M -Xmx3096M -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC -XX:+UseParNewGC \
- -XX:PermSize=1024M -XX:MaxPermSize=2048M -Dtest.port=9013 \
- -Dws.timeout.request=30000 -DpaymentSolve.ms.requesttimeout=30000 -DvrmRetentionEligibility.requestTimeout=30000 \
- -DvrmRetentionRetain.requestTimeou=30000 -DtimeoutInMillisSoap=30000 -Dspray.can.server.request-timeout=30s $SBT_OPTS"
+source ./rpm-build/jenkins_job_opts
 
 sbt -Dsbt.log.noformat=true clean coverage test accept coverageReport
