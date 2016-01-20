@@ -1,6 +1,6 @@
 package pages.common
 
-import mappings.common.Feedback.FeedbackId
+import views.common.ProtoType.FeedbackId
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{find, id}
 

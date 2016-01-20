@@ -9,7 +9,6 @@ import pages.vrm_retention.CookiePolicyPage
 class CookiePolicyUiSpec extends UiSpec with TestHarness {
 
   "go to page" should {
-
     "display the page" taggedAs UiTag in new WebBrowserForSelenium {
       go to CookiePolicyPage
 

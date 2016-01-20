@@ -10,12 +10,12 @@ import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.IntegrationTestHelper
 
-final class AuditMicroServiceImplSpec extends IntegrationTestHelper with WireMockFixture {
+class AuditMicroServiceImplSpec extends IntegrationTestHelper with WireMockFixture {
 
   "invoke" should {
     "send the serialised json request" in new WithApplication {
       val resultFuture = auditMicroService.invoke(request, TrackingId("testTrackingId"))
-      whenReady(resultFuture, timeout) { result =>
+      whenReady(resultFuture) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/audit/v1")
         ).withRequestBody(equalTo(Json.toJson(request).toString())))

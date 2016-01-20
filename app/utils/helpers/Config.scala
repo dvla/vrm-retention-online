@@ -37,10 +37,7 @@ trait Config extends VehicleLookupConfig {
   // Google analytics
   val googleAnalyticsTrackingId: Option[String]
 
-  // Progress step indicator
-  val isProgressBarEnabled: Boolean
-
-  // Email Service
+   // Email Service
   val emailWhitelist: Option[List[String]]
   val emailSenderAddress: String
 

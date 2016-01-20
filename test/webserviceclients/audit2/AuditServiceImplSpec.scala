@@ -7,19 +7,19 @@ import helpers.WithApplication
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
-final class AuditServiceImplSpec extends UnitSpec with MockitoSugar {
+class AuditServiceImplSpec extends UnitSpec with MockitoSugar {
 
   "invoke" should {
     "re-throw exception when micro-service response returns an exception" in new WithApplication {
       val resultFuture = auditServiceCallFails.send(request, trackingId)
-      whenReady(resultFuture.failed, timeout) { result =>
+      whenReady(resultFuture.failed) { result =>
         result shouldBe a[RuntimeException]
       }
     }
 
     "throw when micro-service response status is not Ok" in new WithApplication {
       val resultFuture = auditServiceCallNotOk.send(request, trackingId)
-      whenReady(resultFuture.failed, timeout) { result =>
+      whenReady(resultFuture.failed) { result =>
           result shouldBe a[RuntimeException]
       }
     }

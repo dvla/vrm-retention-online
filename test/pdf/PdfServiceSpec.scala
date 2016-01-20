@@ -10,7 +10,7 @@ import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 
-final class PdfServiceSpec extends UnitSpec {
+class PdfServiceSpec extends UnitSpec {
 
   // See getting started documentation from https://pdfbox.apache.org/cookbook/documentcreation.html
 
@@ -18,7 +18,6 @@ final class PdfServiceSpec extends UnitSpec {
   // for how to do the controller.
 
   "create" should {
-
     "return a non-empty output stream" in new WithApplication {
       val eligibilityModel = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
 

@@ -7,7 +7,7 @@ import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
+import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalatest.selenium.WebBrowser.{currentUrl, go}
 import pages.common.ErrorPanel
 import pages.vrm_retention.BeforeYouStartPage

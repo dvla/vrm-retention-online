@@ -17,13 +17,17 @@ import common.model.FeedbackForm.Form.nameMapping
 import common.services.DateService
 import common.views.helpers.FormExtensions.formBinding
 import common.webserviceclients.emailservice.EmailService
+import common.webserviceclients.healthstats.HealthStats
 
-class FeedbackController @Inject()(val emailService: EmailService)
+class FeedbackController @Inject()(val emailService: EmailService,
+                                   val dateService: DateService,
+                                   val healthStats: HealthStats)
                                   (implicit clientSideSessionFactory: ClientSideSessionFactory,
-                                   config: Config,
-                                   dateService: DateService) extends Controller with FeedbackBase {
+                                   config: Config) extends Controller with FeedbackBase {
 
   override val emailConfiguration = config.emailConfiguration
+
+  implicit val implicitDateService = implicitly[DateService](dateService)
 
   private[controllers] val form = Form(
     FeedbackForm.Form.Mapping

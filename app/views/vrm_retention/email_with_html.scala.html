@@ -221,42 +221,52 @@ govUkContentId: String)(implicit lang: Lang)
                 </tr>
                 <tr>
                     <td class="actorDetails" style="border-collapse: collapse;">
-                        <hr/>
-                        <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
-                            @Messages("email.line13")</h1>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h1 style="color: black !important; font-size: 2em; line-height: 110%; font-family: Helvetica, Arial, sans, sans-serif;">
+                                        @Messages("email.line13")</h1>
 
-                        @if(!isKeeper) {
-                            @businessDetailsModel.map { businessDetails =>
-                                <div class="twoThirds" style="width : 66 % ; float : left ;">
-                                    <div style="padding : 5 px ;">
-                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                        @Messages("email.line14")</p>
+                                    @if(!isKeeper) {
+                                    @businessDetailsModel.map { businessDetails =>
+                                    <div class="twoThirds" style="width : 66 % ; float : left ;">
+                                        <div style="padding : 5 px ;">
+                                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                                @Messages("email.line14")</p>
 
-                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                            <strong>@businessDetails.name</strong><br/>
-                                            @businessAddress <br>
-                                        </p>
+                                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                                                <strong>@businessDetails.name</strong><br/>
+                                                @businessAddress <br>
+                                            </p>
 
-                                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ; text-transform: lowercase ;">@businessDetails.email</p>
+                                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ; text-transform: lowercase ;">@businessDetails.email</p>
+                                        </div>
                                     </div>
-                                </div>
-                            }
-                        }
-
-                        <div class="oneThird" style="width: 33%; float: left;">
-                            <div style="border-left : 3px solid #ccc ; display: block; height: 100%; padding: 5px 5px 5px 30px;">
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                                    @Messages("email.line20")</p>
-
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                                    <strong>@keeperName</strong><br/>
-                                    @keeperAddress</p>
-
-                                @keeperEmail.map { email =>
+                                    }
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                        @Messages("email.line20")</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
+                                        <strong>@keeperName</strong><br/>
+                                        @keeperAddress</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @keeperEmail.map { email =>
                                     <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ; text-transform: lowercase ;">@email</p>
-                                }
-                            </div>
-                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        </table>
                         <div class="clearfix" style="clear: both;"></div>
                     </td>
                 </tr>
