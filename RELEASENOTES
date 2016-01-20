@@ -1,3 +1,16 @@
+======= 1.31 ========
+Time of release binaries creation:
+
+
+DE834 	Email - About this transaction
+US2404 	Mixin trait eventually with testComposition and IntegrationPatience on any file that contains selenium code
+US3790 	Code coverage for all the code
+US4012 	Remove redundant views/common object progressBar
+US4013 	Remove redundant views/common object help
+US4014 	Remove redundant views/common object feedback
+US4161 	When the SEND email service gets an error when trying to call the email web service it must inform the HealthStats service
+US4177 	Verify that all micro-services called by the retention web app inform the HealthStats service of success or failure
+
 ======= 1.30.1 ======
 Time of release binaries creation:
 Wed Jan 20 12:49:44 UTC 2016
