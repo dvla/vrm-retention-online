@@ -4,7 +4,9 @@ import composition.TestHarness
 import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
+import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 import org.scalatest.concurrent.Eventually
 import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle, pageSource}
@@ -39,14 +41,38 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       pageTitle should equal(VehicleLookupFailurePage.failureTitle)
     }
   }
-  "page should contain contact information" should {
-    "contains contact information" taggedAs UiTag in  new WebBrowserForSelenium  {
+
+  "contact details" should {
+    def shouldDisplayContactInfo(cacheSetup: () => CookieFactoryForUISpecs.type)(implicit webDriver: WebDriver) = {
       go to BeforeYouStartPage
-      cacheFailureSetup()
+      cacheSetup()
       go to VehicleLookupFailurePage
-      pageSource should include("Telephone")
+
+      val element: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
+      element.getAttribute("name") should equal("contact-info-wrapper")
+      element.isDisplayed() should equal(true)
+      element.getText().contains("Telephone") should equal(true)
     }
-  }
+
+    "not contain contact information with a document reference mismatch" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheDocRefMismatchSetup()
+      go to VehicleLookupFailurePage
+
+      intercept[org.openqa.selenium.NoSuchElementException] {
+        val element: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
+      }
+    }
+
+    "contain contact information with a eligibility failure" taggedAs UiTag in new WebBrowserForSelenium {
+      shouldDisplayContactInfo(cacheFailureSetup)
+    }
+
+    "contain contact information with a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
+      shouldDisplayContactInfo(cacheDirectToPaperSetup)
+     }
+   }
+
   "try again button" should {
     "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage

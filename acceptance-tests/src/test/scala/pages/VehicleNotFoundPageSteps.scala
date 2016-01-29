@@ -2,7 +2,7 @@ package pages
 
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.concurrent.Eventually.eventually
-import org.scalatest.selenium.WebBrowser.{currentUrl, pageSource}
+import org.scalatest.selenium.WebBrowser.{cssSelector, currentUrl, Element, find, pageSource}
 import pages.vrm_retention.VehicleLookupFailurePage.url
 
 class VehicleNotFoundPageSteps(implicit webDriver: EventFiringWebDriver)
@@ -13,6 +13,20 @@ class VehicleNotFoundPageSteps(implicit webDriver: EventFiringWebDriver)
       currentUrl should equal(url)
     }
     this
+  }
+
+  def `has contact information`() = {
+    val element: Option[Element] = find(cssSelector(".contact-info-wrapper"))
+    element match {
+      case Some(e) =>
+        e should be ('displayed)
+        e.text should include ("Telephone")
+      case None => element should be (defined)
+    }
+  }
+
+  def `has no contact information`() = {
+    find(cssSelector(".contact-info-wrapper")) should be (None)
   }
 
   def `has 'not found' message` = {

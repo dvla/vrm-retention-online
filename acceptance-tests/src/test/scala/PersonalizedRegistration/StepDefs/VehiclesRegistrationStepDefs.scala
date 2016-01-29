@@ -34,6 +34,16 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     confirm
   )
 
+  @Then("^the contact information is displayed$")
+  def `the contact information is displayed`() {
+    vehicleNotFound.`has contact information`
+  }
+
+  @Then("^the contact information is not displayed$")
+  def `the contact information is not displayed`() {
+    vehicleNotFound.`has no contact information`
+  }
+
   @Given("^that I have started the PR Retention Service$")
   def `that I have started the PR Retention Service`() {
     user.`start the PR service`

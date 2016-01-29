@@ -20,7 +20,10 @@
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
         </div>
-        @failure_playback(viewModel.vehicleDetails)
+        @failure_playback(
+          vehicleDetails = viewModel.vehicleDetails,
+          showContactDetails = (responseCodeVehicleLookupMSErrorMessage != "vehicle_and_keeper_lookup_document_reference_mismatch")
+        )
         <div class="form-steps">
             @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
             <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
