@@ -21,7 +21,6 @@ import common.model.VehicleAndKeeperDetailsModel
 import common.views.constraints.RegistrationNumber.formatVrm
 import common.webserviceclients.common.VssWebEndUserDto
 import common.webserviceclients.common.VssWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Keeper
@@ -60,10 +59,11 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                                   transactionId: String)
                                  (implicit request: Request[_]): Future[Result] = {
 
-    def microServiceErrorResult(message: String) = {
-      logMessage(request.cookies.trackingId(), Error, message)
+    val trackingId = request.cookies.trackingId()
 
-      val trackingId = request.cookies.trackingId()
+    def microServiceErrorResult(message: String) = {
+      logMessage(trackingId, Error, message)
+
       auditService2.send(
         AuditRequest.from(
           trackingId = trackingId,
@@ -76,8 +76,9 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
 
     def eligibilitySuccess(currentVRM: String, replacementVRM: String) = {
+      logMessage(trackingId, Debug, "Eligibility check was successful")
+
       val redirectLocation = {
-        val trackingId = request.cookies.trackingId()
         if (vehicleAndKeeperLookupFormModel.userType == UserType_Keeper) {
           auditService2.send(
             AuditRequest.from(
@@ -124,6 +125,8 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
     }
 
     def eligibilityFailure(failure: VRMRetentionEligibilityResponseDto) = {
+      logMessage(trackingId, Debug, "Eligibility check failed")
+
       val response = failure.response.get
 
       response.message match {
@@ -136,11 +139,11 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
           )
         }
         case _ =>
-          logMessage(request.cookies.trackingId(), Debug, "VRMRetentionEligibility encountered a problem with request" +
-            s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-            s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, redirect to VehicleLookupFailure")
+          logMessage(trackingId, Debug, "VRMRetentionEligibility eligibility check failed for request " +
+            s"referenceNumber = ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}, " +
+            s"registrationNumber = ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, " +
+            s"redirecting to VehicleLookupFailure")
 
-          val trackingId = request.cookies.trackingId()
           auditService2.send(
             AuditRequest.from(
               trackingId = trackingId,
@@ -156,8 +159,6 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
       }
     }
 
-    val trackingId = request.cookies.trackingId()
-
     val eligibilityRequest = VRMRetentionEligibilityRequest(
       buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
@@ -166,7 +167,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
 
     eligibilityService.invoke(eligibilityRequest, trackingId).map { response =>
       response match {
-        case (INTERNAL_SERVER_ERROR, failure) => eligibilityFailure(failure)
+        case (FORBIDDEN, failure) => eligibilityFailure(failure)
         case (OK, success) => eligibilitySuccess(
           success.vrmRetentionEligibilityResponse.currentVRM,
           formatVrm(success.vrmRetentionEligibilityResponse.replacementVRM.get)

@@ -46,8 +46,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to error page when VehicleAndKeeperDetailsModel cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(vehicleAndKeeperLookupFormModel())
+      val request = FakeRequest()
+        .withCookies(vehicleAndKeeperLookupFormModel())
       val result = checkEligibility().present(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION).get.startsWith(ErrorPage.address)
@@ -55,8 +55,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to error page when StoreBusinessDetailsCacheKey cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel()
         )
@@ -67,8 +67,8 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to error page when TransactionIdCacheKey cookie does not exist" in new WithApplication {
-      val request = FakeRequest().
-        withCookies(
+      val request = FakeRequest()
+        .withCookies(
           vehicleAndKeeperLookupFormModel(),
           vehicleAndKeeperDetailsModel(),
           storeBusinessDetailsConsent()

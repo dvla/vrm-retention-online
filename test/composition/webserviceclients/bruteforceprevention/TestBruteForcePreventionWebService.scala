@@ -41,11 +41,11 @@ final class TestBruteForcePreventionWebService(permitted: Boolean = true) extend
       )
     ).thenReturn(Future.successful(new FakeResponse(status = FORBIDDEN)))
 
-    when(bruteForcePreventionWebService.callBruteForce(VrmThrows, TrackingId("default_test_tracking_id"))).
-      thenReturn(responseThrows)
+    when(bruteForcePreventionWebService.callBruteForce(VrmThrows, TrackingId("default_test_tracking_id")))
+      .thenReturn(responseThrows)
 
-    when(bruteForcePreventionWebService.reset(any[String], any[TrackingId])).
-      thenReturn(Future.successful(new FakeResponse(status = play.api.http.Status.OK)))
+    when(bruteForcePreventionWebService.reset(any[String], any[TrackingId]))
+      .thenReturn(Future.successful(new FakeResponse(status = play.api.http.Status.OK)))
     bruteForcePreventionWebService
   }
 
