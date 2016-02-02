@@ -22,7 +22,6 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import models.CacheKeyPrefix
 import models.IdentifierCacheKey
 import models.VehicleAndKeeperLookupFormModel
-import org.mockito.Mockito.verify
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.CheckEligibilityPage
 import pages.vrm_retention.MicroServiceErrorPage
@@ -32,7 +31,7 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.LOCATION
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
@@ -44,24 +43,7 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeep
 import vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
 import vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import vehicleandkeeperlookup.VehicleAndKeeperLookupSuccessResponse
-import VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
-import VehicleAndKeeperLookupWebServiceConstants.KeeperPostcodeValidForMicroService
-import VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
-import VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberWithSpaceValid
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDamagedFailure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseExportedFailure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNoKeeperFailure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNotFoundResponseCode
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseNotMotFailure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponsePre1998Failure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseQFailure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseScrappedFailure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVICFailure
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseVRMNotFound
-import VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsServerDown
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants._
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_retention.VehicleLookup.KeeperConsentId
@@ -70,8 +52,16 @@ import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
+import org.mockito.Mockito.{times, verify}
+
 
 class VehicleLookupUnitSpec extends UnitSpec {
+
+  final val PostcodeInvalid = "XX99XX"
+  final val TransactionIdValid = "AB12AWR701125000000" // <vrm><timestamp> format in VehicleLookup.transactionId
+  // vrm part derived from buildCorrectlyPopulatedRequest (default RegistrationNumberValid)
+  // timestamp part derived from vehicleLookupAndAuditStubs (DateService instatiated via Guice binding in TestComposition->TestDateService)
+
 
   "present" should {
     "display the page" in new WithApplication {
@@ -464,69 +454,75 @@ class VehicleLookupUnitSpec extends UnitSpec {
       }
     }
 
-//    "send a request and default trackingId to the vehicleAndKeeperLookupWebService when " +
-//      "cookie does not exist" in new WithApplication {
-//      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
-//      val (vehicleLookup, dateService, vehicleAndKeeperLookupWebService) = vehicleLookupStubs
-//      val result = vehicleLookup.submit(request)
-//
-//      whenReady(result) {
-//        r =>
-//          val expectedRequest = VehicleAndKeeperDetailsRequest(
-//            dmsHeader = buildHeader(ClearTextClientSideSessionFactory.DefaultTrackingId, dateService),
-//            referenceNumber = ReferenceNumberValid,
-//            registrationNumber = RegistrationNumberValid,
-//            transactionTimestamp = dateService.now.toDateTime
-//          )
-//          verify(vehicleAndKeeperLookupWebService).invoke(
-//            request = expectedRequest,
-//            trackingId = ClearTextClientSideSessionFactory.DefaultTrackingId
-//          )
-//      }
-//    }
+    "send a request and default trackingId to the vehicleAndKeeperLookupWebService when " +
+      "cookie does not exist" in new WithApplication {
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
+      val (vehicleLookup, dateService, vehicleAndKeeperLookupWebService) = vehicleLookupStubs
+      val result = vehicleLookup.submit(request)
 
-//    "calls audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and " +
-//      "no transaction id cookie exists" in new WithApplication {
-//      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs(
-//        vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
-//      )
-//      val expected = new AuditMessage(
-//        name = "VehicleLookupToVehicleLookupFailure",
-//        serviceType = "PR Retention",
-//        ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
-//        ("timestamp", dateService.dateTimeISOChronology),
-//        ("rejectionCode", RecordMismatch),
-//        ("currentVrm", RegistrationNumberWithSpaceValid)
-//      )
-//      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
-//      val result = vehicleLookup.submit(request)
-//
-//      whenReady(result) { r =>
-//        verify(auditService, times(1)).send(expected)
-//      }
-//    }
+      whenReady(result) {
+        r =>
+          val expectedRequest = VehicleAndKeeperLookupRequest(
+            dmsHeader = buildHeader(ClearTextClientSideSessionFactory.DefaultTrackingId, dateService),
+            referenceNumber = ReferenceNumberValid,
+            registrationNumber = RegistrationNumberValid,
+            transactionTimestamp = dateService.now.toDateTime
+          )
+          verify(vehicleAndKeeperLookupWebService).invoke(
+            request = expectedRequest,
+            trackingId = ClearTextClientSideSessionFactory.DefaultTrackingId
+          )
+      }
+    }
 
-//    "calls audit service with 'default_test_tracking_id' when Postcodes don't match and " +
-//      "no transaction id cookie exists" in new WithApplication {
-//      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
-//      val expected = new AuditMessage(
-//        name = "VehicleLookupToVehicleLookupFailure",
-//        serviceType = "PR Retention",
-//        ("transactionId", ClearTextClientSideSessionFactory.DefaultTrackingId),
-//        ("timestamp", dateService.dateTimeISOChronology),
-//        ("rejectionCode", "PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch"),
-//        ("currentVrm", RegistrationNumberWithSpaceValid),
-//        ("make", VehicleMakeValid.get),
-//        ("model", VehicleModelValid.get),
-//        ("keeperName", "MR DAVID JONES"),
-//        ("keeperAddress", "1 HIGH STREET, SKEWEN, SWANSEA, SA1 1AA")      )
-//      val request = buildCorrectlyPopulatedRequest(postcode = PostcodeInvalid)
-//      val result = vehicleLookup.submit(request)
-//
-//      whenReady(result) { r =>
-//        verify(auditService, times(1)).send(expected)
-//      }
-//    }
+    "call audit service with 'default_test_tracking_id' when DocRefNumberNotLatest and " +
+      "no transaction id cookie exists" in new WithApplication {
+      import webserviceclients.audit2.AuditRequest
+      val trackingId = TrackingId("default_test_tracking_id")
+
+      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs(
+        vehicleAndKeeperLookupStatusAndResponse = vehicleAndKeeperDetailsResponseDocRefNumberNotLatest
+      )
+      val expected = new AuditRequest(
+        name = "VehicleLookupToVehicleLookupFailure",
+        serviceType = "PR Retention",
+        data = Seq( ("transactionId", TransactionIdValid),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("rejectionCode", RecordMismatch.code + " - " + RecordMismatch.message),
+        ("currentVrm", RegistrationNumberWithSpaceValid))
+      )
+      val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
+      val result = vehicleLookup.submit(request)
+
+      whenReady(result) { r =>
+        verify(auditService, times(1)).send(expected, trackingId = trackingId)
+      }
+    }
+
+    "call audit service with 'default_test_tracking_id' when Postcodes don't match and " +
+      "no transaction id cookie exists" in new WithApplication {
+      import webserviceclients.audit2.AuditRequest
+      val (vehicleLookup, dateService, auditService) = vehicleLookupAndAuditStubs()
+      val trackingId = TrackingId("default_test_tracking_id")
+      val expected = new AuditRequest(
+        name = "VehicleLookupToVehicleLookupFailure",
+        serviceType = "PR Retention",
+        data =  Seq( ("transactionId", TransactionIdValid),
+        ("timestamp", dateService.dateTimeISOChronology),
+        ("rejectionCode", "PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch"),
+        ("currentVrm", RegistrationNumberWithSpaceValid),
+        ("make", VehicleMakeValid.get),
+        ("model", VehicleModelValid.get),
+        ("keeperName", "MR DAVID JONES"),
+        ("keeperAddress", "1 HIGH STREET, SKEWEN, SWANSEA, SA1 1AA"))
+      )
+      val request = buildCorrectlyPopulatedRequest(postcode = PostcodeInvalid)
+      val result = vehicleLookup.submit(request)
+
+      whenReady(result) { r =>
+        verify(auditService, times(1)).send(expected, trackingId = trackingId)
+      }
+    }
   }
 
   "back" should {

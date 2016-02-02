@@ -11,10 +11,7 @@ import org.scalatest.concurrent.Eventually
 import org.scalatest.concurrent.IntegrationPatience
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.common.MainPanel.back
-import pages.vrm_retention.BeforeYouStartPage
-import pages.vrm_retention.ConfirmPage
-import pages.vrm_retention.LeaveFeedbackPage
-import pages.vrm_retention.VehicleLookupPage
+import pages.vrm_retention.{PaymentPage, BeforeYouStartPage, ConfirmPage, LeaveFeedbackPage, VehicleLookupPage}
 import views.vrm_retention.Confirm.ConfirmCacheKey
 
 class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
@@ -62,48 +59,17 @@ class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually wit
       currentUrl should equal(ConfirmPage.url)
     }
 
-    // [SW] tests commented out as we need Ops to add a line to the build scripts to install phantom-js
-    //    "not display the keeper email field when neither yes or no has been selected on " +
-    //      "the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-    //      go to BeforeYouStartPage
-    //      cacheSetup()
-    //      go to ConfirmPage
-    //      eventually {
-    //        isKeeperEmailHidden should equal(true)
-    //      }
-    //    }
-    //
-    //    "not display the keeper email field when I click no on " +
-    //      "the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-    //      go to BeforeYouStartPage
-    //      cacheSetup()
-    //      go to ConfirmPage
-    //      click on `don't supply keeper email`
-    //      eventually {
-    //        isKeeperEmailHidden should equal(true)
-    //      }
-    //    }
-    //
-    //    "display the keeper email field when I click yes on " +
-    //      "the supply email field" taggedAs UiTag in new WebBrowserForSeleniumWithPhantomJsLocal {
-    //      go to BeforeYouStartPage
-    //      cacheSetup()
-    //      go to ConfirmPage
-    //      click on `supply keeper email`
-    //      eventually {
-    //        isKeeperEmailHidden should equal(false)
-    //      }
-    //    }
   }
 
-  //  "confirm button" should {
-  //    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowser {
-  //      go to BeforeYouStartPage
-  //      cacheSetup()
-  //      happyPath
-  //      currentUrl should equal(PaymentPage.url)
-  //    }
-  //  }
+  "confirm button" should {
+    "redirect to paymentPage when confirm link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheSetup()
+      CookieFactoryForUISpecs.paymentTransNo()
+      ConfirmPage.happyPath
+      currentUrl should equal(PaymentPage.url)
+    }
+  }
 
   "exit" should {
     "display feedback page when exit link is clicked" taggedAs UiTag in new WebBrowserForSelenium {
@@ -148,4 +114,5 @@ class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually wit
       .businessDetails()
       .transactionId()
       .eligibilityModel()
+
 }

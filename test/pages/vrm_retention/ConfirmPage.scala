@@ -42,6 +42,7 @@ object ConfirmPage extends Page {
 
   def happyPath(implicit driver: WebDriver) = {
     go to ConfirmPage
+    click on ConfirmPage.`don't supply keeper email`
     click on confirm
   }
 }

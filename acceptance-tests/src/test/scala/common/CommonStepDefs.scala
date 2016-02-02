@@ -39,8 +39,7 @@ class CommonStepDefs(beforeYouStart: BeforeYouStartPageSteps,
     } catch {
       case e: Throwable => fail(s"Cookie should be valid and not have thrown exception: $e")
     }
-    //    val timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime)
-    //    cookie("tracking_id").value should include(timeStamp) // This is not possible to test as the cookie content is encrypted and the test framework will not the decryption key.
+    // It is not possible to test that the cookie tracking id value (timestamp) as the cookie content is encrypted and the test framework will not the decryption key.
     c.expiry should not be None // It is not a session cookie.
     this
   }
