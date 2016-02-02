@@ -5,7 +5,7 @@ import composition.webserviceclients.vrmretentioneligibility.Helper.createRespon
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import play.api.http.Status.INTERNAL_SERVER_ERROR
+import play.api.http.Status.FORBIDDEN
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
@@ -17,7 +17,7 @@ import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebServi
 final class EligibilityWebServiceCallWithResponse extends ScalaModule with MockitoSugar {
 
   private val withResponseCode: (Int, VRMRetentionEligibilityResponseDto) = {
-    (INTERNAL_SERVER_ERROR,
+    (FORBIDDEN,
       VRMRetentionEligibilityResponseDto(
         Some(MicroserviceResponse("X0001", "stub-response")),
         VRMRetentionEligibilityResponse("", None)

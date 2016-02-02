@@ -21,17 +21,10 @@ final class VRMRetentionEligibilityServiceImpl @Inject()(ws: VRMRetentionEligibi
     import VRMRetentionEligibilityServiceImpl.ServiceName
 
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) {
+      if (resp.status == Status.OK || resp.status == Status.FORBIDDEN) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         (resp.status, resp.json.as[VRMRetentionEligibilityResponseDto])
-      }
-      else if (resp.status == Status.INTERNAL_SERVER_ERROR) {
-        val msg = s"Vrm Retention Eligibility micro-service call http status not OK, it was: ${resp.status}"
-        val error = new RuntimeException(msg)
-        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, error))
-        (resp.status, resp.json.as[VRMRetentionEligibilityResponseDto])
-      }
-      else {
+      } else {
         val error = new RuntimeException(
           s"VRM Retention Eligibility micro-service called - http status not OK, it " +
             s"was: ${resp.status}. Problem may come from either vrm-retention-eligibility micro-service or VSS"
