@@ -1,8 +1,6 @@
 package webserviceclients.fakes
 
-import play.api.http.Status.INTERNAL_SERVER_ERROR
-import play.api.http.Status.OK
-import play.api.http.Status.SERVICE_UNAVAILABLE
+import play.api.http.Status.{NOT_FOUND, OK, SERVICE_UNAVAILABLE}
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
 import vehicleandkeeperlookup.VehicleAndKeeperLookupDetailsDto
@@ -116,45 +114,45 @@ object VehicleAndKeeperLookupWebServiceConstants {
 
   def vehicleAndKeeperDetailsResponseVRMNotFound: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                       VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(
       MicroserviceResponse("200", "vehicle_lookup_vrm_not_found")
     ))))
 
   def vehicleAndKeeperDetailsResponseDocRefNumberNotLatest: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                           VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(RecordMismatch))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(RecordMismatch))))
 
   def vehicleAndKeeperDetailsResponseExportedFailure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                           VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(ExportedFailure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(ExportedFailure))))
 
   def vehicleAndKeeperDetailsResponseScrappedFailure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                           VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(ScrappedFailure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(ScrappedFailure))))
 
   def vehicleAndKeeperDetailsResponseDamagedFailure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                          VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(DamagedFailure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(DamagedFailure))))
 
   def vehicleAndKeeperDetailsResponseVICFailure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                      VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(VICFailure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(VICFailure))))
 
   def vehicleAndKeeperDetailsResponseNoKeeperFailure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                           VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(NoKeeperFailure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(NoKeeperFailure))))
 
   def vehicleAndKeeperDetailsResponseNotMotFailure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                         VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(NotMotFailure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(NotMotFailure))))
 
   def vehicleAndKeeperDetailsResponsePre1998Failure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                          VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(Pre1998Failure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(Pre1998Failure))))
 
   def vehicleAndKeeperDetailsResponseQFailure: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                    VehicleAndKeeperLookupSuccessResponse]]) =
-    (INTERNAL_SERVER_ERROR, Some(Left(VehicleAndKeeperLookupFailureResponse(QFailure))))
+    (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(QFailure))))
 
   def vehicleAndKeeperDetailsServerDown: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                              VehicleAndKeeperLookupSuccessResponse]]) =
