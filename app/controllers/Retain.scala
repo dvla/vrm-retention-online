@@ -32,11 +32,11 @@ import common.model.VehicleAndKeeperDetailsModel
 import common.services.DateService
 import common.services.SEND.Contents
 import common.views.models.DayMonthYear
+import common.webserviceclients.common.MicroserviceResponse
 import common.webserviceclients.common.VssWebEndUserDto
 import common.webserviceclients.common.VssWebHeaderDto
 import common.webserviceclients.emailservice.EmailServiceSendRequest
 import common.webserviceclients.emailservice.From
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.Retain.RetainResponseCodeCacheKey
@@ -99,14 +99,16 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
       ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
     val transactionTimestampWithZone = s"$isoDateTimeString"
+    val trackingId = request.cookies.trackingId()
 
     def retainSuccess(certificateNumber: String) = {
+      logMessage(trackingId, Info, "Vrm retention retain micro-service returned success")
+
       val paymentModel = request.cookies.getModel[PaymentModel].get
       paymentModel.paymentStatus = Some(Payment.SettledStatus)
       val transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
 
-      val trackingId = request.cookies.trackingId()
       auditService2.send(AuditRequest.from(
         trackingId = trackingId,
         pageMovement = AuditRequest.PaymentToSuccess,
@@ -120,9 +122,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         retentionCertId = Some(certificateNumber)
       ), trackingId)
 
-      Redirect(routes.SuccessPayment.present()).
-        withCookie(paymentModel).
-        withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
+      Redirect(routes.SuccessPayment.present())
+        .withCookie(paymentModel)
+        .withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
     }
 
     def retainFailure(response: MicroserviceResponse) = {
@@ -130,15 +132,14 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         case "vrm_retention_retain_no_error_code" =>
           microServiceErrorResult(message = "Certificate number not found in response")
         case _ =>
-          logMessage(request.cookies.trackingId, Error, "VRMRetentionRetain encountered a problem with request" +
-            s" ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}" +
-            s" ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}," +
-            " redirect to VehicleLookupFailure")
+          logMessage(trackingId, Info, "Vrm retention retain micro-service failed for request with " +
+            s"referenceNumber = ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}, " +
+            s"registrationNumber = ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, " +
+            "redirecting to retention failure")
 
           val paymentModel = request.cookies.getModel[PaymentModel].get
           paymentModel.paymentStatus = Some(Payment.CancelledStatus)
 
-          val trackingId = request.cookies.trackingId()
           auditService2.send(AuditRequest.from(
             trackingId = trackingId,
             pageMovement = AuditRequest.PaymentToPaymentFailure,
@@ -152,9 +153,9 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
             rejectionCode = Some(s"${response.code} - ${response.message}")
           ), trackingId)
 
-          Redirect(routes.RetainFailure.present()).
-            withCookie(paymentModel).
-            withCookie(key = RetainResponseCodeCacheKey, value = response.message)
+          Redirect(routes.RetainFailure.present())
+            .withCookie(paymentModel)
+            .withCookie(key = RetainResponseCodeCacheKey, value = response.message)
       }
     }
 
@@ -162,8 +163,6 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       logMessage(request.cookies.trackingId, Error, message)
       Redirect(routes.MicroServiceError.present())
     }
-
-    val trackingId = request.cookies.trackingId()
 
     def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
       val certNumSubstitute = "${retention-certificate-number}"
@@ -177,32 +176,21 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
           val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
           val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
-          businessDetailsOpt.fold(logMessage(
-              request.cookies.trackingId,
-              Debug,
-              "No business details cookie found or user type not business so will " +
+          businessDetailsOpt.fold {
+            val msg = "No business details cookie found or user type not business so will " +
               "not create a fulfil confirm email for the business"
-          )) { keeperEmail =>
-            logMessage(
-              request.cookies.trackingId,
-              Debug,
-              "Business details cookie found and user type is business so will " +
+            logMessage(trackingId, Debug, msg)
+          } { keeperEmail =>
+            val msg = "Business details cookie found and user type is business so will " +
               "create a fulfil confirm email for the business"
-            )
+            logMessage(trackingId, Debug, msg)
           }
 
-          keeperEmailOpt.fold (
-            logMessage(
-              request.cookies.trackingId,
-              Debug,
-              "No keeper email supplied so will not create a fulfil confirm email for the keeper"
-            )
-          ) { keeperEmail =>
-            logMessage(
-              request.cookies.trackingId,
-              Debug,
-              "Keeper email supplied so will create a fulfil confirm email for the keeper"
-            )
+          keeperEmailOpt.fold {
+            val msg = "No keeper email supplied so will not create a fulfil confirm email for the keeper"
+            logMessage(trackingId, Debug, msg)
+          } { keeperEmail =>
+            logMessage(trackingId, Debug, "Keeper email supplied so will create a fulfil confirm email for the keeper")
           }
 
           val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
@@ -256,11 +244,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     )
 
     vrmRetentionRetainService.invoke(vrmRetentionRetainRequest, trackingId).map {
-      response =>
-        response match {
-          case (INTERNAL_SERVER_ERROR, failure) => retainFailure(failure.response.get)
-          case (OK, success) => retainSuccess(success.vrmRetentionRetainResponse.certificateNumber.get)
-        }
+      case (FORBIDDEN, failure) => retainFailure(failure.response.get)
+      case (OK, success) => retainSuccess(success.vrmRetentionRetainResponse.certificateNumber.get)
     }.recover {
       case _: TimeoutException =>  Redirect(routes.TimeoutController.present())
       case NonFatal(e) =>

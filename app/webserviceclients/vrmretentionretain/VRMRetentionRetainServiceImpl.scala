@@ -13,25 +13,17 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.healthstats.He
 
 final class VRMRetentionRetainServiceImpl @Inject()(ws: VRMRetentionRetainWebService,
                                                     dateService: DateService,
-                                                    healthStats: HealthStats)
-  extends VRMRetentionRetainService {
+                                                    healthStats: HealthStats) extends VRMRetentionRetainService {
 
   override def invoke(cmd: VRMRetentionRetainRequest,
                       trackingId: TrackingId): Future[(Int, VRMRetentionRetainResponseDto)] = {
     import VRMRetentionRetainServiceImpl.ServiceName
 
     ws.invoke(cmd, trackingId).map { resp =>
-      if (resp.status == Status.OK) {
+      if (resp.status == Status.OK || resp.status == Status.FORBIDDEN) {
         healthStats.success(HealthStatsSuccess(ServiceName, dateService.now))
         (resp.status, resp.json.as[VRMRetentionRetainResponseDto])
-      }
-      else if (resp.status == Status.INTERNAL_SERVER_ERROR) {
-        val msg = s"Vrm Retention Retain micro-service call http status not OK, it was: ${resp.status}"
-        val error = new RuntimeException(msg)
-        healthStats.failure(HealthStatsFailure(ServiceName, dateService.now, error))
-        (resp.status, resp.json.as[VRMRetentionRetainResponseDto])
-      }
-      else {
+      } else {
         val error = new RuntimeException(
           s"VRM Retention Retain micro-service call http status not OK, it " +
             s"was: ${resp.status}. Problem may come from either vrm-retention-retain micro-service or VSS"
