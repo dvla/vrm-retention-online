@@ -4,7 +4,7 @@ import com.tzavellas.sse.guice.ScalaModule
 import helpers.WithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.loadBalancerUrl
 import composition.webserviceclients.paymentsolve.{RefererFromHeaderBinding, ValidatedCardDetails}
-import composition.webserviceclients.vrmretentionretain.TestVrmRetentionRetainWebService
+import composition.webserviceclients.vrmretentionretain.{VrmRetentionRetainFailure, TestVrmRetentionRetainWebService}
 import controllers.Payment.AuthorisedStatus
 import email.{RetainEmailServiceImpl, RetainEmailService}
 import helpers.UnitSpec
@@ -63,6 +63,15 @@ class RetainUnitSpec extends UnitSpec {
       }
     }
 
+    "redirect to retain failure with a reg number that cannot be retained" in new WithApplication {
+      val (retentionController, _) = retainControllerAndWebServiceMock((new VrmRetentionRetainFailure).stub)
+      val result = retentionController.retain(request())
+
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some("/retention-failure"))
+      }
+    }
+
     "redirect to ErrorPage when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
       val result = retain.retain(request(paymentStatus = None))
       whenReady(result) { r =>
@@ -72,7 +81,7 @@ class RetainUnitSpec extends UnitSpec {
 
     "send a payment email to the registered keeper only and " +
       "not to the business when registered keeper is chosen and keeper email is supplied" in new WithApplication {
-      val (retainController, wsMock) = retainControllerAndWebServiceMock
+      val (retainController, wsMock) = retainControllerAndWebServiceMock()
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
       // user type: keeper
@@ -100,7 +109,7 @@ class RetainUnitSpec extends UnitSpec {
     "send a payment email to the business acting on behalf of the keeper and " +
       "not to the keeper when business is chosen and send retention success emails " +
       "to both business and keeper when keeper email is supplied" in new WithApplication {
-      val (retainController, wsMock) = retainControllerAndWebServiceMock
+      val (retainController, wsMock) = retainControllerAndWebServiceMock()
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
       // user type: business
@@ -128,7 +137,7 @@ class RetainUnitSpec extends UnitSpec {
 
     "send a payment email and a retention success email to the business acting on behalf of the keeper when " +
       "business is chosen and no keeper email is supplied" in new WithApplication {
-      val (retainController, wsMock) = retainControllerAndWebServiceMock
+      val (retainController, wsMock) = retainControllerAndWebServiceMock()
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
       // user type: business
@@ -182,17 +191,16 @@ class RetainUnitSpec extends UnitSpec {
 
   // This method returns a retain controller as well as a reference to the mock VRMRetentionRetainWebService that
   // ultimately makes the network call to the vrm-retention-retain web service.
-  private def retainControllerAndWebServiceMock: (Retain, VRMRetentionRetainWebService) = {
-    val webServiceMock = new TestVrmRetentionRetainWebService
-    val mock = webServiceMock.stub
-
+  private def retainControllerAndWebServiceMock(retainWsMock: VRMRetentionRetainWebService =
+                                                (new TestVrmRetentionRetainWebService).stub)
+                                                : (Retain, VRMRetentionRetainWebService) = {
     val retain = testInjector(
       new ValidatedCardDetails(),
       new RefererFromHeaderBinding,
       // Bind the mock to the trait. We have a reference to the mock which we can pass out of this method
       // so client code can perform expectations on it
       new ScalaModule() {
-        override def configure(): Unit = bind[VRMRetentionRetainWebService].toInstance(mock)
+        override def configure(): Unit = bind[VRMRetentionRetainWebService].toInstance(retainWsMock)
       },
       // By default the testInjector mocks the RetainEmailService. However, we want a real instance of the
       // RetainEmailService because it contains logic that needs to be tested. So we bind a real instance
@@ -201,7 +209,7 @@ class RetainUnitSpec extends UnitSpec {
         override def configure(): Unit = bind[RetainEmailService].toInstance(retainEmailServiceInstance)
       }
     ).getInstance(classOf[Retain])
-    (retain, mock)
+    (retain, retainWsMock)
   }
 
   private def retainEmailServiceInstance: RetainEmailService = {

@@ -7,6 +7,7 @@ import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainResponse
 import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainResponseDto
 import _root_.webserviceclients.vrmretentionretain.VRMRetentionRetainWebService
 import com.tzavellas.sse.guice.ScalaModule
+import composition.webserviceclients.vrmretentionretain.TestVrmRetentionRetainWebService.createResponse
 import org.mockito.invocation.InvocationOnMock
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
@@ -24,13 +25,13 @@ final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSug
 
   val stub = {
     val webService = mock[VRMRetentionRetainWebService]
-    when(webService.invoke(any[VRMRetentionRetainRequest], any[TrackingId])).
-      thenAnswer(
+    when(webService.invoke(any[VRMRetentionRetainRequest], any[TrackingId]))
+      .thenAnswer(
         new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
             val request = args(0).asInstanceOf[VRMRetentionRetainRequest] // Cast first argument.
-            val vrmRetentionRetainResponse = VRMRetentionRetainResponseDto(
+            val vrmRetentionRetainResponseDto = VRMRetentionRetainResponseDto(
                 None,
                 VRMRetentionRetainResponse(
                   certificateNumber = Some(CertificateNumberValid),
@@ -38,8 +39,7 @@ final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSug
                   replacementVRM = Some(ReplacementRegistrationNumberValid)
                 )
             )
-            val asJson = Json.toJson(vrmRetentionRetainResponse)
-            new FakeResponse(status = OK, fakeJson = Some(asJson))
+            createResponse((OK, vrmRetentionRetainResponseDto))
           }
         }
       )
@@ -47,4 +47,13 @@ final class TestVrmRetentionRetainWebService extends ScalaModule with MockitoSug
   }
 
   def configure() = bind[VRMRetentionRetainWebService].toInstance(stub)
+}
+
+object TestVrmRetentionRetainWebService {
+
+  def createResponse(response: (Int, VRMRetentionRetainResponseDto)) = {
+    val (status, dto) = response
+    val asJson = Json.toJson(dto)
+    new FakeResponse(status = status, fakeJson = Some(asJson))
+  }
 }

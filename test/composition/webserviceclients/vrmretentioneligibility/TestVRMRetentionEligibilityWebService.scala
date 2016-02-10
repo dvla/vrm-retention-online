@@ -23,8 +23,8 @@ final class TestVRMRetentionEligibilityWebService extends ScalaModule with Mocki
 
   val stub = {
     val webService = mock[VRMRetentionEligibilityWebService]
-    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId])).
-      thenAnswer(
+    when(webService.invoke(any[VRMRetentionEligibilityRequest], any[TrackingId]))
+      .thenAnswer(
         new Answer[Future[WSResponse]] {
           override def answer(invocation: InvocationOnMock) = Future {
             val args: Array[AnyRef] = invocation.getArguments
