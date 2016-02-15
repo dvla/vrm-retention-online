@@ -125,7 +125,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
     // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
     if (vkLookupFailureResponse.code.startsWith(vehicleAndKeeperLookupUnhandledExceptionResponseCode))
       addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
-      //addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
     else
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
   }

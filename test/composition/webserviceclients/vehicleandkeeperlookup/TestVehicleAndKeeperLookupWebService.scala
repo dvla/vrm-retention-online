@@ -26,7 +26,6 @@ final class TestVehicleAndKeeperLookupWebService(
     val webService: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
     when(webService.invoke(any[VehicleAndKeeperLookupRequest], any[TrackingId]))
       .thenReturn(Future.successful(createResponse(statusAndResponse)))
-      //.thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsResponseUnhandledException)))
     webService
   }
 

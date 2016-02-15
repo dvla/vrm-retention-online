@@ -120,14 +120,6 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       currentUrl should equal(VrmLockedPage.url)
     }
 
-//    "display the lookup unsuccessful page for a unhandled exception failure" taggedAs UiTag in new WebBrowserForSelenium {
-//      go to BeforeYouStartPage
-//      cachePreLookupSetup()
-//      fillWith(registrationNumber = "A1")
-//      pageTitle should equal(ConfirmPage.title)
-//    }
-
-
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
@@ -135,8 +127,4 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       .bruteForcePreventionViewModel(permitted = false, attempts = 3)
       .vehicleAndKeeperDetailsModel().vehicleAndKeeperLookupFormModel()
 
-  private def cachePreLookupSetup()(implicit webDriver: WebDriver) =
-  CookieFactoryForUISpecs
-      .transactionId()
-      .bruteForcePreventionViewModel()
 }
