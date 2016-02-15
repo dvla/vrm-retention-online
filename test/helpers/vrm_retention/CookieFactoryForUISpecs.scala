@@ -231,7 +231,8 @@ object CookieFactoryForUISpecs {
                                    addressLine1: Option[String] = KeeperAddressLine1Valid,
                                    addressLine2: Option[String] = KeeperAddressLine2Valid,
                                    postTown: Option[String] = KeeperPostTownValid,
-                                   postCode: Option[String] = KeeperPostCodeValid)
+                                   postCode: Option[String] = KeeperPostCodeValid,
+                                   emptyAddress: Boolean = false)
                                   (implicit webDriver: WebDriver) = {
     val key = vehicleAndKeeperLookupDetailsCacheKey
     val addressAndPostcodeModel = AddressAndPostcodeViewModel(
@@ -250,7 +251,7 @@ object CookieFactoryForUISpecs {
       title = title,
       firstName = firstName,
       lastName = lastName,
-      address = Some(addressViewModel),
+      address = addressModelOptionalValue(addressViewModel, emptyAddress),
       disposeFlag = None,
       keeperEndDate = None,
       keeperChangeDate = None,
@@ -258,6 +259,11 @@ object CookieFactoryForUISpecs {
     )
     addCookie(key, value)
     this
+  }
+
+  def addressModelOptionalValue(address: AddressModel, emptyAddress: Boolean) = {
+    if (emptyAddress) None
+    else Some(address)
   }
 
   def vehicleAndKeeperLookupResponseCode(responseCode: String)

@@ -45,8 +45,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
-  val unhandledVehicleAndKeeperLookupExceptionResponseCode = "VMPR6"
-  val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
+  val vehicleAndKeeperLookupUnhandledExceptionResponseCode = "VMPR6"
+//  val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
   val postcodeMismatchResponseCodeText = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
 
   override val form = PlayForm(
@@ -93,7 +93,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     formModel: VehicleAndKeeperLookupFormModel)
                                    (implicit request: Request[_]): Result = {
 
-    val responseCode = failure.response
+    val vkLookupFailureResponse = failure.response
+    logMessage(request.cookies.trackingId(), Debug, "vehicleLookupFailure response: " + vkLookupFailureResponse)
 
     val vehicleAndKeeperDetailsModel = VehicleAndKeeperDetailsModel(
       registrationNumber = formatVrm(formModel.registrationNumber),
@@ -118,12 +119,13 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       transactionId = txnId,
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(s"${responseCode.code} - ${responseCode.message}")
+      rejectionCode = Some(s"${vkLookupFailureResponse.code} - ${vkLookupFailureResponse.message}")
     ), trackingId)
 
     // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
-    if (responseCode.code.startsWith(unhandledVehicleAndKeeperLookupExceptionResponseCode))
-      addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
+    if (vkLookupFailureResponse.code.startsWith(vehicleAndKeeperLookupUnhandledExceptionResponseCode))
+      addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
+      //addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
     else
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
   }
@@ -148,6 +150,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   override def invalidFormResult(invalidForm: PlayForm[VehicleAndKeeperLookupFormModel])
                                 (implicit request: Request[_]): Future[Result] = Future.successful {
+    logMessage(request.cookies.trackingId(), Debug, "VehicleLookup.invalidFormResult" + invalidForm.errors)
     BadRequest(views.html.vrm_retention.vehicle_lookup(formWithReplacedErrors(invalidForm)))
   }
 

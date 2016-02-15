@@ -5,16 +5,16 @@ import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeper
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
-import play.api.libs.json.{Json, JsValue}
+import play.api.libs.json.{JsValue, Json}
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.fakes.FakeResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupSuccessResponse
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{vehicleAndKeeperDetailsResponseSuccess, vehicleAndKeeperDetailsResponseUnhandledException}
+
 import scala.concurrent.Future
-import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.TrackingId
-import common.webserviceclients.fakes.FakeResponse
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupSuccessResponse
-import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupWebService
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.vehicleAndKeeperDetailsResponseSuccess
 
 final class TestVehicleAndKeeperLookupWebService(
   statusAndResponse: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
@@ -26,6 +26,7 @@ final class TestVehicleAndKeeperLookupWebService(
     val webService: VehicleAndKeeperLookupWebService = mock[VehicleAndKeeperLookupWebService]
     when(webService.invoke(any[VehicleAndKeeperLookupRequest], any[TrackingId]))
       .thenReturn(Future.successful(createResponse(statusAndResponse)))
+      //.thenReturn(Future.successful(createResponse(vehicleAndKeeperDetailsResponseUnhandledException)))
     webService
   }
 

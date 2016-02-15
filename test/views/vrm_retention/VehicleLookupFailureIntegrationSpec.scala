@@ -1,21 +1,14 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.tags.UiTag
 import helpers.UiSpec
+import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import org.openqa.selenium.By
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
-import org.scalatest.concurrent.Eventually
-import org.scalatest.concurrent.IntegrationPatience
-import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle, pageSource}
-import pages.vrm_retention.BeforeYouStartPage
-import pages.vrm_retention.LeaveFeedbackPage
-import pages.vrm_retention.VehicleLookupFailurePage
-import pages.vrm_retention.VehicleLookupFailurePage.exit
-import pages.vrm_retention.VehicleLookupFailurePage.tryAgain
-import pages.vrm_retention.VehicleLookupPage
+import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.scalatest.concurrent.{Eventually, IntegrationPatience}
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle}
+import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
+import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
@@ -32,6 +25,13 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       cacheDirectToPaperSetup()
       go to VehicleLookupFailurePage
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
+    }
+
+    "display the lookup unsuccessful page for a post code mismatch" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cachePostcodeMismatchSetup()
+      go to VehicleLookupFailurePage
+      pageTitle should equal(VehicleLookupFailurePage.title)
     }
 
     "display the lookup unsuccessful page for a failure" taggedAs UiTag in new WebBrowserForSelenium {
@@ -117,5 +117,13 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_failure")
+      .vehicleAndKeeperDetailsModel()
+
+  private def cachePostcodeMismatchSetup()(implicit webDriver: WebDriver) =
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
       .vehicleAndKeeperDetailsModel()
 }

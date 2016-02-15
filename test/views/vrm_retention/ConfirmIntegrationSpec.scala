@@ -59,6 +59,17 @@ class ConfirmIntegrationSpec extends UiSpec with TestHarness with Eventually wit
       currentUrl should equal(ConfirmPage.url)
     }
 
+    "display the page with blank address" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      CookieFactoryForUISpecs
+        .vehicleAndKeeperLookupFormModel()
+        .vehicleAndKeeperDetailsModel(emptyAddress = true)
+        .businessDetails()
+        .transactionId()
+        .eligibilityModel()
+      go to ConfirmPage
+      currentUrl should equal(ConfirmPage.url)
+    }
   }
 
   "confirm button" should {

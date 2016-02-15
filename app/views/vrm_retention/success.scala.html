@@ -99,10 +99,10 @@
                     successViewModel.keeperEmail match {
                         case Some(keeperEmail) => playbackItems += ("EMAIL_" + Messages("success-keeper-details-email") -> keeperEmail)
                         case None => playbackItems += (Messages("success-keeper-details-email") -> Messages("success-keeper-details-email-not-entered") )}
-                    playbackItems += (
-                        Messages("success-keeper-details-address") ->
-                        successViewModel.keeperAddress.get.address.mkString("<br/>")
-                    )
+                    successViewModel.keeperAddress match {
+                            case Some(address) => playbackItems += (Messages("success-keeper-details-address") -> address.address.mkString("<br/>"))
+                            case None => playbackItems += (Messages("success-keeper-details-address") -> "") //do not display address
+                    }
                 },
                 List("related bg-plain")
             )()
@@ -122,10 +122,10 @@
                         successViewModel.businessEmail match {
                             case Some(businessEmail) => playbackItems += ("EMAIL_" + Messages("success-business-details-email") -> businessEmail)
                             case None => playbackItems += (Messages("success-business-details-email") -> Messages("success-application-details-email-not-entered") )}
-                        playbackItems += (
-                            Messages("success-business-details-address") ->
-                            (successViewModel.businessName.get + "<br/>" + successViewModel.businessAddress.get.address.mkString("<br/>"))
-                        )
+                        successViewModel.businessAddress match {
+                                case Some(address) => playbackItems += (Messages("success-business-details-address") -> (successViewModel.businessName.getOrElse("") + "<br/>" + address.address.mkString("<br/>")))
+                                case None => playbackItems += (Messages("success-business-details-address") -> "") //do not display name and address
+                        }
                     },
                     List("related bg-plain")
                 )()

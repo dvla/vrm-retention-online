@@ -1,21 +1,15 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.tags.UiTag
 import helpers.UiSpec
+import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
-import org.openqa.selenium.By
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
+import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.openqa.selenium.support.ui.ExpectedConditions
-import org.scalatest.selenium.WebBrowser.{currentUrl, go}
+import org.scalatest.selenium.WebBrowser.{currentUrl, go, pageTitle}
 import pages.common.ErrorPanel
-import pages.vrm_retention.BeforeYouStartPage
-import pages.vrm_retention.ConfirmPage
-import pages.vrm_retention.SetupBusinessDetailsPage
-import pages.vrm_retention.VehicleLookupPage
 import pages.vrm_retention.VehicleLookupPage.fillWith
-import pages.vrm_retention.VrmLockedPage
+import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage, VrmLockedPage}
 import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
@@ -58,7 +52,7 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
   "findVehicleDetails button" should {
     "redirect to ConfirmPage when valid submission and current keeper" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
-      fillWith(isCurrentKeeper = true)
+      fillWith()
       currentUrl should equal(ConfirmPage.url)
     }
 
@@ -125,10 +119,24 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
       VehicleLookupPage.tryLockedVrm()
       currentUrl should equal(VrmLockedPage.url)
     }
+
+//    "display the lookup unsuccessful page for a unhandled exception failure" taggedAs UiTag in new WebBrowserForSelenium {
+//      go to BeforeYouStartPage
+//      cachePreLookupSetup()
+//      fillWith(registrationNumber = "A1")
+//      pageTitle should equal(ConfirmPage.title)
+//    }
+
+
   }
 
   private def cacheSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .bruteForcePreventionViewModel(permitted = false, attempts = 3)
       .vehicleAndKeeperDetailsModel().vehicleAndKeeperLookupFormModel()
+
+  private def cachePreLookupSetup()(implicit webDriver: WebDriver) =
+  CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
 }

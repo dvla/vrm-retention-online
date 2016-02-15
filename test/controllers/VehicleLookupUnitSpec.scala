@@ -60,7 +60,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
   final val PostcodeInvalid = "XX99XX"
   final val TransactionIdValid = "AB12AWR701125000000" // <vrm><timestamp> format in VehicleLookup.transactionId
   // vrm part derived from buildCorrectlyPopulatedRequest (default RegistrationNumberValid)
-  // timestamp part derived from vehicleLookupAndAuditStubs (DateService instatiated via Guice binding in TestComposition->TestDateService)
+  // timestamp part derived from vehicleLookupAndAuditStubs (DateService instantiated via Guice binding in TestComposition->TestDateService)
 
 
   "present" should {

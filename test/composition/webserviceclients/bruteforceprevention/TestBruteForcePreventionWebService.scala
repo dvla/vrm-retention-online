@@ -24,6 +24,10 @@ final class TestBruteForcePreventionWebService(permitted: Boolean = true) extend
     val bruteForcePreventionWebService = mock[BruteForcePreventionWebService]
 
     when(
+      bruteForcePreventionWebService.callBruteForce("A1", TrackingId("default_test_tracking_id"))
+    ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
+
+    when(
       bruteForcePreventionWebService.callBruteForce(RegistrationNumberValid, TrackingId("default_test_tracking_id"))
     ).thenReturn(Future.successful(new FakeResponse(status = bruteForceStatus, fakeJson = responseFirstAttempt)))
 
