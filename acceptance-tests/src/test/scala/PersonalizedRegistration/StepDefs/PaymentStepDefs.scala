@@ -59,6 +59,10 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helper
   @When("^proceed to the payment$")
   def `proceed to the payment`() = {
     payment.`paynow`
+    payment.`no javascript continue`
+    payment.`enter password`
+    payment.`no javascript submit`
+    payment.`no javascript continue`
   }
 
   @Then("^following \"(.*?)\" should be displayed$")
@@ -66,14 +70,6 @@ final class PaymentStepDefs(implicit webDriver: WebBrowserDriver) extends helper
     eventually {
       pageSource should include(Message)
     }
-    if (Message == "Payment Successful") {
-      pageTitle should include(Message)
-    }
-    else if (Message == "Payment Cancelled or Not Authorised") {
-      pageTitle should include("/payment-not-authorised")
-    }
-    else
-      fail(s"not the message we expected: $Message")
   }
 
   /** DO NOT REMOVE **/

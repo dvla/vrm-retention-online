@@ -4,7 +4,7 @@ import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource, singleSel, submit}
 import pages.vrm_retention.PaymentPage
-import pages.vrm_retention.PaymentPage.{expiryMonth, expiryYear, payNow, url}
+import pages.vrm_retention.PaymentPage.{expiryMonth, expiryYear, noJavaScriptContinueButton, payNow, submitButton, url}
 
 class PaymentPageSteps(implicit webDriver: EventFiringWebDriver)
   extends helpers.AcceptanceTestHelper {
@@ -53,6 +53,22 @@ class PaymentPageSteps(implicit webDriver: EventFiringWebDriver)
       pageSource should include("Please enter your password")
       PaymentPage.acsPassword.value = "password"
       submit()
+    }
+    this
+  }
+
+  def `no javascript continue` = {
+    eventually {
+      pageSource should include("please click the Continue button below.")
+      noJavaScriptContinueButton.underlying.submit()
+    }
+    this
+  }
+
+  def `no javascript submit` = {
+    eventually {
+      pageSource should include("please click the Submit button below.")
+      submitButton.underlying.submit()
     }
     this
   }

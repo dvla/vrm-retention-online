@@ -19,5 +19,7 @@ object Payment {
   final val ExpiryYear = "expiryYear"
   final val PayNow = "btnSubmit"
   final val AcsPassword = "acsPassword"
-  final val NoJavaScriptContinueButton = "noJavaScriptContinueButton"
+  // Need to find by class as the Continue buttons have different ids.
+  final val NoJavaScriptContinueButton = ".noJsContinueButton"
+  final val Submit = "submit"
 }

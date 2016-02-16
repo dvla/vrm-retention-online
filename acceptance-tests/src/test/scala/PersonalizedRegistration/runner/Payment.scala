@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 
 @RunWith(classOf[Cucumber])
 @CucumberOptions(
-  features = Array("acceptance-tests/src/test/resources/PersonalizedRegistration/VehiclesRegistration.feature"),
+  features = Array("acceptance-tests/src/test/resources/PersonalizedRegistration/Payment.feature"),
   glue = Array("PersonalizedRegistration.StepDefs")
 )
-class VehiclesRegistration
+class Payment
