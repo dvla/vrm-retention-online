@@ -1,5 +1,6 @@
 @(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
-    showContactDetails : Boolean = true)(implicit lang: Lang,
+    showContactDetails : Boolean = true,
+    liveAgentDetails: scala.collection.mutable.LinkedHashMap[String, String] = new scala.collection.mutable.LinkedHashMap[String, String])(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -7,11 +8,13 @@
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.vehicleDetailPlayback
 @import common.views.html.widgets.xmasOpeningTimes
+@import views.html.common.liveAgent
 
 <div id="vehicle-details" class="first-col trader-details">
     @vehicleDetailPlayback(vehicleDetails) {
         <br/>
         @if(showContactDetails) {
+            @liveAgent(buttonId = "5733E0000008OJ8", liveAgentDetails)
             <div class="contact-info-wrapper" id ="contact-info-wrapper" name="contact-info-wrapper" style ="...">
             <br/>
             <p>@Messages("success-keeper-application-details-contact-us")</p>

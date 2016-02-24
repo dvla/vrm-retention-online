@@ -19,7 +19,8 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = true,
                        storeBusinessDetailsMaxAge: Int = 7.days.toSeconds.toInt,
                        auditMicroServiceUrlBase: String = "http://somewhere-in-audit-micro-service-land",
                        paymentSolveMicroServiceUrlBase: String = "NOT FOUND",
-                       emailServiceMicroServiceUrlBase: String = "NOT FOUND") extends ScalaModule with MockitoSugar {
+                       emailServiceMicroServiceUrlBase: String = "NOT FOUND",
+                       liveAgentVal: Option[String] = None) extends ScalaModule with MockitoSugar {
 
   val notFound = "NOT FOUND"
 
@@ -75,6 +76,10 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = true,
 
     // Survey url
     when(config.surveyUrl).thenReturn(None)
+
+    // Web chat enablement
+    when(config.liveAgentId).thenReturn(liveAgentVal)
+
     config
   }
 

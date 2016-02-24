@@ -62,4 +62,6 @@ trait Config extends VehicleLookupConfig {
 
   // Survey
   val surveyUrl: Option[String]
+
+  val liveAgentId: Option[String]
 }

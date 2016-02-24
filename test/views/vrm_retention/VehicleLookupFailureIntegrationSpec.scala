@@ -1,14 +1,19 @@
 package views.vrm_retention
 
-import composition.TestHarness
+import com.google.inject.Module
+import composition.{TestComposition, GlobalLike, TestGlobal, TestConfig, TestHarness}
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.concurrent.{Eventually, IntegrationPatience}
-import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle}
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle, pageSource}
 import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
 import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
+import play.api.GlobalSettings
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.GlobalCreator
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
+
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
@@ -94,6 +99,46 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       currentUrl should equal(LeaveFeedbackPage.url)
     }
   }
+
+   //NOTE: this does not test the js part of webchat, only the presence of the functionality
+   "live agent script" should {
+     "be present if configuration enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+       go to BeforeYouStartPage
+       cacheDirectToPaperSetup() // Note: doc ref mismatch does not display contact details (and hence web chat)
+       go to VehicleLookupFailurePage
+       pageSource should include("liveagent_button_online_5733E0000008OJ8")
+     }
+
+     "not be present if configuration not enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatDisabledConfig) {
+       go to BeforeYouStartPage
+       cacheDirectToPaperSetup()
+       go to VehicleLookupFailurePage
+       pageSource should not include("liveagent_button_online_5733E0000008OJ8")
+     }
+
+   }
+
+  private val fakeAppWithWebchatDisabledConfig =
+    LightFakeApplication(TestGlobal)
+
+  private val fakeAppWithWebchatEnabledConfig =
+    LightFakeApplication(TestWithWebChatEnabledGlobal)
+
+  object TestWithWebChatEnabledGlobal extends GlobalLike with MyGlobalCreator //with MyTestInjector
+
+  // NOTE: this trait refers to the main application.conf, when the property under test should be set
+  trait MyGlobalCreator extends GlobalCreator {
+    override def global: GlobalSettings = TestWithWebChatEnabledGlobal
+  }
+
+//  trait MyTestInjector extends TestComposition {
+//    override def testInjector(modules: Module*) = {
+//      val t:Throwable = new Throwable();
+//      t.printStackTrace();
+//      super.testInjector(new TestConfig(liveAgentVal = Some("lef")))
+//    }
+//  }
+
 
   private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs

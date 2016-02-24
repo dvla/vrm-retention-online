@@ -1,0 +1,18 @@
+@(buttonId: String, details: scala.collection.mutable.LinkedHashMap[String, String])(implicit lang: Lang, config: utils.helpers.Config)
+    @if(config.liveAgentId.isDefined){
+        <!-- live agent deployment -->
+        <script type='text/javascript'
+                src='https://c.la1-c2cs-frf.salesforceliveagent.com/content/g/js/36.0/deployment.js'></script>
+        <script type='text/javascript'>liveagent.init('https://d.la1-c2cs-frf.salesforceliveagent.com/chat', '5723E0000008OIo', '@config.liveAgentId'); </script>
+
+        <img id="liveagent_button_online_@buttonId" style="display: none; border: 0px none; cursor: pointer" onclick="liveagent.startChat('@buttonId')" src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/ChatIcon02Nov15.png")" />
+        <script type="text/javascript">
+            if (!window._laq) { window._laq = []; }
+            window._laq.push(function(){liveagent.showWhenOnline('@buttonId', document.getElementById('liveagent_button_online_@buttonId'));
+            });
+            @for((label,value) <- details) {
+                liveagent.addCustomDetail("@label","@value")
+            }
+        </script>
+
+    }

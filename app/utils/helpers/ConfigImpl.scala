@@ -97,4 +97,6 @@ class ConfigImpl extends Config {
   override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(15)
 
   override val surveyUrl: Option[String] = getOptionalProperty[String]("survey.url")
+
+  override val liveAgentId: Option[String] = getOptionalProperty[String]("liveAgent.environmentId")
 }
