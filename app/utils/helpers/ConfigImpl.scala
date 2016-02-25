@@ -1,5 +1,6 @@
 package utils.helpers
 
+import play.api.Logger
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.booleanProp
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
 import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
@@ -98,5 +99,10 @@ class ConfigImpl extends Config {
 
   override val surveyUrl: Option[String] = getOptionalProperty[String]("survey.url")
 
-  override val liveAgentId: Option[String] = getOptionalProperty[String]("liveAgent.environmentId")
+  override val liveAgentId: Option[String] = {
+    val liveAgentId: Option[String] = getOptionalProperty[String]("webchat.liveAgent.environmentId")
+    liveAgentId.fold(Logger.info("Webchat functionality is not enabled"))
+      {id => Logger.info("Webchat functionality is enabled")}
+    liveAgentId
+  }
 }
