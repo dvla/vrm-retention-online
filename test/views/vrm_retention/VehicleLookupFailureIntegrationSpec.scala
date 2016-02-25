@@ -1,7 +1,6 @@
 package views.vrm_retention
 
-import com.google.inject.Module
-import composition.{TestComposition, GlobalLike, TestGlobal, TestConfig, TestHarness}
+import composition.{GlobalLike, TestGlobal, TestHarness}
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
@@ -13,7 +12,6 @@ import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookup
 import play.api.GlobalSettings
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.GlobalCreator
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
-
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
@@ -55,8 +53,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
 
       val element: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
       element.getAttribute("name") should equal("contact-info-wrapper")
-      element.isDisplayed() should equal(true)
-      element.getText().contains("Telephone") should equal(true)
+      element.isDisplayed should equal(true)
+      element.getText.contains("Telephone") should equal(true)
     }
 
     "not contain contact information with a document reference mismatch" taggedAs UiTag in new WebBrowserForSelenium {
@@ -75,8 +73,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
 
     "contain contact information with a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
       shouldDisplayContactInfo(cacheDirectToPaperSetup)
-     }
-   }
+    }
+  }
 
   "try again button" should {
     "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
@@ -100,23 +98,22 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
     }
   }
 
-   //NOTE: this does not test the js part of webchat, only the presence of the functionality
-   "live agent script" should {
-     "be present if configuration enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
-       go to BeforeYouStartPage
-       cacheDirectToPaperSetup() // Note: doc ref mismatch does not display contact details (and hence web chat)
-       go to VehicleLookupFailurePage
-       pageSource should include("liveagent_button_online_5733E0000008OJ8")
-     }
+  //NOTE: this does not test the js part of webchat, only the presence of the functionality
+  "live agent script" should {
+    "be present if configuration enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+      go to BeforeYouStartPage
+      cacheDirectToPaperSetup() // Note: doc ref mismatch does not display contact details (and hence web chat)
+      go to VehicleLookupFailurePage
+      pageSource should include("liveagent_button_online_5733E0000008OJ8")
+    }
 
-     "not be present if configuration not enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatDisabledConfig) {
-       go to BeforeYouStartPage
-       cacheDirectToPaperSetup()
-       go to VehicleLookupFailurePage
-       pageSource should not include("liveagent_button_online_5733E0000008OJ8")
-     }
-
-   }
+    "not be present if configuration not enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatDisabledConfig) {
+      go to BeforeYouStartPage
+      cacheDirectToPaperSetup()
+      go to VehicleLookupFailurePage
+      pageSource should not include "liveagent_button_online_5733E0000008OJ8"
+    }
+  }
 
   private val fakeAppWithWebchatDisabledConfig =
     LightFakeApplication(TestGlobal)
@@ -130,15 +127,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
   trait MyGlobalCreator extends GlobalCreator {
     override def global: GlobalSettings = TestWithWebChatEnabledGlobal
   }
-
-//  trait MyTestInjector extends TestComposition {
-//    override def testInjector(modules: Module*) = {
-//      val t:Throwable = new Throwable();
-//      t.printStackTrace();
-//      super.testInjector(new TestConfig(liveAgentVal = Some("lef")))
-//    }
-//  }
-
 
   private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs

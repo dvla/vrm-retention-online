@@ -26,8 +26,4 @@ object VehicleLookupFailurePage extends Page {
   def tryAgainButton(implicit driver: WebDriver) = find(id(TryAgainId)).get
 
   def exitLink(implicit driver: WebDriver) = find(linkText("Exit")).get
-
-  //val testLiveAgentButtonId = "5733E0000008OJ8"
-  //def liveAgentLink(implicit driver: WebDriver) = find(id("liveagent_button_online_"+testLiveAgentButtonId)).get
-
 }
