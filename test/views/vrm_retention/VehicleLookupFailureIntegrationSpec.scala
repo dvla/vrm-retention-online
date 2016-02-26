@@ -1,6 +1,7 @@
 package views.vrm_retention
 
-import composition.{GlobalLike, TestGlobal, TestHarness}
+import com.google.inject.Module
+import composition.{TestConfig, TestComposition, GlobalLike, TestGlobal, TestHarness}
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
@@ -121,11 +122,17 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
   private val fakeAppWithWebchatEnabledConfig =
     LightFakeApplication(TestWithWebChatEnabledGlobal)
 
-  object TestWithWebChatEnabledGlobal extends GlobalLike with MyGlobalCreator //with MyTestInjector
+  object TestWithWebChatEnabledGlobal extends GlobalLike with MyGlobalCreator with TestCompositionWithWebchat
 
   // NOTE: this trait refers to the main application.conf, when the property under test should be set
   trait MyGlobalCreator extends GlobalCreator {
     override def global: GlobalSettings = TestWithWebChatEnabledGlobal
+  }
+
+  trait TestCompositionWithWebchat extends TestComposition {
+    override def testInjector(modules: Module*) = {
+      super.testInjector(new TestConfig(liveAgentVal = Some("testval")))
+    }
   }
 
   private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
