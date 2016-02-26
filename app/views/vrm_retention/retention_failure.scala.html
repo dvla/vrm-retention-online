@@ -8,6 +8,7 @@
 @import views.html.vrm_retention.lookup_failure.failure_playback
 @import views.html.vrm_retention.main
 @import views.vrm_retention.PaymentFailure.ExitId
+@import scala.collection.mutable.LinkedHashMap
 
 @main(
     title =  Messages("vrm_retention_failure.title")
@@ -18,7 +19,10 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_retention_failure.text")</p>
         </div>
-        @failure_playback(vehicleLookupFailureViewModel.vehicleDetails)
+        @failure_playback(vehicleLookupFailureViewModel.vehicleDetails, liveAgentDetails = {
+            val details: LinkedHashMap[String, String] = LinkedHashMap()
+            details += "VRM" -> vehicleLookupFailureViewModel.vehicleDetails.registrationNumber
+        })
         <div class="form-steps">
             @csrfTokenHiddenField()
             @* Note the reverse routing syntax for the hyperlink *@

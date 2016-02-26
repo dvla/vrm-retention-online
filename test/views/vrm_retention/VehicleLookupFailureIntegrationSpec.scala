@@ -1,14 +1,18 @@
 package views.vrm_retention
 
-import composition.TestHarness
+import com.google.inject.Module
+import composition.{TestConfig, TestComposition, GlobalLike, TestGlobal, TestHarness}
 import helpers.UiSpec
 import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.concurrent.{Eventually, IntegrationPatience}
-import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle}
+import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle, pageSource}
 import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
 import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
+import play.api.GlobalSettings
+import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.GlobalCreator
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
@@ -50,8 +54,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
 
       val element: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
       element.getAttribute("name") should equal("contact-info-wrapper")
-      element.isDisplayed() should equal(true)
-      element.getText().contains("Telephone") should equal(true)
+      element.isDisplayed should equal(true)
+      element.getText.contains("Telephone") should equal(true)
     }
 
     "not contain contact information with a document reference mismatch" taggedAs UiTag in new WebBrowserForSelenium {
@@ -70,8 +74,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
 
     "contain contact information with a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
       shouldDisplayContactInfo(cacheDirectToPaperSetup)
-     }
-   }
+    }
+  }
 
   "try again button" should {
     "redirect to vehicle lookup page when button clicked" taggedAs UiTag in new WebBrowserForSelenium {
@@ -92,6 +96,42 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       go to VehicleLookupFailurePage
       click on exit
       currentUrl should equal(LeaveFeedbackPage.url)
+    }
+  }
+
+  //NOTE: this does not test the js part of webchat, only the presence of the functionality
+  "live agent script" should {
+    "be present if configuration enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+      go to BeforeYouStartPage
+      cacheDirectToPaperSetup() // Note: doc ref mismatch does not display contact details (and hence web chat)
+      go to VehicleLookupFailurePage
+      pageSource should include("liveagent_button_online_5733E0000008OJ8")
+    }
+
+    "not be present if configuration not enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatDisabledConfig) {
+      go to BeforeYouStartPage
+      cacheDirectToPaperSetup()
+      go to VehicleLookupFailurePage
+      pageSource should not include "liveagent_button_online_5733E0000008OJ8"
+    }
+  }
+
+  private val fakeAppWithWebchatDisabledConfig =
+    LightFakeApplication(TestGlobal)
+
+  private val fakeAppWithWebchatEnabledConfig =
+    LightFakeApplication(TestWithWebChatEnabledGlobal)
+
+  object TestWithWebChatEnabledGlobal extends GlobalLike with MyGlobalCreator with TestCompositionWithWebchat
+
+  // NOTE: this trait refers to the main application.conf, when the property under test should be set
+  trait MyGlobalCreator extends GlobalCreator {
+    override def global: GlobalSettings = TestWithWebChatEnabledGlobal
+  }
+
+  trait TestCompositionWithWebchat extends TestComposition {
+    override def testInjector(modules: Module*) = {
+      super.testInjector(new TestConfig(liveAgentVal = Some("testval")))
     }
   }
 
