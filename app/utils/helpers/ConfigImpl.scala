@@ -99,10 +99,15 @@ class ConfigImpl extends Config {
 
   override val surveyUrl: Option[String] = getOptionalProperty[String]("survey.url")
 
-  override val liveAgentId: Option[String] = {
+  override val liveAgentEnvironmentId: Option[String] = {
     val liveAgentId: Option[String] = getOptionalProperty[String]("webchat.liveAgent.environmentId")
     liveAgentId.fold(Logger.info("Webchat functionality is not enabled"))
       {id => Logger.info("Webchat functionality is enabled")}
     liveAgentId
   }
+
+  override val liveAgentButtonId: String = getProperty[String]("webchat.liveAgent.buttonId")
+  override val liveAgentOrgId: String = getProperty[String]("webchat.liveAgent.orgId")
+  override val liveAgentUrl: String = getProperty[String]("webchat.liveAgent.url")
+
 }

@@ -105,14 +105,14 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       go to BeforeYouStartPage
       cacheDirectToPaperSetup() // Note: doc ref mismatch does not display contact details (and hence web chat)
       go to VehicleLookupFailurePage
-      pageSource should include("liveagent_button_online_5733E000000006E")
+      pageSource should include("liveagent_button_online_XXX")
     }
 
     "not be present if configuration not enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatDisabledConfig) {
       go to BeforeYouStartPage
       cacheDirectToPaperSetup()
       go to VehicleLookupFailurePage
-      pageSource should not include "liveagent_button_online_5733E000000006E"
+      pageSource should not include "liveagent_button_online_XXX"
     }
   }
 

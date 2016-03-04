@@ -63,6 +63,9 @@ trait Config extends VehicleLookupConfig {
   // Survey
   val surveyUrl: Option[String]
 
-  // Web chat live agent
-  val liveAgentId: Option[String]
+  // Web chat Salesforce live agent
+  val liveAgentEnvironmentId: Option[String]
+  val liveAgentButtonId: String
+  val liveAgentOrgId: String
+  val liveAgentUrl: String
 }

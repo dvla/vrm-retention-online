@@ -1,18 +1,15 @@
 @(details: scala.collection.mutable.LinkedHashMap[String, String])(implicit lang: Lang, config: utils.helpers.Config)
-@import java.lang.String; val buttonId:String = "5733E000000006E";
-@import java.lang.String; val orgId:String = "00D3E000000Coo2";
-@import java.lang.String; val endpointUrl = "https://d.la1-c2cs-frf.salesforceliveagent.com/chat";
 
-    @if(config.liveAgentId.isDefined){
+    @if(config.liveAgentEnvironmentId.isDefined){
         <!-- live agent deployment -->
         <script type='text/javascript'
                 src='https://c.la1-c2cs-frf.salesforceliveagent.com/content/g/js/36.0/deployment.js'></script>
-        <script type='text/javascript'>liveagent.init('@endpointUrl', '@config.liveAgentId', '@orgId'); </script>
+        <script type='text/javascript'>liveagent.init('@config.liveAgentUrl', '@config.liveAgentEnvironmentId', '@config.liveAgentOrgId'); </script>
 
-        <img id="liveagent_button_online_@buttonId" style="display: none; border: 0px none; cursor: pointer" onclick="liveagent.startChat('@buttonId')" src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/ChatIcon02Nov15.png")" />
+        <img id="liveagent_button_online_@config.liveAgentButtonId" style="display: none; border: 0px none; cursor: pointer" onclick="liveagent.startChat('@config.liveAgentButtonId')" src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/ChatIcon02Nov15.png")" />
         <script type="text/javascript">
             if (!window._laq) { window._laq = []; }
-            window._laq.push(function(){liveagent.showWhenOnline('@buttonId', document.getElementById('liveagent_button_online_@buttonId'));
+            window._laq.push(function(){liveagent.showWhenOnline('@config.liveAgentButtonId', document.getElementById('liveagent_button_online_@config.liveAgentButtonId'));
             });
             @for((label,value) <- details) {
                 liveagent.addCustomDetail("@label","@value")
