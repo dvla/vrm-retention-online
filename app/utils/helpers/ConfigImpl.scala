@@ -109,5 +109,6 @@ class ConfigImpl extends Config {
   override val liveAgentButtonId: String = getProperty[String]("webchat.liveAgent.buttonId")
   override val liveAgentOrgId: String = getProperty[String]("webchat.liveAgent.orgId")
   override val liveAgentUrl: String = getProperty[String]("webchat.liveAgent.url")
+  override val liveAgentjsUrl: String = getProperty[String]("webchat.liveAgent.jsUrl")
 
 }

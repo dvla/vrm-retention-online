@@ -68,4 +68,5 @@ trait Config extends VehicleLookupConfig {
   val liveAgentButtonId: String
   val liveAgentOrgId: String
   val liveAgentUrl: String
+  val liveAgentjsUrl: String
 }
