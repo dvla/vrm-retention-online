@@ -55,8 +55,6 @@ object FailureEmailMessageBuilder {
      |  <li>${Messages("email.failure.line11")}</li>
      |  <li>${Messages("email.failure.line12")}</li>
      |  <li>${Messages("email.failure.line14")}</li>
-     |  <li>${Messages("email.failure.line15")}</li>
-     |  <li>${Messages("email.failure.line16")}</li>
      |</ul>
      |</p>
   """.stripMargin
