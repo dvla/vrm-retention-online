@@ -326,8 +326,6 @@ success-keeper-application-details-telephone-number-extension3 = when prompted)
 success-keeper-application-details-monday-to-friday = Monday to Friday: 08.00 - 19.00
 success-keeper-application-details-saturday = Saturday: 08.00 - 14.00
 success-keeper-application-details-sunday = Sunday: Closed
-success-keeper-application-details-textphone = Textphone
-success-keeper-application-details-textphone-number = 18001 0300 123 1379
 
 success-keeper-details = Keeper details
 success-keeper-details-name = Name:
@@ -406,8 +404,6 @@ email.failure.line11 = Monday to Friday: 08:00 to 18:00
 email.failure.line12 = Saturday: 08:00 to 14:00
 email.failure.line13 = Sunday: Closed
 email.failure.line14 =
-email.failure.line15 = Textphone:
-email.failure.line16 = 18001 0300 123 1379
 
 # closed
 closed.title = Service unavailable

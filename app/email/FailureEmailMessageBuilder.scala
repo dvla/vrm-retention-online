@@ -77,7 +77,5 @@ object FailureEmailMessageBuilder {
       |${Messages("email.failure.line12")}
       |${Messages("email.failure.line13")}
       |${Messages("email.failure.line14")}
-      |${Messages("email.failure.line15")}
-      |${Messages("email.failure.line16")}
-  """.stripMargin
+    """.stripMargin
 }
