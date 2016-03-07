@@ -1,7 +1,6 @@
 package pages
 
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, pageSource, singleSel, submit}
 import pages.vrm_retention.PaymentPage
 import pages.vrm_retention.PaymentPage.{expiryMonth, expiryYear, noJavaScriptContinueButton, payNow, submitButton, url}

@@ -1,7 +1,6 @@
 package pages
 
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{click, currentUrl}
 import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.ConfirmBusinessPage.{confirm, url}

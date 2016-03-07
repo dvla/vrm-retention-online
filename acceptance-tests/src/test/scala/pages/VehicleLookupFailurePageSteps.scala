@@ -1,7 +1,6 @@
 package pages
 
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.scalatest.concurrent.Eventually.eventually
 import org.scalatest.selenium.WebBrowser.{currentUrl, pageSource, pageTitle}
 import pages.vrm_retention.VehicleLookupFailurePage.{downloadLink, exitLink, tryAgainButton, url}
 
