@@ -328,8 +328,6 @@ success-keeper-application-details-telephone-number-extension3 = pan ofynnir amd
 success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08.00 - 19.00
 success-keeper-application-details-saturday = Dydd Sadwrn: 08.00 - 14.00
 success-keeper-application-details-sunday = Dydd Sul: Ar gau
-success-keeper-application-details-textphone = Ffôn testun
-success-keeper-application-details-textphone-number = 18001 0300 123 1379
 
 success-keeper-details = Manylion y ceidwad
 success-keeper-details-name = Enw:
@@ -408,8 +406,6 @@ email.failure.line11 = Dydd llun i Ddydd Gwener: 08:00 to 18:00
 email.failure.line12 = Dydd Sadwrn: 08:00 to 14:00
 email.failure.line13 = Dydd Sul: Ar gau
 email.failure.line14 =
-email.failure.line15 = Ffôn testun:
-email.failure.line16 = 18001 0300 123 1379
 
 # closed
 closed.title = Nid yw’r gwasanaeth ar gael
