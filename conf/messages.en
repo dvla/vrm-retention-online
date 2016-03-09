@@ -391,7 +391,7 @@ email.failure.title = Take a registration number off a vehicle
 email.failure.line1 = THIS IS AN AUTOMATED EMAIL
 email.failure.line2 = PLEASE DO NOT REPLY AS EMAILS RECEIVED AT THIS ADDRESS CANNOT BE RESPONDED TO.
 email.failure.line3 =
-email.failure.line4 =Thank you for your application to ’Take a registration number off a vehicle’. Your application was \
+email.failure.line4 =Thank you for your application to ''Take a registration number off a vehicle''. Your application was \
   unsuccessful at this time and your credit/debit card has not been charged.
 email.failure.line5 =
 email.failure.line6 = If you wish to contact DVLA regarding this application please contact us using the \
