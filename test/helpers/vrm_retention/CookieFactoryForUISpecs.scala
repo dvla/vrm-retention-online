@@ -276,7 +276,7 @@ object CookieFactoryForUISpecs {
     this
   }
 
-  def storeEligibilityMsResponseCode(code: String = FailureCodeUndefined, message: String = "")(implicit webDriver: WebDriver) = {
+  def storeMsResponseCode(code: String = FailureCodeUndefined, message: String = "")(implicit webDriver: WebDriver) = {
     val key = MsResponseCacheKey
     val value = MicroserviceResponseModel(MicroserviceResponse(code, message)) //speific message value not needed
     addCookie(key, value)

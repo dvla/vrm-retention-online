@@ -104,6 +104,14 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
       `find vehicle`
   }
 
+  @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" that does match a valid vehicle record$""")
+  def `I enter data in the <Vehicle-Registration-Number>, <document-reference-number> and <postcode> that does match a valid vehicle record`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
+    vehicleLookup.
+      enter(vehicleRegistrationNumber, documentReferenceNumber, postcode).
+      `keeper is acting`.
+      `find vehicle`
+  }
+
   @When( """^I enter data in the "(.*?)", "(.*?)" and "(.*?)" for a vehicle that is not eligible for retention$""")
   def `I enter data in the <vehicle-registration-number>, <document-reference-number> and <postcode> for a vehicle that is not eligible for retention`(vehicleRegistrationNumber: String, documentReferenceNumber: String, postcode: String) = {
     vehicleLookup.
@@ -122,6 +130,12 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   def `the doc ref mismatch page is displayed`() {
     vehicleNotFound.`is displayed`
       .`has 'doc ref mismatch' message`
+  }
+
+  @Then("^the postcode mismatch page is displayed$")
+  def `the postcode mismatch page is displayed`() {
+    vehicleNotFound.`is displayed`
+      .`has 'postcode mismatch' message`
   }
 
   @Then("^the brute force lock out page is displayed$")

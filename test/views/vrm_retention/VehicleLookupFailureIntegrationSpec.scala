@@ -151,7 +151,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeEligibilityMsResponseCode(message = "vehicle_and_keeper_lookup_document_reference_mismatch")
+      .storeMsResponseCode(message = "vehicle_and_keeper_lookup_document_reference_mismatch")
 
   private def cacheDirectToPaperSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
@@ -159,7 +159,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeEligibilityMsResponseCode(message = "vrm_retention_eligibility_direct_to_paper")
+      .storeMsResponseCode(message = "vrm_retention_eligibility_direct_to_paper")
 
   private def cacheDirectToPaperSetup2()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
@@ -167,7 +167,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeEligibilityMsResponseCode(code = "alpha", message = "vrm_retention_eligibility_direct_to_paper") // this represents a sensitive code
+      .storeMsResponseCode(code = "alpha", message = "vrm_retention_eligibility_direct_to_paper") // this represents a sensitive code
 
 
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
@@ -176,7 +176,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeEligibilityMsResponseCode(message = "vrm_retention_eligibility_failure")
+      .storeMsResponseCode(message = "vrm_retention_eligibility_failure")
 
   private def cachePostcodeMismatchSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
@@ -184,5 +184,5 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeEligibilityMsResponseCode(message = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
+      .storeMsResponseCode(message = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 }

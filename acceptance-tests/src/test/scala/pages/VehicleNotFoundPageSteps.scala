@@ -44,6 +44,14 @@ class VehicleNotFoundPageSteps(implicit webDriver: EventFiringWebDriver)
     this
   }
 
+  def `has 'postcode mismatch' message` = {
+    pageSource should include("Unable to find vehicle record")
+    pageSource should include("postcode entered does not come from the most recent V5C issued for this vehicle.")
+    pageSource should not include "This registration number cannot be assigned online"
+    pageSource should not include "complete and submit a V317 form"
+    this
+  }
+
   def `has 'direct to paper' message` = {
     pageSource should include("This registration number cannot be retained online")
     pageSource should include("V317 application")

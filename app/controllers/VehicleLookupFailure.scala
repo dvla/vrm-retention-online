@@ -16,7 +16,6 @@ import views.html.vrm_retention.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_retention.lookup_failure.postcode_mismatch
 import views.html.vrm_retention.lookup_failure.vehicle_lookup_failure
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey}
-//import views.vrm_retention.CheckEligibility.CheckEligibilityMsResponseCacheKey
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
@@ -59,18 +58,18 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
-                                          eligibilityFailure: MicroserviceResponseModel)
+                                          msResponseModel: MicroserviceResponseModel)
                                          (implicit request: Request[AnyContent]) = {
     val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
 
     val intro = "VehicleLookupFailure is"
-    val failurePage = eligibilityFailure.msResponse.message match {
+    val failurePage = msResponseModel.msResponse.message match {
         case "vrm_retention_eligibility_direct_to_paper" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          failureCode = eligibilityFailure.msResponse.code
+          failureCode = msResponseModel.msResponse.code
         )
       case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
@@ -110,7 +109,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_damaged_failure"),
-          failureCode = eligibilityFailure.msResponse.code
+          failureCode = msResponseModel.msResponse.code
         )
       case "vrm_retention_eligibility_vic_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
@@ -119,7 +118,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_vic_failure"),
           responseLink = Some("vrm_retention_eligibility_vic_failure_link"),
-          failureCode = eligibilityFailure.msResponse.code
+          failureCode = msResponseModel.msResponse.code
         )
       case "vrm_retention_eligibility_no_keeper_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
@@ -142,7 +141,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_pre_1998_failure"),
-          failureCode = eligibilityFailure.msResponse.code
+          failureCode = msResponseModel.msResponse.code
         )
       case "vrm_retention_eligibility_q_plate_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
@@ -156,8 +155,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseCodeVehicleLookupMSErrorMessage = eligibilityFailure.msResponse.message,
-          failureCode = eligibilityFailure.msResponse.code
+          responseCodeVehicleLookupMSErrorMessage = msResponseModel.msResponse.message,
+          failureCode = msResponseModel.msResponse.code
         )
     }
 

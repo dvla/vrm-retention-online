@@ -11,6 +11,7 @@ import play.api.data.{Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
 import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.clientsidesession.CookieImplicits.RichForm
@@ -18,8 +19,7 @@ import common.clientsidesession.CookieImplicits.RichResult
 import common.clientsidesession.TrackingId
 import common.controllers.VehicleLookupBase
 import common.LogFormats
-import common.model.BruteForcePreventionModel
-import common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.{MicroserviceResponseModel, BruteForcePreventionModel, VehicleAndKeeperDetailsModel}
 import common.views.constraints.Postcode.formatPostcode
 import common.views.constraints.RegistrationNumber.formatVrm
 import common.views.helpers.FormExtensions.formBinding
@@ -174,7 +174,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       ), trackingId)
 
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
-        withCookie(responseCodeCacheKey, postcodeMismatchResponseCodeText)
+        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = postcodeMismatchResponseCodeText)))
     } else
       addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).
         withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
