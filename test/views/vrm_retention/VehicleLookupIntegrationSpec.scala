@@ -47,6 +47,14 @@ class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {
         Wait.until(ExpectedConditions.presenceOfElementLocated(v5c), 5)
         Wait.until(ExpectedConditions.invisibilityOfElementLocated(v5c), 5)
     }
+
+    "have a v5c document reference number input field of type tel" taggedAs UiTag in new WebBrowserForSelenium {
+      go to VehicleLookupPage
+      val docRef: WebElement = webDriver.findElement(
+        By.name(views.vrm_retention.VehicleLookup.DocumentReferenceNumberId)
+      )
+      docRef.getAttribute("type") should equal("tel")
+    }
   }
 
   "findVehicleDetails button" should {
