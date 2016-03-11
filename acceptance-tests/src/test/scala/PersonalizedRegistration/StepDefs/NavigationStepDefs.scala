@@ -21,10 +21,10 @@ import pages.vrm_retention.SetupBusinessDetailsPage
 import pages.vrm_retention.SuccessPage
 import pages.vrm_retention.VehicleLookupPage
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.WebBrowserDriver
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import views.vrm_retention.Payment.PaymentDetailsCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 
 final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
 
@@ -159,7 +159,7 @@ final class NavigationStepDefs(implicit webDriver: WebBrowserDriver) extends hel
         webDriver.manage().getCookieNamed(RetainCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(PaymentDetailsCacheKey) should equal(null)
         webDriver.manage().getCookieNamed(VehicleAndKeeperLookupFormModelCacheKey) should equal(null)
-        webDriver.manage().getCookieNamed(VehicleAndKeeperLookupResponseCodeCacheKey) should equal(null)
+        webDriver.manage().getCookieNamed(MsResponseCacheKey) should equal(null)
       case "not wiped" => println("not wiped")
       case "-" => println("not created in the first place")
 

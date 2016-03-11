@@ -29,10 +29,8 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
             Some(vehicleAndKeeperLookupFormModel),
             vehicleAndKeeperDetailsModelOpt) =>
 
-        val viewModel = vehicleAndKeeperDetailsModelOpt match {
-          case Some(details) => VehicleLookupFailureViewModel(details)
-          case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupFormModel)
-        }
+      val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupFormModel, vehicleAndKeeperDetailsModelOpt)
+
 
         logMessage(request.cookies.trackingId(), Info, s"Presenting retention failure view")
         Future.successful(Ok(views.html.vrm_retention.retention_failure(

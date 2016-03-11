@@ -111,4 +111,6 @@ class ConfigImpl extends Config {
   override val liveAgentUrl: String = getProperty[String]("webchat.liveAgent.url")
   override val liveAgentjsUrl: String = getProperty[String]("webchat.liveAgent.jsUrl")
 
+  override val failureCodeBlacklist: Option[List[String]] = getStringListProperty("webchat.failureCodes.blacklist")
+
 }

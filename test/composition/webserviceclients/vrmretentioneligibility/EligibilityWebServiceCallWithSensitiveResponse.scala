@@ -14,12 +14,12 @@ import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponse
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponseDto
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityWebService
 
-final class EligibilityWebServiceCallWithResponse extends ScalaModule with MockitoSugar {
+final class EligibilityWebServiceCallWithSensitiveResponse extends ScalaModule with MockitoSugar {
 
   private val withResponseCode: (Int, VRMRetentionEligibilityResponseDto) = {
     (FORBIDDEN,
       VRMRetentionEligibilityResponseDto(
-        Some(MicroserviceResponse("nonsensitive", "stub-response")),
+        Some(MicroserviceResponse("alpha", "stub-response")), // see TestConfig.failureCodeBlacklist
         VRMRetentionEligibilityResponse("", None)
       )
     )

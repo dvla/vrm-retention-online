@@ -4,37 +4,33 @@ import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsMod
 import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
 
 final case class VehicleLookupFailureViewModel(registrationNumber: String,
-                                               make: Option[String],
-                                               model: Option[String],
+                                               v5ref: String,
+                                               postcode: String,
                                                vehicleDetails: VehicleAndKeeperDetailsModel)
 
 object VehicleLookupFailureViewModel {
 
-  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel): VehicleLookupFailureViewModel =
-    VehicleLookupFailureViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      make = vehicleAndKeeperDetails.make,
-      model = vehicleAndKeeperDetails.model,
-      vehicleDetails = vehicleAndKeeperDetails
-    )
-
-  def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel): VehicleLookupFailureViewModel =
+  def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel, vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]): VehicleLookupFailureViewModel =
     VehicleLookupFailureViewModel(
       registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
-      make = None,
-      model = None,
-      VehicleAndKeeperDetailsModel(
-        registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
-        make = None,
-        model = None,
-        title = None,
-        firstName = None,
-        lastName = None,
-        address = None,
-        disposeFlag = None,
-        keeperEndDate = None,
-        keeperChangeDate = None,
-        suppressedV5Flag = None
-      )
+      v5ref = vehicleAndKeeperLookupForm.referenceNumber,
+      postcode = vehicleAndKeeperLookupForm.postcode,
+      vehicleAndKeeperDetails match {
+        case Some(details) => details
+        case None =>
+          VehicleAndKeeperDetailsModel(
+            registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
+            make = None,
+            model = None,
+            title = None,
+            firstName = None,
+            lastName = None,
+            address = None,
+            disposeFlag = None,
+            keeperEndDate = None,
+            keeperChangeDate = None,
+            suppressedV5Flag = None
+          )
+      }
     )
 }

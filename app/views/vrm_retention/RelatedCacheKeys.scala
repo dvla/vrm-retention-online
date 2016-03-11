@@ -11,6 +11,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.Payment.PaymentDetailsCacheKey
@@ -18,7 +19,6 @@ import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.Retain.RetainResponseCodeCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 
 object RelatedCacheKeys extends DVLALogger {
 
@@ -27,7 +27,7 @@ object RelatedCacheKeys extends DVLALogger {
   val RetainSet = Set(
     bruteForcePreventionViewModelCacheKey,
     vehicleAndKeeperLookupDetailsCacheKey,
-    VehicleAndKeeperLookupResponseCodeCacheKey,
+    MsResponseCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey,
     CheckEligibilityCacheKey,
     ConfirmCacheKey,
@@ -39,7 +39,7 @@ object RelatedCacheKeys extends DVLALogger {
 
   val VehicleAndKeeperLookupSet = Set(
     vehicleAndKeeperLookupDetailsCacheKey,
-    VehicleAndKeeperLookupResponseCodeCacheKey,
+    MsResponseCacheKey,
     VehicleAndKeeperLookupFormModelCacheKey
   )
 

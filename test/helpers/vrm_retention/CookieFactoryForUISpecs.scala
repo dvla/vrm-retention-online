@@ -14,15 +14,19 @@ import play.Play
 import play.api.libs.json.Json
 import play.api.libs.json.Writes
 import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
-import uk.gov.dvla.vehicles.presentation.common.model.Address
-import uk.gov.dvla.vehicles.presentation.common.model.AddressModel
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.SearchFields
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
+import uk.gov.dvla.vehicles.presentation.common
+import common.model.Address
+import common.model.AddressModel
+import common.model.BruteForcePreventionModel
+import common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
+import common.model.MicroserviceResponseModel
+import common.model.MicroserviceResponseModel.MsResponseCacheKey
+import common.model.SearchFields
+import common.model.VehicleAndKeeperDetailsModel
+import common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressAndPostcodeViewModel
 import uk.gov.dvla.vehicles.presentation.common.views.models.AddressLinesViewModel
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
 import views.vrm_retention
 import views.vrm_retention.BusinessDetails.BusinessDetailsCacheKey
 import views.vrm_retention.CheckEligibility.CheckEligibilityCacheKey
@@ -32,7 +36,6 @@ import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.fakes.AddressLookupServiceConstants.addressWithoutUprn
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -62,6 +65,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Registr
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.FailureCodeUndefined
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
 import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.TransactionTimestampValid
@@ -266,17 +270,16 @@ object CookieFactoryForUISpecs {
     else Some(address)
   }
 
-  def vehicleAndKeeperLookupResponseCode(responseCode: String)
-                                        (implicit webDriver: WebDriver) = {
-    val key = VehicleAndKeeperLookupResponseCodeCacheKey
-    val value = responseCode
-    addCookie(key, value)
-    this
-  }
-
   def storeBusinessDetailsConsent(consent: String)(implicit webDriver: WebDriver) = {
     val key = StoreBusinessDetailsCacheKey
     addCookie(key, consent)
+    this
+  }
+
+  def storeEligibilityMsResponseCode(code: String = FailureCodeUndefined, message: String = "")(implicit webDriver: WebDriver) = {
+    val key = MsResponseCacheKey
+    val value = MicroserviceResponseModel(MicroserviceResponse(code, message)) //speific message value not needed
+    addCookie(key, value)
     this
   }
 }

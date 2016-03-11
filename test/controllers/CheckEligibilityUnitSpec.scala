@@ -1,38 +1,23 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import helpers.WithApplication
-import composition.webserviceclients.vrmretentioneligibility
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import vrmretentioneligibility.EligibilityWebServiceCallFails
-import vrmretentioneligibility.EligibilityWebServiceCallWithResponse
-import vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndEmptyReplacement
-import vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndReplacement
-import helpers.UnitSpec
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.storeBusinessDetailsConsent
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.trackingIdModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
+import composition.webserviceclients.vrmretentioneligibility.{EligibilityWebServiceCallWithSensitiveResponse, EligibilityWebServiceCallFails, EligibilityWebServiceCallWithCurrentAndEmptyReplacement, EligibilityWebServiceCallWithCurrentAndReplacement, EligibilityWebServiceCallWithResponse}
+import helpers.JsonUtils.deserializeJsonToModel
+import helpers.{UnitSpec, WithApplication}
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.{storeBusinessDetailsConsent, trackingIdModel, transactionId, vehicleAndKeeperDetailsModel}
+import helpers.vrm_retention.CookieFactoryForUnitSpecs.{vehicleAndKeeperLookupFormModel}
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
 import org.mockito.Mockito.{times, verify}
-import pages.vrm_retention.ConfirmPage
-import pages.vrm_retention.ErrorPage
-import pages.vrm_retention.MicroServiceErrorPage
-import pages.vrm_retention.SetupBusinessDetailsPage
-import pages.vrm_retention.VehicleLookupFailurePage
+import pages.vrm_retention.{ConfirmPage, ErrorPage, MicroServiceErrorPage, SetupBusinessDetailsPage, VehicleLookupFailurePage}
 import play.api.test.FakeRequest
 import play.api.test.Helpers.LOCATION
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
-import webserviceclients.audit2.AuditRequest
-import webserviceclients.audit2.AuditService
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.TransactionIdValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
+import webserviceclients.audit2.{AuditRequest, AuditService}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid, RegistrationNumberValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{TransactionIdValid, VehicleMakeValid, VehicleModelValid}
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 
 class CheckEligibilityUnitSpec extends UnitSpec {
@@ -118,7 +103,40 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       val result = checkEligibility(new EligibilityWebServiceCallWithResponse()).present(request)
       whenReady(result) { r =>
         val cookies = fetchCookiesFromHeaders(r)
-        cookies.map(_.name) should contain(VehicleAndKeeperLookupResponseCodeCacheKey)
+        cookies.map(_.name) should contain(MsResponseCacheKey)
+
+        val cookieName = MsResponseCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[MicroserviceResponseModel](json)
+              model.msResponse.code should equal("nonsensitive")
+            case None => fail(s"$cookieName cookie not found")
+          }
+      }
+    }
+
+    "write cookie when web service returns with a sensitive response code" in new WithApplication {
+      val request = FakeRequest()
+        .withCookies(
+          vehicleAndKeeperLookupFormModel(),
+          vehicleAndKeeperDetailsModel(),
+          storeBusinessDetailsConsent(),
+          transactionId()
+        )
+      val result = checkEligibility(new EligibilityWebServiceCallWithSensitiveResponse()).present(request)
+      whenReady(result) { r =>
+        val cookies = fetchCookiesFromHeaders(r)
+        cookies.map(_.name) should contain(MsResponseCacheKey)
+
+        val cookieName = MsResponseCacheKey
+          cookies.find(_.name == cookieName) match {
+            case Some(cookie) =>
+              val json = cookie.value
+              val model = deserializeJsonToModel[MicroserviceResponseModel](json)
+              model.msResponse.code should equal("")
+            case None => fail(s"$cookieName cookie not found")
+          }
       }
     }
 

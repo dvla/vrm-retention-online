@@ -4,7 +4,6 @@ import _root_.webserviceclients.audit2.AuditService
 import _root_.webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants
 import _root_.webserviceclients.fakes.BruteForcePreventionWebServiceConstants.VrmLocked
-import _root_.webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants
 import composition.TestConfig
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebService
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
@@ -34,6 +33,7 @@ import play.api.test.Helpers.LOCATION
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
 import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
 import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
@@ -50,7 +50,6 @@ import views.vrm_retention.VehicleLookup.KeeperConsentId
 import views.vrm_retention.VehicleLookup.PostcodeId
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import org.mockito.Mockito.{times, verify}
 
@@ -383,7 +382,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(
             PaymentTransNoCacheKey, TransactionIdCacheKey, bruteForcePreventionViewModelCacheKey,
-            VehicleAndKeeperLookupResponseCodeCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
+            MsResponseCacheKey, VehicleAndKeeperLookupFormModelCacheKey)
       }
     }
 
@@ -414,7 +413,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
           val cookies = fetchCookiesFromHeaders(r)
           cookies.map(_.name) should contain allOf(
             bruteForcePreventionViewModelCacheKey,
-            VehicleAndKeeperLookupResponseCodeCacheKey,
+            MsResponseCacheKey,
             VehicleAndKeeperLookupFormModelCacheKey
           )
       }

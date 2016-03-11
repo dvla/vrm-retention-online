@@ -13,6 +13,8 @@ import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookup
 import play.api.GlobalSettings
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.GlobalCreator
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.FailureCodeUndefined
+
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
@@ -29,6 +31,14 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       cacheDirectToPaperSetup()
       go to VehicleLookupFailurePage
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
+    }
+
+    "display the lookup unsuccessful page for a direct to paper failure with non-sensitive response code" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+      go to BeforeYouStartPage
+      cacheDirectToPaperSetup()
+      go to VehicleLookupFailurePage
+      pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
+      pageSource should include(FailureCodeUndefined)
     }
 
     "display the lookup unsuccessful page for a post code mismatch" taggedAs UiTag in new WebBrowserForSelenium {
@@ -112,7 +122,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       go to BeforeYouStartPage
       cacheDirectToPaperSetup()
       go to VehicleLookupFailurePage
-      pageSource should not include "liveagent_button_online_XXX"
+      pageSource should not include("liveagent_button_online_XXX")
     }
   }
 
@@ -131,7 +141,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
 
   trait TestCompositionWithWebchat extends TestComposition {
     override def testInjector(modules: Module*) = {
-      super.testInjector(new TestConfig(liveAgentVal = Some("testval")))
+      super.testInjector(new TestConfig(liveAgentEnvVal = Some("testval")))
     }
   }
 
@@ -140,30 +150,39 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .transactionId()
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_document_reference_mismatch")
       .vehicleAndKeeperDetailsModel()
+      .storeEligibilityMsResponseCode(message = "vehicle_and_keeper_lookup_document_reference_mismatch")
 
   private def cacheDirectToPaperSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .transactionId()
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_direct_to_paper")
       .vehicleAndKeeperDetailsModel()
+      .storeEligibilityMsResponseCode(message = "vrm_retention_eligibility_direct_to_paper")
+
+  private def cacheDirectToPaperSetup2()(implicit webDriver: WebDriver) =
+    CookieFactoryForUISpecs
+      .transactionId()
+      .bruteForcePreventionViewModel()
+      .vehicleAndKeeperLookupFormModel()
+      .vehicleAndKeeperDetailsModel()
+      .storeEligibilityMsResponseCode(code = "alpha", message = "vrm_retention_eligibility_direct_to_paper") // this represents a sensitive code
+
 
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .transactionId()
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperLookupResponseCode("vrm_retention_eligibility_failure")
       .vehicleAndKeeperDetailsModel()
+      .storeEligibilityMsResponseCode(message = "vrm_retention_eligibility_failure")
 
   private def cachePostcodeMismatchSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .transactionId()
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperLookupResponseCode("vehicle_and_keeper_lookup_keeper_postcode_mismatch")
       .vehicleAndKeeperDetailsModel()
+      .storeEligibilityMsResponseCode(message = "vehicle_and_keeper_lookup_keeper_postcode_mismatch")
 }

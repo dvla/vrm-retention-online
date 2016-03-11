@@ -1,21 +1,22 @@
 package controllers
 
 import com.google.inject.Inject
-import models.CacheKeyPrefix
-import models.VehicleAndKeeperLookupFormModel
-import models.VehicleLookupFailureViewModel
+import models.{CacheKeyPrefix, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
+import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import utils.helpers.Config
 import views.html.vrm_retention.lookup_failure.direct_to_paper
 import views.html.vrm_retention.lookup_failure.eligibility_failure
 import views.html.vrm_retention.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_retention.lookup_failure.postcode_mismatch
 import views.html.vrm_retention.lookup_failure.vehicle_lookup_failure
-import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, VehicleAndKeeperLookupResponseCodeCacheKey}
+import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey}
+//import views.vrm_retention.CheckEligibility.CheckEligibilityMsResponseCacheKey
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
@@ -25,19 +26,19 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getModel[VehicleAndKeeperLookupFormModel],
-      request.cookies.getString(VehicleAndKeeperLookupResponseCodeCacheKey),
-      request.cookies.getModel[VehicleAndKeeperDetailsModel]
+      request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      request.cookies.getModel[MicroserviceResponseModel]
       ) match {
       case (Some(transactionId),
         Some(vehicleAndKeeperLookupForm),
-        Some(vehicleLookupResponseCode),
-        vehicleAndKeeperDetails) =>
+        vehicleAndKeeperDetails,
+        Some(failureModel)) =>
 
         displayVehicleLookupFailure(
           transactionId,
           vehicleAndKeeperLookupForm,
           vehicleAndKeeperDetails,
-          vehicleLookupResponseCode
+          failureModel
         )
       case _ => Redirect(routes.BeforeYouStart.present())
     }
@@ -58,20 +59,18 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
-                                          vehicleAndKeeperLookupResponseCode: String)
+                                          eligibilityFailure: MicroserviceResponseModel)
                                          (implicit request: Request[AnyContent]) = {
-    val viewModel = vehicleAndKeeperDetails match {
-      case Some(details) => VehicleLookupFailureViewModel(details)
-      case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
-    }
+    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
 
     val intro = "VehicleLookupFailure is"
-    val failurePage = vehicleAndKeeperLookupResponseCode match {
-      case "vrm_retention_eligibility_direct_to_paper" =>
+    val failurePage = eligibilityFailure.msResponse.message match {
+        case "vrm_retention_eligibility_direct_to_paper" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel
+          viewModel = viewModel,
+          failureCode = eligibilityFailure.msResponse.code
         )
       case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
@@ -110,7 +109,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_damaged_failure")
+          responseMessage = Some("vrm_retention_eligibility_damaged_failure"),
+          failureCode = eligibilityFailure.msResponse.code
         )
       case "vrm_retention_eligibility_vic_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
@@ -118,7 +118,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_vic_failure"),
-          responseLink = Some("vrm_retention_eligibility_vic_failure_link")
+          responseLink = Some("vrm_retention_eligibility_vic_failure_link"),
+          failureCode = eligibilityFailure.msResponse.code
         )
       case "vrm_retention_eligibility_no_keeper_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
@@ -140,7 +141,8 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_pre_1998_failure")
+          responseMessage = Some("vrm_retention_eligibility_pre_1998_failure"),
+          failureCode = eligibilityFailure.msResponse.code
         )
       case "vrm_retention_eligibility_q_plate_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
@@ -154,10 +156,11 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseCodeVehicleLookupMSErrorMessage = vehicleAndKeeperLookupResponseCode
+          responseCodeVehicleLookupMSErrorMessage = eligibilityFailure.msResponse.message,
+          failureCode = eligibilityFailure.msResponse.code
         )
     }
 
-    Ok(failurePage).discardingCookies(DiscardingCookie(name = VehicleAndKeeperLookupResponseCodeCacheKey))
+    Ok(failurePage).discardingCookies(DiscardingCookie(name = MsResponseCacheKey))
   }
 }

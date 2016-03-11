@@ -1,10 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
-import models.BusinessDetailsModel
-import models.CacheKeyPrefix
-import models.EligibilityModel
-import models.VehicleAndKeeperLookupFormModel
+import models.{BusinessDetailsModel, CacheKeyPrefix, EligibilityModel, VehicleAndKeeperLookupFormModel}
 import org.joda.time.DateTime
 import play.api.mvc.Result
 import play.api.mvc.{Action, Controller, Request}
@@ -18,13 +15,12 @@ import common.clientsidesession.CookieImplicits.RichResult
 import common.LogFormats.anonymize
 import common.LogFormats.DVLALogger
 import common.model.VehicleAndKeeperDetailsModel
+import common.model.MicroserviceResponseModel
 import common.views.constraints.RegistrationNumber.formatVrm
-import common.webserviceclients.common.VssWebEndUserDto
-import common.webserviceclients.common.VssWebHeaderDto
+import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{MicroserviceResponse, VssWebEndUserDto, VssWebHeaderDto}
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Keeper
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityRequest
 import webserviceclients.vrmretentioneligibility.VRMRetentionEligibilityResponseDto
@@ -154,9 +150,20 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
               rejectionCode = Some(s"${response.code} - ${response.message}")
             ), trackingId
           )
-          Redirect(routes.VehicleLookupFailure.present()).
-            withCookie(key = VehicleAndKeeperLookupResponseCodeCacheKey, value = response.message)
+          Redirect(routes.VehicleLookupFailure.present())
+             .withCookie(MicroserviceResponseModel.content(filteredFailureCode(response)))
       }
+    }
+
+    def filteredFailureCode(response: MicroserviceResponse) : MicroserviceResponse = {
+       config.failureCodeBlacklist match {
+         case Some(failureCodes) =>
+           if (failureCodes.contains(response.code))
+             MicroserviceResponse(code = "", response.message)
+           else
+             response
+         case _ => response
+       }
     }
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(

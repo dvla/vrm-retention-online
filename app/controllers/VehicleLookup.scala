@@ -34,7 +34,7 @@ import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_retention.VehicleLookup.PostcodeId
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
-import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupResponseCodeCacheKey
+import common.model.MicroserviceResponseModel.MsResponseCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import webserviceclients.audit2.AuditRequest
 
@@ -52,7 +52,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
-  override val responseCodeCacheKey: String = VehicleAndKeeperLookupResponseCodeCacheKey
+  override val responseCodeCacheKey: String = MsResponseCacheKey
 
   override def vrmLocked(bruteForcePreventionModel: BruteForcePreventionModel,
                          formModel: VehicleAndKeeperLookupFormModel)

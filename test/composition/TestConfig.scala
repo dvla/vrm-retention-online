@@ -20,10 +20,11 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = true,
                        auditMicroServiceUrlBase: String = "http://somewhere-in-audit-micro-service-land",
                        paymentSolveMicroServiceUrlBase: String = "NOT FOUND",
                        emailServiceMicroServiceUrlBase: String = "NOT FOUND",
-                       liveAgentVal: Option[String] = None,
+                       liveAgentEnvVal: Option[String] = None,
                        liveAgentButtonVal: String = "XXX",
                        liveAgentOrgVal: String = "YYY",
-                       liveAgentUrlVal: String = "ZZZ") extends ScalaModule with MockitoSugar {
+                       liveAgentUrlVal: String = "ZZZ",
+                       failureCodeBlacklist: Option[List[String]] = Some(List("alpha", "bravo", "charlie")) ) extends ScalaModule with MockitoSugar {
 
   val notFound = "NOT FOUND"
 
@@ -81,12 +82,14 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = true,
     when(config.surveyUrl).thenReturn(None)
 
     // Web chat enablement
-    when(config.liveAgentEnvironmentId).thenReturn(liveAgentVal)
+    when(config.liveAgentEnvironmentId).thenReturn(liveAgentEnvVal)
 
     // Web chat extra config
     when(config.liveAgentButtonId).thenReturn(liveAgentButtonVal)
     when(config.liveAgentOrgId).thenReturn(liveAgentOrgVal)
     when(config.liveAgentUrl).thenReturn(liveAgentUrlVal)
+
+    when(config.failureCodeBlacklist).thenReturn(failureCodeBlacklist)
 
     config
   }

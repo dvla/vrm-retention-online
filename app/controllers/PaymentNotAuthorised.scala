@@ -38,10 +38,7 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel])
                                          (implicit request: Request[AnyContent]) = {
-    val viewModel = vehicleAndKeeperDetails match {
-      case Some(details) => VehicleLookupFailureViewModel(details)
-      case None => VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm)
-    }
+    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
 
     Ok(views.html.vrm_retention.payment_not_authorised(
       transactionId = transactionId,

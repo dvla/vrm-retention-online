@@ -171,12 +171,12 @@ class RetainUnitSpec extends UnitSpec {
     val headers = FakeHeaders(data = Seq(refererHeader))
     FakeRequest(method = "GET", uri = "/", headers = headers, body = AnyContentAsEmpty).
       withCookies(
-        vehicleAndKeeperLookupFormModel(registrationNumber = "DD22", keeperConsent = keeperConsent),
+        vehicleAndKeeperLookupFormModel(registrationNumber = "A1", keeperConsent = keeperConsent),
         businessDetailsModel(),
         transactionId(),
         paymentModel(paymentStatus = paymentStatus),
         paymentTransNo(),
-        vehicleAndKeeperDetailsModel(registrationNumber = "DD22"),
+        vehicleAndKeeperDetailsModel(registrationNumber = "A1"),
         confirmFormModel(keeperEmail = keeperEmail),
         eligibilityModel()
       )

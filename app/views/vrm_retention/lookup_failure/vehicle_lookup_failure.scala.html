@@ -1,14 +1,21 @@
 @(transactionId: String,
     viewModel: models.VehicleLookupFailureViewModel,
-    responseCodeVehicleLookupMSErrorMessage: String)(implicit lang: Lang,
+    responseCodeVehicleLookupMSErrorMessage: String,
+    failureCode: String)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import views.html.vrm_retention.lookup_failure.failure_playback
 @import views.html.vrm_retention.main
+@import views.vrm_retention.LiveAgent.ServiceId
+@import views.vrm_retention.LiveAgent.VrmId
+@import views.vrm_retention.LiveAgent.V5Id
+@import views.vrm_retention.LiveAgent.PostcodeId
+@import views.vrm_retention.LiveAgent.FailureCodeId
 @import views.vrm_retention.VehicleLookupFailure.ExitId
 @import views.vrm_retention.VehicleLookupFailure.TryAgainId
+@import scala.collection.mutable.LinkedHashMap
 
 @main(
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
@@ -22,7 +29,15 @@
         </div>
         @failure_playback(
           vehicleDetails = viewModel.vehicleDetails,
-          showContactDetails = (responseCodeVehicleLookupMSErrorMessage != "vehicle_and_keeper_lookup_document_reference_mismatch")
+          showContactDetails = (responseCodeVehicleLookupMSErrorMessage != "vehicle_and_keeper_lookup_document_reference_mismatch"),
+          liveAgentDetails = {
+            val details: LinkedHashMap[String, String] = LinkedHashMap()
+            details += ServiceId -> Messages("main.banner")
+            details += VrmId -> viewModel.registrationNumber
+            details += V5Id -> viewModel.v5ref
+            details += PostcodeId -> viewModel.postcode
+            details += FailureCodeId -> failureCode
+          }
         )
         <div class="form-steps">
             @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
