@@ -42,8 +42,9 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
 
     Ok(views.html.vrm_retention.payment_not_authorised(
       transactionId = transactionId,
-      vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm
+      viewModel = viewModel,
+      data = vehicleAndKeeperLookupForm,
+      failureCode = ""
     ))
   }
 }

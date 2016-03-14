@@ -47,9 +47,10 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
     logMessage(trackingId, Info, s"Presenting payment failure view")
     Ok(views.html.vrm_retention.payment_failure(
       transactionId = transactionId,
-      vehicleLookupFailureViewModel = viewModel,
+      viewModel = viewModel,
       data = vehicleAndKeeperLookupForm,
-      trackingId = trackingId)
+      trackingId = trackingId,
+      failureCode = "")
     ).discardingCookies(removeCookiesOnExit)
   }
 }

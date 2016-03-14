@@ -34,8 +34,9 @@ final class PaymentPostShutdown @Inject()()(implicit clientSideSessionFactory: C
 
     Ok(views.html.vrm_retention.payment_post_shutdown(
       transactionId = transactionId,
-      vehicleLookupFailureViewModel = viewModel,
-      data = vehicleAndKeeperLookupForm
+      viewModel = viewModel,
+      data = vehicleAndKeeperLookupForm,
+      failureCode = ""
     ))
   }
 }

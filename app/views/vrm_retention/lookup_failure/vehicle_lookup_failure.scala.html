@@ -6,6 +6,7 @@
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import scala.collection.mutable.LinkedHashMap
 @import views.html.vrm_retention.lookup_failure.failure_playback
 @import views.html.vrm_retention.main
 @import views.vrm_retention.LiveAgent.ServiceId
@@ -15,7 +16,6 @@
 @import views.vrm_retention.LiveAgent.FailureCodeId
 @import views.vrm_retention.VehicleLookupFailure.ExitId
 @import views.vrm_retention.VehicleLookupFailure.TryAgainId
-@import scala.collection.mutable.LinkedHashMap
 
 @main(
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")

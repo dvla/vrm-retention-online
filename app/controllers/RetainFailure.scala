@@ -35,7 +35,8 @@ final class RetainFailure @Inject()(paymentSolveService: PaymentSolveService)
         logMessage(request.cookies.trackingId(), Info, s"Presenting retention failure view")
         Future.successful(Ok(views.html.vrm_retention.retention_failure(
           transactionId = transactionId,
-          vehicleLookupFailureViewModel = viewModel)))
+          viewModel = viewModel,
+          failureCode = "")))
 
       case _ =>
         Future.successful(Redirect(routes.MicroServiceError.present()))

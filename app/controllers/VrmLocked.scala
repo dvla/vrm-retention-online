@@ -32,7 +32,9 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
         logMessage(request.cookies.trackingId, Debug, "VrmLocked - Displaying the vrm locked error page")
         val timeString = model.dateTimeISOChronology
         val javascriptTimestamp = DateTime.parse(timeString).getMillis
-        Ok(views.html.vrm_retention.vrm_locked(transactionId, viewModel(timeString, javascriptTimestamp)))
+        Ok(views.html.vrm_retention.vrm_locked(transactionId,
+          viewModel(timeString, javascriptTimestamp),
+          failureCode = ""))
       }
 
     happyPath.getOrElse {

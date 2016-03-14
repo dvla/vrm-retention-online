@@ -1,14 +1,21 @@
 @(transactionId: String,
-        vehicleLookupFailureViewModel: models.VehicleLookupFailureViewModel,
+        viewModel: models.VehicleLookupFailureViewModel,
         data: models.VehicleAndKeeperLookupFormModel,
-        trackingId: uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId)(implicit lang: Lang,
+        trackingId: uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId,
+        failureCode: String)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
 @import controllers.routes.PaymentFailure
+@import scala.collection.mutable.LinkedHashMap
 @import views.html.vrm_retention.lookup_failure.failure_playback
 @import views.html.vrm_retention.main
+@import views.vrm_retention.LiveAgent.ServiceId
+@import views.vrm_retention.LiveAgent.VrmId
+@import views.vrm_retention.LiveAgent.V5Id
+@import views.vrm_retention.LiveAgent.PostcodeId
+@import views.vrm_retention.LiveAgent.FailureCodeId
 @import views.vrm_retention.PaymentFailure.ExitId
 @import views.vrm_retention.PaymentFailure.TryAgainId
 
@@ -23,7 +30,15 @@
             <p>@Messages("paymentFailureErrorMessage.p2")</p>
             <p>@Messages("paymentFailureErrorMessage.p3", trackingId)</p>
         </div>
-        @failure_playback(vehicleLookupFailureViewModel.vehicleDetails)
+        @failure_playback(viewModel.vehicleDetails,
+          liveAgentDetails = {
+            val details: LinkedHashMap[String, String] = LinkedHashMap()
+            details += ServiceId -> Messages("main.banner")
+            details += VrmId -> viewModel.registrationNumber
+            details += V5Id -> viewModel.v5ref
+            details += PostcodeId -> viewModel.postcode
+            details += FailureCodeId -> failureCode
+          })
 
         @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
         <div class="form-steps">
