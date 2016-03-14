@@ -12,7 +12,7 @@
             window._laq.push(function(){liveagent.showWhenOnline('@config.liveAgentButtonId', document.getElementById('liveagent_button_online_@config.liveAgentButtonId'));
             });
             @for((label,value) <- details) {
-                liveagent.addCustomDetail("@label","@value")
+                liveagent.addCustomDetail("@label","@value", false)
             }
         </script>
     }
