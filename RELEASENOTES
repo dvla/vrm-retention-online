@@ -1,3 +1,13 @@
+======= 1.35 ========
+Time of release binaries creation:
+
+DE846 	Mobile phone view on doc number
+DE847 	[PR] Incorrect formatting for failure email
+US4268 	Remove textphone off all error pages before 1 April
+US4273 	WEBCHAT - PR Retain add custom detail
+US4277 	WEBCHAT switch to SF UAT
+US4282 	WEBCHAT deploy to PP and live with salesforce prod environment
+
 ======= 1.34 ========
 Time of release binaries creation:
 Wed Mar 02 14:14:32 UTC 2016
