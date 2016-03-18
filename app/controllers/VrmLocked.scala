@@ -5,14 +5,13 @@ import models.CacheKeyPrefix
 import models.VehicleAndKeeperLookupFormModel
 import models.VrmLockedViewModel
 import org.joda.time.DateTime
-import play.api.mvc.{Action, Request, Result}
+import play.api.mvc.{Request, Result}
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.clientsidesession.CookieImplicits.RichResult
 import common.controllers.VrmLockedBase
 import common.model.BruteForcePreventionModel
-import common.model.VehicleAndKeeperDetailsModel
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
@@ -24,10 +23,7 @@ final class VrmLocked @Inject()()(implicit clientSideSessionFactory: ClientSideS
   protected override def presentResult(model: BruteForcePreventionModel)(implicit request: Request[_]): Result = {
     val happyPath = for {
       transactionId <- request.cookies.getString(TransactionIdCacheKey)
-      viewModel <- List(
-        request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(m => VrmLockedViewModel(m, _: String, _: Long)),
-        request.cookies.getModel[VehicleAndKeeperDetailsModel].map(m => VrmLockedViewModel(m, _: String, _: Long))
-      ).flatten.headOption
+      viewModel <- request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(m => VrmLockedViewModel(m, _: String, _: Long))
     } yield {
         logMessage(request.cookies.trackingId, Debug, "VrmLocked - Displaying the vrm locked error page")
         val timeString = model.dateTimeISOChronology

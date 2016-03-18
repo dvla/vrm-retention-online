@@ -85,6 +85,5 @@ class VrmLockedUiSpec extends UiSpec with TestHarness {
     CookieFactoryForUISpecs.
       transactionId().
       bruteForcePreventionViewModel().
-      vehicleAndKeeperDetailsModel().
       vehicleAndKeeperLookupFormModel()
 }

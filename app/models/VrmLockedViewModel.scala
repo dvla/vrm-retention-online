@@ -14,20 +14,6 @@ final case class VrmLockedViewModel(registrationNumber: String,
 
 object VrmLockedViewModel {
 
-  def apply(vehicleAndKeeperDetails: VehicleAndKeeperDetailsModel,
-            timeString: String,
-            javascriptTimestamp: Long): VrmLockedViewModel =
-    VrmLockedViewModel(
-      registrationNumber = vehicleAndKeeperDetails.registrationNumber,
-      vehicleMake = vehicleAndKeeperDetails.make,
-      vehicleModel = vehicleAndKeeperDetails.model,
-      timeString,
-      javascriptTimestamp,
-      vehicleDetails = vehicleAndKeeperDetails,
-      v5ref = "",
-      postcode = ""
-    )
-
   def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
             timeString: String,
             javascriptTimestamp: Long): VrmLockedViewModel =
