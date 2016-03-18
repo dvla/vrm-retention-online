@@ -11,7 +11,7 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.paymentTransNo
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import pages.vrm_retention.SuccessPaymentPage
+import pages.vrm_retention.SuccessPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, LOCATION, OK, status}
 
@@ -35,10 +35,10 @@ class PaymentPreventBackUnitSpec extends UnitSpec {
   }
 
   "returnToSuccess" should {
-    "redirect to the success payment page" in new WithApplication {
+    "redirect to the success page" in new WithApplication {
       val result = paymentPreventBack.returnToSuccess()(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION).get.startsWith(SuccessPaymentPage.address)
+        r.header.headers.get(LOCATION) should equal(Some((SuccessPage.address)))
       }
     }
   }

@@ -33,21 +33,22 @@
             <p>@Messages("success-cert-warning")</p>
             @alertWarning() { <h3>@Messages("success-cert-warning-1")</h3> }
 
-            @if(!isKeeper) {
             <div class="info-highlight two-col">
                 <div class="second-col">
                     <h3>@Messages("vrm_retention_success_payment.p6")</h3>
                     <p>@Messages("vrm_retention_success_payment.p7")</p>
                 </div>
                 <div class="first-col">
-                    <a id="@CreatePdfId" class="pdf-link" href="@Success.createPdf()">
+                    <a id="@CreatePdfId"
+                       class="pdf-link ga-track-click-event-once"
+                       href="@Success.createPdf()"
+                       data-ga-event-action="@CreatePdfId">
                         <img src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/pdf-icon-1.png")"
                              alt="@Messages("vrm_retention_success.newPlateLink")">
                         @Messages("vrm_retention_success.newPlateLink")
                     </a>
                 </div>
             </div>
-            }
 
             <h2>@Messages("vrm_retention_success_payment.h2")</h2>
             <ul>
@@ -135,25 +136,21 @@
 
     <div class="form-steps">
         <div class="step">
-            <button id="@PrintId" type="button" name="action" value="Print" class="button js-only print-button">
+            <button id="@PrintId"
+                    type="button"
+                    name="action"
+                    value="Print"
+                    class="button js-only print-button ga-track-click-event-once"
+                    data-ga-event-action="@PrintId">
                 @Messages("vrm_retention_success.buttonnavprint")
             </button>
             <br /><br />
-            <a id="@FinishId" href="@controllers.routes.Success.finish()" class="exit">
+            <a id="@FinishId"
+               href="@controllers.routes.Success.finish()"
+               class="exit ga-track-click-event-once"
+               data-ga-event-action="@FinishId">
                 @Messages("vrm_retention_finish.button")
             </a>
         </div>
     </div>
-
-    @if(config.googleAnalyticsTrackingId.isDefined) {
-        @if(!isKeeper) {
-            <script type="text/javascript">
-                trackClick(['@CreatePdfId', '@PrintId', '@FinishId']);
-            </script>
-        }
-
-        <script type="text/javascript">
-            trackClick(['@PrintId', '@FinishId']);
-        </script>
-    }
 }

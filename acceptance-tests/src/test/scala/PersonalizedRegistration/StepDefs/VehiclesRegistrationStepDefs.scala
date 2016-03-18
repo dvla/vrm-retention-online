@@ -1,6 +1,6 @@
 package PersonalizedRegistration.StepDefs
 
-import _root_.common._
+import _root_.common.CommonStepDefs
 import cucumber.api.java.After
 import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
@@ -8,7 +8,9 @@ import cucumber.api.java.en.When
 import pages.BeforeYouStartPageSteps
 import pages.ConfirmBusinessPageSteps
 import pages.ConfirmPageSteps
+import pages.PaymentPageSteps
 import pages.SetupBusinessDetailsPageSteps
+import pages.SuccessPageSteps
 import pages.VrmLockedPageSteps
 import pages.VehicleLookupPageSteps
 import pages.VehicleNotFoundPageSteps
@@ -24,6 +26,8 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
   private val setupBusinessDetails = new SetupBusinessDetailsPageSteps()
   private val confirmBusiness = new ConfirmBusinessPageSteps()
   private val confirm = new ConfirmPageSteps()
+  private val payment = new PaymentPageSteps()
+  private val success = new SuccessPageSteps()
   private val user = new CommonStepDefs(
     beforeYouStart,
     vehicleLookup,
@@ -196,6 +200,30 @@ final class VehiclesRegistrationStepDefs(implicit webDriver: WebBrowserDriver) e
     user.
       goToVehicleLookupPage.
       `perform vehicle lookup (trader acting)`(vehicleRegistrationNumber, "11111111111", "SA11AA")
+  }
+
+  @When("^I have successfully retained a reg mark as a private customer$")
+  def `I have successfully retained a reg mark as a private customer`() {
+    vehicleLookup.`happy path for keeper`
+    confirm.`happy path`
+    payment.`happy path`
+    success.`is displayed`
+  }
+
+  @When("^I have successfully retained a reg mark as a business$")
+  def `I have successfully retained a reg mark as a business`() {
+    vehicleLookup.`happy path for business`
+    setupBusinessDetails.`happy path`
+    confirmBusiness.`happy path`
+    confirm.`happy path`
+    payment.`happy path`
+    success.`is displayed`
+  }
+
+  @Then("^the success page will contain a link to download the e-V948 pdf$")
+  def `the success page will contain a link to download the e-V948 pdf`() {
+    success.`is displayed`
+    success.`has pdf link`
   }
 
   /** DO NOT REMOVE **/

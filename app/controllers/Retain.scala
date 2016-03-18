@@ -122,7 +122,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         retentionCertId = Some(certificateNumber)
       ), trackingId)
 
-      Redirect(routes.SuccessPayment.present())
+      Redirect(routes.Success.present())
         .withCookie(paymentModel)
         .withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
     }

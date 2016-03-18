@@ -20,6 +20,9 @@ import models.EligibilityModel
 import org.mockito.ArgumentCaptor
 import org.mockito.Matchers.any
 import org.mockito.Mockito.{verify, when}
+import pages.vrm_retention.MicroServiceErrorPage
+import pages.vrm_retention.RetainFailurePage
+import pages.vrm_retention.SuccessPage
 import pdf.PdfService
 import play.api.mvc.AnyContentAsEmpty
 import play.api.test.{FakeHeaders, FakeRequest}
@@ -39,7 +42,7 @@ class RetainUnitSpec extends UnitSpec {
   val businessEmail = "business.example@test.com"
 
   "retain" should {
-    "redirect to ErrorPage when cookies do not exist" in new WithApplication {
+    "redirect to error page when cookies do not exist" in new WithApplication {
       val request = FakeRequest()
 
       val result = retain.retain(request)
@@ -49,17 +52,17 @@ class RetainUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to FulfilSuccessPage when no fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when no fees due and required cookies are present" in new WithApplication {
       val result = retain.retain(request())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/success-payment"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
-    "redirect to FulfilSuccessPage when fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when fees due and required cookies are present" in new WithApplication {
       val result = retain.retain(request())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/success-payment"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
@@ -68,14 +71,14 @@ class RetainUnitSpec extends UnitSpec {
       val result = retentionController.retain(request())
 
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/retention-failure"))
+        r.header.headers.get(LOCATION) should equal(Some(RetainFailurePage.address))
       }
     }
 
-    "redirect to ErrorPage when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
+    "redirect to error page when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
       val result = retain.retain(request(paymentStatus = None))
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/micro-service-error"))
+        r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
       }
     }
 
@@ -89,7 +92,7 @@ class RetainUnitSpec extends UnitSpec {
       // confirmModel created with the keeper email supplied
       val result = retainController.retain(request())
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/success-payment"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
         verify(wsMock).invoke(
           retentionRetainRequestArg.capture(), any[TrackingId])
@@ -117,7 +120,7 @@ class RetainUnitSpec extends UnitSpec {
       // confirmModel created with the keeper email supplied
       val result = retainController.retain(request(keeperConsent = BusinessConsentValid))
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/success-payment"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
         verify(wsMock).invoke(
           retentionRetainRequestArg.capture(), any[TrackingId])
@@ -145,7 +148,7 @@ class RetainUnitSpec extends UnitSpec {
       // confirmModel created with no keeper email supplied
       val result = retainController.retain(request(keeperConsent = BusinessConsentValid, keeperEmail = None))
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some("/success-payment"))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
         verify(wsMock).invoke(
           retentionRetainRequestArg.capture(), any[TrackingId])

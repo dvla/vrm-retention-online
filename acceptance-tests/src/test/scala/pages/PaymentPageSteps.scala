@@ -8,14 +8,15 @@ import pages.vrm_retention.PaymentPage.{expiryMonth, expiryYear, noJavaScriptCon
 class PaymentPageSteps(implicit webDriver: EventFiringWebDriver)
   extends helpers.AcceptanceTestHelper {
 
-  def `happy path` = {
-    `is displayed`.
-      enter(cardholderName = "test", cardNumber = "4444333322221111", cardSecurityCode = "123").
-      `expiryDate`.
-      `paynow`.
-      `enter password`
-    this
-  }
+  def `happy path` =
+    `is displayed`
+      .enter(cardholderName = "test", cardNumber = "4444333322221111", cardSecurityCode = "123")
+      .`expiryDate`
+      .`paynow`
+      .`no javascript continue`
+      .`enter password`
+      .`no javascript submit`
+      .`no javascript continue`
 
   def `is displayed` = {
     eventually {

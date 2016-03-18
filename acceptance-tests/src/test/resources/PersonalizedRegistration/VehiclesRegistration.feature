@@ -76,3 +76,13 @@ Feature: Vehicles Personalized Registration
   Scenario: Trader Acting (details stored)
     When I enter data in the "ABC1", "11111111111" and "SA11AA" for a vehicle that and I indicate that the keeper is not acting and I have previously chosen to store my details and the cookie is still fresh less than seven days old
     Then the confirm business details page is displayed
+
+  @HappyPath
+  Scenario: Success Page as a private customer
+    When I have successfully retained a reg mark as a private customer
+    Then the success page will contain a link to download the e-V948 pdf
+
+  @HappyPath
+  Scenario: Success Page as a business
+    When I have successfully retained a reg mark as a business
+    Then the success page will contain a link to download the e-V948 pdf
