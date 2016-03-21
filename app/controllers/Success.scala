@@ -100,26 +100,4 @@ final class Success @Inject()(pdfService: PdfService,
     Redirect(routes.LeaveFeedback.present()).
       discardingCookies(removeCookiesOnExit)
   }
-
-  def successStub = Action { implicit request =>
-    val successViewModel = SuccessViewModel(
-      registrationNumber = "stub-registrationNumber",
-      vehicleMake = Some("stub-vehicleMake"),
-      vehicleModel = Some("stub-vehicleModel"),
-      keeperTitle = Some("stub-keeperTitle"),
-      keeperFirstName = Some("stub-keeperFirstName"),
-      keeperLastName = Some("stub-keeperLastName"),
-      keeperAddress = Some(AddressModel(address = Seq("stub-keeperAddress-line1", "stub-keeperAddress-line2"))),
-      keeperEmail = Some("stub-keeperEmail"),
-      businessName = Some("stub-businessName"),
-      businessContact = Some("stub-"),
-      businessEmail = Some("stub-businessContact"),
-      businessAddress = Some(AddressModel(address = Seq("stub-businessAddress-line1", "stub-businessAddress-line2"))),
-      replacementRegistrationNumber = "stub-replacementRegistrationNumber",
-      retentionCertificationNumber = "stub-retentionCertificationNumber",
-      transactionId = "stub-transactionId",
-      transactionTimestamp = "stub-transactionTimestamp"
-    )
-    Ok(views.html.vrm_retention.success(successViewModel, isKeeper = false))
-  }
 }
