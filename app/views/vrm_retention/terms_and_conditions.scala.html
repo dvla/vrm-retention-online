@@ -1,0 +1,15 @@
+@()(implicit lang: Lang,
+    config: utils.helpers.Config,
+    dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.termsAndConditions
+
+@main(
+    title = Messages("tandc-title")
+) {
+    <div class="two-col clearfix">
+        <div class="second-col">
+            @termsAndConditions(routes.CookiePolicy.present())
+        </div>
+    </div>
+}

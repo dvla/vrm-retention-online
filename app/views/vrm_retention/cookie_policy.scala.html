@@ -3,11 +3,14 @@
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import uk.gov.dvla.vehicles.presentation.common
-@import common.views.html.widgets.cookiesPolicy
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.cookiesPolicy
 
 @main(
     title = Messages("cookie-policy-title")
 ) {
-    @cookiesPolicy(cookiesPolicyMap)
+    <div class="two-col clearfix">
+        <div class="second-col">
+            @cookiesPolicy(cookiesPolicyMap)
+        </div>
+    </div>
 }
