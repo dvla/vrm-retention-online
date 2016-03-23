@@ -6,7 +6,7 @@
                 src='@config.liveAgentjsUrl'></script>
         <script type='text/javascript'>liveagent.init('@config.liveAgentUrl', '@config.liveAgentEnvironmentId', '@config.liveAgentOrgId'); </script>
 
-        <img id="liveagent_button_online_@config.liveAgentButtonId" style="display: none; border: 0px none; cursor: pointer" onclick="liveagent.startChat('@config.liveAgentButtonId')" src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/ChatIcon02Nov15.png")" />
+        <img id="liveagent_button_online_@config.liveAgentButtonId" style="display: none; border: 0px none; cursor: pointer" class="ga-track-click-event-once" data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')" src="@controllers.StaticAssets.versioned(config.assetsUrl)("images/ChatIcon02Nov15.png")" />
         <script type="text/javascript">
             if (!window._laq) { window._laq = []; }
             window._laq.push(function(){liveagent.showWhenOnline('@config.liveAgentButtonId', document.getElementById('liveagent_button_online_@config.liveAgentButtonId'));
