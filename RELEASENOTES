@@ -1,3 +1,13 @@
+======= 1.36 ========
+Time of release binaries creation:
+
+
+US4226 	Add Webchat class to Google Analytics for tracking usage
+US4269 	Create Terms & Conditions page
+US4284 	Allow consumer to print off e-V948
+US4293 	PR Retain vrm locked code maintenance
+US4295 	Remove success stub routes
+
 ======= 1.35.1 ========
 Time of release binaries creation:
 Mon Mar 21 13:20:50 UTC 2016
