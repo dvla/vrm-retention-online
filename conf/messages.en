@@ -1,9 +1,6 @@
 main.back = Back
 main.banner.feedback = your feedback
 crown-copyright = Crown Copyright
-open-government-licence = open government licence v2.0
-open-government-licence-p1 = All content is available under the
-open-government-licence-p2 = , except where otherwise stated
 gov-uk = GOV.UK
 
 global.cookiemessage = GOV.UK uses cookies to make the site simpler.
@@ -17,9 +14,6 @@ global-please-wait-header = Please wait
 global-please-wait-p1 = We are currently receiving a large volume of applications which has led to our service performance being slower than usual.
 global-please-wait-p2 = This page will update automatically, please do not close your browser.
 global-please-wait-close = Close this message
-
-footer.builtbyintro = Built by
-footer.builtby = Driver & Vehicle Licensing Agency
 
 prototype.banner.part1 = This is a new service -
 prototype.banner.part2 = will help us to improve it

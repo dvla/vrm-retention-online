@@ -1,9 +1,6 @@
 main.back = Yn ôl
 main.banner.feedback = eich adborth
 crown-copyright = Hawlfraint y Goron
-open-government-licence = trwydded llywodraeth agored v2.0
-open-government-licence-p1 = Mae’r holl gynnwys ar gael dan y
-open-government-licence-p2 = , oni bai y nodir fel arall
 gov-uk = GOV.UK
 
 global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y safle’n fwy syml.
@@ -17,9 +14,6 @@ global-please-wait-header = Arhoswch os gwelwch yn dda
 global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac mae ein gwasanaeth yn arafach na’r arfer yn sgil hynny.
 global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, felly peidiwch â chau eich porwr.
 global-please-wait-close = Ceuwch y neges hon
-
-footer.builtbyintro = Adeiladwyd gan
-footer.builtby = Asiantaeth Trwyddedu Gyrwyr a Cherbydau
 
 prototype.banner.part1 = Dyma wasanaeth newydd -
 prototype.banner.part2 = fydd yn ein helpu i’w wella
