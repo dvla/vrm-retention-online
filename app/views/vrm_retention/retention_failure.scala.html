@@ -14,6 +14,7 @@
 @import views.vrm_retention.LiveAgent.V5Id
 @import views.vrm_retention.LiveAgent.PostcodeId
 @import views.vrm_retention.LiveAgent.FailureCodeId
+@import views.vrm_retention.LiveAgent.`webchat-info-id`
 @import views.vrm_retention.PaymentFailure.ExitId
 
 @main(
@@ -24,6 +25,10 @@
             <h2>@Messages("vrm_retention_failure.title")</h2>
             <p>Transaction Id @transactionId</p>
             <p>@Messages("vrm_retention_failure.text")</p>
+            <div id="@{`webchat-info-id`}" style="display: none">
+                <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
+                data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
+            </div>
         </div>
         @failure_playback(viewModel.vehicleDetails, liveAgentDetails = {
             val details: LinkedHashMap[String, String] = LinkedHashMap()

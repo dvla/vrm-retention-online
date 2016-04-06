@@ -13,6 +13,7 @@
 @import views.vrm_retention.LiveAgent.V5Id
 @import views.vrm_retention.LiveAgent.PostcodeId
 @import views.vrm_retention.LiveAgent.FailureCodeId
+@import views.vrm_retention.LiveAgent.`webchat-info-id`
 @import views.vrm_retention.VehicleLookupFailure.ExitId
 
 @main(
@@ -24,6 +25,10 @@
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
             <p>@Messages(s"vehicle-lookup-failure-postcode-mismatch-p1")</p>
             <p>@Messages(s"vehicle-lookup-failure-postcode-mismatch-p2")</p>
+            <div id="@{`webchat-info-id`}" style="display: none">
+                <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
+                data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
+            </div>
         </div>
         @failure_playback(viewModel.vehicleDetails,
           liveAgentDetails = {

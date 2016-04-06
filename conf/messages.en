@@ -436,3 +436,8 @@ business-address.address-postcode-lookup = Business postcode
 business-address.address-line-1 = Business address line 1
 business-address.post-town = Business town/city
 business-address.post-code = Business postcode
+
+# webchat
+webchat.title = Web Chat
+webchat.info.p1 = If you would like further information then our advisors are available to
+webchat.info.chatlink.text = Chat

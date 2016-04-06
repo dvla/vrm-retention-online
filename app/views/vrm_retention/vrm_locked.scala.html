@@ -18,6 +18,7 @@
 @import views.vrm_retention.LiveAgent.V5Id
 @import views.vrm_retention.LiveAgent.PostcodeId
 @import views.vrm_retention.LiveAgent.FailureCodeId
+@import views.vrm_retention.LiveAgent.`webchat-info-id`
 @import views.vrm_retention.VrmLocked.ExitAction
 @import views.vrm_retention.VrmLocked.ExitRetentionId
 @import views.vrm_retention.VrmLocked.`v317-id`
@@ -32,6 +33,10 @@
             <p>@Messages("vrm_locked.text1")</p>
             <p>@Messages("vrm_locked.text2")&nbsp;<span id='localTimeOfVrmLock'>@DateTime.parse(viewModel.timeString).toString(DateTimeFormat.longTime.withLocale(lang.toLocale))</span></p>
             <p>@Messages("vrm_locked.text3") <a id="@{`v317-id`}" href="@Messages("link-v317")">@Messages("text-v317")</a> @Messages("vrm-locked-text4")</p>
+            <div id="@{`webchat-info-id`}" style="display: none">
+                <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
+                data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
+            </div>
         </div>
         @failure_playback(viewModel.vehicleDetails,true,
           liveAgentDetails = {
