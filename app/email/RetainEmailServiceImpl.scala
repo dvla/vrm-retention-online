@@ -40,6 +40,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                    transactionId: String,
                    confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel],
+                   sendPdf: Boolean,
                    isKeeper: Boolean,
                    trackingId: TrackingId): Option[EmailServiceSendRequest] = {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
@@ -55,14 +56,6 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         vehicleAndKeeperDetailsModel.lastName
       ).flatten.mkString(" ")
 
-      val pdf = pdfService.create(
-        eligibilityModel,
-        transactionId,
-        keeperName,
-        vehicleAndKeeperDetailsModel.address,
-        trackingId
-      )
-
       val plainTextContent = populateEmailWithoutHtml(
         vehicleAndKeeperDetailsModel,
         eligibilityModel,
@@ -71,6 +64,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         transactionId,
         confirmFormModel,
         businessDetailsModel,
+        sendPdf,
         isKeeper
       )
 
@@ -82,26 +76,30 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
         transactionId,
         confirmFormModel,
         businessDetailsModel,
+        sendPdf,
         isKeeper
       ).toString()
-
 
       val subject = vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
         " " + eligibilityModel.replacementVRM.replace(" ", "")
 
-      val attachment: Option[Attachment] = {
-        isKeeper match {
-          case false =>
-            Some(new Attachment(
-              Base64.encodeBase64URLSafeString(pdf),
-              "application/pdf",
-              "eV948.pdf",
-              "Replacement registration number letter of authorisation")
-            )
-          case true => None
-        }
-      } // US1589: Do not send keeper a pdf
+      val attachment: Option[Attachment] = if (sendPdf) {
+        val pdf = pdfService.create(
+          eligibilityModel,
+          transactionId,
+          keeperName,
+          vehicleAndKeeperDetailsModel.address,
+          trackingId
+        )
+
+        Some(new Attachment(
+          Base64.encodeBase64URLSafeString(pdf),
+          "application/pdf",
+          "eV948.pdf",
+          "Replacement registration number letter of authorisation")
+        )
+      } else None
 
       Some(new EmailServiceSendRequest(
         plainTextContent,
@@ -118,39 +116,6 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
     }
   }
 
-  override def sendEmail(emailAddress: String,
-                         vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                         eligibilityModel: EligibilityModel,
-                         certificateNumber: String,
-                         transactionTimestamp: String,
-                         transactionId: String,
-                         confirmFormModel: Option[ConfirmFormModel],
-                         businessDetailsModel: Option[BusinessDetailsModel],
-                         isKeeper: Boolean,
-                         trackingId: TrackingId): Unit = Future {
-    emailRequest(
-      emailAddress,
-      vehicleAndKeeperDetailsModel,
-      eligibilityModel,
-      certificateNumber,
-      transactionTimestamp,
-      transactionId,
-      confirmFormModel,
-      businessDetailsModel,
-      isKeeper,
-      trackingId
-    ).map { emailRequest =>
-      emailService.invoke(emailRequest, trackingId).map {
-        response =>
-          if (isKeeper) logMessage(trackingId, Info, "Keeper email sent")
-          else logMessage(trackingId, Info, "Non-keeper email sent")
-      }.recover {
-        case NonFatal(e) =>
-          logMessage(trackingId, Error, "Email Service web service call failed. Exception " + e.toString)
-      }
-    }
-  }
-
   override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                            eligibilityModel: EligibilityModel,
                            certificateNumber: String,
@@ -158,6 +123,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                            transactionId: String,
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
+                           sendPdf: Boolean,
                            isKeeper: Boolean): HtmlFormat.Appendable = {
 
     val govUkContentId = govUkUrl match {
@@ -184,8 +150,9 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
-      isKeeper = isKeeper,
-      govUkContentId = govUkContentId
+      sendPdf,
+      isKeeper,
+      govUkContentId
     )
   }
 
@@ -196,6 +163,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                                        transactionId: String,
                                        confirmFormModel: Option[ConfirmFormModel],
                                        businessDetailsModel: Option[BusinessDetailsModel],
+                                       sendPdf: Boolean,
                                        isKeeper: Boolean): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
@@ -209,6 +177,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
+      sendPdf,
       isKeeper
     ).toString()
   }

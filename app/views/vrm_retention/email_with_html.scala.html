@@ -9,6 +9,7 @@ replacementVRM: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
+sendPdf: Boolean,
 isKeeper: Boolean,
 govUkContentId: String)(implicit lang: Lang)
 
@@ -181,12 +182,9 @@ govUkContentId: String)(implicit lang: Lang)
 
                         <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
                             @Messages("email.line7")</p>
-
-                            @if(isKeeper) {
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8")</p>
-                            } else {
-                                <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8.with-pdf")</p>
-                            }
+                        @if(sendPdf) {
+                            <p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">@Messages("email.line8")</p>
+                        }
                     </td>
                 </tr>
                 <tr>
@@ -212,11 +210,11 @@ govUkContentId: String)(implicit lang: Lang)
                                 style="border-radius: 6px; font-weight: bold; background: #FFD307; padding: 10px; font-family: Helvetica, Arial, sans, sans-serif;">@replacementVRM</span>
                         </p>
 
-                        @if(!isKeeper) {
-                            <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
-                                @Messages("email.line12")
-                            </p>
-                        }
+                    @if(sendPdf) {
+                        <p style="line-height : 110 % ; margin : 1 em 0 ; font-family : Helvetica, Arial, sans, sans-serif ;">
+                            @Messages("email.line12")
+                        </p>
+                    }
                     </td>
                 </tr>
                 <tr>
@@ -291,12 +289,6 @@ govUkContentId: String)(implicit lang: Lang)
                             </li>
 
                         </ul>
-
-                        @*<p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">
-                            @Messages("email.line26")</p>
-                        *@
-                        @*<p style="line-height: 110%; margin: 1em 0; font-family: Helvetica, Arial, sans, sans-serif;">*@
-                            @*@Messages("email.line27")</p>*@
                     </td>
                 </tr>
                 <tr>

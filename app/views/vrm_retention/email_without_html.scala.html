@@ -9,6 +9,7 @@ replacementVRM: String,
 keeperEmail: Option[String],
 businessDetailsModel: Option[BusinessDetailsModel],
 businessAddress: String,
+sendPdf: Boolean,
 isKeeper: Boolean)(implicit lang: Lang)
 
 @Messages("email.withoutHtml")
@@ -22,16 +23,13 @@ isKeeper: Boolean)(implicit lang: Lang)
 @transactionId
 @vrm
 @Messages("email.line7")
-@if(isKeeper) {
+@if(sendPdf) {
     @Messages("email.line8")
-} else {
-    @Messages("email.line8.with-pdf")
 }
-@Messages("email.line8")
 @Messages("email.line9")
 @Messages("email.line10")
 @replacementVRM
-@if(!isKeeper) {
+@if(sendPdf) {
     @Messages("email.line12")
 }
 @Messages("email.line13")
@@ -50,7 +48,4 @@ isKeeper: Boolean)(implicit lang: Lang)
 @Messages("email.line21")
 @Messages("email.line22")
 @Messages("email.line23")
-@*@Messages("email.line24")*@
 @Messages("email.line25")
-@* @Messages("email.line26") *@
-@*@Messages("email.line27")*@

@@ -203,7 +203,8 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
               transactionId,
               confirmFormModel,
               businessDetailsModel,
-              isKeeper = false, // US1589: Do not send keeper a pdf
+              sendPdf = true,
+              isKeeper = false,
               trackingId = trackingId
             )
           },
@@ -217,6 +218,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
               transactionId,
               confirmFormModel,
               businessDetailsModel,
+              sendPdf = vehicleAndKeeperLookupFormModel.isKeeperUserType,
               isKeeper = true,
               trackingId = trackingId
             )

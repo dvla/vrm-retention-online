@@ -1,114 +1,167 @@
 package email
 
+import composition.RetainEmailServiceBinding
+
 import helpers.UnitSpec
+import helpers.WithApplication
+
+import models.BusinessDetailsModel
+import models.ConfirmFormModel
+import models.EligibilityModel
+import models.RetainModel
+import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
+import webserviceclients.fakes.AddressLookupServiceConstants.addressWithUprn
+import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
+import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessNameValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.CertificateNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.ReplacementRegistrationNumberValid
+import webserviceclients.fakes.VrmRetentionRetainWebServiceConstants.TransactionTimestampValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
 
 final class EmailServiceImplSpec extends UnitSpec {
 
-  //  "sendEmail" should {
-  //
-  //    "send an email with an attachment to a business email address" in new WithApplication {
-  //      val vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(
-  //        registrationNumber = RegistrationNumberValid,
-  //        make = VehicleMakeValid,
-  //        model = VehicleModelValid,
-  //        title = None,
-  //        firstName = None,
-  //        lastName = None,
-  //        address = None
-  //      )
-  //      val eligibility = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
-  //      val retain = RetainModel(
-  //        certificateNumber = "certificateNumber",
-  //        transactionTimestamp = dateService.today.`dd/MM/yyyy`
-  //      )
-  //
-  //      //      val result = emailService.sendEmail(
-  //      //        emailAddress = TraderBusinessEmailValid,
-  //      //        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
-  //      //        eligibilityModel = eligibility,
-  //      //        retainModel = retain
-  //      //      )
-  //      //
-  //      //      whenReady(result, longTimeout) { r =>
-  //      //        r should not equal null
-  //      //        r.length > 0 should equal(true)
-  //      //      }
-  //    }
-  //  }
+  "EmailRequest" should {
+      "have an attachment if send pdf is true" in new WithApplication {
+        val (dateService, emailService) = build
 
-//  "htmlMessage" should {
-//
-//    "return html with business details when user type business" in new WithApplication {
-//      val htmlEmail = new HtmlEmail()
-//      val result = emailService.htmlMessage(
-//        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
-//        eligibilityModel = eligibility,
-//        retainModel = retain,
-//        transactionId = transactionId,
-//        confirmFormModel = confirmFormModel,
-//        businessDetailsModel = businessDetailsModel,
-//        isKeeper = true
-//      )
-//
-//      result.toString should include(vehicleAndKeeperDetails.registrationNumber)
-//      result.toString should include(eligibility.replacementVRM)
-//      result.toString should include(retain.certificateNumber)
-//      result.toString should include(retain.transactionTimestamp)
-//      result.toString should include(transactionId)
-//      result.toString should include(TraderBusinessNameValid)
-//      result.toString should include(TraderBusinessEmailValid)
-//    }
-//
-//    "return expected without business details html when user type keeper" in new WithApplication {
-//      val htmlEmail = new HtmlEmail()
-//      val result = emailService.htmlMessage(
-//        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
-//        eligibilityModel = eligibility,
-//        retainModel = retain,
-//        transactionId = transactionId,
-//        confirmFormModel = confirmFormModel,
-//        businessDetailsModel = None,
-//        isKeeper = false
-//      )
-//
-//      result.toString should include(vehicleAndKeeperDetails.registrationNumber)
-//      result.toString should include(eligibility.replacementVRM)
-//      result.toString should include(retain.certificateNumber)
-//      result.toString should include(retain.transactionTimestamp)
-//      result.toString should include(transactionId)
-//      result.toString should not include TraderBusinessNameValid
-//      result.toString should not include TraderBusinessEmailValid
-//    }
-//  }
-//
-//  private def emailService: RetainEmailService =
-//    testInjector(new RetainEmailServiceBinding).getInstance(classOf[RetainEmailService])
-//
-//  private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(registrationNumber = RegistrationNumberValid,
-//    make = VehicleMakeValid,
-//    model = VehicleModelValid,
-//    title = None,
-//    firstName = None,
-//    lastName = None,
-//    address = None
-//  )
-//
-//  private def eligibility = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
-//
-//  private def retain = RetainModel(
-//    certificateNumber = "certificateNumber",
-//    transactionTimestamp = TransactionTimestampValid
-//  )
-//
-//  private val transactionId = "stubTransactionId"
-//
-//  private def confirmFormModel = Some(ConfirmFormModel(keeperEmail = KeeperEmailValid, supplyEmail = "true"))
-//
-//  private def businessDetailsModel = Some(BusinessDetailsModel(
-//    name = TraderBusinessNameValid,
-//    contact = TraderBusinessContactValid,
-//    email = TraderBusinessEmailValid,
-//    address = addressWithUprn
-//  ))
+        val emailRequest = emailService.emailRequest(
+          emailAddress = TraderBusinessEmailValid,
+          vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
+          eligibilityModel = eligibility,
+          certificateNumber = CertificateNumberValid,
+          transactionTimestamp = TransactionTimestampValid,
+          transactionId = TransactionId,
+          confirmFormModel = Some(confirmFormModel),
+          businessDetailsModel = Some(businessDetailsModel),
+          sendPdf = true,
+          isKeeper = false,
+          trackingId = TrackingId("123")
+        )
 
+        emailRequest shouldBe defined
+        emailRequest.get.attachment shouldBe defined
+      }
+
+      "not have an attachment if send pdf is false" in new WithApplication {
+        val (dateService, emailService) = build
+
+        val emailRequest = emailService.emailRequest(
+          emailAddress = KeeperEmailValid.get,
+          vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
+          eligibilityModel = eligibility,
+          certificateNumber = CertificateNumberValid,
+          transactionTimestamp = TransactionTimestampValid,
+          transactionId = TransactionId,
+          confirmFormModel = Some(confirmFormModel),
+          businessDetailsModel = None,
+          sendPdf = false,
+          isKeeper = true,
+          trackingId = TrackingId("123")
+        )
+
+        emailRequest shouldBe defined
+        emailRequest.get.attachment shouldBe empty
+      }
+    }
+
+  "htmlMessage" should {
+    "return html with business details when user type is business" in new WithApplication {
+      val (_, emailService) = build
+
+      val result = emailService.htmlMessage(
+        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
+        eligibilityModel = eligibility,
+        certificateNumber = CertificateNumberValid,
+        transactionTimestamp = TransactionTimestampValid,
+        transactionId = TransactionId,
+        confirmFormModel = Some(confirmFormModel),
+        businessDetailsModel = Some(businessDetailsModel),
+        sendPdf = true,
+        isKeeper = false
+      )
+
+      val message = result.toString
+
+      message should include(vehicleAndKeeperDetails.registrationNumber)
+      message should include(eligibility.replacementVRM)
+      message should include(retain.certificateNumber)
+      message should include(retain.transactionTimestamp)
+      message should include(TransactionId)
+      message should include(TraderBusinessNameValid)
+      message should include(TraderBusinessEmailValid)
+      message should include("V948")
+    }
+
+    "return html without business details html when user type is keeper" in new WithApplication {
+      val (_, emailService) = build
+
+      val result = emailService.htmlMessage(
+        vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
+        eligibilityModel = eligibility,
+        certificateNumber = CertificateNumberValid,
+        transactionTimestamp = TransactionTimestampValid,
+        transactionId = TransactionId,
+        confirmFormModel = Some(confirmFormModel),
+        businessDetailsModel = None,
+        sendPdf = false,
+        isKeeper = true
+      )
+
+      val message = result.toString
+
+      message should include(vehicleAndKeeperDetails.registrationNumber)
+      message should include(eligibility.replacementVRM)
+      message should include(retain.certificateNumber)
+      message should include(retain.transactionTimestamp)
+      message should include(TransactionId)
+      message shouldNot include(TraderBusinessNameValid)
+      message shouldNot include(TraderBusinessEmailValid)
+      message shouldNot include("V948")
+    }
+  }
+
+  private def build = {
+    val injector = testInjector(
+      new RetainEmailServiceBinding
+    )
+    (injector.getInstance(classOf[DateService]), injector.getInstance(classOf[RetainEmailService]))
+  }
+
+  private def vehicleAndKeeperDetails = VehicleAndKeeperDetailsModel(
+    registrationNumber = RegistrationNumberValid,
+    make = VehicleMakeValid,
+    model = VehicleModelValid,
+    title = None,
+    firstName = None,
+    lastName = None,
+    address = None,
+    disposeFlag = None,
+    keeperEndDate = None,
+    keeperChangeDate = None,
+    suppressedV5Flag = None
+  )
+
+  private def eligibility = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
+
+  private def retain = RetainModel(
+    certificateNumber = CertificateNumberValid,
+    transactionTimestamp = TransactionTimestampValid
+  )
+
+  private val TransactionId = "stubTransactionId"
+
+  private def confirmFormModel = ConfirmFormModel(keeperEmail = KeeperEmailValid)
+
+  private def businessDetailsModel = BusinessDetailsModel(
+    name = TraderBusinessNameValid,
+    contact = TraderBusinessContactValid,
+    email = TraderBusinessEmailValid,
+    address = addressWithUprn
+  )
 }

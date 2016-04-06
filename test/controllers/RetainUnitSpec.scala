@@ -82,6 +82,28 @@ class RetainUnitSpec extends UnitSpec {
       }
     }
 
+    "not send a payment email to the registered keeper and " +
+      "not to the business when registered keeper is chosen and keeper email is not supplied" in new WithApplication {
+      val (retainController, wsMock) = retainControllerAndWebServiceMock()
+      val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
+
+      // user type: keeper
+      // businessDetailsModel is populated
+      // confirmModel created with no keeper email supplied
+      val result = retainController.retain(request(keeperEmail = None))
+      whenReady(result) { r =>
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
+
+        verify(wsMock).invoke(retentionRetainRequestArg.capture(), any[TrackingId])
+
+        val paymentSuccessReceiptEmails = retentionRetainRequestArg.getValue.paymentSolveUpdateRequest.businessReceiptEmails
+        paymentSuccessReceiptEmails shouldBe empty
+
+        val retentionSuccessEmailRequests = retentionRetainRequestArg.getValue.successEmailRequests
+        retentionSuccessEmailRequests shouldBe empty
+      }
+    }
+
     "send a payment email to the registered keeper only and " +
       "not to the business when registered keeper is chosen and keeper email is supplied" in new WithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock()
@@ -94,8 +116,7 @@ class RetainUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
-        verify(wsMock).invoke(
-          retentionRetainRequestArg.capture(), any[TrackingId])
+        verify(wsMock).invoke(retentionRetainRequestArg.capture(), any[TrackingId])
 
         val paymentSuccessReceiptEmails = retentionRetainRequestArg.getValue.paymentSolveUpdateRequest.businessReceiptEmails
         paymentSuccessReceiptEmails.size should equal(1) // Based on user type = keeper
@@ -105,7 +126,10 @@ class RetainUnitSpec extends UnitSpec {
         // Email for the keeper because the keeper email is specified in confirmModel.
         // No business email because the user type is keeper
         retentionSuccessEmailRequests.size should equal(1)
-        retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(keeperEmail)))
+
+        val successEmail = retentionSuccessEmailRequests.head
+        successEmail.toReceivers should equal(Some(List(keeperEmail)))
+        successEmail.attachment shouldBe defined
       }
     }
 
@@ -122,8 +146,7 @@ class RetainUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
-        verify(wsMock).invoke(
-          retentionRetainRequestArg.capture(), any[TrackingId])
+        verify(wsMock).invoke(retentionRetainRequestArg.capture(), any[TrackingId])
 
         val paymentSuccessReceiptEmails = retentionRetainRequestArg.getValue.paymentSolveUpdateRequest.businessReceiptEmails
         paymentSuccessReceiptEmails.size should equal(1) // Based on user type = business
@@ -133,8 +156,15 @@ class RetainUnitSpec extends UnitSpec {
         // 1 for business because user type = business and
         // 1 for keeper because the keeper email is supplied in the confirmModel
         retentionSuccessEmailRequests.size should equal(2)
-        retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
-        retentionSuccessEmailRequests(1).toReceivers should equal(Some(List(keeperEmail)))
+
+        val businessSuccessEmail = retentionSuccessEmailRequests.head
+        val keeperSuccessEmail = retentionSuccessEmailRequests(1)
+
+        businessSuccessEmail.toReceivers should equal(Some(List(businessEmail)))
+        keeperSuccessEmail.toReceivers should equal(Some(List(keeperEmail)))
+
+        businessSuccessEmail.attachment shouldBe defined
+        keeperSuccessEmail.attachment shouldBe None
       }
     }
 
@@ -150,8 +180,7 @@ class RetainUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
 
-        verify(wsMock).invoke(
-          retentionRetainRequestArg.capture(), any[TrackingId])
+        verify(wsMock).invoke(retentionRetainRequestArg.capture(), any[TrackingId])
 
         val paymentSuccessReceiptEmails = retentionRetainRequestArg.getValue.paymentSolveUpdateRequest.businessReceiptEmails
         paymentSuccessReceiptEmails.size should equal(1)
@@ -161,7 +190,10 @@ class RetainUnitSpec extends UnitSpec {
         // Email for the business because the user type is business.
         // No keeper email because no keeper email supplied in ConfirmModel
         retentionSuccessEmailRequests.size should equal(1)
-        retentionSuccessEmailRequests.head.toReceivers should equal(Some(List(businessEmail)))
+
+        val successEmail = retentionSuccessEmailRequests.head
+        successEmail.toReceivers should equal(Some(List(businessEmail)))
+        successEmail.attachment shouldBe defined
       }
     }
   }

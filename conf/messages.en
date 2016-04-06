@@ -68,7 +68,7 @@ error.address.buildingNameOrNumber.invalid = Building/number and street must con
 error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
 #error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
 error.address.postTown = Post town - Requires a minimum length of three characters
-error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
+error.address.postTown.characterInvalid = Town or city contains invalid characters
 error.address.threeAlphas = Must have at least 3 alpha characters
 
 # addressPicker widget
@@ -359,8 +359,7 @@ email.line3 = Retention certificate number
 email.line4 = Transaction completed
 email.line5 = Your transaction ID is:
 email.line7 = A certificate of retention will now be issued to the registered keeper.
-email.line8 = We have also sent to you details of the replacement registration number, which are detailed below.
-email.line8.with-pdf = We have also sent to you details of the replacement registration number, which are detailed below, along with a PDF of the letter of authorisation (V948) which can be downloaded or printed using the link provided.
+email.line8 = We have also sent to you details of the replacement registration number, which are detailed below, along with a PDF of the letter of authorisation (V948) which can be downloaded or printed using the link provided.
 email.line9 = Replacement registration
 email.line10 = The vehicle has been assigned the following replacement registration number:
 email.line12 = To make up the number plates for the replacement registration number assigned, you will need the letter of authorisation for a replacement registration (V948).

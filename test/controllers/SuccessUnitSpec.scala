@@ -54,7 +54,7 @@ class SuccessUnitSpec extends UnitSpec {
       status(result) should equal(OK)
     }
 
-    "display the page when BusinessDetailsModel cookie does not exists" in new WithApplication {
+    "display the page when BusinessDetailsModel cookie does not exist" in new WithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
@@ -68,127 +68,6 @@ class SuccessUnitSpec extends UnitSpec {
       val (success, _) = build
       val result = success.present(request)
       status(result) should equal(OK)
-    }
-  }
-
-  "call the email service when businessDetails cookie exists" in new WithApplication {
-    val isKeeper = false
-    val request = FakeRequest()
-      .withCookies(
-        vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
-        setupBusinessDetails(),
-        businessDetailsModel(),
-        vehicleAndKeeperDetailsModel(),
-        eligibilityModel(),
-        confirmFormModel(keeperEmail = None),
-        retainModel(),
-        transactionId(),
-        paymentModel())
-    val (success, emailService) = build
-    val result = success.present(request)
-    whenReady(result) { r =>
-      verify(emailService, never).sendEmail(
-        any[String],
-        any[VehicleAndKeeperDetailsModel],
-        any[EligibilityModel],
-        any[String],
-        any[String],
-        any[String],
-        any[Option[ConfirmFormModel]],
-        any[Option[BusinessDetailsModel]],
-        Matchers.eq(isKeeper),
-        any[TrackingId]
-      )
-      verifyNoMoreInteractions(emailService)
-    }
-  }
-
-  "call the email service when keeper selected to supply an email address and did supply an email" in new WithApplication {
-    val isKeeper = true
-    val request = FakeRequest()
-      .withCookies(
-        vehicleAndKeeperLookupFormModel(),
-        vehicleAndKeeperDetailsModel(),
-        eligibilityModel(),
-        confirmFormModel(keeperEmail = KeeperEmailValid),
-        retainModel(),
-        transactionId()
-      )
-    val (success, emailService) = build
-    val result = success.present(request)
-    whenReady(result) { r =>
-      verify(emailService, never).sendEmail(
-        any[String],
-        any[VehicleAndKeeperDetailsModel],
-        any[EligibilityModel],
-        any[String],
-        any[String],
-        any[String],
-        any[Option[ConfirmFormModel]],
-        any[Option[BusinessDetailsModel]],
-        Matchers.eq(isKeeper),
-        any[TrackingId]
-      )
-      verifyNoMoreInteractions(emailService)
-    }
-  }
-
-  "not call the email service when businessDetails does not cookie" in new WithApplication {
-    val isKeeper = false
-    val request = FakeRequest()
-      .withCookies(
-        vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
-        vehicleAndKeeperDetailsModel(),
-        eligibilityModel(),
-        confirmFormModel(keeperEmail = None),
-        retainModel(),
-        transactionId()
-      )
-    val (success, emailService) = build
-    val result = success.present(request)
-    whenReady(result) { r =>
-      verify(emailService, never).sendEmail(
-        any[String],
-        any[VehicleAndKeeperDetailsModel],
-        any[EligibilityModel],
-        any[String],
-        any[String],
-        any[String],
-        any[Option[ConfirmFormModel]],
-        any[Option[BusinessDetailsModel]],
-        Matchers.eq(isKeeper),
-        any[TrackingId]
-      )
-      verifyNoMoreInteractions(emailService)
-    }
-  }
-
-  "not call the email service when keeper did not select to supply an email address" in new WithApplication {
-    val isKeeper = true
-    val request = FakeRequest()
-      .withCookies(
-        vehicleAndKeeperLookupFormModel(),
-        vehicleAndKeeperDetailsModel(),
-        eligibilityModel(),
-        confirmFormModel(keeperEmail = None),
-        retainModel(),
-        transactionId()
-      )
-    val (success, emailService) = build
-    val result = success.present(request)
-    whenReady(result) { r =>
-      verify(emailService, never).sendEmail(
-        any[String],
-        any[VehicleAndKeeperDetailsModel],
-        any[EligibilityModel],
-        any[String],
-        any[String],
-        any[String],
-        any[Option[ConfirmFormModel]],
-        any[Option[BusinessDetailsModel]],
-        Matchers.eq(isKeeper),
-        any[TrackingId]
-      )
     }
   }
 

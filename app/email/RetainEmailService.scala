@@ -16,19 +16,9 @@ trait RetainEmailService {
                    transactionId: String,
                    confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel],
+                   sendPdf: Boolean,
                    isKeeper: Boolean,
                    trackingId: TrackingId): Option[EmailServiceSendRequest]
-
-  def sendEmail(emailAddress: String,
-                vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                eligibilityModel: EligibilityModel,
-                certificateNumber: String,
-                transactionTimestamp: String,
-                transactionId: String,
-                confirmFormModel: Option[ConfirmFormModel],
-                businessDetailsModel: Option[BusinessDetailsModel],
-                isKeeper: Boolean,
-                trackingId: TrackingId)
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,
@@ -37,5 +27,6 @@ trait RetainEmailService {
                   transactionId: String,
                   confirmFormModel: Option[ConfirmFormModel],
                   businessDetailsModel: Option[BusinessDetailsModel],
+                  sendPdf: Boolean,
                   isKeeper: Boolean): HtmlFormat.Appendable
 }
