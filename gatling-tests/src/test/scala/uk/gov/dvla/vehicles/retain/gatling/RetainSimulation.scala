@@ -11,6 +11,8 @@ class RetainSimulation extends Simulation {
   setUp(
     // Happy paths
     assetsAreAccessible.inject(oneUser),
+
+    // KEEP COMMENTED OUT CODE BELOW AS IT MAY BE USEFUL FOR AUDIT
 //    registeredKeeperAndFullKeeperAddress.inject(oneUser),
 //    registeredKeeperAndMakeNoModel.inject(oneUser),
 //    registeredKeeperAndModelNoMake.inject(oneUser),
@@ -19,9 +21,7 @@ class RetainSimulation extends Simulation {
 
     // The following test is currently failing due to a mod_security issue
     // https://github.com/SpiderLabs/ModSecurity/issues/582
-    // It is commented to allow for a green pipeline but should be
-    // uncommented when the above mod security problem is addressed.
-    //
+    // TODO uncommented when the above mod security problem is addressed.
     // notRegisteredKeeperAndFullKeeperAddress.inject(oneUser),
 
     // Sad paths
