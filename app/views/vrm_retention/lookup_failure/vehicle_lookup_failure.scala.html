@@ -26,7 +26,10 @@
             <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
+            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
             <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
+            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4")</p>
+            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p5")</p>
             <div id="@{`webchat-info-id`}" style="display: none">
                 <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
                 data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
