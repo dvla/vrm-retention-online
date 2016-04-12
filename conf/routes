@@ -88,6 +88,7 @@ GET         /with-language/:chosenLanguage                 @uk.gov.dvla.vehicles
 
 GET         /cookie-policy                                 @controllers.CookiePolicy.present
 GET         /tandc                                         @controllers.TermsAndConditions.present
+GET         /privacy-policy                                @controllers.PrivacyPolicy.present
 
 GET         /version                                       @controllers.Version.version
 
