@@ -1,3 +1,15 @@
+======= 1.37 ========
+Time of release binaries creation:
+
+
+VMPRCI-2861 	Privacy Policy page
+VMPRCI-3961 	Review commented out / ignored / pending unit tests and main source code
+VMPRCI-4227 	Add Webchat question/text box to beta feedback survey
+VMPRCI-4259 	Update content of vehicle lookup failure page
+VMPRCI-4285 	Look n feel changes to Webchat header and positioning
+VMPRCI-4292 	Upgrade VMPR services to OGL v3.0
+VMPRCI-4299 	Add e-v948 pdf as attachment to consumer email
+
 ======= 1.36 ========
 Time of release binaries creation:
 Fri Apr 01 11:53:24 UTC 2016
