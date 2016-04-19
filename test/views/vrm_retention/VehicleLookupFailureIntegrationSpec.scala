@@ -68,6 +68,16 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       element.getText.contains("Telephone") should equal(true)
     }
 
+    def shouldNotDisplayContactInfo(cacheSetup: () => CookieFactoryForUISpecs.type)(implicit webDriver: WebDriver) = {
+      go to BeforeYouStartPage
+      cacheSetup()
+      go to VehicleLookupFailurePage
+
+      intercept[org.openqa.selenium.NoSuchElementException] {
+        val element: WebElement = webDriver.findElement(By.className("contact-info-wrapper"))
+      }
+    }
+
     "not contain contact information with a document reference mismatch" taggedAs UiTag in new WebBrowserForSelenium {
       go to BeforeYouStartPage
       cacheDocRefMismatchSetup()
@@ -78,12 +88,19 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       }
     }
 
-    "contain contact information with a eligibility failure" taggedAs UiTag in new WebBrowserForSelenium {
-      shouldDisplayContactInfo(cacheFailureSetup)
+//    "contain contact information with a eligibility failure" taggedAs UiTag in new WebBrowserForSelenium {
+//      shouldDisplayContactInfo(cacheFailureSetup)
+//    }
+//
+//    "contain contact information with a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
+//      shouldDisplayContactInfo(cacheDirectToPaperSetup)
+//    }
+    "contain not contact information with a eligibility failure" taggedAs UiTag in new WebBrowserForSelenium {
+      shouldNotDisplayContactInfo(cacheFailureSetup)
     }
 
-    "contain contact information with a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
-      shouldDisplayContactInfo(cacheDirectToPaperSetup)
+    "contain not contact information with a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
+      shouldNotDisplayContactInfo(cacheDirectToPaperSetup)
     }
   }
 
