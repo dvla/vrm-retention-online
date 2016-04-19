@@ -21,6 +21,8 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import models.CacheKeyPrefix
 import models.IdentifierCacheKey
 import models.VehicleAndKeeperLookupFormModel
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.{Second, Span}
 import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.CheckEligibilityPage
 import pages.vrm_retention.MicroServiceErrorPage
@@ -107,7 +109,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
       val result = vehicleLookupStubs().submit(request)
 
-      whenReady(result) {
+      whenReady(result, Timeout(Span(1, Second))) {
         r =>
           r.header.headers.get(LOCATION) should equal(Some(CheckEligibilityPage.address))
           val cookies = fetchCookiesFromHeaders(r)

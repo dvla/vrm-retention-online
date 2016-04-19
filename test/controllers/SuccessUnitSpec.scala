@@ -13,12 +13,6 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
 import helpers.WithApplication
-import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
-import org.mockito.Matchers
-import org.mockito.Matchers.any
-import org.mockito.Mockito.never
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.verifyNoMoreInteractions
 import pages.vrm_retention.LeaveFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.BAD_REQUEST
@@ -28,10 +22,6 @@ import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.LOCATION
 import play.api.test.Helpers.OK
 import play.api.test.Helpers.status
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 
 class SuccessUnitSpec extends UnitSpec {

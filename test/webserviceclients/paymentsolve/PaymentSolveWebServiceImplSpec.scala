@@ -7,6 +7,8 @@ import composition.TestConfig
 import helpers.WithApplication
 import helpers.UnitSpec
 import helpers.WireMockFixture
+import org.scalatest.concurrent.PatienceConfiguration.Timeout
+import org.scalatest.time.{Second, Span}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -16,7 +18,7 @@ class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
   "invoke Begin" should {
     "send the serialised json request" in new WithApplication {
       val resultFuture = lookupService.invoke(request, trackingId)
-      whenReady(resultFuture) { result =>
+      whenReady(resultFuture, Timeout(Span(1, Second))) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/payment/solve/beginWebPayment")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)).
