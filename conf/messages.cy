@@ -24,7 +24,7 @@ widget.optional = (dewisol)
 
 error.restricted.validNumberOnly = Mae’r maes hwn yn derbyn rhifau yn unig
 error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
-error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen V5C
+error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
 error.restricted.validPostcode = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
 
 datePlaceholder.day=Diwrnod
@@ -53,12 +53,12 @@ address.lines.label = Adeilad/rhif a stryd
 address.buildingNameOrNumber.label =
 address.line2.label=
 address.line3.label=
-addressAndPostcode.addressLines.postTown = Tref neu ddinas
 
 vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
 
+addressAndPostcode.addressLines.postTown = Tref neu ddinas
 addressAndPostcode.addressLines.buildingNameOrNumber = Enw neu rif yr adeilad
 addressAndPostcode.addressLines = Cyfeiriad
 addressAndPostcode.postcode = Cod post
@@ -120,7 +120,7 @@ vrm_retention_beforeyoustart.p6.listitem2 = ei gadw ar dystysgrif hyd nes i chi 
 vrm_retention_beforeyoustart.p7 = Ar ôl i chi gadw’ch rhif cofrestru byddwn yn:
 vrm_retention_beforeyoustart.p7.listitem1 = dynodi marc priodol i oed y cerbyd
 vrm_retention_beforeyoustart.p7.listitem2 = cyhoeddi dogfennaeth newydd sy’n dangos y manylion cofrestru newydd.
-vrm_retention_beforeyoustart.listitem1 = y rhif cyfeirnod dogfen 11 digid o’r dystysgrif gofrestru ddiweddaraf (V5C) ar gyfer y cerbyd
+vrm_retention_beforeyoustart.listitem1 = y rhif cyfeirnod dogfen 11 digid o’r dystysgrif gofrestru V5CW (llyfr log) ddiweddaraf ar gyfer y cerbyd
 vrm_retention_beforeyoustart.listitem2 = cerdyn credyd neu ddebyd dilys i dalu’r ffi o £80 a godir am y gwasanaeth hwn.
 
 # before you start part 2
@@ -157,21 +157,21 @@ email.verify.label = Cadarnhau cyfeiriad ebost
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Rhoi manylion
-vrm_retention_vehiclelookup.v5c = Tystysgrif cofrestru cerbyd (V5C)
-vrm_retention_vehiclelookup.refnumlabel = Rhif diweddaraf cyfeirnod dogfen V5C
-vrm_retention_vehiclelookup.refnumHint = Y rhif 11 digid a gafwyd ar y dystysgrif gofrestru V5CW (llawlyfr)
+vrm_retention_vehiclelookup.v5c = Tystysgrif cofrestru V5CW (llyfr log)
+vrm_retention_vehiclelookup.refnumlabel = Rhif diweddaraf cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log)
+vrm_retention_vehiclelookup.refnumHint = Y rhif 11 digid a gafwyd ar y dystysgrif gofrestru V5CW (llyfr log)
 vrm_retention_vehiclelookup.vrninputlabel = Rhif cofrestru cerbyd
 vrm_retention_vehiclelookup.vrnHint = Y rhif cofrestru y dymunwch ei gadw
 vrm_retention_vehiclelookup.button = Nesaf
 vrm_retention_vehiclelookup.postcodelabel = Cod post y ceidwad
 
-vrm_retention_vehiclelookup.postcodeHint = Cod post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen V5C
+vrm_retention_vehiclelookup.postcodeHint = Cod post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
 vrm_retention_vehiclelookup.keeper = Ydw
 vrm_retention_vehiclelookup.business = Na, rwy’n fusnes ac mae gennyf ganiatâd i weithredu ar ei ran
 vrm_retention_vehiclelookup.label = Ai chi yw’r ceidwad cofrestredig?
 keeper-consent = Caniatâd y ceidwad
 postcode = Cod post
-document-reference-number-alt = Lleoliad rhif cyfeirnod y ddogfen ar y ffurflen V5C
+document-reference-number-alt = Lleoliad rhif cyfeirnod y ddogfen ar y ffurflen tystysgrif cofrestru V5CW (llyfr log)
 
 # vehicle lookup failure
 vehicle_and_keeper_lookup_vrm_not_found.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
@@ -179,18 +179,18 @@ vehicle_and_keeper_lookup_document_reference_mismatch.title = Ni lwyddwyd i ddod
 vehicle-lookup-failure-postcode-mismatch-title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
 vehicle-lookup-failure-try-again = Rhowch gynnig arall arni
 vehicle-lookup-failure-exit = Gadael
-vehicle_and_keeper_lookup_vrm_not_found.p1 = Nid yw’r rhif cyfeirnod dogfen V5C a/neu rif cofrestru’r cerbyd a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle_and_keeper_lookup_vrm_not_found.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a/neu rif cofrestru’r cerbyd a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle_and_keeper_lookup_vrm_not_found.p2 =
 vehicle_and_keeper_lookup_vrm_not_found.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.
 vehicle_and_keeper_lookup_vrm_not_found.p4 =
 vehicle_and_keeper_lookup_vrm_not_found.p5 =
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = Nid yw’r rhif cyfeirnod dogfen V5CW a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle_and_keeper_lookup_document_reference_mismatch.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru ddiweddaraf (V5CW) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle_and_keeper_lookup_document_reference_mismatch.p2 =
 vehicle_and_keeper_lookup_document_reference_mismatch.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.
 vehicle_and_keeper_lookup_document_reference_mismatch.p4 =
 vehicle_and_keeper_lookup_document_reference_mismatch.p5 =
-vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-vehicle-lookup-failure-postcode-mismatch-p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y V5C mwyaf diweddar a rhowch gynnig arall arni.
+vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle-lookup-failure-postcode-mismatch-p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
 vehicle-lookup-failure-direct-to-paper-title = Ni ellir cadw’r rhif cofrestru ar-lein
 vehicle-lookup-failure-direct-to-paper-p1 = Ni allwch barhau â’r cais hwn ar-lein.
 vehicle-lookup-failure-ninety_day_rule_failure-p1 = Rhaid i ni edrych ymhellach i mewn i’ch cais oherwydd hanes trwyddedu’r cerbyd.
@@ -201,8 +201,8 @@ vehicle-lookup-failure-direct-to-paper-address-line1 = Rhifau cofrestru personol
 vehicle-lookup-failure-direct-to-paper-address-line2 = Abertawe
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p2 = Rhaid i’r holl ddogfennau fod yn rhai gwreiddiol; nid llungopïau na chopïau ffacs.
-unhandled_exception.p1 = Nid yw’r rhif cyfeirnod dogfen V5CW a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r V5C mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-unhandled_exception.p2 = Gwnewch yn siŵr fod y V5C mwyaf diweddar gennych chi a rhowch gynnig arall arni.
+unhandled_exception.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru ddiweddaraf (V5CW) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+unhandled_exception.p2 = Gwnewch yn siŵr fod y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar gennych chi a rhowch gynnig arall arni.
 unhandled_exception.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.
 unhandled_exception.p4 =
 unhandled_exception.p5 =
@@ -279,11 +279,11 @@ vrm_retention_confirm.emailAddressCustomerLabel = Ebost y cwsmer
 vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodion
 vrm_retention_confirm.emailTrade = Rhowch gyfeiriad ebost eich cwsmer i gael crynodeb o’r trafodion
 vrm_retention_confirm.emailWarnp4 = Am ragor o wybodaeth ar sut i ddiweddaru’ch manylion, ewch i
-vrm_retention_confirm.emailWarnp4link = “newid manylion cerbyd ar dystysgrif cofrestru V5C (llyfr log)”
+vrm_retention_confirm.emailWarnp4link = “newid manylion cerbyd ar dystysgrif gofrestru V5CW (llyfr log)”
 vrm_retention_confirm.button = Nesaf
 vrm_retention_confirm_business.button = Cadarnhau
 vrm_retention_confirm.emailWarn = Manylion anghywir?
-vrm_retention_confirm.emailWarnp1 = Rhaid i chi ddiweddaru’ch tystysgrif cofrestru (V5C) os oes unrhyw gamgymeriadau arni, neu os gwnewch nifer o newidiadau i’ch cerbyd.
+vrm_retention_confirm.emailWarnp1 = Rhaid i chi ddiweddaru’ch tystysgrif cofrestru V5CW (llyfr log) os oes unrhyw gamgymeriadau arni, neu os gwnewch nifer o newidiadau i’ch cerbyd.
 vrm_retention_confirm.emailWarnp2 = Os bydd angen i chi wneud newidiadau i’ch tystysgrif V778, bydd angen i chi anfon y dystysgrif a ddiweddarwyd ynghyd ag unrhyw dystiolaeth angenrheidiol. Am ragor o wybodaeth ar sut i ddiweddaru’ch manylion, ewch i
 vrm_retention_confirm.emailWarnp2.link = “adnewyddu, diweddaru neu gyfnewid tystysgrif V778”
 vrm_retention_confirm.emailWarnp3 = Yn ddibynnol ar y newidiadau, efallai y bydd angen archwilio’ch cerbyd, ond bydd y DVLA yn dweud wrthych os bydd angen hynny.
@@ -302,7 +302,7 @@ vrm_retention_uprnnotfound.manualaddressbutton = Gosod manylion busnes
 
 vrm_retention_success_payment.h2 = Beth i’w wneud nesaf
 vrm_retention_success_payment.what-next-1 = os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
-vrm_retention_success_payment.what-next-2 = os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich V5C newydd
+vrm_retention_success_payment.what-next-2 = os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich tystysgrif cofrestru V5CW (llyfr log) newydd
 vrm_retention_success_payment.what-next-3 = yn eich cyflenwr lleol a gymeradwyir gan y DVLA.
 vrm_retention_success_payment.what-next-4 = gallwch yn awr ei roi ar
 vrm_retention_success_payment.what-next-5 = gerbyd arall drwy ddefnyddio
@@ -312,7 +312,7 @@ vrm_retention_success_payment.what-next-8 = cynghorwch eich cwmni yswiriant am y
 vrm_retention_success_payment.what-next-9 = You will receive an email confirmation of your retention and a payment receipt.
 
 vrm_retention_success_payment.p6 = Byddwch angen hon i gael platiau cofrestru newydd
-vrm_retention_success_payment.p7 = Byddwch angen y ffurflen V5C a ddiweddarwyd neu dystysgrif dilysu rhif cofrestru (eV948) y gallwch ei lawrlwytho a’i gadw neu ei argraffu drwy ddefnyddio’r ddolen a ddarparir.
+vrm_retention_success_payment.p7 = Byddwch angen y ffurflen tystysgrif cofrestru V5CW (llyfr log) a ddiweddarwyd neu dystysgrif dilysu rhif cofrestru (eV948) y gallwch ei lawrlwytho a’i gadw neu ei argraffu drwy ddefnyddio’r ddolen a ddarparir.
 
 vrm_retention_success.title = Cais yn llwyddiannus
 vrm_retention_success.subtitle = Gellir ei dynnu oddi ar y cerbyd nawr
@@ -342,10 +342,10 @@ success-business-details-email = Ebost:
 success-business-details-address = Cyfeiriad:
 
 vrm_retention_success.p1 = Beth fydd yn digwydd nesaf?
-vrm_retention_success.p2 = Bydd y DVLA yn anfon tystysgrif gofrestru newydd (V5C) ar gyfer y rhif cofrestru
+vrm_retention_success.p2 = Bydd y DVLA yn anfon tystysgrif gofrestru V5CW (llyfr log) newydd ar gyfer y rhif cofrestru
 vrm_retention_success.p3 = at y ceidwad i’w gyfeiriad cofrestredig.
 vrm_retention_success.p4 = Bydd hon yn cyrraedd cyn pen 3 i 5 diwrnod.
-vrm_retention_success.p5 = Dinistriwch yr hen V5C wedi i chi gael yr un newydd.
+vrm_retention_success.p5 = Dinistriwch yr hen tystysgrif cofrestru V5CW (llyfr log) wedi i chi gael yr un newydd.
 vrm_retention_success.p6 = cannot be used to notify DVLA of any changes, you should destroy this once you have received the replacement.
 vrm_retention_success.p7 = You will also receive a retention certificate (V778) for the registration number
 vrm_retention_success.p8 = which will be sent to the keeper at their registered address.
@@ -378,10 +378,10 @@ email.line14 = Cwblhawyd y trafodion, gyda chaniatâd y ceidwad cofrestredig, dr
 email.line20 = Ceidwad cofrestredig:
 email.line21 = Dogfennaeth newydd:
 email.line22 = Anfonir y canlynol at y ceidwad cofrestredig:
-email.line23 = Tystysgrif cofrestru cerbyd newydd (V5C) yn dangos y rhif cofrestru newydd
+email.line23 = Tystysgrif cofrestru V5CW (llyfr log) cerbyd newydd yn dangos y rhif cofrestru newydd
 email.line24 = Tystysgrif MOT newydd yn dangos y rhif cofrestru newydd*
 email.line25 = Tystysgrif gadw ar gyfer y rhif cofrestru a gadwyd
-email.line26 = Os nad yw’r ceidwad wedi derbyn V5C newydd o fewn 3 i 5 diwrnod, cynghorwch y ceidwad i ffonio llinell gymorth y DVLA ar 0300 123 1350 cod 662 gyda’r ID trafodion a restrir uchod.
+email.line26 = Os nad yw’r ceidwad wedi derbyn tystysgrif cofrestru V5CW (llyfr log) newydd o fewn 3 i 5 diwrnod, cynghorwch y ceidwad i ffonio llinell gymorth y DVLA ar 0300 123 1350 cod 662 gyda’r ID trafodion a restrir uchod.
 email.line27 = * Anfonir tystysgrif MOT newydd dim ond os oes gan y cerbyd gofnod MOT cyfredol.
 email.line28 = You can assign your registration online using your retention certificate ID at:
 email.email_service_impl.subject = dylid ei gyfnewid â

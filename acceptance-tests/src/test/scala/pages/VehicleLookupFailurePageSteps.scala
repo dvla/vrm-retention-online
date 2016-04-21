@@ -23,7 +23,7 @@ class VehicleLookupFailurePageSteps(implicit webDriver: EventFiringWebDriver)
     eventually {
       currentUrl should equal(url)
       pageSource contains "This registration number cannot be retained"
-      pageSource contains "The Keeper’s Postcode entered does not come from the most recent V5C issued for this vehicle."
+      pageSource contains "The Keeper’s Postcode entered does not come from the most recent V5C registration certificate (logbook) issued for this vehicle."
       pageTitle contains "Transaction Id"
       tryAgainButton.isEnabled should equal(true)
       exitLink.isDisplayed should equal(true)
