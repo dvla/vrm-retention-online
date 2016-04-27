@@ -1,3 +1,10 @@
+======= 1.38 ========
+Time of release binaries creation:
+
+VMPRCI-4317 	Ensure V5C reference universal throughout all VM & PR services
+VMPRCI-4330 	Some unit tests failing locally when executed individually
+VMPRCI-4331 	Remove CEG phone number on PR Retain fall-out pages
+
 ======= 1.37 ========
 Time of release binaries creation:
 Thu Apr 14 10:35:41 UTC 2016
