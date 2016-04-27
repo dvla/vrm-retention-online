@@ -3,7 +3,14 @@ import com.typesafe.sbt.web.SbtWeb
 import io.gatling.sbt.GatlingPlugin.Gatling
 import org.scalastyle.sbt.ScalastylePlugin
 import play.PlayScala
-import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.{audit, emailService, legacyStubs, osAddressLookup, paymentSolve, vehicleAndKeeperLookup, vrmRetentionEligibility, vrmRetentionRetain}
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.audit
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.emailService
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.legacyStubs
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.osAddressLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.paymentSolve
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vehicleAndKeeperLookup
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionEligibility
+import uk.gov.dvla.vehicles.sandbox.ProjectDefinitions.vrmRetentionRetain
 import uk.gov.dvla.vehicles.sandbox.{Sandbox, SandboxSettings, Tasks}
 
 publishTo <<= version { v: String =>
