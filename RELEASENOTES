@@ -1,5 +1,6 @@
 ======= 1.38 ========
 Time of release binaries creation:
+Wed Apr 27 12:23:45 UTC 2016
 
 VMPRCI-4317 	Ensure V5C reference universal throughout all VM & PR services
 VMPRCI-4330 	Some unit tests failing locally when executed individually
