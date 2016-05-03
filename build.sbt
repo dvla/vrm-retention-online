@@ -51,40 +51,42 @@ libraryDependencies ++= {
   val akkaVersion = "2.3.4"
   Seq(
     filters,
-    // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
-    "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
-    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-//    "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test" withSources() withJavadoc(),
-    "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
-    "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
-    "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
-    "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
-    "org.scalatest" %% "scalatest" % "2.2.2" % "test" withSources() withJavadoc(),
+    // Note that commons-collections transitive dependency of htmlunit has been excluded.
+    // We need to use version 3.2.2 of commons-collections to avoid the following in 3.2.1:
+    // https://commons.apache.org/proper/commons-collections/security-reports.html#Apache_Commons_Collections_Security_Vulnerabilities
+    "commons-collections" % "commons-collections" % "3.2.2" withSources() withJavadoc(),
+    "commons-codec" % "commons-codec" % "1.8" withSources() withJavadoc(),
     "com.google.inject" % "guice" % "4.0-beta5" withSources() withJavadoc(),
     "com.google.guava" % "guava" % "18.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
-    "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
-    "commons-codec" % "commons-codec" % "1.8" withSources() withJavadoc(),
-    "org.apache.httpcomponents" % "httpclient" % "4.3.6" withSources() withJavadoc(),
-    "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
-    "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "com.sun.mail" % "javax.mail" % "1.5.2",
     "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
-    "dvla" %% "vehicles-presentation-common" % "2.48-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.48-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
+    "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
+    "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
     "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
     "org.webjars" % "requirejs" % "2.1.16",
     "org.webjars" % "jquery" % "1.9.1",
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
+    // test
+    "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
+    "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
+    "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "junit" % "junit" % "4.11" % "test",
     "junit" % "junit-dep" % "4.11" % "test",
-    "net.sourceforge.htmlunit" % "htmlunit" % "2.13" exclude("commons-collections", "commons-collections"),
-    // Note that commons-collections transitive dependency of htmlunit has been excluded above.
-    // We need to use version 3.2.2 of commons-collections to avoid the following in 3.2.1:
-    // https://commons.apache.org/proper/commons-collections/security-reports.html#Apache_Commons_Collections_Security_Vulnerabilities
-    "commons-collections" % "commons-collections" % "3.2.2" withSources() withJavadoc()
+    "net.sourceforge.htmlunit" % "htmlunit" % "2.13" % "test" exclude("commons-collections", "commons-collections"),
+    "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
+    // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
+    "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
+    "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test" withSources() withJavadoc(),
+	// VMPR
+    "dvla" %% "vehicles-presentation-common" % "2.48-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.48-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep")
   )
 }
+
+pipelineStages := Seq(rjs, digest, gzip)
 
 val myTestOptions =
   if (System.getProperty("include") != null) {
@@ -95,12 +97,19 @@ val myTestOptions =
 
 myTestOptions
 
+// use this to get a full stack trace when test failures occur
+//testOptions in Test += Tests.Argument("-oUDF")
+
 // If tests are annotated with @LiveTest then they are excluded when running sbt test
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-l", "helpers.tags.LiveTest")
 
 javaOptions in Test += System.getProperty("waitSeconds")
 
+//testOptions in Test := Seq(Tests.Filter(s => (s.endsWith("IntegrationSpec") || s.endsWith("UiSpec"))))
+
 concurrentRestrictions in Global := Seq(Tags.limit(Tags.CPU, 4), Tags.limit(Tags.Network, 10), Tags.limit(Tags.Test, 4))
+
+//parallelExecution in Test := true
 
 sbt.Keys.fork in Test := false
 
@@ -116,11 +125,15 @@ net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 
+// Scoverage - avoid play! framework generated classes
 coverageExcludedPackages := "<empty>;Reverse.*"
 
 coverageMinimum := 70
 
 coverageFailOnMinimum := false
+
+// highlighting will work as of scala 2.10.4 so no need to disable - see https://github.com/scala/scala/pull/3799
+//coverageHighlighting := false
 
 resolvers ++= projectResolvers
 
@@ -128,14 +141,14 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
+lazy val auditProject = audit("0.15-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.18-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val osAddressLookupProject = osAddressLookup("0.28-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.23-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val paymentSolveProject = paymentSolve("0.26-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.23-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.21-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.23-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val emailServiceProject = emailService("0.18-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val auditProject = audit("0.15-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 18000
 
@@ -174,7 +187,7 @@ SandboxSettings.loadTests := (test in Gatling in gatlingTestsProject).value
 
 SandboxSettings.acceptanceTests := (test in Test in acceptanceTestsProject).value
 
-SandboxSettings.bruteForceEnabled:= true
+SandboxSettings.bruteForceEnabled := true
 
 Sandbox.sandboxTask
 

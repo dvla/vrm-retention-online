@@ -1,6 +1,6 @@
 package pdf
 
-import helpers.WithApplication
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import models.EligibilityModel
 import org.scalatest.concurrent.PatienceConfiguration.Timeout
@@ -18,7 +18,7 @@ class PdfServiceSpec extends UnitSpec {
   // for how to do the controller.
 
   "create" should {
-    "return a non-empty output stream" in new WithApplication {
+    "return a non-empty output stream" in new TestWithApplication {
       val eligibilityModel = EligibilityModel(replacementVRM = ReplacementRegistrationNumberValid)
 
       val pdf = pdfService.create(

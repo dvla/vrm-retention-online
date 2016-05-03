@@ -1,7 +1,7 @@
 package controllers
 
 import composition.TestConfig
-import helpers.WithApplication
+import helpers.TestWithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
@@ -18,24 +18,24 @@ import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, LOCATION, OK
 class PaymentPreventBackUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val result = paymentPreventBack.present()(FakeRequest())
       status(result) should equal(OK)
     }
 
-    "display prototype message when config set to true" in new WithApplication {
+    "display prototype message when config set to true" in new TestWithApplication {
       val result = paymentPreventBack.present()(FakeRequest())
       contentAsString(result) should include(PrototypeHtml)
     }
 
-    "not display prototype message when config set to false" in new WithApplication {
+    "not display prototype message when config set to false" in new TestWithApplication {
       val result = paymentPrototypeNotVisible.present()(FakeRequest())
       contentAsString(result) should not include PrototypeHtml
     }
   }
 
   "returnToSuccess" should {
-    "redirect to the success page" in new WithApplication {
+    "redirect to the success page" in new TestWithApplication {
       val result = paymentPreventBack.returnToSuccess()(request)
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some((SuccessPage.address)))

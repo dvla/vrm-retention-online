@@ -3,21 +3,21 @@ package webserviceclients.audit2
 import composition.webserviceclients.audit2.AuditMicroServiceCallFails
 import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import helpers.UnitSpec
-import helpers.WithApplication
+import helpers.TestWithApplication
 import org.scalatest.mock.MockitoSugar
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 
 class AuditServiceImplSpec extends UnitSpec with MockitoSugar {
 
   "invoke" should {
-    "re-throw exception when micro-service response returns an exception" in new WithApplication {
+    "re-throw exception when micro-service response returns an exception" in new TestWithApplication {
       val resultFuture = auditServiceCallFails.send(request, trackingId)
       whenReady(resultFuture.failed) { result =>
         result shouldBe a[RuntimeException]
       }
     }
 
-    "throw when micro-service response status is not Ok" in new WithApplication {
+    "throw when micro-service response status is not Ok" in new TestWithApplication {
       val resultFuture = auditServiceCallNotOk.send(request, trackingId)
       whenReady(resultFuture.failed) { result =>
           result shouldBe a[RuntimeException]

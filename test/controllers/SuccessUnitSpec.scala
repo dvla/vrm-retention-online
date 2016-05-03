@@ -12,7 +12,7 @@ import helpers.vrm_retention.CookieFactoryForUnitSpecs.setupBusinessDetails
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
-import helpers.WithApplication
+import helpers.TestWithApplication
 import pages.vrm_retention.LeaveFeedbackPage
 import play.api.test.FakeRequest
 import play.api.test.Helpers.BAD_REQUEST
@@ -27,7 +27,7 @@ import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.Replac
 class SuccessUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page when BusinessDetailsModel cookie exists" in new WithApplication {
+    "display the page when BusinessDetailsModel cookie exists" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
@@ -44,7 +44,7 @@ class SuccessUnitSpec extends UnitSpec {
       status(result) should equal(OK)
     }
 
-    "display the page when BusinessDetailsModel cookie does not exist" in new WithApplication {
+    "display the page when BusinessDetailsModel cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),
@@ -62,7 +62,7 @@ class SuccessUnitSpec extends UnitSpec {
   }
 
   "finish" should {
-    "redirect to LeaveFeedbackPage" in new WithApplication {
+    "redirect to LeaveFeedbackPage" in new TestWithApplication {
       val (success, _) = build
       val result = success.finish(FakeRequest())
       whenReady(result) { r =>
@@ -72,21 +72,21 @@ class SuccessUnitSpec extends UnitSpec {
   }
 
   "create pdf" should {
-    "return a bad request if cookie for EligibilityModel does no exist" in new WithApplication {
+    "return a bad request if cookie for EligibilityModel does no exist" in new TestWithApplication {
       val request = FakeRequest().withCookies(transactionId())
       val (success, _) = build
       val result = success.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a bad request if cookie for TransactionId does no exist" in new WithApplication {
+    "return a bad request if cookie for TransactionId does no exist" in new TestWithApplication {
       val request = FakeRequest().withCookies(eligibilityModel())
       val (success, _) = build
       val result = success.createPdf(request)
       status(result) should equal(BAD_REQUEST)
     }
 
-    "return a pdf when the cookie exists" in new WithApplication {
+    "return a pdf when the cookie exists" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel(),
           setupBusinessDetails(),

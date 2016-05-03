@@ -1,12 +1,10 @@
 package webserviceclients.vehicleandkeeperlookup
 
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
-import helpers.WithApplication
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.WireMockFixture
 import org.joda.time.DateTime
-import org.scalatest.concurrent.PatienceConfiguration.Timeout
-import org.scalatest.time.{Second, Span}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.TrackingId
@@ -20,9 +18,9 @@ import webserviceclients.fakes.DateServiceConstants.{DayValid, MonthValid, YearV
 class VehicleAndKeeperLookupWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "callVehicleAndKeeperLookupService" should {
-    "send the serialised json request" in new WithApplication {
+    "send the serialised json request" in new TestWithApplication {
       val resultFuture = lookupService.invoke(request, TrackingId(trackingId))
-      whenReady(resultFuture, Timeout(Span(1, Second))) { result =>
+      whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/vehicleandkeeper/lookup/v1")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId)))

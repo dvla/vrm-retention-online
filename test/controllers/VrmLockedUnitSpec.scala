@@ -1,7 +1,7 @@
 package controllers
 
 import composition.TestConfig
-import helpers.WithApplication
+import helpers.TestWithApplication
 import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.bruteForcePreventionViewModel
@@ -19,17 +19,17 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 class VrmLockedUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       whenReady(present) { r =>
         r.header.status should equal(OK)
       }
     }
 
-    "display prototype message when config set to true" in new WithApplication {
+    "display prototype message when config set to true" in new TestWithApplication {
       contentAsString(present) should include(PrototypeHtml)
     }
 
-    "not display prototype message when config set to false" in new WithApplication {
+    "not display prototype message when config set to false" in new TestWithApplication {
       val request = FakeRequest()
       val result = vrmLockedPrototypeNotVisible.present(request)
       contentAsString(result) should not include PrototypeHtml
@@ -37,7 +37,7 @@ class VrmLockedUnitSpec extends UnitSpec {
   }
 
   "exit" should {
-    "redirect to correct next page after the exit button is clicked" in new WithApplication {
+    "redirect to correct next page after the exit button is clicked" in new TestWithApplication {
       val request = FakeRequest()
       val result = vrmLocked.exit(request)
       whenReady(result) { r =>

@@ -3,7 +3,7 @@ package controllers
 import com.tzavellas.sse.guice.ScalaModule
 import composition.webserviceclients.vrmretentioneligibility.{EligibilityWebServiceCallWithSensitiveResponse, EligibilityWebServiceCallFails, EligibilityWebServiceCallWithCurrentAndEmptyReplacement, EligibilityWebServiceCallWithCurrentAndReplacement, EligibilityWebServiceCallWithResponse}
 import helpers.JsonUtils.deserializeJsonToModel
-import helpers.{UnitSpec, WithApplication}
+import helpers.{UnitSpec, TestWithApplication}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{storeBusinessDetailsConsent, trackingIdModel, transactionId, vehicleAndKeeperDetailsModel}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{vehicleAndKeeperLookupFormModel}
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
@@ -23,14 +23,14 @@ import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.Replac
 class CheckEligibilityUnitSpec extends UnitSpec {
 
   "present" should {
-    "redirect to error page when VehicleAndKeeperLookupFormModel cookie does not exist" in new WithApplication {
+    "redirect to error page when VehicleAndKeeperLookupFormModel cookie does not exist" in new TestWithApplication {
       val result = checkEligibility().present(FakeRequest())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION).get.startsWith(ErrorPage.address)
       }
     }
 
-    "redirect to error page when VehicleAndKeeperDetailsModel cookie does not exist" in new WithApplication {
+    "redirect to error page when VehicleAndKeeperDetailsModel cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(vehicleAndKeeperLookupFormModel())
       val result = checkEligibility().present(request)
@@ -39,7 +39,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to error page when StoreBusinessDetailsCacheKey cookie does not exist" in new WithApplication {
+    "redirect to error page when StoreBusinessDetailsCacheKey cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -51,7 +51,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to error page when TransactionIdCacheKey cookie does not exist" in new WithApplication {
+    "redirect to error page when TransactionIdCacheKey cookie does not exist" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -64,7 +64,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to micro-service error page when web service call fails" in new WithApplication {
+    "redirect to micro-service error page when web service call fails" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -78,7 +78,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to VehicleLookupFailure page when web service returns with a response code" in new WithApplication {
+    "redirect to VehicleLookupFailure page when web service returns with a response code" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -92,7 +92,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "write cookie when web service returns with a response code" in new WithApplication {
+    "write cookie when web service returns with a response code" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -116,7 +116,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "write cookie when web service returns with a sensitive response code" in new WithApplication {
+    "write cookie when web service returns with a sensitive response code" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -141,7 +141,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to Confirm page when response has empty response, " +
-      "current and replacement vrm, and user type is Keeper" in new WithApplication {
+      "current and replacement vrm, and user type is Keeper" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = KeeperConsentValid),
@@ -156,7 +156,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
 
     "redirect to SetUpBusinessDetails response has empty response, " +
       "current and replacement vrm, and user type is Business" in
-      new WithApplication {
+      new TestWithApplication {
         val request = FakeRequest()
           .withCookies(
             vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
@@ -170,7 +170,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
     }
 
     "redirect to MicroServiceError page when response has empty response, " +
-      "current and empty replacement vrm" in new WithApplication {
+      "current and empty replacement vrm" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = BusinessConsentValid),
@@ -184,7 +184,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
       }
     }
 
-    "calls audit service with expected values when the required cookies exist" in new WithApplication {
+    "calls audit service with expected values when the required cookies exist" in new TestWithApplication {
       val (checkEligibility, dateService, auditService) = checkEligibilityAndAudit()
       val expected = new AuditRequest(
         name = "VehicleLookupToConfirm",

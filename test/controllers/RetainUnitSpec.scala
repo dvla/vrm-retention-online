@@ -1,7 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import helpers.WithApplication
+import helpers.TestWithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.loadBalancerUrl
 import composition.webserviceclients.paymentsolve.{RefererFromHeaderBinding, ValidatedCardDetails}
 import composition.webserviceclients.vrmretentionretain.{VrmRetentionRetainFailure, TestVrmRetentionRetainWebService}
@@ -42,7 +42,7 @@ class RetainUnitSpec extends UnitSpec {
   val businessEmail = "business.example@test.com"
 
   "retain" should {
-    "redirect to error page when cookies do not exist" in new WithApplication {
+    "redirect to error page when cookies do not exist" in new TestWithApplication {
       val request = FakeRequest()
 
       val result = retain.retain(request)
@@ -52,21 +52,21 @@ class RetainUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to success page when no fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when no fees due and required cookies are present" in new TestWithApplication {
       val result = retain.retain(request())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
-    "redirect to success page when fees due and required cookies are present" in new WithApplication {
+    "redirect to success page when fees due and required cookies are present" in new TestWithApplication {
       val result = retain.retain(request())
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
 
-    "redirect to retain failure with a reg number that cannot be retained" in new WithApplication {
+    "redirect to retain failure with a reg number that cannot be retained" in new TestWithApplication {
       val (retentionController, _) = retainControllerAndWebServiceMock((new VrmRetentionRetainFailure).stub)
       val result = retentionController.retain(request())
 
@@ -75,7 +75,7 @@ class RetainUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to error page when there are fees due but the payment status is not AUTHORISED" in new WithApplication {
+    "redirect to error page when there are fees due but the payment status is not AUTHORISED" in new TestWithApplication {
       val result = retain.retain(request(paymentStatus = None))
       whenReady(result) { r =>
         r.header.headers.get(LOCATION) should equal(Some(MicroServiceErrorPage.address))
@@ -83,7 +83,7 @@ class RetainUnitSpec extends UnitSpec {
     }
 
     "not send a payment email to the registered keeper and " +
-      "not to the business when registered keeper is chosen and keeper email is not supplied" in new WithApplication {
+      "not to the business when registered keeper is chosen and keeper email is not supplied" in new TestWithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock()
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
@@ -105,7 +105,7 @@ class RetainUnitSpec extends UnitSpec {
     }
 
     "send a payment email to the registered keeper only and " +
-      "not to the business when registered keeper is chosen and keeper email is supplied" in new WithApplication {
+      "not to the business when registered keeper is chosen and keeper email is supplied" in new TestWithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock()
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
@@ -135,7 +135,7 @@ class RetainUnitSpec extends UnitSpec {
 
     "send a payment email to the business acting on behalf of the keeper and " +
       "not to the keeper when business is chosen and send retention success emails " +
-      "to both business and keeper when keeper email is supplied" in new WithApplication {
+      "to both business and keeper when keeper email is supplied" in new TestWithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock()
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 
@@ -169,7 +169,7 @@ class RetainUnitSpec extends UnitSpec {
     }
 
     "send a payment email and a retention success email to the business acting on behalf of the keeper when " +
-      "business is chosen and no keeper email is supplied" in new WithApplication {
+      "business is chosen and no keeper email is supplied" in new TestWithApplication {
       val (retainController, wsMock) = retainControllerAndWebServiceMock()
       val retentionRetainRequestArg = ArgumentCaptor.forClass(classOf[VRMRetentionRetainRequest])
 

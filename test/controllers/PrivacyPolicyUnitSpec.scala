@@ -1,6 +1,6 @@
 package controllers
 
-import helpers.WithApplication
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import pages.vrm_retention.PrivacyPolicyPage
 import play.api.test.FakeRequest
@@ -12,7 +12,7 @@ import play.api.test.Helpers.status
 class PrivacyPolicyUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page" in new WithApplication {
+    "display the page" in new TestWithApplication {
       val result = privacyPolicy.present(FakeRequest())
       status(result) should equal(OK)
       contentAsString(result) should include(PrivacyPolicyPage.title)

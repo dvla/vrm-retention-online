@@ -4,11 +4,9 @@ import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import composition.TestConfig
-import helpers.WithApplication
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.WireMockFixture
-import org.scalatest.concurrent.PatienceConfiguration.Timeout
-import org.scalatest.time.{Second, Span}
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
@@ -16,9 +14,9 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {
 
   "invoke Begin" should {
-    "send the serialised json request" in new WithApplication {
+    "send the serialised json request" in new TestWithApplication {
       val resultFuture = lookupService.invoke(request, trackingId)
-      whenReady(resultFuture, Timeout(Span(1, Second))) { result =>
+      whenReady(resultFuture, timeout) { result =>
         wireMock.verifyThat(1, postRequestedFor(
           urlEqualTo(s"/payment/solve/beginWebPayment")
         ).withHeader(HttpHeaders.TrackingId, equalTo(trackingId.value)).

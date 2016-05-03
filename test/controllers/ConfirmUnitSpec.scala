@@ -1,6 +1,6 @@
 package controllers
 
-import helpers.WithApplication
+import helpers.TestWithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
@@ -36,14 +36,14 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperC
 class ConfirmUnitSpec extends UnitSpec {
 
   "present" should {
-    "display the page when required cookies are cached" in new WithApplication {
+    "display the page when required cookies are cached" in new TestWithApplication {
       whenReady(present) { r =>
           r.header.status should equal(OK)
       }
     }
 
     "display the page when required cookies are cached " +
-      "and StoreBusinessDetails cookie exists and is true" in new WithApplication {
+      "and StoreBusinessDetails cookie exists and is true" in new TestWithApplication {
       val request = FakeRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(),
@@ -58,7 +58,7 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to VehicleLookup when required cookies do not exist" in new WithApplication {
+    "redirect to VehicleLookup when required cookies do not exist" in new TestWithApplication {
       val request = FakeRequest()
       val result = confirm.present(request)
       whenReady(result) { r =>
@@ -68,7 +68,7 @@ class ConfirmUnitSpec extends UnitSpec {
   }
 
   "submit" should {
-    "redirect to Payment page when valid submit and user type is Business" in new WithApplication {
+    "redirect to Payment page when valid submit and user type is Business" in new TestWithApplication {
       val auditService2 = new AuditServiceDoesNothing
 
       val injector = testInjector(
@@ -110,7 +110,7 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "redirect to Payment page when valid submit and user type is Keeper" in new WithApplication {
+    "redirect to Payment page when valid submit and user type is Keeper" in new TestWithApplication {
       val request = buildRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -126,7 +126,7 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "not write cookies when user type is Keeper and has not provided a keeperEmail" in new WithApplication {
+    "not write cookies when user type is Keeper and has not provided a keeperEmail" in new TestWithApplication {
       val request = buildRequest(keeperEmail = "")
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -142,7 +142,7 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "write ConfirmFormModel cookie when user type is Keeper and has provided a keeperEmail" in new WithApplication {
+    "write ConfirmFormModel cookie when user type is Keeper and has provided a keeperEmail" in new TestWithApplication {
       val request = buildRequest()
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -159,7 +159,7 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "return a bad request when the supply email field has nothing selected" in new WithApplication {
+    "return a bad request when the supply email field has nothing selected" in new TestWithApplication {
       val request = buildRequest(supplyEmail = supplyEmailEmpty)
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -176,7 +176,7 @@ class ConfirmUnitSpec extends UnitSpec {
       }
     }
 
-    "return a bad request when the keeper wants to supply an email and does not provide an email address" in new WithApplication {
+    "return a bad request when the keeper wants to supply an email and does not provide an email address" in new TestWithApplication {
       val request = buildRequest(keeperEmail = keeperEmailEmpty)
         .withCookies(
           vehicleAndKeeperLookupFormModel(keeperConsent = UserType_Keeper),
@@ -195,13 +195,13 @@ class ConfirmUnitSpec extends UnitSpec {
   }
 
   "back" should {
-    "redirect to Vehicle Lookup page when the user is a keeper" in new WithApplication {
+    "redirect to Vehicle Lookup page when the user is a keeper" in new TestWithApplication {
       whenReady(back(KeeperConsentValid)) { r =>
         r.header.headers.get(LOCATION) should equal(Some(VehicleLookupPage.address))
       }
     }
 
-    "redirect to Confirm Business page when the user is a business" in new WithApplication {
+    "redirect to Confirm Business page when the user is a business" in new TestWithApplication {
       whenReady(back(BusinessConsentValid)) { r =>
         r.header.headers.get(LOCATION) should equal(Some(ConfirmBusinessPage.address))
       }

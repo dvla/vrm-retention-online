@@ -24,7 +24,7 @@ import utils.helpers.Config
 /**
  * Application configuration is in a hierarchy of files:
  *
- * application.conf
+ *                 application.conf
  * /                       |                     \
  * application.prod.conf  application.dev.conf  application.test.conf <- these can override and add to application.conf
  *
@@ -35,7 +35,7 @@ import utils.helpers.Config
  * To override and stipulate a particular "conf" e.g.
  * play -Dconfig.file=conf/application.test.conf run
  */
-trait GlobalLike extends WithFilters with GlobalSettings with Composition with DVLALogger {
+trait GlobalWithFilters extends WithFilters with DVLALogger {
 
   /**
    * Controllers must be resolved through the application context. There is a special method of GlobalSettings

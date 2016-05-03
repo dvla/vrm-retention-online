@@ -1,7 +1,7 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import helpers.WithApplication
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import org.mockito.Mockito.when
 import play.api.test.FakeRequest
@@ -14,14 +14,14 @@ class LeaveFeedbackUnitSpec extends UnitSpec {
 
   "present" should {
     "contain code in the page source to open the survey in a new tab " +
-      "when a survey url is configured" in new WithApplication {
+      "when a survey url is configured" in new TestWithApplication {
       val result = leaveFeedbackWithMockConfig(mockSurveyConfig()).present(FakeRequest())
       val expectedContent = s"window.open('$testUrl', '_blank')"
       contentAsString(result) should include(expectedContent)
     }
 
     "not contain code in the page source to open the survey in a new tab " +
-      "when a survey url is configured" in new WithApplication {
+      "when a survey url is configured" in new TestWithApplication {
       val result = leaveFeedbackWithMockConfig(mockSurveyConfig(surveyUrl = None)).present(FakeRequest())
       val expectedContent = s"window.open('$testUrl', '_blank')"
       contentAsString(result) should not include expectedContent
