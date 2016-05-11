@@ -81,8 +81,8 @@ libraryDependencies ++= {
     "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
     "org.scalatest" %% "scalatest" % "2.2.2" % "test" withSources() withJavadoc(),
 	// VMPR
-    "dvla" %% "vehicles-presentation-common" % "2.48-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-    "dvla" %% "vehicles-presentation-common" % "2.48-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep")
+    "dvla" %% "vehicles-presentation-common" % "2.48" withSources() withJavadoc() exclude("junit", "junit-dep"),
+    "dvla" %% "vehicles-presentation-common" % "2.48" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep")
   )
 }
 
@@ -141,14 +141,14 @@ resolvers ++= projectResolvers
 //resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
 
 // ====================== Sandbox Settings ==========================
-lazy val auditProject = audit("0.15-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val emailServiceProject = emailService("0.18-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val auditProject = audit("0.14").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.17").disablePlugins(PlayScala, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val osAddressLookupProject = osAddressLookup("0.28-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val paymentSolveProject = paymentSolve("0.26-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.23-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.21-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.23-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val osAddressLookupProject = osAddressLookup("0.28").disablePlugins(PlayScala, SbtWeb)
+lazy val paymentSolveProject = paymentSolve("0.26").disablePlugins(PlayScala, SbtWeb)
+lazy val vehicleAndKeeperLookupProject = vehicleAndKeeperLookup("0.22").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmRetentionEligibilityProject = vrmRetentionEligibility("0.20").disablePlugins(PlayScala, SbtWeb)
+lazy val vrmRetentionRetainProject = vrmRetentionRetain("0.22").disablePlugins(PlayScala, SbtWeb)
 
 SandboxSettings.portOffset := 18000
 
