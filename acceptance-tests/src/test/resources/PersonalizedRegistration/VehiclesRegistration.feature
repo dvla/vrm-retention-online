@@ -31,8 +31,7 @@ Feature: Vehicles Personalized Registration
     # Don't change VNF1 as it is special cased in the mock brute force service not to lock the VRM.
     When I enter data in the "VNF1", "11111111111" and "SA11AA" that does not match a valid vehicle record
     Then the vrm not found page is displayed
-    # And the contact information is displayed
-    And the contact information is not displayed
+    And the contact information is displayed
 
   @UnHappyPath
   Scenario: Doc Ref Mismatch
@@ -45,30 +44,27 @@ Feature: Vehicles Personalized Registration
   Scenario: Postcode Mismatch
     When I enter data in the "A1", "11111111111" and "SA11AA" that does match a valid vehicle record
     Then the postcode mismatch page is displayed
-    # And the contact information is displayed
-    And the contact information is not displayed
+    And the contact information is displayed
     And reset the "A1" so it won't be locked next time we run the tests
 
   @UnHappyPath
   Scenario: Brute Force Lockout
     When I enter data that does not match a valid vehicle record three times in a row
     Then the brute force lock out page is displayed
-    # And the contact information is displayed
+    And the contact information is displayed
 
   @UnHappyPath
   Scenario: Direct to Paper Channel
     When I enter data in the "D1", "11111111111" and "SA11AA" for a vehicle that is not eligible for retention
     Then the direct to paper channel page is displayed
-    # And the contact information is displayed
-    And the contact information is not displayed
+    And the contact information is displayed
     And reset the "D1" so it won't be locked next time we run the tests
 
   @UnHappyPath
   Scenario: Vehicle not Eligible
     When I enter data in the "E1", "11111111111" and "SA11AA" for a vehicle that is not eligible for retention
     Then the vehicle not eligible page is displayed
-    # And the contact information is displayed
-    And the contact information is not displayed
+    And the contact information is displayed
     And reset the "E1" so it won't be locked next time we run the tests
 
   @HappyPath
