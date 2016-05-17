@@ -1,5 +1,4 @@
 main.back = Yn ôl
-main.banner.feedback = eich adborth
 crown-copyright = Hawlfraint y Goron
 gov-uk = GOV.UK
 
@@ -15,8 +14,9 @@ global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac 
 global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, felly peidiwch â chau eich porwr.
 global-please-wait-close = Ceuwch y neges hon
 
-prototype.banner.part1 = Dyma wasanaeth newydd -
-prototype.banner.part2 = fydd yn ein helpu i’w wella
+prototype.banner = Dyma wasanaeth newydd -
+prototype.bannerPart2 = fydd yn ein helpu i’w wella
+prototype.link = eich adborth
 
 errorsummary.title = Gwiriwch y ffurflen
 error.required = Mae angen y maes hwn

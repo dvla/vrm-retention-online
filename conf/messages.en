@@ -1,5 +1,4 @@
 main.back = Back
-main.banner.feedback = your feedback
 crown-copyright = Crown Copyright
 gov-uk = GOV.UK
 
@@ -15,8 +14,9 @@ global-please-wait-p1 = We are currently receiving a large volume of application
 global-please-wait-p2 = This page will update automatically, please do not close your browser.
 global-please-wait-close = Close this message
 
-prototype.banner.part1 = This is a new service -
-prototype.banner.part2 = will help us to improve it
+prototype.banner = This is a new service -
+prototype.bannerPart2 = will help us to improve it
+prototype.link = your feedback
 
 errorsummary.title = Please check the form
 error.required = This field is required

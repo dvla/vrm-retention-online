@@ -1,35 +1,13 @@
-@(closingHour: Int, closingWarnPeriodMins: Int, dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)(implicit lang: Lang,
-        config: utils.helpers.Config)
+@()(implicit lang: Lang, config: utils.helpers.Config)
 
-    @import org.joda.time.DateTime
-    @import org.joda.time.DateTimeZone
-    @import views.common.ProtoType.FeedbackId
+@import views.common.ProtoType.FeedbackId
 
-    @if(config.isPrototypeBannerVisible) {
-        @if(
-            Some((closingHour, new org.joda.time.DateTime(
-                dateService.now.toDateTime.getYear,
-                dateService.now.toDateTime.getMonthOfYear,
-                dateService.now.toDateTime.getDayOfMonth,
-                if(closingHour / 60 == 24) 0 else closingHour / 60 ,
-                closingHour % 60,
-                DateTimeZone.forID("Europe/London"))
-                    )).map { case (closingHour, closingTime) =>
-                val closingT = if(closingHour / 60 == 24) closingTime.plusDays(1) else closingTime
-                val currentTime = new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))
-                currentTime.isBefore(closingT)
-            }.get
-        ) {
-            <div class="prototype">
-                <p><span class="phase-tag beta">BETA</span> @Messages("prototype.banner.part1")
-                    <a id="@FeedbackId" href="@controllers.routes.FeedbackController.present()" target="_blank">@Messages("main.banner.feedback")</a>
-                    @Messages("prototype.banner.part2")
-                </p>
-            </div>
-        } else {
-            <div class="prototype">
-                <p><span class="phase-tag beta">BETA</span></p>
-            </div>
-        }
-
-    }
+@if(config.isPrototypeBannerVisible) {
+<div class="prototype">
+    <p>
+        <span class="phase-tag beta">BETA</span> @Messages("prototype.banner")
+        <a id="@FeedbackId" href="@controllers.routes.FeedbackController.present()" target="_blank">@Messages("prototype.link")</a>
+        @Messages("prototype.bannerPart2")
+    </p>
+</div>
+}
