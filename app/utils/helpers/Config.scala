@@ -32,9 +32,6 @@ trait Config extends VehicleLookupConfig with CommonConfig {
 
   val vehicleAndKeeperLookupRequestTimeout: Int
 
-  // Prototype message in html
-  val isPrototypeBannerVisible: Boolean
-
   // Google analytics
   val googleAnalyticsTrackingId: Option[String]
 
