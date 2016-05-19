@@ -14,10 +14,6 @@ global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac 
 global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, felly peidiwch â chau eich porwr.
 global-please-wait-close = Ceuwch y neges hon
 
-prototype.banner = Dyma wasanaeth newydd -
-prototype.bannerPart2 = fydd yn ein helpu i’w wella
-prototype.link = eich adborth
-
 errorsummary.title = Gwiriwch y ffurflen
 error.required = Mae angen y maes hwn
 widget.optional = (dewisol)
@@ -415,9 +411,6 @@ closed.exit_button = Gadael
 
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
-
-# feedback
-common_feedback.subject = Tynnu rhif cofrestru oddi ar gerbyd -adborth
 
 # timeout
 vrm_retention_timeout.title = Arhoswch os gwelwch yn dda

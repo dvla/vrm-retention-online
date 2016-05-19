@@ -14,10 +14,6 @@ global-please-wait-p1 = We are currently receiving a large volume of application
 global-please-wait-p2 = This page will update automatically, please do not close your browser.
 global-please-wait-close = Close this message
 
-prototype.banner = This is a new service -
-prototype.bannerPart2 = will help us to improve it
-prototype.link = your feedback
-
 errorsummary.title = Please check the form
 error.required = This field is required
 widget.optional = (optional)
@@ -413,9 +409,6 @@ closed.exit_button = Exit
 
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
-
-# feedback
-common_feedback.subject = Take a registration number off a vehicle - feedback
 
 # timeout
 vrm_retention_timeout.title = Please wait
