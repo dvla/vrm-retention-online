@@ -157,7 +157,7 @@ vrm_retention_vehiclelookup.v5c = Tystysgrif cofrestru V5CW (llyfr log)
 vrm_retention_vehiclelookup.refnumlabel = Rhif diweddaraf cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log)
 vrm_retention_vehiclelookup.refnumHint = Y rhif 11 digid a gafwyd ar y dystysgrif gofrestru V5CW (llyfr log)
 vrm_retention_vehiclelookup.vrninputlabel = Rhif cofrestru y dymunwch ei gadw
-vrm_retention_vehiclelookup.vrnHint = Defnyddiwch y gwasanaeth hwn yn unig os ydych am gadw’r rhif cofrestru i’w roi ar gerbyd arall nawr neu yn y dyfodol
+vrm_retention_vehiclelookup.vrnHint = Defnyddiwch y gwasanaeth hwn yn unig os ydych am gadw’r rhif cofrestru i’w roi ar gerbyd arall nawr neu yn y dyfodol.
 vrm_retention_vehiclelookup.button = Nesaf
 vrm_retention_vehiclelookup.postcodelabel = Cod post y ceidwad
 
