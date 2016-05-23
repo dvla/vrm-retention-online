@@ -348,12 +348,6 @@ vrm_retention_success.p8 = which will be sent to the keeper at their registered 
 
 vrm_retention_success.buttonnavprint = Argraffwch y dudalen hon
 
-micro_service_error.title=Ymddiheurwn
-micro_service_error.text1=Nid yw’r gwasanaeth ar gael ar hyn o bryd. Rhowch gynnig arall arni yn nes ymlaen.
-micro_service_error.text2=
-micro_service_error.back.button=Rhowch gynnig arall arni
-micro_service_error.exit.button=Gadael
-
 vrm_retention_leave_feedback.title=Diolch
 vrm_retention_leave_feedback.feedback = rhoi adborth
 vrm_retention_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy

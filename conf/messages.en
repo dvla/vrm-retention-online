@@ -346,12 +346,6 @@ vrm_retention_success.p8 = which will be sent to the keeper at their registered 
 
 vrm_retention_success.buttonnavprint = Print this page
 
-micro_service_error.title=We are sorry
-micro_service_error.text1=The service is temporarily unavailable. Please try again later.
-micro_service_error.text2=
-micro_service_error.back.button=Try again
-micro_service_error.exit.button=Exit
-
 vrm_retention_leave_feedback.title=Thank you
 vrm_retention_leave_feedback.feedback = leaving feedback
 vrm_retention_leave_feedback.p1=Please help us to improve this service by
