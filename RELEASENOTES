@@ -1,3 +1,17 @@
+======= 1.40 ========
+Time of release binaries creation:
+
+
+VMPRCI-4361 	Add warning message to PR so customers not retaining VRM unnecessarily
+VMPRCI-4370 	PR prototype banner feedback link to remain out of hours
+VMPRCI-4332 	Re-introduce CEG phone number on PR Retain fall-out pages
+VMPRCI-4367 	Refactor GlobalWithFilter into vehicles-presentation-common
+VMPRCI-4379 	Update the service unavailable holding page to include business hours
+VMPRCI-4369 	Prototype border inconsistency
+VMPRCI-4377 	PR page title style inconsistent with VM
+VMPRCI-4337 	Some message properties are missing a value in the welsh messages file
+VMPRCI-4360 	Fix service opening hours so show 8am - 6pm throughout
+
 ======= 1.39 ========
 Time of release binaries creation:
 Wed May 11 12:17:23 UTC 2016
