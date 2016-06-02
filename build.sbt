@@ -32,14 +32,11 @@ scalaVersion := scalaVersionString
 
 scalacOptions := Seq("-deprecation", "-unchecked", "-feature", "-Xlint", "-language:reflectiveCalls", "-Xmax-classfile-name", "128")
 
-crossScalaVersions := Seq("2.10.3", "2.11.4")
-
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 
 lazy val acceptanceTestsProject = Project("acceptance-tests", file("acceptance-tests"))
   .dependsOn(root % "test->test")
   .disablePlugins(PlayScala, SbtWeb)
-  .settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 
 lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
   .disablePlugins(PlayScala, SbtWeb)
@@ -48,38 +45,35 @@ lazy val gatlingTestsProject = Project("gatling-tests", file("gatling-tests"))
 pipelineStages := Seq(rjs, digest, gzip)
 
 libraryDependencies ++= {
-  val akkaVersion = "2.3.4"
   Seq(
     filters,
     // Note that commons-collections transitive dependency of htmlunit has been excluded.
     // We need to use version 3.2.2 of commons-collections to avoid the following in 3.2.1:
     // https://commons.apache.org/proper/commons-collections/security-reports.html#Apache_Commons_Collections_Security_Vulnerabilities
     "commons-collections" % "commons-collections" % "3.2.2" withSources() withJavadoc(),
-    "commons-codec" % "commons-codec" % "1.8" withSources() withJavadoc(),
-    "com.google.inject" % "guice" % "4.0-beta5" withSources() withJavadoc(),
-    "com.google.guava" % "guava" % "18.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
+    "commons-codec" % "commons-codec" % "1.10" withSources() withJavadoc(),
+    "com.google.inject" % "guice" % "4.0" withSources() withJavadoc(),
+    "com.google.guava" % "guava" % "19.0" withSources() withJavadoc(), // See: http://stackoverflow.com/questions/16614794/illegalstateexception-impossible-to-get-artifacts-when-data-has-not-been-loaded
     "com.sun.mail" % "javax.mail" % "1.5.2",
-    "com.typesafe.play.plugins" %% "play-plugins-mailer" % "2.3.0",
     "com.tzavellas" % "sse-guice" % "0.7.1" withSources() withJavadoc(), // Scala DSL for Guice
     "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
     "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
-    "org.webjars" % "webjars-play_2.10" % "2.3.0-3",
+    "org.webjars" %% "webjars-play" % "2.3.0-3",
     "org.webjars" % "requirejs" % "2.1.16",
     "org.webjars" % "jquery" % "1.9.1",
     // Auditing service
     "com.rabbitmq" % "amqp-client" % "3.4.1",
     // test
-    "info.cukes" % "cucumber-java" % "1.2.0" % "test" withSources() withJavadoc(),
+    "info.cukes" % "cucumber-java" % "1.2.4" % "test" withSources() withJavadoc(),
     "com.github.detro" % "phantomjsdriver" % "1.2.0" % "test" withSources() withJavadoc(),
-    "com.github.tomakehurst" % "wiremock" % "1.51" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
+    "com.github.tomakehurst" % "wiremock" % "1.58" % "test" withSources() withJavadoc() exclude("log4j", "log4j"),
     "junit" % "junit" % "4.11" % "test",
     "junit" % "junit-dep" % "4.11" % "test",
     "net.sourceforge.htmlunit" % "htmlunit" % "2.13" % "test" exclude("commons-collections", "commons-collections"),
-    "org.mockito" % "mockito-all" % "1.10.8" % "test" withSources() withJavadoc(),
+    "org.mockito" % "mockito-all" % "1.10.19" % "test" withSources() withJavadoc(),
     // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
-    "org.seleniumhq.selenium" % "selenium-java" % "2.43.0" % "test",
-    "org.slf4j" % "log4j-over-slf4j" % "1.7.7" % "test" withSources() withJavadoc(),
-    "org.scalatest" %% "scalatest" % "2.2.2" % "test" withSources() withJavadoc(),
+    "org.slf4j" % "log4j-over-slf4j" % "1.7.21" % "test" withSources() withJavadoc(),
+    "org.scalatest" %% "scalatest" % "2.2.6" % "test" withSources() withJavadoc(),
 	// VMPR
     "dvla" %% "vehicles-presentation-common" % "2.50-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
     "dvla" %% "vehicles-presentation-common" % "2.50-SNAPSHOT" % "test" classifier "tests"  withSources() withJavadoc() exclude("junit", "junit-dep")
@@ -120,8 +114,6 @@ JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 sources in doc in Compile := List()
 
 ScalastylePlugin.Settings
-
-net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 credentials += Credentials(Path.userHome / ".sbt/.credentials")
 

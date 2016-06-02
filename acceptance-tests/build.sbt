@@ -18,9 +18,11 @@ credentials += sbtCredentials
 
 resolvers ++= projectResolvers
 
+lazy val cucumberV = "1.2.4"
+
 libraryDependencies ++= Seq(
-  "info.cukes" %% "cucumber-scala" % "1.2.0" % "test" withSources() withJavadoc(),
-  "info.cukes" % "cucumber-junit" % "1.2.0" % "test" withSources() withJavadoc(),
-  "info.cukes" % "cucumber-picocontainer" % "1.2.0" % "test" withSources() withJavadoc(),
+  "info.cukes" %% "cucumber-scala" % cucumberV % "test" withSources() withJavadoc(),
+  "info.cukes" % "cucumber-junit" % cucumberV % "test" withSources() withJavadoc(),
+  "info.cukes" % "cucumber-picocontainer" % cucumberV % "test" withSources() withJavadoc(),
   "com.novocode" % "junit-interface" % "0.10" % "test"
 )
