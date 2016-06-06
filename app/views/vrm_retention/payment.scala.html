@@ -12,7 +12,6 @@
 @main(
     title = Messages("vrm_retention_payment.title")
 ) {
-  <script src="@controllers.StaticAssets.versioned(config.assetsUrl)("javascripts/firefox-dont-cache-page.js")" type="text/javascript"></script>
   <h2>@Messages("vrm_retention_payment.title")</h2>
 
   <h3>@Messages("vrm_retention_payment.title2")</h3>
@@ -30,12 +29,9 @@
 @* POST body could return trxRef that we can CSRF against, we need to ask them to enable it. Else we can have CSRF on the callback url *@
     <div class="form-steps">
         @csrfTokenHiddenField()
-        <a id="@CancelId" href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a>
+        <a id="@CancelId"
+           class="ga-track-click-event-once"
+           data-ga-event-action="@CancelId"
+           href="@Payment.cancel()">@Messages("vrm_retention_payment.cancel.button")</a>
     </div>
-
-    @if(config.googleAnalyticsTrackingId.isDefined) {
-        <script type="text/javascript">
-        trackClick(['@CancelId']);
-        </script>
-    }
 }

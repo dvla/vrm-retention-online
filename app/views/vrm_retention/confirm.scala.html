@@ -83,9 +83,16 @@
                 @vehicleDetailPlayback(confirmViewModel.vehicleDetails)()
             </div>
             <div class="form-steps">
-                <button id="@ConfirmId" type="submit" name="action" class="button">@Messages("vrm_retention_confirm.button")</button>
+                <button id="@ConfirmId"
+                        type="submit"
+                        name="action"
+                        class="button ga-track-click-event-once"
+                        data-ga-event-action="@ConfirmId">@Messages("vrm_retention_confirm.button")</button>
                 <br/>
-                <a id="@ExitId" class="exit" href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
+                <a id="@ExitId"
+                   class="exit ga-track-click-event-once"
+                   data-ga-event-action="@ExitId"
+                   href="@controllers.routes.Confirm.exit()">@Messages("vrm_retention_exit.button")</a>
             </div>
         </div>
     }
@@ -93,7 +100,6 @@
     @if(config.googleAnalyticsTrackingId.isDefined) {
         <script type="text/javascript">
             trackChange(['@KeeperEmailId']);
-            trackClick(['@SummaryId', '@ConfirmId', '@ExitId']);
         </script>
     }
 }

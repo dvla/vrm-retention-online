@@ -72,30 +72,17 @@ class Chains(data: RecordSeqFeederBuilder[String]) {
 
       /* javascript */
       .exec(
-        http("firefox-dont-cache-page.js")
-          .get( s"""/assets/javascripts/firefox-dont-cache-page.js""")
-      )
-      .exec(
-        http("main.js")
-          .get( s"""/assets/javascripts/main.js""")
+        http("common.js")
+          .get( s"""/assets/lib/vehicles-presentation-common/javascripts/common.js""")
           .headers(Map(
           """Accept""" -> """*/*""",
           """If-Modified-Since""" -> """Thu, 05 Jun 2014 21:10:42 GMT""",
           """If-None-Match""" -> """5f859f72e7cc426915cf32f2643ee5fc494b04a8"""))
       )
 
-      /* javascript from webjars */
-      .exec(
-        http("require.min.js")
-          .get( s"""/webjars/requirejs/2.2.0/require.min.js""")
-          .headers(Map(
-          """Accept""" -> """*/*""",
-          """If-Modified-Since""" -> """Tue, 06 Aug 2013 09:49:32 GMT""",
-          """If-None-Match""" -> """858bab5a8e8f73a1d706221ed772a4f740e168d5"""))
-      )
       .exec(
         http("jquery.min.js")
-          .get( s"""/webjars/jquery/1.9.1/jquery.min.js""")
+          .get( s"""/assets/lib/jquery/jquery.min.js""")
           .headers(Map(
           """Accept""" -> """*/*""",
           """If-Modified-Since""" -> """Tue, 06 Aug 2013 09:49:32 GMT""",

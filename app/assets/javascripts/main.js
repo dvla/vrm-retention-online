@@ -1,8 +1,2 @@
-
-require(['config'], function() {
-    require(["retention-page-init"], function(retentionPageInit) {
-        $(function() {
-            retentionPageInit.init();
-        });
-    });
-});
+// This file is left intentionally blank.
+// It is only required for r.js (RequireJs optimiser) to run successfully.
