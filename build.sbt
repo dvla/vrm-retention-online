@@ -49,7 +49,7 @@ libraryDependencies ++= Seq(
   "org.apache.pdfbox" % "pdfbox" % "1.8.6" withSources() withJavadoc(),
   "org.apache.pdfbox" % "preflight" % "1.8.6" withSources() withJavadoc(),
   "org.webjars" % "jquery" % "1.9.1",
-  "org.webjars" % "requirejs" % "2.1.22",
+  "org.webjars" % "requirejs" % "2.2.0",
   "org.webjars" %% "webjars-play" % "2.3.0-3",
   // test
   // The combination of selenium 2.43.0 and phantomjsdriver 1.2.0 works in the Travis build when open sourcing
