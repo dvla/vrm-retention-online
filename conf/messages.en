@@ -404,6 +404,9 @@ closed.exit_button = Exit
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
 
+# feedback
+common_feedback.subject = Take a registration number off a vehicle - feedback
+
 # timeout
 vrm_retention_timeout.title = Please wait
 vrm_retention_timeout.p-1 = We are experiencing a delay in processing your application.

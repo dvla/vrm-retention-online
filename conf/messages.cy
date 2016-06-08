@@ -406,6 +406,9 @@ closed.exit_button = Gadael
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
 
+# feedback
+common_feedback.subject = Tynnu rhif cofrestru oddi ar gerbyd -adborth
+
 # timeout
 vrm_retention_timeout.title = Arhoswch os gwelwch yn dda
 vrm_retention_timeout.p-1 = Rydym yn profi oedi wrth brosesu’ch cais.
