@@ -13,90 +13,90 @@ import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.F
 
 import scala.concurrent.duration.DurationInt
 
-class ConfigImpl extends Config {
+final class ConfigImpl extends Config {
 
   val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
 
   // Payment Service
-  // TODO: this should not be optional
   override val purchaseAmountInPence: String =
-    getOptionalProperty[String]("retention.purchaseAmountInPence").getOrElse("NOT FOUND")
+    getProperty[String]("retention.purchaseAmountInPence")
 
-  override val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(true)
+  override val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(ConfigImpl.DEFAULT_SECURECOOKIES)
 
-  override val encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(true)
+  override val encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(ConfigImpl.DEFAULT_ENCRYPTEDCOOKIES)
 
-  override val applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse("NOT FOUND")
+  override val applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode").getOrElse(ConfigImpl.DEFAULT_WH_APPLICATION_CODE)
 
-  override val channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse("NOT FOUND")
+  override val channelCode: String = getOptionalProperty[String]("webHeader.channelCode").getOrElse(ConfigImpl.DEFAULT_WH_CHANNEL_CODE)
 
-  override val contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(0L)
+  override val contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(ConfigImpl.DEFAULT_WH_CONTACT_ID)
 
-  override val orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit").getOrElse("NOT FOUND")
+  override val orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit").getOrElse(ConfigImpl.DEFAULT_WH_ORG_BUSINESS_UNIT)
 
   override val vssServiceTypeCode: String =
-    getOptionalProperty[String]("webHeader.vssServiceTypeCode").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("webHeader.vssServiceTypeCode").getOrElse(ConfigImpl.DEFAULT_WH_VSS_SERVICE_TYPE_CODE)
   override val dmsServiceTypeCode: String =
-    getOptionalProperty[String]("webHeader.dmsServiceTypeCode").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("webHeader.dmsServiceTypeCode").getOrElse(ConfigImpl.DEFAULT_WH_DMS_SERVICE_TYPE_CODE)
 
   override val vrmRetentionEligibilityMicroServiceUrlBase: String =
-    getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase").getOrElse(ConfigImpl.DEFAULT_URL_BASE)
 
   override val vrmRetentionRetainMicroServiceUrlBase: String =
-    getOptionalProperty[String]("vrmRetentionRetainMicroServiceUrlBase").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("vrmRetentionRetainMicroServiceUrlBase").getOrElse(ConfigImpl.DEFAULT_URL_BASE)
 
   override val vehicleAndKeeperLookupMicroServiceBaseUrl: String =
-    getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("vehicleAndKeeperLookupMicroServiceUrlBase").getOrElse(ConfigImpl.DEFAULT_URL_BASE)
 
   override val vrmRetentionEligibilityMsRequestTimeout: Int =
-    getOptionalProperty[Int]("vrmRetentionEligibility.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+    getOptionalProperty[Int]("vrmRetentionEligibility.requesttimeout").getOrElse(ConfigImpl.DEFAULT_REQUEST_TIMEOUT.seconds.toMillis.toInt)
 
   override val vrmRetentionRetainMsRequestTimeout: Int =
-    getOptionalProperty[Int]("vrmRetentionRetain.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+    getOptionalProperty[Int]("vrmRetentionRetain.requesttimeout").getOrElse(ConfigImpl.DEFAULT_REQUEST_TIMEOUT.seconds.toMillis.toInt)
 
   override val paymentSolveMicroServiceUrlBase: String =
-    getOptionalProperty[String]("paymentSolveMicroServiceUrlBase").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("paymentSolveMicroServiceUrlBase").getOrElse(ConfigImpl.DEFAULT_URL_BASE)
 
   override val paymentSolveMsRequestTimeout: Int =
-    getOptionalProperty[Int]("paymentSolve.ms.requesttimeout").getOrElse(5.seconds.toMillis.toInt)
+    getOptionalProperty[Int]("paymentSolve.ms.requesttimeout").getOrElse(ConfigImpl.DEFAULT_SOLVE_REQUEST_TIMEOUT.seconds.toMillis.toInt)
 
   override val vehicleAndKeeperLookupRequestTimeout: Int =
-    getOptionalProperty[Int]("vehicleAndKeeperLookup.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+    getOptionalProperty[Int]("vehicleAndKeeperLookup.requesttimeout").getOrElse(ConfigImpl.DEFAULT_REQUEST_TIMEOUT.seconds.toMillis.toInt)
 
-  override val isPrototypeBannerVisible: Boolean = getOptionalProperty[Boolean]("prototype.disclaimer").getOrElse(true)
+  override val isPrototypeBannerVisible: Boolean = getOptionalProperty[Boolean]("prototype.disclaimer").getOrElse(ConfigImpl.DEFAULT_PROTOTYPE_BANNER_ENABLED)
 
   override val googleAnalyticsTrackingId: Option[String] = getOptionalProperty[String]("googleAnalytics.id.retention")
 
   override val emailWhitelist: Option[List[String]] = getStringListProperty("email.whitelist")
 
-  override val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse("")
+  override val emailSenderAddress: String = getOptionalProperty[String]("email.senderAddress").getOrElse(ConfigImpl.DEFAULT_SENDER_EMAIL)
 
-  override val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(30.minutes.toSeconds.toInt)
+  override val cookieMaxAge = getOptionalProperty[Int]("application.cookieMaxAge").getOrElse(ConfigImpl.DEFAULT_COOKIE_MAX_AGE.minutes.toSeconds.toInt)
 
   override val storeBusinessDetailsMaxAge =
-    getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(7.days.toSeconds.toInt)
+    getOptionalProperty[Int]("storeBusinessDetails.cookieMaxAge").getOrElse(ConfigImpl.DEFAULT_BUSINESS_DETAILS_MAX_AGE.days.toSeconds.toInt)
 
   override val auditMicroServiceUrlBase: String =
-    getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("auditMicroServiceUrlBase").getOrElse(ConfigImpl.DEFAULT_URL_BASE)
 
   override val auditMsRequestTimeout: Int =
-    getOptionalProperty[Int]("audit.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+    getOptionalProperty[Int]("audit.requesttimeout").getOrElse(ConfigImpl.DEFAULT_AUDIT_REQUEST_TIMEOUT.seconds.toMillis.toInt)
 
   // Email microservice
   override val emailServiceMicroServiceUrlBase: String =
-    getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse("NOT FOUND")
+    getOptionalProperty[String]("emailServiceMicroServiceUrlBase").getOrElse(ConfigImpl.DEFAULT_URL_BASE)
   override val emailServiceMsRequestTimeout: Int =
-    getOptionalProperty[Int]("emailService.ms.requesttimeout").getOrElse(30.seconds.toMillis.toInt)
+    getOptionalProperty[Int]("emailService.ms.requesttimeout").getOrElse(ConfigImpl.DEFAULT_REQUEST_TIMEOUT.seconds.toMillis.toInt)
   override val emailConfiguration: EmailConfiguration = EmailConfiguration(
-    From(getProperty[String]("email.senderAddress"), "DO NOT REPLY"),
-    From(getProperty[String]("email.feedbackAddress"), "Feedback"),
+    From(getProperty[String]("email.senderAddress"), ConfigImpl.EMAIL_FROM_NAME),
+    From(getProperty[String]("email.feedbackAddress"), ConfigImpl.EMAILFEEDBACK_FROM_NAME),
     getStringListProperty("email.whitelist")
   )
 
   override val openingTimeMinOfDay: Int = getProperty[Int]("openingTimeMinOfDay")
   override val closingTimeMinOfDay: Int = getProperty[Int]("closingTimeMinOfDay")
-  override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(15)
+  override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(ConfigImpl.DEFAULT_CLOSING_WARN_PERIOD)
 
+  // TODO make property survey.url mandatory
   override val surveyUrl: Option[String] = getOptionalProperty[String]("survey.url")
 
   override val liveAgentEnvironmentId: Option[String] = {
@@ -114,3 +114,35 @@ class ConfigImpl extends Config {
   override val failureCodeBlacklist: Option[List[String]] = getStringListProperty("webchat.failureCodes.blacklist")
 
 }
+
+object ConfigImpl {
+
+  final val NotFound = "NOT FOUND"
+
+  final val EMAIL_FROM_NAME = "DO-NOT-REPLY"
+  final val EMAILFEEDBACK_FROM_NAME = "Feedback"
+
+  //defaults
+  final val DEFAULT_SENDER_EMAIL = ""
+  final val DEFAULT_URL_BASE = ""
+  final val DEFAULT_SECURECOOKIES = true
+  final val DEFAULT_PROTOTYPE_BANNER_ENABLED = true
+  final val DEFAULT_ENCRYPTEDCOOKIES = true
+
+  final val DEFAULT_WH_APPLICATION_CODE = NotFound
+  final val DEFAULT_WH_VSS_SERVICE_TYPE_CODE = NotFound
+  final val DEFAULT_WH_DMS_SERVICE_TYPE_CODE = NotFound
+  final val DEFAULT_WH_CHANNEL_CODE = NotFound
+  final val DEFAULT_WH_CONTACT_ID = 0L
+  final val DEFAULT_WH_ORG_BUSINESS_UNIT = NotFound
+
+  final val DEFAULT_BUSINESS_DETAILS_MAX_AGE = 7 // days
+  final val DEFAULT_CLOSING_WARN_PERIOD = 15 // minutes
+
+  // timeouts
+  final val DEFAULT_AUDIT_REQUEST_TIMEOUT = 30 //minutes
+  final val DEFAULT_COOKIE_MAX_AGE = 30 // minutes
+  final val DEFAULT_REQUEST_TIMEOUT = 30 // seconds
+  final val DEFAULT_SOLVE_REQUEST_TIMEOUT = 5 // seconds
+}
+
