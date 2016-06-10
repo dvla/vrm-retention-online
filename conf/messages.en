@@ -23,22 +23,6 @@ error.restricted.validVrnOnly = Must be valid format
 error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C registration certificate (logbook)
 error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
-datePlaceholder.day=Day
-datePlaceholder.month=Month
-datePlaceholder.year=Year
-datePlaceholder.January=January
-datePlaceholder.February=February
-datePlaceholder.March=March
-datePlaceholder.April=April
-datePlaceholder.May=May
-datePlaceholder.June=June
-datePlaceholder.July=July
-datePlaceholder.August=August
-datePlaceholder.September=September
-datePlaceholder.October=October
-datePlaceholder.November=November
-datePlaceholder.December=December
-
 select_default = Please select
 error.invalid = Invalid value
 
@@ -46,9 +30,6 @@ traderName = Trader name
 traderPostcode = Postcode
 
 address.lines.label = Building/number and street
-address.buildingNameOrNumber.label =
-address.line2.label=
-address.line3.label=
 
 vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
@@ -72,23 +53,23 @@ error.address.addressLine1 = This field is mandatory
 error.address.postCode = This field is mandatory
 error.address.required = Address is required
 
-vrm_locked.title=Registration number is locked
-vrm_locked.text1=There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
-vrm_locked.text2=Locked at
-vrm_locked.text3=If you are sure that the details entered are correct then please send your completed
-vrm-locked-text4=to DVLA, Swansea, SA99 1BD
+vrm_locked.title =Registration number is locked
+vrm_locked.text1 =There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
+vrm_locked.text2 =Locked at
+vrm_locked.text3 =If you are sure that the details entered are correct then please send your completed
+vrm-locked-text4 =to DVLA, Swansea, SA99 1BD
 
-vrm_locked.exit.button=Exit
+vrm_locked.exit.button = Exit
 
 # 404 onHandlerNotFound
-onHandlerNotFound.title=This page cannot be found
-onHandlerNotFound.header=This page cannot be found
-onHandlerNotFound.body=We are unable to find the page you have requested, this event has been logged for investigation.
-onHandlerNotFound.start.button=Start
+onHandlerNotFound.title = This page cannot be found
+onHandlerNotFound.header = This page cannot be found
+onHandlerNotFound.body = We are unable to find the page you have requested, this event has been logged for investigation.
+onHandlerNotFound.start.button = Start
 
-error.title=We are sorry
-error.text=An error has occurred, please start again.
-error.button=Start again
+error.title = We are sorry
+error.text = An error has occurred, please start again.
+error.button = Start again
 
 language.cy.button = Cymraeg
 language.en.button = YAGNI
@@ -237,7 +218,6 @@ vrm_retention_vehicle_callback.modelLabel = Model:
 paymentFailureErrorMessage.title = Payment failure
 paymentFailureErrorMessage.p1 = No payment was taken.
 paymentFailureErrorMessage.p2 = Please either try again or exit the service.
-paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment cancelled or not authorised
@@ -289,10 +269,6 @@ supply-email-business-acting = Does your customer want to receive an email with 
 supply-email-true = Yes
 supply-email-false = No
 email-not-supplied = You must supply an email address to receive a summary of the transaction
-
-vrm_retention_uprnnotfound.title = Error confirming post code
-vrm_retention_uprnnotfound.p1 = An error has occurred validating your postcode. Please re-enter or enter your details manually
-vrm_retention_uprnnotfound.manualaddressbutton = Set-up business details
 
 vrm_retention_success_payment.h2 = What to do next
 vrm_retention_success_payment.what-next-1 = if you have the number plates already, you should put these on your vehicle as soon as possible.
@@ -346,9 +322,9 @@ vrm_retention_success.p8 = which will be sent to the keeper at their registered 
 
 vrm_retention_success.buttonnavprint = Print this page
 
-vrm_retention_leave_feedback.title=Thank you
+vrm_retention_leave_feedback.title = Thank you
 vrm_retention_leave_feedback.feedback = leaving feedback
-vrm_retention_leave_feedback.p1=Please help us to improve this service by
+vrm_retention_leave_feedback.p1 = Please help us to improve this service by
 
 email.withoutHtml = Your email client does not support HTML messages.
 email.title = Take off a registration number complete for {0}
@@ -381,20 +357,16 @@ vehicle-lookup-failure-transaction-id = Transaction Id
 email.failure.title = Take a registration number off a vehicle
 email.failure.line1 = THIS IS AN AUTOMATED EMAIL
 email.failure.line2 = PLEASE DO NOT REPLY AS EMAILS RECEIVED AT THIS ADDRESS CANNOT BE RESPONDED TO.
-email.failure.line3 =
 email.failure.line4 =Thank you for your application to ''Take a registration number off a vehicle''. Your application was \
   unsuccessful at this time and your credit/debit card has not been charged.
-email.failure.line5 =
 email.failure.line6 = If you wish to contact DVLA regarding this application please contact us using the \
   following details:
 email.failure.line7 = Telephone:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (please enter extension 662 when prompted)
-email.failure.line10 =
 email.failure.line11 = Monday to Friday: 08:00 to 18:00
 email.failure.line12 = Saturday: 08:00 to 14:00
 email.failure.line13 = Sunday: Closed
-email.failure.line14 =
 
 # closed
 closed.title = Service unavailable

@@ -23,22 +23,6 @@ error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
 error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
 error.restricted.validPostcode = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
 
-datePlaceholder.day=Diwrnod
-datePlaceholder.month=Mis
-datePlaceholder.year=Blwyddyn
-datePlaceholder.January=Ionawr
-datePlaceholder.February=Chwefror
-datePlaceholder.March=Mawrth
-datePlaceholder.April=Ebrill
-datePlaceholder.May=Mai
-datePlaceholder.June=Mehefin
-datePlaceholder.July=Gorffennaf
-datePlaceholder.August=Awst
-datePlaceholder.September=Medi
-datePlaceholder.October=Hydref
-datePlaceholder.November=Tachwedd
-datePlaceholder.December=Rhagfyr
-
 select_default = Dewiswch
 error.invalid = Gwerth annilys
 
@@ -46,9 +30,6 @@ traderName = Enw’r masnachwr
 traderPostcode = Cod post
 
 address.lines.label = Adeilad/rhif a stryd
-address.buildingNameOrNumber.label =
-address.line2.label=
-address.line3.label=
 
 vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
@@ -74,23 +55,23 @@ error.address.required = Mae angen cyfeiriad
 
 # micro-service response codes
 
-vrm_locked.title=Mae’r rhif cofrestru wedi ei gloi
-vrm_locked.text1=Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
-vrm_locked.text2=Wedi cloi am
-vrm_locked.text3=Os ydych chi’n siŵr fod y manylion a roddwyd yn gywir yna anfonwch eich ffurflen a gwblhawyd
-vrm-locked-text4=i’r DVLA, Abertawe, SA99 1BD
+vrm_locked.title = Mae’r rhif cofrestru wedi ei gloi
+vrm_locked.text1 = Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
+vrm_locked.text2 = Wedi cloi am
+vrm_locked.text3 = Os ydych chi’n siŵr fod y manylion a roddwyd yn gywir yna anfonwch eich ffurflen a gwblhawyd
+vrm-locked-text4 = i’r DVLA, Abertawe, SA99 1BD
 
-vrm_locked.exit.button=Gadael
+vrm_locked.exit.button = Gadael
 
 # 404 onHandlerNotFound
-onHandlerNotFound.title=Ni ellir dod o hyd i’r dudalen hon
-onHandlerNotFound.header=Ni ellir dod o hyd i’r dudalen hon
-onHandlerNotFound.body=Ni allwn ddod o hyd i’r dudalen a ofynnoch amdani, mae’r digwyddiad hwn wedi ei logio er mwyn ei archwilio.
-onHandlerNotFound.start.button=Dechrau
+onHandlerNotFound.title = Ni ellir dod o hyd i’r dudalen hon
+onHandlerNotFound.header = Ni ellir dod o hyd i’r dudalen hon
+onHandlerNotFound.body = Ni allwn ddod o hyd i’r dudalen a ofynnoch amdani, mae’r digwyddiad hwn wedi ei logio er mwyn ei archwilio.
+onHandlerNotFound.start.button = Dechrau
 
-error.title=Cafwyd gwall na allwn ei adfer
-error.text=An error has occurred, please start again.
-error.button=Cychwyn eto
+error.title = Cafwyd gwall na allwn ei adfer
+error.text = An error has occurred, please start again.
+error.button = Cychwyn eto
 
 language.cy.button = YAGNI
 language.en.button = English
@@ -239,7 +220,6 @@ vrm_retention_vehicle_callback.modelLabel = Model:
 paymentFailureErrorMessage.title = Methiant wrth Dalu
 paymentFailureErrorMessage.p1 = Ni chymerwyd unrhyw daliad.
 paymentFailureErrorMessage.p2 = Un ai rhowch gynnig arall arni neu gadewch y gwasanaeth.
-paymentFailureErrorMessage.p3 =
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Taliad wedi ei ganslo neu heb ei awdurdodi
@@ -291,10 +271,6 @@ supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn ebost gyda chry
 supply-email-true = Byddwn
 supply-email-false = Na fyddwn
 email-not-supplied = Rhaid i chi gynnig cyfeiriad ebost er mwyn cael crynodeb o’r trafodion
-
-vrm_retention_uprnnotfound.title = Gwall wrth gadarnhau cod post
-vrm_retention_uprnnotfound.p1 = Cafwyd gwall wrth ddilysu’ch cod post. Rhowch eich manylion eto neu cyflwynwch nhw â llaw
-vrm_retention_uprnnotfound.manualaddressbutton = Gosod manylion busnes
 
 vrm_retention_success_payment.h2 = Beth i’w wneud nesaf
 vrm_retention_success_payment.what-next-1 = os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
@@ -348,9 +324,9 @@ vrm_retention_success.p8 = which will be sent to the keeper at their registered 
 
 vrm_retention_success.buttonnavprint = Argraffwch y dudalen hon
 
-vrm_retention_leave_feedback.title=Diolch
+vrm_retention_leave_feedback.title = Diolch
 vrm_retention_leave_feedback.feedback = rhoi adborth
-vrm_retention_leave_feedback.p1=Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
+vrm_retention_leave_feedback.p1 = Rhowch gymorth i ni wella’r gwasanaeth hwn drwy
 
 email.withoutHtml = Nid yw’ch cleient ebost yn cefnogi negeseuon HTML.
 email.title = Tynnu rhif cofrestru oddi ar gerbyd i gwblhau ar gyfer {0}
@@ -383,20 +359,16 @@ vehicle-lookup-failure-transaction-id = ID trafodion
 email.failure.title = Tynnu rhif cofrestru oddi ar Gerbyd
 email.failure.line1 = DYMA EBOST AWTOMATIG
 email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
-email.failure.line3 =
-email.failure.line4 =Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerbyd’. roedd eich cais yn \
+email.failure.line4 = Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerbyd’. roedd eich cais yn \
   unsuccessful at this time and your credit/debit card has not been charged.
-email.failure.line5 =
 email.failure.line6 = Os dymunwch gysylltu â’r DVLA ynglŷn â’r cais hwn, yna cysylltwch â ni drwy ddefnyddio’r \
   following details:
 email.failure.line7 = Ffôn:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (rhowch estyniad 662 pan ofynnir amdano)
-email.failure.line10 =
 email.failure.line11 = Dydd llun i Ddydd Gwener: 08:00 to 18:00
 email.failure.line12 = Dydd Sadwrn: 08:00 to 14:00
 email.failure.line13 = Dydd Sul: Ar gau
-email.failure.line14 =
 
 # closed
 closed.title = Nid yw’r gwasanaeth ar gael
