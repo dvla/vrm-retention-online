@@ -6,10 +6,11 @@
 @import views.html.vrm_retention.main
 
 @main(
-  title = Messages("common_feedback.thankyou")
+  title = Messages("common_feedback.thankyou"),
+  showBanner = false
 ) {
     <h1>@Messages("common_feedback.thankyou")</h1>
-    
+
     <!-- If Javascript is enabled, we un-hide this button -->
     <a onclick="window.close()" id="feedback-close" style="display: none;">@Messages("feedback_return")</a>
     <!-- If Javascript is disabled, the close button remains hidden and we show this message -->

@@ -28,7 +28,7 @@
 @main(
     title = Messages("vrm_retention_setupbusinessdetails.title"),
     currentForm = Some(setupBusinessDetailsFormModel),
-    backNavigation = Some(controllers.routes.VehicleLookup.present())
+    backButton = Some(controllers.routes.VehicleLookup.present())
 ) {
     @form(action = SetUpBusinessDetails.submit) {
         @csrfTokenHiddenField()

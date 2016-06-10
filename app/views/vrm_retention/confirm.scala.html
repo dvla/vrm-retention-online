@@ -23,7 +23,7 @@
 @main(
     title = Messages("vrm_retention_confirm.title"),
     currentForm = Some(confirmForm),
-    backNavigation = Some(controllers.routes.Confirm.back())
+    backButton = Some(controllers.routes.Confirm.back())
 ) {
     @form(action = controllers.routes.Confirm.submit()) {
         @csrfTokenHiddenField()

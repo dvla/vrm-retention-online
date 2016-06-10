@@ -1,17 +1,28 @@
 @(title: String,
     currentForm: Option[Form[_]] = None,
-    backNavigation: Option[Call] = None,
-    showLanguageSwitch: Boolean = false,
-    showBanner: Boolean = true)(content: Html)(implicit lang: Lang,
+    showBanner: Boolean = true,
+    backButton: Option[Call] = None,
+    showLanguageSwitch: Boolean = false)(content: Html)(implicit lang: Lang,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.{CyId, EnId}
+@import uk.gov.dvla.vehicles.presentation.common.controllers.routes.AlternateLanguages
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.footer
+@import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.govTemplate
+@import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.head
+@import uk.gov.dvla.vehicles.presentation.common.views.html.layouts.header
+
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.alternateLanguages
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.pleaseWait
+@import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.serviceClosingWarning
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.errorsSummary
 @import uk.gov.dvla.vehicles.presentation.common.views.html.widgets.prototype
-@import views.html.common.govMainDefault
+
 @import views.vrm_retention.Main.BackId
 
-@govMainDefault(title, showLanguageSwitch) {
+@mainContent = {
     <div class="app vrm-retention-online">
         @if(showBanner) {
             @prototype(controllers.routes.FeedbackController.present())
@@ -19,7 +30,7 @@
 
         <div class="section-content">
 
-            @backNavigation.map { call =>
+            @backButton.map { call =>
                 <div class="back-navigation">
                     <a class="back" id="@BackId" href="@call">@Messages("main.back")</a>
                 </div>
@@ -30,6 +41,32 @@
             @content
 
         </div>
-        
     </div>
+}
+
+@footerLinks = {
+    <li><a href="@routes.CookiePolicy.present()">@Messages("footer.cookies")</a></li>
+    @if(showLanguageSwitch) {
+        <li>@alternateLanguages(
+            AlternateLanguages.withLanguage(chosenLanguage = CyId),
+            AlternateLanguages.withLanguage(chosenLanguage = EnId))</li>
+    }
+    <li><a href="@routes.TermsAndConditions.present()">@Messages("footer.tandc")</a></li>
+    <li><a href="@routes.PrivacyPolicy.present()">@Messages("footer.privacy")</a></li>
+    <li>@{Messages("footer.builtbyintro")}&nbsp;<a href="https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency" target="_blank">@{Messages("footer.builtby")}</a></li>
+}
+
+@defining(controllers.StaticAssets.versioned(config.assetsUrl) _) { assetsPrefix =>
+
+@govTemplate(
+    head = head(title, assetsPrefix, config.googleAnalyticsTrackingId),
+    bodyAttributes = Seq(Symbol("data-closing-time") -> config.closingTimeMinOfDay),
+    serviceClosingWarning = Some(serviceClosingWarning(config.openingTimeMinOfDay,
+                                                config.closingTimeMinOfDay,
+                                                config.closingWarnPeriodMins)),
+    header = header(assetsPrefix = assetsPrefix, cookiePolicyLink = routes.CookiePolicy.present),
+    content = mainContent,
+    footer = footer(assetsPrefix, Some(footerLinks))
+)
+
 }
