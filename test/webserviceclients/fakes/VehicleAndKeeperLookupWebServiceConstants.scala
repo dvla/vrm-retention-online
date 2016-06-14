@@ -18,35 +18,23 @@ object VehicleAndKeeperLookupWebServiceConstants {
   final val TransactionIdValid = "ABC123123123123"
   final val PaymentTransNoValid = "123456"
 
-  def VehicleMakeValid = Some("Alfa Romeo")
+  final val VehicleMakeValid = Some("Alfa Romeo")
+  final val VehicleModelValid = Some("Alfasud ti")
 
-  def VehicleModelValid = Some("Alfasud ti")
-
-  final val KeeperNameValid = "Keeper Name"
-  final val KeeperUprnValid = 10123456789L
   final val ConsentValid = "true"
-  final val KeeperConsentValid = UserType_Keeper
   final val BusinessConsentValid = UserType_Business
+  final val KeeperConsentValid = UserType_Keeper
   final val KeeperPostcodeValid = PostcodeValid
   final val KeeperPostcodeValidForMicroService = "SA11AA"
-
-  def KeeperTitleValid = Some("Mr")
-
-  def KeeperLastNameValid = Some("Jones")
-
-  def KeeperFirstNameValid = Some("David")
-
-  def KeeperAddressLine1Valid = Some("1 High Street")
-
-  def KeeperAddressLine2Valid = Some("Skewen")
-
-  def KeeperAddressLine3Valid = None
-
-  def KeeperAddressLine4Valid = None
-
-  def KeeperPostTownValid = Some("Swansea")
-
-  def KeeperPostCodeValid = Some("SA11AA")
+  final val KeeperTitleValid = Some("Mr")
+  final val KeeperLastNameValid = Some("Jones")
+  final val KeeperFirstNameValid = Some("David")
+  final val KeeperAddressLine1Valid = Some("1 High Street")
+  final val KeeperAddressLine2Valid = Some("Skewen")
+  final val KeeperAddressLine3Valid = None
+  final val KeeperAddressLine4Valid = None
+  final val KeeperPostTownValid = Some("Swansea")
+  final val KeeperPostCodeValid = Some("SA11AA")
 
   final val RecordMismatch = MicroserviceResponse(
     code = "200",

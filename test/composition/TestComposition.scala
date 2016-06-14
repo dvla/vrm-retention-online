@@ -5,7 +5,6 @@ import com.google.inject.util.Modules
 import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.Module
-import composition.webserviceclients.addresslookup.TestAddressLookupBinding
 import composition.webserviceclients.audit2
 import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
@@ -31,20 +30,19 @@ trait TestComposition extends Composition {
   def testInjector(modules: Module*) = {
     val overriddenDevModule = Modules.`override`(
       // Real implementations (but no external calls)
+      new BruteForcePreventionServiceBinding,
+      new CookieFlagsBinding,
+      new LoggerLikeBinding,
+      new PaymentServiceBinding,
+      new PdfServiceBinding,
+      new SessionFactoryBinding,
       new VehicleAndKeeperLookupServiceBinding,
       new VRMRetentionEligibilityServiceBinding,
-      new BruteForcePreventionServiceBinding,
-      new LoggerLikeBinding,
-      new PdfServiceBinding,
       new VrmRetentionRetainServiceBinding,
-      new SessionFactoryBinding,
-      new CookieFlagsBinding,
-      new PaymentServiceBinding,
       // Completely mocked web services below...
       new TestConfig(),
       new TestBruteForcePreventionWebService,
       new TestDateService,
-      new TestAddressLookupBinding,
       new TestVehicleAndKeeperLookupWebService,
       new TestVRMRetentionEligibilityWebService,
       new TestVrmRetentionRetainWebService,

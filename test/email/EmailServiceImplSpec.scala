@@ -12,7 +12,7 @@ import models.RetainModel
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import webserviceclients.fakes.AddressLookupServiceConstants.addressWithUprn
+import webserviceclients.fakes.AddressLookupServiceConstants.addressWithoutUprn
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessContactValid
 import webserviceclients.fakes.AddressLookupServiceConstants.TraderBusinessEmailValid
@@ -162,6 +162,6 @@ final class EmailServiceImplSpec extends UnitSpec {
     name = TraderBusinessNameValid,
     contact = TraderBusinessContactValid,
     email = TraderBusinessEmailValid,
-    address = addressWithUprn
+    address = addressWithoutUprn
   )
 }

@@ -32,7 +32,7 @@ import views.vrm_retention.Retain.RetainCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
-import webserviceclients.fakes.AddressLookupServiceConstants.addressWithUprn
+import webserviceclients.fakes.AddressLookupServiceConstants.addressWithoutUprn
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostTownValid
@@ -192,7 +192,7 @@ object CookieFactoryForUnitSpecs extends TestComposition {
   def businessDetailsModel(businessName: String = TraderBusinessNameValid,
                            businessContact: String = TraderBusinessContactValid,
                            businessEmail: String = TraderBusinessEmailValid,
-                           businessAddress: AddressModel = addressWithUprn): Cookie = {
+                           businessAddress: AddressModel = addressWithoutUprn): Cookie = {
     val key = BusinessDetailsCacheKey
     val value = BusinessDetailsModel(name = businessName,
       contact = businessContact,
