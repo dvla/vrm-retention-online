@@ -3,9 +3,6 @@
 //web layer specific config
 @import "scss/base/_config";
 
-//importing custom fonts
-@import "scss/base/_custom-fonts";
-
 //presentation-common (shared between web layers)
 @import "../../target/web/web-modules/main/webjars/lib/vehicles-presentation-common/scss/_screen.scss";
 
