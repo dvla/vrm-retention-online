@@ -1,76 +1,22 @@
 //Exemplar specific
-.vehicle-lookup {
-
-    .form-item-radio .radio .form-item {
-        margin-bottom: 1.5em;
-    }
-//
-    .first-col {
-        display: block;
-    }
-}
-
-.summary-replacement-reg {
-    dt, dd {
-        display: inline;
-        font-size: 1.2em;
-    }
-}
-
 #{$htmlNamespace} {
-
-  .reg-number {
-    font-family: 'mandatoryregular';
-  }
-    .beta-info {
-        clear: both;
-        color: $grey-1;
-        font-size: 0.9em;
-        margin-top: 1.5em;
-    }
-
-    //radios common widget html need a parent wrapper class
-    .form-item-radio {
-        > .form-item > label {
-            font-weight: bold;
-        }
-    }
 
     .retention-success {
         .second-col h3 {
-            margin-bottom: 10px;
             font-size: 1.3em;
         }
-        li {
-          margin-bottom: 1em;
+        .alert-complete {
+            h2, h3 {
+                &:before {
+                    width: 0; /* Center align */
+                    background: none; /* Remove tick */
+                }
+            }
         }
     }
-
-
-  .alert-complete {
-    h2, h3 {
-      &:before {
-        content: "";
-        width: 0;
-        background: none;
-      }
-    }
-  }
 }
 
-.panel-indent {
-  margin-top: 1em;
-  margin-left: 1em;
-}
-
-
-/*Custom styles requested by Clifton for PR
-but may want to be moved to common*/
-
-.vrm-retention-online .prototype {
-    padding-bottom:0px;
-}
-
+/* These will be removed once VMPRCI-4323 is complete */
 .app h1 {
     margin:0px;
     font-size:48px;
@@ -84,41 +30,4 @@ but may want to be moved to common*/
     font-size:27px;
     font-weight:bold;
     padding-bottom:10px;
-}
-
-.vrm-retention-online legend {
-    padding-bottom:5px;
-}
-
-.list-title {
-     font-size:19px;
-}
-
-.app ol li, .app ul li {
-    margin-bottom: .1em;
-}
-
-.app ol, .app ul {
-    padding-left: 15px;
-}
-
-.vrm-retention-online .info-notice {
-    padding: 0.6em 0px 0.6em 1em;
-    font-size:20px;
-    ul {
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-}
-
-.renewalFee {
-    float:right;
-    font-weight:bold;
-}
-
-
-#supply-email {
-  label {
-    clear: none;
-  }
 }
