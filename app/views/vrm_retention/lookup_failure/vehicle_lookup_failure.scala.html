@@ -18,6 +18,12 @@
 @import views.vrm_retention.VehicleLookupFailure.ExitId
 @import views.vrm_retention.VehicleLookupFailure.TryAgainId
 
+@displayMessage(message: String) = {
+  @if(!message.isEmpty) {
+    <p>@Html(message)</p>
+  }
+}
+
 @main(
     title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
 ) {
@@ -25,11 +31,16 @@
         <div class="second-col">
             <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1")</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2")</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3")</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4")</p>
-            <p>@Messages(s"$responseCodeVehicleLookupMSErrorMessage.p5")</p>
+            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p1"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1"))}</p>
+            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p2"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2"))}</p>
+            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p3"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3"))}</p>
+            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p4"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4"))}</p>
+            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p5"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p5"))}</p>
             <div id="@{`webchat-info-id`}" style="display: none">
                 <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
                 data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>

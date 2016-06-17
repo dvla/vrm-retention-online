@@ -29,18 +29,14 @@ object FailureEmailMessageBuilder {
        |</p>
        |
        |<p>
-       |  <p $pMargin>${Messages("email.failure.line3")}</p>
        |  <p $pMargin>${Messages("email.failure.line4")}</p>
-       |  <p $pMargin>${Messages("email.failure.line5")}</p>
        |  <p $pMargin>${Messages("email.failure.line6")}</p>
        |  <p $pMargin>${Messages("email.failure.line7")}<br>
        |  ${Messages("email.failure.line8")}<br>
        |  ${Messages("email.failure.line9")}</p>
-       |  <p $pMargin>${Messages("email.failure.line10")}</p>
        |  <p $pMargin>${Messages("email.failure.line11")}<br>
        |  ${Messages("email.failure.line12")}<br>
        |  ${Messages("email.failure.line13")}</p>
-       |  <p $pMargin>${Messages("email.failure.line14")}</p>
        |</p>
     """.stripMargin
   }
@@ -49,17 +45,13 @@ object FailureEmailMessageBuilder {
     s"""
       |${Messages("email.failure.line1")}
       |${Messages("email.failure.line2")}
-      |${Messages("email.failure.line3")}
       |${Messages("email.failure.line4")}
-      |${Messages("email.failure.line5")}
       |${Messages("email.failure.line6")}
       |${Messages("email.failure.line7")}
       |${Messages("email.failure.line8")}
       |${Messages("email.failure.line9")}
-      |${Messages("email.failure.line10")}
       |${Messages("email.failure.line11")}
       |${Messages("email.failure.line12")}
       |${Messages("email.failure.line13")}
-      |${Messages("email.failure.line14")}
     """.stripMargin
 }
