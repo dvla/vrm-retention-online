@@ -3,6 +3,7 @@ package email
 import java.text.SimpleDateFormat
 
 import org.joda.time.{DateTimeZone, Instant}
+import play.api.i18n.Messages
 
 /**
  * The email message builder class will create the contents of the message. override the buildHtml and buildText
@@ -68,21 +69,21 @@ object ReceiptEmailMessageBuilder {
        |<body>
        |
        |<p>
-       |	<strong>THIS IS AN AUTOMATED EMAIL - PLEASE DO NOT REPLY.</strong>
+       |	<strong>${Messages("email.template.line1")}</strong>
        |</p>
        |
-       |<p>Payment received.</p>
+       |<p>${Messages("email.template.line2")}</p>
        |
        |<ul>
-       |	<li><strong>&pound;$amountCharged</strong> DVLA Online Retention of <strong>$assignVrn</strong></li>
-       |	<li>Paid by Credit/Debit Card</li>
-       |	<li>Date:  <strong>$dateStr</strong></li>
-       |	<li>Transaction Number:  <strong>$transactionId</strong></li>
+       |	<li><strong>&pound;$amountCharged</strong> ${Messages("email.template.line3")} <strong>$assignVrn</strong></li>
+       |	<li>${Messages("email.template.line4")}</li>
+       |	<li>${Messages("email.template.line5")}  <strong>$dateStr</strong></li>
+       |	<li>${Messages("email.template.line6")}  <strong>$transactionId</strong></li>
        |</ul>
        |
        |$business
        |
-       |<p><i>DVLA, Swansea, SA6 7JL</i></p>
+       |<p><i>${Messages("email.template.line7")}</i></p>
       """.stripMargin
 
   private def buildText(assignVrn: String,
@@ -91,22 +92,22 @@ object ReceiptEmailMessageBuilder {
                         dateStr: String,
                         business: String): String =
     s"""
-       |THIS IS AN AUTOMATED EMAIL - PLEASE DO NOT REPLY.
+       |${Messages("email.template.line1")}
        |
        |
-       |Payment received
+       |${Messages("email.template.line2")}
        |
-       |£$amountCharged DVLA Online Retention of $assignVrn
+       |£$amountCharged ${Messages("email.template.line3")} $assignVrn
        |
-       |Paid by Credit/Debit Card
+       |${Messages("email.template.line4")}
        |
-       |Date:  $dateStr
+       |${Messages("email.template.line5")}  $dateStr
        |
-       |Transaction Number:  $transactionId
+       |${Messages("email.template.line6")}  $transactionId
        |
        |$business
        |
-       |DVLA, Swansea, SA6 7JL
+       |${Messages("email.template.line7")}
        |
       """.stripMargin
 
