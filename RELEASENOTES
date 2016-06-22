@@ -1,3 +1,19 @@
+======= 1.41 ========
+Time of release binaries creation:
+
+VMPRCI-4011 	Refactor views/common objects into vpc
+VMPRCI-4015 	Remove redundant views/common object uprn_not_found, and other references to uprn
+VMPRCI-4190 	Remove unused javascript files
+VMPRCI-4196 	Email content creation should be more i18n friendly
+VMPRCI-4241 	Review exemplar CSS duplication
+VMPRCI-4274 	Remove unused sbt autoplugins
+VMPRCI-4353 	Review dependency library versions
+VMPRCI-4372 	Remove/refactor magic numbers from webapp configuration properties
+VMPRCI-4376 	Remove blank message items
+VMPRCI-4378 	PR to use fonts from vehicles-presentation-common
+VMPRCI-4380 	Refactor GlobalWithFilter
+VMPRCI-4405 	Remove unused images from project
+
 ======= 1.40.1 ========
 Time of release binaries creation:
 Wed Jun 08 12:58:55 UTC 2016
