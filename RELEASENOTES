@@ -1,5 +1,6 @@
 ======= 1.41 ========
 Time of release binaries creation:
+Wed Jun 22 14:02:37 UTC 2016
 
 VMPRCI-4011 	Refactor views/common objects into vpc
 VMPRCI-4015 	Remove redundant views/common object uprn_not_found, and other references to uprn
