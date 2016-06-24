@@ -9,6 +9,7 @@ import vehicleandkeeperlookup.VehicleAndKeeperLookupSuccessResponse
 import views.vrm_retention.VehicleLookup.UserType_Business
 import views.vrm_retention.VehicleLookup.UserType_Keeper
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
+import controllers.VehicleLookup.FAILURE_CODE_VKL_UNHANDLED_EXCEPTION
 
 object VehicleAndKeeperLookupWebServiceConstants {
 
@@ -92,12 +93,10 @@ object VehicleAndKeeperLookupWebServiceConstants {
     suppressedV5Flag = None
   )
 
-  val vehicleAndKeeperLookupUnhandledExceptionResponseCode = "VMPR6"
-
   def vehicleAndKeeperDetailsResponseUnhandledException: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,
                                                                   VehicleAndKeeperLookupSuccessResponse]]) =
     (NOT_FOUND, Some(Left(VehicleAndKeeperLookupFailureResponse(
-      MicroserviceResponse(code = vehicleAndKeeperLookupUnhandledExceptionResponseCode, message = "unhandled_exception")
+      MicroserviceResponse(code = FAILURE_CODE_VKL_UNHANDLED_EXCEPTION, message = "unhandled_exception")
     ))))
 
   def vehicleAndKeeperDetailsResponseSuccess: (Int, Option[Either[VehicleAndKeeperLookupFailureResponse,

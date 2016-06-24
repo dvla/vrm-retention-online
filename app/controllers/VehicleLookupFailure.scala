@@ -1,6 +1,7 @@
 package controllers
 
 import com.google.inject.Inject
+import mappings.common.ErrorCodes
 import models.{CacheKeyPrefix, VehicleAndKeeperLookupFormModel, VehicleLookupFailureViewModel}
 import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
@@ -15,7 +16,7 @@ import views.html.vrm_retention.lookup_failure.eligibility_failure
 import views.html.vrm_retention.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_retention.lookup_failure.postcode_mismatch
 import views.html.vrm_retention.lookup_failure.vehicle_lookup_failure
-import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey}
+import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
@@ -71,12 +72,12 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           viewModel = viewModel,
           failureCode = msResponseModel.msResponse.code
         )
-      case "vehicle_and_keeper_lookup_keeper_postcode_mismatch" =>
+      case VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
         postcode_mismatch(
           transactionId = transactionId,
           viewModel = viewModel,
-          failureCode = msResponseModel.msResponse.code
+          failureCode = ErrorCodes.PostcodeMismatchErrorCode
         )
       case "vrm_retention_eligibility_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")

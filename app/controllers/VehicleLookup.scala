@@ -45,10 +45,6 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
                                     clientSideSessionFactory: ClientSideSessionFactory,
                                     config: Config) extends VehicleLookupBase[VehicleAndKeeperLookupFormModel] {
 
-  val vehicleAndKeeperLookupUnhandledExceptionResponseCode = "VMPR6"
-//  val directToPaperResponseCodeText = "vrm_retention_eligibility_direct_to_paper"
-  val postcodeMismatchResponseCodeText = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
-
   override val form = PlayForm(
     VehicleAndKeeperLookupFormModel.Form.Mapping
   )
@@ -79,7 +75,9 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       transactionId = transactionId(formModel),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-      rejectionCode = Some(ErrorCodes.VrmLockedErrorCode + " - vrm_locked")
+      rejectionCode = Some(ErrorCodes.VrmLockedErrorCode +
+        VehicleLookup.RESPONSE_CODE_DELIMITER +
+        VehicleLookup.RESPONSE_CODE_VRM_LOCKED)
     ), trackingId)
 
     addDefaultCookies(Redirect(routes.VrmLocked.present()), transactionId(formModel))
@@ -122,8 +120,8 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       rejectionCode = Some(s"${vkLookupFailureResponse.code} - ${vkLookupFailureResponse.message}")
     ), trackingId)
 
-    // check whether the response code is a VMPR6 code, if so redirect to DirectToPaper
-    if (vkLookupFailureResponse.code.startsWith(vehicleAndKeeperLookupUnhandledExceptionResponseCode))
+    // check whether the response code is a VMPR6 code, if so redirect to microservice error
+    if (vkLookupFailureResponse.code.startsWith(VehicleLookup.FAILURE_CODE_VKL_UNHANDLED_EXCEPTION))
       addDefaultCookies(Redirect(routes.MicroServiceError.present()), transactionId(formModel))
     else
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).withCookie(vehicleAndKeeperDetailsModel)
@@ -170,11 +168,13 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         transactionId = txnId,
         timestamp = dateService.dateTimeISOChronology,
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
-        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode + " - " + postcodeMismatchResponseCodeText)
+        rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode +
+          VehicleLookup.RESPONSE_CODE_DELIMITER +
+          VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH)
       ), trackingId)
 
       addDefaultCookies(Redirect(routes.VehicleLookupFailure.present()), txnId).
-        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = postcodeMismatchResponseCodeText)))
+        withCookie(MicroserviceResponseModel.content(MicroserviceResponse(code = "", message = VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH)))
     } else
       addDefaultCookies(Redirect(routes.CheckEligibility.present()), txnId).
         withCookie(VehicleAndKeeperDetailsModel.from(vehicleAndKeeperDetailsDto))
@@ -266,4 +266,13 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         formModelPostcode.isEmpty
     }
   }
+}
+
+object VehicleLookup {
+  final val RESPONSE_CODE_DELIMITER = " - "
+  // ms response codes (correlate to the name of a template html file in views.<exemplar>.lookup_failure)
+  final val RESPONSE_CODE_VRM_LOCKED = "vrm_locked"
+  final val RESPONSE_CODE_POSTCODE_MISMATCH = "vehicle_and_keeper_lookup_keeper_postcode_mismatch"
+  // exemplar failure codes
+  final val FAILURE_CODE_VKL_UNHANDLED_EXCEPTION = "VMPR6"
 }

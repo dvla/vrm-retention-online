@@ -18,6 +18,7 @@ import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
+import mappings.common.ErrorCodes
 import models.CacheKeyPrefix
 import models.IdentifierCacheKey
 import models.VehicleAndKeeperLookupFormModel
@@ -487,7 +488,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         serviceType = "PR Retention",
         data = Seq( ("transactionId", TransactionIdValid),
         ("timestamp", dateService.dateTimeISOChronology),
-        ("rejectionCode", RecordMismatch.code + " - " + RecordMismatch.message),
+        ("rejectionCode", RecordMismatch.code + VehicleLookup.RESPONSE_CODE_DELIMITER + RecordMismatch.message),
         ("currentVrm", RegistrationNumberWithSpaceValid))
       )
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
@@ -508,7 +509,9 @@ class VehicleLookupUnitSpec extends UnitSpec {
         serviceType = "PR Retention",
         data =  Seq( ("transactionId", TransactionIdValid),
         ("timestamp", dateService.dateTimeISOChronology),
-        ("rejectionCode", "PR002 - vehicle_and_keeper_lookup_keeper_postcode_mismatch"),
+        ("rejectionCode", ErrorCodes.PostcodeMismatchErrorCode +
+          VehicleLookup.RESPONSE_CODE_DELIMITER +
+          VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH),
         ("currentVrm", RegistrationNumberWithSpaceValid),
         ("make", VehicleMakeValid.get),
         ("model", VehicleModelValid.get),

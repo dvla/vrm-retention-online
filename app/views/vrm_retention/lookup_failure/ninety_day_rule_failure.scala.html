@@ -37,15 +37,14 @@
                 data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
             </div>
         </div>
-        @failure_playback(viewModel.vehicleDetails,
-          liveAgentDetails = {
+        @failure_playback(viewModel.vehicleDetails, liveAgentDetails = {
             val details: LinkedHashMap[String, String] = LinkedHashMap()
             details += ServiceId -> Messages("main.banner")
             details += VrmId -> viewModel.registrationNumber
             details += V5Id -> viewModel.v5ref
             details += PostcodeId -> viewModel.postcode
             details += FailureCodeId -> failureCode
-          })
+        })
         <div class="form-steps">
             <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
             <br/>
