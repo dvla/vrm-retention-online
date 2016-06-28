@@ -53,6 +53,7 @@ import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import org.mockito.Mockito.{times, verify}
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 
 
 class VehicleLookupUnitSpec extends UnitSpec {
@@ -488,7 +489,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         serviceType = "PR Retention",
         data = Seq( ("transactionId", TransactionIdValid),
         ("timestamp", dateService.dateTimeISOChronology),
-        ("rejectionCode", RecordMismatch.code + VehicleLookup.RESPONSE_CODE_DELIMITER + RecordMismatch.message),
+        ("rejectionCode", RecordMismatch.code + VehicleLookupBase.RESPONSE_CODE_DELIMITER + RecordMismatch.message),
         ("currentVrm", RegistrationNumberWithSpaceValid))
       )
       val request = buildCorrectlyPopulatedRequest(postcode = KeeperPostcodeValidForMicroService)
@@ -510,8 +511,8 @@ class VehicleLookupUnitSpec extends UnitSpec {
         data =  Seq( ("transactionId", TransactionIdValid),
         ("timestamp", dateService.dateTimeISOChronology),
         ("rejectionCode", ErrorCodes.PostcodeMismatchErrorCode +
-          VehicleLookup.RESPONSE_CODE_DELIMITER +
-          VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH),
+          VehicleLookupBase.RESPONSE_CODE_DELIMITER +
+          VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH),
         ("currentVrm", RegistrationNumberWithSpaceValid),
         ("make", VehicleMakeValid.get),
         ("model", VehicleModelValid.get),

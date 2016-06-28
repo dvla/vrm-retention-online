@@ -7,6 +7,7 @@ import play.api.mvc.{Action, AnyContent, Controller, DiscardingCookie, Request}
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.RichCookies
 import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
 import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
@@ -72,7 +73,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           viewModel = viewModel,
           failureCode = msResponseModel.msResponse.code
         )
-      case VehicleLookup.RESPONSE_CODE_POSTCODE_MISMATCH =>
+      case VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
         postcode_mismatch(
           transactionId = transactionId,
