@@ -25,22 +25,24 @@
 }
 
 @main(
-    title =  Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
+    title = Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
 ) {
     <div class="two-col">
         <div class="second-col">
             <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
+
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
-            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p1"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1"))}</p>
-            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p2"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2"))}</p>
-            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p3"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3"))}</p>
-            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p4"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4"))}</p>
-            <p>@if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p5"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p5"))}</p>
+
+            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p1"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1"))}
+            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p2"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2"))}
+            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p3"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3"))}
+            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p4"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4"))}
+            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p5"))) {
+                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p5"))}
             <div id="@{`webchat-info-id`}" style="display: none">
                 <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
                 data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
@@ -60,8 +62,8 @@
         )
         <div class="form-steps">
             @if(!responseCodeVehicleLookupMSErrorMessage.startsWith("vrm_retention_eligibility")) {
-            <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
-            <br/>
+              <a class="button" id="@TryAgainId" href="@controllers.routes.VehicleLookupFailure.tryAgain()" role="button">@Messages("vehicle-lookup-failure-try-again")</a>
+              <br/>
             }
             <a class="exit" id="@ExitId" href="@controllers.routes.LeaveFeedback.present()">@Messages("vehicle-lookup-failure-exit")</a>
         </div>
