@@ -1,3 +1,12 @@
+======= 1.42 ========
+Time of release binaries creation:
+
+VMPRCI-4382 	Webchat failure code is blank when a postcode mismatch occurs
+VMPRCI-4424 	Refactor exemplar ErrorStrategy into VPC
+VMPRCI-4427 	bump gatling-sbt plugin version
+VMPRCI-4428 	Error page is holding the previous VRM entered details
+VMPRCI-4429 	Spacing between paragraphs on some pages is too big
+
 ======= 1.41 ========
 Time of release binaries creation:
 Wed Jun 22 14:02:37 UTC 2016
