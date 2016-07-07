@@ -1,15 +1,17 @@
 package utils.helpers
 
 import play.api.Logger
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.booleanProp
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getOptionalProperty
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getProperty
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.getStringListProperty
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.intProp
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.longProp
-import uk.gov.dvla.vehicles.presentation.common.ConfigProperties.stringProp
-import uk.gov.dvla.vehicles.presentation.common.services.SEND.EmailConfiguration
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.emailservice.From
+import uk.gov.dvla.vehicles.presentation.{common => VPC}
+import VPC.ConfigProperties.booleanProp
+import VPC.ConfigProperties.getOptionalProperty
+import VPC.ConfigProperties.getProperty
+import VPC.ConfigProperties.getStringListProperty
+import VPC.ConfigProperties.getIntListProperty
+import VPC.ConfigProperties.intProp
+import VPC.ConfigProperties.longProp
+import VPC.ConfigProperties.stringProp
+import VPC.services.SEND.EmailConfiguration
+import VPC.webserviceclients.emailservice.From
 
 import scala.concurrent.duration.DurationInt
 
@@ -95,6 +97,10 @@ final class ConfigImpl extends Config {
   override val openingTimeMinOfDay: Int = getProperty[Int]("openingTimeMinOfDay")
   override val closingTimeMinOfDay: Int = getProperty[Int]("closingTimeMinOfDay")
   override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(ConfigImpl.DEFAULT_CLOSING_WARN_PERIOD)
+  override val closedDays: List[Int] = {
+    println("closed days: " + getIntListProperty("closedDays").getOrElse(List()) )
+    getIntListProperty("closedDays").getOrElse(List())
+  }
 
   // TODO make property survey.url mandatory
   override val surveyUrl: Option[String] = getOptionalProperty[String]("survey.url")

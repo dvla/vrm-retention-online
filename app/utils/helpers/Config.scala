@@ -58,6 +58,8 @@ trait Config extends VehicleLookupConfig with CommonConfig {
 
   val closingWarnPeriodMins: Int
 
+  val closedDays: List[Int]
+
   // Survey
   val surveyUrl: Option[String]
 

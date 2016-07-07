@@ -75,6 +75,7 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = TestConfig.DEFAULT_PB
     // Closing
     when(config.openingTimeMinOfDay).thenReturn(TestConfig.OPENING_TIME)
     when(config.closingTimeMinOfDay).thenReturn(TestConfig.CLOSING_TIME)
+    when(config.closedDays).thenReturn(TestConfig.CLOSED_DAYS)
 
     // Survey url
     when(config.surveyUrl).thenReturn(None)
@@ -119,6 +120,7 @@ object TestConfig {
   final val OPENING_TIME = 0
   final val CLOSING_TIME = 1439 // in minutes
   final val ENCRYPTED_COOKIES = false
+  final val CLOSED_DAYS = List(7) // Sunday
 
   // defaults
   final val DEFAULT_BASE_URL = NotFound
