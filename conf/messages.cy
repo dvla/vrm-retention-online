@@ -374,6 +374,7 @@ email.failure.line13 = Dydd Sul: Ar gau
 closed.title = Nid yw’r gwasanaeth ar gael
 closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd Sadwrn yn unig {0} to {1}
 closed.exit_button = Gadael
+closed.lastDayOpen = Sadwrn
 
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
