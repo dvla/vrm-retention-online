@@ -21,7 +21,7 @@ widget.optional = (optional)
 error.restricted.validNumberOnly = This field only accepts numbers
 error.restricted.validVrnOnly = Must be valid format
 error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C registration certificate (logbook)
-error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
+#error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
 
 select_default = Please select
 error.invalid = Invalid value

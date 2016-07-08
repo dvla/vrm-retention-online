@@ -21,7 +21,7 @@ widget.optional = (dewisol)
 error.restricted.validNumberOnly = Mae’r maes hwn yn derbyn rhifau yn unig
 error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
 error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
-error.restricted.validPostcode = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
+#error.restricted.validPostcode = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
 
 select_default = Dewiswch
 error.invalid = Gwerth annilys

@@ -1,6 +1,6 @@
 package models
 
-import mappings.common.vrm_retention.Postcode.postcode
+import uk.gov.dvla.vehicles.presentation.common.mappings.PostcodePR.postcode
 import play.api.data.Forms.mapping
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CacheKey
