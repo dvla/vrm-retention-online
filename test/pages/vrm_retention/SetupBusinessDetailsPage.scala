@@ -56,8 +56,6 @@ object SetupBusinessDetailsPage extends Page {
     businessAddressWidget.addressLine2.value = traderBusinessAddressLine2
     businessAddressWidget.town.value = traderBusinessAddressTown
     businessAddressWidget.postcode.value = traderBusinessPostcode
-    // Seems that htmlunit won't ignore a field on submit even if the field has display:none
-    businessAddressWidget.postCodeSearch.value = traderBusinessPostcode
 
     click on lookup
   }

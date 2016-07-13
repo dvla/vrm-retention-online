@@ -104,8 +104,8 @@ object CookieFactoryForUISpecs {
                            businessPostcode: String = PostcodeValid)(implicit webDriver: WebDriver) = {
     val key = SetupBusinessDetailsCacheKey
 
-    val searchFields = SearchFields(showSearchFields = true,
-      showAddressSelect = true,
+    val searchFields = SearchFields(showSearchFields = false,
+      showAddressSelect = false,
       showAddressFields = true,
       postCode = None,
       listOption = None,

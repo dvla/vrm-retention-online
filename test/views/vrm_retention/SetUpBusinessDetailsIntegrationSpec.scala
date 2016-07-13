@@ -56,5 +56,4 @@ class SetUpBusinessDetailsIntegrationSpec extends UiSpec with TestHarness {
       .vehicleAndKeeperDetailsModel()
       .businessDetails()
       .transactionId()
-      .setupBusinessDetails()
 }
