@@ -1,80 +1,36 @@
+# VPC - main widget
 main.back = Back
 crown-copyright = Crown Copyright
 gov-uk = GOV.UK
 
-global.cookiemessage = GOV.UK uses cookies to make the site simpler.
-global.cookiefindoutmore = Find out more about cookies
-
-global.serviceCloseWarning = This service is available from {0} to {1}, you have
-global.serviceCloseWarning.p2 = to complete this service.
-global.serviceClosed = Service now closed. Service is available {0} to {1}
-
-global-please-wait-header = Please wait
-global-please-wait-p1 = We are currently receiving a large volume of applications which has led to our service performance being slower than usual.
-global-please-wait-p2 = This page will update automatically, please do not close your browser.
-global-please-wait-close = Close this message
-
-errorsummary.title = Please check the form
-error.required = This field is required
-widget.optional = (optional)
-
-error.restricted.validNumberOnly = This field only accepts numbers
-error.restricted.validVrnOnly = Must be valid format
-error.restricted.validV5CPostcode = Must be the postcode of the registered keeper exactly as printed on the V5C registration certificate (logbook)
-#error.restricted.validPostcode = Must be between five and eight characters and in a valid format, eg. SA1 2FA or SA12FA
-
-select_default = Please select
-error.invalid = Invalid value
-
-traderName = Trader name
-traderPostcode = Postcode
-
-address.lines.label = Building/number and street
-
+# vehicle_lookup
 vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
-
-addressAndPostcode.addressLines.postTown = Town or city
-addressAndPostcode.addressLines.buildingNameOrNumber = Building name or number
-addressAndPostcode.addressLines = Address
-addressAndPostcode.postcode = Postcode
-
-# common to both addressPicker widget and addressAndPostcode widget
-error.address.buildingNameOrNumber.invalid = Building/number and street must contain between 4 and 30 characters
-error.address.characterInvalid = The first character of the address must be alphanumeric. Other characters must be valid (a-z, A-Z, 0-9, &, -,(), /, ‘ and , or .)
-#error.address.maxLengthOfLinesConcatenated = Address can have no more than 120 characters
-error.address.postTown = Post town - Requires a minimum length of three characters
-error.address.postTown.characterInvalid = Town or city contains invalid characters
-error.address.threeAlphas = Must have at least 3 alpha characters
 
 # addressPicker widget
 error.address.addressLine1 = This field is mandatory
 error.address.postCode = This field is mandatory
 error.address.required = Address is required
 
+# vrm_locked page
 vrm_locked.title =Registration number is locked
 vrm_locked.text1 =There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
 vrm_locked.text2 =Locked at
 vrm_locked.text3 =If you are sure that the details entered are correct then please send your completed
 vrm-locked-text4 =to DVLA, Swansea, SA99 1BD
-
 vrm_locked.exit.button = Exit
 
-# 404 onHandlerNotFound
+# 404 onHandlerNotFound page
 onHandlerNotFound.title = This page cannot be found
 onHandlerNotFound.header = This page cannot be found
 onHandlerNotFound.body = We are unable to find the page you have requested, this event has been logged for investigation.
 onHandlerNotFound.start.button = Start
 
+# error page
 error.title = We are sorry
 error.text = An error has occurred, please start again.
 error.button = Start again
-
-language.cy.button = Cymraeg
-language.en.button = YAGNI
-
-mandatory = Fields not labelled (optional) are mandatory
 
 #
 # vrm retention messages
@@ -122,13 +78,7 @@ vrm_retention_setupbusinessdetails.businessemailhelper = Email address for confi
 vrm_retention_setupbusinessdetails.button = Next
 vrm_retention_setupbusinessdetails.addresswarning = If your address is missing from this postcode package or is showing incorrect details then please select this link to
 vrm_retention_setupbusinessdetails.addresswarninglinktext = inform the Royal Mail.
-
-error.validBusinessName = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, &, -, (), /, ‘ and , or .). The following characters cannot be used at the start of business name (&, -, (), /, ‘ and , or .)
 error.validBusinessContact = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, &, -, (), /, ‘ and , or .). The following characters cannot be used at the start of contact name (&, -, (), /, ‘ and , or .)
-error.email = Must be a valid email address
-error.email.confirm.required = Please confirm the email address
-error.email.not.match = The email addresses did not match
-email.verify.label = Confirm email address
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Enter details
@@ -146,14 +96,19 @@ vrm_retention_vehiclelookup.business = No, I am a business and have consent to a
 vrm_retention_vehiclelookup.label = Are you the registered keeper?
 keeper-consent = Keeper consent
 postcode = Postcode
-document-reference-number-alt = Location of the document reference number on the V5C registration certificate (logbook) form
 
-# vehicle lookup failure
+# gatling
 vehicle_and_keeper_lookup_vrm_not_found.title = Unable to find vehicle record
+
+# lookup failure - various pages
 vehicle_and_keeper_lookup_document_reference_mismatch.title = Unable to find vehicle record
-vehicle-lookup-failure-postcode-mismatch-title = Unable to find vehicle record
 vehicle-lookup-failure-try-again = Try again
 vehicle-lookup-failure-exit = Exit
+
+# postcode mismatch failure
+vehicle-lookup-failure-postcode-mismatch-title = Unable to find vehicle record
+
+# vehicle lookup failure
 vehicle_and_keeper_lookup_vrm_not_found.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
 vehicle_and_keeper_lookup_vrm_not_found.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
 vehicle_and_keeper_lookup_vrm_not_found.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
@@ -164,6 +119,13 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please check that the
 vehicle_and_keeper_lookup_document_reference_mismatch.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
 vehicle_and_keeper_lookup_document_reference_mismatch.p4 = If you do not have the latest issued V5C registration certificate (logbook), you will need to send your completed V5C registration certificate (logbook) to DVLA, Swansea, SA99 1BD.
 vehicle_and_keeper_lookup_document_reference_mismatch.p5 = You will only have a limited number of attempts to enter the vehicle details for this vehicle.
+unhandled_exception.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
+unhandled_exception.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
+unhandled_exception.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
+unhandled_exception.p4 = If you do not have the latest issued V5C registration certificate (logbook), you will need to send your completed V5C to DVLA, Swansea, SA99 1BD.
+unhandled_exception.p5 = You will only have a limited number of attempts to enter the vehicle details for this vehicle.
+
+# direct_to_paper / ninety-day_rule failure
 vehicle-lookup-failure-postcode-mismatch-p1 = The Keeper’s postcode entered does not come from the most recent V5C registration certificate (logbook) issued for this vehicle.
 vehicle-lookup-failure-postcode-mismatch-p2 = Please make sure you have the keeper’s postcode as on the most recent V5C registration certificate (logbook) and try again.
 vehicle-lookup-failure-direct-to-paper-title = This registration number cannot be retained online
@@ -176,11 +138,8 @@ vehicle-lookup-failure-direct-to-paper-address-line1 = DVLA personalised registr
 vehicle-lookup-failure-direct-to-paper-address-line2 = Swansea
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p2 = All documents must be originals, not photocopies or faxed copies.
-unhandled_exception.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
-unhandled_exception.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
-unhandled_exception.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
-unhandled_exception.p4 = If you do not have the latest issued V5C registration certificate (logbook), you will need to send your completed V5C to DVLA, Swansea, SA99 1BD.
-unhandled_exception.p5 = You will only have a limited number of attempts to enter the vehicle details for this vehicle.
+
+# eligibility
 vehicle-lookup-failure-eligibility-failure-title = This registration number cannot be retained
 vehicle-lookup-failure-eligibility-failure-p1 = Our records show this registration number cannot be taken off this vehicle.
 vrm_retention_eligibility_exported_failure = Our records show this vehicle has been exported.   To take a registration number off a vehicle, the vehicle needs to be registered and used in the UK
@@ -208,12 +167,6 @@ vrm_retention_paymentnotauthorised.exitbutton = Exit
 
 # Payment callback interstitial
 
-# Vehicle details partial view
-vrm_retention_vehicle_callback.title = Vehicle details
-vrm_retention_vehicle_callback.regNumLabel = Registration number:
-vrm_retention_vehicle_callback.makeLabel = Make:
-vrm_retention_vehicle_callback.modelLabel = Model:
-
 # Payment failure page
 paymentFailureErrorMessage.title = Payment failure
 paymentFailureErrorMessage.p1 = No payment was taken.
@@ -240,14 +193,12 @@ vrm_retention_confirm_business.title = Confirm your business details
 vrm_retention_confirm.title = Confirm keeper details
 vrm_retention_confirm.keeperLabel = Registered keeper
 vrm_retention_confirm.keeperAddressLabel = Address
-vrm_retention_confirm.keeperPostcodeLabel = Postcode
 vrm_retention_confirm.businessNameLabel = Business name
 vrm_retention_confirm.businessContactLabel = Contact name
 vrm_retention_confirm.businessEmailLabel = Contact email
 vrm_retention_confirm.businessAddressLabel = Address
 keeper-email = Email
 supply-email = Email options
-mandatory-alternative.not-selected = Please tell us whether you require confirmation email
 vrm_retention_confirm.emailAddressKeeperLabel = Keeper''s email
 vrm_retention_confirm.emailAddressCustomerLabel = Customer''s email
 vrm_retention_confirm.emailKeeper = Supply an email address to receive a payment receipt and a summary of the transaction
@@ -345,8 +296,6 @@ email.line22 = The following will be sent to the registered keeper:
 email.line23 = A new vehicle V5C registration certificate (logbook) displaying the replacement registration number
 email.line24 = Your current vehicle tax and MOT certificate will remain valid until their expiry dates. DVLA will not send you a replacement MOT certificate.
 email.line25 = A retention certificate for the retained registration number
-email.line26 = If the keeper has not received a new V5C registration certificate (logbook) within 3 to 5 days please advise them to call the DVLA helpline on 0300 123 1350 code 662 with the transaction ID listed above.
-email.line27 = * A new MOT certificate will only be sent if the vehicle has an existing MOT record.
 email.line28 = You can assign your registration online using your retention certificate ID at:
 email.email_service_impl.subject = should be replaced with
 vrm_retention_failure.title = Transaction not successful
@@ -384,28 +333,6 @@ common_feedback.subject = Take a registration number off a vehicle - feedback
 vrm_retention_timeout.title = Please wait
 vrm_retention_timeout.p-1 = We are experiencing a delay in processing your application.
 vrm_retention_timeout.p-2 = We will update you via email when your application is processed.
-vrm_retention_timeout.playback-title = Vehicle details
-vrm_retention_timeout.playback-current = Current registration number:
-vrm_retention_timeout.playback-new = The registration number you want to put on:
-
-# Address picker
-address.picker.common.postcode = Postcode
-address.picker.common.findAddress = Find UK address
-address.picker.common.manualAddress = Enter address manually
-address.picker.common.pickAddress = Pick an address
-address.picker.common.pleaseSelect = Please select
-address.picker.common.street = Street
-address.picker.common.streetNameNumber = Street name and number
-address.picker.common.townCity = Town/city
-address.picker.common.townOrCity = Town or city
-address.picker.common.changeDetails = Change my details
-address.picker.common.rememberDetails = Remember these details
-address.picker.common.postCodeNotFound = Postcode not found
-address.picker.common.serverError = Error from the server:
-business-address.address-postcode-lookup = Business postcode
-business-address.address-line-1 = Business address line 1
-business-address.post-town = Business town/city
-business-address.post-code = Business postcode
 
 # webchat
 webchat.title = Web Chat

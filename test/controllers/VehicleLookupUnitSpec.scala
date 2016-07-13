@@ -317,7 +317,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       "standard error message (US43)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "PJ05YYYX")
       val result = vehicleLookupStubs().submit(request)
-      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
+      val count = "Vehicle registration number must be valid format".r.findAllIn(contentAsString(result)).length
 
       count should equal(2)
     }
@@ -326,7 +326,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
       "standard error message (US43)" in new TestWithApplication {
       val request = buildCorrectlyPopulatedRequest(registrationNumber = "")
       val result = vehicleLookupStubs().submit(request)
-      val count = "Must be valid format".r.findAllIn(contentAsString(result)).length
+      val count = "Vehicle registration number must be valid format".r.findAllIn(contentAsString(result)).length
       // The same message is displayed in 2 places -
       // once in the validation-summary at the top of the page and once above the field.
       count should equal(2)

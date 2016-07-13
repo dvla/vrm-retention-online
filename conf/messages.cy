@@ -1,66 +1,24 @@
+# VPC - main widget
 main.back = Yn ôl
 crown-copyright = Hawlfraint y Goron
 gov-uk = GOV.UK
 
-global.cookiemessage = Mae GOV.UK yn defnyddio cwcis i wneud y safle’n fwy syml.
-global.cookiefindoutmore = Dysgwch fwy am gwcis
-
-global.serviceCloseWarning = Mae’r gwasanaeth hwn ar gael o {0} to {1}, rhaid i chi
-global.serviceCloseWarning.p2 = gwblhau’r gwasanaeth hwn.
-global.serviceClosed = Mae’r gwasanaeth wedi cau yn awr. Gwasanaeth ar gael o {0} to {1}
-
-global-please-wait-header = Arhoswch os gwelwch yn dda
-global-please-wait-p1 = Ar hyn o bryd rydym yn derbyn nifer fawr o geisiadau ac mae ein gwasanaeth yn arafach na’r arfer yn sgil hynny.
-global-please-wait-p2 = Bydd y dudalen hon yn diweddaru’n awtomatig, felly peidiwch â chau eich porwr.
-global-please-wait-close = Ceuwch y neges hon
-
-errorsummary.title = Gwiriwch y ffurflen
-error.required = Mae angen y maes hwn
-widget.optional = (dewisol)
-
-error.restricted.validNumberOnly = Mae’r maes hwn yn derbyn rhifau yn unig
-error.restricted.validVrnOnly = Rhaid iddo fod ar ffurf ddilys
-error.restricted.validV5CPostcode = Rhaid iddo fod yn god post y ceidwad cofrestredig yn union fel yr argraffwyd ar y ddogfen tystysgrif cofrestru V5CW (llyfr log)
-#error.restricted.validPostcode = Rhaid iddo fod rhwng pump ac wyth digid ac ar ffurf ddilys ee. SA1 2FA neu SA12FA
-
-select_default = Dewiswch
-error.invalid = Gwerth annilys
-
-traderName = Enw’r masnachwr
-traderPostcode = Cod post
-
-address.lines.label = Adeilad/rhif a stryd
-
+# vehicle_lookup
 vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
-
-addressAndPostcode.addressLines.postTown = Tref neu ddinas
-addressAndPostcode.addressLines.buildingNameOrNumber = Enw neu rif yr adeilad
-addressAndPostcode.addressLines = Cyfeiriad
-addressAndPostcode.postcode = Cod post
-
-# common to both addressPicker widget and addressAndPostcode widget
-error.address.buildingNameOrNumber.invalid = Rhaid i adeilad/ rhif a stryd gynnwys rhwng 4 a 30 o nodau
-error.address.characterInvalid = Rhaid iddo gynnwys rhwng cymeriadau dilys gan y AZ, 0-9, cysylltnod, collnod, stopio a lle llawn yn dilyn.
-#error.address.maxLengthOfLinesConcatenated = Ni all y cyfeiriad fod yn hirach na 120 o nodau
-error.address.postTown = Tref bost - rhaid cael tri nod o leiaf
-error.address.postTown.characterInvalid = Tref bost yn cynnwys nodau annilys
-error.address.threeAlphas = Must have at least 3 alpha characters
 
 # addressPicker widget
 error.address.addressLine1 = Mae’r maes hwn yn orfodol
 error.address.postCode = Mae’r maes hwn yn orfodol
 error.address.required = Mae angen cyfeiriad
 
-# micro-service response codes
-
+# vrm_locked page
 vrm_locked.title = Mae’r rhif cofrestru wedi ei gloi
 vrm_locked.text1 = Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.
 vrm_locked.text2 = Wedi cloi am
 vrm_locked.text3 = Os ydych chi’n siŵr fod y manylion a roddwyd yn gywir yna anfonwch eich ffurflen a gwblhawyd
 vrm-locked-text4 = i’r DVLA, Abertawe, SA99 1BD
-
 vrm_locked.exit.button = Gadael
 
 # 404 onHandlerNotFound
@@ -69,14 +27,10 @@ onHandlerNotFound.header = Ni ellir dod o hyd i’r dudalen hon
 onHandlerNotFound.body = Ni allwn ddod o hyd i’r dudalen a ofynnoch amdani, mae’r digwyddiad hwn wedi ei logio er mwyn ei archwilio.
 onHandlerNotFound.start.button = Dechrau
 
+# error page
 error.title = Cafwyd gwall na allwn ei adfer
 error.text = An error has occurred, please start again.
 error.button = Cychwyn eto
-
-language.cy.button = YAGNI
-language.en.button = English
-
-mandatory = Mae’r meysydd nad ydynt wedi eu nodi fel rhai (dewisol) yn orfodol
 
 #
 # vrm retention messages
@@ -124,13 +78,7 @@ vrm_retention_setupbusinessdetails.businessemailhelper = Cyfeiriad ebost i gadar
 vrm_retention_setupbusinessdetails.button = Nesaf
 vrm_retention_setupbusinessdetails.addresswarning = Os nad yw’ch cyfeiriad yn y pecyn cod post hwn neu’n dangos manylion anghywir, dewiswch y ddolen hon i
 vrm_retention_setupbusinessdetails.addresswarninglinktext = rhoi gwybod i’r Bost Brenhinol
-
-error.validBusinessName = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
 error.validBusinessContact = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
-error.email = Mae angen cyfeiriad ebost
-error.email.confirm.required = Cadarnhewch y cyfeiriad ebost
-error.email.not.match = Nid oedd y cyfeiriadau ebost yn cyfateb
-email.verify.label = Cadarnhau cyfeiriad ebost
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Rhoi manylion
@@ -148,14 +96,19 @@ vrm_retention_vehiclelookup.business = Na, rwy’n fusnes ac mae gennyf ganiatâ
 vrm_retention_vehiclelookup.label = Ai chi yw’r ceidwad cofrestredig?
 keeper-consent = Caniatâd y ceidwad
 postcode = Cod post
-document-reference-number-alt = Lleoliad rhif cyfeirnod y ddogfen ar y ffurflen tystysgrif cofrestru V5CW (llyfr log)
 
-# vehicle lookup failure
+# gatling
 vehicle_and_keeper_lookup_vrm_not_found.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
+
+# lookup failure - various pages
 vehicle_and_keeper_lookup_document_reference_mismatch.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
-vehicle-lookup-failure-postcode-mismatch-title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
 vehicle-lookup-failure-try-again = Rhowch gynnig arall arni
 vehicle-lookup-failure-exit = Gadael
+
+# postcode mismatch failure
+vehicle-lookup-failure-postcode-mismatch-title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
+
+# vehicle lookup failure
 vehicle_and_keeper_lookup_vrm_not_found.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a/neu rif cofrestru’r cerbyd a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle_and_keeper_lookup_vrm_not_found.p2 = Gwnewch yn sicr bod y rhif cofrestru cerbyd a rhif cyfeirnod dogfen y dystysgrif cofrestru V5CW (llyfr log) yn gywir a dewiswch y botwm ‘Ceisio eto’ isod.
 vehicle_and_keeper_lookup_vrm_not_found.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
@@ -166,6 +119,13 @@ vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Gwnewch yn sicr bod y
 vehicle_and_keeper_lookup_document_reference_mismatch.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
 vehicle_and_keeper_lookup_document_reference_mismatch.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
 vehicle_and_keeper_lookup_document_reference_mismatch.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
+unhandled_exception.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru ddiweddaraf (V5CW) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+unhandled_exception.p2 = Gwnewch yn siŵr fod y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar gennych chi a rhowch gynnig arall arni.
+unhandled_exception.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.
+unhandled_exception.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
+unhandled_exception.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
+
+# direct_to_paper / ninety-day_rule failure
 vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
 vehicle-lookup-failure-postcode-mismatch-p2 = Gwnewch yn siŵr fod gennych chi’r cod post ar gyfer y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
 vehicle-lookup-failure-direct-to-paper-title = Ni ellir cadw’r rhif cofrestru ar-lein
@@ -178,11 +138,8 @@ vehicle-lookup-failure-direct-to-paper-address-line1 = Rhifau cofrestru personol
 vehicle-lookup-failure-direct-to-paper-address-line2 = Abertawe
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p2 = Rhaid i’r holl ddogfennau fod yn rhai gwreiddiol; nid llungopïau na chopïau ffacs.
-unhandled_exception.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru ddiweddaraf (V5CW) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-unhandled_exception.p2 = Gwnewch yn siŵr fod y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar gennych chi a rhowch gynnig arall arni.
-unhandled_exception.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.
-unhandled_exception.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
-unhandled_exception.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
+
+# eligibility
 vehicle-lookup-failure-eligibility-failure-title = Ni ellir cadw’r rhif cofrestru
 vehicle-lookup-failure-eligibility-failure-p1 = Dengys ein cofnodion ni ellir cymryd y rhif cofrestru oddi ar y cerbyd hwn.
 vrm_retention_eligibility_exported_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei allforio.   I dynnu rhif cofrestru oddi ar gerbyd, rhaid fod y cerbyd wedi ei gofrestru a’i ddefnyddio yn y DU
@@ -210,12 +167,6 @@ vrm_retention_paymentnotauthorised.exitbutton = Gadael
 
 # Payment callback interstitial
 
-# Vehicle details partial view
-vrm_retention_vehicle_callback.title = Manylion y cerbyd
-vrm_retention_vehicle_callback.regNumLabel = Rhif Cofrestru:
-vrm_retention_vehicle_callback.makeLabel = Gwneuthuriad:
-vrm_retention_vehicle_callback.modelLabel = Model:
-
 # Payment failure page
 paymentFailureErrorMessage.title = Methiant wrth Dalu
 paymentFailureErrorMessage.p1 = Ni chymerwyd unrhyw daliad.
@@ -242,14 +193,12 @@ vrm_retention_confirm_business.title = Cadarnhau eich manylion busnes
 vrm_retention_confirm.title = Cadarnhau manylion ceidwad
 vrm_retention_confirm.keeperLabel = Ceidwad cofrestredig
 vrm_retention_confirm.keeperAddressLabel = Cyfeiriad
-vrm_retention_confirm.keeperPostcodeLabel = Cod post
 vrm_retention_confirm.businessNameLabel = Enw busnes
 vrm_retention_confirm.businessContactLabel = Enw cyswllt
 vrm_retention_confirm.businessEmailLabel = Cyswllt ebost
 vrm_retention_confirm.businessAddressLabel = Cyfeiriad
 keeper-email = Ebost
 supply-email = Opsiynau ebost
-mandatory-alternative.not-selected = Rhowch wybod inni a oes angen ebost cadarnhau arnoch
 vrm_retention_confirm.emailAddressKeeperLabel = Ebost y ceidwad
 vrm_retention_confirm.emailAddressCustomerLabel = Ebost y cwsmer
 vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodion
@@ -347,8 +296,6 @@ email.line22 = Anfonir y canlynol at y ceidwad cofrestredig:
 email.line23 = Tystysgrif cofrestru V5CW (llyfr log) cerbyd newydd yn dangos y rhif cofrestru newydd
 email.line24 = Tystysgrif MOT newydd yn dangos y rhif cofrestru newydd*
 email.line25 = Tystysgrif gadw ar gyfer y rhif cofrestru a gadwyd
-email.line26 = Os nad yw’r ceidwad wedi derbyn tystysgrif cofrestru V5CW (llyfr log) newydd o fewn 3 i 5 diwrnod, cynghorwch y ceidwad i ffonio llinell gymorth y DVLA ar 0300 123 1350 cod 662 gyda’r ID trafodion a restrir uchod.
-email.line27 = * Anfonir tystysgrif MOT newydd dim ond os oes gan y cerbyd gofnod MOT cyfredol.
 email.line28 = You can assign your registration online using your retention certificate ID at:
 email.email_service_impl.subject = dylid ei gyfnewid â
 vrm_retention_failure.title = Trafodion yn aflwyddiannus
@@ -386,28 +333,6 @@ common_feedback.subject = Tynnu rhif cofrestru oddi ar gerbyd -adborth
 vrm_retention_timeout.title = Arhoswch os gwelwch yn dda
 vrm_retention_timeout.p-1 = Rydym yn profi oedi wrth brosesu’ch cais.
 vrm_retention_timeout.p-2 = Byddwn yn eich diweddaru drwy ebost pan brosesir eich cais.
-vrm_retention_timeout.playback-title = Manylion y cerbyd
-vrm_retention_timeout.playback-current = Rhif cofrestru presennol:
-vrm_retention_timeout.playback-new = Y rhif cofrestru y dymunwch ei roi ymlaen:
-
-# Address picker
-address.picker.common.postcode = Cod post
-address.picker.common.findAddress = Canfod cyfeiriad yn y DU
-address.picker.common.manualAddress = Rhowch eich cyfeiriad â llaw
-address.picker.common.pickAddress = Dewis cyfeiriad
-address.picker.common.pleaseSelect = Dewiswch
-address.picker.common.street = Stryd
-address.picker.common.streetNameNumber = Enw a rhif stryd
-address.picker.common.townCity = Tref/dinas
-address.picker.common.townOrCity = Tref neu ddinas
-address.picker.common.changeDetails = Newid fy manylion
-address.picker.common.rememberDetails = Cofiwch y manylion hyn
-address.picker.common.postCodeNotFound = Ni chanfuwyd y cod post
-address.picker.common.serverError = Gwall o’r gweinydd:
-business-address.address-postcode-lookup = Cod post busnes
-business-address.address-line-1 = Cyfeiriad busnes llinell 1
-business-address.post-town = Tref/dinas busnes
-business-address.post-code = Cod post busnes
 
 # webchat
 webchat.title = Web Chat
