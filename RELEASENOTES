@@ -1,3 +1,13 @@
+======= 1.43 ========
+Time of release binaries creation:
+
+
+VMPRCI-4421 	Remove / clean up unused entries in messages files
+VMPRCI-4402 	Upgrade exemplar tests to use latest htmlunit version
+VMPRCI-4432 	Update/split ms error page and T&C content to reflect VM open on Sunday
+VMPRCI-4431 	VM service available Sunday with normal opening hours
+VMPRCI-4201 	Remove duplicate/obsolete mappings and commonise to VPC
+
 ======= 1.42 ========
 Time of release binaries creation:
 Fri Jul 01 09:08:48 UTC 2016
