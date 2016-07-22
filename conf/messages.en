@@ -199,6 +199,7 @@ vrm_retention_confirm.businessEmailLabel = Contact email
 vrm_retention_confirm.businessAddressLabel = Address
 keeper-email = Email
 supply-email = Email options
+mandatory-alternative.not-selected = Please tell us whether you require confirmation email
 vrm_retention_confirm.emailAddressKeeperLabel = Keeper''s email
 vrm_retention_confirm.emailAddressCustomerLabel = Customer''s email
 vrm_retention_confirm.emailKeeper = Supply an email address to receive a payment receipt and a summary of the transaction
