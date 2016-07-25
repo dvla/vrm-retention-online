@@ -1,3 +1,9 @@
+======= 1.43.2 ========
+Time of release binaries creation:
+
+
+VMPRCI-4468     Increase the registration timeout in the payment micro service (live issue)
+
 ======= 1.43.1 ========
 Time of release binaries creation:
 Fri Jul 22 13:27:24 UTC 2016
