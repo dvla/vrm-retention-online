@@ -16,7 +16,7 @@ import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import webserviceclients.audit2.{AuditRequest, AuditService}
-import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid, RegistrationNumberValid}
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{BusinessConsentValid, KeeperConsentValid, RegistrationNumberValid, ReferenceNumberValid}
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.{TransactionIdValid, VehicleMakeValid, VehicleModelValid}
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.ReplacementRegistrationNumberValid
 
@@ -192,6 +192,7 @@ class CheckEligibilityUnitSpec extends UnitSpec {
         data = Seq(
           ("transactionId", TransactionIdValid),
           ("timestamp", dateService.dateTimeISOChronology),
+          ("documentReferenceNumber", ReferenceNumberValid),
           ("replacementVrm", ReplacementRegistrationNumberValid),
           ("currentVrm", RegistrationNumberValid),
           ("make", VehicleMakeValid.get),

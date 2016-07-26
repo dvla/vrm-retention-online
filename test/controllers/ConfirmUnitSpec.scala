@@ -32,6 +32,7 @@ import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupServiceConstants.KeeperEmailValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
 
 class ConfirmUnitSpec extends UnitSpec {
 
@@ -80,6 +81,7 @@ class ConfirmUnitSpec extends UnitSpec {
 
       val data = Seq(("transactionId", "ABC123123123123"),
         ("timestamp", dateService.dateTimeISOChronology),
+        ("documentReferenceNumber", ReferenceNumberValid),
         ("replacementVrm", "SA11AA"),
         ("keeperEmail", "keeper.example@test.com"),
         ("currentVrm", "AB12AWR"),

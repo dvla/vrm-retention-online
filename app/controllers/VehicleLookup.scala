@@ -60,6 +60,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       trackingId = trackingId,
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
       transactionId = transactionId(formModel.registrationNumber),
+      documentReferenceNumber = Some(formModel.referenceNumber),
       timestamp = dateService.dateTimeISOChronology,
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(ErrorCodes.VrmLockedErrorCode +
@@ -126,6 +127,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
       pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
       transactionId = txnId,
       timestamp = dateService.dateTimeISOChronology,
+      documentReferenceNumber = Some(formModel.referenceNumber),
       vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
       rejectionCode = Some(s"${vkLookupFailureResponse.code} - ${vkLookupFailureResponse.message}")
     ), trackingId)
@@ -160,6 +162,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
         pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
         transactionId = txnId,
         timestamp = dateService.dateTimeISOChronology,
+        documentReferenceNumber = Some(formModel.referenceNumber),
         vehicleAndKeeperDetailsModel = Some(vehicleAndKeeperDetailsModel),
         rejectionCode = Some(ErrorCodes.PostcodeMismatchErrorCode +
           VehicleLookupBase.RESPONSE_CODE_DELIMITER +

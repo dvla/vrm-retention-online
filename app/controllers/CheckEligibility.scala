@@ -82,6 +82,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
               pageMovement = AuditRequest.VehicleLookupToConfirm,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
+              documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
               vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               replacementVrm = Some(replacementVRM)
             ), trackingId
@@ -96,6 +97,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                 pageMovement = AuditRequest.VehicleLookupToConfirmBusiness,
                 transactionId = transactionId,
                 timestamp = dateService.dateTimeISOChronology,
+                documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
                 vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
                 replacementVrm = Some(replacementVRM),
                 businessDetailsModel = businessDetailsModel
@@ -109,6 +111,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
                 pageMovement = AuditRequest.VehicleLookupToCaptureActor,
                 transactionId = transactionId,
                 timestamp = dateService.dateTimeISOChronology,
+                documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
                 vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
                 replacementVrm = Some(replacementVRM)
               ), trackingId
@@ -146,6 +149,7 @@ final class CheckEligibility @Inject()(eligibilityService: VRMRetentionEligibili
               pageMovement = AuditRequest.VehicleLookupToVehicleLookupFailure,
               transactionId = transactionId,
               timestamp = dateService.dateTimeISOChronology,
+              documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
               vehicleAndKeeperDetailsModel = vehicleAndKeeperDetailsModel,
               rejectionCode = Some(s"${response.code} - ${response.message}")
             ), trackingId

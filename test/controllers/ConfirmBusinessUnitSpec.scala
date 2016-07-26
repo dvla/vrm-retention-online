@@ -32,6 +32,7 @@ import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
+import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.RegistrationNumberValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
@@ -77,6 +78,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
 
       val data = Seq(("transactionId", "ABC123123123123"),
         ("timestamp", dateService.dateTimeISOChronology),
+        ("documentReferenceNumber", ReferenceNumberValid),
         ("replacementVrm", "SA11AA"),
         ("currentVrm", "AB12AWR"),
         ("make", "Alfa Romeo"),
