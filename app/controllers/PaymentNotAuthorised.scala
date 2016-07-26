@@ -9,12 +9,13 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.VehicleAndKeeperDetailsModel
+import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
 import utils.helpers.Config
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 
 final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: ClientSideSessionFactory,
                                              config: Config,
-                                             dateService: common.services.DateService) extends Controller {
+                                             dateService: common.services.DateService) extends Controller with DVLALogger{
 
   def present = Action { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey),
@@ -39,7 +40,8 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel])
                                          (implicit request: Request[AnyContent]) = {
     val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
-
+    val trackingId = request.cookies.trackingId()
+    logMessage(trackingId, Info, s"Presenting payment not authorised view")
     Ok(views.html.vrm_retention.payment_not_authorised(
       transactionId = transactionId,
       viewModel = viewModel,

@@ -68,8 +68,13 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         case _ =>
           Future.successful(Redirect(routes.PaymentPostShutdown.present()))
       }
-    else
+    else {
+      val msg = "Callback method on Payment controller invoked. " +
+        "We have now returned from Logic Group payment pages and will now call getWebPayment on the Payment ms " +
+        "to check if the payment was authorised..."
+      logMessage(request.cookies.trackingId(), Info, msg)
       Future.successful(Redirect(routes.Payment.getWebPayment()))
+    }
   }
 
   def getWebPayment = Action.async { implicit request =>
@@ -154,7 +159,9 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
         paymentSolveService.invoke(paymentSolveBeginRequest, trackingId).map {
           case (OK, response) if response.beginResponse.status == Payment.CardDetailsStatus =>
-            logMessage(request.cookies.trackingId(), Info, s"Presenting payment view")
+            val msg = "Presenting payment view with embedded iframe source set to the following redirectUrl " +
+              s"from Logic Group: ${response.redirectUrl.get}. We are now entering Logic Group payment pages."
+            logMessage(request.cookies.trackingId(), Info, msg)
             Ok(views.html.vrm_retention.payment(paymentRedirectUrl = response.redirectUrl.get))
               .withCookie(PaymentModel.from(trxRef = response.trxRef.get, isPrimaryUrl = response.isPrimaryUrl))
               // The POST from payment service will not contain a REFERER in the header, so use a cookie.
@@ -177,7 +184,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                       (implicit request: Request[_]): Future[Result] = {
 
     def paymentNotAuthorised = {
-      val msg = s"Payment not authorised for ${anonymize(trxRef)}, redirect to PaymentNotAuthorised"
+      val msg = s"Payment not authorised for ${anonymize(trxRef)}, redirecting to PaymentNotAuthorised"
       logMessage(request.cookies.trackingId(), Debug, msg)
 
       val paymentModel = request.cookies.getModel[PaymentModel].get
@@ -198,8 +205,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         ), trackingId
       )
 
-      Redirect(routes.PaymentNotAuthorised.present())
-        .withCookie(paymentModel)
+      Redirect(routes.PaymentNotAuthorised.present()).withCookie(paymentModel)
     }
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
@@ -219,13 +225,17 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         paymentModel.totalAmountPaid = response.purchaseAmount
         paymentModel.paymentStatus = Some(Payment.AuthorisedStatus)
 
+        val msg = "The payment was successfully authorised, now redirecting to retain - " +
+          s"status: ${response.getResponse.status}, response: ${response.getResponse.response}."
+      logMessage(request.cookies.trackingId(), Info, msg)
+
         Redirect(routes.Retain.retain())
           .discardingCookie(REFERER) // Not used again.
           .withCookie(paymentModel)
       case (_, response) =>
         logMessage(request.cookies.trackingId(), Error,
-          "The payment was not authorised, " +
-          s"response: ${response.getResponse.response}, status: ${response.getResponse.status}.")
+          "The payment was not authorised - " +
+          s"status: ${response.getResponse.status}, response: ${response.getResponse.response}.")
         paymentNotAuthorised
     }.recover {
       case NonFatal(e) =>
