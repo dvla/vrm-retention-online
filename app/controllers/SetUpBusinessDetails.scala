@@ -6,6 +6,7 @@ import models.CacheKeyPrefix
 import models.EligibilityModel
 import models.RetainModel
 import models.SetupBusinessDetailsFormModel
+import models.VehicleAndKeeperLookupFormModel
 import play.api.data.Form
 import play.api.data.FormError
 import play.api.mvc.{Action, Controller, Request}
@@ -76,6 +77,7 @@ final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audi
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
       timestamp = dateService.dateTimeISOChronology,
+      documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM)
     ), trackingId)

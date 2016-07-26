@@ -123,6 +123,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
         timestamp = dateService.dateTimeISOChronology,
         transactionId = request.cookies.getString(TransactionIdCacheKey)
           .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+        documentReferenceNumber = Some(vehicleAndKeeperLookup.referenceNumber),
         vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
         replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
         keeperEmail = model.keeperEmail,
@@ -161,6 +162,7 @@ final class Confirm @Inject()(auditService2: audit2.AuditService)
       timestamp = dateService.dateTimeISOChronology,
       transactionId = request.cookies.getString(TransactionIdCacheKey)
         .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+      documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
       vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
       replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
       keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),

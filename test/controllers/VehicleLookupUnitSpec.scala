@@ -489,6 +489,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         serviceType = "PR Retention",
         data = Seq( ("transactionId", TransactionIdValid),
         ("timestamp", dateService.dateTimeISOChronology),
+        ("documentReferenceNumber", ReferenceNumberValid),
         ("rejectionCode", RecordMismatch.code + VehicleLookupBase.RESPONSE_CODE_DELIMITER + RecordMismatch.message),
         ("currentVrm", RegistrationNumberWithSpaceValid))
       )
@@ -510,6 +511,7 @@ class VehicleLookupUnitSpec extends UnitSpec {
         serviceType = "PR Retention",
         data =  Seq( ("transactionId", TransactionIdValid),
         ("timestamp", dateService.dateTimeISOChronology),
+        ("documentReferenceNumber", ReferenceNumberValid),
         ("rejectionCode", ErrorCodes.PostcodeMismatchErrorCode +
           VehicleLookupBase.RESPONSE_CODE_DELIMITER +
           VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH),

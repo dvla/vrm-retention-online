@@ -57,6 +57,7 @@ object AuditRequest {
            transactionId: String,
            timestamp: String,
            trackingId: TrackingId,
+           documentReferenceNumber: Option[String] = None,
            vehicleAndKeeperDetailsModel: Option[VehicleAndKeeperDetailsModel] = None,
            replacementVrm: Option[String] = None,
            keeperEmail: Option[String] = None,
@@ -68,6 +69,7 @@ object AuditRequest {
     val data: Seq[(String, Any)] = {
       val transactionIdOpt = Some(("transactionId", transactionId))
       val timestampOpt = Some(("timestamp", timestamp))
+      val documentReferenceNumberOpt = documentReferenceNumber.map(ref => ("documentReferenceNumber", ref))
       val vehicleAndKeeperDetailsModelOptSeq = VehicleAndKeeperDetailsModelOptSeq.from(vehicleAndKeeperDetailsModel)
       val replacementVRMOpt = replacementVrm.map(replacementVrm => ("replacementVrm", replacementVrm))
       val businessDetailsModelOptSeq = BusinessDetailsModelOptSeq.from(businessDetailsModel)
@@ -79,6 +81,7 @@ object AuditRequest {
       (Seq(
         transactionIdOpt,
         timestampOpt,
+        documentReferenceNumberOpt,
         replacementVRMOpt,
         keeperEmailOpt,
         retentionCertIdOpt,

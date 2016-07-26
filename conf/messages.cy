@@ -199,6 +199,7 @@ vrm_retention_confirm.businessEmailLabel = Cyswllt ebost
 vrm_retention_confirm.businessAddressLabel = Cyfeiriad
 keeper-email = Ebost
 supply-email = Opsiynau ebost
+mandatory-alternative.not-selected = Rhowch wybod inni a oes angen ebost cadarnhau arnoch
 vrm_retention_confirm.emailAddressKeeperLabel = Ebost y ceidwad
 vrm_retention_confirm.emailAddressCustomerLabel = Ebost y cwsmer
 vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodion
