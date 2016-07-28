@@ -97,33 +97,17 @@ vrm_retention_vehiclelookup.label = Are you the registered keeper?
 keeper-consent = Keeper consent
 postcode = Postcode
 
-# gatling
-vehicle_and_keeper_lookup_vrm_not_found.title = Unable to find vehicle record
-
 # lookup failure - various pages
-vehicle_and_keeper_lookup_document_reference_mismatch.title = Unable to find vehicle record
+vehicle-lookup-failure-title = Unable to find vehicle record
 vehicle-lookup-failure-try-again = Try again
 vehicle-lookup-failure-exit = Exit
 
-# postcode mismatch failure
-vehicle-lookup-failure-postcode-mismatch-title = Unable to find vehicle record
-
 # vehicle lookup failure
-vehicle_and_keeper_lookup_vrm_not_found.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
-vehicle_and_keeper_lookup_vrm_not_found.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
-vehicle_and_keeper_lookup_vrm_not_found.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
-vehicle_and_keeper_lookup_vrm_not_found.p4 = If you do not have the latest issued V5C registration certificate (logbook), you will need to send your completed V5C registration certificate (logbook) to DVLA, Swansea, SA99 1BD.
-vehicle_and_keeper_lookup_vrm_not_found.p5 = You will only have a limited number of attempts to enter the vehicle details for this vehicle.
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
-vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
-vehicle_and_keeper_lookup_document_reference_mismatch.p4 = If you do not have the latest issued V5C registration certificate (logbook), you will need to send your completed V5C registration certificate (logbook) to DVLA, Swansea, SA99 1BD.
-vehicle_and_keeper_lookup_document_reference_mismatch.p5 = You will only have a limited number of attempts to enter the vehicle details for this vehicle.
-unhandled_exception.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
-unhandled_exception.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
-unhandled_exception.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
-unhandled_exception.p4 = If you do not have the latest issued V5C registration certificate (logbook), you will need to send your completed V5C to DVLA, Swansea, SA99 1BD.
-unhandled_exception.p5 = You will only have a limited number of attempts to enter the vehicle details for this vehicle.
+vehicle-lookup-failure.p1 = The vehicle registration number and/or the V5C registration certificate (logbook) document reference number entered is either incorrect or does not come from the latest V5C registration certificate (logbook) issued for this vehicle.
+vehicle-lookup-failure.p2 = Please check that the vehicle registration number and V5C registration certificate (logbook) document reference number are correct and select the ‘Try again’ button below.
+vehicle-lookup-failure.p3 = If you are sure that the details have been entered correctly then you may be using an old V5C registration certificate (logbook) and it’s likely that we have issued you with a new one since.
+vehicle-lookup-failure.p4 = If you do not have the latest issued V5C registration certificate (logbook), you will need to send your completed V5C registration certificate (logbook) to DVLA, Swansea, SA99 1BD.
+vehicle-lookup-failure.p5 = You will only have a limited number of attempts to enter the vehicle details for this vehicle.
 
 # direct_to_paper / ninety-day_rule failure
 vehicle-lookup-failure-postcode-mismatch-p1 = The Keeper’s postcode entered does not come from the most recent V5C registration certificate (logbook) issued for this vehicle.
@@ -139,9 +123,11 @@ vehicle-lookup-failure-direct-to-paper-address-line2 = Swansea
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p2 = All documents must be originals, not photocopies or faxed copies.
 
-# eligibility
+# eligibility_failure
 vehicle-lookup-failure-eligibility-failure-title = This registration number cannot be retained
 vehicle-lookup-failure-eligibility-failure-p1 = Our records show this registration number cannot be taken off this vehicle.
+
+# eligibility
 vrm_retention_eligibility_exported_failure = Our records show this vehicle has been exported.   To take a registration number off a vehicle, the vehicle needs to be registered and used in the UK
 vrm_retention_eligibility_scrapped_failure = Our records show this vehicle has been scrapped.  To take a registration number off a vehicle, the vehicle must be available for inspection.
 vrm_retention_eligibility_damaged_failure = Our records show this vehicle has been seriously damaged, your application needs further assessment.

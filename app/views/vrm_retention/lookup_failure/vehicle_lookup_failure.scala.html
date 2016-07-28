@@ -25,24 +25,19 @@
 }
 
 @main(
-    title = Messages(s"$responseCodeVehicleLookupMSErrorMessage.title")
+    title = Messages("vehicle-lookup-failure-title")
 ) {
     <div class="two-col">
         <div class="second-col">
-            <h2>@Messages(responseCodeVehicleLookupMSErrorMessage + ".title")</h2>
+            <h2>@Messages("vehicle-lookup-failure-title")</h2>
 
             <p>@Messages("vehicle-lookup-failure-transaction-id") @transactionId</p>
 
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p1"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p1"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p2"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p2"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p3"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p3"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p4"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p4"))}
-            @if(Messages.isDefinedAt((s"$responseCodeVehicleLookupMSErrorMessage.p5"))) {
-                @displayMessage(Messages(s"$responseCodeVehicleLookupMSErrorMessage.p5"))}
+            @displayMessage(Messages("vehicle-lookup-failure.p1"))
+            @displayMessage(Messages("vehicle-lookup-failure.p2"))
+            @displayMessage(Messages("vehicle-lookup-failure.p3"))
+            @displayMessage(Messages("vehicle-lookup-failure.p4"))
+            @displayMessage(Messages("vehicle-lookup-failure.p5"))
             <div id="@{`webchat-info-id`}" style="display: none">
                 <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
                 data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>

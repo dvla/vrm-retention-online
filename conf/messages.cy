@@ -97,33 +97,17 @@ vrm_retention_vehiclelookup.label = Ai chi yw’r ceidwad cofrestredig?
 keeper-consent = Caniatâd y ceidwad
 postcode = Cod post
 
-# gatling
-vehicle_and_keeper_lookup_vrm_not_found.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
-
 # lookup failure - various pages
-vehicle_and_keeper_lookup_document_reference_mismatch.title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
+vehicle-lookup-failure-title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
 vehicle-lookup-failure-try-again = Rhowch gynnig arall arni
 vehicle-lookup-failure-exit = Gadael
 
-# postcode mismatch failure
-vehicle-lookup-failure-postcode-mismatch-title = Ni lwyddwyd i ddod o hyd i gofnod y cerbyd
-
 # vehicle lookup failure
-vehicle_and_keeper_lookup_vrm_not_found.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a/neu rif cofrestru’r cerbyd a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_vrm_not_found.p2 = Gwnewch yn sicr bod y rhif cofrestru cerbyd a rhif cyfeirnod dogfen y dystysgrif cofrestru V5CW (llyfr log) yn gywir a dewiswch y botwm ‘Ceisio eto’ isod.
-vehicle_and_keeper_lookup_vrm_not_found.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
-vehicle_and_keeper_lookup_vrm_not_found.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
-vehicle_and_keeper_lookup_vrm_not_found.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_document_reference_mismatch.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru ddiweddaraf (V5CW) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-vehicle_and_keeper_lookup_document_reference_mismatch.p2 = Gwnewch yn sicr bod y rhif cofrestru cerbyd a rhif cyfeirnod dogfen y dystysgrif cofrestru V5CW (llyfr log) yn gywir a dewiswch y botwm ‘Ceisio eto’ isod.
-vehicle_and_keeper_lookup_document_reference_mismatch.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
-vehicle_and_keeper_lookup_document_reference_mismatch.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
-vehicle_and_keeper_lookup_document_reference_mismatch.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
-unhandled_exception.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru ddiweddaraf (V5CW) a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-unhandled_exception.p2 = Gwnewch yn siŵr fod y tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar gennych chi a rhowch gynnig arall arni.
-unhandled_exception.p3 = Ar gyfer pob rhif cofrestru cerbyd, tri chynnig yn unig a gewch i ganfod manylion y cerbyd.
-unhandled_exception.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
-unhandled_exception.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
+vehicle-lookup-failure.p1 = Nid yw’r rhif cyfeirnod dogfen tystysgrif cofrestru V5CW (llyfr log) a/neu rif cofrestru’r cerbyd a roddwyd un ai’n ddilys neu nid yw’n perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
+vehicle-lookup-failure.p2 = Gwnewch yn sicr bod y rhif cofrestru cerbyd a rhif cyfeirnod dogfen y dystysgrif cofrestru V5CW (llyfr log) yn gywir a dewiswch y botwm ‘Ceisio eto’ isod.
+vehicle-lookup-failure.p3 = Os ydych yn sicr bod y manylion wedi cael eu rhoi mewn yn gywir, mae’n bosib eich bod yn defnyddio hen dystysgrif cofrestru V5CW ac mae’n debygol ein bod wedi’ch cyhoeddi gydag un newydd ers hynny.
+vehicle-lookup-failure.p4 = Os nad oes gennych y dystysgrif cofrestru V5CW (llyfr log) a gyhoeddwyd diwethaf, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i’r DVLA, Abertawe, SA99 1BD
+vehicle-lookup-failure.p5 = Bydd gennych nifer cyfyngedig o gynigion i roi manylion y cerbyd ar gyfer y cerbyd hwn.
 
 # direct_to_paper / ninety-day_rule failure
 vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r tystysgrif cofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
@@ -139,9 +123,11 @@ vehicle-lookup-failure-direct-to-paper-address-line2 = Abertawe
 vehicle-lookup-failure-direct-to-paper-address-line3 = SA99 1DS
 vehicle-lookup-failure-direct-to-paper-p2 = Rhaid i’r holl ddogfennau fod yn rhai gwreiddiol; nid llungopïau na chopïau ffacs.
 
-# eligibility
+# eligibility_failure
 vehicle-lookup-failure-eligibility-failure-title = Ni ellir cadw’r rhif cofrestru
 vehicle-lookup-failure-eligibility-failure-p1 = Dengys ein cofnodion ni ellir cymryd y rhif cofrestru oddi ar y cerbyd hwn.
+
+# eligibility
 vrm_retention_eligibility_exported_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei allforio.   I dynnu rhif cofrestru oddi ar gerbyd, rhaid fod y cerbyd wedi ei gofrestru a’i ddefnyddio yn y DU
 vrm_retention_eligibility_scrapped_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei sgrapio.  I dynnu rhif cofrestru oddi ar gerbyd, rhaid i’ch cerbyd fod ar gael i’w archwilio.
 vrm_retention_eligibility_damaged_failure = Dengys ein cofnodion fod y cerbyd hwn wedi ei ddifrodi’n ddifrifol, mae eich cais angen asesiad pellach. Cwblhewch ffurflen gais V317 a’i hanfon i’r DVLA.
