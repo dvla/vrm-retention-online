@@ -1,3 +1,11 @@
+======= 1.44 ========
+Time of release binaries creation:
+
+VMPRCI-4470 	Live issue - fix for json serialisation bug in payment service when supplied card is declined
+VMPRCI-4446 	Disable of invalid keys within PR services
+VMPRCI-4453 	Simplify vehicle lookup failure view
+VMRPCI-4463 	Add Doc Ref No to the RabbitMQ so available to DSD
+
 ======= 1.43.2 ========
 Time of release binaries creation:
 Mon Jul 25 11:50:19 UTC 2016
