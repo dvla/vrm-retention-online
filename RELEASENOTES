@@ -1,5 +1,6 @@
 ======= 1.44 ========
 Time of release binaries creation:
+Wed Aug 03 10:10:20 UTC 2016
 
 VMPRCI-4470 	Live issue - fix for json serialisation bug in payment service when supplied card is declined
 VMPRCI-4446 	Disable of invalid keys within PR services
