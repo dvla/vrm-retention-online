@@ -166,7 +166,7 @@ paymentNotAuthorisedErrorMessage.p3 = Os byddwch yn parhau i weld y gwall hwn cy
 
 # Payment post shutdown page
 paymentPostShutdownErrorMessage.title = Mae’n ddrwg gennym ond nid yw’r gwasanaeth ar-lein ar hyn o bryd
-paymentPostShutdownErrorMessage.p1 = Mae ein gwasanaeth yn awr ar gau. Oriau agor yw 08:00 i 18:00.
+paymentPostShutdownErrorMessage.p1 = Mae ein gwasanaeth yn awr ar gau. Oriau agor yw 07:00 i 19:00.
 paymentPostShutdownErrorMessage.p2 = Ar hyn o bryd ni allwn barhau â’ch cais, bydd yn rhaid i chi ddychwelyd yn ystod oriau agor. Ni chymerwyd taliad.
 
 # Payment prevent back page
@@ -235,8 +235,8 @@ success-keeper-application-details-telephone-number = 0300 123 1350
 success-keeper-application-details-telephone-number-extension1 = (Rhowch y cod
 success-keeper-application-details-telephone-number-extension2 = 662
 success-keeper-application-details-telephone-number-extension3 = pan ofynnir amdano)
-success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08.00 - 18.00
-success-keeper-application-details-saturday = Dydd Sadwrn: 08.00 - 14.00
+success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08:00 i 19:00
+success-keeper-application-details-saturday = Dydd Sadwrn: 08:00 i 14:00
 success-keeper-application-details-sunday = Dydd Sul: Ar gau
 
 success-keeper-details = Manylion y ceidwad
@@ -300,15 +300,9 @@ email.failure.line6 = Os dymunwch gysylltu â’r DVLA ynglŷn â’r cais hwn, 
 email.failure.line7 = Ffôn:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (rhowch estyniad 662 pan ofynnir amdano)
-email.failure.line11 = Dydd llun i Ddydd Gwener: 08:00 to 18:00
-email.failure.line12 = Dydd Sadwrn: 08:00 to 14:00
+email.failure.line11 = Dydd llun i Ddydd Gwener: 08:00 i 18:00
+email.failure.line12 = Dydd Sadwrn: 08:00 i 14:00
 email.failure.line13 = Dydd Sul: Ar gau
-
-# closed
-closed.title = Nid yw’r gwasanaeth ar gael
-closed.p1 = Mae’r gwasanaeth ar gael o ddydd Llun i ddydd Sadwrn yn unig {0} to {1}
-closed.exit_button = Gadael
-closed.lastDayOpen = Sadwrn
 
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317

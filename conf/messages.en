@@ -166,7 +166,7 @@ paymentNotAuthorisedErrorMessage.p3 = If you continue to receive this error plea
 
 # Payment post shutdown page
 paymentPostShutdownErrorMessage.title = We are sorry but the service is now offline
-paymentPostShutdownErrorMessage.p1 = Our Service is now closed. Opening hours are 08:00 to 18:00.
+paymentPostShutdownErrorMessage.p1 = Our Service is now closed. Opening hours are 07:00 to 19:00.
 paymentPostShutdownErrorMessage.p2 = We are unable to continue with your application at this time, you will need to return during opening hours. No payment has been taken.
 
 # Payment prevent back page
@@ -235,8 +235,8 @@ success-keeper-application-details-telephone-number = 0300 123 1350
 success-keeper-application-details-telephone-number-extension1 = (please enter code
 success-keeper-application-details-telephone-number-extension2 = 662
 success-keeper-application-details-telephone-number-extension3 = when prompted)
-success-keeper-application-details-monday-to-friday = Monday to Friday: 08.00 - 18.00
-success-keeper-application-details-saturday = Saturday: 08.00 - 14.00
+success-keeper-application-details-monday-to-friday = Monday to Friday: 08:00 to 19:00
+success-keeper-application-details-saturday = Saturday: 08:00 to 14:00
 success-keeper-application-details-sunday = Sunday: Closed
 
 success-keeper-details = Keeper details
@@ -300,15 +300,9 @@ email.failure.line6 = If you wish to contact DVLA regarding this application ple
 email.failure.line7 = Telephone:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (please enter extension 662 when prompted)
-email.failure.line11 = Monday to Friday: 08:00 to 18:00
+email.failure.line11 = Monday to Friday: 08:00 to 19:00
 email.failure.line12 = Saturday: 08:00 to 14:00
 email.failure.line13 = Sunday: Closed
-
-# closed
-closed.title = Service unavailable
-closed.p1 = This service is only available Monday to {2} {0} to {1}.
-closed.exit_button = Exit
-closed.lastDayOpen = Saturday
 
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
