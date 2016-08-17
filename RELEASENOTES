@@ -1,5 +1,6 @@
 ======= 1.45 ========
 Time of release binaries creation:
+Wed Aug 17 09:38:37 UTC 2016
 
 VMPRCI-4472 	PR assign failure playback is truncating make and model
 VMPRCI-4484 	Extend PR opening hours and days so Monday-Sunday 7am-7pm
