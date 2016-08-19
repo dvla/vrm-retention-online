@@ -1,4 +1,4 @@
-@(cookiesPolicyMap: Map[String, List[uk.gov.dvla.vehicles.presentation.common.model.CookieReport]])(implicit lang: Lang,
+@(cookiesPolicyReport: List[uk.gov.dvla.vehicles.presentation.common.model.CookieReport])(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
@@ -10,7 +10,7 @@
 ) {
     <div class="two-col clearfix">
         <div class="second-col">
-            @cookiesPolicy(cookiesPolicyMap)
+            @cookiesPolicy(cookiesPolicyReport)
         </div>
     </div>
 }
