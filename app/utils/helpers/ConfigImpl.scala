@@ -1,6 +1,7 @@
 package utils.helpers
 
 import play.api.Logger
+import scala.concurrent.duration.DurationInt
 import uk.gov.dvla.vehicles.presentation.{common => VPC}
 import VPC.ConfigProperties.booleanProp
 import VPC.ConfigProperties.getOptionalProperty
@@ -13,15 +14,12 @@ import VPC.ConfigProperties.stringProp
 import VPC.services.SEND.EmailConfiguration
 import VPC.webserviceclients.emailservice.From
 
-import scala.concurrent.duration.DurationInt
-
 final class ConfigImpl extends Config {
 
   val assetsUrl: Option[String] = getOptionalProperty[String]("assets.url")
 
   // Payment Service
-  override val purchaseAmountInPence: String =
-    getProperty[String]("retention.purchaseAmountInPence")
+  override val purchaseAmountInPence: String = getProperty[String]("retention.purchaseAmountInPence")
 
   override val secureCookies = getOptionalProperty[Boolean]("secureCookies").getOrElse(ConfigImpl.DEFAULT_SECURECOOKIES)
 
@@ -98,7 +96,6 @@ final class ConfigImpl extends Config {
   override val closingTimeMinOfDay: Int = getProperty[Int]("closingTimeMinOfDay")
   override val closingWarnPeriodMins: Int = getOptionalProperty[Int]("closingWarnPeriodMins").getOrElse(ConfigImpl.DEFAULT_CLOSING_WARN_PERIOD)
   override val closedDays: List[Int] = {
-    println("closed days: " + getIntListProperty("closedDays").getOrElse(List()) )
     getIntListProperty("closedDays").getOrElse(List())
   }
 
@@ -118,7 +115,6 @@ final class ConfigImpl extends Config {
   override val liveAgentjsUrl: String = getProperty[String]("webchat.liveAgent.jsUrl")
 
   override val failureCodeBlacklist: Option[List[String]] = getStringListProperty("webchat.failureCodes.blacklist")
-
 }
 
 object ConfigImpl {
@@ -151,4 +147,3 @@ object ConfigImpl {
   final val DEFAULT_REQUEST_TIMEOUT = 30 // seconds
   final val DEFAULT_SOLVE_REQUEST_TIMEOUT = 5 // seconds
 }
-
