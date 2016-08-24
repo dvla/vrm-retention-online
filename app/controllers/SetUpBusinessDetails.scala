@@ -16,7 +16,9 @@ import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResu
 import common.LogFormats.DVLALogger
 import common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
 import common.views.helpers.FormExtensions.formBinding
+import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker
 import utils.helpers.Config
+import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessNameId}
@@ -89,7 +91,9 @@ final class SetUpBusinessDetails @Inject()(auditService2: webserviceclients.audi
   private def formWithReplacedErrors(form: Form[SetupBusinessDetailsFormModel])(implicit request: Request[_]) =
     (form /: List(
       (BusinessNameId, "error.validBusinessName"),
-      (BusinessContactId, "error.validBusinessContact"))) { (form, error) =>
+      (BusinessContactId, "error.validBusinessContact"),
+      (s"$BusinessAddressId.${AddressPicker.SearchByPostcodeField}", "error.restricted.validPostcode"),
+      (s"$BusinessAddressId.${AddressPicker.PostcodeId}", "error.restricted.validPostcode"))) { (form, error) =>
       form.replaceError(error._1, FormError(
         key = error._1,
         message = error._2,

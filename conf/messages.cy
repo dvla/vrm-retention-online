@@ -8,11 +8,6 @@ vehicle-registration-number = Rhif cofrestru cerbyd
 document-reference-number = Rhif cyfeirnod y ddogfen
 error.validDocumentReferenceNumber = Rhaid i rif cyfeirnod y ddogfen fod yn rif 11 digid
 
-# addressPicker widget
-error.address.addressLine1 = Mae’r maes hwn yn orfodol
-error.address.postCode = Mae’r maes hwn yn orfodol
-error.address.required = Mae angen cyfeiriad
-
 # vrm_locked page
 vrm_locked.title = Mae’r rhif cofrestru wedi ei gloi
 vrm_locked.text1 = Bu sawl ymgais aflwyddiannus i ganfod manylion y cerbyd. Mae’r system yn awr wedi cloi rhif cofrestru’r cerbyd hwn am 10 munud. Yn ystod y cyfnod hwn gellir prosesu cerbydau eraill.

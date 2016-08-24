@@ -8,11 +8,6 @@ vehicle-registration-number = Vehicle registration number
 document-reference-number = Document reference number
 error.validDocumentReferenceNumber = Document reference number must be an 11-digit number
 
-# addressPicker widget
-error.address.addressLine1 = This field is mandatory
-error.address.postCode = This field is mandatory
-error.address.required = Address is required
-
 # vrm_locked page
 vrm_locked.title =Registration number is locked
 vrm_locked.text1 =There have been repeated unsuccessful attempts to access the vehicle details. The system has now locked this vehicle registration number for 10 minutes. During this period other vehicles can be processed.
