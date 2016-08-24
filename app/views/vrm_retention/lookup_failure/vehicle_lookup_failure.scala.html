@@ -31,7 +31,9 @@
             @displayMessage(Messages("vehicle-lookup-failure.p3"))
             @displayMessage(Messages("vehicle-lookup-failure.p4"))
             @displayMessage(Messages("vehicle-lookup-failure.p5"))
-            @liveAgentInfo()
+            @if(responseCodeVehicleLookupMSErrorMessage != "vehicle_and_keeper_lookup_document_reference_mismatch") {
+                @liveAgentInfo()
+            }
         </div>
         @failure_playback(
           viewModel,
