@@ -28,6 +28,7 @@ import common.clientsidesession.CookieImplicits.RichCookies
 import common.clientsidesession.CookieImplicits.RichResult
 import common.LogFormats.anonymize
 import common.LogFormats.DVLALogger
+import common.model.MicroserviceResponseModel
 import common.model.VehicleAndKeeperDetailsModel
 import common.services.DateService
 import common.services.SEND.Contents
@@ -39,7 +40,6 @@ import common.webserviceclients.emailservice.EmailServiceSendRequest
 import common.webserviceclients.emailservice.From
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
-import views.vrm_retention.Retain.RetainResponseCodeCacheKey
 import views.vrm_retention.VehicleLookup.{TransactionIdCacheKey, UserType_Business}
 import webserviceclients.audit2
 import webserviceclients.audit2.AuditRequest
@@ -157,7 +157,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
           Redirect(routes.RetainFailure.present())
             .withCookie(paymentModel)
-            .withCookie(key = RetainResponseCodeCacheKey, value = response.message)
+            .withCookie(MicroserviceResponseModel.content(response))
       }
     }
 

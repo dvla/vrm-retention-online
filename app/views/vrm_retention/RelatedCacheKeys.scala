@@ -16,7 +16,6 @@ import views.vrm_retention.Confirm.ConfirmCacheKey
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.Payment.PaymentDetailsCacheKey
 import views.vrm_retention.Retain.RetainCacheKey
-import views.vrm_retention.Retain.RetainResponseCodeCacheKey
 import views.vrm_retention.SetupBusinessDetails.SetupBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 
@@ -33,7 +32,6 @@ object RelatedCacheKeys extends DVLALogger {
     ConfirmCacheKey,
     REFERER,
     RetainCacheKey,
-    RetainResponseCodeCacheKey,
     PaymentDetailsCacheKey
   )
 

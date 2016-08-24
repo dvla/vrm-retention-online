@@ -39,14 +39,13 @@ final class PaymentNotAuthorised @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel])
                                          (implicit request: Request[AnyContent]) = {
-    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
+    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails, failureCode = "")
     val trackingId = request.cookies.trackingId()
     logMessage(trackingId, Info, s"Presenting payment not authorised view")
     Ok(views.html.vrm_retention.payment_not_authorised(
       transactionId = transactionId,
       viewModel = viewModel,
-      data = vehicleAndKeeperLookupForm,
-      failureCode = ""
+      data = vehicleAndKeeperLookupForm
     ))
   }
 }

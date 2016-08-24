@@ -41,7 +41,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
                                     vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                     vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel]
                                      )(implicit request: Request[AnyContent]) = {
-    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
+    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails, failureCode = "")
 
     val trackingId = request.cookies.trackingId()
     logMessage(trackingId, Info, s"Presenting payment failure view")
@@ -49,8 +49,7 @@ final class PaymentFailure @Inject()()(implicit clientSideSessionFactory: Client
       transactionId = transactionId,
       viewModel = viewModel,
       data = vehicleAndKeeperLookupForm,
-      trackingId = trackingId,
-      failureCode = "")
+      trackingId = trackingId)
     ).discardingCookies(removeCookiesOnExit)
   }
 }

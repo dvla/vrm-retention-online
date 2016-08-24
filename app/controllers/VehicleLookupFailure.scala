@@ -62,7 +62,11 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
                                           msResponseModel: MicroserviceResponseModel)
                                          (implicit request: Request[AnyContent]) = {
-    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
+    val viewModel = VehicleLookupFailureViewModel(
+      vehicleAndKeeperLookupForm,
+      vehicleAndKeeperDetails,
+      msResponseModel.msResponse.code
+    )
 
     val intro = "VehicleLookupFailure is"
     val failurePage = msResponseModel.msResponse.message match {
@@ -70,53 +74,46 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
-          viewModel = viewModel,
-          failureCode = msResponseModel.msResponse.code
+          viewModel = viewModel
         )
       case VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting postcode mismatch view")
         postcode_mismatch(
           transactionId = transactionId,
-          viewModel = viewModel,
-          failureCode = ErrorCodes.PostcodeMismatchErrorCode
+          viewModel = viewModel.copy(failureCode = ErrorCodes.PostcodeMismatchErrorCode)
         )
       case "vrm_retention_eligibility_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
-          viewModel = viewModel,
-          failureCode = msResponseModel.msResponse.code
+          viewModel = viewModel
         )
       case "vrm_retention_eligibility_ninety_day_rule_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting ninety day rule failure view")
         ninety_day_rule_failure(
             transactionId = transactionId,
-            viewModel = viewModel,
-            failureCode = msResponseModel.msResponse.code
+            viewModel = viewModel
           )
       case "vrm_retention_eligibility_exported_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_exported_failure"),
-          failureCode = msResponseModel.msResponse.code
+          responseMessage = Some("vrm_retention_eligibility_exported_failure")
         )
       case "vrm_retention_eligibility_scrapped_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_scrapped_failure"),
-          failureCode = msResponseModel.msResponse.code
+          responseMessage = Some("vrm_retention_eligibility_scrapped_failure")
         )
       case "vrm_retention_eligibility_damaged_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_damaged_failure"),
-          failureCode = msResponseModel.msResponse.code
+          responseMessage = Some("vrm_retention_eligibility_damaged_failure")
         )
       case "vrm_retention_eligibility_vic_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
@@ -124,8 +121,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_vic_failure"),
-          responseLink = Some("vrm_retention_eligibility_vic_failure_link"),
-          failureCode = msResponseModel.msResponse.code
+          responseLink = Some("vrm_retention_eligibility_vic_failure_link")
         )
       case "vrm_retention_eligibility_no_keeper_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
@@ -133,40 +129,35 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
           transactionId = transactionId,
           viewModel = viewModel,
           responseMessage = Some("vrm_retention_eligibility_no_keeper_failure"),
-          responseLink = Some("vrm_retention_eligibility_no_keeper_failure_link"),
-          failureCode = msResponseModel.msResponse.code
+          responseLink = Some("vrm_retention_eligibility_no_keeper_failure_link")
         )
       case "vrm_retention_eligibility_not_mot_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_not_mot_failure"),
-          failureCode = msResponseModel.msResponse.code
+          responseMessage = Some("vrm_retention_eligibility_not_mot_failure")
         )
       case "vrm_retention_eligibility_pre_1998_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting direct to paper view")
         direct_to_paper(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_pre_1998_failure"),
-          failureCode = msResponseModel.msResponse.code
+          responseMessage = Some("vrm_retention_eligibility_pre_1998_failure")
         )
       case "vrm_retention_eligibility_q_plate_failure" =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting eligibility failure view")
         eligibility_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseMessage = Some("vrm_retention_eligibility_q_plate_failure"),
-          failureCode = msResponseModel.msResponse.code
+          responseMessage = Some("vrm_retention_eligibility_q_plate_failure")
         )
       case _ =>
         logMessage(request.cookies.trackingId(), Info, s"$intro presenting vehicle lookup failure view")
         vehicle_lookup_failure(
           transactionId = transactionId,
           viewModel = viewModel,
-          responseCodeVehicleLookupMSErrorMessage = msResponseModel.msResponse.message,
-          failureCode = msResponseModel.msResponse.code
+          responseCodeVehicleLookupMSErrorMessage = msResponseModel.msResponse.message
         )
     }
 

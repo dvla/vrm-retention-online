@@ -1,20 +1,13 @@
 @(transactionId: String,
         viewModel: models.VehicleLookupFailureViewModel,
-        data: models.VehicleAndKeeperLookupFormModel,
-        failureCode: String)(implicit lang: Lang,
+        data: models.VehicleAndKeeperLookupFormModel)(implicit lang: Lang,
         token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
         config: utils.helpers.Config,
         dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
-@import scala.collection.mutable.LinkedHashMap
+@import views.html.common.liveAgentInfo
 @import views.html.vrm_retention.lookup_failure.failure_playback
 @import views.html.vrm_retention.main
-@import views.vrm_retention.LiveAgent.ServiceId
-@import views.vrm_retention.LiveAgent.VrmId
-@import views.vrm_retention.LiveAgent.V5Id
-@import views.vrm_retention.LiveAgent.PostcodeId
-@import views.vrm_retention.LiveAgent.FailureCodeId
-@import views.vrm_retention.LiveAgent.`webchat-info-id`
 @import views.vrm_retention.PaymentPostShutdown.ExitId
 
 @main(
@@ -26,20 +19,9 @@
             <p>Transaction Id @transactionId</p>
             <p>@Messages("paymentPostShutdownErrorMessage.p1")</p>
             <p>@Messages("paymentPostShutdownErrorMessage.p2")</p>
-            <div id="@{`webchat-info-id`}" style="display: none">
-                <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
-                data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
-            </div>
+            @liveAgentInfo()
         </div>
-        @failure_playback(viewModel.vehicleDetails,
-          liveAgentDetails = {
-            val details: LinkedHashMap[String, String] = LinkedHashMap()
-            details += ServiceId -> Messages("main.banner")
-            details += VrmId -> viewModel.registrationNumber
-            details += V5Id -> viewModel.v5ref
-            details += PostcodeId -> viewModel.postcode
-            details += FailureCodeId -> failureCode
-          })
+        @failure_playback(viewModel)
 
         @{/* Note primary button moved to first button as per https://www.gov.uk/service-manual/user-centered-design/resources/forms.html#buttons */}
         <div class="form-steps">

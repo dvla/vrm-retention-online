@@ -1,20 +1,33 @@
-@(vehicleDetails: uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel,
-    showContactDetails : Boolean = true,
-    liveAgentDetails: scala.collection.mutable.LinkedHashMap[String, String] = new scala.collection.mutable.LinkedHashMap[String, String])(implicit lang: Lang,
+@(viewModel: models.VehicleLookupFailureViewModel,
+    showContactDetails : Boolean = true)(implicit lang: Lang,
     token: uk.gov.dvla.vehicles.presentation.common.filters.CsrfPreventionAction.CsrfPreventionToken,
     config: utils.helpers.Config,
     dateService: uk.gov.dvla.vehicles.presentation.common.services.DateService)
 
+@import scala.collection.mutable.LinkedHashMap
 @import uk.gov.dvla.vehicles.presentation.common
 @import common.views.html.widgets.vehicleDetailPlayback
 @import common.views.html.widgets.xmasOpeningTimes
+@import views.vrm_retention.LiveAgent.ServiceId
+@import views.vrm_retention.LiveAgent.VrmId
+@import views.vrm_retention.LiveAgent.V5Id
+@import views.vrm_retention.LiveAgent.PostcodeId
+@import views.vrm_retention.LiveAgent.FailureCodeId
 @import views.html.common.liveAgent
 
 <div id="vehicle-details" class="first-col trader-details">
-    @vehicleDetailPlayback(vehicleDetails) {
+    @vehicleDetailPlayback(viewModel.vehicleDetails) {
         <br/>
         @if(showContactDetails) {
-            @liveAgent(liveAgentDetails)
+            @liveAgent({
+                val details: LinkedHashMap[String, String] = LinkedHashMap()
+                details += ServiceId -> "PR Take"
+                details += VrmId -> viewModel.registrationNumber
+                details += V5Id -> viewModel.v5ref
+                details += PostcodeId -> viewModel.postcode
+                details += FailureCodeId -> viewModel.failureCode
+            })
+
             <div class="contact-info-wrapper" id ="contact-info-wrapper" name="contact-info-wrapper">
                 <h4>@Messages("success-keeper-application-details-contact-us")</h4>
                 <p>@Messages("success-keeper-application-details-telephone")</p>

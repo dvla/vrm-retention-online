@@ -110,7 +110,14 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
   }
 
   //NOTE: this does not test the js part of webchat, only the presence of the functionality
-  "live agent script" should {
+  "webchat" should {
+    "not be present if configuration not enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatDisabledConfig) {
+      go to BeforeYouStartPage
+      cacheDirectToPaperSetup()
+      go to VehicleLookupFailurePage
+      pageSource should not include("liveagent_button_online_XXX")
+    }
+
     "be present if configuration enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
       go to BeforeYouStartPage
       cacheDirectToPaperSetup() // Note: doc ref mismatch does not display contact details (and hence web chat)
@@ -118,11 +125,12 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       pageSource should include("liveagent_button_online_XXX")
     }
 
-    "not be present if configuration not enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatDisabledConfig) {
+    "contain specific failure code for postcode mismatch" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
       go to BeforeYouStartPage
-      cacheDirectToPaperSetup()
+      cachePostcodeMismatchSetup()
       go to VehicleLookupFailurePage
-      pageSource should not include("liveagent_button_online_XXX")
+
+      pageSource should include("liveagent.addCustomDetail(\"Failure\",\"PR002\", false);")
     }
   }
 

@@ -30,13 +30,12 @@ final class PaymentPostShutdown @Inject()()(implicit clientSideSessionFactory: C
                                          vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                          vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel])
                                         (implicit request: Request[AnyContent]) = {
-    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails)
+    val viewModel = VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, vehicleAndKeeperDetails, failureCode = "")
 
     Ok(views.html.vrm_retention.payment_post_shutdown(
       transactionId = transactionId,
       viewModel = viewModel,
-      data = vehicleAndKeeperLookupForm,
-      failureCode = ""
+      data = vehicleAndKeeperLookupForm
     ))
   }
 }

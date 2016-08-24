@@ -1,42 +1,17 @@
 package models
 
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
-
-final case class VrmLockedViewModel(registrationNumber: String,
-                                    vehicleMake: Option[String],
-                                    vehicleModel: Option[String],
+final case class VrmLockedViewModel(vehicleLookupFailureViewModel: VehicleLookupFailureViewModel,
                                     timeString: String,
-                                    javascriptTimestamp: Long,
-                                    vehicleDetails: VehicleAndKeeperDetailsModel,
-                                    v5ref: String,
-                                    postcode: String)
+                                    javascriptTimestamp: Long)
 
 object VrmLockedViewModel {
 
   def apply(vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
             timeString: String,
-            javascriptTimestamp: Long): VrmLockedViewModel =
+            javascriptTimestamp: Long)(implicit config: utils.helpers.Config): VrmLockedViewModel =
     VrmLockedViewModel(
-      registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
-      vehicleMake = None,
-      vehicleModel = None,
+      VehicleLookupFailureViewModel(vehicleAndKeeperLookupForm, None, failureCode = ""),
       timeString,
-      javascriptTimestamp,
-      VehicleAndKeeperDetailsModel(
-        registrationNumber = formatVrm(vehicleAndKeeperLookupForm.registrationNumber),
-        make = None,
-        model = None,
-        title = None,
-        firstName = None,
-        lastName = None,
-        address = None,
-        disposeFlag = None,
-        keeperEndDate = None,
-        keeperChangeDate = None,
-        suppressedV5Flag = None
-      ),
-      v5ref = vehicleAndKeeperLookupForm.referenceNumber,
-      postcode = vehicleAndKeeperLookupForm.postcode
+      javascriptTimestamp
     )
 }

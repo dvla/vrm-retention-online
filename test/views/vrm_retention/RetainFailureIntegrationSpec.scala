@@ -35,7 +35,8 @@ class RetainFailureIntegrationSpec extends UiSpec with TestHarness {
   private def cacheInvalidRetainRequestSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .transactionId()
+      .paymentModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .paymentModel()
+      .storeMsResponseCode()
 }
