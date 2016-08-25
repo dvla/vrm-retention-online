@@ -159,11 +159,6 @@ paymentNotAuthorisedErrorMessage.p1 = Ni awdurdodwyd y taliad wrth ddefnyddio’
 paymentNotAuthorisedErrorMessage.p2 = Efallai na roesoch eich manylion i mewn yn gywir.  Os hoffech roi cynnig arall ar roi manylion eich cerdyn neu dalu gyda cherdyn arall, gwnewch hynny nawr.
 paymentNotAuthorisedErrorMessage.p3 = Os byddwch yn parhau i weld y gwall hwn cysylltwch â chyhoeddwr eich cerdyn am gyngor.
 
-# Payment post shutdown page
-paymentPostShutdownErrorMessage.title = Mae’n ddrwg gennym ond nid yw’r gwasanaeth ar-lein ar hyn o bryd
-paymentPostShutdownErrorMessage.p1 = Mae ein gwasanaeth yn awr ar gau. Oriau agor yw 07:00 i 19:00.
-paymentPostShutdownErrorMessage.p2 = Ar hyn o bryd ni allwn barhau â’ch cais, bydd yn rhaid i chi ddychwelyd yn ystod oriau agor. Ni chymerwyd taliad.
-
 # Payment prevent back page
 payment-prevent-back-title = Atalwyd y botwm Yn ôl
 payment-prevent-back-text = Ni allwch ddefnyddio botwm Yn ôl eich porwr ar ôl gwneud taliad. Ni chymerwyd unrhyw daliadau newydd.

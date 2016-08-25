@@ -63,8 +63,6 @@ GET         /payment-failure/try-again                     @controllers.PaymentF
 GET         /payment-not-authorised                        @controllers.PaymentNotAuthorised.present
 POST        /payment-not-authorised                        @controllers.PaymentNotAuthorised.submit
 
-GET         /payment-post-shutdown                         @controllers.PaymentPostShutdown.present
-
 GET         /payment-prevent-back                          @controllers.PaymentPreventBack.present
 GET         /payment-prevent-back/return-to-success        @controllers.PaymentPreventBack.returnToSuccess
 

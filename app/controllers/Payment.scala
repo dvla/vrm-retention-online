@@ -1,39 +1,25 @@
 package controllers
 
 import com.google.inject.Inject
-import models.BusinessDetailsModel
-import models.CacheKeyPrefix
-import models.ConfirmFormModel
-import models.EligibilityModel
-import models.PaymentModel
-import models.RetainModel
-import models.VehicleAndKeeperLookupFormModel
+import models.{BusinessDetailsModel, CacheKeyPrefix, ConfirmFormModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperLookupFormModel}
 import org.apache.commons.codec.binary.Base64
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import play.api.mvc.{Action, Controller, Request, Result}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
-import common.clientsidesession.ClearTextClientSideSessionFactory
-import common.clientsidesession.ClientSideSessionFactory
-import common.clientsidesession.CookieImplicits.RichCookies
-import common.clientsidesession.CookieImplicits.RichResult
+import common.LogFormats.{DVLALogger, anonymize}
+import common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
+import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.filters.CsrfPreventionAction.CsrfPreventionToken
-import common.LogFormats.anonymize
-import common.LogFormats.DVLALogger
 import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.paymentsolve.RefererFromHeader
-import webserviceclients.paymentsolve.PaymentSolveBeginRequest
-import webserviceclients.paymentsolve.PaymentSolveCancelRequest
-import webserviceclients.paymentsolve.PaymentSolveGetRequest
-import webserviceclients.paymentsolve.PaymentSolveService
+import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService, RefererFromHeader}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 
 final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                refererFromHeader: RefererFromHeader,
@@ -58,29 +44,17 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
   // The token is checked in the common project, we do nothing with it here.
   def callback(token: String) = Action.async { implicit request =>
-    // check whether it is past the closing time
-    if (new DateTime(dateService.now, DateTimeZone.forID("Europe/London")).getMinuteOfDay >= config.closingTimeMinOfDay)
-      (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
-        case (Some(transactionId), Some(paymentDetails)) =>
-          callCancelWebPaymentService(transactionId, paymentDetails.trxRef.get, paymentDetails.isPrimaryUrl).map { _ =>
-            Redirect(routes.PaymentPostShutdown.present())
-          }
-        case _ =>
-          Future.successful(Redirect(routes.PaymentPostShutdown.present()))
-      }
-    else {
       val msg = "Callback method on Payment controller invoked. " +
         "We have now returned from Logic Group payment pages and will now call getWebPayment on the Payment ms " +
         "to check if the payment was authorised..."
       logMessage(request.cookies.trackingId(), Info, msg)
       Future.successful(Redirect(routes.Payment.getWebPayment()))
-    }
   }
 
   def getWebPayment = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
-      case (Some(transactionId), Some(paymentDetails)) =>
-        callGetWebPaymentService(transactionId, paymentDetails.trxRef.get, paymentDetails.isPrimaryUrl)
+      case (Some(transactionId), Some(paymentModel)) =>
+        callGetWebPaymentService(transactionId, paymentModel.trxRef.get, paymentModel.isPrimaryUrl)
       case _ => Future.successful {
         paymentFailure(
           "Payment getWebPayment missing TransactionIdCacheKey or PaymentTransactionReferenceCacheKey cookie"
@@ -91,7 +65,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
   def cancel = Action.async { implicit request =>
     (request.cookies.getString(TransactionIdCacheKey), request.cookies.getModel[PaymentModel]) match {
-      case (Some(transactionId), Some(paymentDetails)) =>
+      case (Some(transactionId), Some(paymentModel)) =>
         val trackingId = request.cookies.trackingId()
         auditService2.send(
           AuditRequest.from(
@@ -213,7 +187,11 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
 
-    val paymentSolveGetRequest = PaymentSolveGetRequest(transNo = transNo, trxRef = trxRef, isPrimaryUrl = isPrimaryUrl)
+    val paymentSolveGetRequest = PaymentSolveGetRequest(
+      transNo = transNo,
+      trxRef = trxRef,
+      isPrimaryUrl = isPrimaryUrl
+    )
     val trackingId = request.cookies.trackingId()
 
     paymentSolveService.invoke(paymentSolveGetRequest, trackingId).map {
@@ -230,7 +208,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
 
         val msg = "The payment was successfully authorised, now redirecting to retain - " +
           s"status: ${response.getResponse.status}, response: ${response.getResponse.response}."
-      logMessage(request.cookies.trackingId(), Info, msg)
+        logMessage(request.cookies.trackingId(), Info, msg)
 
         Redirect(routes.Retain.retain())
           .discardingCookie(REFERER) // Not used again.
