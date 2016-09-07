@@ -134,7 +134,7 @@ SandboxSettings.portOffset := 18000
 
 SandboxSettings.applicationContext := ""
 
-SandboxSettings.webAppSecrets := "vrm-retention-online/conf/vrm-retention-online.conf"
+SandboxSettings.webAppSecrets := "ui/dev/vrm-retention-online.conf.enc"
 
 SandboxSettings.osAddressLookupProject := osAddressLookupProject
 
