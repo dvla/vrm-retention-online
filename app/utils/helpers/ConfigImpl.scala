@@ -25,21 +25,12 @@ final class ConfigImpl extends Config {
 
   override val encryptCookies = getOptionalProperty[Boolean]("encryptCookies").getOrElse(ConfigImpl.DefaultEncryptCookies)
 
-  override val applicationCode: String = getOptionalProperty[String]("webHeader.applicationCode")
-    .getOrElse(ConfigImpl.DEFAULT_WH_APPLICATION_CODE)
-
-  override val channelCode: String = getOptionalProperty[String]("webHeader.channelCode")
-    .getOrElse(ConfigImpl.DEFAULT_WH_CHANNEL_CODE)
-
-  override val contactId: Long = getOptionalProperty[Long]("webHeader.contactId").getOrElse(ConfigImpl.DEFAULT_WH_CONTACT_ID)
-
-  override val orgBusinessUnit: String = getOptionalProperty[String]("webHeader.orgBusinessUnit")
-    .getOrElse(ConfigImpl.DEFAULT_WH_ORG_BUSINESS_UNIT)
-
-  override val vssServiceTypeCode: String =
-    getOptionalProperty[String]("webHeader.vssServiceTypeCode").getOrElse(ConfigImpl.DEFAULT_WH_VSS_SERVICE_TYPE_CODE)
-  override val dmsServiceTypeCode: String =
-    getOptionalProperty[String]("webHeader.dmsServiceTypeCode").getOrElse(ConfigImpl.DEFAULT_WH_DMS_SERVICE_TYPE_CODE)
+  override val applicationCode: String = getProperty[String]("webHeader.applicationCode")
+  override val channelCode: String = getProperty[String]("webHeader.channelCode")
+  override val contactId: Long = getProperty[Long]("webHeader.contactId")
+  override val orgBusinessUnit: String = getProperty[String]("webHeader.orgBusinessUnit")
+  override val vssServiceTypeCode: String = getProperty[String]("webHeader.vssServiceTypeCode")
+  override val dmsServiceTypeCode: String = getProperty[String]("webHeader.dmsServiceTypeCode")
 
   override val vrmRetentionEligibilityMicroServiceUrlBase: String = getProperty[String]("vrmRetentionEligibilityMicroServiceUrlBase")
 
@@ -136,18 +127,8 @@ object ConfigImpl {
   final val DefaultSecureCookies = true
   final val DefaultPrototypeBannerEnabled = true
   final val DefaultEncryptCookies = true
-
-  // TODO revisit these as i think they should all be mandatory so are not needed
-  final val DEFAULT_WH_APPLICATION_CODE = NotFound
-  final val DEFAULT_WH_VSS_SERVICE_TYPE_CODE = NotFound
-  final val DEFAULT_WH_DMS_SERVICE_TYPE_CODE = NotFound
-  final val DEFAULT_WH_CHANNEL_CODE = NotFound
-  final val DEFAULT_WH_CONTACT_ID = 0L
-  final val DEFAULT_WH_ORG_BUSINESS_UNIT = NotFound
-
   final val DefaultBusinessDetailsCookieMaxAgeDays = 7
   final val DefaultClosingWarnPeriodMins = 15
-
   final val DefaultCookieMaxAgeMins = 30
   final val DefaultAuditRequestTimeoutSecs = 30
   final val DefaultRequestTimeoutSecs = 30
