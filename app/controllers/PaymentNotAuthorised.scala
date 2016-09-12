@@ -9,7 +9,7 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.RichCookies
 import common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.LogFormats.DVLALogger
+import common.LogFormats.DVLALogger
 import utils.helpers.Config
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 

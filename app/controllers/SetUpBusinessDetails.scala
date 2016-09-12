@@ -14,14 +14,13 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
 import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
 import common.LogFormats.DVLALogger
+import common.mappings.AddressPicker
 import common.model.{Address, AddressModel, VehicleAndKeeperDetailsModel}
 import common.views.helpers.FormExtensions.formBinding
-import uk.gov.dvla.vehicles.presentation.common.mappings.AddressPicker
 import utils.helpers.Config
-import views.vrm_retention.SetupBusinessDetails._
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
-import views.vrm_retention.SetupBusinessDetails.{BusinessContactId, BusinessNameId}
+import views.vrm_retention.SetupBusinessDetails.{BusinessAddressId, BusinessContactId, BusinessNameId}
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2.AuditRequest
 

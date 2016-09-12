@@ -18,7 +18,6 @@ import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.ClientSideSessionFactory
 import common.clientsidesession.CookieImplicits.{RichCookies, RichResult}
 import common.LogFormats.DVLALogger
-import common.model.AddressModel
 import common.model.VehicleAndKeeperDetailsModel
 import utils.helpers.Config
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit

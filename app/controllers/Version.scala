@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.controllers.Version.Suffix
+import common.controllers.Version.Suffix
 import common.webserviceclients.addresslookup.ordnanceservey.OrdnanceSurveyConfig
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig
 import utils.helpers.Config

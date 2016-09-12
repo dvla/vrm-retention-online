@@ -5,25 +5,24 @@ import mappings.common.ErrorCodes
 import models.{CacheKeyPrefix, IdentifierCacheKey, RetainModel, VehicleAndKeeperLookupFormModel}
 import play.api.data.{FormError, Form => PlayForm}
 import play.api.mvc.{Action, Request, Result}
+import scala.concurrent.Future
 import uk.gov.dvla.vehicles.presentation.common
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.ClientSideSessionFactory
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
-import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.{BruteForcePreventionModel, MicroserviceResponseModel, VehicleAndKeeperDetailsModel}
-import uk.gov.dvla.vehicles.presentation.common.views.constraints.RegistrationNumber.formatVrm
-import uk.gov.dvla.vehicles.presentation.common.views.helpers.FormExtensions.formBinding
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.bruteforceprevention.BruteForcePreventionService
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.MicroserviceResponse
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
+import common.clientsidesession.ClientSideSessionFactory
+import common.clientsidesession.CookieImplicits.{RichCookies, RichForm, RichResult}
+import common.controllers.VehicleLookupBase
+import common.model.MicroserviceResponseModel.MsResponseCacheKey
+import common.model.{BruteForcePreventionModel, MicroserviceResponseModel, VehicleAndKeeperDetailsModel}
+import common.views.constraints.RegistrationNumber.formatVrm
+import common.views.helpers.FormExtensions.formBinding
+import common.webserviceclients.bruteforceprevention.BruteForcePreventionService
+import common.webserviceclients.common.MicroserviceResponse
+import common.webserviceclients.vehicleandkeeperlookup
 import vehicleandkeeperlookup.{VehicleAndKeeperLookupDetailsDto, VehicleAndKeeperLookupFailureResponse, VehicleAndKeeperLookupService}
 import utils.helpers.Config
 import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.{DocumentReferenceNumberId, PostcodeId, TransactionIdCacheKey, VehicleRegistrationNumberId}
 import webserviceclients.audit2.AuditRequest
-
-import scala.concurrent.Future
 
 final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreventionService,
                                     vehicleAndKeeperLookupService: VehicleAndKeeperLookupService,
@@ -189,7 +188,7 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
 
   val identifier = "CEG"
   def ceg = Action { implicit request =>
-    logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view for identifier ${identifier}")
+    logMessage(request.cookies.trackingId(), Info, s"Presenting vehicle lookup view for identifier $identifier")
     vehicleLookup.withCookie(IdentifierCacheKey, identifier)
   }
 
@@ -212,5 +211,4 @@ final class VehicleLookup @Inject()(implicit bruteForceService: BruteForcePreven
           args = Seq.empty
         ))
       }.distinctErrors
-
 }
