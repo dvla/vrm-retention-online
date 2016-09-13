@@ -31,39 +31,50 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = TestConfig.DEFAULT_PB
 
     when(config.assetsUrl).thenReturn(None)
     when(config.purchaseAmountInPence).thenReturn(TestConfig.PURCHASE_AMOUNT)
+    when(config.googleAnalyticsTrackingId).thenReturn(None)
+    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
+    when(config.surveyUrl).thenReturn(None)
+    mockMicroServices(config)
+    mockSecurity(config)
+    mockWebHeaders(config)
+    mockEmail(config)
+    mockClosing(config)
+    mockWebChat(config)
+    config
+  }
+
+  private def mockMicroServices(config: Config) = {
+    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
+    when(config.auditMsRequestTimeout).thenReturn(TestConfig.MICROSERVICE_REQ_TIMEOUT)
+    when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
+    when(config.paymentSolveMsRequestTimeout).thenReturn(TestConfig.SOLVE_REQ_TIMEOUT.seconds.toMillis.toInt)
     when(config.vehicleAndKeeperLookupMicroServiceBaseUrl).thenReturn(vehicleAndKeeperLookupMicroServiceBaseUrl)
+    when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
     when(config.vrmRetentionEligibilityMicroServiceUrlBase).thenReturn(TestConfig.NotFound)
     when(config.vrmRetentionEligibilityMsRequestTimeout).thenReturn(TestConfig.REQ_TIMEOUT)
     when(config.vrmRetentionRetainMicroServiceUrlBase).thenReturn(TestConfig.NotFound)
     when(config.vrmRetentionRetainMsRequestTimeout).thenReturn(TestConfig.REQ_TIMEOUT)
-    when(config.paymentSolveMicroServiceUrlBase).thenReturn(paymentSolveMicroServiceUrlBase)
-    when(config.paymentSolveMsRequestTimeout).thenReturn(TestConfig.SOLVE_REQ_TIMEOUT.seconds.toMillis.toInt)
+  }
 
-    when(config.googleAnalyticsTrackingId).thenReturn(None)
-
-    when(config.vehicleAndKeeperLookupRequestTimeout).thenReturn(TestConfig.VKL_REQ_TIMEOUT.seconds.toMillis.toInt)
-
-    when(config.isPrototypeBannerVisible).thenReturn(isPrototypeBannerVisible)
-
-    when(config.emailWhitelist).thenReturn(None)
-    when(config.emailSenderAddress).thenReturn(TestConfig.NotFound)
-
+  private def mockSecurity(config: Config) = {
     when(config.secureCookies).thenReturn(secureCookies)
     when(config.encryptCookies).thenReturn(TestConfig.ENCRYPTED_COOKIES)
     when(config.cookieMaxAge).thenReturn(cookieMaxAge)
     when(config.storeBusinessDetailsMaxAge).thenReturn(storeBusinessDetailsMaxAge)
+  }
 
-    when(config.auditMicroServiceUrlBase).thenReturn(auditMicroServiceUrlBase)
-    when(config.auditMsRequestTimeout).thenReturn(TestConfig.MICROSERVICE_REQ_TIMEOUT)
-
-    // Web headers
+  private def mockWebHeaders(config: Config) = {
     when(config.applicationCode).thenReturn(TestConfig.WEB_APPLICATION_CODE)
     when(config.vssServiceTypeCode).thenReturn(TestConfig.WEB_VSSSERVICETYPE_CODE)
     when(config.dmsServiceTypeCode).thenReturn(TestConfig.WEB_DMSSERVICETYPE_CODE)
     when(config.channelCode).thenReturn(TestConfig.WEB_CHANNEL_CODE)
     when(config.contactId).thenReturn(TestConfig.WEB_CONTACT_ID)
     when(config.orgBusinessUnit).thenReturn(TestConfig.WEB_ORG_BU)
+  }
 
+  private def mockEmail(config: Config) = {
+    when(config.emailWhitelist).thenReturn(None)
+    when(config.emailSenderAddress).thenReturn(TestConfig.NotFound)
     when(config.emailServiceMicroServiceUrlBase).thenReturn(emailServiceMicroServiceUrlBase)
     when(config.emailServiceMsRequestTimeout).thenReturn(TestConfig.MICROSERVICE_REQ_TIMEOUT)
     when(config.emailConfiguration).thenReturn(EmailConfiguration(
@@ -71,15 +82,15 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = TestConfig.DEFAULT_PB
       feedbackEmail = From(TestConfig.EMAILFEEDBACK_FROM_EMAIL, TestConfig.EMAILFEEDBACK_FROM_NAME),
       whiteList = None
     ))
+  }
 
-    // Closing
+  private def mockClosing(config: Config) = {
     when(config.openingTimeMinOfDay).thenReturn(TestConfig.OPENING_TIME)
     when(config.closingTimeMinOfDay).thenReturn(TestConfig.CLOSING_TIME)
     when(config.closedDays).thenReturn(TestConfig.CLOSED_DAYS)
+  }
 
-    // Survey url
-    when(config.surveyUrl).thenReturn(None)
-
+  private def mockWebChat(config: Config) = {
     // Web chat enablement
     when(config.liveAgentEnvironmentId).thenReturn(liveAgentEnvVal)
 
@@ -89,8 +100,6 @@ final class TestConfig(isPrototypeBannerVisible: Boolean = TestConfig.DEFAULT_PB
     when(config.liveAgentUrl).thenReturn(liveAgentUrlVal)
 
     when(config.failureCodeBlacklist).thenReturn(failureCodeBlacklist)
-
-    config
   }
 
   def configure() = {

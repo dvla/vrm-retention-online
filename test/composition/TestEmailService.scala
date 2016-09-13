@@ -1,7 +1,7 @@
 package composition
 
 import com.tzavellas.sse.guice.ScalaModule
-import email.RetainEmailService
+import email.{EmailData, EmailFlags, RetainEmailService}
 import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Matchers.any
@@ -16,13 +16,10 @@ final class TestEmailService extends ScalaModule with MockitoSugar {
     any[String],
     any[VehicleAndKeeperDetailsModel],
     any[EligibilityModel],
-    any[String],
-    any[String],
-    any[String],
+    any[EmailData],
     any[Option[ConfirmFormModel]],
     any[Option[BusinessDetailsModel]],
-    any[Boolean],
-    any[Boolean],
+    any[EmailFlags],
     any[TrackingId]
   )).thenReturn(None)
 

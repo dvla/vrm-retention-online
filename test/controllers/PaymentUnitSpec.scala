@@ -1,6 +1,5 @@
 package controllers
 
-import helpers.TestWithApplication
 import composition.webserviceclients.paymentsolve.CancelValidated
 import composition.webserviceclients.paymentsolve.PaymentCallFails
 import composition.webserviceclients.paymentsolve.RefererFromHeaderBinding
@@ -10,6 +9,7 @@ import composition.webserviceclients.paymentsolve.ValidatedAuthorised
 import composition.webserviceclients.paymentsolve.ValidatedCardDetails
 import composition.webserviceclients.paymentsolve.ValidatedNotCardDetails
 import composition.webserviceclients.paymentsolve.ValidatedNotAuthorised
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel

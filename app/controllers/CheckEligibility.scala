@@ -17,7 +17,7 @@ import common.LogFormats.DVLALogger
 import common.model.VehicleAndKeeperDetailsModel
 import common.model.MicroserviceResponseModel
 import common.views.constraints.RegistrationNumber.formatVrm
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.{MicroserviceResponse, VssWebEndUserDto, VssWebHeaderDto}
+import common.webserviceclients.common.{MicroserviceResponse, VssWebEndUserDto, VssWebHeaderDto}
 import views.vrm_retention.ConfirmBusiness.StoreBusinessDetailsCacheKey
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import views.vrm_retention.VehicleLookup.UserType_Keeper
@@ -58,8 +58,7 @@ case class EligibilityProcessor(eligibilityService: VRMRetentionEligibilityServi
                                 trackingId: TrackingId)
                                (implicit clientSideSessionFactory: ClientSideSessionFactory,
                                 config: utils.helpers.Config,
-                                dateService: common.services.DateService)
-                                extends Controller with DVLALogger {
+                                dateService: common.services.DateService) extends Controller with DVLALogger {
 
   /**
     * Call the eligibility service to determine if the VRM is valid for retention and a replacement mark can

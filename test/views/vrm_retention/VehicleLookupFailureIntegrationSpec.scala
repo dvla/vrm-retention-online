@@ -11,10 +11,10 @@ import org.scalatest.selenium.WebBrowser.{click, currentUrl, go, pageTitle, page
 import pages.vrm_retention.VehicleLookupFailurePage.{exit, tryAgain}
 import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, VehicleLookupFailurePage, VehicleLookupPage}
 import play.api.GlobalSettings
+import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.GlobalCreator
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.FailureCodeUndefined
-
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
@@ -33,7 +33,8 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
     }
 
-    "display the lookup unsuccessful page for a direct to paper failure with non-sensitive response code" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
+    "display the lookup unsuccessful page for a direct to paper failure with non-sensitive response code" taggedAs UiTag in
+      new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
       go to BeforeYouStartPage
       cacheDirectToPaperSetup()
       go to VehicleLookupFailurePage
@@ -115,7 +116,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       go to BeforeYouStartPage
       cacheDirectToPaperSetup()
       go to VehicleLookupFailurePage
-      pageSource should not include("liveagent_button_online_XXX")
+      pageSource should not include "liveagent_button_online_XXX"
     }
 
     "be present if configuration enabled" taggedAs UiTag in new WebBrowserForSelenium(app = fakeAppWithWebchatEnabledConfig) {
@@ -177,7 +178,6 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .vehicleAndKeeperDetailsModel()
       .storeMsResponseCode(code = "alpha", message = "vrm_retention_eligibility_direct_to_paper") // this represents a sensitive code
 
-
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .transactionId()
@@ -192,5 +192,5 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(message = uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH)
+      .storeMsResponseCode(message = RESPONSE_CODE_POSTCODE_MISMATCH)
 }

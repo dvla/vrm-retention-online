@@ -1,8 +1,8 @@
 package controllers
 
+import controllers.Common.PrototypeHtml
 import composition.TestConfig
 import helpers.TestWithApplication
-import controllers.Common.PrototypeHtml
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.bruteForcePreventionViewModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.transactionId

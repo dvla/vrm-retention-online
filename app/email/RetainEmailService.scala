@@ -11,22 +11,18 @@ trait RetainEmailService {
   def emailRequest(emailAddress: String,
                    vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                    eligibilityModel: EligibilityModel,
-                   certificateNumber: String,
-                   transactionTimestamp: String,
-                   transactionId: String,
+                   emailData: EmailData,
                    confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel],
-                   sendPdf: Boolean,
-                   isKeeper: Boolean,
+                   emailFlags: EmailFlags,
                    trackingId: TrackingId): Option[EmailServiceSendRequest]
 
   def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                   eligibilityModel: EligibilityModel,
-                  certificateNumber: String,
-                  transactionTimestamp: String,
-                  transactionId: String,
+                  emailData: EmailData,
                   confirmFormModel: Option[ConfirmFormModel],
                   businessDetailsModel: Option[BusinessDetailsModel],
-                  sendPdf: Boolean,
-                  isKeeper: Boolean): HtmlFormat.Appendable
+                  emailFlags: EmailFlags): HtmlFormat.Appendable
 }
+case class EmailFlags(sendPdf: Boolean, isKeeper: Boolean)
+case class EmailData(certificateNumber: String, transactionTimestamp: String, transactionId: String)

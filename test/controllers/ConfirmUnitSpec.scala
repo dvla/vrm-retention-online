@@ -1,7 +1,7 @@
 package controllers
 
-import helpers.TestWithApplication
 import composition.webserviceclients.audit2.AuditServiceDoesNothing
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel

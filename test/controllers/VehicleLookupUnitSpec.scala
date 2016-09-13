@@ -13,9 +13,9 @@ import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperDeta
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallFails
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallNoResponse
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
-import helpers.TestWithApplication
 import controllers.Common.PrototypeHtml
 import helpers.JsonUtils.deserializeJsonToModel
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
 import mappings.common.ErrorCodes
@@ -54,7 +54,6 @@ import views.vrm_retention.VehicleLookup.VehicleAndKeeperLookupFormModelCacheKey
 import views.vrm_retention.VehicleLookup.VehicleRegistrationNumberId
 import org.mockito.Mockito.{times, verify}
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase
-
 
 class VehicleLookupUnitSpec extends UnitSpec {
 

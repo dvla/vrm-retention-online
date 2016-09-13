@@ -1,10 +1,8 @@
 package email
 
 import composition.RetainEmailServiceBinding
-
 import helpers.UnitSpec
 import helpers.TestWithApplication
-
 import models.BusinessDetailsModel
 import models.ConfirmFormModel
 import models.EligibilityModel
@@ -24,7 +22,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Registr
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleMakeValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.VehicleModelValid
 
-final class EmailServiceImplSpec extends UnitSpec {
+class EmailServiceImplSpec extends UnitSpec {
 
   "EmailRequest" should {
       "have an attachment if send pdf is true" in new TestWithApplication {
@@ -34,13 +32,13 @@ final class EmailServiceImplSpec extends UnitSpec {
           emailAddress = TraderBusinessEmailValid,
           vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
           eligibilityModel = eligibility,
-          certificateNumber = CertificateNumberValid,
-          transactionTimestamp = TransactionTimestampValid,
-          transactionId = TransactionId,
+          EmailData(certificateNumber = CertificateNumberValid,
+            transactionTimestamp = TransactionTimestampValid,
+            transactionId = TransactionId
+          ),
           confirmFormModel = Some(confirmFormModel),
           businessDetailsModel = Some(businessDetailsModel),
-          sendPdf = true,
-          isKeeper = false,
+          EmailFlags(sendPdf = true, isKeeper = false),
           trackingId = TrackingId("123")
         )
 
@@ -55,13 +53,13 @@ final class EmailServiceImplSpec extends UnitSpec {
           emailAddress = KeeperEmailValid.get,
           vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
           eligibilityModel = eligibility,
-          certificateNumber = CertificateNumberValid,
-          transactionTimestamp = TransactionTimestampValid,
-          transactionId = TransactionId,
+          EmailData(certificateNumber = CertificateNumberValid,
+            transactionTimestamp = TransactionTimestampValid,
+            transactionId = TransactionId
+          ),
           confirmFormModel = Some(confirmFormModel),
           businessDetailsModel = None,
-          sendPdf = false,
-          isKeeper = true,
+          EmailFlags(sendPdf = false, isKeeper = true),
           trackingId = TrackingId("123")
         )
 
@@ -77,13 +75,13 @@ final class EmailServiceImplSpec extends UnitSpec {
       val result = emailService.htmlMessage(
         vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
         eligibilityModel = eligibility,
-        certificateNumber = CertificateNumberValid,
-        transactionTimestamp = TransactionTimestampValid,
-        transactionId = TransactionId,
+        EmailData(certificateNumber = CertificateNumberValid,
+          transactionTimestamp = TransactionTimestampValid,
+          transactionId = TransactionId
+        ),
         confirmFormModel = Some(confirmFormModel),
         businessDetailsModel = Some(businessDetailsModel),
-        sendPdf = true,
-        isKeeper = false
+        EmailFlags(sendPdf = true, isKeeper = false)
       )
 
       val message = result.toString
@@ -104,13 +102,13 @@ final class EmailServiceImplSpec extends UnitSpec {
       val result = emailService.htmlMessage(
         vehicleAndKeeperDetailsModel = vehicleAndKeeperDetails,
         eligibilityModel = eligibility,
-        certificateNumber = CertificateNumberValid,
-        transactionTimestamp = TransactionTimestampValid,
-        transactionId = TransactionId,
+        EmailData(certificateNumber = CertificateNumberValid,
+          transactionTimestamp = TransactionTimestampValid,
+          transactionId = TransactionId
+        ),
         confirmFormModel = Some(confirmFormModel),
         businessDetailsModel = None,
-        sendPdf = false,
-        isKeeper = true
+        EmailFlags(sendPdf = false, isKeeper = true)
       )
 
       val message = result.toString

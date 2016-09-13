@@ -1,9 +1,18 @@
 package controllers
 
 import com.google.inject.Inject
-import models.{BusinessDetailsModel, CacheKeyPrefix, ConfirmFormModel, EligibilityModel, PaymentModel, RetainModel, VehicleAndKeeperLookupFormModel}
+import models.BusinessDetailsModel
+import models.CacheKeyPrefix
+import models.ConfirmFormModel
+import models.EligibilityModel
+import models.PaymentModel
+import models.RetainModel
+import models.VehicleAndKeeperLookupFormModel
 import org.apache.commons.codec.binary.Base64
 import play.api.mvc.{Action, Controller, Request, Result}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
 import common.LogFormats.{DVLALogger, anonymize}
 import common.clientsidesession.{ClearTextClientSideSessionFactory, ClientSideSessionFactory}
@@ -15,11 +24,11 @@ import views.vrm_retention.Payment.PaymentTransNoCacheKey
 import views.vrm_retention.RelatedCacheKeys.removeCookiesOnExit
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
 import webserviceclients.audit2.AuditRequest
-import webserviceclients.paymentsolve.{PaymentSolveBeginRequest, PaymentSolveCancelRequest, PaymentSolveGetRequest, PaymentSolveService, RefererFromHeader}
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
+import webserviceclients.paymentsolve.PaymentSolveBeginRequest
+import webserviceclients.paymentsolve.PaymentSolveCancelRequest
+import webserviceclients.paymentsolve.PaymentSolveGetRequest
+import webserviceclients.paymentsolve.PaymentSolveService
+import webserviceclients.paymentsolve.RefererFromHeader
 
 final class Payment @Inject()(paymentSolveService: PaymentSolveService,
                                refererFromHeader: RefererFromHeader,
@@ -156,34 +165,34 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
     }
   }
 
+  private def paymentNotAuthorised(trxRef: String)(implicit request: Request[_]) = {
+    val msg = s"Payment not authorised for ${anonymize(trxRef)}, redirecting to PaymentNotAuthorised"
+    logMessage(request.cookies.trackingId(), Debug, msg)
+
+    val paymentModel = request.cookies.getModel[PaymentModel].get
+
+    val trackingId = request.cookies.trackingId()
+    auditService2.send(
+      AuditRequest.from(
+        trackingId = trackingId,
+        pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
+        transactionId = request.cookies.getString(TransactionIdCacheKey)
+          .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
+        timestamp = dateService.dateTimeISOChronology,
+        documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
+        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+        replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
+        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+        paymentModel = Some(paymentModel)
+      ), trackingId
+    )
+
+    Redirect(routes.PaymentNotAuthorised.present()).withCookie(paymentModel)
+  }
+
   private def callGetWebPaymentService(transactionId: String, trxRef: String, isPrimaryUrl: Boolean)
                                       (implicit request: Request[_]): Future[Result] = {
-
-    def paymentNotAuthorised = {
-      val msg = s"Payment not authorised for ${anonymize(trxRef)}, redirecting to PaymentNotAuthorised"
-      logMessage(request.cookies.trackingId(), Debug, msg)
-
-      val paymentModel = request.cookies.getModel[PaymentModel].get
-
-      val trackingId = request.cookies.trackingId()
-      auditService2.send(
-        AuditRequest.from(
-          trackingId = trackingId,
-          pageMovement = AuditRequest.PaymentToPaymentNotAuthorised,
-          transactionId = request.cookies.getString(TransactionIdCacheKey)
-            .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value),
-          timestamp = dateService.dateTimeISOChronology,
-          documentReferenceNumber = request.cookies.getModel[VehicleAndKeeperLookupFormModel].map(_.referenceNumber),
-          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-          replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-          paymentModel = Some(paymentModel)
-        ), trackingId
-      )
-
-      Redirect(routes.PaymentNotAuthorised.present()).withCookie(paymentModel)
-    }
 
     val transNo = request.cookies.getString(PaymentTransNoCacheKey).get
 
@@ -217,7 +226,7 @@ final class Payment @Inject()(paymentSolveService: PaymentSolveService,
         logMessage(request.cookies.trackingId(), Error,
           "The payment was not authorised - " +
           s"status: ${response.getResponse.status}, response: ${response.getResponse.response}.")
-        paymentNotAuthorised
+        paymentNotAuthorised(trxRef)
     }.recover {
       case NonFatal(e) =>
         paymentFailure(message = "Payment Solve web service call with paymentSolveGetRequest failed: " + e.toString)

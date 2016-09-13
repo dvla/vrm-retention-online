@@ -1,8 +1,7 @@
 package controllers
 
-import java.util.Locale
-
 import com.google.inject.Inject
+import java.util.Locale
 import org.joda.time.{DateTime, DateTimeZone}
 import org.joda.time.format.DateTimeFormat
 import play.api.mvc.{Action, Controller}

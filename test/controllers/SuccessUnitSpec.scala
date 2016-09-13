@@ -103,7 +103,7 @@ class SuccessUnitSpec extends UnitSpec {
       whenReady(result) { r =>
         r.header.status should equal(OK)
         r.header.headers.get(CONTENT_DISPOSITION) should
-          equal(Some(s"attachment;filename=${ReplacementRegistrationNumberValid}-eV948.pdf"))
+          equal(Some(s"attachment;filename=$ReplacementRegistrationNumberValid-eV948.pdf"))
         r.header.headers.get(CONTENT_TYPE) should equal(Some("application/pdf"))
       }
     }

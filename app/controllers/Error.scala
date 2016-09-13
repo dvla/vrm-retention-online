@@ -26,6 +26,6 @@ final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessi
       Error,
       "Start again called - now removing full set of cookies and redirecting to Start page"
     )
-    CookieHelper.discardAllCookies(routes.BeforeYouStart.present)
+    CookieHelper.discardAllCookies(routes.BeforeYouStart.present())
   }
 }

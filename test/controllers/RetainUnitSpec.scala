@@ -1,12 +1,12 @@
 package controllers
 
 import com.tzavellas.sse.guice.ScalaModule
-import helpers.TestWithApplication
 import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService.loadBalancerUrl
 import composition.webserviceclients.paymentsolve.{RefererFromHeaderBinding, ValidatedCardDetails}
 import composition.webserviceclients.vrmretentionretain.{VrmRetentionRetainFailure, TestVrmRetentionRetainWebService}
 import controllers.Payment.AuthorisedStatus
 import email.{RetainEmailServiceImpl, RetainEmailService}
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.businessDetailsModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel

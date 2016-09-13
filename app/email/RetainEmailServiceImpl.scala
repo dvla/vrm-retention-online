@@ -1,7 +1,5 @@
 package email
 
-import java.io.FileWriter
-
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.apache.commons.codec.binary.Base64
@@ -10,9 +8,6 @@ import play.api.Play
 import play.api.i18n.Messages
 import play.api.Play.current
 import play.twirl.api.HtmlFormat
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.control.NonFatal
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.TrackingId
 import common.LogFormats.DVLALogger
@@ -32,83 +27,44 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
   private val from = From(email = config.emailSenderAddress, name = "DO NOT REPLY")
   private val govUkUrl = Some("public/images/gov-uk-email.jpg")
 
-  def emailRequest(emailAddress: String,
-                   vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
-                   eligibilityModel: EligibilityModel,
-                   certificateNumber: String,
-                   transactionTimestamp: String,
-                   transactionId: String,
-                   confirmFormModel: Option[ConfirmFormModel],
-                   businessDetailsModel: Option[BusinessDetailsModel],
-                   sendPdf: Boolean,
-                   isKeeper: Boolean,
+  def emailRequest(emailAddress: String, vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
+                   eligibilityModel: EligibilityModel, emailData: EmailData, confirmFormModel: Option[ConfirmFormModel],
+                   businessDetailsModel: Option[BusinessDetailsModel], emailFlags: EmailFlags,
                    trackingId: TrackingId): Option[EmailServiceSendRequest] = {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
-    if ((!config.emailWhitelist.isDefined) ||
-        (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
+    if (config.emailWhitelist.isEmpty || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
       val msg = "Email address passes the white list check, now going to create EmailServiceSendRequest to send an email"
       logMessage(trackingId, Debug, msg)
 
-      val keeperName = Seq(
-        vehicleAndKeeperDetailsModel.title,
-        vehicleAndKeeperDetailsModel.firstName,
+      val keeperName = Seq(vehicleAndKeeperDetailsModel.title, vehicleAndKeeperDetailsModel.firstName,
         vehicleAndKeeperDetailsModel.lastName
       ).flatten.mkString(" ")
 
-      val plainTextContent = populateEmailWithoutHtml(
-        vehicleAndKeeperDetailsModel,
-        eligibilityModel,
-        certificateNumber,
-        transactionTimestamp,
-        transactionId,
-        confirmFormModel,
-        businessDetailsModel,
-        sendPdf,
-        isKeeper
+      val plainTextContent = populateEmailWithoutHtml(vehicleAndKeeperDetailsModel, eligibilityModel, emailData,
+        confirmFormModel, businessDetailsModel, emailFlags
       )
 
-      val htmlContent = htmlMessage(
-        vehicleAndKeeperDetailsModel,
-        eligibilityModel,
-        certificateNumber,
-        transactionTimestamp,
-        transactionId,
-        confirmFormModel,
-        businessDetailsModel,
-        sendPdf,
-        isKeeper
+      val htmlContent = htmlMessage(vehicleAndKeeperDetailsModel, eligibilityModel, emailData,
+        confirmFormModel, businessDetailsModel, emailFlags
       ).toString()
 
       val subject = vehicleAndKeeperDetailsModel.registrationNumber.replace(" ", "") +
         " " + Messages("email.email_service_impl.subject") +
         " " + eligibilityModel.replacementVRM.replace(" ", "")
 
-      val attachment: Option[Attachment] = if (sendPdf) {
-        val pdf = pdfService.create(
-          eligibilityModel,
-          transactionId,
-          keeperName,
-          vehicleAndKeeperDetailsModel.address,
-          trackingId
+      val attachment: Option[Attachment] = if (emailFlags.sendPdf) {
+        val pdf = pdfService.create(eligibilityModel, emailData.transactionId, keeperName,
+          vehicleAndKeeperDetailsModel.address, trackingId
         )
 
-        Some(new Attachment(
-          Base64.encodeBase64URLSafeString(pdf),
-          "application/pdf",
-          "eV948.pdf",
+        Some(new Attachment(Base64.encodeBase64URLSafeString(pdf), "application/pdf", "eV948.pdf",
           "Replacement registration number letter of authorisation")
         )
       } else None
 
-      Some(new EmailServiceSendRequest(
-        plainTextContent,
-        htmlContent,
-        attachment,
-        from,
-        subject,
-        Option(List(emailAddress)),
-        None)
+      Some(new EmailServiceSendRequest(plainTextContent, htmlContent, attachment, from, subject,
+        Option(List(emailAddress)), None)
       )
     } else {
       logMessage(trackingId, Error, "EmailServiceSendRequest not created as email address domain not in white list")
@@ -118,13 +74,10 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
   override def htmlMessage(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                            eligibilityModel: EligibilityModel,
-                           certificateNumber: String,
-                           transactionTimestamp: String,
-                           transactionId: String,
+                           emailData: EmailData,
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
-                           sendPdf: Boolean,
-                           isKeeper: Boolean): HtmlFormat.Appendable = {
+                           emailFlags: EmailFlags): HtmlFormat.Appendable = {
 
     val govUkContentId = govUkUrl match {
       case Some(filename) =>
@@ -140,9 +93,9 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
 
     email_with_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
-      retentionCertId = certificateNumber,
-      transactionId = transactionId,
-      transactionTimestamp = transactionTimestamp,
+      retentionCertId = emailData.certificateNumber,
+      transactionId = emailData.transactionId,
+      transactionTimestamp = emailData.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmountInPence.toDouble / 100.0).toString,
@@ -150,26 +103,23 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
-      sendPdf,
-      isKeeper,
+      emailFlags.sendPdf,
+      emailFlags.isKeeper,
       govUkContentId
     )
   }
 
   private def populateEmailWithoutHtml(vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                                        eligibilityModel: EligibilityModel,
-                                       certificateNumber: String,
-                                       transactionTimestamp: String,
-                                       transactionId: String,
+                                       emailData: EmailData,
                                        confirmFormModel: Option[ConfirmFormModel],
                                        businessDetailsModel: Option[BusinessDetailsModel],
-                                       sendPdf: Boolean,
-                                       isKeeper: Boolean): String = {
+                                       emailFlags: EmailFlags): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
-      retentionCertId = certificateNumber,
-      transactionId = transactionId,
-      transactionTimestamp = transactionTimestamp,
+      retentionCertId = emailData.certificateNumber,
+      transactionId = emailData.transactionId,
+      transactionTimestamp = emailData.transactionTimestamp,
       keeperName = formatName(vehicleAndKeeperDetailsModel),
       keeperAddress = formatAddress(vehicleAndKeeperDetailsModel),
       amount = (config.purchaseAmountInPence.toDouble / 100.0).toString,
@@ -177,8 +127,8 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
       keeperEmail = confirmFormModel.flatMap(formModel => formModel.keeperEmail),
       businessDetailsModel = businessDetailsModel,
       businessAddress = formatAddress(businessDetailsModel),
-      sendPdf,
-      isKeeper
+      emailFlags.sendPdf,
+      emailFlags.isKeeper
     ).toString()
   }
 

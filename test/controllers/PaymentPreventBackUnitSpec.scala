@@ -1,8 +1,8 @@
 package controllers
 
 import composition.TestConfig
-import helpers.TestWithApplication
 import controllers.Common.PrototypeHtml
+import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.confirmFormModel
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.eligibilityModel
@@ -38,7 +38,7 @@ class PaymentPreventBackUnitSpec extends UnitSpec {
     "redirect to the success page" in new TestWithApplication {
       val result = paymentPreventBack.returnToSuccess()(request)
       whenReady(result) { r =>
-        r.header.headers.get(LOCATION) should equal(Some((SuccessPage.address)))
+        r.header.headers.get(LOCATION) should equal(Some(SuccessPage.address))
       }
     }
   }

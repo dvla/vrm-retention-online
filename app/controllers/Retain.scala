@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import controllers.Payment.AuthorisedStatus
-import email.{FailureEmailMessageBuilder, RetainEmailService, ReceiptEmailMessageBuilder}
+import email.{EmailData, EmailFlags, FailureEmailMessageBuilder, RetainEmailService, ReceiptEmailMessageBuilder}
 import java.util.concurrent.TimeoutException
 import models.CacheKeyPrefix
 import models.ConfirmFormModel
@@ -54,22 +54,22 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
                              config: Config,
                              dateService: DateService) extends Controller with DVLALogger {
 
-  private val SETTLE_AUTH_CODE = "Settle"
-
   def retain = Action.async { implicit request =>
+    val trackingId = request.cookies.trackingId()
     (request.cookies.getModel[VehicleAndKeeperLookupFormModel],
       request.cookies.getString(TransactionIdCacheKey),
       request.cookies.getString(PaymentTransNoCacheKey),
       request.cookies.getModel[PaymentModel],
       request.cookies.getModel[EligibilityModel]) match {
-      case (Some(vehiclesLookupForm),
+      case (Some(vehicleAndKeeperLookupForm),
             Some(transactionId),
             Some(paymentTransNo),
             Some(paymentModel),
             Some(eligibility)) if paymentModel.paymentStatus == Some(AuthorisedStatus) =>
-        retainVrm(vehiclesLookupForm, transactionId, paymentTransNo, paymentModel, eligibility)
+        RetainProcessor(vrmRetentionRetainService, auditService2, emailService,
+          vehicleAndKeeperLookupForm, eligibility, trackingId)
+          .retainVrm(transactionId, paymentTransNo, paymentModel, eligibility)
       case (_, Some(transactionId), _, _, _) =>
-        val trackingId = request.cookies.trackingId()
         auditService2.send(AuditRequest.from(
           trackingId = trackingId,
           pageMovement = AuditRequest.PaymentToMicroServiceError,
@@ -85,150 +85,26 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         }
     }
   }
+}
 
-  private def retainVrm(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                        transactionId: String,
-                        paymentTransNo: String,
-                        paymentModel: PaymentModel,
-                        eligibility: EligibilityModel)
-                       (implicit request: Request[_]): Future[Result] = {
+case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
+                           auditService2: audit2.AuditService,
+                           emailService: RetainEmailService,
+                           vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
+                           eligibility: EligibilityModel,
+                           trackingId: TrackingId)
+                          (implicit clientSideSessionFactory: ClientSideSessionFactory,
+                           config: Config,
+                           dateService: DateService) extends Controller with DVLALogger {
 
-    // create the transaction timestamp
-    val transactionTimestamp =
-      DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
-    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
-      ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
-    val transactionTimestampWithZone = s"$isoDateTimeString"
+  def retainVrm(transactionId: String,
+                paymentTransNo: String,
+                paymentModel: PaymentModel,
+                eligibility: EligibilityModel)
+               (implicit request: Request[_]): Future[Result] = {
+
     val trackingId = request.cookies.trackingId()
-
-    def retainSuccess(certificateNumber: String) = {
-      logMessage(trackingId, Info, "Vrm retention retain micro-service returned success")
-
-      val paymentModel = request.cookies.getModel[PaymentModel].get
-      paymentModel.paymentStatus = Some(Payment.SettledStatus)
-      val transactionId = request.cookies.getString(TransactionIdCacheKey)
-        .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
-
-      auditService2.send(AuditRequest.from(
-        trackingId = trackingId,
-        pageMovement = AuditRequest.PaymentToSuccess,
-        transactionId = transactionId,
-        timestamp = dateService.dateTimeISOChronology,
-        documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
-        vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-        replacementVrm = Some(eligibility.replacementVRM),
-        keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-        businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-        paymentModel = Some(paymentModel),
-        retentionCertId = Some(certificateNumber)
-      ), trackingId)
-
-      Redirect(routes.Success.present())
-        .withCookie(paymentModel)
-        .withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
-    }
-
-    def retainFailure(response: MicroserviceResponse) = {
-      response.message match {
-        case "vrm_retention_retain_no_error_code" =>
-          microServiceErrorResult(message = "Certificate number not found in response")
-        case _ =>
-          logMessage(trackingId, Info, "Vrm retention retain micro-service failed for request with " +
-            s"referenceNumber = ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}, " +
-            s"registrationNumber = ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, " +
-            "redirecting to retention failure")
-
-          val paymentModel = request.cookies.getModel[PaymentModel].get
-          paymentModel.paymentStatus = Some(Payment.CancelledStatus)
-
-          auditService2.send(AuditRequest.from(
-            trackingId = trackingId,
-            pageMovement = AuditRequest.PaymentToPaymentFailure,
-            transactionId = request.cookies.getString(TransactionIdCacheKey).get,
-            timestamp = dateService.dateTimeISOChronology,
-            documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
-            vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
-            replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
-            keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
-            businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
-            paymentModel = Some(paymentModel),
-            rejectionCode = Some(s"${response.code} - ${response.message}")
-          ), trackingId)
-
-          Redirect(routes.RetainFailure.present())
-            .withCookie(paymentModel)
-            .withCookie(MicroserviceResponseModel.content(response))
-      }
-    }
-
-    def microServiceErrorResult(message: String) = {
-      logMessage(request.cookies.trackingId, Error, message)
-      Redirect(routes.MicroServiceError.present())
-    }
-
-    def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
-      val certNumSubstitute = "${retention-certificate-number}"
-
-      request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
-
-        case Some(vehicleAndKeeperDetails) =>
-          val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel].
-            filter(_ => vehicleAndKeeperLookupFormModel.userType == UserType_Business)
-          val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
-          val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
-          val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-
-          businessDetailsOpt.fold {
-            val msg = "No business details cookie found or user type not business so will " +
-              "not create a fulfil confirm email for the business"
-            logMessage(trackingId, Debug, msg)
-          } { keeperEmail =>
-            val msg = "Business details cookie found and user type is business so will " +
-              "create a fulfil confirm email for the business"
-            logMessage(trackingId, Debug, msg)
-          }
-
-          keeperEmailOpt.fold {
-            val msg = "No keeper email supplied so will not create a fulfil confirm email for the keeper"
-            logMessage(trackingId, Debug, msg)
-          } { keeperEmail =>
-            logMessage(trackingId, Debug, "Keeper email supplied so will create a fulfil confirm email for the keeper")
-          }
-
-          val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
-            emailService.emailRequest(
-              businessDetails.email,
-              vehicleAndKeeperDetails,
-              eligibility,
-              certNumSubstitute,
-              transactionTimestampWithZone,
-              transactionId,
-              confirmFormModel,
-              businessDetailsModel,
-              sendPdf = true,
-              isKeeper = false,
-              trackingId = trackingId
-            )
-          },
-          keeperEmailOpt.flatMap { keeperEmail =>
-            emailService.emailRequest(
-              keeperEmail,
-              vehicleAndKeeperDetails,
-              eligibility,
-              certNumSubstitute,
-              transactionTimestampWithZone,
-              transactionId,
-              confirmFormModel,
-              businessDetailsModel,
-              sendPdf = vehicleAndKeeperLookupFormModel.isKeeperUserType,
-              isKeeper = true,
-              trackingId = trackingId
-            )
-          })
-          emails.flatten
-        case _ => Seq.empty
-      }
-    }
+    val SETTLE_AUTH_CODE = "Settle"
 
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
       webHeader = buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
@@ -243,7 +119,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
         transactionId,
         trackingId
       ),
-      fulfillConfirmEmail,
+      fulfillConfirmEmail(transactionId),
       failureEmailRequests = buildPaymentFailureEmailRequests(vehicleAndKeeperLookupFormModel, trackingId)
     )
 
@@ -257,8 +133,21 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     }
   }
 
+  private def transactionTimestampWithZone: String = {
+    // create the transaction timestamp
+    val transactionTimestamp =
+      DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London"))).toDateTimeMillis.get
+    val isoDateTimeString = ISODateTimeFormat.yearMonthDay().print(transactionTimestamp) + " " +
+      ISODateTimeFormat.hourMinuteSecond().print(transactionTimestamp)
+    isoDateTimeString
+  }
+
   private def buildWebHeader(trackingId: TrackingId,
                              identifier: Option[String]): VssWebHeaderDto = {
+    def buildEndUser(identifier: Option[String]): VssWebEndUserDto = {
+      VssWebEndUserDto(endUserId = identifier.getOrElse(config.orgBusinessUnit), orgBusUnit = config.orgBusinessUnit)
+    }
+
     VssWebHeaderDto(transactionId = trackingId.value,
       originDateTime = new DateTime,
       applicationCode = config.applicationCode,
@@ -266,8 +155,64 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       buildEndUser(identifier))
   }
 
-  private def buildEndUser(identifier: Option[String]): VssWebEndUserDto = {
-    VssWebEndUserDto(endUserId = identifier.getOrElse(config.orgBusinessUnit), orgBusUnit = config.orgBusinessUnit)
+  private def retainFailure(response: MicroserviceResponse)(implicit request: Request[_]) = {
+    response.message match {
+      case "vrm_retention_retain_no_error_code" =>
+        microServiceErrorResult(message = "Certificate number not found in response")
+      case _ =>
+        logMessage(trackingId, Info, "Vrm retention retain micro-service failed for request with " +
+          s"referenceNumber = ${anonymize(vehicleAndKeeperLookupFormModel.referenceNumber)}, " +
+          s"registrationNumber = ${anonymize(vehicleAndKeeperLookupFormModel.registrationNumber)}, " +
+          "redirecting to retention failure")
+
+        val paymentModel = request.cookies.getModel[PaymentModel].get
+        paymentModel.paymentStatus = Some(Payment.CancelledStatus)
+
+        auditService2.send(AuditRequest.from(
+          trackingId = trackingId,
+          pageMovement = AuditRequest.PaymentToPaymentFailure,
+          transactionId = request.cookies.getString(TransactionIdCacheKey).get,
+          timestamp = dateService.dateTimeISOChronology,
+          documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
+          vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+          replacementVrm = Some(request.cookies.getModel[EligibilityModel].get.replacementVRM),
+          keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
+          businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+          paymentModel = Some(paymentModel),
+          rejectionCode = Some(s"${response.code} - ${response.message}")
+        ), trackingId)
+
+        Redirect(routes.RetainFailure.present())
+          .withCookie(paymentModel)
+          .withCookie(MicroserviceResponseModel.content(response))
+    }
+  }
+
+  private def retainSuccess(certificateNumber: String)(implicit request: Request[_]) = {
+    logMessage(trackingId, Info, "Vrm retention retain micro-service returned success")
+
+    val paymentModel = request.cookies.getModel[PaymentModel].get
+    paymentModel.paymentStatus = Some(Payment.SettledStatus)
+    val transactionId = request.cookies.getString(TransactionIdCacheKey)
+      .getOrElse(ClearTextClientSideSessionFactory.DefaultTrackingId.value)
+
+    auditService2.send(AuditRequest.from(
+      trackingId = trackingId,
+      pageMovement = AuditRequest.PaymentToSuccess,
+      transactionId = transactionId,
+      timestamp = dateService.dateTimeISOChronology,
+      documentReferenceNumber = Some(vehicleAndKeeperLookupFormModel.referenceNumber),
+      vehicleAndKeeperDetailsModel = request.cookies.getModel[VehicleAndKeeperDetailsModel],
+      replacementVrm = Some(eligibility.replacementVRM),
+      keeperEmail = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail),
+      businessDetailsModel = request.cookies.getModel[BusinessDetailsModel],
+      paymentModel = Some(paymentModel),
+      retentionCertId = Some(certificateNumber)
+    ), trackingId)
+
+    Redirect(routes.Success.present())
+      .withCookie(paymentModel)
+      .withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
   }
 
   private def buildPaymentSolveUpdateRequest(paymentTransNo: String,
@@ -278,72 +223,45 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
                                              transactionId: String,
                                              trackingId: TrackingId)
                                             (implicit request: Request[_]):
-    PaymentSolveUpdateRequest = {
-      PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
-        buildPaymentSuccessEmailRequests(vehicleAndKeeperLookupFormModel, transactionId, trackingId)
-      )
-    }
+  PaymentSolveUpdateRequest = {
+    PaymentSolveUpdateRequest(paymentTransNo, paymentTrxRef, authType, isPaymentPrimaryUrl,
+      buildPaymentSuccessEmailRequests(vehicleAndKeeperLookupFormModel, transactionId, trackingId)
+    )
+  }
+
+  private def microServiceErrorResult(message: String) = {
+    logMessage(trackingId, Error, message)
+    Redirect(routes.MicroServiceError.present())
+  }
 
   private def buildPaymentFailureEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                        trackingId: TrackingId)
-                                       (implicit request: Request[_]): List[EmailServiceSendRequest] = {
+                                               trackingId: TrackingId)
+                                              (implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
     val template = FailureEmailMessageBuilder.buildWith
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
     val title = Messages("email.failure.title") + " " + vehicleAndKeeperLookupFormModel.registrationNumber
 
     val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
-    logMessage(trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
-
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
 
-    // send keeper email if present
-    val keeperEmail = if (isKeeperUserType) {
-      for {
-        model <- confirmFormModel
-        email <- model.keeperEmail
-      } yield {
-        logMessage(trackingId, Debug, "We are going to create a failure email for the keeper user type")
-        buildEmailServiceSendRequest(template, from, title, email)
-      }
-    } else {
-      val msg =  "We are not going to create a failure email for the keeper user type " +
-        "because we are not dealing with the keeper user type"
-      logMessage(trackingId, Debug, msg)
-      None
-    }
+    // build keeper email if present
+    val keeperEmail = buildKeeperEmail(isKeeperUserType = isKeeperUserType, confirmFormModel, "failure", template, from, title)
 
-    if (keeperEmail.isEmpty && isKeeperUserType &&
-        confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
+    if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
       val msg = "We are not going to create a failure email for the keeper user type because no email was supplied"
       logMessage(trackingId, Debug, msg)
     }
 
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
-    val isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType
-    logMessage(trackingId, Debug, s"isBusinessUserType = $isBusinessUserType")
-
-    // send business email if present
-    val businessEmail = if (isBusinessUserType) {
-      for {
-        model <- businessDetailsModel
-      } yield {
-        logMessage(trackingId, Debug, "We are going to create a failure email for the business user type")
-        buildEmailServiceSendRequest(template, from, title, model.email)
-      }
-    } else {
-      val msg = "We are not going to create a failure email for the business user type " +
-        "because we are not dealing with the business user type"
-      logMessage(trackingId, Debug, msg)
-      None
-    }
+    val businessEmail = buildBusinessEmail(isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType,
+      businessDetailsModel, "failure", template, from, title)
     Seq(keeperEmail, businessEmail).flatten.toList
   }
 
   private def buildPaymentSuccessEmailRequests(vehicleAndKeeperLookupFormModel: VehicleAndKeeperLookupFormModel,
-                                                transactionId: String,
-                                                trackingId: TrackingId)
-                                               (implicit request: Request[_]): List[EmailServiceSendRequest] = {
+                                               transactionId: String, trackingId: TrackingId)
+                                              (implicit request: Request[_]): List[EmailServiceSendRequest] = {
 
     val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
 
@@ -355,64 +273,67 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       case _ => None
     }
 
-    val template = ReceiptEmailMessageBuilder.buildWith(
-      vehicleAndKeeperLookupFormModel.registrationNumber,
-      f"${config.purchaseAmountInPence.toDouble / 100}%.2f",
-      transactionId,
-      businessDetails
+    val template = ReceiptEmailMessageBuilder.buildWith(vehicleAndKeeperLookupFormModel.registrationNumber,
+      f"${config.purchaseAmountInPence.toDouble / 100}%.2f", transactionId, businessDetails
     )
-
     val title = s"Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"
-
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
 
     val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
-    logMessage(trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
-
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
 
-    // send keeper email if present
-    val keeperEmail = if (isKeeperUserType) {
-      for {
-        model <- confirmFormModel
-        email <- model.keeperEmail
-      } yield {
-        logMessage(trackingId, Debug, s"We are going to create a business receipt email for the keeper user type")
-        buildEmailServiceSendRequest(template, from, title, email)
-      }
-    } else {
-      val msg =  "We are not going to create a business receipt email for the keeper user type " +
-        "because we are not dealing with the keeper user type"
-      logMessage(trackingId, Debug, msg)
-      None
-    }
+    // build keeper email if present
+    val keeperEmail = buildKeeperEmail(isKeeperUserType = isKeeperUserType, confirmFormModel, "business receipt", template, from, title)
 
-    if (keeperEmail.isEmpty && isKeeperUserType &&
-        confirmFormModel.nonEmpty &&
-        confirmFormModel.get.keeperEmail.isEmpty) {
+    if (keeperEmail.isEmpty && isKeeperUserType && confirmFormModel.nonEmpty && confirmFormModel.get.keeperEmail.isEmpty) {
       val msg = "We are not going to create a business receipt email for the keeper user type because no email was supplied"
       logMessage(trackingId, Debug, msg)
     }
 
-    val isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType
-    logMessage(trackingId, Debug, s"isBusinessUserType = $isBusinessUserType")
+    // build business email if present
+    val businessEmail = buildBusinessEmail(isBusinessUserType = vehicleAndKeeperLookupFormModel.isBusinessUserType,
+      businessDetailsModel, "business receipt", template, from, title)
 
-    // send business email if present
-    val businessEmail = if (isBusinessUserType) {
+    Seq(keeperEmail, businessEmail).flatten.toList
+  }
+
+  private def buildKeeperEmail(isKeeperUserType: Boolean, confirmFormModel: Option[ConfirmFormModel],
+                               emailDescription: String, template: Contents, from: From, title: String): Option[EmailServiceSendRequest] = {
+    // build keeper email if present
+    logMessage(trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
+    if (isKeeperUserType) {
       for {
-        model <- businessDetailsModel
+        model <- confirmFormModel
+        email <- model.keeperEmail
       } yield {
-        logMessage(trackingId, Debug, s"We are going to create a business receipt email for the business user type")
-        buildEmailServiceSendRequest(template, from, title, model.email)
+        logMessage(trackingId, Debug, s"We are going to create a $emailDescription email for the keeper user type")
+        buildEmailServiceSendRequest(template, from, title, email)
       }
     } else {
-      val msg = "We are not going to create a business receipt email for the business user type " +
-        "because we are not dealing with the business user type"
+      val msg =  s"We are not going to create a $emailDescription email for the keeper user type because " +
+        "we are not dealing with the keeper user type"
       logMessage(trackingId, Debug, msg)
       None
     }
+  }
 
-    Seq(keeperEmail, businessEmail).flatten.toList
+  private def buildBusinessEmail(isBusinessUserType: Boolean, businessDetailsModel: Option[BusinessDetailsModel],
+                                 emailDescription: String, template: Contents, from: From, title: String): Option[EmailServiceSendRequest] = {
+    // build business email if present
+    logMessage(trackingId, Debug, s"isBusinessUserType = $isBusinessUserType")
+    if (isBusinessUserType) {
+      for {
+        model <- businessDetailsModel
+      } yield {
+        logMessage(trackingId, Debug, s"We are going to create a $emailDescription email for the business user type")
+        buildEmailServiceSendRequest(template, from, title, model.email)
+      }
+    } else {
+      val msg = s"We are not going to create a $emailDescription email for the business user type because " +
+        "we are not dealing with the business user type"
+      logMessage(trackingId, Debug, msg)
+      None
+    }
   }
 
   private def buildEmailServiceSendRequest(template: Contents, from: From, title: String, email: String) = {
@@ -425,5 +346,56 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
       toReceivers = Some(List(email)),
       ccReceivers = None
     )
+  }
+
+  private def fulfillConfirmEmail(transactionId: String)(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
+    val certNumSubstitute = "${retention-certificate-number}"
+
+    request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
+
+      case Some(vehicleAndKeeperDetails) =>
+        val businessDetailsOpt = request.cookies.getModel[BusinessDetailsModel]
+          .filter(_ => vehicleAndKeeperLookupFormModel.userType == UserType_Business)
+        val keeperEmailOpt = request.cookies.getModel[ConfirmFormModel].flatMap(_.keeperEmail)
+        val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
+        val businessDetailsModel = request.cookies.getModel[BusinessDetailsModel]
+
+        businessDetailsOpt.fold {
+          val msg = "No business details cookie found or user type not business so will not create a business fulfil confirm email"
+          logMessage(trackingId, Debug, msg)
+        } { keeperEmail =>
+          val msg = "Business details cookie found and user type is business so will create a business fulfil confirm email"
+          logMessage(trackingId, Debug, msg)
+        }
+
+        keeperEmailOpt.fold {
+          val msg = "No keeper email supplied so will not create a keeper fulfil confirm email"
+          logMessage(trackingId, Debug, msg)
+        } { keeperEmail =>
+          logMessage(trackingId, Debug, "Keeper email supplied so will create a keeper fulfil confirm email")
+        }
+
+        val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
+          emailService.emailRequest(businessDetails.email, vehicleAndKeeperDetails, eligibility,
+            EmailData(certificateNumber = certNumSubstitute,
+              transactionTimestamp = transactionTimestampWithZone,
+              transactionId = transactionId),
+            confirmFormModel, businessDetailsModel,
+            EmailFlags(sendPdf = true, isKeeper = false), trackingId = trackingId
+          )
+        },
+          keeperEmailOpt.flatMap { keeperEmail =>
+            emailService.emailRequest(keeperEmail, vehicleAndKeeperDetails, eligibility,
+              EmailData(certificateNumber = certNumSubstitute,
+                transactionTimestamp = transactionTimestampWithZone,
+                transactionId = transactionId),
+              confirmFormModel, businessDetailsModel,
+              EmailFlags(sendPdf = vehicleAndKeeperLookupFormModel.isKeeperUserType, isKeeper = true),
+              trackingId = trackingId
+            )
+          })
+        emails.flatten
+      case _ => Seq.empty
+    }
   }
 }
