@@ -1,3 +1,12 @@
+======= 1.46 ========
+Time of release binaries creation:
+
+VMPRCI-4288	Update VMPR Cookies policy
+VMPRCI-4475	Business route (error messages being displayed when fields are left blank)
+VMPRCI-4481	Payment post shutdown page not displayed
+VMPRCI-4500	Removed the need for ordnancesurvey.ms.url property
+VMPRCI-4502	Update service id for webchat
+
 ======= 1.45 ========
 Time of release binaries creation:
 Wed Aug 17 09:38:37 UTC 2016
