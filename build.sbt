@@ -62,8 +62,8 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.6" % "test" withSources() withJavadoc(),
   "org.slf4j" % "log4j-over-slf4j" % "1.7.21" % "test" withSources() withJavadoc(),
   // VMPR
-  "dvla" %% "vehicles-presentation-common" % "2.55-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
-  "dvla" %% "vehicles-presentation-common" % "2.55-SNAPSHOT" % "test" classifier "tests" withSources() withJavadoc() exclude("junit", "junit-dep")
+  "dvla" %% "vehicles-presentation-common" % "2.56-SNAPSHOT" withSources() withJavadoc() exclude("junit", "junit-dep"),
+  "dvla" %% "vehicles-presentation-common" % "2.56-SNAPSHOT" % "test" classifier "tests" withSources() withJavadoc() exclude("junit", "junit-dep")
 )
 
 pipelineStages := Seq(rjs, digest, gzip)
@@ -122,7 +122,7 @@ webJarCdns := Map()
 
 // ====================== Sandbox Settings ==========================
 lazy val auditProject = audit("0.16-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
-lazy val emailServiceProject = emailService("0.20-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
+lazy val emailServiceProject = emailService("0.21-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val legacyStubsProject = legacyStubs("1.0-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val osAddressLookupProject = osAddressLookup("0.30-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
 lazy val paymentSolveProject = paymentSolve("0.30-SNAPSHOT").disablePlugins(PlayScala, SbtWeb)
@@ -134,7 +134,7 @@ SandboxSettings.portOffset := 18000
 
 SandboxSettings.applicationContext := ""
 
-SandboxSettings.webAppSecrets := "ui/dev/vrm-retention-online.conf.enc"
+SandboxSettings.webAppSecrets := "vrm-retention-online/conf/vrm-retention-online.conf"
 
 SandboxSettings.osAddressLookupProject := osAddressLookupProject
 
