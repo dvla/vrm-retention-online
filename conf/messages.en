@@ -1,7 +1,8 @@
-# VPC - main widget
+# main widget
 main.back = Back
+
+# email_with_html
 crown-copyright = Crown Copyright
-gov-uk = GOV.UK
 
 # vehicle_lookup
 vehicle-registration-number = Vehicle registration number
@@ -31,7 +32,7 @@ error.button = Start again
 # vrm retention messages
 #
 
-# main
+# VPC header
 main.banner = Take a registration number off a vehicle
 
 # before you start
@@ -294,6 +295,7 @@ email.failure.line11 = Monday to Friday: 08:00 to 19:00
 email.failure.line12 = Saturday: 08:00 to 14:00
 email.failure.line13 = Sunday: Closed
 
+# vrm_locked, ninety_day_rule,  direct_to_paper
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
 

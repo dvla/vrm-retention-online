@@ -1,7 +1,8 @@
-# VPC - main widget
+# main widget
 main.back = Yn ôl
+
+# email_with_html
 crown-copyright = Hawlfraint y Goron
-gov-uk = GOV.UK
 
 # vehicle_lookup
 vehicle-registration-number = Rhif cofrestru cerbyd
@@ -31,7 +32,7 @@ error.button = Cychwyn eto
 # vrm retention messages
 #
 
-# main
+# VPC header
 main.banner = Tynnu rhif cofrestru oddi ar gerbyd
 
 # before you start
@@ -294,6 +295,7 @@ email.failure.line11 = Dydd llun i Ddydd Gwener: 08:00 i 18:00
 email.failure.line12 = Dydd Sadwrn: 08:00 i 14:00
 email.failure.line13 = Dydd Sul: Ar gau
 
+# vrm_locked, ninety_day_rule,  direct_to_paper
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
 
