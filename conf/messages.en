@@ -36,7 +36,6 @@ error.button = Start again
 main.banner = Take a registration number off a vehicle
 
 # before you start
-vrm_retention_beforeyoustart.title = Take a registration number off a vehicle
 vrm_retention_beforeyoustart.p3 = To apply online you will need:
 
 vrm_retention_beforeyoustart.p5 = Please note: this service updates our records immediately.
@@ -281,7 +280,6 @@ vrm_retention_failure.text = This transaction has not been successful, no paymen
 vehicle-lookup-failure-transaction-id = Transaction Id
 
 # failure email
-email.failure.title = Take a registration number off a vehicle
 email.failure.line1 = THIS IS AN AUTOMATED EMAIL
 email.failure.line2 = PLEASE DO NOT REPLY AS EMAILS RECEIVED AT THIS ADDRESS CANNOT BE RESPONDED TO.
 email.failure.line4 =Thank you for your application to ''Take a registration number off a vehicle''. Your application was \
@@ -298,9 +296,6 @@ email.failure.line13 = Sunday: Closed
 # vrm_locked, ninety_day_rule,  direct_to_paper
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
-
-# feedback
-common_feedback.subject = Take a registration number off a vehicle - feedback
 
 # timeout
 vrm_retention_timeout.title = Please wait

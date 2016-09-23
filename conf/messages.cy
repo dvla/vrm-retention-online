@@ -36,7 +36,6 @@ error.button = Cychwyn eto
 main.banner = Tynnu rhif cofrestru oddi ar gerbyd
 
 # before you start
-vrm_retention_beforeyoustart.title = Tynnu rhif cofrestru oddi ar gerbyd
 vrm_retention_beforeyoustart.p3 = I ymgeisio ar-lein bydd angen i chi:
 
 vrm_retention_beforeyoustart.p5 = Nodwch: mae’r gwasanaeth hwn yn diweddaru’n cofnodion ar unwaith.
@@ -281,7 +280,6 @@ vrm_retention_failure.text = Ni fu’r trafodion yn llwyddiannus, ni chymerwyd u
 vehicle-lookup-failure-transaction-id = ID trafodion
 
 # failure email
-email.failure.title = Tynnu rhif cofrestru oddi ar Gerbyd
 email.failure.line1 = DYMA EBOST AWTOMATIG
 email.failure.line2 = PEIDIWCH AG ATEB OHERWYDD NI FYDD NEGESEUON EBOST A DDERBYNNIR I’R CYFEIRIAD HWN YN CAEL EU HATEB.
 email.failure.line4 = Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerbyd’. roedd eich cais yn \
@@ -298,9 +296,6 @@ email.failure.line13 = Dydd Sul: Ar gau
 # vrm_locked, ninety_day_rule,  direct_to_paper
 link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
 text-v317 = V317
-
-# feedback
-common_feedback.subject = Tynnu rhif cofrestru oddi ar gerbyd -adborth
 
 # timeout
 vrm_retention_timeout.title = Arhoswch os gwelwch yn dda

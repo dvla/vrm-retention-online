@@ -290,7 +290,7 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
 
     val template = FailureEmailMessageBuilder.buildWith
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
-    val title = Messages("email.failure.title") + " " + vehicleAndKeeperLookupFormModel.registrationNumber
+    val title = Messages("main.banner") + " " + vehicleAndKeeperLookupFormModel.registrationNumber
 
     val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
     logMessage(trackingId, Debug, s"isKeeperUserType = $isKeeperUserType")
