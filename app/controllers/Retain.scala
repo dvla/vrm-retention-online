@@ -162,12 +162,12 @@ final class Retain @Inject()(vrmRetentionRetainService: VRMRetentionRetainServic
     }
 
     def microServiceErrorResult(message: String) = {
-      logMessage(request.cookies.trackingId, Error, message)
+      logMessage(request.cookies.trackingId(), Error, message)
       Redirect(routes.MicroServiceError.present())
     }
 
     def fulfillConfirmEmail(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
-      val certNumSubstitute = "${retention-certificate-number}"
+      val certNumSubstitute = "$" + "{retention-certificate-number}"
 
       request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
 

@@ -16,13 +16,13 @@ final class Error @Inject()()(implicit clientSideSessionFactory: ClientSideSessi
                              ) extends Controller with DVLALogger {
 
   def present(exceptionDigest: String) = Action { implicit request =>
-    logMessage(request.cookies.trackingId, Error, "Displaying generic error page")
+    logMessage(request.cookies.trackingId(), Error, "Displaying generic error page")
     Ok(views.html.vrm_retention.error(exceptionDigest))
   }
 
   def startAgain(exceptionDigest: String) = Action { implicit request =>
     logMessage(
-      request.cookies.trackingId,
+      request.cookies.trackingId(),
       Error,
       "Start again called - now removing full set of cookies and redirecting to Start page"
     )

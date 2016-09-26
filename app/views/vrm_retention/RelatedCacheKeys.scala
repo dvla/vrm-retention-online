@@ -51,7 +51,7 @@ object RelatedCacheKeys extends DVLALogger {
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
 
     logMessage(
-      request.cookies.trackingId,
+      request.cookies.trackingId(),
       Debug,
       s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails"
     )
