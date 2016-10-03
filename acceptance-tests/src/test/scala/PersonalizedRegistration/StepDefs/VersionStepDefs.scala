@@ -10,7 +10,7 @@ import scala.io.Source.fromInputStream
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{WebBrowserDriver, WebDriverFactory}
 
 final class VersionStepDefs(implicit webDriver: WebBrowserDriver) extends helpers.AcceptanceTestHelper {
-  private var versionString: String = null
+  private var versionString: Option[String] = None
 
   @Given("^the user is on the version page$")
   def the_user_is_on_the_version_page() {
@@ -19,28 +19,31 @@ final class VersionStepDefs(implicit webDriver: WebBrowserDriver) extends helper
     }).build()
 
     val httpClient = HttpClientBuilder.create.setSSLContext(sslContext).build()
-    val post = new HttpGet(WebDriverFactory.testUrl +  "version")
+    val post = new HttpGet(WebDriverFactory.testUrl + "version")
     val httpResponse = httpClient.execute(post)
-    versionString = fromInputStream(httpResponse.getEntity.getContent).mkString
+    versionString = Option(fromInputStream(httpResponse.getEntity.getContent).mkString)
     httpResponse.close()
   }
 
   @Then("^The user should be able to see version and runtime information for the webapp$")
   def the_user_should_be_able_to_see_version_and_runtime_information_for_the_webapp() = {
-    versionString should include("Name")
-    versionString should include("Version")
-    versionString should include("Build on")
-    versionString should include("Runtime OS")
+    checkData("Name")
+    checkData("Version")
+    checkData("Build on")
+    checkData("Runtime OS")
   }
 
   @Then("^The user should be able to see version and runtime information for the microservices$")
   def the_user_should_be_able_to_see_version_and_runtime_information_for_the_microservices() {
-    versionString should include("audit")
-    versionString should include("email-service")
-    versionString should include("os-address-lookup")
-    versionString should include("payment-solve")
-    versionString should include("vehicle-and-keeper-lookup")
-    versionString should include("vrm-retention-eligibility")
-    versionString should include("vrm-retention-retain")
+    checkData("audit")
+    checkData("email-service")
+    checkData("os-address-lookup")
+    checkData("payment-solve")
+    checkData("vehicle-and-keeper-lookup")
+    checkData("vrm-retention-eligibility")
+    checkData("vrm-retention-retain")
   }
+
+  private def checkData(data: String ) =
+    versionString.fold(fail("The version string should be populated")) { vs => vs should include(data) }
 }
