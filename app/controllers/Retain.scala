@@ -240,7 +240,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
 
     val template = FailureEmailMessageBuilder.buildWith
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
-    val title = Messages("email.failure.title") + " " + vehicleAndKeeperLookupFormModel.registrationNumber
+    val title = Messages("main.banner") + " " + vehicleAndKeeperLookupFormModel.registrationNumber
 
     val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType
     val confirmFormModel = request.cookies.getModel[ConfirmFormModel]
@@ -349,7 +349,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
   }
 
   private def fulfillConfirmEmail(transactionId: String)(implicit request: Request[_]): Seq[EmailServiceSendRequest] = {
-    val certNumSubstitute = "${retention-certificate-number}"
+    val certNumSubstitute = "$" + "{retention-certificate-number}"
 
     request.cookies.getModel[VehicleAndKeeperDetailsModel] match {
 

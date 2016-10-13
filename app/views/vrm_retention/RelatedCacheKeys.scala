@@ -47,11 +47,11 @@ object RelatedCacheKeys extends DVLALogger {
     StoreBusinessDetailsCacheKey
   )
 
-  def removeCookiesOnExit(implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory) = {
+  def removeCookiesOnExit()(implicit request: Request[_], clientSideSessionFactory: ClientSideSessionFactory) = {
     val storeBusinessDetails = request.cookies.getString(StoreBusinessDetailsCacheKey).exists(_.toBoolean)
 
     logMessage(
-      request.cookies.trackingId,
+      request.cookies.trackingId(),
       Debug,
       s"*** removeCookiesOnExit keep BusinessDetails: $storeBusinessDetails"
     )

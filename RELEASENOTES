@@ -1,3 +1,26 @@
+======= 1.47 ========
+Time of release binaries creation:
+Wed Sep 28 13:36:01 UTC 2016
+
+VMPRCI-4316 	Revise Webchat Icon on PR Retain and Assign
+VMPRCI-4494 	Consolidate service title values in message files
+VMPRCI-4513 	Change all the web apps so the micro service base urls are mandatory instead of optional
+VMPRCI-4449 	Refactor message entries (part 2)
+VMPRCI-3071 	Upgrade all apps to Scala version 2.11.x
+VMPRCI-4516 	Remove obsolete payment method "get-web-payment"
+VMPRCI-4519 	PR Assign update button id configuration value for local environment
+VMPRCI-4527 	Revert LOTI changes that went into Sprint 68 - VMPRCI-4503 and VMPRCI-4504
+
+======= 1.46 ========
+Time of release binaries creation:
+Wed Sep 14 10:51:54 UTC 2016
+
+VMPRCI-4288 	Update VMPR Cookies policy
+VMPRCI-4475 	Business route (error messages being displayed when fields are left blank)
+VMPRCI-4481 	Payment post shutdown page not displayed
+VMPRCI-4500 	Removed the need for ordnancesurvey.ms.url property
+VMPRCI-4502 	Update service id for webchat
+
 ======= 1.45 ========
 Time of release binaries creation:
 Wed Aug 17 09:38:37 UTC 2016
