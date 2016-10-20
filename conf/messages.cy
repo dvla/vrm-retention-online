@@ -74,6 +74,7 @@ vrm_retention_setupbusinessdetails.button = Nesaf
 vrm_retention_setupbusinessdetails.addresswarning = Os nad yw’ch cyfeiriad yn y pecyn cod post hwn neu’n dangos manylion anghywir, dewiswch y ddolen hon i
 vrm_retention_setupbusinessdetails.addresswarninglinktext = rhoi gwybod i’r Bost Brenhinol
 error.validBusinessContact = Rhaid iddo fod rhwng dau a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, +, -, ‘, a ,)
+error.addresslookup.mandatory = You must enter a postcode to find an address or enter an address manually
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Rhoi manylion
@@ -164,8 +165,10 @@ payment-prevent-back-title = Atalwyd y botwm Yn ôl
 payment-prevent-back-text = Ni allwch ddefnyddio botwm Yn ôl eich porwr ar ôl gwneud taliad. Ni chymerwyd unrhyw daliadau newydd.
 payment-prevent-back-return-to-success = Dychwelyd i’r dudalen llwyddo
 
+# confirm_business view
 vrm_retention_confirm_business.title = Cadarnhau eich manylion busnes
 
+# confirm view
 vrm_retention_confirm.title = Cadarnhau manylion ceidwad
 vrm_retention_confirm.keeperLabel = Ceidwad cofrestredig
 vrm_retention_confirm.keeperAddressLabel = Cyfeiriad
@@ -175,7 +178,6 @@ vrm_retention_confirm.businessEmailLabel = Cyswllt ebost
 vrm_retention_confirm.businessAddressLabel = Cyfeiriad
 keeper-email = Ebost
 supply-email = Opsiynau ebost
-mandatory-alternative.not-selected = Rhowch wybod inni a oes angen ebost cadarnhau arnoch
 vrm_retention_confirm.emailAddressKeeperLabel = Ebost y ceidwad
 vrm_retention_confirm.emailAddressCustomerLabel = Ebost y cwsmer
 vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael derbynneb taliad a chrynodeb o’r trafodion
@@ -198,6 +200,7 @@ supply-email-true = Byddwn
 supply-email-false = Na fyddwn
 email-not-supplied = Rhaid i chi gynnig cyfeiriad ebost er mwyn cael crynodeb o’r trafodion
 
+# success view
 vrm_retention_success_payment.h2 = Beth i’w wneud nesaf
 vrm_retention_success_payment.what-next-1 = os yw platiau eich car gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
 vrm_retention_success_payment.what-next-2 = os bydd angen i chi gael eich platiau newydd wedi’u cynhyrchu, gallwch wneud hynny wedi i chi dderbyn eich tystysgrif cofrestru V5CW (llyfr log) newydd
@@ -208,10 +211,8 @@ vrm_retention_success_payment.what-next-6 = ein gwasanaeth ar-lein
 vrm_retention_success_payment.what-next-7 = a’r rhif cadw tystysgrif yn y blwch gwyrdd uchod.
 vrm_retention_success_payment.what-next-8 = cynghorwch eich cwmni yswiriant am y newid yn eich rhif cofrestru.
 vrm_retention_success_payment.what-next-9 = You will receive an email confirmation of your retention and a payment receipt.
-
 vrm_retention_success_payment.p6 = Byddwch angen hon i gael platiau cofrestru newydd
 vrm_retention_success_payment.p7 = Byddwch angen y ffurflen tystysgrif cofrestru V5CW (llyfr log) a ddiweddarwyd neu dystysgrif dilysu rhif cofrestru (eV948) y gallwch ei lawrlwytho a’i gadw neu ei argraffu drwy ddefnyddio’r ddolen a ddarparir.
-
 vrm_retention_success.title = Cais yn llwyddiannus
 vrm_retention_success.subtitle = Gellir ei dynnu oddi ar y cerbyd nawr
 vrm_retention_success.yourCert = Rhif eich tystysgrif gadw yw:
@@ -219,15 +220,6 @@ success-cert-warning = Fe’ch cynghorwn yn gryf i gadw rhif eich tystysgrif yn 
 success-cert-warning-1 = Bydd eich treth gerbyd a thystysgrif MOT yn parhau’n ddilys hyd nes y bydd eu dyddiadau’n dirwyn i ben. Ni fydd y DVLA yn anfon tystysgrif MOT newydd atoch.
 success-replacement-registration-number = eich rhif cofrestru newydd yw:
 vrm_retention_success.newPlateLink = Lawrlwythwch y eV948
-success-keeper-application-details-contact-us = I gysylltu â ni:
-success-keeper-application-details-telephone = Ffôn
-success-keeper-application-details-telephone-number = 0300 123 1350
-success-keeper-application-details-telephone-number-extension1 = (Rhowch y cod
-success-keeper-application-details-telephone-number-extension2 = 662
-success-keeper-application-details-telephone-number-extension3 = pan ofynnir amdano)
-success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08:00 i 19:00
-success-keeper-application-details-saturday = Dydd Sadwrn: 08:00 i 14:00
-success-keeper-application-details-sunday = Dydd Sul: Ar gau
 
 success-keeper-details = Manylion y ceidwad
 success-keeper-details-name = Enw:
@@ -249,6 +241,20 @@ vrm_retention_success.p7 = You will also receive a retention certificate (V778) 
 vrm_retention_success.p8 = which will be sent to the keeper at their registered address.
 
 vrm_retention_success.buttonnavprint = Argraffwch y dudalen hon
+
+# failure_playback view
+success-keeper-application-details-contact-us = I gysylltu â ni:
+success-keeper-application-details-telephone = Ffôn
+success-keeper-application-details-telephone-number = 0300 123 1350
+success-keeper-application-details-telephone-number-extension1 = (Rhowch y cod
+success-keeper-application-details-telephone-number-extension2 = 662
+success-keeper-application-details-telephone-number-extension3 = pan ofynnir amdano)
+success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08:00 i 19:00
+success-keeper-application-details-saturday = Dydd Sadwrn: 08:00 i 14:00
+success-keeper-application-details-sunday = Dydd Sul: Ar gau
+
+# override VPC - OptionalToggle widget
+mandatory-alternative.not-selected = Rhowch wybod inni a oes angen ebost cadarnhau arnoch
 
 vrm_retention_leave_feedback.title = Diolch
 vrm_retention_leave_feedback.feedback = rhoi adborth

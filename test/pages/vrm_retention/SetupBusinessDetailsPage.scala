@@ -13,6 +13,7 @@ import views.vrm_retention.SetupBusinessDetails.BusinessNameId
 import views.vrm_retention.SetupBusinessDetails.SubmitId
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine3Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeInvalid
 import webserviceclients.fakes.AddressLookupServiceConstants.PostcodeValid
@@ -67,6 +68,7 @@ object SetupBusinessDetailsPage extends Page {
     traderEmail.value = TraderBusinessEmailValid
     businessAddressWidget.addressLine1.value = BusinessAddressLine1Valid
     businessAddressWidget.addressLine2.value = BusinessAddressLine2Valid
+    businessAddressWidget.addressLine3.value = BusinessAddressLine3Valid
     businessAddressWidget.postcode.value = PostcodeInvalid
     click on lookup
   }

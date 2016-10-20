@@ -30,6 +30,7 @@ import views.vrm_retention.VehicleLookup.UserType_Business
 import webserviceclients.audit2.AuditRequest
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine1Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine2Valid
+import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressLine3Valid
 import webserviceclients.fakes.AddressLookupServiceConstants.BusinessAddressPostTownValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.ReferenceNumberValid
@@ -58,6 +59,7 @@ class ConfirmBusinessUnitSpec extends UnitSpec {
       val content = contentAsString(present)
       content should include(BusinessAddressLine1Valid)
       content should include(BusinessAddressLine2Valid)
+      content should include(BusinessAddressLine3Valid)
       content should include(BusinessAddressPostTownValid)
       content should include(RegistrationNumberValid)
       content should include(VehicleMakeValid.get)

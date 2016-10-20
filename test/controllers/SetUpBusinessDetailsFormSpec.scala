@@ -72,6 +72,16 @@ class SetUpBusinessDetailsFormSpec extends UnitSpec {
       errors should have length 1
       errors.head.message should equal("error.address.threeAlphas")
     }
+
+    "reject if address postcode lookup is blank" in {
+      val errors = formWithValidDefaults(searchPostCode = "").errors
+      //errors should have length 3
+      //NOTE: the form errors for the address lookup postcode are replaced with a single error, error.addresslookup.mandatory
+      // see IntegrationSpec
+      errors.flatMap(_.messages) should contain theSameElementsAs
+        List("error.restricted.validPostcode","error.minLength","error.required")
+    }
+
   }
 
   "postcode" should {

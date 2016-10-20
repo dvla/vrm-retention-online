@@ -74,6 +74,7 @@ vrm_retention_setupbusinessdetails.button = Next
 vrm_retention_setupbusinessdetails.addresswarning = If your address is missing from this postcode package or is showing incorrect details then please select this link to
 vrm_retention_setupbusinessdetails.addresswarninglinktext = inform the Royal Mail.
 error.validBusinessContact = Must be between 2 and 58 characters and only contain valid characters (a-z, A-Z, 0-9, &, -, (), /, ‘ and , or .). The following characters cannot be used at the start of contact name (&, -, (), /, ‘ and , or .)
+error.addresslookup.mandatory = You must enter a postcode to find an address or enter an address manually
 
 # vehicle Lookup
 vrm_retention_vehiclelookup.title = Enter details
@@ -164,8 +165,10 @@ payment-prevent-back-title = Back button prevented
 payment-prevent-back-text = You cannot use your browser back button after making a payment. No new payments have been taken.
 payment-prevent-back-return-to-success = Return to success page
 
+# confirm_business view
 vrm_retention_confirm_business.title = Confirm your business details
 
+# confirm view
 vrm_retention_confirm.title = Confirm keeper details
 vrm_retention_confirm.keeperLabel = Registered keeper
 vrm_retention_confirm.keeperAddressLabel = Address
@@ -175,7 +178,6 @@ vrm_retention_confirm.businessEmailLabel = Contact email
 vrm_retention_confirm.businessAddressLabel = Address
 keeper-email = Email
 supply-email = Email options
-mandatory-alternative.not-selected = Please tell us whether you require confirmation email
 vrm_retention_confirm.emailAddressKeeperLabel = Keeper''s email
 vrm_retention_confirm.emailAddressCustomerLabel = Customer''s email
 vrm_retention_confirm.emailKeeper = Supply an email address to receive a payment receipt and a summary of the transaction
@@ -198,6 +200,7 @@ supply-email-true = Yes
 supply-email-false = No
 email-not-supplied = You must supply an email address to receive a summary of the transaction
 
+# success view
 vrm_retention_success_payment.h2 = What to do next
 vrm_retention_success_payment.what-next-1 = if you have the number plates already, you should put these on your vehicle as soon as possible.
 vrm_retention_success_payment.what-next-2 = if you need to have your new plates made up, you can do this once you have received your new V5C registration certificate (logbook)
@@ -208,10 +211,8 @@ vrm_retention_success_payment.what-next-6 = put a registration number on a vehic
 vrm_retention_success_payment.what-next-7 = You will need the retention certificate number in the green box above.
 vrm_retention_success_payment.what-next-8 = advise your insurance company about your change of registration number.
 vrm_retention_success_payment.what-next-9 = You will receive an email confirmation of your retention and a payment receipt.
-
 vrm_retention_success_payment.p6 = You’ll need this to make up the replacement plates
 vrm_retention_success_payment.p7 = You will need the updated V5C registration certificate (logbook) or a number plate authorisation certificate (eV948) which you can download and save or print using the link provided.
-
 vrm_retention_success.title = Application successful
 vrm_retention_success.subtitle = Can now be taken off the vehicle
 vrm_retention_success.yourCert = Your retention certificate number is:
@@ -219,15 +220,6 @@ success-cert-warning = We strongly advise you to keep your certificate number co
 success-cert-warning-1 = Your current vehicle tax and MOT certificate will remain valid until their expiry dates. DVLA will not send you a replacement MOT certificate.
 success-replacement-registration-number = your replacement registration number is:
 vrm_retention_success.newPlateLink = Download the eV948
-success-keeper-application-details-contact-us = To contact us:
-success-keeper-application-details-telephone = Telephone
-success-keeper-application-details-telephone-number = 0300 123 1350
-success-keeper-application-details-telephone-number-extension1 = (please enter code
-success-keeper-application-details-telephone-number-extension2 = 662
-success-keeper-application-details-telephone-number-extension3 = when prompted)
-success-keeper-application-details-monday-to-friday = Monday to Friday: 08:00 to 19:00
-success-keeper-application-details-saturday = Saturday: 08:00 to 14:00
-success-keeper-application-details-sunday = Sunday: Closed
 
 success-keeper-details = Keeper details
 success-keeper-details-name = Name:
@@ -249,6 +241,20 @@ vrm_retention_success.p7 = You will also receive a retention certificate (V778) 
 vrm_retention_success.p8 = which will be sent to the keeper at their registered address.
 
 vrm_retention_success.buttonnavprint = Print this page
+
+# failure_playback view
+success-keeper-application-details-contact-us = To contact us:
+success-keeper-application-details-telephone = Telephone
+success-keeper-application-details-telephone-number = 0300 123 1350
+success-keeper-application-details-telephone-number-extension1 = (please enter code
+success-keeper-application-details-telephone-number-extension2 = 662
+success-keeper-application-details-telephone-number-extension3 = when prompted)
+success-keeper-application-details-monday-to-friday = Monday to Friday: 08:00 to 19:00
+success-keeper-application-details-saturday = Saturday: 08:00 to 14:00
+success-keeper-application-details-sunday = Sunday: Closed
+
+# override VPC - OptionalToggle widget
+mandatory-alternative.not-selected = Please tell us whether you require confirmation email
 
 vrm_retention_leave_feedback.title = Thank you
 vrm_retention_leave_feedback.feedback = leaving feedback
