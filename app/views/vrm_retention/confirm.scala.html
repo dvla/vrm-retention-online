@@ -25,7 +25,7 @@
     currentForm = Some(confirmForm),
     backButton = Some(controllers.routes.Confirm.back())
 ) {
-    @form(action = controllers.routes.Confirm.submit()) {
+    @form(action = controllers.routes.Confirm.submit(), 'novalidate -> "novalidate") {
         @csrfTokenHiddenField()
         <div class="two-col">
             <div class="second-col">
@@ -75,7 +75,7 @@
                             if(isKeeper) Some(Messages("vrm_retention_confirm.emailKeeper"))
                             else Some(Messages("vrm_retention_confirm.emailTrade"))
                         },
-                        args = Map('maxLength -> KeeperEmailMaxLength, 'validityMessage -> Messages("error.email"))
+                        args = Map('maxLength -> KeeperEmailMaxLength)
                     )
                 )
             </div>
