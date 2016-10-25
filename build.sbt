@@ -118,7 +118,7 @@ resolvers ++= projectResolvers
 webJarCdns := Map()
 
 // Uncomment before releasing to github in order to make Travis work
-//resolvers ++= "Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/"
+resolvers ++= Seq("Dvla Bintray Public" at "http://dl.bintray.com/dvla/maven/")
 
 // ====================== Sandbox Settings ==========================
 lazy val auditProject = audit("0.15").disablePlugins(PlayScala, SbtWeb)
