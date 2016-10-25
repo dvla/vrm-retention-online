@@ -19,7 +19,7 @@
     title = Messages("vrm_retention_vehiclelookup.title"),
     currentForm = Some(vehicleAndKeeperLookupForm)
 ) {
-    @form(action = controllers.routes.VehicleLookup.submit()) {
+    @form(action = controllers.routes.VehicleLookup.submit(), 'novalidate -> "novalidate") {
         @csrfTokenHiddenField()
         <div class="two-col clearfix vehicle-lookup">
 
@@ -45,8 +45,7 @@
                         'tooltipHeading -> Messages("vrm_retention_vehiclelookup.v5c"),
                         'typeTel -> true,
                         '_showConstraints -> false,
-                        'maxLength -> DocumentReferenceNumber.MaxLength, // Must be set independently of the pattern as the pattern is only checked when the user submits.
-                        'pattern -> DocumentReferenceNumber.Pattern)
+                        'maxLength -> DocumentReferenceNumber.MaxLength)
                 )
 
                 @valtechInputText(vehicleAndKeeperLookupForm(PostcodeId), hintText = Some(Messages("vrm_retention_vehiclelookup.postcodeHint")),
