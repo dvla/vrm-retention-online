@@ -14,7 +14,6 @@ import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.
 import utils.helpers.Config
 import views.html.vrm_retention.lookup_failure.direct_to_paper
 import views.html.vrm_retention.lookup_failure.eligibility_failure
-import views.html.vrm_retention.lookup_failure.ninety_day_rule_failure
 import views.html.vrm_retention.lookup_failure.postcode_mismatch
 import views.html.vrm_retention.lookup_failure.vehicle_lookup_failure
 import views.vrm_retention.VehicleLookup.TransactionIdCacheKey
@@ -107,16 +106,6 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
     )
   }
 
-  private def ninetyDayRuleFailure(viewModel: VehicleLookupFailureViewModel,
-                                   transactionId: String)
-                                  (implicit request: Request[AnyContent]) = {
-    logMessage(request.cookies.trackingId(), Info, s"VehicleLookupFailure is presenting ninety day rule failure view")
-    ninety_day_rule_failure(
-      transactionId = transactionId,
-      viewModel = viewModel
-    )
-  }
-
   private def displayVehicleLookupFailure(transactionId: String,
                                           vehicleAndKeeperLookupForm: VehicleAndKeeperLookupFormModel,
                                           vehicleAndKeeperDetails: Option[VehicleAndKeeperDetailsModel],
@@ -128,7 +117,7 @@ final class VehicleLookupFailure @Inject()()(implicit clientSideSessionFactory: 
       case "vrm_retention_eligibility_direct_to_paper" => directToPaper(viewModel, transactionId)
       case VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH => postcodeMismatch(viewModel, transactionId)
       case "vrm_retention_eligibility_failure" => eligibilityFailure(viewModel, transactionId)
-      case "vrm_retention_eligibility_ninety_day_rule_failure" => ninetyDayRuleFailure(viewModel, transactionId)
+      case "vrm_retention_eligibility_ninety_day_rule_failure" => directToPaper(viewModel, transactionId, Some("vehicle-lookup-failure-ninety_day_rule_failure-p1"))
       case "vrm_retention_eligibility_exported_failure" =>
         eligibilityFailure(viewModel, transactionId, Some("vrm_retention_eligibility_exported_failure"))
       case "vrm_retention_eligibility_scrapped_failure" =>

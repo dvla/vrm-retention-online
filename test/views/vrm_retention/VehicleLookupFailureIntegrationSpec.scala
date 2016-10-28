@@ -15,6 +15,7 @@ import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RE
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.GlobalCreator
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.FailureCodeUndefined
+import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.NinetyDayFailureMessage
 
 class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with Eventually with IntegrationPatience {
 
@@ -24,6 +25,14 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       cacheDocRefMismatchSetup()
       go to VehicleLookupFailurePage
       pageTitle should equal(VehicleLookupFailurePage.title)
+    }
+
+    "display the direct to paper page for a 90 day rule failure" taggedAs UiTag in new WebBrowserForSelenium {
+      go to BeforeYouStartPage
+      cacheNinetyDaySetup()
+      go to VehicleLookupFailurePage
+      pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
+      pageSource should include(NinetyDayFailureMessage)
     }
 
     "display the lookup unsuccessful page for a direct to paper failure" taggedAs UiTag in new WebBrowserForSelenium {
@@ -154,43 +163,29 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
     }
   }
 
-  private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
+  private def corePageSetup(message: String, code: String = FailureCodeUndefined)(implicit webDriver: WebDriver) =
     CookieFactoryForUISpecs
       .transactionId()
       .bruteForcePreventionViewModel()
       .vehicleAndKeeperLookupFormModel()
       .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(message = "vehicle_and_keeper_lookup_document_reference_mismatch")
+      .storeMsResponseCode(code, message)
+
+  private def cacheDocRefMismatchSetup()(implicit webDriver: WebDriver) =
+    corePageSetup(message = "vehicle_and_keeper_lookup_document_reference_mismatch")
 
   private def cacheDirectToPaperSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs
-      .transactionId()
-      .bruteForcePreventionViewModel()
-      .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(message = "vrm_retention_eligibility_direct_to_paper")
+    corePageSetup(message = "vrm_retention_eligibility_direct_to_paper")
+
+  private def cacheNinetyDaySetup()(implicit webDriver: WebDriver) =
+    corePageSetup(message = "vrm_retention_eligibility_ninety_day_rule_failure")
 
   private def cacheDirectToPaperSetup2()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs
-      .transactionId()
-      .bruteForcePreventionViewModel()
-      .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(code = "alpha", message = "vrm_retention_eligibility_direct_to_paper") // this represents a sensitive code
+    corePageSetup(code = "alpha", message = "vrm_retention_eligibility_direct_to_paper") // this represents a sensitive code
 
   private def cacheFailureSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs
-      .transactionId()
-      .bruteForcePreventionViewModel()
-      .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(message = "vrm_retention_eligibility_failure")
+    corePageSetup(message = "vrm_retention_eligibility_failure")
 
   private def cachePostcodeMismatchSetup()(implicit webDriver: WebDriver) =
-    CookieFactoryForUISpecs
-      .transactionId()
-      .bruteForcePreventionViewModel()
-      .vehicleAndKeeperLookupFormModel()
-      .vehicleAndKeeperDetailsModel()
-      .storeMsResponseCode(message = RESPONSE_CODE_POSTCODE_MISMATCH)
+    corePageSetup(message = RESPONSE_CODE_POSTCODE_MISMATCH)
 }
