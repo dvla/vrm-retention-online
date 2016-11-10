@@ -249,7 +249,7 @@ success-keeper-application-details-telephone-number = 0300 123 1350
 success-keeper-application-details-telephone-number-extension1 = (Rhowch y cod
 success-keeper-application-details-telephone-number-extension2 = 662
 success-keeper-application-details-telephone-number-extension3 = pan ofynnir amdano)
-success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08:00 i 19:00
+success-keeper-application-details-monday-to-friday = Dydd llun i Ddydd Gwener: 08:00 i 18:00
 success-keeper-application-details-saturday = Dydd Sadwrn: 08:00 i 14:00
 success-keeper-application-details-sunday = Dydd Sul: Ar gau
 
