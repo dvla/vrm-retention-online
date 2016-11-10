@@ -295,7 +295,7 @@ email.failure.line6 = If you wish to contact DVLA regarding this application ple
 email.failure.line7 = Telephone:
 email.failure.line8 = 0300 790 6802
 email.failure.line9 = (please enter extension 662 when prompted)
-email.failure.line11 = Monday to Friday: 08:00 to 19:00
+email.failure.line11 = Monday to Friday: 08:00 to 18:00
 email.failure.line12 = Saturday: 08:00 to 14:00
 email.failure.line13 = Sunday: Closed
 
