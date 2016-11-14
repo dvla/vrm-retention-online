@@ -40,6 +40,7 @@ class VehicleLookupFailureIntegrationSpec extends UiSpec with TestHarness with E
       cacheDirectToPaperSetup()
       go to VehicleLookupFailurePage
       pageTitle should equal(VehicleLookupFailurePage.directToPaperTitle)
+      pageSource should not include(NinetyDayFailureMessage)
     }
 
     "display the lookup unsuccessful page for a direct to paper failure with non-sensitive response code" taggedAs UiTag in
