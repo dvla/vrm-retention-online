@@ -2,7 +2,7 @@ import sbt.Keys.version
 import sbt._
 
 object Common {
-  val versionString = "1.50"
+  val versionString = "1.51-SNAPSHOT"
   val scalaVersionString = "2.11.8"
   val organisationString = "dvla"
   val organisationNameString = "Driver & Vehicle Licensing Agency"
