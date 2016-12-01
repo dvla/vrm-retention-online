@@ -5,7 +5,7 @@ import models.{BusinessDetailsModel, ConfirmFormModel, EligibilityModel}
 import org.apache.commons.codec.binary.Base64
 import pdf.PdfService
 import play.api.Play
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
 import play.api.Play.current
 import play.twirl.api.HtmlFormat
 import uk.gov.dvla.vehicles.presentation.common
@@ -30,7 +30,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
   def emailRequest(emailAddress: String, vehicleAndKeeperDetailsModel: VehicleAndKeeperDetailsModel,
                    eligibilityModel: EligibilityModel, emailData: EmailData, confirmFormModel: Option[ConfirmFormModel],
                    businessDetailsModel: Option[BusinessDetailsModel], emailFlags: EmailFlags,
-                   trackingId: TrackingId): Option[EmailServiceSendRequest] = {
+                   trackingId: TrackingId)(implicit lang: Lang): Option[EmailServiceSendRequest] = {
     val inputEmailAddressDomain = emailAddress.substring(emailAddress.indexOf("@"))
 
     if (config.emailWhitelist.isEmpty || (config.emailWhitelist.get contains inputEmailAddressDomain.toLowerCase)) {
@@ -77,7 +77,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                            emailData: EmailData,
                            confirmFormModel: Option[ConfirmFormModel],
                            businessDetailsModel: Option[BusinessDetailsModel],
-                           emailFlags: EmailFlags): HtmlFormat.Appendable = {
+                           emailFlags: EmailFlags)(implicit lang: Lang): HtmlFormat.Appendable = {
 
     val govUkContentId = govUkUrl match {
       case Some(filename) =>
@@ -114,7 +114,7 @@ final class RetainEmailServiceImpl @Inject()(emailService: EmailService,
                                        emailData: EmailData,
                                        confirmFormModel: Option[ConfirmFormModel],
                                        businessDetailsModel: Option[BusinessDetailsModel],
-                                       emailFlags: EmailFlags): String = {
+                                       emailFlags: EmailFlags)(implicit lang: Lang): String = {
     email_without_html(
       vrm = vehicleAndKeeperDetailsModel.registrationNumber.trim,
       retentionCertId = emailData.certificateNumber,

@@ -3,7 +3,7 @@
 @import views.vrm_retention.LiveAgent.`webchat-title-id`
 @import views.vrm_retention.LiveAgent.`webchat-info-id`
 
-    @if(config.liveAgentEnvironmentId.isDefined){
+    @if(config.liveAgentEnvironmentId.isDefined && lang.code != "cy") {
         <div id="@{`webchat-title-id`}" style="display: none"><strong>@Messages("webchat.title")</strong></div>
         <!-- live agent deployment -->
         <script type='text/javascript'

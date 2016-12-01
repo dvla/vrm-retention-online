@@ -1,8 +1,10 @@
-@()(implicit config: utils.helpers.Config)
+@()(implicit lang: Lang, config: utils.helpers.Config)
 
 @import views.vrm_retention.LiveAgent.`webchat-info-id`
 
+@if(lang.code != "cy") {
 <div id="@{`webchat-info-id`}" style="display: none">
     <p>@Messages("webchat.info.p1") <a href="#" class="ga-track-click-event-once"
     data-ga-event-action="webchat" onclick="liveagent.startChat('@config.liveAgentButtonId')">@Messages("webchat.info.chatlink.text")</a></p>
 </div>
+}

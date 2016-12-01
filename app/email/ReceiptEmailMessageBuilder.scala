@@ -2,7 +2,7 @@ package email
 
 import java.text.SimpleDateFormat
 import org.joda.time.{DateTimeZone, Instant}
-import play.api.i18n.Messages
+import play.api.i18n.{Lang, Messages}
 
 /**
  * The email message builder class will create the contents of the message. override the buildHtml and buildText
@@ -15,7 +15,7 @@ object ReceiptEmailMessageBuilder {
   case class BusinessDetails(name: String, contact: String, address: Seq[String])
 
   def buildWith(assignVrn: String, amountCharged: String, transactionId: String,
-                business: Option[BusinessDetails]): Contents = {
+                business: Option[BusinessDetails])(implicit lang: Lang): Contents = {
 
     val now = Instant.now.toDateTime(DateTimeZone.forID("Europe/London"))
     val dateStr = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(now.toDate)
@@ -26,30 +26,32 @@ object ReceiptEmailMessageBuilder {
     )
   }
 
-   private def buildBusinessHtml(business: BusinessDetails): String =
+   private def buildBusinessHtml(business: BusinessDetails)(implicit lang: Lang): String =
    s"""
       |<ul>
-      |<li>Business Name: <strong>${business.name}</strong></li>
-      |<li>Business Contact: <strong>${business.contact}</strong></li>
-      |<li>Business Address: ${ (for {
+      |<li>${Messages("email.business.name")}: <strong>${business.name}</strong></li>
+      |<li>${Messages("email.business.contact")}: <strong>${business.contact}</strong></li>
+      |<li>${Messages("email.business.address")}: ${ (for {
            addr <- business.address
          } yield s"<li>$addr</li>").mkString("<ul>", "", "</ul>")  }</li>
        |</ul>
      """.stripMargin
 
-  private def buildBusinessPlain(business: BusinessDetails): String =
+  private def buildBusinessPlain(business: BusinessDetails)(implicit lang: Lang): String =
   s"""
-     |Business Name
-   }: ${business.name}
-     |Business Contact: ${business.contact}
-     |Business Address: ${business.address}
+     |${Messages("email.business.name")}: ${business.name}
+     |${Messages("email.business.contact")}: ${business.contact}
+     |${Messages("email.business.address")}:
+     |    ${(for {
+           addr <- business.address
+     } yield s"$addr").mkString("\n    ")}
    """.stripMargin
 
   private def buildHtml(assignVrn: String,
                         amountCharged: String,
                         transactionId: String,
                         dateStr: String,
-                        business: String): String =
+                        business: String)(implicit lang: Lang): String =
     s"""
        |<html>
        |<head>
@@ -89,7 +91,7 @@ object ReceiptEmailMessageBuilder {
                         amountCharged: String,
                         transactionId: String,
                         dateStr: String,
-                        business: String): String =
+                        business: String)(implicit lang: Lang): String =
     s"""
        |${Messages("email.template.line1")}
        |

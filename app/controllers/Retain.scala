@@ -276,7 +276,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
     val template = ReceiptEmailMessageBuilder.buildWith(vehicleAndKeeperLookupFormModel.registrationNumber,
       f"${config.purchaseAmountInPence.toDouble / 100}%.2f", transactionId, businessDetails
     )
-    val title = s"Payment Receipt for retention of ${vehicleAndKeeperLookupFormModel.registrationNumber}"
+    val title = s"${Messages("email.template.subject")} ${vehicleAndKeeperLookupFormModel.registrationNumber}"
     val from = From(config.emailConfiguration.from.email, config.emailConfiguration.from.name)
 
     val isKeeperUserType = vehicleAndKeeperLookupFormModel.isKeeperUserType

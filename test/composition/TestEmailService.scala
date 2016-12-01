@@ -21,7 +21,7 @@ final class TestEmailService extends ScalaModule with MockitoSugar {
     any[Option[BusinessDetailsModel]],
     any[EmailFlags],
     any[TrackingId]
-  )).thenReturn(None)
+  )(any[play.api.i18n.Lang])).thenReturn(None)
 
   def configure() = bind[RetainEmailService].toInstance(stub)
 }
