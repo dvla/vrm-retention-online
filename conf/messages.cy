@@ -314,8 +314,8 @@ email.failure.line4 = Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerb
 email.failure.line6 = Os dymunwch gysylltu â’r DVLA ynglhylch y cais hwn, yna cysylltwch gyda ni drwy ddefnyddio’r \
 manylion canlynol:
 email.failure.line7 = Rhif ffôn:
-email.failure.line8 = 0300 790 6802
-email.failure.line9 = (rhowch estyniad 662 pan ofynnir amdano)
+email.failure.line8 = 0300 123 1350
+email.failure.line9 = (rhowch estyniad 544 pan ofynnir amdano)
 email.failure.line11 = Dydd Llun i Ddydd Gwener: 8am i 6pm
 email.failure.line12 = Dydd Sadwrn: 8am i 2pm
 email.failure.line13 = Dydd Sul: Ar gau
