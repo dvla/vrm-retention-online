@@ -1,3 +1,12 @@
+======= 1.51 ========
+Time of release binaries creation:
+
+
+VMPRCI-4574 	Transaction Failed Email - Update Contact Centre Number
+VMPRCI-3812 	Welsh Translation Revision for all VM & PR services
+VMPRCI-4559 	OS Organisation name details appear twice on address picker entry
+VMPRCI-4560 	Update play framework version to 2.3.10
+
 ======= 1.50 ========
 Time of release binaries creation:
 Wed Nov 23 11:41:05 UTC 2016
