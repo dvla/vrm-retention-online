@@ -170,7 +170,7 @@ final class PdfServiceImpl @Inject()(dateService: DateService) extends PdfServic
   private def writeDateOfRetention()(implicit contentStream: PDPageContentStream): Unit = {
     val today = DayMonthYear.from(new DateTime(dateService.now, DateTimeZone.forID("Europe/London")))
     val dateStamp = today.`dd shortMonth yyyy`
-    val timeStamp = today.`HH:mm`
+    val timeStamp = today.`hh:mm a`
     val font = fontHelvetica(size = fontDefaultSize)
 
     contentStream.beginText()
