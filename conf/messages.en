@@ -296,8 +296,8 @@ email.failure.line6 = If you wish to contact DVLA regarding this application ple
 email.failure.line7 = Telephone:
 email.failure.line8 = 0300 123 1350
 email.failure.line9 = (please enter extension 662 when prompted)
-email.failure.line11 = Monday to Friday: 8am to 6pm
-email.failure.line12 = Saturday: 8am to 2pm
+email.failure.line11 = Monday to Friday: 8am - 6pm
+email.failure.line12 = Saturday: 8am - 2pm
 email.failure.line13 = Sunday: Closed
 
 # vrm_locked, ninety_day_rule,  direct_to_paper
