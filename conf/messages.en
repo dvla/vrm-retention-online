@@ -249,8 +249,8 @@ success-keeper-application-details-telephone-number = 0300 123 1350
 success-keeper-application-details-telephone-number-extension1 = (please enter code
 success-keeper-application-details-telephone-number-extension2 = 662
 success-keeper-application-details-telephone-number-extension3 = when prompted)
-success-keeper-application-details-monday-to-friday = Monday to Friday: 8am to 6pm
-success-keeper-application-details-saturday = Saturday: 8am to 2pm
+success-keeper-application-details-monday-to-friday = Monday to Friday: 8am - 6pm
+success-keeper-application-details-saturday = Saturday: 8am - 2pm
 success-keeper-application-details-sunday = Sunday: Closed
 
 # override VPC - OptionalToggle widget
