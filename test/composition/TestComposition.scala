@@ -5,7 +5,7 @@ import com.google.inject.util.Modules
 import com.google.inject.Guice
 import com.google.inject.Injector
 import com.google.inject.Module
-import composition.webserviceclients.audit2
+import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebService
@@ -48,12 +48,11 @@ trait TestComposition extends Composition {
       new TestVrmRetentionRetainWebService,
       new TestPaymentSolveWebService,
       new TestRefererFromHeader,
-      new audit2.AuditServiceDoesNothing,
+      new AuditServiceDoesNothing,
       new AuditMicroServiceCallNotOk,
       new TestEmailService,
       new TestReceiptEmailService,
-      new TestDateTimeZoneServiceBinding,
-      new HealthStatsBinding
+      new TestDateTimeZoneServiceBinding
     ).`with`(modules: _*)
     Guice.createInjector(overriddenDevModule)
   }
