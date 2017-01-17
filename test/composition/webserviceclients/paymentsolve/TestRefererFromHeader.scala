@@ -1,10 +1,11 @@
-package webserviceclients.paymentsolve
+package composition.webserviceclients.paymentsolve
 
 import com.tzavellas.sse.guice.ScalaModule
 import org.mockito.Matchers.any
 import org.mockito.Mockito.when
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.Request
+import webserviceclients.paymentsolve.RefererFromHeader
 
 final class TestRefererFromHeader extends ScalaModule with MockitoSugar {
 

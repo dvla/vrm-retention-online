@@ -1,6 +1,5 @@
 package composition
 
-import _root_.webserviceclients.paymentsolve.TestRefererFromHeader
 import com.google.inject.util.Modules
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -9,8 +8,7 @@ import composition.webserviceclients.audit2.AuditServiceDoesNothing
 import composition.webserviceclients.audit2.AuditMicroServiceCallNotOk
 import composition.webserviceclients.bruteforceprevention.BruteForcePreventionServiceBinding
 import composition.webserviceclients.bruteforceprevention.TestBruteForcePreventionWebService
-import composition.webserviceclients.paymentsolve.PaymentServiceBinding
-import composition.webserviceclients.paymentsolve.TestPaymentSolveWebService
+import composition.webserviceclients.paymentsolve.{PaymentServiceBinding, TestPaymentSolveWebService, TestRefererFromHeader}
 import composition.webserviceclients.vehicleandkeeperlookup.TestVehicleAndKeeperLookupWebService
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupServiceBinding
 import composition.webserviceclients.vrmretentioneligibility.TestVRMRetentionEligibilityWebService
