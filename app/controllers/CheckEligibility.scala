@@ -2,7 +2,7 @@ package controllers
 
 import com.google.inject.Inject
 import models.{BusinessDetailsModel, CacheKeyPrefix, EligibilityModel, VehicleAndKeeperLookupFormModel}
-import org.joda.time.DateTime
+import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import play.api.mvc.Result
 import play.api.mvc.{Action, Controller, Request}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -67,7 +67,7 @@ case class EligibilityProcessor(eligibilityService: VRMRetentionEligibilityServi
   def checkVrmEligibility()(implicit request: Request[_]): Future[Result] = {
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(
-      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
+      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey), dateService),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
@@ -85,13 +85,14 @@ case class EligibilityProcessor(eligibilityService: VRMRetentionEligibilityServi
   }
 
   private def buildWebHeader(trackingId: TrackingId,
-                             identifier: Option[String]): VssWebHeaderDto = {
+                             identifier: Option[String],
+                             dateService: DateService): VssWebHeaderDto = {
     def buildEndUser(identifier: Option[String]): VssWebEndUserDto = {
       VssWebEndUserDto(endUserId = identifier.getOrElse(config.orgBusinessUnit), orgBusUnit = config.orgBusinessUnit)
     }
 
     VssWebHeaderDto(transactionId = trackingId.value,
-      originDateTime = new DateTime,
+      originDateTime = dateService.now.toDateTime,
       applicationCode = config.applicationCode,
       serviceTypeCode = config.vssServiceTypeCode,
       buildEndUser(identifier))
