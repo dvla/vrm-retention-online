@@ -14,7 +14,6 @@ vrm_locked.title = Mae’r rhif cofrestru wedi’i gloi
 vrm_locked.text1 = Mae nifer o geisiadau aflwyddiannus wedi bod i gael mynediad i’r manylion cerbyd. Mae’r system nawr wedi cloi’r rhif cofrestru cerbyd hwn am 10 munud. Gall cerbydau eraill gael eu prosesu yn ystod y cyfnod hwn.
 vrm_locked.text2 = Wedi’i gloi am
 vrm_locked.text3 = Os ydych yn sicr bod y manylion yr ydych wedi’u rhoi yn gywir, anfonwch eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau
-
 vrm-locked-text4 = i’r DVLA, Abertawe, SA99 1BD
 vrm_locked.exit.button = Gadael
 
@@ -38,13 +37,10 @@ main.banner = Cymryd rhif cofrestru oddi ar gerbyd
 
 # before you start
 vrm_retention_beforeyoustart.p3 = I wneud cais arlein bydd arnoch angen:
-
 vrm_retention_beforeyoustart.p5 = Nodwch: mae’r gwasanaeth hwn yn diweddaru ein cofnodion ar unwaith.
-
 vrm_retention_beforeyoustart.p6 = Ar ôl i chi gadw’ch rhif cofrestru gallwch naill ai:
 vrm_retention_beforeyoustart.p6.listitem1 = ei roi ar gerbyd newydd neu ail law, neu
 vrm_retention_beforeyoustart.p6.listitem2 = ei gadw ar dystysgrif hyd nes eich bod yn dymuno ei roi ar gerbyd arall.
-
 vrm_retention_beforeyoustart.p7 = Ar ôl i chi gadw’ch rhif cofrestru byddwn yn:
 vrm_retention_beforeyoustart.p7.listitem1 = rhoi marc priodol i oed y cerbyd
 vrm_retention_beforeyoustart.p7.listitem2 = cyhoeddi dogfennaeth newydd sy’n dangos y manylion cofrestru newydd.
@@ -74,7 +70,6 @@ vrm_retention_setupbusinessdetails.businessemaillabel = Cyfeiriad ebost
 vrm_retention_setupbusinessdetails.businessemailhelper = Cyfeiriad ebost i gadarnhau’r drafodyn hwn
 vrm_retention_setupbusinessdetails.button = Nesaf
 vrm_retention_setupbusinessdetails.addresswarning = Os nad yw’ch cyfeiriad yn y pecyn cod post hwn neu’n dangos manylion anghywir, dewiswch y ddolen hon i
-
 vrm_retention_setupbusinessdetails.addresswarninglinktext = roi gwybod i’r Bost Brenhinol
 error.validBusinessContact = Rhaid iddo fod rhwng 2 a 58 o nodau ac yn cynnwys nodau dilys yn unig (a-z, A-Z, 0-9, &, -, (), /, ‘, a, neu.). Ni all y nodau canlynol gael eu defnyddio ar ddechrau’r enw cyswllt (&, -, (), ‘, a, neu.)
 error.addresslookup.mandatory = Mae’n rhaid i chi roi cod post i chwilio am gyfeiriad neu deipio’r cyfeiriad yn llawn
@@ -88,9 +83,7 @@ vrm_retention_vehiclelookup.vrninputlabel = Rhif cofrestru yr ydych eisiau cymry
 vrm_retention_vehiclelookup.vrnHint = Defnyddiwch y gwasanaeth hwn yn unig os ydych am gadw’r rhif cofrestru i’w roi ar gerbyd arall nawr neu yn y dyfodol.
 vrm_retention_vehiclelookup.button = Nesaf
 vrm_retention_vehiclelookup.postcodelabel = Cod post y ceidwad
-
 vrm_retention_vehiclelookup.postcodeHint = Cod post y ceidwad cofrestredig yn union fel y mae’n ymddangos ar y ddogfen dystysgrif gofrestru V5CW (llyfr log)
-
 vrm_retention_vehiclelookup.keeper = Ie
 vrm_retention_vehiclelookup.business = Na, rwy’n fusnes ac mae gennyf ganiatad i weithredu ar ei ran
 vrm_retention_vehiclelookup.label = Ai chi yw’r ceidwad cofrestredig?
@@ -99,7 +92,6 @@ postcode = Cod post
 
 # lookup failure - various pages
 vehicle-lookup-failure-title = Ni ellir dod o hyd i gofnod cerbyd
-
 vehicle-lookup-failure-try-again = Ceisiwch eto
 vehicle-lookup-failure-exit = Gadael
 
@@ -109,17 +101,15 @@ vehicle-lookup-failure.p2 = Gwiriwch os gwelwch yn dda bod y rhif cofrestru cerb
 vehicle-lookup-failure.p3 = Os ydych yn sicr bod y manylion sydd wedi’u rhoi yn gywir, mae’n bosib eich bod yn defnyddio tystysgrif gofrestru V5CW (llyfr log) hen ac mae’n debygol ein bod ni wedi cyhoeddi un newydd i chi ers hynny.
 vehicle-lookup-failure.p4 = Os nad yw’r dystysgrif gofrestru V5CW (llyfr log) a gyhoeddwyd fwyaf diweddar gennych, bydd angen i chi anfon eich tystysgrif gofrestru V5CW (llyfr log) wedi’i chwblhau i DVLA, Abertawe, SA99 1BD.
 vehicle-lookup-failure.p5 = Bydd gennych nifer gyfyngiedig o geisiadau yn unig er mwyn i chi roi eich manylion cerbyd ar gyfer y cerbyd hwn.
+
 # direct_to_paper / ninety-day_rule failure
 vehicle-lookup-failure-postcode-mismatch-p1 = Nid yw cod post y ceidwad a roddwyd yn perthyn i’r dystysgrif gofrestru V5CW (llyfr log) mwyaf diweddar a gyhoeddwyd ar gyfer y cerbyd hwn.
-
 vehicle-lookup-failure-postcode-mismatch-p2 = Gwnewch yn sicr fod gennych chi’r cod post ar gyfer y dystysgrif gofrestru V5CW (llyfr log) mwyaf diweddar a rhowch gynnig arall arni.
-
 vehicle-lookup-failure-direct-to-paper-title = Ni ellir dynodi’r rhif cofrestru hwn arlein
-
 vehicle-lookup-failure-direct-to-paper-p1 = Ni allwch barhau â’r cais hwn arlein.
 vehicle-lookup-failure-ninety_day_rule_failure-p1 = Mae angen i ni edrych ymhellach i’ch cais oherwydd hanes trwyddedu’r cerbyd.
 vehicle-lookup-failure-direct-to-paper-p1a = A wnewch chi
-direct-to-paper-text-v317 = anfon ffurflen V317
+direct-to-paper-text-v317 = anfon ffurflen V317W
 vehicle-lookup-failure-direct-to-paper-p1b = a’r dystysgrif gofrestru V5CW (llyfr log) i:
 vehicle-lookup-failure-direct-to-paper-address-line1 = Rhifau cofrestru personol y DVLA
 vehicle-lookup-failure-direct-to-paper-address-line2 = Abertawe
@@ -128,21 +118,17 @@ vehicle-lookup-failure-direct-to-paper-p2 = Mae’n rhaid i’r holl ddogfennau 
 
 # eligibility_failure
 vehicle-lookup-failure-eligibility-failure-title = Ni ellir cadw’r rhif cofrestru hwn
-vehicle-lookup-failure-eligibility-failure-p1 = Mae ein cofnodion yn dangos na ellir cymryd y rhif cofrestru oddi ar y cerbyd hwn
+vehicle-lookup-failure-eligibility-failure-p1 = Mae ein cofnodion yn dangos na ellir cymryd y rhif cofrestru oddi ar y cerbyd hwn.
+
 # eligibility
 vrm_retention_eligibility_exported_failure = Mae ein cofnodion yn dangos bod y cerbyd hwn wedi ei allforio. I roi rhif cofrestru ar gerbyd, mae’n rhaid bod y cerbyd wedi ei gofrestru ac yn cael ei ddefnyddio yn y DU
-
-vrm_retention_eligibility_scrapped_failure = Mae ein cofnodion yn dangos bod y cerbyd hwn wedi ei sgrapio.  I roi rhif cofrestru ar gerbyd, mae’n rhaid bod y cerbyd ar gael i’w archwilio.
-
+vrm_retention_eligibility_scrapped_failure = Mae ein cofnodion yn dangos bod y cerbyd hwn wedi ei sgrapio. I roi rhif cofrestru ar gerbyd, mae’n rhaid bod y cerbyd ar gael i’w archwilio.
 vrm_retention_eligibility_damaged_failure = Mae ein cofnodion yn dangos bod y cerbyd hwn wedi ei ddifrodi’n ddifrifol, mae angen i’ch cais gael ei asesu’n bellach.
 vrm_retention_eligibility_vic_failure = Mae ein cofnodion yn dangos bod angen gwiriad adnabod cerbyd (VIC) ar y cerbyd hwn. Mae mwy o wybodaeth ar gael yn
-
 vrm_retention_eligibility_vic_failure_link = https://www.gov.uk/vehicle-identity-check
-vrm_retention_eligibility_no_keeper_failure = Mae ein cofnodion yn dangos nad oes ceidwad cofrestredig ar gyfer y cerbyd hwn.  Mae gwybodaeth ar gael am sut i ddiweddaru manylion ceidwad yn
-
+vrm_retention_eligibility_no_keeper_failure = Mae ein cofnodion yn dangos nad oes ceidwad cofrestredig ar gyfer y cerbyd hwn. Mae gwybodaeth ar gael am sut i ddiweddaru manylion ceidwad yn
 vrm_retention_eligibility_no_keeper_failure_link = https://www.gov.uk/vehicle-registration-certificate-v5c-log-book
-vrm_retention_eligibility_not_mot_failure = Mae ein cofnodion yn dangos nad yw’r cerbyd hwn yn fath sydd angen cael MOT neu rydym wedi cael ein hysbysu nad oes angen MOT ar gyfer ei ddefnydd. Ni allwch gymryd y rhif cofrestru hwn oddi ar y cerbyd
-
+vrm_retention_eligibility_not_mot_failure = Mae ein cofnodion yn dangos nad yw’r cerbyd hwn yn fath sydd angen cael MOT neu rydym wedi cael ein hysbysu nad oes angen MOT ar gyfer ei ddefnydd. Ni allwch gymryd y rhif cofrestru hwn oddi ar y cerbyd.
 vrm_retention_eligibility_pre_1998_failure = Gan fod eich cerbyd wedi’i gofrestru cyn 1998, ni allwn gyhoeddi rhif cofrestru arall yn awtomatig. Bydd angen i chi anfon eich cais i’r DVLA i brosesu.
 vrm_retention_eligibility_q_plate_failure = Ni allwch gymryd rhif cofrestru oddi ar gerbyd sydd wedi’i gofrestru â rhif cofrestru Q.
 vrm_retention_eligibility_ninety_day_rule_failure = Neges wall 90 diwrnod
@@ -164,7 +150,6 @@ vrm_retention_paymentnotauthorised.exitbutton = Gadael
 paymentFailureErrorMessage.title = Taliad wedi methu
 paymentFailureErrorMessage.p1 = Ni chymerwyd unrhyw daliad.
 paymentFailureErrorMessage.p2 = A wnewch chi naill ai geisio eto neu adael y gwasanaeth.
-
 
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Taliad wedi ei ganslo neu heb ei awdurdodi
@@ -192,41 +177,37 @@ keeper-email = Ebost
 supply-email = Opsiynau ebost
 vrm_retention_confirm.emailAddressKeeperLabel = Cyfeiriad ebost y ceidwad
 vrm_retention_confirm.emailAddressCustomerLabel = Cyfeiriad ebost y cwsmer
-vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad ebost i gae crynodeb o’r trafodyn a derbynneb o’r taliad os bydd ffioedd adnewyddu’n daladwy
-
+vrm_retention_confirm.emailKeeper = Rhowch gyfeiriad ebost i gael crynodeb o’r trafodyn a derbynneb o’r taliad os bydd ffioedd adnewyddu’n daladwy
 vrm_retention_confirm.emailTrade = Rhowch gyfeiriad ebost eich cwsmer i gael crynodeb o’r trafodyn
 vrm_retention_confirm.emailWarnp4 = Am ragor o wybodaeth ar sut i ddiweddaru’ch manylion, ewch i
-
 vrm_retention_confirm.emailWarnp4link = ‘newid manylion cerbyd ar dystysgrif gofrestru V5CW (llyfr log)’
 vrm_retention_confirm.button = Nesaf
 vrm_retention_confirm_business.button = Cadarnhau
 vrm_retention_confirm.emailWarn = Manylion anghywir?
 vrm_retention_confirm.emailWarnp1 = Mae’n rhaid i chi ddiweddaru’ch tystysgrif gofrestru V5CW (llyfr log) os oes unrhyw gamgymeriadau arni, neu os ydych yn gwneud nifer o newidiadau i’ch cerbyd.
-vrm_retention_confirm.emailWarnp2 = Os oes angen i chi wneud newidiadau i’ch tystysgrif V778, bydd angen i chi anfon y dystysgrif wedi’i diweddaru i’r DVLA ynghyd ag unrhyw dystiolaeth anghenrheidiol. Am ragor o wybodaeth ar sut i ddiweddaru’ch manylion, ewch i
-vrm_retention_confirm.emailWarnp2.link = ‘adnewyddu, diweddaru neu gael tystysgrif V778 newydd’
+vrm_retention_confirm.emailWarnp2 = Os oes angen i chi wneud newidiadau i’ch tystysgrif V778W, bydd angen i chi anfon y dystysgrif wedi’i diweddaru i’r DVLA ynghyd ag unrhyw dystiolaeth anghenrheidiol. Am ragor o wybodaeth ar sut i ddiweddaru’ch manylion, ewch i
+vrm_retention_confirm.emailWarnp2.link = ‘adnewyddu, diweddaru neu gael tystysgrif V778W newydd’
 vrm_retention_confirm.emailWarnp3 = Yn ddibynnol ar y newidiadau, efallai y bydd angen archwilio’ch cerbyd, ond bydd y DVLA yn dweud wrthych os bydd angen hynny.
-
 vrm_retention_exit.button = Gadael
 vrm_retention_finish.button = Gorffen
 vrm_retention_changedetails.button = Newid manylion
 supply-email-keeper-acting = Ydych chi’n dymuno derbyn ebost gyda chrynodeb o’r trafodyn?
 supply-email-business-acting = A yw’ch cwsmer yn dymuno derbyn ebost gyda chrynodeb o’r trafodyn?
-
 supply-email-true = Ydy
+supply-email-true-keeper = Ydw
 supply-email-false = Na
 email-not-supplied = Mae’n rhaid i chi roi cyfeiriad ebost er mwyn cael crynodeb o’r trafodyn
 
 # success view
 vrm_retention_success_payment.h2 = Beth i’w wneud nesaf
-vrm_retention_success_payment.what-next-1 = os ydy’r platiau rhif gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
+vrm_retention_success_payment.what-next-1 = os ydy’r platiau rhif gennych yn barod, dylech rhoi ar eich cerbyd cyn gynted â phosib.
 vrm_retention_success_payment.what-next-2 = os oes angen i chi gael eich platiau cofrestru newydd wedi’u creu, gallwch wneud hyn unwaith yr ydych wedi derbyn eich tystysgrif gofrestru V5CW (llyfr log) newydd
 vrm_retention_success_payment.what-next-3 = gyda’ch cyflenwr lleol a gymeradwyir gan y DVLA.
-
 vrm_retention_success_payment.what-next-4 = gallwch nawr eu rhoi
 vrm_retention_success_payment.what-next-5 = ar gerbyd arall drwy ddefnyddio ein gwasanaeth arlein:
-vrm_retention_success_payment.what-next-6 = rhoi rhif cofrestru ar gerbyd
-vrm_retention_success_payment.what-next-7 = Bydd angen rif y dystysgrif gadw yn y blwch gwyrdd uchod
-vrm_retention_success_payment.what-next-8 = rhoi gwybod i’ch cwmni yswiriant am y newid i’ch rhif cofrestru
+vrm_retention_success_payment.what-next-6 = rhoi rhif cofrestru ar gerbyd.
+vrm_retention_success_payment.what-next-7 = Bydd angen rif y dystysgrif gadw yn y blwch gwyrdd uchod.
+vrm_retention_success_payment.what-next-8 = rhoi gwybod i’ch cwmni yswiriant am y newid i’ch rhif cofrestru.
 vrm_retention_success_payment.what-next-9 = Byddwch yn derbyn cadarnhad ebost o’ch cais i gadw’r rhif cofrestru a derbynneb am y taliad.
 vrm_retention_success_payment.p6 = Bydd arnoch angen hwn i greu’r platiau cofrestru newydd
 vrm_retention_success_payment.p7 = Bydd arnoch angen y dystysgrif gofrestru V5CW (llyfr log) wedi’i diweddaru neu dystysgrif ddilysu plat cofrestru (eV948) y gallwch ei lawrlwytho a’i arbed neu argraffu gyda’r ddolen a ddarparwyd.
@@ -254,7 +235,7 @@ vrm_retention_success.p3 = at y ceidwad yn ei gyfeiriad cofrestredig.
 vrm_retention_success.p4 = Bydd hon yn cyrraedd o fewn 3 i 5 diwrnod.
 vrm_retention_success.p5 = Ni all y dystysgrif gofrestru V5CW (llyfr log) am
 vrm_retention_success.p6 = gael ei ddefnyddio i roi gwybod i’r DVLA am unrhyw newidiadau, dylech ddinistrio hon unwaith eich bod wedi derbyn yr un newydd.
-vrm_retention_success.p7 = Byddwch hefyd yn derbyn tystysgrif gadw (V778) ar gyfer y rhif cofrestru
+vrm_retention_success.p7 = Byddwch hefyd yn derbyn tystysgrif gadw (V778W) ar gyfer y rhif cofrestru
 vrm_retention_success.p8 = a fydd yn cael ei hanfon at y ceidwad yn ei gyfeiriad cofrestredig.
 
 vrm_retention_success.buttonnavprint = Argraffu’r dudalen hon
@@ -282,7 +263,6 @@ email.title = Tynnu rhif cofrestru oddi ar gerbyd wedi’i gwblhau ar gyfer {0}
 email.line2 = Eich cais i dynnu rhif cofrestru oddi ar gerbyd
 email.line3 = Rhif tystysgrif gadw
 email.line4 = Y trafodyn wedi ei gwblhau
-
 email.line5 = Dynodiad y trafodyn yw:
 email.line7 = Bydd tystysgrif gadw nawr yn cael ei chyhoeddi i’r ceidwad cofrestredig
 email.line8 = Rydym hefyd wedi anfon atoch fanylion y rhif cofrestru newydd, sydd wedi’u manylu isod, ynghyd â PDF o’r llythyr awdurdodiad (V948) y gallwch ei lawrlwytho neu ei argraffu gan ddefnyddio’r ddolen a ddarparwyd.
@@ -301,14 +281,12 @@ email.line28 = Gallwch aseinio eich rhif cofrestru arlein drwy ddefnyddio eich d
 email.email_service_impl.subject = dylid ei gyfnewid â
 email.assign = Cymryd rhif cofrestru oddi ar gerbyd
 vrm_retention_failure.title = Trafodyn yn aflwyddiannus
-vrm_retention_failure.text = Ni fu’r trafodyn hwn yn llwyddiannus a ni wnaed unrhyw newid i fanylion y cerbyd
-
+vrm_retention_failure.text = Ni fu’r trafodyn hwn yn llwyddiannus a ni wnaed unrhyw newid i fanylion y cerbyd.
 vehicle-lookup-failure-transaction-id = Dynodiad y trafodyn
 
 # failure email
 email.failure.line1 = MAE HWN YN EBOST AWTOMATAIDD
 email.failure.line2 = PEIDIWCH AG YMATEB OHERWYDD NI ALL NEGESEUON EBYST A DDERBYNNIR I’R CYFEIRIAD HWN GAEL EU HATEB.
-
 email.failure.line4 = Diolch am eich cais i ‘Dynnu rhif cofrestru oddi ar gerbyd’. Roedd eich cais yn \
   aflwyddiannus ar yr adeg hon ac nid oes taliad wedi ei gymryd o’r cerdyn credyd neu ddebyd hwn.
 email.failure.line6 = Os dymunwch gysylltu â’r DVLA ynglhylch y cais hwn, yna cysylltwch gyda ni drwy ddefnyddio’r \
@@ -321,8 +299,8 @@ email.failure.line12 = Dydd Sadwrn: 8am - 2pm
 email.failure.line13 = Dydd Sul: Ar gau
 
 # vrm_locked, ninety_day_rule,  direct_to_paper
-link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/409911/V317_211114.pdf
-text-v317 = V317
+link-v317 = https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/413916/V317W_161214.pdf
+text-v317 = V317W
 
 # timeout
 vrm_retention_timeout.title = Arhoswch os gwelwch yn dda

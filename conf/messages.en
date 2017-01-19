@@ -37,12 +37,10 @@ main.banner = Take a registration number off a vehicle
 
 # before you start
 vrm_retention_beforeyoustart.p3 = To apply online you will need:
-
 vrm_retention_beforeyoustart.p5 = Please note: this service updates our records immediately.
 vrm_retention_beforeyoustart.p6 = After you have retained your registration number you can either:
 vrm_retention_beforeyoustart.p6.listitem1 = assign (put it on) a new or used vehicle, or
 vrm_retention_beforeyoustart.p6.listitem2 = hold it on a certificate until you want to put it on another vehicle.
-
 vrm_retention_beforeyoustart.p7 = After you have retained your registration number we will:
 vrm_retention_beforeyoustart.p7.listitem1 = allocate an age appropriate mark for the vehicle
 vrm_retention_beforeyoustart.p7.listitem2 = issue new documentation displaying new registration details.
@@ -85,7 +83,6 @@ vrm_retention_vehiclelookup.vrninputlabel = Registration number you want to take
 vrm_retention_vehiclelookup.vrnHint = Only use this service if you want to keep the registration number to put it onto another vehicle now or in the future.
 vrm_retention_vehiclelookup.button = Next
 vrm_retention_vehiclelookup.postcodelabel = Keeper postcode
-
 vrm_retention_vehiclelookup.postcodeHint = The postcode of the registered keeper as it appears on the V5C registration certificate (logbook)
 vrm_retention_vehiclelookup.keeper = Yes I am
 vrm_retention_vehiclelookup.business = No, I am a business and have consent to act on their behalf
@@ -124,15 +121,15 @@ vehicle-lookup-failure-eligibility-failure-title = This registration number cann
 vehicle-lookup-failure-eligibility-failure-p1 = Our records show this registration number cannot be taken off this vehicle.
 
 # eligibility
-vrm_retention_eligibility_exported_failure = Our records show this vehicle has been exported.   To take a registration number off a vehicle, the vehicle needs to be registered and used in the UK
-vrm_retention_eligibility_scrapped_failure = Our records show this vehicle has been scrapped.  To take a registration number off a vehicle, the vehicle must be available for inspection.
+vrm_retention_eligibility_exported_failure = Our records show this vehicle has been exported. To take a registration number off a vehicle, the vehicle needs to be registered and used in the UK
+vrm_retention_eligibility_scrapped_failure = Our records show this vehicle has been scrapped. To take a registration number off a vehicle, the vehicle must be available for inspection.
 vrm_retention_eligibility_damaged_failure = Our records show this vehicle has been seriously damaged, your application needs further assessment.
-vrm_retention_eligibility_vic_failure = Our records show this vehicle requires  a vehicle identity check (VIC).  Further information can be found at
+vrm_retention_eligibility_vic_failure = Our records show this vehicle requires  a vehicle identity check (VIC). Further information can be found at
 vrm_retention_eligibility_vic_failure_link = https://www.gov.uk/vehicle-identity-check
-vrm_retention_eligibility_no_keeper_failure = Our records show there is no registered keeper for this vehicle.  Information on how to update a keeper can be found at
+vrm_retention_eligibility_no_keeper_failure = Our records show there is no registered keeper for this vehicle. Information on how to update a keeper can be found at
 vrm_retention_eligibility_no_keeper_failure_link = https://www.gov.uk/vehicle-registration-certificate-v5c-log-book
-vrm_retention_eligibility_not_mot_failure = Our records show this vehicle is not of a type that requires a MOT or we have been informed that its use does not require a MOT.  You cannot take this registration number off this vehicle.
-vrm_retention_eligibility_pre_1998_failure = As your vehicle was registered before 1998, we are currently unable to automatically issue a replacement number plate.  You will need to send your application to DVLA to process.
+vrm_retention_eligibility_not_mot_failure = Our records show this vehicle is not of a type that requires a MOT or we have been informed that its use does not require a MOT. You cannot take this registration number off this vehicle.
+vrm_retention_eligibility_pre_1998_failure = As your vehicle was registered before 1998, we are currently unable to automatically issue a replacement number plate. You will need to send your application to DVLA to process.
 vrm_retention_eligibility_q_plate_failure = You cannot take off a registration number that has been registered with a Q number plate.
 vrm_retention_eligibility_ninety_day_rule_failure = 90 day error message
 
@@ -157,7 +154,7 @@ paymentFailureErrorMessage.p2 = Please either try again or exit the service.
 # Payment not authorised page
 paymentNotAuthorisedErrorMessage.title = Payment cancelled or not authorised
 paymentNotAuthorisedErrorMessage.p1 = Payment using this card has not been authorised by the card issuer and no payment has been taken for this transaction.
-paymentNotAuthorisedErrorMessage.p2 = You may have entered your card details incorrectly.  If you would like to try re-entering your card details or pay with an alternative card please try again.
+paymentNotAuthorisedErrorMessage.p2 = You may have entered your card details incorrectly. If you would like to try re-entering your card details or pay with an alternative card please try again.
 paymentNotAuthorisedErrorMessage.p3 = If you continue to receive this error please contact the card issuer for advice.
 
 # Payment prevent back page
@@ -197,6 +194,7 @@ vrm_retention_changedetails.button = Change details
 supply-email-keeper-acting = Do you want to receive an email with a summary of the transaction?
 supply-email-business-acting = Does your customer want to receive an email with a summary of the transaction?
 supply-email-true = Yes
+supply-email-true-keeper = Yes
 supply-email-false = No
 email-not-supplied = You must supply an email address to receive a summary of the transaction
 

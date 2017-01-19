@@ -63,7 +63,10 @@
                         if(isKeeper) Messages("supply-email-keeper-acting")
                         else Messages("supply-email-business-acting")
                     },
-                    visibleLabel = Messages("supply-email-true"),
+                    visibleLabel = {
+                        if(isKeeper) Messages("supply-email-true-keeper")
+                        else Messages("supply-email-true")
+                    },
                     invisibleLabel = Messages("supply-email-false"),
                     optionalField = email(
                         confirmForm(KeeperEmailId),
