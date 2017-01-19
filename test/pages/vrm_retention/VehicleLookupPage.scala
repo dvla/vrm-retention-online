@@ -2,7 +2,6 @@ package pages.vrm_retention
 
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, find, go, id, radioButton, textField, telField}
-import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_retention.VehicleLookup.DocumentReferenceNumberId
 import views.vrm_retention.VehicleLookup.KeeperConsentId
@@ -18,7 +17,7 @@ import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.Registr
 
 object VehicleLookupPage extends Page {
 
-  def address = s"$applicationContext/vehicle-lookup"
+  def address = buildAppUrl("vehicle-lookup")
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 

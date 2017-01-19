@@ -2,7 +2,6 @@ package pages.vrm_retention
 
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, Element, find, go, id}
-import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_retention.Confirm.ConfirmId
 import views.vrm_retention.Confirm.ExitId
@@ -13,7 +12,7 @@ import views.vrm_retention.Confirm.SupplyEmailId
 
 object ConfirmPage extends Page {
 
-  def address = s"$applicationContext/confirm"
+  def address = buildAppUrl("confirm")
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
 

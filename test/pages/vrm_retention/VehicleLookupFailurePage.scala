@@ -3,14 +3,13 @@ package pages.vrm_retention
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.linkText
 import org.scalatest.selenium.WebBrowser.{find, id}
-import pages.ApplicationContext.applicationContext
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.{Page, WebDriverFactory}
 import views.vrm_retention.VehicleLookupFailure.ExitId
 import views.vrm_retention.VehicleLookupFailure.TryAgainId
 
 object VehicleLookupFailurePage extends Page {
 
-  def address = s"$applicationContext/vehicle-lookup-failure"
+  def address = buildAppUrl("vehicle-lookup-failure")
 
   override lazy val url = WebDriverFactory.testUrl + address.substring(1)
   final override val title: String = "Unable to find vehicle record"
