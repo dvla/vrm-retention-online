@@ -1,7 +1,6 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
@@ -10,6 +9,7 @@ import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage
 import pages.vrm_retention.SuccessPage
 import pages.vrm_retention.SuccessPage.finish
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 class SuccessUiSpec extends UiSpec with TestHarness {
 

@@ -2,7 +2,6 @@ package views.vrm_retention
 
 import composition.TestHarness
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.openqa.selenium.support.ui.ExpectedConditions
@@ -10,6 +9,7 @@ import org.scalatest.selenium.WebBrowser.{currentUrl, go, pageTitle}
 import pages.common.ErrorPanel
 import pages.vrm_retention.VehicleLookupPage.fillWith
 import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, SetupBusinessDetailsPage, VehicleLookupPage, VrmLockedPage}
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 import uk.gov.dvla.vehicles.presentation.common.views.widgetdriver.Wait
 
 class VehicleLookupIntegrationSpec extends UiSpec with TestHarness {

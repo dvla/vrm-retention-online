@@ -3,7 +3,6 @@ package views.vrm_retention
 import com.google.inject.Module
 import composition.{TestConfig, TestComposition, GlobalWithFilters, TestGlobalWithFilters, TestHarness}
 import helpers.UiSpec
-import helpers.tags.UiTag
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.concurrent.{Eventually, IntegrationPatience}
@@ -14,6 +13,7 @@ import play.api.GlobalSettings
 import uk.gov.dvla.vehicles.presentation.common.controllers.VehicleLookupBase.RESPONSE_CODE_POSTCODE_MISMATCH
 import uk.gov.dvla.vehicles.presentation.common.helpers.webbrowser.GlobalCreator
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.LightFakeApplication
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.FailureCodeUndefined
 import webserviceclients.fakes.VrmRetentionEligibilityWebServiceConstants.NinetyDayFailureMessage
 

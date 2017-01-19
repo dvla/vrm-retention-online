@@ -2,7 +2,6 @@ package views.vrm_retention
 
 import composition.TestHarness
 import controllers.routes.CookiePolicy
-import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
@@ -14,6 +13,7 @@ import pages.vrm_retention.BeforeYouStartPage.footerItem
 import pages.vrm_retention.VehicleLookupPage
 import uk.gov.dvla.vehicles.presentation.common.controllers.AlternateLanguages.CyId
 import uk.gov.dvla.vehicles.presentation.common.controllers.routes.AlternateLanguages
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 class BeforeYouStartIntegrationSpec extends UiSpec with TestHarness {
 

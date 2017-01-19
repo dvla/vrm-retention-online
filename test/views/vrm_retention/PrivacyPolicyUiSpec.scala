@@ -1,10 +1,10 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.tags.UiTag
 import helpers.UiSpec
 import org.scalatest.selenium.WebBrowser.{currentUrl, go}
 import pages.vrm_retention.PrivacyPolicyPage
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 class PrivacyPolicyUiSpec extends UiSpec with TestHarness {
 

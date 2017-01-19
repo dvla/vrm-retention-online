@@ -1,7 +1,6 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.tags.UiTag
 import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
@@ -12,6 +11,7 @@ import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.LeaveFeedbackPage
 import pages.vrm_retention.VrmLockedPage
 import pages.vrm_retention.VrmLockedPage.exit
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
 
 class VrmLockedUiSpec extends UiSpec with TestHarness {
 
