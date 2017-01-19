@@ -14,7 +14,6 @@ import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLook
 import composition.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupCallNoResponse
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import controllers.Common.PrototypeHtml
-import helpers.JsonUtils.deserializeJsonToModel
 import helpers.TestWithApplication
 import helpers.UnitSpec
 import helpers.vrm_retention.CookieFactoryForUnitSpecs
@@ -31,16 +30,18 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
 import play.api.test.Helpers.defaultAwaitTimeout
 import play.api.test.Helpers.LOCATION
-import uk.gov.dvla.vehicles.presentation.common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
-import uk.gov.dvla.vehicles.presentation.common.mappings.DocumentReferenceNumber
-import uk.gov.dvla.vehicles.presentation.common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel
-import uk.gov.dvla.vehicles.presentation.common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
-import uk.gov.dvla.vehicles.presentation.common.services.DateService
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.common.DmsWebHeaderDto
-import uk.gov.dvla.vehicles.presentation.common.webserviceclients.vehicleandkeeperlookup
+import uk.gov.dvla.vehicles.presentation.common
+import common.clientsidesession.{ClearTextClientSideSessionFactory, TrackingId}
+import common.mappings.DocumentReferenceNumber
+import common.model.BruteForcePreventionModel.bruteForcePreventionViewModelCacheKey
+import common.model.MicroserviceResponseModel.MsResponseCacheKey
+import common.model.VehicleAndKeeperDetailsModel
+import common.model.VehicleAndKeeperDetailsModel.vehicleAndKeeperLookupDetailsCacheKey
+import common.services.DateService
+import common.testhelpers.CookieHelper.fetchCookiesFromHeaders
+import common.testhelpers.JsonUtils.deserializeJsonToModel
+import common.webserviceclients.common.DmsWebHeaderDto
+import common.webserviceclients.vehicleandkeeperlookup
 import vehicleandkeeperlookup.VehicleAndKeeperLookupFailureResponse
 import vehicleandkeeperlookup.VehicleAndKeeperLookupRequest
 import vehicleandkeeperlookup.VehicleAndKeeperLookupSuccessResponse

@@ -6,7 +6,6 @@ import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServi
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithCurrentAndReplacement
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithResponse
 import composition.webserviceclients.vrmretentioneligibility.EligibilityWebServiceCallWithSensitiveResponse
-import helpers.JsonUtils.deserializeJsonToModel
 import helpers.{UnitSpec, TestWithApplication}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.{storeBusinessDetailsConsent, trackingIdModel, transactionId, vehicleAndKeeperDetailsModel}
 import helpers.vrm_retention.CookieFactoryForUnitSpecs.vehicleAndKeeperLookupFormModel
@@ -19,6 +18,7 @@ import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel
 import uk.gov.dvla.vehicles.presentation.common.model.MicroserviceResponseModel.MsResponseCacheKey
 import uk.gov.dvla.vehicles.presentation.common.services.DateService
 import uk.gov.dvla.vehicles.presentation.common.testhelpers.CookieHelper.fetchCookiesFromHeaders
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.JsonUtils.deserializeJsonToModel
 import webserviceclients.audit2.{AuditRequest, AuditService}
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.BusinessConsentValid
 import webserviceclients.fakes.VehicleAndKeeperLookupWebServiceConstants.KeeperConsentValid
