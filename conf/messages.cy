@@ -200,10 +200,10 @@ email-not-supplied = Mae’n rhaid i chi roi cyfeiriad ebost er mwyn cael crynod
 
 # success view
 vrm_retention_success_payment.h2 = Beth i’w wneud nesaf
-vrm_retention_success_payment.what-next-1 = os ydy’r platiau rhif gennych yn barod, dylech rhoi ar eich cerbyd cyn gynted â phosib.
+vrm_retention_success_payment.what-next-1 = os ydy’r platiau rhif gennych yn barod, dylech eu rhoi ar eich cerbyd cyn gynted â phosib.
 vrm_retention_success_payment.what-next-2 = os oes angen i chi gael eich platiau cofrestru newydd wedi’u creu, gallwch wneud hyn unwaith yr ydych wedi derbyn eich tystysgrif gofrestru V5CW (llyfr log) newydd
 vrm_retention_success_payment.what-next-3 = gyda’ch cyflenwr lleol a gymeradwyir gan y DVLA.
-vrm_retention_success_payment.what-next-4 = gallwch nawr eu rhoi
+vrm_retention_success_payment.what-next-4 = gallwch nawr rhoi
 vrm_retention_success_payment.what-next-5 = ar gerbyd arall drwy ddefnyddio ein gwasanaeth arlein:
 vrm_retention_success_payment.what-next-6 = rhoi rhif cofrestru ar gerbyd.
 vrm_retention_success_payment.what-next-7 = Bydd angen rif y dystysgrif gadw yn y blwch gwyrdd uchod.
