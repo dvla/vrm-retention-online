@@ -1,13 +1,12 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_retention.{BeforeYouStartPage, ConfirmPage, LeaveFeedbackPage, PaymentNotAuthorisedPage}
 import pages.vrm_retention.PaymentNotAuthorisedPage.exit
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 
 class PaymentNotAuthorisedIntegrationSpec extends UiSpec with TestHarness {
 

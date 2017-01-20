@@ -1,7 +1,6 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.WebDriver
 import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
@@ -11,7 +10,7 @@ import pages.vrm_retention.BeforeYouStartPage
 import pages.vrm_retention.ConfirmBusinessPage
 import pages.vrm_retention.SetupBusinessDetailsPage
 import pages.vrm_retention.VehicleLookupPage
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 
 class SetUpBusinessDetailsIntegrationSpec extends UiSpec with TestHarness {
 

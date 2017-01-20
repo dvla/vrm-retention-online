@@ -1,7 +1,6 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import helpers.vrm_retention.CookieFactoryForUISpecs
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
@@ -10,7 +9,7 @@ import org.scalatest.selenium.WebBrowser.{click, currentUrl, go}
 import pages.vrm_retention.{BeforeYouStartPage, LeaveFeedbackPage, PaymentPage, VehicleLookupPage}
 import views.vrm_retention.RelatedCacheKeys.BusinessDetailsSet
 import views.vrm_retention.RelatedCacheKeys.RetainSet
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 
 class PaymentIntegrationSpec extends UiSpec with TestHarness {
 

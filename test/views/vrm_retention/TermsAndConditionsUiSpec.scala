@@ -1,10 +1,9 @@
 package views.vrm_retention
 
 import composition.TestHarness
-import helpers.UiSpec
 import org.scalatest.selenium.WebBrowser.{currentUrl, go}
 import pages.vrm_retention.TermsAndConditionsPage
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.UiTag
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{UiSpec, UiTag}
 
 class TermsAndConditionsUiSpec extends UiSpec with TestHarness {
 
