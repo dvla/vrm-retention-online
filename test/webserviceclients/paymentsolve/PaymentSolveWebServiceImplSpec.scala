@@ -6,9 +6,9 @@ import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import composition.TestConfig
 import helpers.TestWithApplication
 import helpers.UnitSpec
-import helpers.WireMockFixture
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.WireMockFixture
 import uk.gov.dvla.vehicles.presentation.common.webserviceclients.HttpHeaders
 
 class PaymentSolveWebServiceImplSpec extends UnitSpec with WireMockFixture {

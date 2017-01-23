@@ -3,11 +3,11 @@ package webserviceclients.vehicleandkeeperlookup
 import com.github.tomakehurst.wiremock.client.WireMock.{equalTo, postRequestedFor, urlEqualTo}
 import helpers.TestWithApplication
 import helpers.UnitSpec
-import helpers.WireMockFixture
 import org.joda.time.DateTime
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common
 import common.clientsidesession.TrackingId
+import common.testhelpers.WireMockFixture
 import common.webserviceclients.common.DmsWebHeaderDto
 import common.webserviceclients.HttpHeaders
 import common.webserviceclients.vehicleandkeeperlookup.VehicleAndKeeperLookupConfig

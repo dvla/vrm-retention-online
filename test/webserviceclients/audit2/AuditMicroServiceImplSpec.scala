@@ -5,10 +5,9 @@ import com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import composition.TestConfig
 import helpers.TestWithApplication
-import helpers.WireMockFixture
 import play.api.libs.json.Json
 import uk.gov.dvla.vehicles.presentation.common.clientsidesession.TrackingId
-import uk.gov.dvla.vehicles.presentation.common.testhelpers.IntegrationTestHelper
+import uk.gov.dvla.vehicles.presentation.common.testhelpers.{IntegrationTestHelper, WireMockFixture}
 
 class AuditMicroServiceImplSpec extends IntegrationTestHelper with WireMockFixture {
 
