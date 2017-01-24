@@ -91,7 +91,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
     val SETTLE_AUTH_CODE = "Settle"
 
     val vrmRetentionRetainRequest = VRMRetentionRetainRequest(
-      webHeader = buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey), dateService),
+      webHeader = buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.today.toDateTimeMillis.get,
       paymentSolveUpdateRequest = buildPaymentSolveUpdateRequest(
@@ -117,7 +117,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
     }
   }
 
-  private def transactionTimestampWithZone(dateService: DateService): String = {
+  private def transactionTimestampWithZone(): String = {
     // create the transaction timestamp
     val transactionTimestamp =
       DayMonthYear.from(dateService.now.toDateTime).toDateTimeMillis.get
@@ -127,8 +127,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
   }
 
   private def buildWebHeader(trackingId: TrackingId,
-                             identifier: Option[String],
-                             dateService: DateService): VssWebHeaderDto = {
+                             identifier: Option[String]): VssWebHeaderDto = {
     def buildEndUser(identifier: Option[String]): VssWebEndUserDto = {
       VssWebEndUserDto(endUserId = identifier.getOrElse(config.orgBusinessUnit), orgBusUnit = config.orgBusinessUnit)
     }
@@ -197,7 +196,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
 
     Redirect(routes.Success.present())
       .withCookie(paymentModel)
-      .withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone(dateService)))
+      .withCookie(RetainModel.from(certificateNumber, transactionTimestampWithZone))
   }
 
   private def buildPaymentSolveUpdateRequest(paymentTransNo: String,
@@ -363,7 +362,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
         val emails = Seq(businessDetailsOpt.flatMap { businessDetails =>
           emailService.emailRequest(businessDetails.email, vehicleAndKeeperDetails, eligibility,
             EmailData(certificateNumber = certNumSubstitute,
-              transactionTimestamp = transactionTimestampWithZone(dateService),
+              transactionTimestamp = transactionTimestampWithZone,
               transactionId = transactionId),
             confirmFormModel, businessDetailsModel,
             EmailFlags(sendPdf = true, isKeeper = false), trackingId = trackingId
@@ -372,7 +371,7 @@ case class RetainProcessor(vrmRetentionRetainService: VRMRetentionRetainService,
           keeperEmailOpt.flatMap { keeperEmail =>
             emailService.emailRequest(keeperEmail, vehicleAndKeeperDetails, eligibility,
               EmailData(certificateNumber = certNumSubstitute,
-                transactionTimestamp = transactionTimestampWithZone(dateService),
+                transactionTimestamp = transactionTimestampWithZone,
                 transactionId = transactionId),
               confirmFormModel, businessDetailsModel,
               EmailFlags(sendPdf = vehicleAndKeeperLookupFormModel.isKeeperUserType, isKeeper = true),

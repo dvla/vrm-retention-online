@@ -67,7 +67,7 @@ case class EligibilityProcessor(eligibilityService: VRMRetentionEligibilityServi
   def checkVrmEligibility()(implicit request: Request[_]): Future[Result] = {
 
     val eligibilityRequest = VRMRetentionEligibilityRequest(
-      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey), dateService),
+      buildWebHeader(trackingId, request.cookies.getString(models.IdentifierCacheKey)),
       currentVRM = vehicleAndKeeperLookupFormModel.registrationNumber,
       transactionTimestamp = dateService.now.toDateTime
     )
@@ -85,8 +85,7 @@ case class EligibilityProcessor(eligibilityService: VRMRetentionEligibilityServi
   }
 
   private def buildWebHeader(trackingId: TrackingId,
-                             identifier: Option[String],
-                             dateService: DateService): VssWebHeaderDto = {
+                             identifier: Option[String]): VssWebHeaderDto = {
     def buildEndUser(identifier: Option[String]): VssWebEndUserDto = {
       VssWebEndUserDto(endUserId = identifier.getOrElse(config.orgBusinessUnit), orgBusUnit = config.orgBusinessUnit)
     }
