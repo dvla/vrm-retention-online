@@ -1,6 +1,6 @@
 ======= 1.52 ========
 Time of release binaries creation:
-
+Wed Jan 25 11:08:00 UTC 2017
 
 VMPRCI-4487 	Changed '7am to 7pm' worded times to '7am - 7pm'
 VMPRCI-4510 	refactor RefererFromHeader
